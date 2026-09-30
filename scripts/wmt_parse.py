@@ -137,6 +137,10 @@ def parse_game(g: dict) -> tuple[dict, list[dict], list[dict]]:
             o = outcome[0]
             sub = o.get("play_action_sub_type")
             res = RESULT.get(sub, "OTHER")
+            if o.get("strikeout") and res in ("GO", "DP", "FC", "ROE"):
+                # dropped third strike: the batter struck out and was thrown out (or a runner was);
+                # the box counts it as a strikeout, so do we
+                res = "K"
             atbat = next((r for r in rows if r.get("play_action_type") == "batter" and r.get("play_action_sub_type") == "atbat"), {})
             pitcher = next((r for r in rows if r.get("play_action_type") == "pitcher" and r.get("play_action_sub_type") == "onmound"), {})
             bbt, bunt = bb_type(text, sub) if res in ("FO", "GO", "SF", "SH", "GIDP", "DP", "FC", "ROE", "1B", "2B", "3B", "HR") else ("", 0)

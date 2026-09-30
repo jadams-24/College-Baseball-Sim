@@ -109,6 +109,8 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--only-team", help="pull a single NCAA team id (validation run)")
     ap.add_argument("--quota", type=int, help="override every tier quota (smoke test)")
+    ap.add_argument("--all-covered", action="store_true",
+                    help="after the program sample, also pull every other usable D1-vs-D1 game present in the cached schedules")
     a = ap.parse_args()
     (OUT / "raw").mkdir(parents=True, exist_ok=True)
     cands = list(csv.DictReader((OUT / "programs_candidates.csv").open()))
@@ -146,6 +148,21 @@ def main() -> None:
     for tid, games in schedules.items():
         for g in games:
             owner.setdefault(g["id"], tid)
+    if a.all_covered:
+        # Every other usable game between two D1 teams that any cached schedule lists,
+        # attributed to the pseudo-team "other" so the stratified sample stays identifiable.
+        d1 = {int(r["ncaa_team_id"]) for r in csv.DictReader(Path("data/ncaa_2025/ncaa_d1_teams_2025.csv").open())}
+        extra = []
+        for fn in sorted(SCHED.glob("*.json.gz")):
+            with gzip.open(fn, "rt") as fh:
+                for g in json.load(fh):
+                    if g.get("season_academic_year") != SEASON or not usable(g) or g["id"] in owner:
+                        continue
+                    tids = {c.get("teamId") for c in g.get("competitors", [])}
+                    if len(tids) == 2 and tids <= d1:
+                        owner[g["id"]] = "other"; extra.append(g)
+        schedules["other"] = extra
+        print(f"--all-covered: {len(extra)} additional D1-vs-D1 games", flush=True)
     index_rows, done = [], set()
     idx_path = OUT / "games_index.csv"
     if idx_path.exists():

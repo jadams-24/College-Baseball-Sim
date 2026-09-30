@@ -1,0 +1,10 @@
+{
+  "source": "https://api.wmt.games/api/statistics/teams/{ncaa_team_id}/games?per_page=100",
+  "fetched_on": "2026-09-30",
+  "teams_requested": 307,
+  "teams_with_games": 282,
+  "distinct_games": 2364,
+  "games_both_d1": 2350,
+  "games_with_both_box": 2273,
+  "raw_transformation": "null/empty fields and created_at/updated_at removed; nothing else"
+}

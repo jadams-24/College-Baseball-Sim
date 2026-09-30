@@ -78,6 +78,25 @@ def main() -> None:
     tg = 2 * n_games  # team-games
     src = f"WMT stats API play-by-play, {n_games} D1 games / {n_pa} PA, 2025; data/ncaa_2025/pbp (fetched {TODAY})"
 
+    # ---- tiers: WMT covers about a quarter of the D1 season and over-represents P4
+    # programs, so sample rates are reweighted to the D1 tier mix (team counts per tier).
+    teams = pd.read_csv("data/ncaa_2025/pbp/teams_2025.csv") if Path("data/ncaa_2025/pbp/teams_2025.csv").exists() else None
+    if teams is not None:
+        teams["tier"] = teams.tier.fillna("")
+        tier_of = dict(zip(teams.ncaa_team_id, teams.tier))
+        d1_share = teams[teams.tier != ""].tier.value_counts(normalize=True).to_dict()
+    else:
+        tier_of, d1_share = {}, {}
+    TIERS = ("p4", "mid", "low")
+
+    def reweight(by_tier: dict) -> float | None:
+        """Tier-share-weighted mean of a per-tier rate; None if a tier is missing."""
+        if not d1_share or any(t not in by_tier or by_tier[t] is None for t in TIERS):
+            return None
+        return sum(d1_share[t] * by_tier[t] for t in TIERS)
+
+    pa["bat_tier"] = pa.bat_team_id.map(tier_of).fillna("")
+
     # ---- PA outcome table -------------------------------------------------
     res = pa.result.replace({"IBB": "BB", "CI": "HBP"})  # fold rarities into the nearest bucket
     counts = Counter(res)
@@ -89,7 +108,25 @@ def main() -> None:
         "IP_OUT": counts["FO"] + counts["GO"] + counts["GIDP"] + counts["DP"], "ROE_FC": reach_other,
     }
     tot = sum(table.values())
-    probs = {k: round(v / tot, 4) for k, v in table.items()}
+    probs_raw = {k: round(v / tot, 4) for k, v in table.items()}
+    # reweight: P(outcome) = sum_tier share_tier * P(outcome | batting team in tier)
+    by_tier_tables = {}
+    for t in TIERS:
+        sub = res[pa.bat_tier == t]
+        if len(sub):
+            c = Counter(sub)
+            tt = {"K": c["K"], "BB": c["BB"], "HBP": c["HBP"], "1B": c["1B"], "2B": c["2B"], "3B": c["3B"], "HR": c["HR"], "SF": c["SF"], "SH": c["SH"],
+                  "IP_OUT": c["FO"] + c["GO"] + c["GIDP"] + c["DP"], "ROE_FC": c["ROE"] + c["FC"]}
+            n_t = sum(tt.values())
+            by_tier_tables[t] = {k: v / n_t for k, v in tt.items()}
+            by_tier_tables[t]["_n_pa"] = n_t
+    if all(t in by_tier_tables for t in TIERS):
+        probs = {k: round(sum(d1_share[t] * by_tier_tables[t][k] for t in TIERS), 4) for k in table}
+        norm = sum(probs.values()); probs = {k: round(v / norm, 4) for k, v in probs.items()}
+        table = {k: probs[k] * tot for k in table}  # tier-weighted pseudo-counts for the derived line
+        weighting = "tier-reweighted to the D1 mix (" + ", ".join(f"{t} {d1_share[t]:.2f}" for t in TIERS) + ")"
+    else:
+        probs, weighting = probs_raw, "raw sample"
     ab = tot - table["BB"] - table["HBP"] - table["SF"] - table["SH"]
     h = sum(table[k] for k in HIT)
     tb = table["1B"] + 2 * table["2B"] + 3 * table["3B"] + 4 * table["HR"]
@@ -103,21 +140,23 @@ def main() -> None:
         "ba": round(h / ab, 4), "obp": round((h + table["BB"] + table["HBP"]) / (ab + table["BB"] + table["HBP"] + table["SF"]), 4),
         "slg": round(tb / ab, 4), "babip": round((h - table["HR"]) / (ab - table["K"] - table["HR"] + table["SF"]), 4),
         "hit_mix": {k: round(table[k] / h, 4) for k in HIT},
-        "in_play_out_split": {**out_split, "n": split_tot, "conf": "A", "note": "GB/FB/LD/PU among batter outs on balls in play incl. SF/SH/GIDP/DP; from play text"},
+        "in_play_out_split": {**out_split, "n": split_tot, "conf": "B", "note": "GB/FB/LD/PU among batter outs on balls in play incl. SF/SH/GIDP/DP; from play text"},
         "k_looking_share": round(pa[pa.result == "K"].k_looking.mean(), 4),
         "gidp_share_of_gb_outs": round(counts["GIDP"] / max(1, split["GB"]), 4),
         "bunt_share_of_in_play": round(pa[pa.result.isin(IN_PLAY_OUT + HIT + ["ROE", "FC"])].bunt.mean(), 4),
     }
-    outcome_block = {"_note": f"Per plate appearance, {src}. ROE_FC = reached on error or fielder's choice (batter safe, not a hit). conf A for the sample; league-wide composition is the 40-program tier sample plus every opponent, see PHASE0_NOTES.md.",
-                     **probs, "_derived": derived, "_n_pa": tot, "conf": "A"}
+    derived["by_batting_team_tier"] = {t: {k: round(v, 4) for k, v in d.items()} for t, d in by_tier_tables.items()}
+    derived["raw_sample_probs"] = probs_raw
+    outcome_block = {"_note": f"Per plate appearance, {src}, {weighting}. ROE_FC = reached on error or fielder's choice (batter safe, not a hit). WMT covers about a quarter of the 2025 D1 season and over-represents P4 programs; see PHASE0_NOTES.md.",
+                     **probs, "_derived": derived, "_n_pa": tot, "conf": "B"}
 
     # ---- pitches per PA ----------------------------------------------------
     pp = pa.pitches.dropna()
     fps = pa.pitch_seq.dropna().astype(str)
     first_strike = (~fps.str.startswith("B")).mean()
-    pitch_block = {"pitches_per_pa": {"value": round(pp.mean(), 3), "tol": 0.10, "conf": "A", "src": src, "n_pa": int(len(pp)),
+    pitch_block = {"pitches_per_pa": {"value": round(pp.mean(), 3), "tol": 0.10, "conf": "B", "src": src, "n_pa": int(len(pp)),
                                       "dist": {str(k): round(v / len(pp), 4) for k, v in sorted(Counter(pp.astype(int).clip(upper=10)).items())}},
-                   "first_pitch_strike_pct_pbp": {"value": round(first_strike, 4), "n_pa": int(len(fps)), "conf": "A", "note": "cross-check of the Trackman value; first pitch not a called ball"}}
+                   "first_pitch_strike_pct_pbp": {"value": round(first_strike, 4), "n_pa": int(len(fps)), "conf": "B", "note": "cross-check of the Trackman value; first pitch not a called ball"}}
 
     # ---- team-level rates from box totals ----------------------------------
     # League-wide when the full-season schedule table exists (every D1 vs D1 game
@@ -125,7 +164,7 @@ def main() -> None:
     if sched is not None:
         box = sched[(sched.home_is_d1 == 1) & (sched.away_is_d1 == 1) & (sched.home_has_box == 1) & (sched.away_has_box == 1)
                     & (sched.canceled == 0) & (sched.exhibition == 0) & sched.home_score.notna() & sched.away_score.notna()].copy()
-        box_src = f"WMT stats API box totals for every 2025 D1-vs-D1 game with both box lines ({len(box)} games), team-weighted; data/ncaa_2025/pbp/schedules (fetched {TODAY})"
+        box_src = f"WMT stats API box totals, {len(box)} 2025 D1-vs-D1 games (about a quarter of the season), team-game weighted and tier-reweighted to the D1 mix; data/ncaa_2025/pbp/schedules (fetched {TODAY})"
     else:
         box, box_src = gm, src + "; box totals"
     tg = 2 * len(box)
@@ -144,41 +183,63 @@ def main() -> None:
     IP = ip_to_innings(box.home_ip.fillna(0)) + ip_to_innings(box.away_ip.fillna(0))
     sb_att = rev[rev.event.isin(["SB", "CS"])]
     AB, H, D2, D3, HR, BB, K_h, R = both("ab"), both("h"), both("2b"), both("3b"), both("hr"), both("bb"), both("k"), both("r")
-    team_rates = {
-        "hbp_pct": {"value": round(HBP_box / PA_box, 4), "tol": 0.004, "conf": "A", "src": box_src},
-        "sf_per_team_game": {"value": round(SF_box / tg, 3), "tol": 0.08, "conf": "A", "src": box_src},
-        "sh_per_team_game": {"value": round(SH_box / tg, 3), "tol": 0.05, "conf": "A", "src": box_src},
-        "sb_success_rate": {"value": round(SB / (SB + CS), 3), "tol": 0.03, "conf": "A", "src": box_src + f"; {int(SB)} SB / {int(CS)} CS"},
-        "era": {"value": round(9 * ER / IP, 2), "tol": 0.3, "conf": "A", "src": box_src},
-        "fielding_pct": {"value": round((PO + A) / (PO + A + E), 4), "tol": 0.004, "conf": "A", "src": box_src},
-        "errors_per_team_game": {"value": round(E / tg, 3), "tol": 0.15, "conf": "A", "src": box_src},
-        "pa_per_team_game": {"value": round(PA_box / tg, 2), "tol": 1.0, "conf": "A", "src": box_src},
-        "k_per_9": {"value": round(9 * K_p / IP, 2), "tol": 0.4, "conf": "A", "src": box_src},
-        "sb_attempts_per_team_game": {"value": round((SB + CS) / tg, 3), "conf": "A", "src": box_src},
-    }
+
+    # one long table of team-games so rates can be computed per tier and reweighted
+    cols = ["pa", "hbp", "sf", "sh", "sb", "cs", "e", "po", "a", "er", "ip", "k_pitched", "ab", "h", "2b", "3b", "hr", "bb", "k", "r", "go", "fo"]
+    long = pd.concat([box[[f"{side}_{c}" for c in cols] + [f"{side}_team_id"]].rename(columns=lambda c: c.split("_", 1)[1]) for side in ("home", "away")], ignore_index=True)
+    long["tier"] = long.team_id.map(tier_of).fillna("")
+    long["ip_inn"] = long.ip.fillna(0).astype(float).apply(lambda v: int(v) + round(v - int(v), 1) * 10 / 3)
+
+    def rates(df):
+        n = len(df); S = df.sum(numeric_only=True)
+        if n == 0 or S.pa == 0:
+            return None
+        return {"hbp_pct": S.hbp / S.pa, "sf_per_team_game": S.sf / n, "sh_per_team_game": S.sh / n,
+                "sb_success_rate": S.sb / max(1, S.sb + S.cs), "era": 9 * S.er / S.ip_inn, "fielding_pct": (S.po + S.a) / (S.po + S.a + S.e),
+                "errors_per_team_game": S.e / n, "pa_per_team_game": S.pa / n, "k_per_9": 9 * S.k_pitched / S.ip_inn,
+                "sb_attempts_per_team_game": (S.sb + S.cs) / n, "runs_per_team_game": S.r / n, "hr_per_team_game": S.hr / n,
+                "sb_per_team_game": S.sb / n, "ba": S.h / S.ab, "obp": (S.h + S.bb + S.hbp) / (S.ab + S.bb + S.hbp + S.sf),
+                "slg": ((S.h - S["2b"] - S["3b"] - S.hr) + 2 * S["2b"] + 3 * S["3b"] + 4 * S.hr) / S.ab, "bb_pct": S.bb / S.pa, "k_pct": S.k / S.pa,
+                "go_fo_ratio_batting": S.go / max(1, S.fo), "n_team_games": n}
+    raw_rates = rates(long)
+    tier_rates = {t: rates(long[long.tier == t]) for t in TIERS}
+    rw = {k: reweight({t: (tier_rates[t] or {}).get(k) for t in TIERS}) for k in raw_rates if k != "n_team_games"}
+    use = {k: (rw[k] if rw[k] is not None else raw_rates[k]) for k in rw}
+    TOL = {"hbp_pct": 0.004, "sf_per_team_game": 0.08, "sh_per_team_game": 0.05, "sb_success_rate": 0.03, "era": 0.3,
+           "fielding_pct": 0.004, "errors_per_team_game": 0.15, "pa_per_team_game": 1.0, "k_per_9": 0.4}
+    ND = {"hbp_pct": 4, "fielding_pct": 4, "era": 2, "k_per_9": 2, "pa_per_team_game": 2}
+    team_rates = {k: {"value": round(use[k], ND.get(k, 3)), **({"tol": TOL[k]} if k in TOL else {}), "conf": "B", "src": box_src,
+                      "raw_sample": round(raw_rates[k], ND.get(k, 3)), "by_tier": {t: round(tier_rates[t][k], ND.get(k, 3)) for t in TIERS if tier_rates[t]}}
+                  for k in ("hbp_pct", "sf_per_team_game", "sh_per_team_game", "sb_success_rate", "era", "fielding_pct",
+                            "errors_per_team_game", "pa_per_team_game", "k_per_9", "sb_attempts_per_team_game")}
+    team_rates["sb_success_rate"]["src"] += f"; {int(SB)} SB / {int(CS)} CS in the sample"
     # Team-weighted season line from the same box totals: a cross-check of the conf B
     # FanGraphs conference means. Written as its own block; conf B values are not touched.
-    TB = (H - D2 - D3 - HR) + 2 * D2 + 3 * D3 + 4 * HR
+    keys_x = ["ba", "obp", "slg", "bb_pct", "k_pct", "hbp_pct", "runs_per_team_game", "hr_per_team_game", "sb_per_team_game", "sh_per_team_game", "sf_per_team_game", "pa_per_team_game", "go_fo_ratio_batting"]
     cross = {
-        "_note": box_src + ". Cross-check of league_totals_2025 conf B values, which are unweighted conference means; these are team-game weighted.",
-        "conf": "A", "n_games": int(len(box)), "n_team_games": int(tg),
-        "ba": round(H / AB, 4), "obp": round((H + BB + HBP_box) / (AB + BB + HBP_box + SF_box), 4), "slg": round(TB / AB, 4),
-        "bb_pct": round(BB / PA_box, 4), "k_pct": round(K_h / PA_box, 4), "hbp_pct": round(HBP_box / PA_box, 4),
-        "runs_per_team_game": round(R / tg, 3), "hr_per_team_game": round(HR / tg, 3), "sb_per_team_game": round(SB / tg, 3),
-        "sh_per_team_game": round(SH_box / tg, 3), "sf_per_team_game": round(SF_box / tg, 3), "pa_per_team_game": round(PA_box / tg, 2),
-        "babip": round((H - HR) / (AB - K_h - HR + SF_box), 4),
-        "go_fo_ratio_batting": round(both("go") / max(1, both("fo")), 3),
+        "_note": box_src + ". Cross-check of league_totals_2025 conf B values (unweighted conference means) and of the scoreboard R/G; not used to change any conf A/B value. 'raw' is the WMT sample as is, 'reweighted' applies D1 tier shares to per-tier rates.",
+        "conf": "B", "n_games": int(len(box)), "n_team_games": int(tg), "d1_tier_shares": {t: round(d1_share.get(t, 0), 3) for t in TIERS},
+        "reweighted": {k: round(use[k], 4) for k in keys_x}, "raw": {k: round(raw_rates[k], 4) for k in keys_x},
+        "by_tier": {t: {k: round(tier_rates[t][k], 4) for k in keys_x + ["n_team_games"]} for t in TIERS if tier_rates[t]},
     }
 
     # ---- game structure ------------------------------------------------------
     gs = sched if sched is not None else gm
     fin = gs[gs.innings.notna() & (gs.innings > 0)]
     margin = (fin.home_score - fin.away_score).abs()
+    big = fin[margin >= 10]
+    p_early_given_big = ((big.innings < 9)).mean() if len(big) else None
+    # full-season share of 10+ margin games from the scoreboard histogram block written by build_run_histogram.py
+    b0 = json.loads(BENCH.read_text())
+    p_big_season = b0["game_structure"]["run_distribution_per_team_game"].get("share_games_margin_10plus")
     game_block = {
-        "extra_innings_freq": {"value": round((fin.innings > 9).mean(), 4), "n_games": int(len(fin)), "conf": "A",
-                               "src": ("WMT schedules for all screened programs" if sched is not None else src)},
-        "run_rule_freq": {"value": round(((fin.innings < 9) & (margin >= 10)).mean(), 4), "conf": "A",
-                          "note": "games ending before the 9th with a margin of 10+; scheduled 7-inning doubleheaders that also reach 10+ are counted",
+        "extra_innings_freq": {"value": round((fin.innings > 9).mean(), 4), "tol": 0.015, "n_games": int(len(fin)), "conf": "B",
+                               "src": f"WMT schedules, {len(fin)} 2025 D1 games with innings recorded (about a quarter of the season); data/ncaa_2025/pbp/schedules"},
+        "run_rule_freq": {"value": round(p_big_season * p_early_given_big, 4) if p_big_season and p_early_given_big is not None else round(((fin.innings < 9) & (margin >= 10)).mean(), 4),
+                          "conf": "B",
+                          "note": "P(run rule) = P(final margin >= 10, all 8,079 scoreboard games) x P(game ended before the 9th | margin >= 10, WMT sample). Scheduled 7-inning doubleheaders that also reach a 10-run margin are counted.",
+                          "p_margin_10plus_season": p_big_season, "p_ended_early_given_margin_10plus_wmt": round(p_early_given_big, 4) if p_early_given_big is not None else None,
+                          "wmt_sample_run_rule_freq": round(((fin.innings < 9) & (margin >= 10)).mean(), 4),
                           "short_game_not_run_rule_freq": round(((fin.innings < 9) & (margin < 10)).mean(), 4),
                           "innings_dist": {str(int(k)): round(v / len(fin), 4) for k, v in sorted(Counter(fin.innings.astype(int)).items())}},
     }
@@ -220,8 +281,8 @@ def main() -> None:
     # steal attempts: per opportunity (PA with runner on 1st and 2nd base open, etc.) -- simple version: attempts per PA with a runner on
     opp = pa[(pa.on1 == 1) | (pa.on2 == 1)]
     base_running = {
-        "_note": f"{src}. Runner destinations by batter result and starting base, pooled over outs; the full table by outs and base state is data/ncaa_2025/derived/runner_advancement_2025.json.",
-        "conf": "A",
+        "_note": f"{src}. Runner destinations by batter result and starting base, pooled over outs; the full table by outs and base state is data/ncaa_2025/derived/runner_advancement_2025.json. Advancement rates vary little by tier, so these are raw sample values.",
+        "conf": "B",
         "advancement_by_result": pooled,
         "sb_attempt_rate_per_runner_on_1b_or_2b_pa": round(len(sb_att) / max(1, len(opp)), 4),
         "sb_success_rate_pbp": round((sb_att.event == "SB").mean(), 3),
@@ -233,10 +294,7 @@ def main() -> None:
                "n_pa": n_pa, "n_games": n_games, "src": src}, (D / "runner_advancement_2025.json").open("w"), indent=1)
 
     # per-tier composition and per-tier rates for the notes
-    sel = pd.read_csv("data/ncaa_2025/pbp/programs_selected.csv")
-    tier_of = dict(zip(sel.ncaa_team_id, sel.tier))
-    pa["bat_tier"] = pa.bat_team_id.map(tier_of).fillna("opponent")
-    comp = pa.bat_tier.value_counts(normalize=True).round(3).to_dict()
+    comp = pa.bat_tier.replace("", "unknown").value_counts(normalize=True).round(3).to_dict()
     summary = {"n_games": n_games, "n_pa": n_pa, "pa_by_batting_team_tier": comp, "outcome_table": outcome_block, "team_weighted_cross_check": cross,
                "team_rates": team_rates, "pitches": pitch_block, "game_structure": game_block, "base_running": base_running}
     json.dump(summary, (D / "pbp_benchmarks_2025.json").open("w"), indent=1)
