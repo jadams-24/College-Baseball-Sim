@@ -1,0 +1,145 @@
+{
+  "_meta": {
+    "purpose": "Phase 0 yardstick for the college baseball sim. Every sim run is graded against this file. Do not edit values by feel; change only with a new source and a note in PHASE0_NOTES.md.",
+    "reference_season": 2025,
+    "division": "NCAA Division I",
+    "created": "2026-09-29",
+    "confidence_key": {
+      "A": "direct from official/primary source, complete season",
+      "B": "computed from a primary source table (e.g. mean across conferences)",
+      "C": "derived from a sample (e.g. one conference) or trend-extrapolated; replace in Phase 1 data pull",
+      "D": "placeholder estimate; must be replaced before the gate that uses it"
+    }
+  },
+
+  "league_totals_2025": {
+    "_note": "Unweighted mean across all 29 conferences + Oregon State (independent). Weighting by team count will move these slightly; recompute from full team table in Phase 1.",
+    "ba":            {"value": 0.280, "tol": 0.005, "conf": "B"},
+    "obp":           {"value": 0.385, "tol": 0.005, "conf": "B"},
+    "slg":           {"value": 0.440, "tol": 0.010, "conf": "B"},
+    "bb_pct":        {"value": 0.1137, "tol": 0.005, "conf": "B"},
+    "k_pct":         {"value": 0.1927, "tol": 0.005, "conf": "B"},
+    "hbp_pct":       {"value": 0.029, "tol": 0.004, "conf": "C", "src": "ACC 2025 team lines, 2.7%-3.6% range"},
+    "runs_per_team_game": {"value": 6.75, "tol": 0.15, "conf": "B"},
+    "hr_per_team_game":   {"value": 1.05, "tol": 0.05, "conf": "B", "cross_check": "FanGraphs cites 1.07 for 2025 D1 overall"},
+    "sb_per_team_game":   {"value": 1.29, "tol": 0.10, "conf": "B"},
+    "sh_per_team_game":   {"value": 0.43, "tol": 0.05, "conf": "B"},
+    "sf_per_team_game":   {"value": 0.42, "tol": 0.08, "conf": "C", "src": "ACC 2025 ~0.4-0.7/g; mid-majors lower"},
+    "sb_success_rate":    {"value": 0.79, "tol": 0.03, "conf": "C", "src": "ACC 2025 SB-ATT lines: 75-88%"},
+    "era":                {"value": 6.0, "tol": 0.3, "conf": "C", "src": "derived: R/G 6.75 x ~0.89 earned share; only 12 of 303 teams had ERA < 4.00 in 2025"},
+    "fielding_pct":       {"value": 0.970, "tol": 0.004, "conf": "C", "src": "NCAA trend .968 (2018); ACC 2025 .963-.981"},
+    "errors_per_team_game": {"value": 1.05, "tol": 0.15, "conf": "C", "src": "ACC 2025: 37-77 E over 50-66 G"},
+    "pa_per_team_game":   {"value": 38.5, "tol": 1.0, "conf": "C", "src": "back-solved from ~34.5 AB + BB + HBP + SF + SH per game in ACC 2025"},
+    "k_per_9":            {"value": 8.7, "tol": 0.4, "conf": "C", "src": "trend 7.88 (2018) plus K% growth; ACC 2025 staffs 9.0-11.1"}
+  },
+
+  "league_totals_by_tier_2025": {
+    "_note": "Use these when validating a conference-tier subset. P4 = ACC, SEC, Big 12, Big Ten, Oregon State. 'mid' and 'low' are rough groupings, see PHASE0_NOTES.md.",
+    "p4":  {"ba": 0.286, "obp": 0.394, "slg": 0.479, "bb_pct": 0.1224, "k_pct": 0.1988, "r_g": 7.26, "hr_g": 1.42, "sb_g": 1.09, "sh_g": 0.38, "conf": "B"},
+    "mid": {"ba": 0.281, "obp": 0.384, "slg": 0.440, "bb_pct": 0.1103, "k_pct": 0.1922, "r_g": 6.72, "hr_g": 1.04, "sb_g": 1.29, "sh_g": 0.43, "conf": "B"},
+    "low": {"ba": 0.276, "obp": 0.382, "slg": 0.421, "bb_pct": 0.1145, "k_pct": 0.1904, "r_g": 6.54, "hr_g": 0.88, "sb_g": 1.39, "sh_g": 0.46, "conf": "B"},
+    "sd_across_conferences": {"ba": 0.009, "obp": 0.011, "slg": 0.026, "bb_pct": 0.0093, "k_pct": 0.0092, "r_g": 0.51, "hr_g": 0.22, "sb_g": 0.34, "sh_g": 0.08, "conf": "B"}
+  },
+
+  "pa_outcome_table_league_avg": {
+    "_note": "Per plate appearance. Derived to be internally consistent with league_totals_2025 (BA .280 / OBP .385 / SLG ~.445 / HR 1.05 per 38.5 PA). This is Phase 1's single outcome table. conf C until re-fit to full play-by-play.",
+    "K":      0.1927,
+    "BB":     0.1137,
+    "HBP":    0.0290,
+    "1B":     0.1541,
+    "2B":     0.0491,
+    "3B":     0.0033,
+    "HR":     0.0274,
+    "SF":     0.0110,
+    "SH":     0.0110,
+    "IP_OUT": 0.4087,
+    "_derived": {
+      "ab_share_of_pa": 0.835,
+      "h_per_pa": 0.234,
+      "babip": 0.334,
+      "hit_mix": {"1B": 0.659, "2B": 0.210, "3B": 0.014, "HR": 0.117},
+      "in_play_out_split_placeholder": {"GB": 0.44, "FB": 0.36, "LD": 0.08, "PU": 0.12, "conf": "D"}
+    }
+  },
+
+  "pitch_level_2023_2025": {
+    "_note": "Trackman D1 aggregate (4.56M pitches, Feb 2023 onward) via SABR-Tooth Tigers; count-state data 2013-19 via rfrey22. Used in Phase 5 only.",
+    "first_pitch_strike_pct":   {"value": 0.574, "tol": 0.01, "conf": "A"},
+    "pitches_per_pa":           {"value": 3.90, "tol": 0.10, "conf": "D", "src": "MLB is 3.9; college assumed similar. Replace with Trackman/PBP count."},
+    "strike_pct_1_0_count":     {"value": 0.55, "conf": "C", "src": "2013-19 data, excludes balls in play"},
+    "strike_pct_2_0_count":     {"value": 0.57, "conf": "C"},
+    "k_pct_0_0_baseline_2013_19": {"value": 0.164, "conf": "A", "note": "historical; league K% is ~.193 in 2025"},
+    "bb_pct_0_0_baseline_2013_19": {"value": 0.091, "conf": "A", "note": "historical; league BB% is ~.114 in 2025"}
+  },
+
+  "historical_trend": {
+    "_note": "NCAA official 'Division I Baseball Statistics Trends' (per team per game). Use to sanity-check era settings and to build a 'dead-bat' or 'gorilla-ball' preset. conf A.",
+    "columns": ["year","teams","avg_games","ba","r_g","hr_g","sb_g","sh_g","era","k_per_9","fld_pct"],
+    "rows": [
+      [1998, 273, 52.4, 0.306, 7.12, 1.06, 1.29, null, 6.12, 7.07, 0.952],
+      [2010, 292, 55.8, 0.305, 6.98, 0.94, 1.21, 0.58, 5.95, 6.87, 0.962],
+      [2011, 292, 55.5, 0.282, 5.58, 0.52, 1.12, 0.75, 4.67, 6.72, 0.964],
+      [2014, 296, 54.8, 0.270, 5.08, 0.39, 1.02, 0.76, 4.22, 6.48, 0.966],
+      [2015, 295, 54.5, 0.274, 5.44, 0.56, 1.03, 0.68, 4.57, 7.02, 0.966],
+      [2016, 295, 55.9, 0.275, 5.57, 0.61, 1.01, 0.65, 4.74, 7.17, 0.967],
+      [2017, 295, 55.5, 0.275, 5.71, 0.75, 0.96, 0.58, 4.94, 7.54, 0.968],
+      [2018, 297, 54.9, 0.270, 5.64, 0.71, 1.01, 0.53, 4.88, 7.88, 0.968]
+    ],
+    "hr_g_recent": {"2022": 1.03, "2023": 1.15, "2024": 1.15, "2025": 1.07, "conf": "A", "src": "Baseball America / FanGraphs"},
+    "era_markers": {
+      "1974": "first aluminum bat", "1999": "BESR bat standard", "2011": "BBCOR bat standard (offense collapses)", "2015": "flat-seam ball (offense rebounds)", "2020s": "record HR rates, older rosters post-COVID, 20-round draft"
+    }
+  },
+
+  "pitching_distribution_2025": {
+    "_note": "For Phase 2 leaderboard gate. Among 882 D1 pitchers with >= 50 IP in 2025.",
+    "pitchers_50ip": 882,
+    "era_under_2_00": {"count": 5, "pct": 0.0057, "conf": "A"},
+    "era_under_3_00": {"count": 57, "pct": 0.0646, "conf": "A"},
+    "fip_under_3_00": {"count": 6, "pct": 0.0068, "conf": "A"},
+    "teams_with_era_under_4_00": {"count": 12, "of": 303, "conf": "A"},
+    "teams_with_era_under_3_00": {"count": 0, "of": 303, "conf": "A"},
+    "best_team_era_2025": {"value": 3.20, "team": "Coastal Carolina", "conf": "A"}
+  },
+
+  "batting_distribution_2025": {
+    "_note": "For Phase 2 leaderboard gate. Qualified = 1 PA per team game (B-Ref standard). Fill in from stats.ncaa.org individual leaders in Phase 1 data pull.",
+    "qualified_batters_approx": {"value": 3000, "conf": "D"},
+    "top_ba_qualified":        {"value": 0.420, "tol": 0.020, "conf": "D", "note": "national leader typically .400-.440"},
+    "p90_ba_qualified":        {"value": 0.340, "conf": "D"},
+    "p10_ba_qualified":        {"value": 0.230, "conf": "D"},
+    "top_hr_season":           {"value": 34, "conf": "A", "src": "Tague Davis, Louisville, 2026; 2020s leaders 30-35"},
+    "hr_30plus_seasons_alltime": {"value": 27, "conf": "A"},
+    "team_ba_range_2025":      {"max": 0.356, "max_team": "Georgia Tech", "conf": "A"},
+    "team_hr_max_2025":        {"value": 179, "team": "Georgia", "games": 67, "conf": "A"}
+  },
+
+  "game_structure": {
+    "innings": 9,
+    "dh": true,
+    "regular_season_game_limit": 56,
+    "typical_games_played": {"value": 55, "range": [40, 56], "conf": "A", "note": "some northern/low-budget programs play 40 or fewer"},
+    "season_window": {"start": "mid-February", "end": "late June (MCWS)", "2025": "Feb 14 - Jun 22", "2026": "Feb 13 - Jun 22"},
+    "teams_d1_2025": 303,
+    "teams_d1_2026": 304,
+    "conferences": 29,
+    "weekend_series": "Fri-Sat-Sun 3-game series in conference play; midweek 1-2 non-conference games",
+    "run_rule": {"value": "conference-optional; commonly 10 runs after 7 innings", "conf": "C"},
+    "extra_innings_tiebreaker": {"value": "runner-on-second rule is conference-optional in NCAA; not universal", "conf": "C"},
+    "extra_innings_freq": {"value": 0.06, "conf": "D", "note": "replace from PBP"},
+    "run_distribution_per_team_game": {"conf": "D", "note": "compute histogram P(0),P(1),...,P(15+) from PBP in Phase 1; required for gate"}
+  },
+
+  "roster_rules_2025_26": {
+    "_note": "Post House v. NCAA settlement (approved June 2025, effective July 1, 2025). conf A unless noted.",
+    "opt_in_schools": {"roster_cap": 34, "scholarship_cap": 34, "scholarship_type": "any mix of full/partial up to roster cap", "revenue_share_cap_2025_26_usd": 20500000},
+    "non_opt_in_schools": {"roster_cap": null, "scholarship_cap": 11.7, "note": "54 D1 schools did not opt in as of 2025-26"},
+    "schools_opted_in_2025_26": 310,
+    "designated_student_athletes": "players rostered 2024-25 or promised a 2025-26 spot are grandfathered and do not count against 34",
+    "pre_settlement_avg_roster": {"value": 42, "conf": "B"},
+    "eligibility": {"seasons": 4, "window_years": 5, "redshirt": true, "note": "COVID extra-year cohort largely expired by 2025"},
+    "transfer_portal_window": {"2026": "June 1 - June 30 (day after MCWS completion also opens)", "mid_year_transfers": false, "conf": "A"},
+    "mlb_draft": {"timing": "mid-July", "rounds": 20, "note": "juniors, seniors, and 21-year-old sophomores eligible; HS signees also lost to the draft"},
+    "roster_submission_deadline": "December 1"
+  }
+}
