@@ -1,0 +1,27 @@
+{
+  "source": "https://data.ncaa.com/casablanca/scoreboard/baseball/d1/{y}/{m:02d}/{d:02d}/scoreboard.json",
+  "season": 2025,
+  "date_range": [
+    "2025-02-13",
+    "2025-06-23"
+  ],
+  "fetched_on": "2026-09-30",
+  "days_with_games": 120,
+  "days_without_games_404": [
+    "2025-02-13",
+    "2025-05-27",
+    "2025-05-28",
+    "2025-05-29",
+    "2025-06-03",
+    "2025-06-04",
+    "2025-06-05",
+    "2025-06-10",
+    "2025-06-11",
+    "2025-06-12",
+    "2025-06-20"
+  ],
+  "errors": [],
+  "game_entries": 8615,
+  "unique_game_urls": 8595,
+  "note": "gameID is the NCAA contest id; url is the ncaa.com game page id. Per-game box score / play-by-play JSON is not served by this host for these games."
+}

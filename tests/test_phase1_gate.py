@@ -48,8 +48,7 @@ LEAGUE_TOTAL_KEYS = {
     "sf_per_team_game": "sf_per_team_game",
 }
 
-# Per-bin absolute tolerance on the run histogram when benchmarks.json does not
-# supply one, plus a cap on total variation distance across all bins.
+# Fallbacks only; benchmarks.json carries tol_per_bin and tol_total_variation.
 DEFAULT_BIN_TOL = 0.01
 MAX_TOTAL_VARIATION = 0.04
 HISTOGRAM_BINS = 16  # P(0) .. P(14), P(15+)
@@ -114,7 +113,8 @@ def test_run_histogram_within_tolerance(benchmarks: dict, sim_result: dict) -> N
     assert len(got) == HISTOGRAM_BINS
     assert abs(sum(got) - 1.0) < 1e-6
 
-    tols = hist.get("bin_tol") or [DEFAULT_BIN_TOL] * HISTOGRAM_BINS
+    tol = hist.get("tol_per_bin", DEFAULT_BIN_TOL)
+    tols = hist.get("bin_tol") or [tol] * HISTOGRAM_BINS
     misses = [
         f"P({i if i < 15 else '15+'}): sim {g:.4f} vs {b:.4f} ± {t}"
         for i, (g, b, t) in enumerate(zip(got, bins, tols))
@@ -122,8 +122,9 @@ def test_run_histogram_within_tolerance(benchmarks: dict, sim_result: dict) -> N
     ]
     assert not misses, "run histogram bins outside tolerance:\n  " + "\n  ".join(misses)
 
+    max_tvd = hist.get("tol_total_variation", MAX_TOTAL_VARIATION)
     tvd = 0.5 * sum(abs(g - b) for g, b in zip(got, bins))
-    assert tvd <= MAX_TOTAL_VARIATION, f"total variation distance {tvd:.4f} > {MAX_TOTAL_VARIATION}"
+    assert tvd <= max_tvd, f"total variation distance {tvd:.4f} > {max_tvd}"
 
 
 def test_extra_innings_frequency(benchmarks: dict, sim_result: dict) -> None:
