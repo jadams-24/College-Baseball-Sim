@@ -1,0 +1,174 @@
+{
+  "run_distribution_per_team_game": {
+    "conf": "A",
+    "src": "data.ncaa.com scoreboard JSON, every D1 game day of the season; see data/ncaa_2025/scoreboard/manifest.json",
+    "fetched": "2026-09-30",
+    "n_games": 8079,
+    "n_team_games": 16068,
+    "mean_runs_per_team_game": 6.813,
+    "sd_runs_per_team_game": 4.676,
+    "bins": [
+      0.04,
+      0.0606,
+      0.077,
+      0.0916,
+      0.0971,
+      0.0916,
+      0.0876,
+      0.0767,
+      0.0647,
+      0.0579,
+      0.0508,
+      0.0454,
+      0.0362,
+      0.0302,
+      0.026,
+      0.0664
+    ],
+    "counts": [
+      643,
+      974,
+      1238,
+      1472,
+      1560,
+      1472,
+      1408,
+      1233,
+      1040,
+      931,
+      816,
+      729,
+      582,
+      486,
+      417,
+      1067
+    ],
+    "tol_per_bin": 0.01,
+    "tol_total_variation": 0.04,
+    "share_games_margin_10plus": 0.1952,
+    "home_win_pct": 0.5876,
+    "note": "Bins are P(0)..P(14), P(15+) per D1 team-game, final games only, run-rule games included as played. margin_10plus is an upper bound on run-rule frequency, not the rate itself."
+  },
+  "runs_per_team_game_by_conference": {
+    "ACC": {
+      "n_team_games": 882,
+      "r_g": 7.325
+    },
+    "ASUN": {
+      "n_team_games": 644,
+      "r_g": 5.856
+    },
+    "America East": {
+      "n_team_games": 349,
+      "r_g": 6.255
+    },
+    "Atlantic 10": {
+      "n_team_games": 635,
+      "r_g": 7.42
+    },
+    "Big 12": {
+      "n_team_games": 759,
+      "r_g": 7.121
+    },
+    "Big East": {
+      "n_team_games": 429,
+      "r_g": 7.061
+    },
+    "Big South": {
+      "n_team_games": 473,
+      "r_g": 7.74
+    },
+    "Big Ten": {
+      "n_team_games": 925,
+      "r_g": 7.106
+    },
+    "Big West": {
+      "n_team_games": 573,
+      "r_g": 6.316
+    },
+    "CAA": {
+      "n_team_games": 636,
+      "r_g": 6.731
+    },
+    "CUSA": {
+      "n_team_games": 534,
+      "r_g": 6.693
+    },
+    "DI Independent": {
+      "n_team_games": 66,
+      "r_g": 7.5
+    },
+    "Horizon": {
+      "n_team_games": 320,
+      "r_g": 6.981
+    },
+    "Ivy League": {
+      "n_team_games": 321,
+      "r_g": 6.04
+    },
+    "MAAC": {
+      "n_team_games": 631,
+      "r_g": 6.837
+    },
+    "MAC": {
+      "n_team_games": 586,
+      "r_g": 7.109
+    },
+    "MVC": {
+      "n_team_games": 529,
+      "r_g": 6.94
+    },
+    "Mountain West": {
+      "n_team_games": 418,
+      "r_g": 6.828
+    },
+    "NEC": {
+      "n_team_games": 530,
+      "r_g": 6.423
+    },
+    "OVC": {
+      "n_team_games": 520,
+      "r_g": 6.725
+    },
+    "Patriot": {
+      "n_team_games": 291,
+      "r_g": 6.337
+    },
+    "SEC": {
+      "n_team_games": 913,
+      "r_g": 7.369
+    },
+    "SWAC": {
+      "n_team_games": 609,
+      "r_g": 7.415
+    },
+    "SoCon": {
+      "n_team_games": 425,
+      "r_g": 7.092
+    },
+    "Southland": {
+      "n_team_games": 560,
+      "r_g": 6.705
+    },
+    "Summit League": {
+      "n_team_games": 301,
+      "r_g": 6.166
+    },
+    "Sun Belt": {
+      "n_team_games": 743,
+      "r_g": 6.14
+    },
+    "The American": {
+      "n_team_games": 535,
+      "r_g": 6.43
+    },
+    "WAC": {
+      "n_team_games": 471,
+      "r_g": 6.851
+    },
+    "WCC": {
+      "n_team_games": 460,
+      "r_g": 5.833
+    }
+  }
+}

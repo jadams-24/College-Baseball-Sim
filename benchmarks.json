@@ -127,7 +127,22 @@
     "run_rule": {"value": "conference-optional; commonly 10 runs after 7 innings", "conf": "C"},
     "extra_innings_tiebreaker": {"value": "runner-on-second rule is conference-optional in NCAA; not universal", "conf": "C"},
     "extra_innings_freq": {"value": 0.06, "conf": "D", "note": "replace from PBP"},
-    "run_distribution_per_team_game": {"conf": "D", "note": "compute histogram P(0),P(1),...,P(15+) from PBP in Phase 1; required for gate"}
+    "run_distribution_per_team_game": {
+      "conf": "A",
+      "src": "data.ncaa.com scoreboard JSON, every D1 game day of the season; see data/ncaa_2025/scoreboard/manifest.json",
+      "fetched": "2026-09-30",
+      "n_games": 8079,
+      "n_team_games": 16068,
+      "mean_runs_per_team_game": 6.813,
+      "sd_runs_per_team_game": 4.676,
+      "bins": [0.04, 0.0606, 0.077, 0.0916, 0.0971, 0.0916, 0.0876, 0.0767, 0.0647, 0.0579, 0.0508, 0.0454, 0.0362, 0.0302, 0.026, 0.0664],
+      "counts": [643, 974, 1238, 1472, 1560, 1472, 1408, 1233, 1040, 931, 816, 729, 582, 486, 417, 1067],
+      "tol_per_bin": 0.01,
+      "tol_total_variation": 0.04,
+      "share_games_margin_10plus": 0.1952,
+      "home_win_pct": 0.5876,
+      "note": "Bins are P(0)..P(14), P(15+) per D1 team-game, final games only, run-rule games included as played. margin_10plus is an upper bound on run-rule frequency, not the rate itself."
+    }
   },
 
   "roster_rules_2025_26": {
