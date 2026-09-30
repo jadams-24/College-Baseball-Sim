@@ -1,0 +1,25 @@
+{
+  "source": {
+    "schedule": "https://api.wmt.games/api/statistics/teams/{ncaa_team_id}/games?per_page=100",
+    "game": "https://api.wmt.games/api/statistics/games/{game_id}?with[]=actions",
+    "robots": "https://api.wmt.games/robots.txt allows all user agents"
+  },
+  "fetched_on": "2026-09-30",
+  "season": 2025,
+  "rate_limit_s": 1.0,
+  "raw_transformation": "null/empty fields and created_at/updated_at removed; nothing else",
+  "programs_selected": 1,
+  "programs_skipped": [],
+  "games_indexed": 59,
+  "quota": {
+    "p4": 1,
+    "mid": 1,
+    "low": 1
+  },
+  "min_games": 40,
+  "max_per_conf": {
+    "p4": 4,
+    "mid": 2,
+    "low": 2
+  }
+}

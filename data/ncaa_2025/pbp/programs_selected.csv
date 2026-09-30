@@ -1,0 +1,21 @@
+tier,conference,team,ncaa_team_id,athletics_domain,games_listed,games_usable
+p4,ACC,Clemson,596523,clemsontigers.com,63,63
+p4,ACC,Florida St.,596545,seminoles.com,64,58
+p4,ACC,Georgia Tech,596553,ramblinwreck.com,60,60
+p4,Big 12,Arizona St.,596485,thesundevils.com,60,60
+p4,Big 12,BYU,596499,byucougars.com,55,55
+p4,Big 12,Cincinnati,596521,gobearcats.com,63,59
+p4,Big Ten,Iowa,596569,hawkeyesports.com,58,56
+p4,Big Ten,Nebraska,596712,huskers.com,67,62
+p4,Big Ten,Northwestern,596636,nusports.com,56,52
+p4,SEC,Alabama,596480,rolltide.com,61,59
+p4,SEC,Arkansas,596487,arkansasrazorbacks.com,67,65
+p4,SEC,Auburn,596489,auburntigers.com,62,61
+mid,American,UTSA,596426,goutsa.com,68,62
+mid,Big West,Hawaii,596557,hawaiiathletics.com,56,56
+mid,Mountain West,Air Force,596430,goairforcefalcons.com,57,54
+mid,Mountain West,Fresno St.,596707,gobulldogs.com,65,60
+mid,Sun Belt,Old Dominion,596642,odusports.com,54,53
+mid,WAC,Grand Canyon,596462,gculopes.com,58,58
+mid,WAC,Seattle U,596465,goseattleu.com,52,52
+low,Ohio Valley,Little Rock,596488,lrtrojans.com,66,61
