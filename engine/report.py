@@ -24,7 +24,7 @@ ROWS = [
     ("SF per team-game", "sf_per_team_game", ("league_totals_2025", "sf_per_team_game"), False),
     ("PA per team-game", "pa_per_team_game", ("league_totals_2025", "pa_per_team_game"), False),
     ("SB success rate", "sb_success_rate", ("league_totals_2025", "sb_success_rate"), False),
-    ("Run-rule frequency (Phase 2 gate)", "run_rule_freq", ("game_structure", "run_rule_freq"), False),
+    ("Run-rule frequency (Phase 6 gate)", "run_rule_freq", ("game_structure", "run_rule_freq"), False),
     ("Big-inning frequency (3+ runs)", "big_inning_freq", ("half_inning_2025", "big_inning_freq"), True),
     ("PA per half-inning", "pa_per_half_inning", ("half_inning_2025", "pa_per_half_inning"), True),
 ]
@@ -34,7 +34,7 @@ def build_report(sim: dict, seed: int, bench: dict | None = None) -> tuple[str, 
     bench = bench or json.loads((ROOT / "benchmarks.json").read_text())
     lines = [f"# Phase 1 realism report", "",
              f"League-average PA engine, {sim['n_games']:,} games, seed {seed}, generated {dt.date.today().isoformat()}.",
-             "Gate rows are the Phase 1 gate (R/G, BA, OBP, SLG, runs-per-half-inning distribution, big-inning frequency, PA per half-inning); the rest are informational. The per-game run histogram, extra-innings and run-rule frequencies need team and pitcher variance and are the Phase 2 gate.", "",
+             "Gate rows are the Phase 1 gate (R/G, BA, OBP, SLG, runs-per-half-inning distribution, big-inning frequency, PA per half-inning); the rest are informational. The per-game run histogram and extra-innings frequency need team and pitcher variance and are the Phase 2 gate; run-rule frequency is the Phase 6 gate.", "",
              "| Metric | Sim | Benchmark | Tol | Conf | Gate | Status |", "|---|---|---|---|---|---|---|"]
     status = {}
     for label, key, (blk, name), gate in ROWS:

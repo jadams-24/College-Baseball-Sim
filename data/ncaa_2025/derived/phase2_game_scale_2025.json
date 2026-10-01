@@ -1,0 +1,96 @@
+{
+ "_note": "Solve the engine's game-level run scale and home edge.\n\nTeam strength (o, d) and the home effect h come from a quasi-Poisson fit of runs per\nteam-game on the 2025 scoreboard (build_phase2_teams.py). Runs per game include the\nrun rule and the skipped or walk-off bottom of the ninth, which compress lopsided games,\nwhile the half-inning scale (build_phase2_run_scale.py) has no truncation. So the same\nfit is run on simulated seasons and three numbers are found by fixed-point iteration:\n  map_o, map_d  one monotone map per side from the scoreboard rating x to engine units,\n             g(x) = k x + q x^2, the same for every team. The fitted o (d) of simulated\n             teams is regressed on their true rating, pooled over seasons:\n             fitted = a + b x + c x^2. The target is b = 1, c = 0 (the fit recovers the\n             rating). Composition update g <- g o (b x + c x^2)^-1:\n             k <- k / b,  q <- q / b^2 - k c / b^3.\n             (A single linear k left the response convex: within-P4 slope 1.10, low 0.99,\n             because run-rule truncation compresses lopsided games, not close ones.)\n  eta        home talent edge, so the simulated fitted home effect equals the\n             scoreboard's: eta <- eta + (h_scoreboard - h_sim)\nNothing else is matched: runs, spreads and gate rows are not used. Calibration seeds\n(910000+) are disjoint from the location solve and the report.\nOutput: data/ncaa_2025/derived/phase2_game_scale_2025.json\n",
+ "built": "2026-10-01",
+ "seeds": [
+  910001,
+  910002,
+  910003,
+  910004,
+  910005,
+  910006,
+  910007,
+  910008
+ ],
+ "h_scoreboard": 0.0305,
+ "scale": {
+  "k_o": 1.1367926667450072,
+  "q_o": -0.06782417667178052,
+  "k_d": 1.1045638993010642,
+  "q_d": -0.08698452878276848,
+  "eta": 0.10725010033124288
+ },
+ "history": [
+  {
+   "iteration": 0,
+   "scale": {
+    "k_o": 1.0,
+    "q_o": 0.0,
+    "k_d": 1.0,
+    "q_d": 0.0,
+    "eta": 0.08990000000000001
+   },
+   "fitted": {
+    "h": 0.014282713327028358,
+    "phi": 2.1698211383324635,
+    "b_o": 0.8871589231421042,
+    "c_o": 0.060542848676868925,
+    "b_d": 0.9119648316389944,
+    "c_d": 0.09398318611933104
+   }
+  },
+  {
+   "iteration": 1,
+   "scale": {
+    "k_o": 1.1271937574141053,
+    "q_o": -0.08670788169284432,
+    "k_d": 1.0965335123754583,
+    "q_d": -0.12391272034050396,
+    "eta": 0.10611728667297166
+   },
+   "fitted": {
+    "h": 0.03102171049401184,
+    "phi": 2.1733295574709537,
+    "b_o": 0.9970012150493525,
+    "c_o": -0.010236832698935366,
+    "b_d": 0.993383832985803,
+    "c_d": -0.03135729266582231
+   }
+  },
+  {
+   "iteration": 2,
+   "scale": {
+    "k_o": 1.1305841361069036,
+    "q_o": -0.07558693925976923,
+    "k_d": 1.1038366802081119,
+    "q_d": -0.09049286106446659,
+    "eta": 0.10559557617895982
+   },
+   "fitted": {
+    "h": 0.029820729664680662,
+    "phi": 2.172839978725881,
+    "b_o": 0.9936825036932823,
+    "c_o": 0.004151863536131716,
+    "b_d": 1.0002249808346786,
+    "c_d": -0.0017789802498256258
+   }
+  },
+  {
+   "iteration": 3,
+   "scale": {
+    "k_o": 1.1377720065562091,
+    "q_o": -0.08133523733809701,
+    "k_d": 1.1035883939700948,
+    "q_d": -0.08848977762056597,
+    "eta": 0.10627484651427915
+   },
+   "fitted": {
+    "h": 0.029524746183036278,
+    "phi": 2.1741520167299067,
+    "b_o": 1.0008614937796934,
+    "c_o": -0.011782403694478322,
+    "b_d": 0.9991168411971577,
+    "c_d": -0.0015017902524076935
+   }
+  }
+ ]
+}

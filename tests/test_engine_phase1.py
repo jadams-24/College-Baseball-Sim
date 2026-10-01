@@ -66,7 +66,7 @@ def test_no_literal_rates_in_engine_package():
     bad = []
     for f in Path("engine").glob("*.py"):
         for i, line in enumerate(f.read_text().splitlines(), 1):
-            code = line.split("#")[0]
+            code = re.sub(r"(\"[^\"]*\"|'[^']*')", '""', line.split("#")[0])  # string contents are labels, not rates
             for m in re.findall(r"(?<![\w.])\d*\.\d+(?![\w.])", code):  # any decimal literal
                 if m not in ("0.0", "1.0"):  # accumulator seeds and the top of a CDF are structure, not rates
                     bad.append(f"{f}:{i}: {line.strip()}")

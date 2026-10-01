@@ -1,0 +1,136 @@
+{
+ "_note": "Solve the location (intercept) of each true-talent distribution so that simulated,\nPA-weighted league rates equal the league outcome table.\n\nThe talent model fixes each rate's spread (tier, team, individual) from data; its mean\nis defined by the league table, which is a PA-weighted average over real usage (better\nhitters bat more, better pitchers pitch more). The usage-weighted mean is only known\nafter simulating usage, so the six intercepts are found by fixed-point iteration on\nsimulated seasons:  c <- c + logit(table rate) - logit(simulated rate).\nOnly K, BB, HBP, HR per PA, BABIP and XBH are matched; runs, team spreads and player\ndistributions are not used. Calibration seeds (900000+) are disjoint from gate seeds.\nLeague rates vary from season to season (each season draws new conference and team\neffects; K% has a season SD of about .003), so each iteration averages 12 seasons.\nOutput: data/ncaa_2025/derived/phase2_location_2025.json\n",
+ "built": "2026-10-01",
+ "seeds": [
+  900001,
+  900002,
+  900003,
+  900004,
+  900005,
+  900006,
+  900007,
+  900008,
+  900009,
+  900010,
+  900011,
+  900012
+ ],
+ "location": {
+  "K": -0.04839077854088991,
+  "BB": -0.021728294049097485,
+  "HBP": -0.23070431006054548,
+  "HR": -0.3114079725601617,
+  "BABIP": -0.02790987663389033,
+  "XBH": -0.038995736600066166
+ },
+ "history": [
+  {
+   "iteration": 0,
+   "location": {
+    "K": 0.0,
+    "BB": 0.0,
+    "HBP": 0.0,
+    "HR": 0.0,
+    "BABIP": 0.0,
+    "XBH": 0.0
+   },
+   "realized": {
+    "K": 0.2009097647912864,
+    "BB": 0.1080902478712311,
+    "HBP": 0.04216517617567314,
+    "HR": 0.035089340060793936,
+    "BABIP": 0.3439993852789367,
+    "XBH": 0.2502296174879918
+   },
+   "logit_gap": {
+    "K": -0.04463904435309529,
+    "BB": -0.026931890336526987,
+    "HBP": -0.22962235760046656,
+    "HR": -0.3089712714211936,
+    "BABIP": -0.027345493571528046,
+    "XBH": -0.03745319023916238
+   }
+  },
+  {
+   "iteration": 1,
+   "location": {
+    "K": -0.04463904435309529,
+    "BB": -0.026931890336526987,
+    "HBP": -0.22962235760046656,
+    "HR": -0.3089712714211936,
+    "BABIP": -0.027345493571528046,
+    "XBH": -0.03745319023916238
+   },
+   "realized": {
+    "K": 0.19439814875859374,
+    "BB": 0.10507762848763895,
+    "HBP": 0.03385342421081498,
+    "HR": 0.026042369343677582,
+    "BABIP": 0.3380092002191584,
+    "XBH": 0.2435264762790167
+   },
+   "logit_gap": {
+    "K": -0.0035757728165106695,
+    "BB": 0.004707246410894594,
+    "HBP": -0.001427626862009923,
+    "HR": -0.0014664052052486554,
+    "BABIP": -0.0006888056654709152,
+    "XBH": -0.0013993614983776048
+   }
+  },
+  {
+   "iteration": 2,
+   "location": {
+    "K": -0.04821481716960596,
+    "BB": -0.022224643925632392,
+    "HBP": -0.2310499844624765,
+    "HR": -0.3104376766264423,
+    "BABIP": -0.02803429923699896,
+    "XBH": -0.038852551737539986
+   },
+   "realized": {
+    "K": 0.1938806771256195,
+    "BB": 0.10547480637381079,
+    "HBP": 0.03378818536331276,
+    "HR": 0.026019772912165288,
+    "BABIP": 0.33784236032982623,
+    "XBH": 0.24331716357891034
+   },
+   "logit_gap": {
+    "K": -0.0002681717018251373,
+    "BB": 0.0004906088994189872,
+    "HBP": 0.0005688523434987935,
+    "HR": -0.0005751486340188627,
+    "BABIP": 5.690764855281749e-05,
+    "XBH": -0.0002628278868417322
+   }
+  },
+  {
+   "iteration": 3,
+   "location": {
+    "K": -0.0484829888714311,
+    "BB": -0.021734035026213405,
+    "HBP": -0.2304811321189777,
+    "HR": -0.31101282526046115,
+    "BABIP": -0.027977391588446143,
+    "XBH": -0.03911537962438172
+   },
+   "realized": {
+    "K": 0.19382435888538785,
+    "BB": 0.10552056235190434,
+    "HBP": 0.03381405196476956,
+    "HR": 0.026015211573543025,
+    "BABIP": 0.3378399874275802,
+    "XBH": 0.24324675227300055
+   },
+   "logit_gap": {
+    "K": 9.221033054118699e-05,
+    "BB": 5.740977115920032e-06,
+    "HBP": -0.00022317794156778703,
+    "HR": -0.00039514729970058227,
+    "BABIP": 6.751495455581402e-05,
+    "XBH": 0.00011964302431555218
+   }
+  }
+ ]
+}

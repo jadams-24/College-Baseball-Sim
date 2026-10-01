@@ -531,6 +531,19 @@
    "both": 0.1108
   }
  },
+ "obp_resolution": {
+  "value": 0.3805,
+  "tol": 0.005,
+  "conf": "B",
+  "src": "WMT stats API box totals, 2259 2025 D1-vs-D1 games (about a quarter of the season), reweighted by tier x opponent-tier cell to the full-season matchup mix; data/ncaa_2025/pbp/schedules (fetched 2026-10-01); team-weighted, matchup-reweighted, same method as bb_pct. Replaces the FanGraphs unweighted conference mean (.385), which weights each conference equally and so over-weights the P4 conferences that walk and reach base most.",
+  "raw_sample": 0.3786,
+  "by_tier_in_sample": {
+   "p4": 0.3915,
+   "mid": 0.365,
+   "low": 0.3346
+  },
+  "fangraphs_conf_mean": 0.385
+ },
  "team_rates": {
   "hbp_pct": {
    "value": 0.0334,

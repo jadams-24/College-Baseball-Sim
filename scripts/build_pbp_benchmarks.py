@@ -377,9 +377,18 @@ def main() -> None:
               "raw_sample": round(raw_rates["bb_pct"], 4), "by_tier_in_sample": {t: round(tier_rates[t]["bb_pct"], 4) for t in TIERS if tier_rates[t]},
               "fangraphs_conf_mean": 0.1137, "sidearm_13_team_full_season": {"totals": 0.1153, "opponents": 0.1062, "both": 0.1108}}
 
+    # ---- OBP resolution (project owner decision on PR #4, 2026-10-01) ---------------------
+    # Same weighting error as the walk rate: the FanGraphs .385 is an unweighted mean of
+    # conference values. Team-weighted, matchup-reweighted WMT box value, same method as BB/PA.
+    obp_res = {"value": round(use["obp"], 4), "tol": 0.005, "conf": "B",
+               "src": box_src + "; team-weighted, matchup-reweighted, same method as bb_pct. Replaces the FanGraphs unweighted conference mean (.385), which weights each conference "
+                                "equally and so over-weights the P4 conferences that walk and reach base most.",
+               "raw_sample": round(raw_rates["obp"], 4), "by_tier_in_sample": {t: round(tier_rates[t]["obp"], 4) for t in TIERS if tier_rates[t]},
+               "fangraphs_conf_mean": 0.385}
+
     # per-tier composition and per-tier rates for the notes
     comp = pa.bat_tier.replace("", "unknown").value_counts(normalize=True).round(3).to_dict()
-    summary = {"n_games": n_games, "n_pa": n_pa, "pa_by_batting_team_tier": comp, "outcome_table": outcome_block, "team_weighted_cross_check": cross, "half_inning": half_inning, "bb_pct_resolution": bb_res,
+    summary = {"n_games": n_games, "n_pa": n_pa, "pa_by_batting_team_tier": comp, "outcome_table": outcome_block, "team_weighted_cross_check": cross, "half_inning": half_inning, "bb_pct_resolution": bb_res, "obp_resolution": obp_res,
                "team_rates": team_rates, "pitches": pitch_block, "game_structure": game_block, "base_running": base_running}
     json.dump(summary, (D / "pbp_benchmarks_2025.json").open("w"), indent=1)
 
@@ -391,8 +400,11 @@ def main() -> None:
         for k in path[:-1]:
             cur = cur.setdefault(k, {})
         old = cur.get(path[-1])
+        if isinstance(old, dict) and isinstance(new, dict):  # keep fields added later (e.g. the Phase 2 run-rule tolerance)
+            new = {**{k: v for k, v in old.items() if k not in new and k in ("tol", "tol_note", "gate")}, **new}
         cur[path[-1]] = new
-        changes.append({"path": ".".join(path), "old": old, "new": new})
+        if json.loads(json.dumps(old, default=str)) != json.loads(json.dumps(new, default=str)):
+            changes.append({"path": ".".join(path), "old": old, "new": new})
     for k, v in team_rates.items():
         if k in b["league_totals_2025"] and b["league_totals_2025"][k].get("conf") in ("C", "D"):
             setv(["league_totals_2025", k], v)
@@ -408,13 +420,18 @@ def main() -> None:
     setv(["half_inning_2025"], half_inning)
     if b["league_totals_2025"]["bb_pct"].get("value") != bb_res["value"]:
         setv(["league_totals_2025", "bb_pct"], bb_res)
+    if b["league_totals_2025"]["obp"].get("value") != obp_res["value"]:
+        setv(["league_totals_2025", "obp"], obp_res)
     for path in (["game_structure", "run_distribution_per_team_game"], ["game_structure", "extra_innings_freq"], ["game_structure", "run_rule_freq"]):
         cur = b
         for k in path:
             cur = cur[k]
-        cur["gate"] = "phase2"
+        cur.setdefault("gate", "phase2")  # later phases may move a row (see CLAUDE.md)
     BENCH.write_text(dumps_compact(b) + "\n")
-    json.dump(changes, (D / "benchmark_changes.json").open("w"), indent=1, default=str)
+    if changes:  # append to the change record; a rerun with nothing new leaves it as is
+        log = D / "benchmark_changes.json"
+        prior = json.loads(log.read_text()) if log.exists() else []
+        log.write_text(json.dumps(prior + [{**c, "date": dt.date.today().isoformat()} for c in changes], indent=1, default=str))
     print(json.dumps({"n_games": n_games, "n_pa": n_pa, "composition": comp}, indent=1))
     for c in changes:
         print(f"- {c['path']}: {json.dumps(c['old'], default=str)[:120]}  ->  {json.dumps(c['new'], default=str)[:160]}")
