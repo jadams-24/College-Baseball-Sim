@@ -6,8 +6,11 @@ average D1 team, drawn as tier mean + conference effect + team effect from the
 scoreboard decomposition (config.phase2.team_draw). It becomes rate offsets along the
 engine's quality directions, plus a style term that changes the rate mix but not runs:
 
-  batter  logit rate = logit L + c_rate + mu_group + o * v_bat + style_bat + e_player
-  pitcher logit rate = logit L + c_rate + mu_group - d * v_pit + style_pit + e_player
+  batter  logit rate = logit L + c_rate + mu_group + g_o(o) * v_bat + style_bat + e_player
+  pitcher logit rate = logit L + c_rate + mu_group - g_d(d) * v_pit + style_pit + e_player
+
+g_o, g_d (config map_o, map_d) take the scoreboard's per-game log-run rating to engine
+units; one monotone map for every team, so tiers stay on one scale.
 
 Tiers and conferences are only distributions of (o, d); nothing in a matchup knows a
 team's tier. L is the league outcome table, mu_group and e come from the play-by-play
@@ -114,8 +117,10 @@ def build_league(cfg: Phase2Config, rng: np.random.Generator) -> League:
         # an independent has no conference: it draws its own effect from its tier's conference distribution
         c = conf_fx[t.conference] if not confs[t.conference][3] else rng.multivariate_normal(np.zeros(2), td["conf_cov"], method="eigh")
         t.o, t.d = np.array(td["mean"]) + c + rng.multivariate_normal(np.zeros(2), td["team_cov"], method="eigh")
-        tb = t.o * v_bat + rng.multivariate_normal(np.zeros(6), cfg.style_cov["bat"], method="eigh")
-        tp = -t.d * v_pit + rng.multivariate_normal(np.zeros(6), cfg.style_cov["pit"], method="eigh")
+        g_o = cfg.map_o[0] * t.o + cfg.map_o[1] * t.o ** 2
+        g_d = cfg.map_d[0] * t.d + cfg.map_d[1] * t.d ** 2
+        tb = g_o * v_bat + rng.multivariate_normal(np.zeros(6), cfg.style_cov["bat"], method="eigh")
+        tp = -g_d * v_pit + rng.multivariate_normal(np.zeros(6), cfg.style_cov["pit"], method="eigh")
 
         def make(side, group, n):
             if side == "bat":

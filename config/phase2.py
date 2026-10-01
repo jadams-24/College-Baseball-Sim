@@ -86,8 +86,10 @@ class Phase2Config:
     triple_share_of_xbh: float  # 3B / (2B + 3B) (league)
     tier_effects: dict          # logit tier effects from the play-by-play (define the quality directions)
     team_talent: dict           # scoreboard decomposition: tier means, team and conference covariances, home, hosting
-    v_bat: tuple                # logit offsets per unit of team offense (log runs)
-    v_pit: tuple                # logit offsets per unit of weaker run prevention (log runs)
+    v_bat: tuple                # logit offsets per unit of engine offense (one log run per half-inning)
+    v_pit: tuple                # logit offsets per unit of engine run prevention given up (same scale)
+    map_o: tuple                # (k, q): engine offense = k * o + q * o^2, o the scoreboard rating (log runs per game)
+    map_d: tuple                # (k, q): engine run prevention = k * d + q * d^2
     team_draw: dict             # tier -> {"mean", "team_cov", "conf_cov"} of (o, d), individual share removed
     style_cov: dict             # "bat"/"pit" -> 6x6 covariance of team rate offsets with zero run value
     home_eta: float             # home talent edge in log runs (matchup-controlled home effect minus batting-last effect)
@@ -115,16 +117,18 @@ def load() -> Phase2Config:
     tt = inp["team_talent"]
     draw, style = _team_draws(inp, rs)
     # game-level scale (scripts/solve_phase2_game_scale.py): the scoreboard fits runs per game, which
-    # include run-rule and walk-off truncation; k_o, k_d stretch the half-inning quality directions so
-    # the same fit on simulated seasons recovers each team's (o, d) with slope 1, and eta is the home
-    # edge that makes the simulated matchup-controlled home effect equal the scoreboard's
-    gs = GAME_SCALE_OVERRIDE or (json.loads(GAME_SCALE.read_text())["scale"] if GAME_SCALE.exists() else
-                                 {"k_o": 1.0, "k_d": 1.0, "eta": tt["home_log_ratio"] - rs["home_structural"]["h0_log_ratio"]})
+    # include run-rule and walk-off truncation, and truncation compresses lopsided games more, so the
+    # engine's per-game response to a team's rating is not linear. One monotone map per side, the same
+    # for every team, takes the scoreboard rating to engine units (k * x + q * x^2), solved so the same
+    # fit on simulated seasons recovers each team's (o, d) with slope 1 and no curvature; eta is the
+    # home edge that makes the simulated matchup-controlled home effect equal the scoreboard's
+    gs = {"q_o": 0.0, "q_d": 0.0, **(GAME_SCALE_OVERRIDE or (json.loads(GAME_SCALE.read_text())["scale"] if GAME_SCALE.exists() else
+                                    {"k_o": 1.0, "k_d": 1.0, "eta": tt["home_log_ratio"] - rs["home_structural"]["h0_log_ratio"]}))}
     return Phase2Config(
         base=base, league_rates=league_rates, roe_share_of_bip=t["ROE"] / bip_total,
         triple_share_of_xbh=t["3B"] / (t["2B"] + t["3B"]),
-        tier_effects=inp["tier_effects_logit"], team_talent=tt, v_bat=tuple(gs["k_o"] * x for x in rs["v_bat_unit"]),
-        v_pit=tuple(gs["k_d"] * x for x in rs["v_pit_unit"]), team_draw=draw, style_cov=style, home_eta=gs["eta"], talent=inp["talent"], correlation=inp["correlation"],
+        tier_effects=inp["tier_effects_logit"], team_talent=tt, v_bat=tuple(rs["v_bat_unit"]),
+        v_pit=tuple(rs["v_pit_unit"]), map_o=(gs["k_o"], gs["q_o"]), map_d=(gs["k_d"], gs["q_d"]), team_draw=draw, style_cov=style, home_eta=gs["eta"], talent=inp["talent"], correlation=inp["correlation"],
         usage=inp["usage"], schedule_mix=mix,
         conference_weekends=round(mix["conference_games_share"] * SEASON_GAMES / GAMES_PER_WEEKEND),
         teams=teams,

@@ -15,7 +15,7 @@ Phases advance only when the gate passes. Do not build ahead of the current phas
 - **Phase 0 — Yardstick.** `benchmarks.json`. Done. Entries marked conf C or D are to be replaced with real data before Phase 1's gate.
 - **Phase 1 — League-average PA engine.** One outcome table, base-out state machine with real runner-advancement tables, no players. *Gate:* 10,000 games; R/G, BA, OBP, SLG, the runs-per-half-inning distribution, big-inning frequency and PA per half-inning within tolerance. (The per-game run histogram was moved to Phase 2 on 2026-10-01: identical teams cannot reproduce its tails.)
 - **Phase 2 — Player variance.** Fictional players sampled from empirical distributions with realistic correlations; teams on one talent scale (tiers and conferences are distributions of team strength). *Gate:* league totals unchanged; the per-game run histogram (bins 0–14 and total variation); extra-innings frequency; home win pct and home run differential; the tier-vs-tier scoring matrix; team R/G and RA/G spread overall and by tier; qualified-player percentiles; full-population leaderboard extremes. Gate tolerances combine the benchmark's sampling error with the sim's at the number of seasons run. (Run-rule frequency, the 15+ runs bin, the 50+ IP count, qualified K/9 p50/p90 and the P4-batting-vs-low-pitching cell moved to Phase 6 on 2026-10-01: see the deferred rows there.)
-- **Phase 3 — Batter-vs-pitcher.** Log5/odds-ratio interaction. *Gate:* league totals unchanged; good/bad pitchers move outcomes by realistic margins.
+- **Phase 3 — Handedness and platoon splits.** Batters and pitchers get a throwing/batting hand (switch hitters included) at real rates; matchup rates shift by real platoon splits on top of the Phase 2 odds-ratio interaction (built in Phase 2). *Gate:* league totals unchanged; same-hand vs opposite-hand splits (league and qualified-player spread) and handedness shares match real data.
 - **Phase 4 — 20–80 ratings layer.** Ratings map to rates, nothing more. *Gate:* round-trip ratings → season → recovered ratings.
 - **Phase 5 — Pitch-by-pitch.** *Gate:* pitches/PA and count distributions match; PA-level totals unchanged from Phase 3.
 - **Phase 6 — Fielding, parks, fatigue, bullpen, manager AI.** *Gate:* error, SB, pitcher-usage benchmarks, and the deferred rows below. No generic per-game noise term: these rows close only through the mechanisms that cause them.
@@ -24,11 +24,22 @@ Phases advance only when the gate passes. Do not build ahead of the current phas
 
   | Row | Current | Target | Diagnosed cause |
   |---|---|---|---|
-  | Run-rule frequency | .128 | .152 ± .017 | Too little game-to-game variance given the teams: dispersion of runs around the team-strength fit 2.17 sim vs 2.62 real. About a quarter is shared by both teams in a game (residual correlation .032 sim vs .073 real: parks, weather); the rest is one team's game (bullpen availability, lineup changes, blowout substitutions). |
-  | Runs per team-game, 15+ bin | .052 | .066 ± .010 | Same as the run-rule row. |
+  | Run-rule frequency | .129 | .152 ± .017 | Too little game-to-game variance given the teams: dispersion of runs around the team-strength fit 2.17 sim vs 2.62 real. About a quarter is shared by both teams in a game (residual correlation .032 sim vs .073 real: parks, weather); the rest is one team's game (bullpen availability, lineup changes, blowout substitutions). |
+  | Runs per team-game, 15+ bin | .053 | .066 ± .010 | Same as the run-rule row. |
   | Pitchers with 50+ IP | 769 | 882 ± 31 | Too few innings reach a team's top pitchers (67/58/50 vs 77/67/54 IP). Real top three get 9.8/6.0/5.5 IP from starts outside Fri–Sun series and 4.3/9.4/19.4 IP in relief; the sim's starters only start and every series is Fri–Sun. Needs swingman relief and Thursday openers, with rest days and fatigue. Inputs: `usage_2025.pitcher_ip_split_by_team_rank`, `pitcher_starts_by_team_rank`, `weekend_series_rank_patterns`. |
-  | Qualified K/9 p50 / p90 | 8.64 / 11.78 | 7.66 ± .78 / 10.54 ± 1.19 | Same cause: 1.7 qualified pitchers per team vs 2.3, all aces, and staffs are ordered by K − BB − HR. |
-  | P4 batting vs low pitching (R/G) | 10.83 | 9.82 ± 1.18 | Mismatch interaction: in real P4–low games both sides score 7–11% below what team strengths predict (P4 9.82 vs 10.50 fitted; low 3.63 vs 4.07). The run rule covers part; the rest needs reserves in mismatches and blowouts (manager AI). |
+  | Qualified K/9 p50 / p90 | 8.67 / 11.77 | 7.66 ± .78 / 10.54 ± 1.19 | Same cause: 1.7 qualified pitchers per team vs 2.3, all aces, and staffs are ordered by K − BB − HR. |
+  | P4 batting vs low pitching (R/G) | 10.88 | 9.82 ± 1.21 | Mismatch interaction: in real P4–low games both sides score 7–11% below what team strengths predict (P4 9.82 vs 10.50 fitted; low 3.63 vs 4.07). The run rule covers part; the rest needs reserves in mismatches and blowouts (manager AI). |
+
+  Watch item, recheck at the Phase 6 gate. The Phase 2 sim has slightly too much elite run prevention at the very top. All four rows pass, but they lean the same way (20-season report, 2026-10-01):
+
+  | Row | Sim | Real |
+  |---|---|---|
+  | Best team ERA | 2.93 | 3.20 |
+  | 50+ IP pitchers with ERA < 2.00 | 8.7 | 5 |
+  | 50+ IP pitchers with ERA < 3.00 | 62.8 | 57 |
+  | Teams with ERA < 4.00 | 16.6 | 12 |
+
+  Diagnosed so far: a convex game-level response to run prevention (fixed by the one-scale quadratic map; it cut the lean). What remains is the single best team: recovered rating .80 sim vs .71 real; top 5% now matches. Candidate causes are a Gaussian tail in the team draw, and the missing game-to-game variance (deferred rows above), which would add noise to the best teams' season ERAs.
 - **Phase 7 — Season/world.** Schedule, conferences, RPI, tournaments.
 - Phases 8–12 (roster rules, recruiting, development, program/facilities, UI) come later and are not to be started.
 

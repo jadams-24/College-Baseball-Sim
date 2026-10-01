@@ -3144,5 +3144,529 @@
    }
   },
   "date": "2026-10-01"
+ },
+ {
+  "path": "team_talent_2025",
+  "old": {
+   "_note": "Team strength on one talent scale. Quasi-Poisson fit of runs per team-game on team offense o, run prevention d (log runs, centred over teams) and the listed home slot; (o, d) = tier mean + conference effect + team effect. Estimation noise removed by method of moments using each team's covariance from the fit; conference covariance = spread of conference means minus (team + noise)/n, per tier, projected to PSD. Hosting of nonconference games: logistic in tier pair and strength gap, slope disattenuated for noise. Engine mapping (phase2_run_scale_2025.json): o and d become logit offsets along the batting and pitching quality directions scaled so one unit is one log run in the engine; the home talent edge is home_log_ratio minus the engine's batting-last effect h0. NCAA scoreboard feed, every 2025 D1-vs-D1 final (data/ncaa_2025/scoreboard/games_2025.csv; fetched for PR #1)",
+   "conf": "A",
+   "conf_note": "Tier means, team covariances and the home effect rest on all 306 D1 teams (conf A). Conference covariances rest on 4 (P4), 15 (mid) and 10 (low) conferences and the hosting model on 3,550 nonconference games (conf B).",
+   "n_games": 7938,
+   "n_teams": 306,
+   "dispersion": 2.6185,
+   "residual_corr_within_game": 0.0734,
+   "home_log_ratio": {
+    "value": 0.0305,
+    "se": 0.0106,
+    "conf": "A"
+   },
+   "engine_home_structural_h0": -0.0594,
+   "tiers": {
+    "p4": {
+     "n_teams": 64,
+     "n_conferences": 4,
+     "mean_o": 0.2822,
+     "mean_d": 0.3339,
+     "mean_o_se": 0.0119,
+     "mean_d_se": 0.0127,
+     "team_cov": [
+      [
+       0.00575,
+       0.00823
+      ],
+      [
+       0.00823,
+       0.02222
+      ]
+     ],
+     "team_sd": {
+      "o": 0.0758,
+      "d": 0.1491,
+      "corr": 0.728
+     },
+     "conf_cov": [
+      [
+       0.00247,
+       0.00433
+      ],
+      [
+       0.00433,
+       0.0076
+      ]
+     ],
+     "conf_sd": {
+      "o": 0.0497,
+      "d": 0.0872
+     },
+     "observed_sd": {
+      "o": 0.1211,
+      "d": 0.1929
+     },
+     "noise_sd": {
+      "o": 0.0849,
+      "d": 0.0943
+     }
+    },
+    "mid": {
+     "n_teams": 153,
+     "n_conferences": 15,
+     "mean_o": 0.01,
+     "mean_d": 0.0049,
+     "mean_o_se": 0.0063,
+     "mean_d_se": 0.0063,
+     "team_cov": [
+      [
+       0.02387,
+       0.0127
+      ],
+      [
+       0.0127,
+       0.03147
+      ]
+     ],
+     "team_sd": {
+      "o": 0.1545,
+      "d": 0.1774,
+      "corr": 0.464
+     },
+     "conf_cov": [
+      [
+       0.00137,
+       0.00364
+      ],
+      [
+       0.00364,
+       0.0112
+      ]
+     ],
+     "conf_sd": {
+      "o": 0.037,
+      "d": 0.1058
+     },
+     "observed_sd": {
+      "o": 0.1844,
+      "d": 0.2255
+     },
+     "noise_sd": {
+      "o": 0.0915,
+      "d": 0.0901
+     }
+    },
+    "low": {
+     "n_teams": 89,
+     "n_conferences": 10,
+     "mean_o": -0.22,
+     "mean_d": -0.2485,
+     "mean_o_se": 0.0115,
+     "mean_d_se": 0.0111,
+     "team_cov": [
+      [
+       0.02153,
+       0.01728
+      ],
+      [
+       0.01728,
+       0.04033
+      ]
+     ],
+     "team_sd": {
+      "o": 0.1467,
+      "d": 0.2008,
+      "corr": 0.586
+     },
+     "conf_cov": [
+      [
+       0.02098,
+       0.02641
+      ],
+      [
+       0.02641,
+       0.03426
+      ]
+     ],
+     "conf_sd": {
+      "o": 0.1448,
+      "d": 0.1851
+     },
+     "observed_sd": {
+      "o": 0.2292,
+      "d": 0.2937
+     },
+     "noise_sd": {
+      "o": 0.0975,
+      "d": 0.0918
+     }
+    }
+   },
+   "conf_cov_pooled": [
+    [
+     0.00825,
+     0.01162
+    ],
+    [
+     0.01162,
+     0.01875
+    ]
+   ],
+   "conf_sd_pooled": {
+    "o": 0.0908,
+    "d": 0.1369,
+    "corr": 0.934
+   },
+   "hosting": {
+    "n_games": 3550,
+    "tier_pair_logit": {
+     "p4_vs_mid": 0.0112,
+     "p4_vs_low": 0.9172,
+     "mid_vs_low": 0.6385
+    },
+    "tier_pair_se": {
+     "p4_vs_mid": 0.0817,
+     "p4_vs_low": 0.1897,
+     "mid_vs_low": 0.0781
+    },
+    "strength_slope_observed": 1.0113,
+    "strength_slope_se": 0.084,
+    "reliability": 0.8389,
+    "strength_slope": 1.2054,
+    "raw_higher_tier_hosts": {
+     "p4_hosts_vs_mid": 0.638,
+     "p4_hosts_vs_low": 0.8577,
+     "mid_hosts_vs_low": 0.7171
+    },
+    "conf": "B"
+   },
+   "engine_scale": {
+    "v_bat_unit": [
+     -0.63054,
+     0.48096,
+     0.38858,
+     1.45056,
+     0.25925,
+     0.399
+    ],
+    "v_pit_unit": [
+     -1.01624,
+     0.60679,
+     0.58562,
+     0.3009,
+     0.33489,
+     0.32635
+    ],
+    "w_gradient_logR": [
+     -0.3681,
+     0.2611,
+     0.0805,
+     0.2228,
+     0.9022,
+     0.0722
+    ],
+    "rates": [
+     "K",
+     "BB",
+     "HBP",
+     "HR",
+     "BABIP",
+     "XBH"
+    ],
+    "linearity_quadratic_coef": {
+     "bat": 0.0096,
+     "pit": -0.0328
+    }
+   }
+  },
+  "new": {
+   "_note": "Team strength on one talent scale. Quasi-Poisson fit of runs per team-game on team offense o, run prevention d (log runs, centred over teams) and the listed home slot; (o, d) = tier mean + conference effect + team effect. Estimation noise removed by method of moments using each team's covariance from the fit; conference covariance = spread of conference means minus (team + noise)/n, per tier, projected to PSD. Hosting of nonconference games: logistic in tier pair and strength gap, slope disattenuated for noise. Engine mapping (phase2_run_scale_2025.json): o and d become logit offsets along the batting and pitching quality directions scaled so one unit is one log run in the engine; the home talent edge is home_log_ratio minus the engine's batting-last effect h0. NCAA scoreboard feed, every 2025 D1-vs-D1 final (data/ncaa_2025/scoreboard/games_2025.csv; fetched for PR #1)",
+   "conf": "A",
+   "conf_note": "Tier means, team covariances and the home effect rest on all 306 D1 teams (conf A). Conference covariances rest on 4 (P4), 15 (mid) and 10 (low) conferences and the hosting model on 3,550 nonconference games (conf B).",
+   "n_games": 7938,
+   "n_teams": 306,
+   "dispersion": 2.6185,
+   "residual_corr_within_game": 0.0734,
+   "home_log_ratio": {
+    "value": 0.0305,
+    "se": 0.0106,
+    "conf": "A"
+   },
+   "engine_home_structural_h0": -0.0594,
+   "tiers": {
+    "p4": {
+     "n_teams": 64,
+     "n_conferences": 4,
+     "mean_o": 0.2822,
+     "mean_d": 0.3339,
+     "mean_o_se": 0.0119,
+     "mean_d_se": 0.0127,
+     "team_cov": [
+      [
+       0.00575,
+       0.00823
+      ],
+      [
+       0.00823,
+       0.02222
+      ]
+     ],
+     "team_sd": {
+      "o": 0.0758,
+      "d": 0.1491,
+      "corr": 0.728
+     },
+     "conf_cov": [
+      [
+       0.00247,
+       0.00433
+      ],
+      [
+       0.00433,
+       0.0076
+      ]
+     ],
+     "conf_sd": {
+      "o": 0.0497,
+      "d": 0.0872
+     },
+     "observed_sd": {
+      "o": 0.1211,
+      "d": 0.1929
+     },
+     "noise_sd": {
+      "o": 0.0849,
+      "d": 0.0943
+     }
+    },
+    "mid": {
+     "n_teams": 153,
+     "n_conferences": 15,
+     "mean_o": 0.01,
+     "mean_d": 0.0049,
+     "mean_o_se": 0.0063,
+     "mean_d_se": 0.0063,
+     "team_cov": [
+      [
+       0.02387,
+       0.0127
+      ],
+      [
+       0.0127,
+       0.03147
+      ]
+     ],
+     "team_sd": {
+      "o": 0.1545,
+      "d": 0.1774,
+      "corr": 0.464
+     },
+     "conf_cov": [
+      [
+       0.00137,
+       0.00364
+      ],
+      [
+       0.00364,
+       0.0112
+      ]
+     ],
+     "conf_sd": {
+      "o": 0.037,
+      "d": 0.1058
+     },
+     "observed_sd": {
+      "o": 0.1844,
+      "d": 0.2255
+     },
+     "noise_sd": {
+      "o": 0.0915,
+      "d": 0.0901
+     }
+    },
+    "low": {
+     "n_teams": 89,
+     "n_conferences": 10,
+     "mean_o": -0.22,
+     "mean_d": -0.2485,
+     "mean_o_se": 0.0115,
+     "mean_d_se": 0.0111,
+     "team_cov": [
+      [
+       0.02153,
+       0.01728
+      ],
+      [
+       0.01728,
+       0.04033
+      ]
+     ],
+     "team_sd": {
+      "o": 0.1467,
+      "d": 0.2008,
+      "corr": 0.586
+     },
+     "conf_cov": [
+      [
+       0.02098,
+       0.02641
+      ],
+      [
+       0.02641,
+       0.03426
+      ]
+     ],
+     "conf_sd": {
+      "o": 0.1448,
+      "d": 0.1851
+     },
+     "observed_sd": {
+      "o": 0.2292,
+      "d": 0.2937
+     },
+     "noise_sd": {
+      "o": 0.0975,
+      "d": 0.0918
+     }
+    }
+   },
+   "conf_cov_pooled": [
+    [
+     0.00825,
+     0.01162
+    ],
+    [
+     0.01162,
+     0.01875
+    ]
+   ],
+   "conf_sd_pooled": {
+    "o": 0.0908,
+    "d": 0.1369,
+    "corr": 0.934
+   },
+   "hosting": {
+    "n_games": 3550,
+    "tier_pair_logit": {
+     "p4_vs_mid": 0.0112,
+     "p4_vs_low": 0.9172,
+     "mid_vs_low": 0.6385
+    },
+    "tier_pair_se": {
+     "p4_vs_mid": 0.0817,
+     "p4_vs_low": 0.1897,
+     "mid_vs_low": 0.0781
+    },
+    "strength_slope_observed": 1.0113,
+    "strength_slope_se": 0.084,
+    "reliability": 0.8389,
+    "strength_slope": 1.2054,
+    "raw_higher_tier_hosts": {
+     "p4_hosts_vs_mid": 0.638,
+     "p4_hosts_vs_low": 0.8577,
+     "mid_hosts_vs_low": 0.7171
+    },
+    "conf": "B"
+   },
+   "engine_scale": {
+    "v_bat_unit": [
+     -0.63054,
+     0.48096,
+     0.38858,
+     1.45056,
+     0.25925,
+     0.399
+    ],
+    "v_pit_unit": [
+     -1.01624,
+     0.60679,
+     0.58562,
+     0.3009,
+     0.33489,
+     0.32635
+    ],
+    "w_gradient_logR": [
+     -0.3681,
+     0.2611,
+     0.0805,
+     0.2228,
+     0.9022,
+     0.0722
+    ],
+    "rates": [
+     "K",
+     "BB",
+     "HBP",
+     "HR",
+     "BABIP",
+     "XBH"
+    ],
+    "linearity_quadratic_coef": {
+     "bat": 0.0096,
+     "pit": -0.0328
+    },
+    "game_map": {
+     "offense": {
+      "k": 1.1368,
+      "q": -0.0678
+     },
+     "run_prevention": {
+      "k": 1.1046,
+      "q": -0.087
+     },
+     "home_edge_engine": 0.1073,
+     "note": "engine units = k x + q x^2 of the scoreboard rating x, one map for every team; solved by scripts/solve_phase2_game_scale.py"
+    }
+   }
+  },
+  "date": "2026-10-01"
+ },
+ {
+  "path": "game_structure.run_rule_freq",
+  "old": {
+   "gate": "phase2",
+   "tol": 0.0155,
+   "tol_note": "3 SE of the product estimator (scoreboard share of 10-run margins x WMT conditional share ended early)",
+   "value": 0.1524,
+   "conf": "B",
+   "note": "P(run rule) = P(final margin >= 10, all 8,079 scoreboard games) x P(game ended before the 9th | margin >= 10, WMT sample). Scheduled 7-inning doubleheaders that also reach a 10-run margin are counted.",
+   "p_margin_10plus_season": 0.1952,
+   "p_ended_early_given_margin_10plus_wmt": 0.7805,
+   "wmt_sample_run_rule_freq": 0.1549,
+   "short_game_not_run_rule_freq": 0.0123,
+   "innings_dist": {
+    "6": 0.0009,
+    "7": 0.1311,
+    "8": 0.0352,
+    "9": 0.7783,
+    "10": 0.0339,
+    "11": 0.0114,
+    "12": 0.0062,
+    "13": 0.0018,
+    "14": 0.0009,
+    "15": 0.0004
+   }
+  },
+  "new": {
+   "gate": "phase6",
+   "tol": 0.0155,
+   "tol_note": "3 SE of the product estimator (scoreboard share of 10-run margins x WMT conditional share ended early)",
+   "value": 0.1524,
+   "conf": "B",
+   "note": "P(run rule) = P(final margin >= 10, all 8,079 scoreboard games) x P(game ended before the 9th | margin >= 10, WMT sample). Scheduled 7-inning doubleheaders that also reach a 10-run margin are counted.",
+   "p_margin_10plus_season": 0.1952,
+   "p_ended_early_given_margin_10plus_wmt": 0.7805,
+   "wmt_sample_run_rule_freq": 0.1549,
+   "short_game_not_run_rule_freq": 0.0123,
+   "innings_dist": {
+    "6": 0.0009,
+    "7": 0.1311,
+    "8": 0.0352,
+    "9": 0.7783,
+    "10": 0.0339,
+    "11": 0.0114,
+    "12": 0.0062,
+    "13": 0.0018,
+    "14": 0.0009,
+    "15": 0.0004
+   }
+  },
+  "date": "2026-10-01"
  }
 ]

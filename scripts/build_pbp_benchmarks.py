@@ -426,7 +426,7 @@ def main() -> None:
         cur = b
         for k in path:
             cur = cur[k]
-        cur["gate"] = "phase2"
+        cur.setdefault("gate", "phase2")  # later phases may move a row (see CLAUDE.md)
     BENCH.write_text(dumps_compact(b) + "\n")
     if changes:  # append to the change record; a rerun with nothing new leaves it as is
         log = D / "benchmark_changes.json"

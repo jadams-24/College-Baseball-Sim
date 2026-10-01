@@ -26,6 +26,7 @@ BENCH = Path("benchmarks.json")
 def main() -> None:
     inp = json.loads((D / "phase2_inputs_2025.json").read_text())
     rs = json.loads((D / "phase2_run_scale_2025.json").read_text())
+    gsc = json.loads((D / "phase2_game_scale_2025.json").read_text())["scale"]
     gate = json.loads((D / "phase2_gate_2025.json").read_text())
     # rows the project owner moved to the Phase 6 gate (PR #4 review; config.phase2.DEFERRED_TO_PHASE6)
     gate["leaderboards_2025"]["pitchers_50ip"]["gate"] = "phase6"
@@ -81,7 +82,11 @@ def main() -> None:
         "conf_cov_pooled": tt["conf_cov_pooled"], "conf_sd_pooled": tt["conf_sd_pooled"],
         "hosting": {**tt["hosting"], "conf": "B"},
         "engine_scale": {"v_bat_unit": rs["v_bat_unit"], "v_pit_unit": rs["v_pit_unit"], "w_gradient_logR": rs["w_gradient_logR"], "rates": rs["rates"],
-                         "linearity_quadratic_coef": rs["linearity"]["quadratic_coef"]},
+                         "linearity_quadratic_coef": rs["linearity"]["quadratic_coef"],
+                         "game_map": {"offense": {"k": round(gsc["k_o"], 4), "q": round(gsc.get("q_o", 0.0), 4)},
+                                      "run_prevention": {"k": round(gsc["k_d"], 4), "q": round(gsc.get("q_d", 0.0), 4)},
+                                      "home_edge_engine": round(gsc["eta"], 4),
+                                      "note": "engine units = k x + q x^2 of the scoreboard rating x, one map for every team; solved by scripts/solve_phase2_game_scale.py"}},
     })
     setv(["tier_matrix_2025"], gate["tier_matrix_2025"])
     setv(["home_2025"], gate["home_2025"])

@@ -16,6 +16,10 @@ from engine.report2 import aggregate, build_report, season_metrics  # noqa: E402
 from engine.season import simulate_season  # noqa: E402
 
 
+REPORT_SEASONS = 20     # the report's run; the CI gate test runs exactly this (tests/test_phase2_gate.py)
+REPORT_SEED = 20251000
+
+
 def one(seed: int) -> dict:
     return season_metrics(simulate_season(phase2.load(), seed))
 
@@ -29,8 +33,8 @@ def run(seasons: int, seed: int, workers: int) -> tuple[dict, list]:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--seasons", type=int, default=20)
-    ap.add_argument("--seed", type=int, default=20251000)
+    ap.add_argument("--seasons", type=int, default=REPORT_SEASONS)
+    ap.add_argument("--seed", type=int, default=REPORT_SEED)
     ap.add_argument("--workers", type=int, default=4)
     ap.add_argument("--out", default="reports/phase2.md")
     a = ap.parse_args()

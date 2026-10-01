@@ -248,7 +248,7 @@
       "gate_deferred_bins": {"15+": "phase6"}
     },
     "run_rule_freq": {
-      "gate": "phase2",
+      "gate": "phase6",
       "tol": 0.0155,
       "tol_note": "3 SE of the product estimator (scoreboard share of 10-run margins x WMT conditional share ended early)",
       "value": 0.1524,
@@ -788,7 +788,13 @@
       "v_pit_unit": [-1.01624, 0.60679, 0.58562, 0.3009, 0.33489, 0.32635],
       "w_gradient_logR": [-0.3681, 0.2611, 0.0805, 0.2228, 0.9022, 0.0722],
       "rates": ["K", "BB", "HBP", "HR", "BABIP", "XBH"],
-      "linearity_quadratic_coef": {"bat": 0.0096, "pit": -0.0328}
+      "linearity_quadratic_coef": {"bat": 0.0096, "pit": -0.0328},
+      "game_map": {
+        "offense": {"k": 1.1368, "q": -0.0678},
+        "run_prevention": {"k": 1.1046, "q": -0.087},
+        "home_edge_engine": 0.1073,
+        "note": "engine units = k x + q x^2 of the scoreboard rating x, one map for every team; solved by scripts/solve_phase2_game_scale.py"
+      }
     }
   },
   "tier_matrix_2025": {
