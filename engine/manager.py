@@ -49,6 +49,9 @@ class Manager(LeagueAverageDecider):
         # sum of log(1 - h) where he stayed, baseline h at each decision where he was pulled
         self.leash_survive: dict = {}
         self.leash_pulls: dict = {}
+        # expected pulls and their variance under the pitcher's true leash (sum of h' and h'(1 - h'))
+        self.leash_expected: dict = {}
+        self.leash_var: dict = {}
 
     # ---- lineup ------------------------------------------------------------------------
     def lineup(self, state, team: str):
@@ -113,7 +116,10 @@ class Manager(LeagueAverageDecider):
             return Decision.YES if o["pitches"] >= 120 else Decision.NO
         pid = state.pitcher[state.fielding_side].pid
         theta = np.exp(state.pitcher[state.fielding_side].log_theta)
-        pulled = state.rng.random() < -np.expm1(theta * np.log1p(-min(h, 1 - 1e-9)))
+        hp = -np.expm1(theta * np.log1p(-min(h, 1 - 1e-9)))
+        pulled = state.rng.random() < hp
+        self.leash_expected[pid] = self.leash_expected.get(pid, 0) + hp
+        self.leash_var[pid] = self.leash_var.get(pid, 0) + hp * (1 - hp)
         if pulled:
             self.leash_pulls.setdefault(pid, []).append(h)
         else:

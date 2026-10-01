@@ -44,9 +44,9 @@ Derived inputs are rebuilt in this order: `build_phase2_benchmarks.py`, `build_p
 |---|---|
 | `ratings.py` | `RatingScale`: rating = 50 + 10 sign (z - m) / s for each rated rate (m, s: D1 PA/BF-weighted mean and true SD); `compose` rebuilds the true offsets from ratings plus hidden components; Stamina maps to the leash multiplier |
 | `league.py` | players are generated as ratings: draw the Phase 2 true offsets, express them as ratings (exact, no change in any rate); pitchers draw a Stamina from the role's leash distribution |
-| `manager.py` | the pull hazard of each pitcher is 1 - (1 - h)^theta, theta from Stamina |
+| `manager.py` | the pull hazard of each pitcher is 1 - (1 - h)^theta, theta from Stamina; records each pitcher's pull decisions and expected pulls |
 | `eb.py` | empirical Bayes on a grid: binomial, opponent-mixture binomial and hazard likelihoods; prior by marginal maximum likelihood |
-| `report4.py` | the round trip: opponent-adjusted EB estimates of every rating from season stats, recovery slope, bias and SD ratio replicated over folds, distribution by tier, example player cards |
+| `report4.py` | the round trip. Gate (forward): each qualifying player-season's observed rate against his true rate, logit scale, using the exact expected count and binomial variance against the opponents faced (recorded by `game2.py`): slope, intercept, dispersion, by workload tercile; Stamina from the pull decisions. Also the distribution by tier and example player cards. Informational: the scouting estimator (empirical Bayes from box-score stats, Phase 9) |
 
 Run: `python3 scripts/run_phase4.py` simulates the report's 20 seasons once and writes `reports/phase2.md` and `reports/phase4.md`.
 Derived inputs: `build_phase4_inputs.py`, `build_phase4_scale.py`, `write_phase4_benchmarks.py`.

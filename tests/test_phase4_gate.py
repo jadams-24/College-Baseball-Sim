@@ -1,11 +1,13 @@
 """Phase 4 gate (20-80 ratings).
 
-Round trip on the reports' own run (tests/conftest.py): players generated from ratings,
-20 seasons, ratings estimated back from the season stats with the empirical-Bayes noise
-removal (engine/report4.py). Per rating: calibration slope 1, bias 0 and residual SD equal
-to the estimator's predicted SD, each within sampling error across folds; P4 everyday
-players above 50 and low-tier below on every rate rating; every Phase 1 and Phase 2 gate
-row unchanged on the same run. Never xfail or widen these.
+Forward round trip on the reports' own run (tests/conftest.py): players generated from
+ratings, 20 seasons; per rated rate, each qualifying player-season's opponent-adjusted
+observed rate regressed on his true rate, logit scale (engine/report4.py): slope 1,
+intercept 0 and dispersion 1 (residual variance equal to the predicted binomial variance
+against the opponents faced), each within sampling error across folds; P4 everyday players
+above 50 and low-tier below on every rate rating; every Phase 1 and Phase 2 gate row
+unchanged on the same run. The scouting estimator (ratings from stats) is informational
+and not tested here. Never xfail or widen these.
 """
 from __future__ import annotations
 
@@ -31,7 +33,7 @@ def test_committed_report_matches(status: dict) -> None:
 
 @pytest.mark.parametrize("rating", RATINGS)
 def test_round_trip(status: dict, rating: str) -> None:
-    failed = [k for k in (f"rt_{rating}_slope", f"rt_{rating}_bias", f"rt_{rating}_sd_ratio") if not status[k]]
+    failed = [k for k in (f"fw_{rating}_intercept", f"fw_{rating}_slope", f"fw_{rating}_dispersion") if not status[k]]
     assert not failed, f"{rating}: {failed} outside sampling error (see reports/phase4.md)"
 
 

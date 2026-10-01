@@ -42,18 +42,18 @@ EB_FIT_MAX_UNITS = 2500                    # units per group used to fit the pri
 EB_TAU_START_MIN = 0.1                     # starting prior SD (the search does not depend on it)
 EB_QUAD_NODES = 9                          # Gauss-Hermite nodes over the spread of opponents faced
 
-# Round-trip gate (tests/test_phase4_gate.py): players with at least this many trials enter the
-# recovery statistics (every player is estimated). Below roughly a regular's season a rating is
-# not identified by the stats: with ~12 hits the binomial noise in extra-base share is ~60 times
-# its true spread, so the estimate is the prior and the slope would measure the prior SD fit,
-# not recovery. 150 PA / 150 BF is about half an everyday player's season.
+# Qualifying player-seasons for the round trip (tests/test_phase4_gate.py): the forward regression
+# of observed on true rates (the gate) and the scouting estimator (informational) both use players
+# with at least this many trials. Below roughly half a regular's season a player's observed rate
+# says little about his rate (with ~12 hits the binomial noise in extra-base share is ~60 times its
+# true spread). 150 PA / 150 BF is about half an everyday player's season.
 MIN_TRIALS = {"PA": 150, "BIP": 100, "HITS": 35, "BF": 150, "APPS": 8}
-# Role groups whose prior SD is shared across tiers in the estimator (only the mean differs by
-# tier): bench players' few trials leave a per-tier spread unidentified (engine/report4.py).
+# Scouting estimator (informational, Phase 9): role groups whose prior SD is shared across tiers
+# (only the mean differs by tier): bench players' few trials leave a per-tier spread unidentified.
 SHARED_TAU_ROLES = ("bench",)
-# The estimator is replicated in folds of FOLD_SEASONS seasons, each fitting its own priors; the
-# gate uses the mean and standard error across folds, which carries the priors' own sampling
-# error (statistics within one fold share one prior fit and cannot see it).
+# The round trip is replicated in folds of FOLD_SEASONS seasons (the scouting estimator fits its own
+# priors in each); every statistic is the mean and standard error across folds, which for the
+# estimator carries the priors' own sampling error.
 FOLD_SEASONS = 2
 FOLD_WORKERS = 4
 # Gate tolerance for statistics replicated over k folds: the Student-t quantile with k - 1 degrees of

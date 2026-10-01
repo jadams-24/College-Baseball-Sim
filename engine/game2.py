@@ -43,6 +43,9 @@ P_NCOL = 13
 CELL_RESULTS = ("K", "BB", "HBP", "HR", "1B", "2B", "3B", "ROE", "OUT")
 _CELL_IDX = {r: i for i, r in enumerate(CELL_RESULTS)}
 TRIAL_KINDS = ("PA", "BIP", "HITS")       # BIP: balls in play other than reached on error
+# per player and rate: sum over his trials of the true probability p and of p (1 - p), the expected
+# count and its binomial variance given the opponents he actually faced (Phase 4 round trip)
+EXP_RATES = ("K", "BB", "HR", "BABIP", "XBH")
 _HITS = frozenset(_CELL_IDX[r] for r in ("1B", "2B", "3B"))
 _OUT = _CELL_IDX["OUT"]
 PITCH_MAP = {"IP_OUT": ("FO", "GO", "GIDP", "DP")}
@@ -110,6 +113,8 @@ class PlayerGameEngine:
         n_players = len(league.players) if hasattr(league, "players") else 32
         self.team_cell = np.zeros((n_teams, n_teams, 2, len(CELL_RESULTS)), dtype=np.int32)
         self.opp_trials = np.zeros((n_players, n_teams, 2, len(TRIAL_KINDS)), dtype=np.int32)
+        self.exp_trials = np.zeros((n_players, len(EXP_RATES), 2))
+        self.rate_cache: dict = {}
         eta = cfg.home_eta / 2
         self.home_bat = eta * np.array(cfg.v_bat)
         self.home_pit = eta * np.array(cfg.v_pit)
@@ -131,6 +136,8 @@ class PlayerGameEngine:
             p = matchup_probs(self.cfg, zb, zp, self.league.location)
             cat = Categorical(list(OUTCOMES), [p[o] for o in OUTCOMES])
             self.cache[key] = cat
+            hits = p["1B"] + p["2B"] + p["3B"]
+            self.rate_cache[key] = np.array([p["K"], p["BB"], p["HR"], hits / (hits + p["OUT"]), (p["2B"] + p["3B"]) / hits])
         return cat
 
     # ---- runner movement ----------------------------------------------------------------
@@ -286,11 +293,20 @@ class PlayerGameEngine:
         ot = self.opp_trials
         ot[batter.pid, ptid, h, 0] += 1
         ot[pitcher.pid, btid, h, 0] += 1
+        rp = self.rate_cache.get((batter.pid, pitcher.pid, bool(h)))
+        if rp is not None:
+            ex = self.exp_trials
+            ex[batter.pid, :3, 0] += rp[:3]; ex[batter.pid, :3, 1] += rp[:3] * (1 - rp[:3])
+            ex[pitcher.pid, :3, 0] += rp[:3]; ex[pitcher.pid, :3, 1] += rp[:3] * (1 - rp[:3])
         if ci in _HITS:
             ot[batter.pid, ptid, h, 1] += 1
             ot[batter.pid, ptid, h, 2] += 1
+            if rp is not None:
+                ex[batter.pid, 3:, 0] += rp[3:]; ex[batter.pid, 3:, 1] += rp[3:] * (1 - rp[3:])
         elif ci == _OUT:             # in-play out (incl. SF, SH, FC)
             ot[batter.pid, ptid, h, 1] += 1
+            if rp is not None:
+                ex[batter.pid, 3, 0] += rp[3]; ex[batter.pid, 3, 1] += rp[3] * (1 - rp[3])
         n = self.pitch_cat[res].draw(rng.random())
         ps[P_PITCH] += n
         st.outing[st.fielding_side]["pitches"] += n
