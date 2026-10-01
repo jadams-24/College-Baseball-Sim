@@ -6,10 +6,13 @@ play-by-play sample. Run it on your own machine (athletics sites block cloud IPs
     python tools/fetch_rosters.py                 # all teams in tools/roster_teams.csv
     python tools/fetch_rosters.py --only 596583   # one team (LSU) to try it out
     python tools/fetch_rosters.py --selftest      # check the parsers offline
+    python tools/fetch_rosters.py --reparse       # rebuild the CSV from saved pages (no fetching)
 
 Writes to data/ncaa_2025/rosters/ (change with --out):
-    rosters_2025.csv     team_ncaa_id, team, name, jersey, position, class, bats, throws, source_url, wmt_person_id
-                         (wmt_person_id: WMT stats person id, filled on WMT Digital sites only)
+    rosters_2025.csv     team_ncaa_id, team, name, jersey, position, class, bats, throws,
+                         hometown_city, hometown_state, high_school, previous_school, source_url, wmt_person_id
+                         (origin columns where the roster page lists them, blank otherwise;
+                         wmt_person_id: WMT stats person id, filled on WMT Digital sites only)
     raw/<id>.html.gz     every roster page fetched, so parsing can be redone without refetching
     failures.csv         teams that could not be fetched or parsed, with the reason
     fetch_rosters.log    one line per request
@@ -40,7 +43,8 @@ HERE = Path(__file__).resolve().parent
 UA = "CollegeBaseballSim-roster-fetcher/1.0 (personal research project; one request every few seconds)"
 MIN_DELAY = 3.0
 MIN_PLAYERS = 10          # a parsed page with fewer players carrying bats/throws is treated as a miss
-FIELDS = ["team_ncaa_id", "team", "name", "jersey", "position", "class", "bats", "throws", "source_url", "wmt_person_id"]
+ORIGIN = ["hometown_city", "hometown_state", "high_school", "previous_school"]
+FIELDS = ["team_ncaa_id", "team", "name", "jersey", "position", "class", "bats", "throws", *ORIGIN, "source_url", "wmt_person_id"]
 # 2025 season roster URLs, most common platform first (Sidearm, WMT Digital, PrestoSports, old Sidearm)
 PATHS = ["/sports/baseball/roster/2025", "/sports/bsb/roster/season/2025", "/sports/baseball/roster/season/2025",
          "/sports/baseball/roster/2024-25", "/sports/bsb/2024-25/roster", "/roster.aspx?path=baseball&year=2025"]
@@ -76,6 +80,70 @@ def split_bt(v: str) -> tuple[str, str]:
 
 def clean(s) -> str:
     return re.sub(r"\s+", " ", html.unescape(str(s or ""))).strip()
+
+
+# ---------------------------------------------------------------- origin: hometown, high school, previous school
+def split_hometown(v: str) -> tuple[str, str]:
+    """'Baton Rouge, La.' -> ('Baton Rouge', 'La.'); 'Toronto, Ontario, Canada' -> ('Toronto', 'Ontario, Canada')."""
+    v = clean(v).strip(" ,/")
+    if not v:
+        return "", ""
+    city, _, state = v.partition(",")
+    return city.strip(), state.strip()
+
+
+def origin(hometown: str = "", high_school: str = "", previous: str = "", combined: str = "", order: tuple = ()) -> dict:
+    """Origin columns from separate values or from one combined cell. Combined cells list the parts
+    in the header's order separated by '/', and a previous school often sits in parentheses:
+    'Dallas, Texas / Jesuit (Texas Tech)'."""
+    hometown, high_school, previous = clean(hometown), clean(high_school), clean(previous)
+    if combined:
+        text = clean(combined)
+        m = re.search(r"\(([^()]+)\)\s*$", text)
+        if m:   # a trailing parenthetical fills the part the header names last, or the one it leaves out
+            if order and order[-1] in ("previous_school", "high_school") and len(order) > 1:
+                paren = order[-1]
+            elif "high_school" not in order:
+                paren = "high_school"
+            else:
+                paren = "previous_school"
+            if paren == "previous_school":
+                previous = previous or m.group(1).strip()
+            else:
+                high_school = high_school or m.group(1).strip()
+            text = text[:m.start()].strip()
+            order = tuple(k for k in order if k != paren)
+        parts = [x.strip() for x in re.split(r"\s+/\s+|\s*/\s*(?=[A-Z])", text) if x.strip()]
+        for kind, val in zip(order, parts):
+            if kind == "hometown" and not hometown:
+                hometown = val
+            elif kind == "high_school" and not high_school:
+                high_school = val
+            elif kind == "previous_school" and not previous:
+                previous = val
+    city, state = split_hometown(hometown)
+    return {"hometown_city": city, "hometown_state": state, "high_school": high_school, "previous_school": previous}
+
+
+ORIGIN_KEYS = {  # normalised header / JSON key / label -> origin part
+    "hometown": "hometown", "home town": "hometown", "hometowncity": "hometown",
+    "highschool": "high_school", "high school": "high_school", "hs": "high_school", "highschoolname": "high_school",
+    "previousschool": "previous_school", "previous school": "previous_school", "lastschool": "previous_school",
+    "last school": "previous_school", "prevschool": "previous_school", "previouscollege": "previous_school",
+    "transfer": "previous_school", "formerschool": "previous_school", "previous": "previous_school",
+}
+
+
+def origin_kinds(label: str) -> tuple:
+    """Parts named in a header or label, in order: 'Hometown/High School (Previous School)' ->
+    ('hometown', 'high_school', 'previous_school')."""
+    lab = re.sub(r"[^a-z/() ]", "", label.lower())
+    found = []
+    for piece in re.split(r"[/()]", lab):
+        key = ORIGIN_KEYS.get(piece.strip()) or ORIGIN_KEYS.get(piece.replace(" ", ""))
+        if key and key not in found:
+            found.append(key)
+    return tuple(found)
 
 
 # ---------------------------------------------------------------- parser 1: HTML tables
@@ -126,12 +194,17 @@ def parse_tables(page: str) -> list[dict]:
             num = _col(header, "#", "no.", "no", "number", "jersey")
             pos = _col(header, "pos.", "pos", "position")
             cls = _col(header, "yr.", "yr", "cl.", "cl", "class", "year", "academicyear", "eligibility")
+            ocols = [(i, origin_kinds(c)) for i, c in enumerate(header) if origin_kinds(c)]
             for r in rows[hi + 1:]:
                 get = lambda i: r[i] if i is not None and i < len(r) else ""
                 b, t = split_bt(get(bt)) if bt is not None else (norm_bats(get(bats)), norm_throws(get(throws)))
                 nm = get(name) or f"{get(first)} {get(last)}".strip()
                 if nm and b and t:
-                    out.append({"name": nm, "jersey": get(num), "position": get(pos), "class": get(cls), "bats": b, "throws": t})
+                    o = {k: "" for k in ORIGIN}
+                    for i, kinds in ocols:
+                        part = origin(combined=get(i), order=kinds)
+                        o.update({k: v for k, v in part.items() if v and not o[k]})
+                    out.append({"name": nm, "jersey": get(num), "position": get(pos), "class": get(cls), "bats": b, "throws": t, **o})
             if out:
                 return out
     return out
@@ -175,8 +248,16 @@ def _wmt_player(d: dict) -> dict | None:
     """WMT Digital roster entry: custom fields in profile_field_values ({profile_field: {name}, value})."""
     pl = d.get("player") if isinstance(d.get("player"), dict) else {}
     fields = [v for v in (d.get("profile_field_values") or []) + (pl.get("profile_field_values") or []) if isinstance(v, dict)]
-    bt = next((str(v.get("value") or "") for v in fields if isinstance(v.get("profile_field"), dict)
-               and re.sub(r"[^a-z/]", "", str(v["profile_field"].get("name", "")).lower()) in ("b/t", "bats/throws", "bt")), "")
+    named = {re.sub(r"[^a-z/ ]", "", str(v["profile_field"].get("name", "")).lower()).strip(): clean(v.get("value") or "")
+             for v in fields if isinstance(v.get("profile_field"), dict)}
+    bt = next((v for k, v in named.items() if k.replace(" ", "") in ("b/t", "bats/throws", "bt")), "")
+    o = {k: "" for k in ORIGIN}
+    for k, v in list(named.items()) + [(k, clean(pl.get(k2) or d.get(k2) or "")) for k, k2 in (("hometown", "hometown"), ("high school", "high_school"),
+                                                                                              ("previous school", "previous_school"))]:
+        kinds = origin_kinds(k)
+        if kinds and v:
+            part = origin(combined=v, order=kinds)
+            o.update({kk: vv for kk, vv in part.items() if vv and not o[kk]})
     b, t = split_bt(bt)
     nm = pl.get("full_name") or f"{pl.get('first_name', '')} {pl.get('last_name', '')}".strip()
     if not (b and t and nm):
@@ -186,7 +267,7 @@ def _wmt_player(d: dict) -> dict | None:
     return {"name": clean(nm), "jersey": clean(d.get("jersey_number_label") or d.get("jersey_number") or pl.get("jersey_number_label") or ""),
             "position": clean(pos.get("abbreviation") or pos.get("name") or "") if isinstance(pos, dict) else clean(pos),
             "class": clean(cls.get("abbreviation") or cls.get("name") or "") if isinstance(cls, dict) else clean(cls),
-            "bats": b, "throws": t, "wmt_person_id": str(pl.get("wmt_stats2_person_id") or "")}
+            "bats": b, "throws": t, **o, "wmt_person_id": str(pl.get("wmt_stats2_person_id") or "")}
 
 
 def _player_from(d: dict) -> dict | None:
@@ -222,11 +303,14 @@ def _player_from(d: dict) -> dict | None:
         nm = inner.get("fullName") or f"{inner.get('firstName', '')} {inner.get('lastName', '')}".strip()
     if not nm:
         return None
-    pick = lambda *ks: next((clean(d[lower[k]]) for k in ks if k in lower and d[lower[k]] not in (None, "")), "")
+    pick = lambda *ks: next((clean(d[lower[k]]) for k in ks if k in lower and isinstance(d[lower[k]], (str, int)) and d[lower[k]] != ""), "")
+    o = origin(hometown=pick("hometown", "home_town", "hometowncity"),
+               high_school=pick("highschool", "high_school", "highschoolname"),
+               previous=pick("previousschool", "previous_school", "lastschool", "last_school", "previouscollege", "formerschool"))
     return {"name": clean(nm), "jersey": pick("jerseynumber", "jersey", "number", "uniform", "jersey_number", "uni"),
             "position": pick("positionshort", "position_short", "position", "positionlong", "pos"),
             "class": pick("academicyearshort", "academicyear", "class", "classshort", "year", "eligibility", "academic_year"),
-            "bats": b, "throws": t}
+            "bats": b, "throws": t, **o}
 
 
 def _walk(o, out):
@@ -271,6 +355,26 @@ CARD_RE = re.compile(r'<(?:li|div|article)[^>]*class="[^"]*(?:sidearm-roster-pla
 TAG_RE = re.compile(r"<[^>]+>")
 
 
+ORIGIN_SPAN_RE = re.compile(r'class="[^"]*(hometown|highschool|high-school|previous-school|previousschool|last-school)[^"]*"[^>]*>(.*?)</', re.I | re.S)
+LABEL_RE = re.compile(r"(Hometown|High School|Previous School|Last School|Hometown\s*/\s*High School)\s*:?\s*\|\s*([^|]+)", re.I)
+
+
+def _card_origin(block: str, text: str) -> dict:
+    """Sidearm card spans (class *hometown*, *highschool*, *previous-school*) or 'Label | value' text."""
+    o = {k: "" for k in ORIGIN}
+    found = []
+    for cls_, val in ORIGIN_SPAN_RE.findall(block):
+        key = {"hometown": "hometown", "highschool": "high_school", "high-school": "high_school"}.get(cls_.lower(), "previous_school")
+        found.append(((key,), clean(TAG_RE.sub(" ", val))))
+    for lab, val in LABEL_RE.findall(text):
+        found.append((origin_kinds(lab), clean(val)))
+    for kinds, val in found:
+        if kinds and val:
+            part = origin(combined=val, order=kinds)
+            o.update({k: v for k, v in part.items() if v and not o[k]})
+    return o
+
+
 def parse_cards(page: str) -> list[dict]:
     starts = [m.start() for m in CARD_RE.finditer(page)]
     out = []
@@ -293,7 +397,7 @@ def parse_cards(page: str) -> list[dict]:
         cm = re.search(r"\b(R-)?(Freshman|Sophomore|Junior|Senior|Graduate|Fr|So|Jr|Sr|Gr|5th)(\.|\b)", text)
         if nm and b and t:
             out.append({"name": nm, "jersey": jm.group(1) if jm else "", "position": pm.group(1) if pm else "",
-                        "class": cm.group(0) if cm else "", "bats": b, "throws": t})
+                        "class": cm.group(0) if cm else "", "bats": b, "throws": t, **_card_origin(block, text)})
     return out
 
 
@@ -396,10 +500,13 @@ def main() -> int:
     ap.add_argument("--limit", type=int, help="stop after this many teams")
     ap.add_argument("--retry-failed", action="store_true", help="retry teams that failed on an earlier run")
     ap.add_argument("--selftest", action="store_true", help="run the offline parser checks and exit")
+    ap.add_argument("--reparse", action="store_true", help="rebuild rosters_2025.csv from the saved raw/ pages without fetching")
     a = ap.parse_args()
     if a.selftest:
         return selftest()
     out = Path(a.out)
+    if a.reparse:
+        return reparse(out, a.teams)
     (out / "raw").mkdir(parents=True, exist_ok=True)
     logging.basicConfig(filename=out / "fetch_rosters.log", level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
     console = logging.StreamHandler(sys.stdout)
@@ -412,6 +519,13 @@ def main() -> int:
         teams = [t for t in teams if t["team_ncaa_id"] in set(a.only)]
     csv_path, fail_path = out / "rosters_2025.csv", out / "failures.csv"
     new_csv = not csv_path.exists()
+    if not new_csv:
+        with open(csv_path, newline="") as fh:
+            header = next(csv.reader(fh), [])
+        if header != FIELDS:
+            print(f"{csv_path} has the columns of an older version of this script.\n"
+                  "Run once with --reparse to rebuild it from the saved raw/ pages (no fetching), then rerun.")
+            return 1
     fetcher = Fetcher(a.delay)
     done_now = 0
     with open(csv_path, "a", newline="") as fh, open(fail_path, "a", newline="") as ff:
@@ -464,6 +578,34 @@ def main() -> int:
     return 0
 
 
+def reparse(out: Path, teams_csv: str) -> int:
+    """Rebuild rosters_2025.csv from raw/<id>.html.gz for every team marked done in state.json
+    (the saved page is the one that parsed). The previous CSV is kept as rosters_2025.old.csv."""
+    state = load_state(out / "state.json")
+    names = {t["team_ncaa_id"]: t["team"] for t in csv.DictReader(open(teams_csv, newline=""))}
+    csv_path = out / "rosters_2025.csv"
+    if csv_path.exists():
+        csv_path.replace(out / "rosters_2025.old.csv")
+    n_teams = n_players = 0
+    with open(csv_path, "w", newline="") as fh:
+        w = csv.DictWriter(fh, FIELDS)
+        w.writeheader()
+        for tid, info in state["done"].items():
+            raw = out / "raw" / f"{tid}.html.gz"
+            if not raw.exists():
+                print(f"{tid}: no saved page, skipped")
+                continue
+            page = gzip.open(raw, "rt", encoding="utf-8").read()
+            m = re.match(r"<!-- source: (\S+)", page)
+            rows, how = parse_page(page)
+            for r in rows:
+                w.writerow({"team_ncaa_id": tid, "team": names.get(tid, ""), "wmt_person_id": "", **r, "source_url": m.group(1) if m else info.get("url", "")})
+            n_teams += 1
+            n_players += len(rows)
+    print(f"reparsed {n_teams} teams, {n_players} players -> {csv_path}")
+    return 0
+
+
 # ---------------------------------------------------------------- offline checks
 def selftest() -> int:
     table = """<table><thead><tr><th>#</th><th>Name</th><th>Pos.</th><th>B/T</th><th>Ht.</th><th>Yr.</th></tr></thead>
@@ -494,7 +636,38 @@ def selftest() -> int:
          [("Jacob Mayers", "R", "R", "23", "RHP", "Junior")]),
         (parse_cards(cards), [("Luke Bell", "R", "R", "14", "INF", "Jr."), ("Nate Cruz", "L", "R", "", "RHP", "So.")]),
     ]
+    # origin columns: (hometown_city, hometown_state, high_school, previous_school)
+    o_table = """<table><tr><th>#</th><th>Name</th><th>Pos.</th><th>B/T</th><th>Yr.</th><th>Hometown / High School</th><th>Previous School</th></tr>
+      <tr><td>7</td><td>Jake Smith</td><td>SS</td><td>R/R</td><td>Jr.</td><td>Baton Rouge, La. / Catholic</td><td>LSU Eunice</td></tr>
+      <tr><td>9</td><td>Tom Lee</td><td>C</td><td>L/R</td><td>Fr.</td><td>Toronto, Ontario, Canada / St. Mike's</td><td></td></tr></table>"""
+    o_combo = """<table><tr><th>No.</th><th>Name</th><th>B/T</th><th>Hometown/High School (Previous School)</th></tr>
+      <tr><td>3</td><td>Ben Ortiz</td><td>S/R</td><td>Dallas, Texas / Jesuit (Texas Tech)</td></tr></table>"""
+    o_cards = """<li class="sidearm-roster-player"><h3><a href="/x">Luke Bell</a></h3><span>INF</span><span>B/T: R/R</span>
+      <span class="sidearm-roster-player-hometown">Mobile, Ala.</span><span class="sidearm-roster-player-highschool">McGill-Toolen</span>
+      <span class="sidearm-roster-player-previous-school">Wallace State CC</span></li>"""
+    o_json = '<script id="__NEXT_DATA__" type="application/json">' + json.dumps({"props": {"roster": [
+        {"name": "Al Gore", "jersey": "9", "position": "1B", "class": "Gr.", "bats": "Left", "throws": "Right",
+         "hometown": "Carthage, Tenn.", "highSchool": "St. Albans", "previousSchool": "Harvard"}]}}) + "</script>"
+    o_wmt = ('<script type="application/json" id="__NUXT_DATA__">' + json.dumps(
+        [{"data": 1}, {"roster": 2}, [3], {"jersey_number_label": 4, "profile_field_values": 5, "player": 6},
+         "23", [7, 8, 9], {"full_name": 10}, {"profile_field": 11, "value": 12}, {"profile_field": 13, "value": 14},
+         {"profile_field": 15, "value": 16}, "Jacob Mayers", {"name": 17}, "R-R", {"name": 18}, "Tulsa, Okla.", {"name": 19}, "Jenks HS / Connors State College",
+         "B/T", "Hometown", "High School/Previous School"]) + "</script>")
+    ocheck = [
+        (parse_tables(o_table), [("Jake Smith", "Baton Rouge", "La.", "Catholic", "LSU Eunice"), ("Tom Lee", "Toronto", "Ontario, Canada", "St. Mike's", "")]),
+        (parse_tables(o_combo), [("Ben Ortiz", "Dallas", "Texas", "Jesuit", "Texas Tech")]),
+        (parse_tables(o_combo.replace("Hometown/High School (Previous School)", "Hometown").replace("Dallas, Texas / Jesuit (Texas Tech)", "Dallas, Texas (Jesuit)")),
+         [("Ben Ortiz", "Dallas", "Texas", "Jesuit", "")]),
+        (parse_cards(o_cards), [("Luke Bell", "Mobile", "Ala.", "McGill-Toolen", "Wallace State CC")]),
+        (parse_json(o_json), [("Al Gore", "Carthage", "Tenn.", "St. Albans", "Harvard")]),
+        (parse_json(o_wmt), [("Jacob Mayers", "Tulsa", "Okla.", "Jenks HS", "Connors State College")]),
+    ]
     ok = True
+    for got, want in ocheck:
+        g = [(r["name"], r.get("hometown_city", ""), r.get("hometown_state", ""), r.get("high_school", ""), r.get("previous_school", "")) for r in got]
+        if g != want:
+            ok = False
+            print("ORIGIN MISMATCH\n  got ", g, "\n  want", want)
     for got, want in checks:
         g = [(r["name"], r["bats"], r["throws"], r["jersey"], r["position"], r["class"]) for r in got]
         if g != want:
