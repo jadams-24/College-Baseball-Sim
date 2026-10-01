@@ -1,0 +1,27 @@
+domain,page_title,side,h_gamesPlayed,h_atBats,h_runs,h_hits,h_doubles,h_triples,h_homeRuns,h_runsBattedIn,h_walks,h_hitByPitch,h_strikeouts,h_sacrificeFlies,h_sacrificeHits,h_stolenBases,h_stolenBasesAttemps,h_totalPlateAppearances,h_groundedIntoDoublePlay,h_intentionalWalks,f_putouts,f_assists,f_errors,f_fieldingPercentage,f_doublePlays,f_passedBalls,f_stolenBasesAgainst,f_caughtStealingBy,p_inningsPitched,p_hitsAllowed,p_runsAllowed,p_earnedRunsAllowed,p_walksAllowed,p_strikeouts,p_hitBatters,p_wildPitches,p_homeRunsAllowed,p_earnedRunAverage
+baylorbears.com,Baseball Cumulative Statistics,Totals,55,1862,370,533,110,11,51,338,272,55,441,19,23,59,79,,36,,1446,521,65,.968,38,8,76,23,482.0,468,288,242,173,444,40,24,52,4.52
+baylorbears.com,Baseball Cumulative Statistics,Opponents,55,1861,288,468,82,9,52,266,173,40,444,16,20,38,50,2172,30,,1409,483,83,.958,46,5,118,39,469.2,533,370,299,272,441,55,44,51,5.73
+brownbears.com,Baseball Cumulative Statistics,Opponents,39,1299,306,378,79,13,30,280,217,65,290,28,22,49,61,1705,23,,1029,324,40,.971,18,4,94,22,343.0,308,178,163,137,358,59,38,29,4.28
+brownbears.com,Baseball Cumulative Statistics,Totals,39,1288,178,308,60,8,29,163,137,59,358,11,20,47,59,,14,,990,364,47,.966,29,6,98,23,330.0,378,306,271,217,290,65,34,30,7.39
+bucknellbison.com,Baseball Cumulative Statistics,Opponents,45,1395,342,399,70,14,37,303,275,70,316,26,26,62,81,1893,21,,1106,336,53,.965,25,10,74,14,368.2,334,250,214,259,413,60,39,21,5.22
+bucknellbison.com,Baseball Cumulative Statistics,Totals,45,1394,250,334,73,12,21,220,259,60,413,17,25,37,44,,19,,1068,385,71,.953,30,13,123,35,356.0,399,342,291,275,316,70,66,37,7.36
+calbears.com,Baseball Cumulative Statistics,Totals,55,1897,364,536,107,16,72,331,191,54,439,23,15,41,53,,24,,1418,474,58,.970,27,6,72,31,472.2,487,356,302,239,453,80,50,75,5.75
+calbears.com,Baseball Cumulative Statistics,Opponents,55,1849,356,487,72,3,75,324,239,80,453,23,20,36,52,2281,23,,1422,448,52,.973,29,6,82,21,474.0,536,364,334,191,439,54,53,72,6.34
+gobearkats.com,Baseball Cumulative Statistics,Opponents,55,1967,511,641,143,24,92,464,263,66,379,32,24,78,102,2479,20,,1421,448,50,.974,34,9,186,46,473.2,442,272,244,273,543,41,49,31,4.64
+gobearkats.com,Baseball Cumulative Statistics,Totals,55,1771,272,442,74,17,31,249,273,41,543,17,34,93,120,,24,,1394,455,79,.959,29,14,156,46,464.2,641,511,445,263,379,66,73,92,8.62
+gopoly.com,Baseball Cumulative Statistics,Totals,62,2212,451,701,137,16,61,412,207,59,433,27,47,44,66,,31,,1650,546,43,.981,46,13,68,47,550.0,564,334,302,211,459,103,49,63,4.94
+gopoly.com,Baseball Cumulative Statistics,Opponents,62,2119,334,564,86,12,63,307,211,103,459,16,24,34,59,2557,38,,1622,604,63,.972,41,7,88,42,540.2,701,451,410,207,433,59,69,61,6.82
+hailstate.com,Baseball Cumulative Statistics,Totals,59,1973,456,600,125,6,103,426,247,89,494,23,15,42,50,,38,,1490,444,56,.972,27,15,135,20,496.2,425,290,245,214,653,59,47,59,4.44
+hailstate.com,Baseball Cumulative Statistics,Opponents,59,1873,290,425,74,12,59,265,214,59,653,21,18,68,79,2276,25,,1448,455,49,.975,40,5,84,14,482.2,600,456,424,247,494,89,48,103,7.91
+missouristatebears.com,Baseball Cumulative Statistics,Totals,55,1871,453,558,124,8,109,422,305,52,486,26,10,59,75,,16,,1389,457,45,.976,40,5,94,23,463.0,531,377,343,234,489,86,42,76,6.67
+missouristatebears.com,Baseball Cumulative Statistics,Opponents,55,1860,377,531,119,19,76,359,234,86,489,14,18,47,59,2284,33,,1372,380,48,.973,21,12,118,31,457.1,558,453,426,305,486,52,52,109,8.38
+pittsburghpanthers.com,Baseball Cumulative Statistics,Opponents,55,1899,398,550,115,6,78,360,244,63,457,29,18,83,97,2365,35,,1419,450,62,.968,47,20,106,11,473.0,492,378,327,293,514,87,58,60,6.22
+pittsburghpanthers.com,Baseball Cumulative Statistics,Totals,55,1838,378,492,96,6,60,346,293,87,514,29,18,53,59,,34,,1428,508,64,.968,42,8,166,24,476.0,550,398,345,244,457,63,43,78,6.52
+rolltide.com,Baseball Cumulative Statistics,Totals,59,1956,437,544,106,8,94,410,308,82,505,22,11,52,59,,20,,1516,485,50,.976,46,8,76,30,505.1,518,319,288,225,536,64,56,64,5.13
+rolltide.com,Baseball Cumulative Statistics,Opponents,59,1955,319,518,80,5,64,301,225,64,536,19,13,38,54,2347,24,,1462,413,47,.976,32,13,104,13,487.1,544,437,392,308,505,82,46,94,7.24
+sfajacks.com,Baseball Cumulative Statistics,Opponents,49,1757,363,574,106,10,43,338,202,54,339,27,26,63,80,2164,21,,1295,529,64,.966,47,19,150,42,431.2,449,293,243,225,337,56,45,35,5.07
+sfajacks.com,Baseball Cumulative Statistics,Totals,49,1654,293,449,74,10,35,267,225,56,337,22,21,74,95,,40,,1268,421,53,.970,30,14,125,33,422.2,574,362,332,202,339,54,40,43,7.07
+tommiesports.com,Baseball Cumulative Statistics,Totals,50,1705,357,509,108,14,43,337,200,51,286,33,18,69,89,,30,,1265,390,58,.966,31,6,128,22,421.2,459,331,293,234,409,53,30,42,6.25
+tommiesports.com,Baseball Cumulative Statistics,Opponents,50,1662,331,459,90,6,42,302,234,53,409,21,18,64,75,2074,22,,1272,478,63,.965,37,10,137,37,424.0,509,357,312,200,286,51,36,43,6.62
+troytrojans.com,Baseball Cumulative Statistics,Totals,60,1997,421,547,110,11,65,390,323,122,516,22,27,61,74,,26,,1549,525,67,.969,42,7,100,28,516.1,510,342,287,231,505,64,63,65,5.00
+troytrojans.com,Baseball Cumulative Statistics,Opponents,60,1996,342,510,107,10,65,308,231,64,505,21,22,50,67,2418,36,,1521,477,56,.973,37,6,122,25,507.2,547,421,369,323,516,122,48,65,6.54

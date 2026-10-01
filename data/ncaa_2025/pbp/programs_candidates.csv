@@ -1,0 +1,294 @@
+tier,conference,team,ncaa_team_id,athletics_domain
+p4,ACC,Boston College,596496,bceagles.com
+p4,ACC,California,596511,calbears.com
+p4,ACC,Clemson,596523,clemsontigers.com
+p4,ACC,Duke,596708,goduke.com
+p4,ACC,Florida St.,596545,seminoles.com
+p4,ACC,Georgia Tech,596553,ramblinwreck.com
+p4,ACC,Louisville,596585,gocards.com
+p4,ACC,Miami (FL),596600,miamihurricanes.com
+p4,ACC,NC State,596628,gopack.com
+p4,ACC,North Carolina,596614,goheels.com
+p4,ACC,Notre Dame,596637,fightingirish.com
+p4,ACC,Pittsburgh,596649,pittsburghpanthers.com
+p4,ACC,Stanford,596688,gostanford.com
+p4,ACC,Virginia,596439,virginiasports.com
+p4,ACC,Virginia Tech,596438,hokiesports.com
+p4,ACC,Wake Forest,596441,godeacs.com
+p4,Big 12,Arizona,596706,arizonawildcats.com
+p4,Big 12,Arizona St.,596485,thesundevils.com
+p4,Big 12,BYU,596499,byucougars.com
+p4,Big 12,Baylor,596493,baylorbears.com
+p4,Big 12,Cincinnati,596521,gobearcats.com
+p4,Big 12,Houston,596561,uhcougars.com
+p4,Big 12,Kansas,596575,kuathletics.com
+p4,Big 12,Kansas St.,596574,kstatesports.com
+p4,Big 12,Oklahoma St.,596714,okstate.com
+p4,Big 12,TCU,596421,gofrogs.com
+p4,Big 12,Texas Tech,596423,texastech.com
+p4,Big 12,UCF,596519,ucfknights.com
+p4,Big 12,Utah,596432,utahutes.com
+p4,Big 12,West Virginia,596444,wvusports.com
+p4,Big Ten,Illinois,596563,fightingillini.com
+p4,Big Ten,Indiana,596566,iuhoosiers.com
+p4,Big Ten,Iowa,596569,hawkeyesports.com
+p4,Big Ten,Maryland,596593,umterps.com
+p4,Big Ten,Michigan,596602,mgoblue.com
+p4,Big Ten,Michigan St.,596601,msuspartans.com
+p4,Big Ten,Minnesota,596604,gophersports.com
+p4,Big Ten,Nebraska,596712,huskers.com
+p4,Big Ten,Northwestern,596636,nusports.com
+p4,Big Ten,Ohio St.,596639,ohiostatebuckeyes.com
+p4,Big Ten,Oregon,596644,goducks.com
+p4,Big Ten,Penn St.,596647,gopsusports.com
+p4,Big Ten,Purdue,596653,purduesports.com
+p4,Big Ten,Rutgers,596660,scarletknights.com
+p4,Big Ten,Southern California,596681,usctrojans.com
+p4,Big Ten,UCLA,596514,uclabruins.com
+p4,Big Ten,Washington,596443,gohuskies.com
+p4,Independent,Oregon St.,596643,osubeavers.com
+p4,SEC,Alabama,596480,rolltide.com
+p4,SEC,Arkansas,596487,arkansasrazorbacks.com
+p4,SEC,Auburn,596489,auburntigers.com
+p4,SEC,Florida,596546,floridagators.com
+p4,SEC,Georgia,596554,georgiadogs.com
+p4,SEC,Kentucky,596577,ukathletics.com
+p4,SEC,LSU,596583,lsusports.net
+p4,SEC,Mississippi St.,596605,hailstate.com
+p4,SEC,Missouri,596608,mutigers.com
+p4,SEC,Oklahoma,596641,soonersports.com
+p4,SEC,Ole Miss,596607,olemisssports.com
+p4,SEC,South Carolina,596677,gamecocksonline.com
+p4,SEC,Tennessee,596721,utsports.com
+p4,SEC,Texas,596425,texassports.com
+p4,SEC,Texas A&M,596420,12thman.com
+p4,SEC,Vanderbilt,596434,vucommodores.com
+mid,American,Charlotte,596615,charlotte49ers.com
+mid,American,East Carolina,596535,ecupirates.com
+mid,American,Fla. Atlantic,596543,fausports.com
+mid,American,Memphis,596597,gotigersgo.com
+mid,American,North Florida,596467,gousfbulls.com
+mid,American,Rice,596657,riceowls.com
+mid,American,Tulane,596701,tulanegreenwave.com
+mid,American,UAB,596481,uabsports.com
+mid,American,UTSA,596426,goutsa.com
+mid,American,Wichita St.,596449,goshockers.com
+mid,Atlantic 10,Davidson,596531,davidsonwildcats.com
+mid,Atlantic 10,Dayton,596532,daytonflyers.com
+mid,Atlantic 10,Fordham,596547,fordhamsports.com
+mid,Atlantic 10,George Mason,596548,gomason.com
+mid,Atlantic 10,George Washington,596549,gwsports.com
+mid,Atlantic 10,Massachusetts,596595,umassathletics.com
+mid,Atlantic 10,Rhode Island,596656,gorhody.com
+mid,Atlantic 10,Richmond,596658,richmondspiders.com
+mid,Atlantic 10,Saint Joseph's,596663,sjuhawks.com
+mid,Atlantic 10,Saint Louis,596664,slubillikens.com
+mid,Atlantic 10,St. Bonaventure,596662,gobonnies.com
+mid,Atlantic 10,VCU,596436,vcuathletics.com
+mid,Atlantic Sun,Austin Peay,596490,letsgopeay.com
+mid,Atlantic Sun,Central Ark.,596457,ucasports.com
+mid,Atlantic Sun,Eastern Ky.,596538,ekusports.com
+mid,Atlantic Sun,FGCU,596473,fgcuathletics.com
+mid,Atlantic Sun,Jacksonville,596572,judolphins.com
+mid,Atlantic Sun,Kennesaw St.,596463,ksuowls.com
+mid,Atlantic Sun,Lipscomb,596472,lipscombsports.com
+mid,Atlantic Sun,North Ala.,596475,roarlions.com
+mid,Atlantic Sun,Queens (NC),596696,queensathletics.com
+mid,Atlantic Sun,Stetson,596720,gohatters.com
+mid,Big East,Butler,596503,butlersports.com
+mid,Big East,Creighton,596529,gocreighton.com
+mid,Big East,Georgetown,596550,guhoyas.com
+mid,Big East,Seton Hall,596674,shupirates.com
+mid,Big East,St. John's (NY),596717,redstormsports.com
+mid,Big East,UConn,596526,uconnhuskies.com
+mid,Big East,Villanova,596435,villanova.com
+mid,Big East,Xavier,596454,goxavier.com
+mid,Big South,Charleston So.,596492,csusports.com
+mid,Big South,Gardner-Webb,596461,gwusports.com
+mid,Big South,High Point,596705,highpointpanthers.com
+mid,Big South,Longwood,596582,longwoodlancers.com
+mid,Big South,Presbyterian,596464,gobluehose.com
+mid,Big South,Radford,596655,radfordathletics.com
+mid,Big South,UNC Asheville,596613,uncabulldogs.com
+mid,Big South,USC Upstate,596469,upstatespartans.com
+mid,Big South,Winthrop,596451,winthropeagles.com
+mid,Big West,CSU Bakersfield,596505,gorunners.com
+mid,Big West,CSUN,596508,gomatadors.com
+mid,Big West,Cal Poly,596504,gopoly.com
+mid,Big West,Cal St. Fullerton,596506,fullertontitans.com
+mid,Big West,Hawaii,596557,hawaiiathletics.com
+mid,Big West,Long Beach St.,596507,longbeachstate.com
+mid,Big West,UC Davis,596512,ucdavisaggies.com
+mid,Big West,UC Irvine,596513,ucirvinesports.com
+mid,Big West,UC Riverside,596515,gohighlanders.com
+mid,Big West,UC San Diego,596694,ucsdtritons.com
+mid,Big West,UC Santa Barbara,596510,ucsbgauchos.com
+mid,C-USA,DBU,596703,dbupatriots.com
+mid,C-USA,FIU,596544,fiusports.com
+mid,C-USA,Jacksonville St.,596571,jaxstatesports.com
+mid,C-USA,Liberty,596581,libertyflames.com
+mid,C-USA,Louisiana Tech,596584,latechsports.com
+mid,C-USA,Middle Tenn.,596603,goblueraiders.com
+mid,C-USA,Missouri St.,596685,missouristatebears.com
+mid,C-USA,New Mexico St.,596622,nmstatesports.com
+mid,C-USA,Sam Houston,596667,gobearkats.com
+mid,C-USA,Western Ky.,596447,wkusports.com
+mid,Colonial,Campbell,596516,gocamels.com
+mid,Colonial,Col. of Charleston,596459,cofcsports.com
+mid,Colonial,Elon,596460,elonphoenix.com
+mid,Colonial,Hofstra,596558,gohofstra.com
+mid,Colonial,Monmouth,596609,monmouthhawks.com
+mid,Colonial,N.C. A&T,596627,ncataggies.com
+mid,Colonial,Northeastern,596631,gonu.com
+mid,Colonial,Towson,596428,towsontigers.com
+mid,Colonial,UNCW,596617,uncwsports.com
+mid,Colonial,William & Mary,596450,tribeathletics.com
+mid,MAC,Akron,596419,gozips.com
+mid,MAC,Ball St.,596491,ballstatesports.com
+mid,MAC,Bowling Green,596497,bgsufalcons.com
+mid,MAC,Central Mich.,596520,cmuchippewas.com
+mid,MAC,Eastern Mich.,596539,emueagles.com
+mid,MAC,Kent St.,596576,kentstatesports.com
+mid,MAC,Miami (OH),596599,miamiredhawks.com
+mid,MAC,NIU,596633,niuhuskies.com
+mid,MAC,Ohio,596640,ohiobobcats.com
+mid,MAC,Toledo,596427,utrockets.com
+mid,MAC,Western Mich.,596448,wmubroncos.com
+mid,Missouri Valley,Belmont,596470,belmontbruins.com
+mid,Missouri Valley,Bradley,596498,bradleybraves.com
+mid,Missouri Valley,Evansville,596709,gopurpleaces.com
+mid,Missouri Valley,Illinois St.,596562,goredbirds.com
+mid,Missouri Valley,Indiana St.,596565,gosycamores.com
+mid,Missouri Valley,Murray St.,596612,goracers.com
+mid,Missouri Valley,Southern Ill.,596682,siusalukis.com
+mid,Missouri Valley,UIC,596564,uicflames.com
+mid,Missouri Valley,Valparaiso,596433,valpoathletics.com
+mid,Mountain West,Air Force,596430,goairforcefalcons.com
+mid,Mountain West,Fresno St.,596707,gobulldogs.com
+mid,Mountain West,Nevada,596620,nevadawolfpack.com
+mid,Mountain West,New Mexico,596623,golobos.com
+mid,Mountain West,San Diego St.,596669,goaztecs.com
+mid,Mountain West,San Jose St.,596672,sjsuspartans.com
+mid,Mountain West,UNLV,596619,unlvrebels.com
+mid,SoCon,ETSU,596536,etsubucs.com
+mid,SoCon,Mercer,596598,mercerbears.com
+mid,SoCon,Samford,596668,samfordsports.com
+mid,SoCon,The Citadel,596522,citadelsports.com
+mid,SoCon,VMI,596437,vmikeydets.com
+mid,SoCon,Western Caro.,596445,catamountsports.com
+mid,SoCon,Wofford,596704,woffordterriers.com
+mid,Sun Belt,App State,596484,appstatesports.com
+mid,Sun Belt,Arkansas St.,596486,astateredwolves.com
+mid,Sun Belt,Coastal Carolina,596524,goccusports.com
+mid,Sun Belt,Ga. Southern,596551,gseagles.com
+mid,Sun Belt,Georgia St.,596552,georgiastatesports.com
+mid,Sun Belt,James Madison,596573,jmusports.com
+mid,Sun Belt,Louisiana,596687,ragincajuns.com
+mid,Sun Belt,Marshall,596591,herdzone.com
+mid,Sun Belt,Old Dominion,596642,odusports.com
+mid,Sun Belt,South Alabama,596676,usajaguars.com
+mid,Sun Belt,Southern Miss.,596719,southernmiss.com
+mid,Sun Belt,Texas St.,596686,txstatebobcats.com
+mid,Sun Belt,Troy,596429,troytrojans.com
+mid,Sun Belt,ULM,596630,ulmwarhawks.com
+mid,WAC,Abilene Christian,596477,acusports.com
+mid,WAC,California Baptist,596476,cbulancers.com
+mid,WAC,Grand Canyon,596462,gculopes.com
+mid,WAC,Sacramento St.,596509,hornetsports.com
+mid,WAC,Seattle U,596465,goseattleu.com
+mid,WAC,Tarleton St.,596700,tarletonsports.com
+mid,WAC,UT Arlington,596424,utamavs.com
+mid,WAC,UTRGV,596646,goutrgv.com
+mid,WAC,Utah Valley,596474,gouvu.com
+mid,WCC,Gonzaga,596555,gozags.com
+mid,WCC,Pacific,596645,pacifictigers.com
+mid,WCC,Pepperdine,596648,pepperdinewaves.com
+mid,WCC,Portland,596650,portlandpilots.com
+mid,WCC,Saint Mary's (CA),596665,smcgaels.com
+mid,WCC,San Diego,596670,usdtoreros.com
+mid,WCC,San Francisco,596671,usfdons.com
+mid,WCC,Santa Clara,596673,santaclarabroncos.com
+low,America East,Binghamton,596495,binghamtonbearcats.com
+low,America East,Bryant,596501,bryantbulldogs.com
+low,America East,Maine,596588,goblackbears.com
+low,America East,NJIT,596621,njithighlanders.com
+low,America East,Stony Brook,596690,stonybrookathletics.com
+low,America East,UAlbany,596482,ualbanysports.com
+low,America East,UMBC,596592,umbcretrievers.com
+low,America East,UMass Lowell,596586,goriverhawks.com
+low,Horizon,Milwaukee,596452,mkepanthers.com
+low,Horizon,Northern Ky.,596634,nkunorse.com
+low,Horizon,Oakland,596638,goldengrizzlies.com
+low,Horizon,Purdue Fort Wayne,596567,gomastodons.com
+low,Horizon,Wright St.,596453,wsuraiders.com
+low,Horizon,Youngstown St.,596456,ysusports.com
+low,Ivy League,Brown,596500,brownbears.com
+low,Ivy League,Columbia,596525,gocolumbialions.com
+low,Ivy League,Cornell,596528,cornellbigred.com
+low,Ivy League,Dartmouth,596530,dartmouthsports.com
+low,Ivy League,Harvard,596556,gocrimson.com
+low,Ivy League,Penn,596716,pennathletics.com
+low,Ivy League,Princeton,596652,goprincetontigers.com
+low,Ivy League,Yale,596455,yalebulldogs.com
+low,MAAC,Canisius,596517,gogriffs.com
+low,MAAC,Fairfield,596540,fairfieldstags.com
+low,MAAC,Iona,596568,ionagaels.com
+low,MAAC,Manhattan,596589,gojaspers.com
+low,MAAC,Marist,596590,goredfoxes.com
+low,MAAC,Merrimack,596458,merrimackathletics.com
+low,MAAC,Mount St. Mary's,596611,mountathletics.com
+low,MAAC,Niagara,596625,purpleeagles.com
+low,MAAC,Quinnipiac,596654,gobobcats.com
+low,MAAC,Rider,596659,gobroncs.com
+low,MAAC,Sacred Heart,596661,sacredheartpioneers.com
+low,MAAC,Saint Peter's,596666,saintpeterspeacocks.com
+low,MAAC,Siena,596675,sienasaints.com
+low,Northeast,Central Conn. St.,596518,ccsubluedevils.com
+low,Northeast,FDU,596541,fduknights.com
+low,Northeast,LIU,596711,liuathletics.com
+low,Northeast,Le Moyne,596699,lemoynedolphins.com
+low,Northeast,Mercyhurst,596906,hurstathletics.com
+low,Northeast,Stonehill,596698,stonehillskyhawks.com
+low,Northeast,Wagner,596440,wagnerathletics.com
+low,Ohio Valley,Eastern Ill.,596537,eiupanthers.com
+low,Ohio Valley,Lindenwood,596695,lindenwoodlions.com
+low,Ohio Valley,Little Rock,596488,lrtrojans.com
+low,Ohio Valley,Morehead St.,596610,msueagles.com
+low,Ohio Valley,SIUE,596683,siuecougars.com
+low,Ohio Valley,Southeast Mo. St.,596718,semoredhawks.com
+low,Ohio Valley,Southern Ind.,596697,usiscreamingeagles.com
+low,Ohio Valley,Tennessee Tech,596691,ttusports.com
+low,Ohio Valley,UT Martin,596692,utmsports.com
+low,Ohio Valley,Western Ill.,596446,goleathernecks.com
+low,Patriot League,Army West Point,596702,goarmywestpoint.com
+low,Patriot League,Bucknell,596502,bucknellbison.com
+low,Patriot League,Holy Cross,596559,goholycross.com
+low,Patriot League,Lafayette,596578,goleopards.com
+low,Patriot League,Lehigh,596580,lehighsports.com
+low,Patriot League,Navy,596431,navysports.com
+low,SWAC,Alabama A&M,596478,aamusports.com
+low,SWAC,Alabama St.,596479,bamastatesports.com
+low,SWAC,Alcorn,596483,alcornsports.com
+low,SWAC,Ark.-Pine Bluff,596466,uapblionsroar.com
+low,SWAC,Bethune-Cookman,596494,bcuathletics.com
+low,SWAC,Florida A&M,596542,famuathletics.com
+low,SWAC,Grambling,596710,gsutigers.com
+low,SWAC,Jackson St.,596570,gojsutigers.com
+low,SWAC,Mississippi Val.,596606,mvsusports.com
+low,SWAC,Prairie View,596651,pvpanthers.com
+low,SWAC,Southern U.,596684,gojagsports.com
+low,SWAC,Texas Southern,596422,tsusports.com
+low,Southland,A&M-Corpus Christi,596471,goislanders.com
+low,Southland,Houston Christian,596560,hcuhuskies.com
+low,Southland,LSU New Orleans,596624,unoprivateers.com
+low,Southland,McNeese,596596,mcneesesports.com
+low,Southland,Nicholls,596713,geauxcolonels.com
+low,Southland,Northwestern St.,596635,nsudemons.com
+low,Southland,SFA,596689,sfajacks.com
+low,Southland,Southeastern La.,596680,lionsports.net
+low,Southland,UIW,596468,uiwcardinals.com
+low,Summit,North Dakota St.,596629,gobison.com
+low,Summit,Omaha,596618,omavs.com
+low,Summit,Oral Roberts,596715,oruathletics.com
+low,Summit,South Dakota St.,596678,gojacks.com
+low,Summit,St. Thomas (MN),596417,tommiesports.com

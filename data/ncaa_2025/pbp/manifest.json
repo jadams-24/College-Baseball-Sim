@@ -1,0 +1,1214 @@
+{
+  "source": {
+    "schedule": "https://api.wmt.games/api/statistics/teams/{ncaa_team_id}/games?per_page=100",
+    "game": "https://api.wmt.games/api/statistics/games/{game_id}?with[]=actions",
+    "robots": "https://api.wmt.games/robots.txt allows all user agents"
+  },
+  "fetched_on": "2026-10-01",
+  "season": 2025,
+  "rate_limit_s": 1.0,
+  "raw_transformation": "null/empty fields and created_at/updated_at removed; nothing else",
+  "programs_selected": 54,
+  "programs_skipped": [
+    {
+      "tier": "p4",
+      "conference": "ACC",
+      "team": "Boston College",
+      "ncaa_team_id": "596496",
+      "athletics_domain": "bceagles.com",
+      "reason": "only 17 usable games"
+    },
+    {
+      "tier": "p4",
+      "conference": "Big Ten",
+      "team": "Illinois",
+      "ncaa_team_id": "596563",
+      "athletics_domain": "fightingillini.com",
+      "reason": "only 15 usable games"
+    },
+    {
+      "tier": "p4",
+      "conference": "Big Ten",
+      "team": "Indiana",
+      "ncaa_team_id": "596566",
+      "athletics_domain": "iuhoosiers.com",
+      "reason": "only 19 usable games"
+    },
+    {
+      "tier": "p4",
+      "conference": "Big Ten",
+      "team": "Maryland",
+      "ncaa_team_id": "596593",
+      "athletics_domain": "umterps.com",
+      "reason": "only 13 usable games"
+    },
+    {
+      "tier": "p4",
+      "conference": "Big Ten",
+      "team": "Michigan",
+      "ncaa_team_id": "596602",
+      "athletics_domain": "mgoblue.com",
+      "reason": "only 19 usable games"
+    },
+    {
+      "tier": "p4",
+      "conference": "Big Ten",
+      "team": "Michigan St.",
+      "ncaa_team_id": "596601",
+      "athletics_domain": "msuspartans.com",
+      "reason": "only 16 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "American",
+      "team": "East Carolina",
+      "ncaa_team_id": "596535",
+      "athletics_domain": "ecupirates.com",
+      "reason": "only 7 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Atlantic 10",
+      "team": "Davidson",
+      "ncaa_team_id": "596531",
+      "athletics_domain": "davidsonwildcats.com",
+      "reason": "only 4 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Atlantic 10",
+      "team": "Dayton",
+      "ncaa_team_id": "596532",
+      "athletics_domain": "daytonflyers.com",
+      "reason": "only 5 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Atlantic 10",
+      "team": "Fordham",
+      "ncaa_team_id": "596547",
+      "athletics_domain": "fordhamsports.com",
+      "reason": "only 2 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Atlantic 10",
+      "team": "George Mason",
+      "ncaa_team_id": "596548",
+      "athletics_domain": "gomason.com",
+      "reason": "only 0 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Atlantic 10",
+      "team": "George Washington",
+      "ncaa_team_id": "596549",
+      "athletics_domain": "gwsports.com",
+      "reason": "only 0 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Atlantic 10",
+      "team": "Massachusetts",
+      "ncaa_team_id": "596595",
+      "athletics_domain": "umassathletics.com",
+      "reason": "only 0 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Atlantic 10",
+      "team": "Rhode Island",
+      "ncaa_team_id": "596656",
+      "athletics_domain": "gorhody.com",
+      "reason": "only 5 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Atlantic 10",
+      "team": "Richmond",
+      "ncaa_team_id": "596658",
+      "athletics_domain": "richmondspiders.com",
+      "reason": "only 2 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Atlantic 10",
+      "team": "Saint Joseph's",
+      "ncaa_team_id": "596663",
+      "athletics_domain": "sjuhawks.com",
+      "reason": "only 0 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Atlantic 10",
+      "team": "Saint Louis",
+      "ncaa_team_id": "596664",
+      "athletics_domain": "slubillikens.com",
+      "reason": "only 0 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Atlantic 10",
+      "team": "St. Bonaventure",
+      "ncaa_team_id": "596662",
+      "athletics_domain": "gobonnies.com",
+      "reason": "only 6 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Atlantic Sun",
+      "team": "Austin Peay",
+      "ncaa_team_id": "596490",
+      "athletics_domain": "letsgopeay.com",
+      "reason": "only 5 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Atlantic Sun",
+      "team": "Central Ark.",
+      "ncaa_team_id": "596457",
+      "athletics_domain": "ucasports.com",
+      "reason": "only 3 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Atlantic Sun",
+      "team": "Eastern Ky.",
+      "ncaa_team_id": "596538",
+      "athletics_domain": "ekusports.com",
+      "reason": "only 5 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Atlantic Sun",
+      "team": "FGCU",
+      "ncaa_team_id": "596473",
+      "athletics_domain": "fgcuathletics.com",
+      "reason": "only 5 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Atlantic Sun",
+      "team": "Jacksonville",
+      "ncaa_team_id": "596572",
+      "athletics_domain": "judolphins.com",
+      "reason": "only 6 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Atlantic Sun",
+      "team": "Kennesaw St.",
+      "ncaa_team_id": "596463",
+      "athletics_domain": "ksuowls.com",
+      "reason": "only 4 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Atlantic Sun",
+      "team": "Lipscomb",
+      "ncaa_team_id": "596472",
+      "athletics_domain": "lipscombsports.com",
+      "reason": "only 6 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Atlantic Sun",
+      "team": "North Ala.",
+      "ncaa_team_id": "596475",
+      "athletics_domain": "roarlions.com",
+      "reason": "only 6 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Atlantic Sun",
+      "team": "Queens (NC)",
+      "ncaa_team_id": "596696",
+      "athletics_domain": "queensathletics.com",
+      "reason": "only 6 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Big East",
+      "team": "Butler",
+      "ncaa_team_id": "596503",
+      "athletics_domain": "butlersports.com",
+      "reason": "only 3 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Big East",
+      "team": "Creighton",
+      "ncaa_team_id": "596529",
+      "athletics_domain": "gocreighton.com",
+      "reason": "only 6 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Big East",
+      "team": "Georgetown",
+      "ncaa_team_id": "596550",
+      "athletics_domain": "guhoyas.com",
+      "reason": "only 6 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Big East",
+      "team": "Seton Hall",
+      "ncaa_team_id": "596674",
+      "athletics_domain": "shupirates.com",
+      "reason": "only 2 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Big East",
+      "team": "St. John's (NY)",
+      "ncaa_team_id": "596717",
+      "athletics_domain": "redstormsports.com",
+      "reason": "only 1 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Big East",
+      "team": "UConn",
+      "ncaa_team_id": "596526",
+      "athletics_domain": "uconnhuskies.com",
+      "reason": "only 7 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Big East",
+      "team": "Villanova",
+      "ncaa_team_id": "596435",
+      "athletics_domain": "villanova.com",
+      "reason": "only 2 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Big South",
+      "team": "Charleston So.",
+      "ncaa_team_id": "596492",
+      "athletics_domain": "csusports.com",
+      "reason": "only 1 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Big South",
+      "team": "Gardner-Webb",
+      "ncaa_team_id": "596461",
+      "athletics_domain": "gwusports.com",
+      "reason": "only 3 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Big South",
+      "team": "High Point",
+      "ncaa_team_id": "596705",
+      "athletics_domain": "highpointpanthers.com",
+      "reason": "only 1 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Big South",
+      "team": "Longwood",
+      "ncaa_team_id": "596582",
+      "athletics_domain": "longwoodlancers.com",
+      "reason": "only 3 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Big South",
+      "team": "Radford",
+      "ncaa_team_id": "596655",
+      "athletics_domain": "radfordathletics.com",
+      "reason": "only 3 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Big South",
+      "team": "UNC Asheville",
+      "ncaa_team_id": "596613",
+      "athletics_domain": "uncabulldogs.com",
+      "reason": "only 1 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Big South",
+      "team": "USC Upstate",
+      "ncaa_team_id": "596469",
+      "athletics_domain": "upstatespartans.com",
+      "reason": "only 4 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Big South",
+      "team": "Winthrop",
+      "ncaa_team_id": "596451",
+      "athletics_domain": "winthropeagles.com",
+      "reason": "only 5 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "C-USA",
+      "team": "FIU",
+      "ncaa_team_id": "596544",
+      "athletics_domain": "fiusports.com",
+      "reason": "only 4 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "C-USA",
+      "team": "Jacksonville St.",
+      "ncaa_team_id": "596571",
+      "athletics_domain": "jaxstatesports.com",
+      "reason": "only 7 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "C-USA",
+      "team": "Liberty",
+      "ncaa_team_id": "596581",
+      "athletics_domain": "libertyflames.com",
+      "reason": "only 6 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "C-USA",
+      "team": "Louisiana Tech",
+      "ncaa_team_id": "596584",
+      "athletics_domain": "latechsports.com",
+      "reason": "only 2 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "C-USA",
+      "team": "Middle Tenn.",
+      "ncaa_team_id": "596603",
+      "athletics_domain": "goblueraiders.com",
+      "reason": "only 3 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "C-USA",
+      "team": "Missouri St.",
+      "ncaa_team_id": "596685",
+      "athletics_domain": "missouristatebears.com",
+      "reason": "only 7 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "C-USA",
+      "team": "New Mexico St.",
+      "ncaa_team_id": "596622",
+      "athletics_domain": "nmstatesports.com",
+      "reason": "only 7 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "C-USA",
+      "team": "Western Ky.",
+      "ncaa_team_id": "596447",
+      "athletics_domain": "wkusports.com",
+      "reason": "only 4 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Colonial",
+      "team": "Campbell",
+      "ncaa_team_id": "596516",
+      "athletics_domain": "gocamels.com",
+      "reason": "only 0 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Colonial",
+      "team": "Col. of Charleston",
+      "ncaa_team_id": "596459",
+      "athletics_domain": "cofcsports.com",
+      "reason": "only 1 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Colonial",
+      "team": "Elon",
+      "ncaa_team_id": "596460",
+      "athletics_domain": "elonphoenix.com",
+      "reason": "only 3 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Colonial",
+      "team": "Hofstra",
+      "ncaa_team_id": "596558",
+      "athletics_domain": "gohofstra.com",
+      "reason": "only 6 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Colonial",
+      "team": "Monmouth",
+      "ncaa_team_id": "596609",
+      "athletics_domain": "monmouthhawks.com",
+      "reason": "only 3 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Colonial",
+      "team": "N.C. A&T",
+      "ncaa_team_id": "596627",
+      "athletics_domain": "ncataggies.com",
+      "reason": "only 2 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Colonial",
+      "team": "Towson",
+      "ncaa_team_id": "596428",
+      "athletics_domain": "towsontigers.com",
+      "reason": "only 1 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Colonial",
+      "team": "UNCW",
+      "ncaa_team_id": "596617",
+      "athletics_domain": "uncwsports.com",
+      "reason": "only 2 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Colonial",
+      "team": "William & Mary",
+      "ncaa_team_id": "596450",
+      "athletics_domain": "tribeathletics.com",
+      "reason": "only 3 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "MAC",
+      "team": "Akron",
+      "ncaa_team_id": "596419",
+      "athletics_domain": "gozips.com",
+      "reason": "only 5 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "MAC",
+      "team": "Ball St.",
+      "ncaa_team_id": "596491",
+      "athletics_domain": "ballstatesports.com",
+      "reason": "only 1 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "MAC",
+      "team": "Bowling Green",
+      "ncaa_team_id": "596497",
+      "athletics_domain": "bgsufalcons.com",
+      "reason": "only 3 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "MAC",
+      "team": "Central Mich.",
+      "ncaa_team_id": "596520",
+      "athletics_domain": "cmuchippewas.com",
+      "reason": "only 0 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "MAC",
+      "team": "Eastern Mich.",
+      "ncaa_team_id": "596539",
+      "athletics_domain": "emueagles.com",
+      "reason": "only 2 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "MAC",
+      "team": "Kent St.",
+      "ncaa_team_id": "596576",
+      "athletics_domain": "kentstatesports.com",
+      "reason": "only 2 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "MAC",
+      "team": "Miami (OH)",
+      "ncaa_team_id": "596599",
+      "athletics_domain": "miamiredhawks.com",
+      "reason": "only 5 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "MAC",
+      "team": "NIU",
+      "ncaa_team_id": "596633",
+      "athletics_domain": "niuhuskies.com",
+      "reason": "only 3 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "MAC",
+      "team": "Ohio",
+      "ncaa_team_id": "596640",
+      "athletics_domain": "ohiobobcats.com",
+      "reason": "only 0 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "MAC",
+      "team": "Toledo",
+      "ncaa_team_id": "596427",
+      "athletics_domain": "utrockets.com",
+      "reason": "only 2 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "MAC",
+      "team": "Western Mich.",
+      "ncaa_team_id": "596448",
+      "athletics_domain": "wmubroncos.com",
+      "reason": "only 5 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Missouri Valley",
+      "team": "Bradley",
+      "ncaa_team_id": "596498",
+      "athletics_domain": "bradleybraves.com",
+      "reason": "only 5 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Missouri Valley",
+      "team": "Illinois St.",
+      "ncaa_team_id": "596562",
+      "athletics_domain": "goredbirds.com",
+      "reason": "only 2 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Missouri Valley",
+      "team": "Indiana St.",
+      "ncaa_team_id": "596565",
+      "athletics_domain": "gosycamores.com",
+      "reason": "only 5 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "SoCon",
+      "team": "ETSU",
+      "ncaa_team_id": "596536",
+      "athletics_domain": "etsubucs.com",
+      "reason": "only 5 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "SoCon",
+      "team": "Mercer",
+      "ncaa_team_id": "596598",
+      "athletics_domain": "mercerbears.com",
+      "reason": "only 5 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "SoCon",
+      "team": "VMI",
+      "ncaa_team_id": "596437",
+      "athletics_domain": "vmikeydets.com",
+      "reason": "only 1 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "SoCon",
+      "team": "Western Caro.",
+      "ncaa_team_id": "596445",
+      "athletics_domain": "catamountsports.com",
+      "reason": "only 3 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "SoCon",
+      "team": "Wofford",
+      "ncaa_team_id": "596704",
+      "athletics_domain": "woffordterriers.com",
+      "reason": "only 3 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Sun Belt",
+      "team": "App State",
+      "ncaa_team_id": "596484",
+      "athletics_domain": "appstatesports.com",
+      "reason": "only 3 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Sun Belt",
+      "team": "Arkansas St.",
+      "ncaa_team_id": "596486",
+      "athletics_domain": "astateredwolves.com",
+      "reason": "only 3 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Sun Belt",
+      "team": "Ga. Southern",
+      "ncaa_team_id": "596551",
+      "athletics_domain": "gseagles.com",
+      "reason": "only 7 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "Sun Belt",
+      "team": "Georgia St.",
+      "ncaa_team_id": "596552",
+      "athletics_domain": "georgiastatesports.com",
+      "reason": "only 7 usable games"
+    },
+    {
+      "tier": "mid",
+      "conference": "WAC",
+      "team": "Abilene Christian",
+      "ncaa_team_id": "596477",
+      "athletics_domain": "acusports.com",
+      "reason": "only 6 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "America East",
+      "team": "Bryant",
+      "ncaa_team_id": "596501",
+      "athletics_domain": "bryantbulldogs.com",
+      "reason": "only 3 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "America East",
+      "team": "Maine",
+      "ncaa_team_id": "596588",
+      "athletics_domain": "goblackbears.com",
+      "reason": "only 0 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "America East",
+      "team": "NJIT",
+      "ncaa_team_id": "596621",
+      "athletics_domain": "njithighlanders.com",
+      "reason": "only 0 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "America East",
+      "team": "Stony Brook",
+      "ncaa_team_id": "596690",
+      "athletics_domain": "stonybrookathletics.com",
+      "reason": "only 0 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "America East",
+      "team": "UAlbany",
+      "ncaa_team_id": "596482",
+      "athletics_domain": "ualbanysports.com",
+      "reason": "only 0 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "America East",
+      "team": "UMBC",
+      "ncaa_team_id": "596592",
+      "athletics_domain": "umbcretrievers.com",
+      "reason": "only 2 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "America East",
+      "team": "UMass Lowell",
+      "ncaa_team_id": "596586",
+      "athletics_domain": "goriverhawks.com",
+      "reason": "only 0 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "Horizon",
+      "team": "Northern Ky.",
+      "ncaa_team_id": "596634",
+      "athletics_domain": "nkunorse.com",
+      "reason": "only 2 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "Horizon",
+      "team": "Oakland",
+      "ncaa_team_id": "596638",
+      "athletics_domain": "goldengrizzlies.com",
+      "reason": "only 1 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "Horizon",
+      "team": "Purdue Fort Wayne",
+      "ncaa_team_id": "596567",
+      "athletics_domain": "gomastodons.com",
+      "reason": "only 4 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "Horizon",
+      "team": "Youngstown St.",
+      "ncaa_team_id": "596456",
+      "athletics_domain": "ysusports.com",
+      "reason": "only 4 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "Ivy League",
+      "team": "Brown",
+      "ncaa_team_id": "596500",
+      "athletics_domain": "brownbears.com",
+      "reason": "only 0 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "Ivy League",
+      "team": "Columbia",
+      "ncaa_team_id": "596525",
+      "athletics_domain": "gocolumbialions.com",
+      "reason": "only 4 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "Ivy League",
+      "team": "Cornell",
+      "ncaa_team_id": "596528",
+      "athletics_domain": "cornellbigred.com",
+      "reason": "only 0 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "Ivy League",
+      "team": "Harvard",
+      "ncaa_team_id": "596556",
+      "athletics_domain": "gocrimson.com",
+      "reason": "only 4 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "Ivy League",
+      "team": "Penn",
+      "ncaa_team_id": "596716",
+      "athletics_domain": "pennathletics.com",
+      "reason": "only 3 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "Ivy League",
+      "team": "Princeton",
+      "ncaa_team_id": "596652",
+      "athletics_domain": "goprincetontigers.com",
+      "reason": "only 4 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "Ivy League",
+      "team": "Yale",
+      "ncaa_team_id": "596455",
+      "athletics_domain": "yalebulldogs.com",
+      "reason": "only 0 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "MAAC",
+      "team": "Canisius",
+      "ncaa_team_id": "596517",
+      "athletics_domain": "gogriffs.com",
+      "reason": "only 4 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "MAAC",
+      "team": "Fairfield",
+      "ncaa_team_id": "596540",
+      "athletics_domain": "fairfieldstags.com",
+      "reason": "only 1 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "MAAC",
+      "team": "Iona",
+      "ncaa_team_id": "596568",
+      "athletics_domain": "ionagaels.com",
+      "reason": "only 0 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "MAAC",
+      "team": "Manhattan",
+      "ncaa_team_id": "596589",
+      "athletics_domain": "gojaspers.com",
+      "reason": "only 3 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "MAAC",
+      "team": "Marist",
+      "ncaa_team_id": "596590",
+      "athletics_domain": "goredfoxes.com",
+      "reason": "only 0 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "MAAC",
+      "team": "Merrimack",
+      "ncaa_team_id": "596458",
+      "athletics_domain": "merrimackathletics.com",
+      "reason": "only 0 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "MAAC",
+      "team": "Mount St. Mary's",
+      "ncaa_team_id": "596611",
+      "athletics_domain": "mountathletics.com",
+      "reason": "only 0 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "MAAC",
+      "team": "Quinnipiac",
+      "ncaa_team_id": "596654",
+      "athletics_domain": "gobobcats.com",
+      "reason": "only 2 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "MAAC",
+      "team": "Rider",
+      "ncaa_team_id": "596659",
+      "athletics_domain": "gobroncs.com",
+      "reason": "only 1 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "MAAC",
+      "team": "Sacred Heart",
+      "ncaa_team_id": "596661",
+      "athletics_domain": "sacredheartpioneers.com",
+      "reason": "only 3 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "MAAC",
+      "team": "Saint Peter's",
+      "ncaa_team_id": "596666",
+      "athletics_domain": "saintpeterspeacocks.com",
+      "reason": "only 0 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "MAAC",
+      "team": "Siena",
+      "ncaa_team_id": "596675",
+      "athletics_domain": "sienasaints.com",
+      "reason": "only 3 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "Northeast",
+      "team": "Central Conn. St.",
+      "ncaa_team_id": "596518",
+      "athletics_domain": "ccsubluedevils.com",
+      "reason": "only 1 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "Northeast",
+      "team": "FDU",
+      "ncaa_team_id": "596541",
+      "athletics_domain": "fduknights.com",
+      "reason": "only 1 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "Northeast",
+      "team": "LIU",
+      "ncaa_team_id": "596711",
+      "athletics_domain": "liuathletics.com",
+      "reason": "only 4 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "Northeast",
+      "team": "Le Moyne",
+      "ncaa_team_id": "596699",
+      "athletics_domain": "lemoynedolphins.com",
+      "reason": "only 0 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "Northeast",
+      "team": "Mercyhurst",
+      "ncaa_team_id": "596906",
+      "athletics_domain": "hurstathletics.com",
+      "reason": "only 0 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "Northeast",
+      "team": "Stonehill",
+      "ncaa_team_id": "596698",
+      "athletics_domain": "stonehillskyhawks.com",
+      "reason": "only 0 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "Northeast",
+      "team": "Wagner",
+      "ncaa_team_id": "596440",
+      "athletics_domain": "wagnerathletics.com",
+      "reason": "only 0 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "Ohio Valley",
+      "team": "Eastern Ill.",
+      "ncaa_team_id": "596537",
+      "athletics_domain": "eiupanthers.com",
+      "reason": "only 3 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "Ohio Valley",
+      "team": "Lindenwood",
+      "ncaa_team_id": "596695",
+      "athletics_domain": "lindenwoodlions.com",
+      "reason": "only 4 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "Ohio Valley",
+      "team": "SIUE",
+      "ncaa_team_id": "596683",
+      "athletics_domain": "siuecougars.com",
+      "reason": "only 4 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "Ohio Valley",
+      "team": "Southeast Mo. St.",
+      "ncaa_team_id": "596718",
+      "athletics_domain": "semoredhawks.com",
+      "reason": "only 4 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "Ohio Valley",
+      "team": "Southern Ind.",
+      "ncaa_team_id": "596697",
+      "athletics_domain": "usiscreamingeagles.com",
+      "reason": "only 4 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "Patriot League",
+      "team": "Army West Point",
+      "ncaa_team_id": "596702",
+      "athletics_domain": "goarmywestpoint.com",
+      "reason": "only 3 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "Patriot League",
+      "team": "Bucknell",
+      "ncaa_team_id": "596502",
+      "athletics_domain": "bucknellbison.com",
+      "reason": "only 4 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "Patriot League",
+      "team": "Holy Cross",
+      "ncaa_team_id": "596559",
+      "athletics_domain": "goholycross.com",
+      "reason": "only 4 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "Patriot League",
+      "team": "Lafayette",
+      "ncaa_team_id": "596578",
+      "athletics_domain": "goleopards.com",
+      "reason": "only 1 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "Patriot League",
+      "team": "Lehigh",
+      "ncaa_team_id": "596580",
+      "athletics_domain": "lehighsports.com",
+      "reason": "only 3 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "Patriot League",
+      "team": "Navy",
+      "ncaa_team_id": "596431",
+      "athletics_domain": "navysports.com",
+      "reason": "only 4 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "SWAC",
+      "team": "Alabama A&M",
+      "ncaa_team_id": "596478",
+      "athletics_domain": "aamusports.com",
+      "reason": "only 0 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "SWAC",
+      "team": "Alabama St.",
+      "ncaa_team_id": "596479",
+      "athletics_domain": "bamastatesports.com",
+      "reason": "only 4 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "SWAC",
+      "team": "Alcorn",
+      "ncaa_team_id": "596483",
+      "athletics_domain": "alcornsports.com",
+      "reason": "only 1 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "SWAC",
+      "team": "Bethune-Cookman",
+      "ncaa_team_id": "596494",
+      "athletics_domain": "bcuathletics.com",
+      "reason": "only 3 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "SWAC",
+      "team": "Florida A&M",
+      "ncaa_team_id": "596542",
+      "athletics_domain": "famuathletics.com",
+      "reason": "only 3 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "SWAC",
+      "team": "Grambling",
+      "ncaa_team_id": "596710",
+      "athletics_domain": "gsutigers.com",
+      "reason": "only 2 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "SWAC",
+      "team": "Jackson St.",
+      "ncaa_team_id": "596570",
+      "athletics_domain": "gojsutigers.com",
+      "reason": "only 2 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "SWAC",
+      "team": "Mississippi Val.",
+      "ncaa_team_id": "596606",
+      "athletics_domain": "mvsusports.com",
+      "reason": "only 0 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "SWAC",
+      "team": "Prairie View",
+      "ncaa_team_id": "596651",
+      "athletics_domain": "pvpanthers.com",
+      "reason": "only 2 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "SWAC",
+      "team": "Southern U.",
+      "ncaa_team_id": "596684",
+      "athletics_domain": "gojagsports.com",
+      "reason": "only 3 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "Southland",
+      "team": "Houston Christian",
+      "ncaa_team_id": "596560",
+      "athletics_domain": "hcuhuskies.com",
+      "reason": "only 4 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "Southland",
+      "team": "LSU New Orleans",
+      "ncaa_team_id": "596624",
+      "athletics_domain": "unoprivateers.com",
+      "reason": "only 1 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "Southland",
+      "team": "McNeese",
+      "ncaa_team_id": "596596",
+      "athletics_domain": "mcneesesports.com",
+      "reason": "only 1 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "Southland",
+      "team": "Northwestern St.",
+      "ncaa_team_id": "596635",
+      "athletics_domain": "nsudemons.com",
+      "reason": "only 1 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "Southland",
+      "team": "SFA",
+      "ncaa_team_id": "596689",
+      "athletics_domain": "sfajacks.com",
+      "reason": "only 4 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "Southland",
+      "team": "Southeastern La.",
+      "ncaa_team_id": "596680",
+      "athletics_domain": "lionsports.net",
+      "reason": "only 1 usable games"
+    },
+    {
+      "tier": "low",
+      "conference": "Southland",
+      "team": "UIW",
+      "ncaa_team_id": "596468",
+      "athletics_domain": "uiwcardinals.com",
+      "reason": "only 3 usable games"
+    }
+  ],
+  "games_indexed": 2264,
+  "quota": {
+    "p4": 14,
+    "mid": 26,
+    "low": 20
+  },
+  "min_games": {
+    "p4": 20,
+    "mid": 8,
+    "low": 5
+  },
+  "max_per_conf": {
+    "p4": 3,
+    "mid": 3,
+    "low": 3
+  }
+}

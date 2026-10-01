@@ -1,0 +1,308 @@
+ncaa_team_id,team
+596471,A&M-Corpus Christi
+596477,Abilene Christian
+596430,Air Force
+596419,Akron
+596480,Alabama
+596478,Alabama A&M
+596479,Alabama St.
+596483,Alcorn
+596484,App State
+596706,Arizona
+596485,Arizona St.
+596466,Ark.-Pine Bluff
+596487,Arkansas
+596486,Arkansas St.
+596702,Army West Point
+596489,Auburn
+596490,Austin Peay
+596499,BYU
+596491,Ball St.
+596493,Baylor
+596693,Bellarmine
+596470,Belmont
+596494,Bethune-Cookman
+596495,Binghamton
+596496,Boston College
+596497,Bowling Green
+596498,Bradley
+596500,Brown
+596501,Bryant
+596502,Bucknell
+596503,Butler
+596505,CSU Bakersfield
+596508,CSUN
+596504,Cal Poly
+596506,Cal St. Fullerton
+596511,California
+596476,California Baptist
+596516,Campbell
+596517,Canisius
+596457,Central Ark.
+596518,Central Conn. St.
+596520,Central Mich.
+596492,Charleston So.
+596615,Charlotte
+596521,Cincinnati
+596523,Clemson
+596524,Coastal Carolina
+596459,Col. of Charleston
+596525,Columbia
+596527,Coppin St.
+596528,Cornell
+596529,Creighton
+596703,DBU
+596530,Dartmouth
+596531,Davidson
+596532,Dayton
+596534,Delaware
+596533,Delaware St.
+596708,Duke
+596536,ETSU
+596535,East Carolina
+596537,Eastern Ill.
+596538,Eastern Ky.
+596539,Eastern Mich.
+596460,Elon
+596709,Evansville
+596541,FDU
+596473,FGCU
+596544,FIU
+596540,Fairfield
+596543,Fla. Atlantic
+596546,Florida
+596542,Florida A&M
+596545,Florida St.
+596547,Fordham
+596707,Fresno St.
+596551,Ga. Southern
+596461,Gardner-Webb
+596548,George Mason
+596549,George Washington
+596550,Georgetown
+596554,Georgia
+596552,Georgia St.
+596553,Georgia Tech
+596555,Gonzaga
+596710,Grambling
+596462,Grand Canyon
+596556,Harvard
+596557,Hawaii
+596705,High Point
+596558,Hofstra
+596559,Holy Cross
+596561,Houston
+596560,Houston Christian
+596563,Illinois
+596562,Illinois St.
+596566,Indiana
+596565,Indiana St.
+596568,Iona
+596569,Iowa
+596570,Jackson St.
+596572,Jacksonville
+596571,Jacksonville St.
+596573,James Madison
+596575,Kansas
+596574,Kansas St.
+596463,Kennesaw St.
+596576,Kent St.
+596577,Kentucky
+596711,LIU
+596587,LMU (CA)
+596583,LSU
+596624,LSU New Orleans
+596578,Lafayette
+596579,Lamar University
+596699,Le Moyne
+596580,Lehigh
+596581,Liberty
+596695,Lindenwood
+596472,Lipscomb
+596488,Little Rock
+596507,Long Beach St.
+596582,Longwood
+596687,Louisiana
+596584,Louisiana Tech
+596585,Louisville
+596588,Maine
+596589,Manhattan
+596590,Marist
+596591,Marshall
+596593,Maryland
+596595,Massachusetts
+596596,McNeese
+596597,Memphis
+596598,Mercer
+596906,Mercyhurst
+596458,Merrimack
+596600,Miami (FL)
+596599,Miami (OH)
+596602,Michigan
+596601,Michigan St.
+596603,Middle Tenn.
+596452,Milwaukee
+596604,Minnesota
+596605,Mississippi St.
+596606,Mississippi Val.
+596608,Missouri
+596685,Missouri St.
+596609,Monmouth
+596610,Morehead St.
+596611,Mount St. Mary's
+596612,Murray St.
+596627,N.C. A&T
+596628,NC State
+596633,NIU
+596621,NJIT
+596431,Navy
+596712,Nebraska
+596620,Nevada
+596623,New Mexico
+596622,New Mexico St.
+596625,Niagara
+596713,Nicholls
+596626,Norfolk St.
+596475,North Ala.
+596614,North Carolina
+596629,North Dakota St.
+596467,North Florida
+596631,Northeastern
+596632,Northern Colo.
+596634,Northern Ky.
+596636,Northwestern
+596635,Northwestern St.
+596637,Notre Dame
+596638,Oakland
+596640,Ohio
+596639,Ohio St.
+596641,Oklahoma
+596714,Oklahoma St.
+596642,Old Dominion
+596607,Ole Miss
+596618,Omaha
+596715,Oral Roberts
+596644,Oregon
+596643,Oregon St.
+596645,Pacific
+596716,Penn
+596647,Penn St.
+596648,Pepperdine
+596649,Pittsburgh
+596650,Portland
+596651,Prairie View
+596464,Presbyterian
+596652,Princeton
+596653,Purdue
+596567,Purdue Fort Wayne
+596696,Queens (NC)
+596654,Quinnipiac
+596655,Radford
+596656,Rhode Island
+596657,Rice
+596658,Richmond
+596659,Rider
+596660,Rutgers
+596689,SFA
+596683,SIUE
+596509,Sacramento St.
+596661,Sacred Heart
+596663,Saint Joseph's
+596664,Saint Louis
+596665,Saint Mary's (CA)
+596666,Saint Peter's
+596667,Sam Houston
+596668,Samford
+596670,San Diego
+596669,San Diego St.
+596671,San Francisco
+596672,San Jose St.
+596673,Santa Clara
+596465,Seattle U
+596674,Seton Hall
+596675,Siena
+596676,South Alabama
+596677,South Carolina
+596678,South Dakota St.
+596679,South Fla.
+596718,Southeast Mo. St.
+596680,Southeastern La.
+596681,Southern California
+596682,Southern Ill.
+596697,Southern Ind.
+596719,Southern Miss.
+596684,Southern U.
+596662,St. Bonaventure
+596717,St. John's (NY)
+596417,St. Thomas (MN)
+596688,Stanford
+596720,Stetson
+596698,Stonehill
+596690,Stony Brook
+596421,TCU
+596700,Tarleton St.
+596721,Tennessee
+596691,Tennessee Tech
+596425,Texas
+596420,Texas A&M
+596422,Texas Southern
+596686,Texas St.
+596423,Texas Tech
+596522,The Citadel
+596427,Toledo
+596428,Towson
+596429,Troy
+596701,Tulane
+596481,UAB
+596482,UAlbany
+596512,UC Davis
+596513,UC Irvine
+596515,UC Riverside
+596694,UC San Diego
+596510,UC Santa Barbara
+596519,UCF
+596514,UCLA
+596526,UConn
+596564,UIC
+596468,UIW
+596630,ULM
+596592,UMBC
+596594,UMES
+596586,UMass Lowell
+596613,UNC Asheville
+596616,UNC Greensboro
+596617,UNCW
+596619,UNLV
+596469,USC Upstate
+596424,UT Arlington
+596692,UT Martin
+596646,UTRGV
+596426,UTSA
+596432,Utah
+596418,Utah Tech
+596474,Utah Valley
+596436,VCU
+596437,VMI
+596433,Valparaiso
+596434,Vanderbilt
+596435,Villanova
+596439,Virginia
+596438,Virginia Tech
+596440,Wagner
+596441,Wake Forest
+596443,Washington
+596442,Washington St.
+596947,West Ga.
+596444,West Virginia
+596445,Western Caro.
+596446,Western Ill.
+596447,Western Ky.
+596448,Western Mich.
+596449,Wichita St.
+596450,William & Mary
+596451,Winthrop
+596704,Wofford
+596453,Wright St.
+596454,Xavier
+596455,Yale
+596456,Youngstown St.
