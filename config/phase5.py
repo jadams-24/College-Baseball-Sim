@@ -13,6 +13,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 PITCH = ROOT / "data/ncaa_2025/derived/phase5_pitch_2025.json"
+SOLVED = ROOT / "data/ncaa_2025/derived/phase5_chain_solved_2025.json"
 
 EVENTS = ("B", "K", "S", "F", "P", "H", "N")
 BIP_RESULTS = ("HR", "1B", "2B", "3B", "ROE", "OUT")
@@ -30,3 +31,8 @@ MAX_PITCHES_HIST = 10
 
 def load() -> dict:
     return json.loads(PITCH.read_text())
+
+
+def load_solved() -> dict | None:
+    """The league base chain solved so the simulated league's pitch events by count equal the data's."""
+    return json.loads(SOLVED.read_text()) if SOLVED.exists() else None

@@ -17,7 +17,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from config import phase2  # noqa: E402
 from config.phase5 import BIP_RESULTS, OUTCOMES  # noqa: E402
-from config.phase5 import load as load_pitch  # noqa: E402
+from config.phase5 import load as load_pitch, load_solved  # noqa: E402
 from engine.league import load_location  # noqa: E402
 from engine.matchup import matchup_probs  # noqa: E402
 from engine.pitch import PitchModel  # noqa: E402
@@ -45,7 +45,7 @@ def run(seasons: int, seed: int, workers: int) -> tuple:
 def chain_info(agg2: dict) -> dict:
     cfg = phase2.load()
     lp = matchup_probs(cfg, np.zeros(len(cfg.v_bat)), np.zeros(len(cfg.v_bat)), load_location())
-    pm = PitchModel(load_pitch())
+    pm = PitchModel(load_pitch(), load_solved())
     cl = dict(zip(OUTCOMES, pm.chain_league))
     return {"J": np.round(pm.J, 3).tolist(),
             "chain_league": {"K": cl["K"], "BB": cl["BB"], "HBP": cl["HBP"], "BIP": sum(cl[o] for o in BIP_RESULTS)},

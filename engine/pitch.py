@@ -47,10 +47,13 @@ def _logit(p):
 
 
 class PitchModel:
-    def __init__(self, data: dict):
+    def __init__(self, data: dict, solved: dict | None = None):
         ch = data["chain"]
         assert tuple(ch["events"]) == EVENTS and tuple(ch["bip_results"]) == BIP_RESULTS
-        self.q0 = np.array([ch["by_count"][f"{b}-{s}"] for b, s in COUNTS], float)
+        # base chain: the solved league chain (scripts/solve_phase5_chain.py) when present, else the
+        # data's pooled per-count event shares
+        base = (solved or {}).get("by_count") or ch["by_count"]
+        self.q0 = np.array([base[f"{b}-{s}"] for b, s in COUNTS], float)
         self.r = [list(map(float, ch["bip_by_count"][f"{b}-{s}"])) for b, s in COUNTS]
         dirs = ch["directions"]
         self.U = {}

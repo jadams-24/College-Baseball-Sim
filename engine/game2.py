@@ -29,7 +29,7 @@ import numpy as np
 from config.phase1 import IN_PLAY_OUT_CLASS, MIN_CELL_N, PRE_PA_EVENTS, RESULTS
 from config.phase2 import Phase2Config
 from config.phase5 import MAX_PITCHES_HIST, OUTCOMES as PITCH_OUTCOMES
-from config.phase5 import load as load_pitch
+from config.phase5 import load as load_pitch, load_solved
 from engine.decider import Decision
 from engine.matchup import OUTCOMES, matchup_probs
 from engine.pitch import COUNTS as PITCH_COUNTS, PitchModel
@@ -53,6 +53,7 @@ _HITS = frozenset(_CELL_IDX[r] for r in ("1B", "2B", "3B"))
 _OUT = _CELL_IDX["OUT"]
 _PITCH_O = {o: i for i, o in enumerate(PITCH_OUTCOMES)}   # in-play outs of every subtype are OUT
 _EV6 = {e: i for i, e in enumerate("BKSFPH")}
+_EV7 = {e: i for i, e in enumerate("BKSFPHN")}            # config.phase5.EVENTS order
 _K, _BB = 0, 1                                             # rate order of the logit offsets (config.phase2.RATES)
 
 
@@ -124,12 +125,13 @@ class PlayerGameEngine:
         self.home_bat = eta * np.array(cfg.v_bat)
         self.home_pit = eta * np.array(cfg.v_pit)
         # Phase 5: pitch sequences from the count-state chain conditioned on the PA outcome
-        self.pitch = PitchModel(load_pitch())
+        self.pitch = PitchModel(load_pitch(), load_solved())
         self.tilt_cache: dict = {}
         self.q_cache: dict = {}
         self.pitch_rec = {"hist": np.zeros(MAX_PITCHES_HIST + 1, dtype=np.int64), "n_pa": 0, "pitches": 0, "fps": 0, "k2p": 0, "k2f": 0,
                           "reach": np.zeros(12, dtype=np.int64), "ab": np.zeros(12, dtype=np.int64), "h": np.zeros(12, dtype=np.int64),
-                          "k": np.zeros(12, dtype=np.int64), "bb": np.zeros(12, dtype=np.int64)}
+                          "k": np.zeros(12, dtype=np.int64), "bb": np.zeros(12, dtype=np.int64),
+                          "ev": np.zeros((12, 7), dtype=np.int64)}                  # pitch events by count before the pitch
         self.player_pitch = np.zeros((n_players, 6), dtype=np.int64)   # per player (as batter or pitcher): B, K, S, F, P, H
         self.starts: list = []                                        # (pitches, outs on his plate appearances, weekend)
 
@@ -314,8 +316,10 @@ class PlayerGameEngine:
         b = s = 0
         seen = set()
         pp, bp = self.player_pitch[pitcher.pid], self.player_pitch[batter.pid]
+        ev = pr["ev"]
         for c in seq:
             seen.add(b * 3 + s)
+            ev[b * 3 + s, _EV7[c]] += 1
             if c != "N":
                 ei = _EV6[c]
                 pp[ei] += 1; bp[ei] += 1
