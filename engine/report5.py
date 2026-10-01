@@ -155,7 +155,7 @@ def build_report5(agg: dict, seeds: list, league: dict, league_se: dict, st2: di
           "League rates of this run against the merged Phase 4 run (reports/phase4_baseline.json), tolerance 3 SE of the difference.", "",
           "| Metric | Phase 5 | Phase 4 | Tol | Status |", "|---|---|---|---|---|", *pa_lines, "",
           "## Informational", "",
-          f"- Chain tilt Jacobian (rows d logit P(K), P(BB), P(HBP); columns tilts on swinging strikes, balls, HBP): {info['J']}. "
+          f"- Correction Jacobian (rows d logit P(K), P(BB), P(HBP) at the league chain; columns the average batter-pitcher K direction, BB direction and the HBP event): {info['J']}. "
           f"League chain without conditioning: K {info['chain_league']['K']:.4f}, BB {info['chain_league']['BB']:.4f}, HBP {info['chain_league']['HBP']:.4f}, "
           f"in play {info['chain_league']['BIP']:.4f}; PA model at league average: K {info['pa_league']['K']:.4f}, BB {info['pa_league']['BB']:.4f}, "
           f"HBP {info['pa_league']['HBP']:.4f}, in play {info['pa_league']['BIP']:.4f}.",

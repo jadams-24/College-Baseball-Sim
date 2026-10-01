@@ -143,6 +143,37 @@ CI now runs the report's own 20 seasons and seeds, and checks that the committed
 - The empirical-Bayes estimator stays in the report as informational: the future scouting estimator for Phase 9, with the workload-selection diagnosis above.
 - Pitchers with 50+ IP (870.5 vs 882) now passes. It stays in the Phase 6 deferred table, marked currently passing, because swingman relief may still move it.
 
+### Phase 5: pitch-by-pitch (2026-10-01)
+
+**What the data supports.** Every action of the 2,264 WMT games was audited. Each plate appearance has a pitch sequence over B (ball), K (called strike), S (swinging strike), F (foul), P (in play) and H (hit by pitch), the final count, the pitch count and a strikeout-looking flag. There is no pitch type, velocity or location, so the model has none. Zone and chase cannot be separated: Control and Eye move balls and takes, Stuff and Avoid K move whiffs against contact.
+
+**Cleaning** (`scripts/build_phase5_benchmarks.py`). A P before the last pitch changes neither balls nor strikes but is in the official pitch count; 2,598 such pitches are kept as neutral pitches (N). 682 HBPs coded with a final P are read as H. Intentional walks and catcher's interference (431) are excluded, as are 5,056 PAs with no sequence and 646 that break the count rules. 171,592 of 178,073 PAs are used, reweighted to the D1 tier mix, with standard errors from a bootstrap over games.
+
+**Benchmarks** (`pitch_level_2025`, conf B, new block, no existing value changed). These cover pitches per PA and their distribution, count reach, BA / K% / BB% of PAs passing through each count, first-pitch strike rate, foul rate with two strikes, and pitches (mean, p10, p50, p90) and innings per start, weekend and midweek. The Phase 0 Trackman first-pitch strike rate (.574, `pitch_level_2023_2025`) is kept but not gated. It counts differently from the play-by-play the engine is built on (.582 here, first pitch not a ball or HBP).
+
+**Model** (`engine/pitch.py`). The PA outcome is drawn first from the unchanged Phase 4 matchup model, so PA totals cannot move. The pitch sequence is then drawn from a count-state chain conditioned exactly on that outcome (Doob h-transform).
+- Player effects follow directions measured in the data. A split-half regression gives each side's per-pitch event rates (ball, called strike, whiff, foul, in play) on true K% and BB%, with binomial noise removed by the cross-half covariance. For example, a patient batter takes more: more balls and called strikes, fewer whiffs, fouls and balls in play.
+- A small correction along the average directions makes each matchup's chain reproduce its own K, BB and HBP rates, so the conditioning only shapes the batted-ball side.
+- The league base chain is solved (`scripts/solve_phase5_chain.py`) so the simulated league's per-count event shares equal the data's (max gap .002). The pooled data shares already average over players, and tilting them again had left pitches per PA at 3.76 against 3.81.
+- Ball-in-play results by count come from the data's shares at the count of contact.
+- The pull hazard now reads the simulated pitch counts.
+
+**Gate result (20 seasons): FAIL on one row, explained; not changed.** Every other Phase 5 row passes:
+- pitches per PA 3.815 vs 3.805;
+- every count-reach and outcome-by-count row;
+- first-pitch strike rate .580 vs .582;
+- two-strike foul rate .207 vs .208;
+- weekend pitches and innings per start;
+- midweek mean, p50, p90 and innings.
+
+Every PA-level rate is unchanged from Phase 4, every Phase 1 and Phase 2 row passes, and so does the Phase 4 forward ratings test. 50+ IP is 879.4 (real 882). The failing row is midweek starter pitch count p10, 22.0 against 27.0 ± 3.7:
+- The benchmark is reweighted by batting-tier × pitching-tier cell. Low-vs-low gets 19.6% of the weight from only 15 midweek starts, the shortest of which is 28 pitches, so that cell's 10th percentile is not identified.
+- A bootstrap of 15 starts with a minimum of 28 never produces a shorter one, so the row's standard error is understated.
+- Every well-populated cell has p10 21.5–25 (mid-vs-mid 23.0 on 184 starts, P4-vs-mid 23.5 on 276); P4-vs-P4 is 31 (252 starts). The raw sample is 24.
+- The engine's pull hazards are tier-blind (pooled over the raw sample), so the sim (22) sits near the raw value. Low-tier staffs leaving midweek starters in longer is tier-dependent manager behaviour.
+
+Left for the project owner (PR description).
+
 ## Bibliography
 
 - FanGraphs, Michael Baumann, "The Ridiculous Firewagon Offenses of College Baseball," Feb 13, 2026 — https://blogs.fangraphs.com/the-ridiculous-firewagon-offenses-of-college-baseball/

@@ -85,6 +85,17 @@ uncertainty. Values derived from this sample are conf B in `benchmarks.json`.
 - `phase4_rating_scale_2025.json` (`scripts/build_phase4_scale.py`): the PA- or BF-weighted D1 mean and true SD of each rated rate (the 20-80 scale), from 8 simulated calibration seasons of the Phase 2 talent distributions.
 - Both are written into `benchmarks.json` (`stamina_2025`, `ratings_scale_2025`) by `scripts/write_phase4_benchmarks.py`; changes are logged in `benchmark_changes_phase4.json`.
 
+## data/ncaa_2025/derived/ — Phase 5 inputs
+
+- `phase5_pitch_2025.json` (`scripts/build_phase5_benchmarks.py`): from the pitch sequences in `pbp/parsed/pa_events_2025.csv.gz`, reweighted to the D1 tier mix. Contents:
+  - the pitch chain: events by count, and ball-in-play results by count of contact;
+  - player directions: per-pitch event rates on true K% and BB%, split halves;
+  - qualified players' pitch profiles;
+  - the pitch-level benchmarks, with bootstrap SEs over games;
+  - the cleaning counts. No pitch type, velocity or location exists in the source.
+- `phase5_chain_solved_2025.json` (`scripts/solve_phase5_chain.py`): the league base chain solved so simulated per-count event shares equal the data's (seeds 950001–950004).
+- Written into `benchmarks.json` as `pitch_level_2025` by `scripts/write_phase5_benchmarks.py`; change logged in `benchmark_changes_phase5.json`.
+
 ## data/ncaa_2025/rosters/ — 2025 rosters with bats/throws (to be supplied)
 
 - Produced by `tools/fetch_rosters.py`, run by the project owner on their own machine (school athletics sites refuse this container). One CSV: team_ncaa_id, team, name, jersey, position, class, bats, throws, source_url (see `tools/README.md`). Scope: the 283 teams in the WMT play-by-play sample (`tools/roster_teams.csv`). Phase 3 (handedness) starts once it is committed here.
