@@ -1,5 +1,5 @@
 {
- "_note": "Phase 5 inputs and benchmarks: pitch sequences from the 2025 WMT play-by-play.\n\nWhat the data has (audit of every action in data/ncaa_2025/pbp/raw, 2,264 games): per plate\nappearance a pitch sequence over B (ball), K (called strike), S (swinging strike), F (foul),\nP (ball put in play) and H (hit by pitch), the final balls and strikes, the pitch count and a\nstrikeout-looking flag. No pitch type, velocity or location anywhere. So the pitch model can\nknow take/swing outcomes (ball, called strike, whiff, foul, in play, HBP) by count, nothing about\nlocation or pitch mix.\n\nCleaning (per plate appearance):\n  - a P before the last pitch changes neither balls nor strikes (e.g. PFBSBS is a strikeout,\n    FFFBFBFBPS is not a walk) and is counted in the official pitch count: a pitch with no\n    ball/strike call recorded. It is kept as a neutral pitch, N.\n  - an HBP whose last symbol is P (11.7% of HBPs, feed coding) ends in H.\n  - intentional walks are excluded (mostly automatic, no pitches) and so are catcher's interference\n    and sequences that break the count rules (0.4%); plate appearances without a sequence (2.8%)\n    are excluded.\nEverything is reweighted by batting-tier x pitching-tier cell to the full-season D1 matchup mix\n(as in scripts/build_pbp_benchmarks.py). Standard errors: bootstrap over games (game clusters),\nreweighting inside each replicate.\n\nOutputs: data/ncaa_2025/derived/phase5_pitch_2025.json\n  chain        pitch events by count (B, K, S, F, P, H, N) and batted-ball results by count of contact\n  benchmarks   pitches per PA (mean, distribution), count reach, BA/K%/BB% after each count, first-pitch\n               strike rate, foul rate with two strikes, pitches and innings per start (weekend, midweek)\n",
+ "_note": "Phase 5 inputs and benchmarks: pitch sequences from the 2025 WMT play-by-play.\n\nWhat the data has (audit of every action in data/ncaa_2025/pbp/raw, 2,264 games): per plate\nappearance a pitch sequence over B (ball), K (called strike), S (swinging strike), F (foul),\nP (ball put in play) and H (hit by pitch), the final balls and strikes, the pitch count and a\nstrikeout-looking flag. No pitch type, velocity or location anywhere. So the pitch model can\nknow take/swing outcomes (ball, called strike, whiff, foul, in play, HBP) by count, nothing about\nlocation or pitch mix.\n\nCleaning (per plate appearance):\n  - a P before the last pitch changes neither balls nor strikes (e.g. PFBSBS is a strikeout,\n    FFFBFBFBPS is not a walk) and is counted in the official pitch count: a pitch with no\n    ball/strike call recorded. It is kept as a neutral pitch, N.\n  - an HBP whose last symbol is P (11.7% of HBPs, feed coding) ends in H.\n  - intentional walks are excluded (mostly automatic, no pitches) and so are catcher's interference\n    and sequences that break the count rules (0.4%); plate appearances without a sequence (2.8%)\n    are excluded.\nEverything is reweighted by batting-tier x pitching-tier cell to the full-season D1 matchup mix\n(as in scripts/build_pbp_benchmarks.py). For the starter pitch-count percentiles, cells with fewer\nthan config.benchmarks.MIN_CELL_N_PERCENTILE starts are pooled with their nearest cells first\n(scripts/lib/pooling.py); the unpooled values are kept for the record. Standard errors: bootstrap over games (game clusters),\nreweighting inside each replicate.\n\nOutputs: data/ncaa_2025/derived/phase5_pitch_2025.json\n  chain        pitch events by count (B, K, S, F, P, H, N) and batted-ball results by count of contact\n  benchmarks   pitches per PA (mean, distribution), count reach, BA/K%/BB% after each count, first-pitch\n               strike rate, foul rate with two strikes, pitches and innings per start (weekend, midweek)\n",
  "built": "2026-10-01",
  "src": "WMT stats API play-by-play 2025, data/ncaa_2025/pbp (fetched 2026-10-01)",
  "cleaning": {
@@ -683,16 +683,16 @@
    "se": 0.08132
   },
   "pitches_per_start_weekend_p10": {
-   "value": 46.0,
-   "se": 2.89042
+   "value": 47.0,
+   "se": 2.42474
   },
   "pitches_per_start_weekend_p50": {
    "value": 82.0,
-   "se": 1.07857
+   "se": 0.90025
   },
   "pitches_per_start_weekend_p90": {
-   "value": 104.0,
-   "se": 0.88367
+   "value": 103.0,
+   "se": 0.61603
   },
   "pitches_per_start_midweek": {
    "value": 57.60716,
@@ -703,16 +703,93 @@
    "se": 0.11751
   },
   "pitches_per_start_midweek_p10": {
-   "value": 27.0,
-   "se": 1.24035
+   "value": 26.0,
+   "se": 1.30402
   },
   "pitches_per_start_midweek_p50": {
-   "value": 54.0,
-   "se": 2.41935
+   "value": 52.0,
+   "se": 1.75395
   },
   "pitches_per_start_midweek_p90": {
    "value": 94.0,
-   "se": 2.36821
+   "se": 1.93091
+  }
+ },
+ "percentile_pooling": {
+  "floor": 50,
+  "starts_cells": {
+   "weekend": {
+    "p4_vs_p4": 1389,
+    "mid_vs_mid": 595,
+    "p4_vs_mid": 273,
+    "mid_vs_p4": 271,
+    "p4_vs_low": 108,
+    "low_vs_p4": 105,
+    "low_vs_low": 45,
+    "low_vs_mid": 42,
+    "mid_vs_low": 38
+   },
+   "midweek": {
+    "mid_vs_p4": 286,
+    "p4_vs_mid": 276,
+    "p4_vs_p4": 252,
+    "mid_vs_mid": 184,
+    "low_vs_p4": 80,
+    "p4_vs_low": 78,
+    "low_vs_mid": 18,
+    "mid_vs_low": 17,
+    "low_vs_low": 15
+   }
+  },
+  "pooled_groups": {
+   "weekend": [
+    {
+     "cells": [
+      "low_vs_low",
+      "mid_vs_low",
+      "low_vs_mid"
+     ],
+     "n": 125,
+     "weight": 0.3103
+    }
+   ],
+   "midweek": [
+    {
+     "cells": [
+      "mid_vs_low",
+      "low_vs_low",
+      "low_vs_mid"
+     ],
+     "n": 50,
+     "weight": 0.3103
+    }
+   ]
+  },
+  "unpooled_values": {
+   "pitches_per_start_weekend_p10": {
+    "value": 46.0,
+    "se": 2.89042
+   },
+   "pitches_per_start_weekend_p50": {
+    "value": 82.0,
+    "se": 1.07857
+   },
+   "pitches_per_start_weekend_p90": {
+    "value": 104.0,
+    "se": 0.88367
+   },
+   "pitches_per_start_midweek_p10": {
+    "value": 27.0,
+    "se": 1.24035
+   },
+   "pitches_per_start_midweek_p50": {
+    "value": 54.0,
+    "se": 2.41935
+   },
+   "pitches_per_start_midweek_p90": {
+    "value": 94.0,
+    "se": 2.36821
+   }
   }
  }
 }

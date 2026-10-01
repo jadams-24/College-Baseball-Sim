@@ -944,13 +944,33 @@
     "bb_after_3-2": {"value": 0.35836, "tol": 0.01869},
     "pitches_per_start_weekend": {"value": 78.50433, "tol": 2.95626},
     "ip_per_start_weekend": {"value": 4.46465, "tol": 0.24396},
-    "pitches_per_start_weekend_p10": {"value": 46.0, "tol": 8.67126},
-    "pitches_per_start_weekend_p50": {"value": 82.0, "tol": 3.23571},
-    "pitches_per_start_weekend_p90": {"value": 104.0, "tol": 2.65101},
+    "pitches_per_start_weekend_p10": {"value": 47.0, "tol": 7.27422},
+    "pitches_per_start_weekend_p50": {"value": 82.0, "tol": 2.70075},
+    "pitches_per_start_weekend_p90": {"value": 103.0, "tol": 1.84809},
     "pitches_per_start_midweek": {"value": 57.60716, "tol": 5.07168},
     "ip_per_start_midweek": {"value": 3.24412, "tol": 0.35253},
-    "pitches_per_start_midweek_p10": {"value": 27.0, "tol": 3.72105},
-    "pitches_per_start_midweek_p50": {"value": 54.0, "tol": 7.25805},
-    "pitches_per_start_midweek_p90": {"value": 94.0, "tol": 7.10463}
+    "pitches_per_start_midweek_p10": {"value": 26.0, "tol": 3.91206, "gate": "phase6"},
+    "pitches_per_start_midweek_p50": {"value": 52.0, "tol": 5.26185},
+    "pitches_per_start_midweek_p90": {"value": 94.0, "tol": 5.79273},
+    "percentile_pooling": {
+      "floor": 50,
+      "pooled_groups": {
+        "weekend": [
+          {
+            "cells": ["low_vs_low", "mid_vs_low", "low_vs_mid"],
+            "n": 125,
+            "weight": 0.3103
+          }
+        ],
+        "midweek": [
+          {
+            "cells": ["mid_vs_low", "low_vs_low", "low_vs_mid"],
+            "n": 50,
+            "weight": 0.3103
+          }
+        ]
+      },
+      "note": "Starter pitch-count percentiles: tier-pair cells with fewer starts than the floor are pooled with their nearest cells before reweighting (scripts/lib/pooling.py)."
+    }
   }
 }
