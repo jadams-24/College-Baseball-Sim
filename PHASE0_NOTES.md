@@ -174,6 +174,12 @@ Every PA-level rate is unchanged from Phase 4, every Phase 1 and Phase 2 row pas
 
 Left for the project owner (PR description).
 
+**Gate revised and passed (2026-10-01, project owner decisions on PR #7).** Two changes were made.
+- Midweek starter p10 moved to the Phase 6 deferred table. Pull decisions ignore tier, and low-tier managers leave midweek starters in longer.
+- Sparse tier cells in reweighted percentile benchmarks are now pooled (below).
+
+On the report's 20 seasons every gated Phase 5 row passes, every PA-level rate is unchanged from Phase 4, every Phase 1 and Phase 2 row passes, and the Phase 4 forward ratings test passes. Midweek p10 is reported at 22.0 against the pooled 26.0 ± 3.9. Two deferred rows now pass because their benchmarks moved: qualified K/9 p50 (8.58 vs 7.88 ± .93) and p90 (11.69 vs 10.56 ± 1.32). They stay deferred, because their cause (an ace-heavy qualified group) is unchanged.
+
 ### Sparse-cell pooling for tier-reweighted percentiles (2026-10-01, project owner decision on PR #7)
 
 **Rule** (`scripts/lib/pooling.py`, floor `config.benchmarks.MIN_CELL_N_PERCENTILE` = 50). In a tier-reweighted percentile benchmark, a tier cell (a tier, or a batting-tier × pitching-tier pair) with fewer than 50 observations is pooled with its nearest cell before reweighting.

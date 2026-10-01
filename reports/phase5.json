@@ -293,7 +293,7 @@
   "p5_pitches_per_start_weekend_p90": true,
   "p5_ip_per_start_weekend": true,
   "p5_pitches_per_start_midweek": true,
-  "p5_pitches_per_start_midweek_p10": false,
+  "p5_pitches_per_start_midweek_p10": null,
   "p5_pitches_per_start_midweek_p50": true,
   "p5_pitches_per_start_midweek_p90": true,
   "p5_ip_per_start_midweek": true,

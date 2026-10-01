@@ -3,7 +3,7 @@
 20 simulated seasons, seeds 20251000–20251019 (the Phase 4 report's league and seeds). Generated 2026-10-01.
 Each plate appearance's outcome comes from the unchanged Phase 4 matchup model. Its pitch sequence comes from a count-state pitch chain conditioned on that outcome (engine/pitch.py), so PA-level rates cannot move. Pitch events by count, batted-ball results by count of contact and every benchmark below come from the 2025 WMT play-by-play pitch sequences, reweighted to the D1 tier mix. Tolerances combine 3 SE of the benchmark (bootstrap over games) with 3 SE of the simulated mean at the number of seasons run. The starter's pull hazard now reads these simulated pitch counts.
 
-## Gate: **FAIL**
+## Gate: **PASS**
 
 Phase 1 and Phase 2 gate rows on the same run: **pass** (reports/phase2.md). Phase 4 forward ratings test on the same run: **pass** (reports/phase4.md).
 
@@ -90,19 +90,19 @@ BA is hits per at-bat, K% and BB% per PA, among the PAs that reach the count at 
 
 ## Starts
 
-Pitches are the starter's pitches on completed plate appearances; innings are the outs on his plate appearances / 3 (as in the data). The pull hazard (Phase 2 usage tables, Stamina leash from Phase 4) now reads the simulated pitch counts.
+Pitches are the starter's pitches on completed plate appearances; innings are the outs on the starter's plate appearances / 3 (as in the data). Midweek p10 is a Phase 6 row (CLAUDE.md deferred rows): the pull hazards ignore tier, and low-tier staffs leave midweek starters in longer. The pull hazard (Phase 2 usage tables, Stamina leash from Phase 4) now reads the simulated pitch counts.
 
 | Metric | Sim | Data | Tol | Status |
 |---|---|---|---|---|
 | Pitches per start, weekend | 77.1 | 78.5 | ±3.0 | pass |
-| Pitches per start, weekend, p10 | 45.0 | 46.0 | ±8.7 | pass |
-| Pitches per start, weekend, p50 | 80.0 | 82.0 | ±3.2 | pass |
-| Pitches per start, weekend, p90 | 103.9 | 104.0 | ±2.7 | pass |
+| Pitches per start, weekend, p10 | 45.0 | 47.0 | ±7.3 | pass |
+| Pitches per start, weekend, p50 | 80.0 | 82.0 | ±2.7 | pass |
+| Pitches per start, weekend, p90 | 103.9 | 103.0 | ±1.9 | pass |
 | Innings per start, weekend | 4.377 | 4.465 | ±0.245 | pass |
 | Pitches per start, midweek | 53.4 | 57.6 | ±5.1 | pass |
-| Pitches per start, midweek, p10 | 22.0 | 27.0 | ±3.7 | FAIL |
-| Pitches per start, midweek, p50 | 48.8 | 54.0 | ±7.3 | pass |
-| Pitches per start, midweek, p90 | 93.6 | 94.0 | ±7.1 | pass |
+| Pitches per start, midweek, p10 | 22.0 | 26.0 | ±3.9 | FAIL (Phase 6) |
+| Pitches per start, midweek, p50 | 48.8 | 52.0 | ±5.3 | pass |
+| Pitches per start, midweek, p90 | 93.6 | 94.0 | ±5.8 | pass |
 | Innings per start, midweek | 2.949 | 3.244 | ±0.353 | pass |
 
 ## PA-level outcomes unchanged from Phase 4

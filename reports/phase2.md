@@ -98,27 +98,27 @@ Qualified per team: batters sim 6.62 vs data 7.56; pitchers sim 2.03 vs data 2.2
 
 | Metric | Sim | Benchmark | Tol | Conf | Gate | Status |
 |---|---|---|---|---|---|---|
-| BA p10 | 0.2372 | 0.2370 | ±0.0186 | B | yes | pass |
-| BA p50 | 0.2916 | 0.2953 | ±0.0149 | B | yes | pass |
-| BA p90 | 0.3475 | 0.3505 | ±0.0169 | B | yes | pass |
-| OBP p10 | 0.3289 | 0.3363 | ±0.0091 | B | yes | pass |
-| OBP p50 | 0.3875 | 0.3880 | ±0.0115 | B | yes | pass |
-| OBP p90 | 0.4471 | 0.4477 | ±0.0126 | B | yes | pass |
-| ISO p10 | 0.0867 | 0.0755 | ±0.0175 | B | yes | pass |
-| ISO p50 | 0.1625 | 0.1632 | ±0.0179 | B | yes | pass |
-| ISO p90 | 0.2776 | 0.2746 | ±0.0395 | B | yes | pass |
-| K_pct p10 | 0.1179 | 0.1064 | ±0.0274 | B | yes | pass |
-| K_pct p50 | 0.1827 | 0.1831 | ±0.0165 | B | yes | pass |
-| K_pct p90 | 0.2632 | 0.2691 | ±0.0452 | B | yes | pass |
-| BB_pct p10 | 0.0657 | 0.0663 | ±0.0099 | B | yes | pass |
-| BB_pct p50 | 0.1028 | 0.1077 | ±0.0151 | B | yes | pass |
-| BB_pct p90 | 0.1497 | 0.1544 | ±0.0147 | B | yes | pass |
-| ERA p10 | 3.14 | 3.41 | ±0.679 | B | yes | pass |
-| ERA p50 | 4.99 | 5.09 | ±0.657 | B | yes | pass |
-| ERA p90 | 7.50 | 7.69 | ±1.369 | B | yes | pass |
-| K9 p10 | 5.89 | 5.82 | ±0.759 | B | yes | pass |
-| K9 p50 | 8.58 | 7.66 | ±0.785 | B | Phase 6 | FAIL |
-| K9 p90 | 11.69 | 10.54 | ±1.193 | B | Phase 6 | pass |
+| BA p10 | 0.2372 | 0.2385 | ±0.0136 | B | yes | pass |
+| BA p50 | 0.2916 | 0.2959 | ±0.0149 | B | yes | pass |
+| BA p90 | 0.3475 | 0.3533 | ±0.0170 | B | yes | pass |
+| OBP p10 | 0.3289 | 0.3366 | ±0.0108 | B | yes | pass |
+| OBP p50 | 0.3875 | 0.3889 | ±0.0135 | B | yes | pass |
+| OBP p90 | 0.4471 | 0.4487 | ±0.0129 | B | yes | pass |
+| ISO p10 | 0.0867 | 0.0755 | ±0.0189 | B | yes | pass |
+| ISO p50 | 0.1625 | 0.1667 | ±0.0199 | B | yes | pass |
+| ISO p90 | 0.2776 | 0.2775 | ±0.0407 | B | yes | pass |
+| K_pct p10 | 0.1179 | 0.1075 | ±0.0250 | B | yes | pass |
+| K_pct p50 | 0.1827 | 0.1829 | ±0.0140 | B | yes | pass |
+| K_pct p90 | 0.2632 | 0.2689 | ±0.0411 | B | yes | pass |
+| BB_pct p10 | 0.0657 | 0.0668 | ±0.0106 | B | yes | pass |
+| BB_pct p50 | 0.1028 | 0.1058 | ±0.0136 | B | yes | pass |
+| BB_pct p90 | 0.1497 | 0.1584 | ±0.0160 | B | yes | pass |
+| ERA p10 | 3.14 | 3.41 | ±0.621 | B | yes | pass |
+| ERA p50 | 4.99 | 5.12 | ±0.666 | B | yes | pass |
+| ERA p90 | 7.50 | 7.64 | ±1.276 | B | yes | pass |
+| K9 p10 | 5.89 | 5.72 | ±0.676 | B | yes | pass |
+| K9 p50 | 8.58 | 7.88 | ±0.932 | B | Phase 6 | pass |
+| K9 p90 | 11.69 | 10.56 | ±1.315 | B | Phase 6 | pass |
 
 ## Leaderboards (full-population extremes)
 
