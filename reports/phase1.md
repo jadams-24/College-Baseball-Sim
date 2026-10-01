@@ -7,7 +7,7 @@ Gate rows are the Phase 1 gate (R/G, BA, OBP, SLG, runs-per-half-inning distribu
 |---|---|---|---|---|---|---|
 | Runs per team-game | 6.79 | 6.75 | ±0.15 | B | yes | pass |
 | Batting average | 0.2832 | 0.2800 | ±0.005 | B | yes | pass |
-| On-base pct | 0.3811 | 0.3850 | ±0.005 | B | yes | pass |
+| On-base pct | 0.3811 | 0.3805 | ±0.005 | B | yes | pass |
 | Slugging pct | 0.4420 | 0.4400 | ±0.01 | B | yes | pass |
 | HR per team-game | 1.07 | 1.05 | ±0.05 | B |  | pass |
 | SB per team-game | 1.22 | 1.29 | ±0.1 | B |  | pass |
@@ -20,7 +20,7 @@ Gate rows are the Phase 1 gate (R/G, BA, OBP, SLG, runs-per-half-inning distribu
 | SF per team-game | 0.4232 | 0.3680 | ±0.08 | B |  | pass |
 | PA per team-game | 41.42 | 40.31 | ±1.0 | B |  | FAIL |
 | SB success rate | 0.7876 | 0.7600 | ±0.03 | B |  | pass |
-| Run-rule frequency (Phase 2 gate) | 0.0648 | 0.1524 | — | B |  | n/a |
+| Run-rule frequency (Phase 2 gate) | 0.0648 | 0.1524 | ±0.0155 | B |  | FAIL |
 | Big-inning frequency (3+ runs) | 0.1034 | 0.1031 | ±0.0091 | A | yes | pass |
 | PA per half-inning | 4.69 | 4.69 | ±0.053 | A | yes | pass |
 

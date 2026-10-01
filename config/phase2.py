@@ -54,6 +54,25 @@ ROTATION_STAFF = (("weekend_sp", 0), ("weekend_sp", 1), ("weekend_sp", 2), ("mid
 # matching usage.weekend_starter_pull_by_rank in phase2_inputs_2025.json.
 SPOT_STARTER_RANK = 4
 
+# Gate tolerances. Benchmark tolerances are 3 standard errors of the real statistic; the
+# simulated value has its own standard error at the number of seasons run (season-to-season
+# SD / sqrt(n)). A gate row's tolerance combines both: sqrt(tol_bench^2 + (3 * se_sim)^2).
+# Leaderboard rows compare one real season with the simulated seasons: Student-t
+# prediction interval at the central 95% stated in leaderboards_2025.
+GATE_SE_MULTIPLE = 3
+LEADERBOARD_PI = 0.95
+
+# Gate rows moved to the Phase 6 gate by the project owner (PR #4 review): their causes are
+# built in Phase 6. Reported every run, not gated here. See CLAUDE.md, Phase 6 deferred rows.
+DEFERRED_TO_PHASE6 = {
+    "run_rule": "game-to-game variance: parks/weather, bullpen availability, lineup changes, blowout substitutions",
+    "run_histogram_15plus": "game-to-game variance: parks/weather, bullpen availability, lineup changes, blowout substitutions",
+    "lb_pitchers_50ip": "swingman relief and Thursday openers (need rest days and fatigue)",
+    "q_K9_p50": "swingman relief and Thursday openers (need rest days and fatigue)",
+    "q_K9_p90": "swingman relief and Thursday openers (need rest days and fatigue)",
+    "tier_p4_low": "reserves in mismatches and blowouts (manager AI)",
+}
+
 # Starter/reliever choice weights and lineup start rates come from usage tables; when a
 # hazard cell has fewer than this many batters faced it backs off to the coarser table.
 MIN_HAZARD_N = 30  # GUESS (statistical threshold)

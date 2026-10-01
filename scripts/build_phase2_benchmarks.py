@@ -342,6 +342,17 @@ def main() -> None:
     ipr = pa[pa.pit_team_id.isin(full_teams)].groupby(["pit_team_id", "pkey"]).outs_on_play.sum() / 3
     usage["pitcher_ip_by_team_rank"] = {str(int(k)): round(float(v), 1) for k, v in ipr.groupby(ipr.groupby(level=0).rank(ascending=False, method="first")).mean().head(8).items()}
     usage["games_per_full_season_team"] = round(float(games_in_sample[list(full_teams)].mean()), 1)
+    # Phase 6 input (swingmen, Thursday openers): where the busiest pitchers' innings come from.
+    # A pitcher's appearance is a start if he threw the team's first pitch of the game.
+    fp = pa[pa.pit_team_id.isin(full_teams)].copy()
+    fp["start_app"] = fp.groupby(["game_id", "pit_team_id", "pkey"]).is_sp.transform("max")
+    fp["kind"] = np.where(fp.start_app == 1, np.where(fp.weekend == 1, "fri_sun_starts", "other_starts"), "relief")
+    rk = ipr.groupby(level=0).rank(ascending=False, method="first").rename("rank").reset_index()
+    fp = fp.merge(rk[rk["rank"] <= 3], on=["pit_team_id", "pkey"])
+    split = fp.groupby(["rank", "kind"]).outs_on_play.sum().unstack(fill_value=0) / 3 / len(full_teams)
+    usage["pitcher_ip_split_by_team_rank"] = {str(int(r)): {k: round(float(v), 1) for k, v in row.items()} for r, row in split.iterrows()}
+    starts = fp[fp.start_app == 1].drop_duplicates(["game_id", "pit_team_id", "pkey"]).groupby(["rank", "kind"]).size().unstack(fill_value=0) / len(full_teams)
+    usage["pitcher_starts_by_team_rank"] = {str(int(r)): {k: round(float(v), 1) for k, v in row.items()} for r, row in starts.iterrows()}
     # effective number of batters and pitchers: 1 / sum of squared PA (BF) shares, full-season teams
     for key, col, team in (("batter", "bkey", "bat_team_id"), ("pitcher", "pkey", "pit_team_id")):
         s = pa[pa[team].isin(full_teams)].groupby([team, col]).size()

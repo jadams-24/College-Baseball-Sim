@@ -5717,6 +5717,37 @@
    "8": 25.7
   },
   "games_per_full_season_team": 57.2,
+  "pitcher_ip_split_by_team_rank": {
+   "1": {
+    "fri_sun_starts": 63.1,
+    "other_starts": 9.8,
+    "relief": 4.3
+   },
+   "2": {
+    "fri_sun_starts": 51.4,
+    "other_starts": 6.0,
+    "relief": 9.4
+   },
+   "3": {
+    "fri_sun_starts": 29.4,
+    "other_starts": 5.5,
+    "relief": 19.4
+   }
+  },
+  "pitcher_starts_by_team_rank": {
+   "1": {
+    "fri_sun_starts": 12.2,
+    "other_starts": 1.9
+   },
+   "2": {
+    "fri_sun_starts": 10.8,
+    "other_starts": 1.3
+   },
+   "3": {
+    "fri_sun_starts": 6.8,
+    "other_starts": 1.5
+   }
+  },
   "batter_share_hhi": 0.0862,
   "pitcher_share_hhi": 0.0901,
   "_src": "WMT play-by-play, 2225 games / 177503 PA, 2025 (data/ncaa_2025/pbp, built 2026-10-01)"
@@ -5781,6 +5812,7 @@
   "n_games": 7938,
   "n_teams": 306,
   "dispersion": 2.6185,
+  "residual_corr_within_game": 0.0734,
   "log_runs_league": 1.8683,
   "home_log_ratio": 0.0305,
   "home_log_ratio_se": 0.0106,

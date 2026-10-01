@@ -394,6 +394,7 @@
   "n_games": 7938,
   "n_teams": 306,
   "dispersion": 2.6185,
+  "residual_corr_within_game": 0.0734,
   "log_runs_league": 1.8683,
   "home_log_ratio": 0.0305,
   "home_log_ratio_se": 0.0106,

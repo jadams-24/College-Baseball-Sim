@@ -9,7 +9,15 @@
   "league_totals_2025": {
     "_note": "Unweighted mean across all 29 conferences + Oregon State (independent). Weighting by team count will move these slightly; recompute from full team table in Phase 1.",
     "ba": {"value": 0.28, "tol": 0.005, "conf": "B"},
-    "obp": {"value": 0.385, "tol": 0.005, "conf": "B"},
+    "obp": {
+      "value": 0.3805,
+      "tol": 0.005,
+      "conf": "B",
+      "src": "WMT stats API box totals, 2259 2025 D1-vs-D1 games (about a quarter of the season), reweighted by tier x opponent-tier cell to the full-season matchup mix; data/ncaa_2025/pbp/schedules (fetched 2026-10-01); team-weighted, matchup-reweighted, same method as bb_pct. Replaces the FanGraphs unweighted conference mean (.385), which weights each conference equally and so over-weights the P4 conferences that walk and reach base most.",
+      "raw_sample": 0.3786,
+      "by_tier_in_sample": {"p4": 0.3915, "mid": 0.365, "low": 0.3346},
+      "fangraphs_conf_mean": 0.385
+    },
     "slg": {"value": 0.44, "tol": 0.01, "conf": "B"},
     "bb_pct": {
       "value": 0.1059,
@@ -220,7 +228,7 @@
     "weekend_series": "Fri-Sat-Sun 3-game series in conference play; midweek 1-2 non-conference games",
     "run_rule": {"value": "conference-optional; commonly 10 runs after 7 innings", "conf": "C"},
     "extra_innings_tiebreaker": {"value": "runner-on-second rule is conference-optional in NCAA; not universal", "conf": "C"},
-    "extra_innings_freq": {"value": 0.0546, "tol": 0.015, "n_games": 2273, "conf": "B", "src": "WMT schedules, 2273 2025 D1 games with innings recorded (about a quarter of the season); data/ncaa_2025/pbp/schedules", "gate": "phase2"},
+    "extra_innings_freq": {"gate": "phase2", "value": 0.0546, "tol": 0.015, "n_games": 2273, "conf": "B", "src": "WMT schedules, 2273 2025 D1 games with innings recorded (about a quarter of the season); data/ncaa_2025/pbp/schedules"},
     "run_distribution_per_team_game": {
       "conf": "A",
       "src": "data.ncaa.com scoreboard JSON, every D1 game day of the season; see data/ncaa_2025/scoreboard/manifest.json",
@@ -236,9 +244,13 @@
       "share_games_margin_10plus": 0.1952,
       "home_win_pct": 0.5876,
       "note": "Bins are P(0)..P(14), P(15+) per D1 team-game, final games only, run-rule games included as played. margin_10plus is an upper bound on run-rule frequency, not the rate itself.",
-      "gate": "phase2"
+      "gate": "phase2",
+      "gate_deferred_bins": {"15+": "phase6"}
     },
     "run_rule_freq": {
+      "gate": "phase2",
+      "tol": 0.0155,
+      "tol_note": "3 SE of the product estimator (scoreboard share of 10-run margins x WMT conditional share ended early)",
       "value": 0.1524,
       "conf": "B",
       "note": "P(run rule) = P(final margin >= 10, all 8,079 scoreboard games) x P(game ended before the 9th | margin >= 10, WMT sample). Scheduled 7-inning doubleheaders that also reach a 10-run margin are counted.",
@@ -246,10 +258,7 @@
       "p_ended_early_given_margin_10plus_wmt": 0.7805,
       "wmt_sample_run_rule_freq": 0.1549,
       "short_game_not_run_rule_freq": 0.0123,
-      "innings_dist": {"6": 0.0009, "7": 0.1311, "8": 0.0352, "9": 0.7783, "10": 0.0339, "11": 0.0114, "12": 0.0062, "13": 0.0018, "14": 0.0009, "15": 0.0004},
-      "gate": "phase2",
-      "tol": 0.0155,
-      "tol_note": "3 SE of the product estimator (scoreboard share of 10-run margins x WMT conditional share ended early)"
+      "innings_dist": {"6": 0.0009, "7": 0.1311, "8": 0.0352, "9": 0.7783, "10": 0.0339, "11": 0.0114, "12": 0.0062, "13": 0.0018, "14": 0.0009, "15": 0.0004}
     }
   },
   "roster_rules_2025_26": {
@@ -586,6 +595,17 @@
     "weekend_start_note": "full-season teams; rank = team's k-th most frequent weekend starter, ranks >= 8 pooled; series game = order of the team's Fri-Sun games within the calendar week (third and later pooled)",
     "pitcher_ip_by_team_rank": {"1": 77.2, "2": 66.7, "3": 54.4, "4": 44.5, "5": 38.3, "6": 33.7, "7": 29.6, "8": 25.7},
     "games_per_full_season_team": 57.2,
+    "pitcher_ip_split_by_team_rank": {
+      "1": {"fri_sun_starts": 63.1, "other_starts": 9.8, "relief": 4.3},
+      "2": {"fri_sun_starts": 51.4, "other_starts": 6.0, "relief": 9.4},
+      "3": {"fri_sun_starts": 29.4, "other_starts": 5.5, "relief": 19.4}
+    },
+    "pitcher_starts_by_team_rank": {
+      "1": {"fri_sun_starts": 12.2, "other_starts": 1.9},
+      "2": {"fri_sun_starts": 10.8, "other_starts": 1.3},
+      "3": {"fri_sun_starts": 6.8, "other_starts": 1.5}
+    },
+    "phase6_note": "pitcher_ip_split_by_team_rank and pitcher_starts_by_team_rank are Phase 6 inputs for swingman relief and Thursday openers (CLAUDE.md, Phase 6 deferred rows).",
     "batter_share_hhi": 0.0862,
     "pitcher_share_hhi": 0.0901,
     "pitchers_50ip_per_team": {"value": 2.91, "note": "FanGraphs 882 / 303 teams; WMT full-season teams give 2.90"}
@@ -657,14 +677,15 @@
         "p50": 7.6571,
         "p75": 9.5468,
         "p90": 10.5419,
-        "tol": {"p10": 0.751, "p25": 0.6124, "p50": 0.7711, "p75": 0.9266, "p90": 1.1748}
+        "tol": {"p10": 0.751, "p25": 0.6124, "p50": 0.7711, "p75": 0.9266, "p90": 1.1748},
+        "gate_deferred": {"p50": "phase6", "p90": "phase6"}
       }
     },
     "sample_tops": {"BA_max": 0.403, "HR_max": 25, "ERA_min_qualified": 2.58, "note": "Maxima of a sample of ~60 teams, not the 303-team population; informational only"}
   },
   "leaderboards_2025": {
     "_note": "Full-population extremes for the Phase 2 gate. The sim passes a row if the real value falls inside the central 95% of the simulated seasons. FanGraphs rows are conf A (all D1 pitchers and teams); individual BA and HR tops have no full-population source here (stats.ncaa.org not available), so they are informational.",
-    "pitchers_50ip": {"value": 882, "conf": "A"},
+    "pitchers_50ip": {"value": 882, "conf": "A", "gate": "phase6"},
     "pitchers_50ip_era_under_2": {"value": 5, "conf": "A"},
     "pitchers_50ip_era_under_3": {"value": 57, "conf": "A"},
     "teams_era_under_4": {"value": 12, "conf": "A"},
@@ -681,6 +702,7 @@
     "n_games": 7938,
     "n_teams": 306,
     "dispersion": 2.6185,
+    "residual_corr_within_game": 0.0734,
     "home_log_ratio": {"value": 0.0305, "se": 0.0106, "conf": "A"},
     "engine_home_structural_h0": -0.0594,
     "tiers": {
@@ -776,7 +798,7 @@
       "p4": {
         "p4": {"r_per_game": 6.364, "n_team_games": 2316, "se": 0.1642, "tol": 0.493},
         "mid": {"r_per_game": 8.614, "n_team_games": 953, "se": 0.2033, "tol": 0.61},
-        "low": {"r_per_game": 9.82, "n_team_games": 267, "se": 0.3451, "tol": 1.035}
+        "low": {"r_per_game": 9.82, "n_team_games": 267, "se": 0.3451, "tol": 1.035, "gate": "phase6"}
       },
       "mid": {
         "p4": {"r_per_game": 4.762, "n_team_games": 953, "se": 0.1743, "tol": 0.523},

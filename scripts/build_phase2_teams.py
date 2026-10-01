@@ -86,8 +86,12 @@ def fit(sb: pd.DataFrame, names: list) -> dict:
     o, d = b[2:2 + n], b[2 + n:]
     noise = np.array([[[Vc[2 + i, 2 + i], Vc[2 + i, 2 + n + i]], [Vc[2 + n + i, 2 + i], Vc[2 + n + i, 2 + n + i]]] for i in range(n)])
     a_league = float(beta[0] + beta[2:2 + n].mean() - beta[2 + n:].mean())
+    # correlation of the two teams' Pearson residuals within a game: variation shared by both
+    # offenses (park, weather) as opposed to one team's day
+    r_ = (y - mu) / np.sqrt(mu)
+    rcorr = float(np.corrcoef(r_[0::2], r_[1::2])[0, 1])
     return {"o": o, "d": d, "noise": noise, "h": float(beta[1]), "h_se": float(np.sqrt(V[1, 1])), "phi": phi, "a": a_league,
-            "n_games": G, "Vc": Vc, "n": n}
+            "n_games": G, "Vc": Vc, "n": n, "residual_corr": rcorr}
 
 
 def components(names, tier, conf, f) -> dict:
@@ -220,6 +224,7 @@ def main() -> None:
         "_note": ("Team strength on the log-runs scale (quasi-Poisson fit of runs on team offense o, run prevention d and the home slot; "
                   "(o, d) = tier mean + conference effect + team effect, noise removed by method of moments). " + SRC + "."),
         "src": SRC, "n_games": f["n_games"], "n_teams": len(names), "dispersion": round(f["phi"], 4),
+        "residual_corr_within_game": round(f["residual_corr"], 4),
         "log_runs_league": round(f["a"], 4), "home_log_ratio": round(f["h"], 4), "home_log_ratio_se": round(f["h_se"], 4),
         **comp, "hosting": host,
     }

@@ -10,6 +10,7 @@ changed; every write is recorded in data/ncaa_2025/derived/benchmark_changes_pha
 """
 from __future__ import annotations
 
+import datetime
 import json
 import math
 import sys
@@ -26,6 +27,10 @@ def main() -> None:
     inp = json.loads((D / "phase2_inputs_2025.json").read_text())
     rs = json.loads((D / "phase2_run_scale_2025.json").read_text())
     gate = json.loads((D / "phase2_gate_2025.json").read_text())
+    # rows the project owner moved to the Phase 6 gate (PR #4 review; config.phase2.DEFERRED_TO_PHASE6)
+    gate["leaderboards_2025"]["pitchers_50ip"]["gate"] = "phase6"
+    gate["qualified_players_2025"]["pitchers"]["K9"]["gate_deferred"] = {"p50": "phase6", "p90": "phase6"}
+    gate["tier_matrix_2025"]["matrix"]["p4"]["low"]["gate"] = "phase6"
     b = json.loads(BENCH.read_text())
     changes = []
 
@@ -69,7 +74,7 @@ def main() -> None:
                   "and strength gap, slope disattenuated for noise. Engine mapping (phase2_run_scale_2025.json): o and d become logit offsets along the batting and pitching quality "
                   "directions scaled so one unit is one log run in the engine; the home talent edge is home_log_ratio minus the engine's batting-last effect h0. " + tt["src"]),
         "conf": "A", "conf_note": "Tier means, team covariances and the home effect rest on all 306 D1 teams (conf A). Conference covariances rest on 4 (P4), 15 (mid) and 10 (low) conferences and the hosting model on 3,550 nonconference games (conf B).",
-        "n_games": tt["n_games"], "n_teams": tt["n_teams"], "dispersion": tt["dispersion"],
+        "n_games": tt["n_games"], "n_teams": tt["n_teams"], "dispersion": tt["dispersion"], "residual_corr_within_game": tt["residual_corr_within_game"],
         "home_log_ratio": {"value": tt["home_log_ratio"], "se": tt["home_log_ratio_se"], "conf": "A"},
         "engine_home_structural_h0": rs["home_structural"]["h0_log_ratio"],
         "tiers": {t: {k: v for k, v in e.items()} for t, e in tt["tiers"].items()},
@@ -91,7 +96,9 @@ def main() -> None:
         "batter_start_share_by_rank": u["batter_start_share_by_rank"], "reliever_bf_share_by_rank": u["reliever_bf_share_by_rank"],
         "weekend_start_share_by_rank": u["weekend_start_share_by_rank"], "weekend_starters_per_team": u["weekend_starters_per_team"],
         "weekend_start_note": u["weekend_start_note"], "pitcher_ip_by_team_rank": u["pitcher_ip_by_team_rank"],
-        "games_per_full_season_team": u["games_per_full_season_team"], "batter_share_hhi": u["batter_share_hhi"], "pitcher_share_hhi": u["pitcher_share_hhi"],
+        "games_per_full_season_team": u["games_per_full_season_team"],
+        "pitcher_ip_split_by_team_rank": u["pitcher_ip_split_by_team_rank"], "pitcher_starts_by_team_rank": u["pitcher_starts_by_team_rank"],
+        "phase6_note": "pitcher_ip_split_by_team_rank and pitcher_starts_by_team_rank are Phase 6 inputs for swingman relief and Thursday openers (CLAUDE.md, Phase 6 deferred rows).", "batter_share_hhi": u["batter_share_hhi"], "pitcher_share_hhi": u["pitcher_share_hhi"],
         "pitchers_50ip_per_team": {"value": round(b["pitching_distribution_2025"]["pitchers_50ip"] / 303, 2), "note": "FanGraphs 882 / 303 teams; WMT full-season teams give 2.90"},
     })
     setv(["qualified_players_2025"], gate["qualified_players_2025"])
@@ -104,9 +111,18 @@ def main() -> None:
         new = dict(rr); new["tol"] = round(3 * math.sqrt(var), 4)
         new["tol_note"] = "3 SE of the product estimator (scoreboard share of 10-run margins x WMT conditional share ended early)"
         setv(["game_structure", "run_rule_freq"], new)
+    import copy
+    gs = b["game_structure"]
+    rr = copy.deepcopy(gs["run_rule_freq"]); rr["gate"] = "phase6"
+    setv(["game_structure", "run_rule_freq"], rr)
+    rd = copy.deepcopy(gs["run_distribution_per_team_game"]); rd["gate_deferred_bins"] = {"15+": "phase6"}
+    setv(["game_structure", "run_distribution_per_team_game"], rd)
     BENCH.write_text(dumps_compact(b) + "\n")
-    if changes:  # a rerun with nothing new keeps the last change record
-        (D / "benchmark_changes_phase2.json").write_text(json.dumps(changes, indent=1, default=str) + "\n")
+    if changes:  # append to the change record; a rerun with nothing new leaves it as is
+        log = D / "benchmark_changes_phase2.json"
+        prior = json.loads(log.read_text()) if log.exists() else []
+        stamp = datetime.date.today().isoformat()
+        log.write_text(json.dumps(prior + [{**c, "date": stamp} for c in changes], indent=1, default=str) + "\n")
     print("wrote", [c["path"] for c in changes])
 
 
