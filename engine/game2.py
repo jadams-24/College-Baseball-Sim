@@ -34,8 +34,17 @@ from engine.rng import Categorical
 from engine.tables import AdvancementTable, OutcomeTable, PrePaEventTable
 
 # batter stat columns and pitcher stat columns
-B_G, B_PA, B_AB, B_H, B_2B, B_3B, B_HR, B_BB, B_HBP, B_K, B_SF, B_SH = range(12)
+B_G, B_PA, B_AB, B_H, B_2B, B_3B, B_HR, B_BB, B_HBP, B_K, B_SF, B_SH, B_ROE = range(13)
+B_NCOL = 13
 P_G, P_GS, P_BF, P_OUTS, P_H, P_HR, P_BB, P_HBP, P_K, P_R, P_ER, P_PITCH, P_WGS = range(13)  # P_WGS: weekend starts
+P_NCOL = 13
+# box-score tables for the Phase 4 estimator: plate-appearance results by batting team x pitching
+# team x (batting team at home), and each player's trials by opposing team x home
+CELL_RESULTS = ("K", "BB", "HBP", "HR", "1B", "2B", "3B", "ROE", "OUT")
+_CELL_IDX = {r: i for i, r in enumerate(CELL_RESULTS)}
+TRIAL_KINDS = ("PA", "BIP", "HITS")       # BIP: balls in play other than reached on error
+_HITS = frozenset(_CELL_IDX[r] for r in ("1B", "2B", "3B"))
+_OUT = _CELL_IDX["OUT"]
 PITCH_MAP = {"IP_OUT": ("FO", "GO", "GIDP", "DP")}
 
 
@@ -97,6 +106,10 @@ class PlayerGameEngine:
         self.bstats, self.pstats = bstats, pstats
         self.cache: dict = {}
         self.roe_count = 0
+        n_teams = len(league.teams) if hasattr(league, "teams") else 2
+        n_players = len(league.players) if hasattr(league, "players") else 32
+        self.team_cell = np.zeros((n_teams, n_teams, 2, len(CELL_RESULTS)), dtype=np.int32)
+        self.opp_trials = np.zeros((n_players, n_teams, 2, len(TRIAL_KINDS)), dtype=np.int32)
         eta = cfg.home_eta / 2
         self.home_bat = eta * np.array(cfg.v_bat)
         self.home_pit = eta * np.array(cfg.v_pit)
@@ -267,6 +280,17 @@ class PlayerGameEngine:
         bs, ps = self.bstats[batter.pid], self.pstats[pitcher.pid]
         bat = st.batting_side
         bs[B_PA] += 1; ps[P_BF] += 1; st.pa[bat] += 1
+        ci = _CELL_IDX.get(res, _OUT)
+        btid, ptid, h = st.team_obj[bat].tid, st.team_obj[st.fielding_side].tid, int(bat == "home")
+        self.team_cell[btid, ptid, h, ci] += 1
+        ot = self.opp_trials
+        ot[batter.pid, ptid, h, 0] += 1
+        ot[pitcher.pid, btid, h, 0] += 1
+        if ci in _HITS:
+            ot[batter.pid, ptid, h, 1] += 1
+            ot[batter.pid, ptid, h, 2] += 1
+        elif ci == _OUT:             # in-play out (incl. SF, SH, FC)
+            ot[batter.pid, ptid, h, 1] += 1
         n = self.pitch_cat[res].draw(rng.random())
         ps[P_PITCH] += n
         st.outing[st.fielding_side]["pitches"] += n
@@ -280,7 +304,7 @@ class PlayerGameEngine:
             bs[B_SH] += 1
         else:
             if res == "ROE":
-                self.roe_count += 1
+                self.roe_count += 1; bs[B_ROE] += 1
             bs[B_AB] += 1; st.ab[bat] += 1
             if res == "K":
                 bs[B_K] += 1; ps[P_K] += 1

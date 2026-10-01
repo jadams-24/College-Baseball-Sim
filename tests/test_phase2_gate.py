@@ -1,8 +1,8 @@
 """Phase 2 gate (player variance).
 
-Simulates the report's own run of the fictional league (scripts/run_phase2.py: 20 seasons,
-the same seeds), so CI and reports/phase2.md always agree, and checks every gate row of
-the realism report against benchmarks.json: Phase 1 league totals unchanged, the per-game run histogram,
+Uses the reports' own run of the fictional league (tests/conftest.py: 20 seasons, the
+same seeds as scripts/run_phase4.py), so CI and reports/phase2.md always agree, and checks
+every gate row of the realism report against benchmarks.json: Phase 1 league totals unchanged, the per-game run histogram,
 extra-innings frequency, home win pct and home run differential, the tier-vs-tier
 scoring matrix, team R/G and RA/G spread overall and by tier, qualified-player
 percentiles and the full-population leaderboard extremes. Tolerances combine the
@@ -14,29 +14,21 @@ gated here. Never xfail or widen these.
 """
 from __future__ import annotations
 
-import os
-import sys
+import json
 from pathlib import Path
 
 import pytest
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
-from engine.report2 import build_report  # noqa: E402
-
 
 @pytest.fixture(scope="module")
-def status() -> dict:
-    from run_phase2 import REPORT_SEASONS, REPORT_SEED, run
-    agg, seeds = run(REPORT_SEASONS, REPORT_SEED, workers=min(4, os.cpu_count() or 1))
-    _, st = build_report(agg, seeds)
-    return st
+def status(gate_run) -> dict:
+    return gate_run["phase2"]
 
 
 def test_committed_report_matches(status: dict) -> None:
     """reports/phase2.json is the same run: its gate verdicts equal this run's."""
-    import json
     committed = json.loads((Path(__file__).resolve().parents[1] / "reports/phase2.json").read_text())["status"]
-    assert committed == status, "reports/phase2.md is stale: re-run scripts/run_phase2.py"
+    assert committed == status, "reports/phase2.md is stale: re-run scripts/run_phase4.py"
 
 
 GROUPS = {

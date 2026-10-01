@@ -1,0 +1,85 @@
+[
+ {
+  "path": "stamina_2025",
+  "old": null,
+  "new": {
+   "_note": "Individual pitcher leash, WMT play-by-play 2025 (data/ncaa_2025/pbp). Each decision after a batter has the baseline pull hazard h of the Phase 2 usage tables (role, weekend, rotation rank, outing pitches, outing runs, inning ended); a pitcher's hazard is 1 - (1 - h)^theta with log theta ~ N(log_mean, log_sd^2) by role, fitted by marginal maximum likelihood with the exact survival likelihood (engine/eb.py). Pitchers with 5+ appearances in the role. mom_log_sd: method-of-moments check on the observed/expected pull ratio. Stamina = 50 - 10 (log theta - log_mean) / log_sd.",
+   "conf": "B",
+   "src": "WMT play-by-play 2025 (data/ncaa_2025/pbp), Phase 2 usage tables",
+   "starter": {
+    "n_pitchers": 271,
+    "log_mean": 0.0927,
+    "log_sd": 0.5426,
+    "mom_log_sd": 0.5181
+   },
+   "reliever": {
+    "n_pitchers": 847,
+    "log_mean": 0.0763,
+    "log_sd": 0.6218,
+    "mom_log_sd": 0.5142
+   }
+  },
+  "date": "2026-10-01"
+ },
+ {
+  "path": "ratings_scale_2025",
+  "old": null,
+  "new": {
+   "_note": "The 20-80 scale: rating = 50 + 10 sign (z - mean) / sd, z the player's true logit offset of the rate. mean and sd are the PA-weighted (batters) or BF-weighted (pitchers) mean and SD of true z across all D1 players, all tiers, as the Phase 2 talent distributions (player_talent_2025, team_talent_2025: sampling noise removed) generate them; usage weights from simulated seasons (seeds 940001-940008). A definition of the scale, not a target.",
+   "conf": "B",
+   "batter": {
+    "contact": {
+     "rate": "BABIP",
+     "sign": 1,
+     "mean": 0.01465,
+     "sd": 0.13121
+    },
+    "gap": {
+     "rate": "XBH",
+     "sign": 1,
+     "mean": 0.00666,
+     "sd": 0.25688
+    },
+    "power": {
+     "rate": "HR",
+     "sign": 1,
+     "mean": 0.06812,
+     "sd": 0.63004
+    },
+    "eye": {
+     "rate": "BB",
+     "sign": 1,
+     "mean": -0.00978,
+     "sd": 0.30778
+    },
+    "avoid_k": {
+     "rate": "K",
+     "sign": -1,
+     "mean": -0.03035,
+     "sd": 0.38089
+    }
+   },
+   "pitcher": {
+    "stuff": {
+     "rate": "K",
+     "sign": 1,
+     "mean": -0.01609,
+     "sd": 0.43888
+    },
+    "control": {
+     "rate": "BB",
+     "sign": -1,
+     "mean": -0.04384,
+     "sd": 0.40736
+    },
+    "movement": {
+     "rate": "HR",
+     "sign": -1,
+     "mean": 0.00068,
+     "sd": 0.31264
+    }
+   }
+  },
+  "date": "2026-10-01"
+ }
+]

@@ -11,7 +11,8 @@
   pitching_change   pull hazard from the play-by-play: P(replaced before the next batter |
                     starter or reliever, weekend, outing pitch count, outing runs, inning
                     just ended); weekend starters use the table for their rotation rank
-                    (1, 2, 3, spot starter), which carries the aces' longer leash
+                    (1, 2, 3, spot starter), which carries the aces' longer leash; the
+                    pitcher's own leash (Stamina, Phase 4) scales it: h' = 1 - (1 - h)^theta
   relief_pitcher    an unused reliever, weighted by the real share of relief batters
                     faced by bullpen rank
 Steals, bunts and intentional walks stay at league rates (Phase 6 is manager AI).
@@ -44,6 +45,10 @@ class Manager(LeagueAverageDecider):
         self.wr_table, self.wr_back = table(u["weekend_starter_pull_by_rank"])
         self.rank_now: dict = {}  # team id -> rotation rank class of today's weekend starter
         self.rp_table, self.rp_back = table(u["reliever_pull"])
+        # pull decisions per pitcher, for estimating leash back from simulated seasons (Phase 4 round trip):
+        # sum of log(1 - h) where he stayed, baseline h at each decision where he was pulled
+        self.leash_survive: dict = {}
+        self.leash_pulls: dict = {}
 
     # ---- lineup ------------------------------------------------------------------------
     def lineup(self, state, team: str):
@@ -95,7 +100,7 @@ class Manager(LeagueAverageDecider):
             if c is not None and c[1] >= MIN_HAZARD_N:
                 break
         if c is None or c[1] == 0:
-            return 1.0 if pitches >= 120 else 0.0  # beyond the observed range: the data's maximum
+            return None  # beyond the observed range
         return c[0] / c[1]
 
     def pitching_change(self, state):
@@ -104,7 +109,16 @@ class Manager(LeagueAverageDecider):
             return Decision.NO
         rank = self.rank_now.get(state.team_obj[state.fielding_side].tid) if state.weekend else None
         h = self._hazard(o["starter"], int(state.weekend), o["pitches"], o["runs"], int(state.inning_end), rank)
-        return Decision.YES if state.rng.random() < h else Decision.NO
+        if h is None:  # no hazard cell has data (pitch counts past the sample's maximum): the data's maximum
+            return Decision.YES if o["pitches"] >= 120 else Decision.NO
+        pid = state.pitcher[state.fielding_side].pid
+        theta = np.exp(state.pitcher[state.fielding_side].log_theta)
+        pulled = state.rng.random() < -np.expm1(theta * np.log1p(-min(h, 1 - 1e-9)))
+        if pulled:
+            self.leash_pulls.setdefault(pid, []).append(h)
+        else:
+            self.leash_survive[pid] = self.leash_survive.get(pid, 0) + np.log1p(-min(h, 1 - 1e-9))
+        return Decision.YES if pulled else Decision.NO
 
     def relief_pitcher(self, state, team: str):
         avail = [p for p in state.team_obj[team].relievers if p.pid not in state.used[team]]

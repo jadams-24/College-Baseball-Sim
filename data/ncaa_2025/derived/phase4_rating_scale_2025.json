@@ -1,0 +1,47 @@
+{
+ "_note": "The 20-80 scale: D1 mean and true-talent SD of each rated rate.\n\n50 is the D1 average and 10 points one true-talent SD. \"D1 average\" is the league-average\nplayer: true logit offsets weighted by plate appearances (batters) or batters faced\n(pitchers), across every D1 player, all tiers together. The true-talent distribution is\nthe Phase 2 one (tier means, conference and team spreads, individual spreads, all with\nsampling noise removed), as the league generator draws it; usage weights come from\nsimulated seasons, so the weights are the engine's own PA and BF shares. Pooled over\nCAL_SEASONS calibration seasons (seeds 940001+, disjoint from every other run).\nThe scale does not change any simulated outcome: ratings are an exact re-expression of\nthe true rates. Output: data/ncaa_2025/derived/phase4_rating_scale_2025.json\n",
+ "built": "2026-10-01",
+ "seeds": [
+  940001,
+  940008
+ ],
+ "weights": "PA (batters), BF (pitchers), simulated seasons",
+ "scale": {
+  "bat": {
+   "BABIP": {
+    "mean": 0.01465,
+    "sd": 0.13121
+   },
+   "XBH": {
+    "mean": 0.00666,
+    "sd": 0.25688
+   },
+   "HR": {
+    "mean": 0.06812,
+    "sd": 0.63004
+   },
+   "BB": {
+    "mean": -0.00978,
+    "sd": 0.30778
+   },
+   "K": {
+    "mean": -0.03035,
+    "sd": 0.38089
+   }
+  },
+  "pit": {
+   "K": {
+    "mean": -0.01609,
+    "sd": 0.43888
+   },
+   "BB": {
+    "mean": -0.04384,
+    "sd": 0.40736
+   },
+   "HR": {
+    "mean": 0.00068,
+    "sd": 0.31264
+   }
+  }
+ }
+}

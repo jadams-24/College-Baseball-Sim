@@ -53,7 +53,7 @@ class _League:
 
 def _engine():
     cfg = phase2.load()
-    bs = [[0] * 12 for _ in range(16)]
+    bs = [[0] * 13 for _ in range(16)]
     ps = [[0] * 13 for _ in range(16)]
     eng = PlayerGameEngine(cfg, _League(), bs, ps)
     eng.home_bat = eng.home_bat * 0.0  # measure the engine with no home talent edge
@@ -101,7 +101,7 @@ def home_games(args) -> tuple:
         t.batters = [Player(10 * k + i, "b", k, "bat", "regular", np.zeros(6)) for i in range(9)]
         t.weekend_sp = [Player(10 * k + 9, "p", k, "pit", "sp_weekend", np.zeros(6))]
         teams.append(t)
-    eng.bstats = [[0] * 12 for _ in range(32)]
+    eng.bstats = [[0] * 13 for _ in range(32)]
     eng.pstats = [[0] * 13 for _ in range(32)]
     rng = np.random.default_rng(seed)
     dec = _Fixed()

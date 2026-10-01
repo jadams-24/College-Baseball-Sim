@@ -25,6 +25,7 @@ import numpy as np
 
 from config.phase2 import N_BENCH, N_MIDWEEK_SP, N_REGULARS, N_RELIEVERS, N_WEEKEND_SP, RATES, Phase2Config
 from engine.matchup import matchup_probs
+from engine.ratings import RatingScale
 
 _ON = ["br", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "r", "s", "st", "t", "v", "w", "z", "sh", "th", "gr", "cl", "tr"]
 _NU = ["a", "e", "i", "o", "u", "ai", "ea", "ou", "y"]
@@ -49,8 +50,11 @@ class Player:
     team: int
     side: str          # "bat" or "pit"
     group: str         # regular / bench / sp_weekend / sp_midweek / rp
-    z: np.ndarray      # logit offsets for RATES (relative to league, before location)
+    z: np.ndarray      # logit offsets for RATES (relative to league, before location), built from ratings
     order: int = 0     # role order on the team (lineup rank, rotation slot, bullpen rank)
+    ratings: dict = field(default_factory=dict)   # 20-80 true ratings (continuous; engine.ratings)
+    hidden: dict = field(default_factory=dict)    # true components without a rating (HBP; pitcher BABIP/XBH)
+    log_theta: float = 0.0                        # pitcher leash multiplier on the pull hazard (Stamina)
 
 
 @dataclass
@@ -104,6 +108,9 @@ def build_league(cfg: Phase2Config, rng: np.random.Generator) -> League:
         confs[i] = [name, [], tiers[0], conf == "DI Independent"]
         conf_fx[i] = rng.multivariate_normal(np.zeros(2), cfg.team_draw[tiers[0]]["conf_cov"], method="eigh")
     conf_index = {conf: i for i, (conf, _) in enumerate(order)}
+    scale = RatingScale()
+    # stamina draws use their own stream so the Phase 2 talent draws are unchanged for a given seed
+    rng_stamina = np.random.Generator(np.random.PCG64(rng.bit_generator.seed_seq.spawn(1)[0]))
     teams, players = [], []
     team_names = set()
     for tid, (_, conf, tier) in enumerate(cfg.teams):
@@ -133,8 +140,16 @@ def build_league(cfg: Phase2Config, rng: np.random.Generator) -> League:
                 # individual hit-type mix allowed is not modeled (attributed to the batter); team quality moves it
                 zs = np.hstack([mu + _mvn(rng, sd, cp, n), np.zeros((n, 1))]) + tp
             out = []
-            for z in zs:
-                p = Player(len(players), f"{rng.choice(_ON).upper()}. {_word(rng, int(rng.integers(1, 3)))}", tid, side, group, z)
+            # players are generated from ratings: the drawn true rates are expressed on the 20-80 scale and
+            # the engine's rates are rebuilt from those ratings (plus unrated components)
+            lt = scale.draw_log_theta(group, rng_stamina, n) if side == "pit" else None
+            for k, z in enumerate(zs):
+                ratings, hidden = scale.split(side, z)
+                p = Player(len(players), f"{rng.choice(_ON).upper()}. {_word(rng, int(rng.integers(1, 3)))}", tid, side, group,
+                           scale.compose(side, ratings, hidden), ratings=ratings, hidden=hidden)
+                if side == "pit":
+                    p.ratings["stamina"] = scale.stamina_rating(group, lt[k])
+                    p.log_theta = scale.log_theta(group, p.ratings["stamina"])
                 players.append(p); out.append(p)
             return out
         regs = make("bat", "regular", N_REGULARS)
