@@ -7,7 +7,8 @@
   qualified_players_2025  percentiles of BA, OBP, ISO, K%, BB% (qualified batters: NCAA rule,
                           2.0 PA per team game and 75% of team games) and ERA, K/9 (1 IP per
                           team game), pooled from WMT full-season teams and the 13 Sidearm
-                          season pages, reweighted to the D1 tier mix. Tolerances 3 SE from a
+                          season pages, reweighted to the D1 tier mix (sparse tiers pooled with their nearest tier first,
+                          scripts/lib/pooling.py). Tolerances 3 SE from a
                           team-cluster bootstrap within tier. Conf B.
   leaderboards_2025       full-population extremes from FanGraphs (pitchers >= 50 IP, team ERA,
                           team BA, team HR; conf A) and, informationally, sample tops for BA/HR.
@@ -26,7 +27,11 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from lib.players import load_pa, name_map  # noqa: E402
+from lib.pooling import describe, pool_cells  # noqa: E402
 from sidearm_totals import hydrate  # noqa: E402
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from config.benchmarks import MIN_CELL_N_PERCENTILE  # noqa: E402
 
 TIERS = ("p4", "mid", "low")
 INPUTS = Path("data/ncaa_2025/derived/phase2_inputs_2025.json")
@@ -188,26 +193,33 @@ def qualified(teams: pd.DataFrame) -> tuple[dict, dict]:
         return float(np.interp(q / 100, c, v))
 
     def dist(df, cols):
-        tshare = df.groupby("tier").team.nunique() / df.team.nunique()
-        w = df.tier.map(lambda t: d1[t] / tshare[t]).values
-        res = {}
+        # each tier counts by its share of D1 teams; a tier with fewer than MIN_CELL_N_PERCENTILE qualified
+        # players is pooled with its nearest tier first (scripts/lib/pooling.py), fixed from the full sample
+        group_of, groups = pool_cells(df.tier.value_counts().to_dict(), {t: d1[t] for t in TIERS}, MIN_CELL_N_PERCENTILE)
+        def weights(frame, pooled):
+            # a player's weight: his group's share of D1 teams over its share of the sample's teams (each team
+            # counts by its tier's D1 share). Unpooled, the groups are the tiers (the previous method).
+            key = frame.tier.map(group_of) if pooled else frame.tier
+            share = (lambda k: groups[k]["weight"]) if pooled else (lambda k: d1[k])
+            tshare = frame.groupby(key).team.nunique() / frame.team.nunique()
+            return key.map(lambda k: share(k) / tshare[k]).values
+        res = {"pooled_groups": describe(groups), "unpooled": {}}
+        teams_by_tier = {t: df[df.tier == t].team.unique() for t in TIERS}
         for col in cols:
             v = df[col].values.astype(float)
-            point = {f"p{q}": round(wpct(v, w, q), 4) for q in QS}
+            point = {f"p{q}": round(wpct(v, weights(df, True), q), 4) for q in QS}
+            res["unpooled"][col] = {f"p{q}": round(wpct(v, weights(df, False), q), 4) for q in QS}
             boots = []
-            teams_by_tier = {t: df[df.tier == t].team.unique() for t in TIERS}
-            for _ in range(BOOT):
+            for _ in range(BOOT):    # same draws, in the same order, as before the pooling rule
                 pick = pd.concat([df[df.team == tm] for t in TIERS for tm in RNG.choice(teams_by_tier[t], size=len(teams_by_tier[t]), replace=True)])
-                ts = pick.groupby("tier").team.size() * 0 + pd.Series({t: len(teams_by_tier[t]) for t in TIERS}) / sum(len(v) for v in teams_by_tier.values())
-                ww = pick.tier.map(lambda t: d1[t] / ts[t]).values
-                boots.append([wpct(pick[col].values.astype(float), ww, q) for q in QS])
+                boots.append([wpct(pick[col].values.astype(float), weights(pick, True), q) for q in QS])
             se = np.std(np.array(boots), axis=0, ddof=1)
             res[col] = {**point, "tol": {f"p{q}": round(float(3 * s), 4) for q, s in zip(QS, se)}}
         return res
     comp_b = {t: int(qb[qb.tier == t].team.nunique()) for t in TIERS}
     comp_p = {t: int(qp[qp.tier == t].team.nunique()) for t in TIERS}
     out = {
-        "_note": "Qualified batters (NCAA rule: 2.0 PA per team game and 75% of team games) and pitchers (1 IP per team game) on WMT full-season teams plus the Sidearm full-season pages, reweighted so each tier counts by its share of D1 teams. Tolerances 3 SE from a team-cluster bootstrap within tier. Conf B: 72% of sample teams are P4 and the low tier rests on few teams, so low-tier tails carry the most uncertainty.",
+        "_note": "Qualified batters (NCAA rule: 2.0 PA per team game and 75% of team games) and pitchers (1 IP per team game) on WMT full-season teams plus the Sidearm full-season pages, reweighted so each tier counts by its share of D1 teams (a tier with fewer than 50 qualified players is pooled with its nearest tier first, see pooled_groups). Tolerances 3 SE from a team-cluster bootstrap within tier. Conf B: 72% of sample teams are P4 and the low tier rests on few teams, so low-tier tails carry the most uncertainty.",
         "conf": "B", "qualification": {"batter": "PA >= 2.0 x team games and games >= 0.75 x team games", "pitcher": "IP >= 1.0 x team games"},
         "batters": {"n": int(len(qb)), "teams_by_tier": comp_b, "per_team": round(len(qb) / qb.team.nunique(), 2), **dist(qb, ["BA", "OBP", "ISO", "K_pct", "BB_pct"])},
         "pitchers": {"n": int(len(qp)), "teams_by_tier": comp_p, "per_team": round(len(qp) / qp.team.nunique(), 2), **dist(qp, ["ERA", "K9"])},

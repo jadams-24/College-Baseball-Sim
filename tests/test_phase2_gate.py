@@ -1,7 +1,7 @@
 """Phase 2 gate (player variance).
 
 Uses the reports' own run of the fictional league (tests/conftest.py: 20 seasons, the
-same seeds as scripts/run_phase4.py), so CI and reports/phase2.md always agree, and checks
+same seeds as scripts/run_phase5.py), so CI and reports/phase2.md always agree, and checks
 every gate row of the realism report against benchmarks.json: Phase 1 league totals unchanged, the per-game run histogram,
 extra-innings frequency, home win pct and home run differential, the tier-vs-tier
 scoring matrix, team R/G and RA/G spread overall and by tier, qualified-player
@@ -28,7 +28,7 @@ def status(gate_run) -> dict:
 def test_committed_report_matches(status: dict) -> None:
     """reports/phase2.json is the same run: its gate verdicts equal this run's."""
     committed = json.loads((Path(__file__).resolve().parents[1] / "reports/phase2.json").read_text())["status"]
-    assert committed == status, "reports/phase2.md is stale: re-run scripts/run_phase4.py"
+    assert committed == status, "reports/phase2.md is stale: re-run scripts/run_phase5.py"
 
 
 GROUPS = {

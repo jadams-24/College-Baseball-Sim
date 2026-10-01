@@ -37,4 +37,5 @@ def simulate_season(cfg: Phase2Config, seed: int) -> dict:
     return {"league": league, "roe": eng.roe_count, "bstats": np.array(bstats), "pstats": np.array(pstats), "team_games": team_games,
             "team_game_rows": np.array(tg_rows, dtype=float), "games": game_rows, "half_innings": halves,
             "team_cell": eng.team_cell, "opp_trials": eng.opp_trials, "exp_trials": eng.exp_trials, "leash_survive": mgr.leash_survive, "leash_pulls": mgr.leash_pulls,
-            "leash_expected": mgr.leash_expected, "leash_var": mgr.leash_var}
+            "leash_expected": mgr.leash_expected, "leash_var": mgr.leash_var,
+            "pitch_rec": eng.pitch_rec, "player_pitch": eng.player_pitch, "starts": np.array(eng.starts, dtype=float)}

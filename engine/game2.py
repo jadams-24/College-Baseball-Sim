@@ -28,8 +28,11 @@ import numpy as np
 
 from config.phase1 import IN_PLAY_OUT_CLASS, MIN_CELL_N, PRE_PA_EVENTS, RESULTS
 from config.phase2 import Phase2Config
+from config.phase5 import MAX_PITCHES_HIST, OUTCOMES as PITCH_OUTCOMES
+from config.phase5 import load as load_pitch, load_solved
 from engine.decider import Decision
 from engine.matchup import OUTCOMES, matchup_probs
+from engine.pitch import COUNTS as PITCH_COUNTS, PitchModel
 from engine.rng import Categorical
 from engine.tables import AdvancementTable, OutcomeTable, PrePaEventTable
 
@@ -48,7 +51,10 @@ TRIAL_KINDS = ("PA", "BIP", "HITS")       # BIP: balls in play other than reache
 EXP_RATES = ("K", "BB", "HR", "BABIP", "XBH")
 _HITS = frozenset(_CELL_IDX[r] for r in ("1B", "2B", "3B"))
 _OUT = _CELL_IDX["OUT"]
-PITCH_MAP = {"IP_OUT": ("FO", "GO", "GIDP", "DP")}
+_PITCH_O = {o: i for i, o in enumerate(PITCH_OUTCOMES)}   # in-play outs of every subtype are OUT
+_EV6 = {e: i for i, e in enumerate("BKSFPH")}
+_EV7 = {e: i for i, e in enumerate("BKSFPHN")}            # config.phase5.EVENTS order
+_K, _BB = 0, 1                                             # rate order of the logit offsets (config.phase2.RATES)
 
 
 class GameState2:
@@ -118,15 +124,16 @@ class PlayerGameEngine:
         eta = cfg.home_eta / 2
         self.home_bat = eta * np.array(cfg.v_bat)
         self.home_pit = eta * np.array(cfg.v_pit)
-        pr = cfg.usage["pitches_per_pa_by_result"]
-        self.pitch_cat = {}
-        for res in ("K", "BB", "HBP", "1B", "2B", "3B", "HR", "SF", "SH", "ROE", "FC", "IP_OUT"):
-            keys = PITCH_MAP.get(res, (res,))
-            counts: dict = {}
-            for k in keys:
-                for n, c in pr.get(k, {}).items():
-                    counts[int(n)] = counts.get(int(n), 0) + c
-            self.pitch_cat[res] = Categorical.from_counts(counts)
+        # Phase 5: pitch sequences from the count-state chain conditioned on the PA outcome
+        self.pitch = PitchModel(load_pitch(), load_solved())
+        self.tilt_cache: dict = {}
+        self.q_cache: dict = {}
+        self.pitch_rec = {"hist": np.zeros(MAX_PITCHES_HIST + 1, dtype=np.int64), "n_pa": 0, "pitches": 0, "fps": 0, "k2p": 0, "k2f": 0,
+                          "reach": np.zeros(12, dtype=np.int64), "ab": np.zeros(12, dtype=np.int64), "h": np.zeros(12, dtype=np.int64),
+                          "k": np.zeros(12, dtype=np.int64), "bb": np.zeros(12, dtype=np.int64),
+                          "ev": np.zeros((12, 7), dtype=np.int64)}                  # pitch events by count before the pitch
+        self.player_pitch = np.zeros((n_players, 6), dtype=np.int64)   # per player (as batter or pitcher): B, K, S, F, P, H
+        self.starts: list = []                                        # (pitches, outs on his plate appearances, weekend)
 
     def _probs(self, batter, pitcher, home_batting: bool) -> Categorical:
         key = (batter.pid, pitcher.pid, home_batting)
@@ -136,6 +143,7 @@ class PlayerGameEngine:
             p = matchup_probs(self.cfg, zb, zp, self.league.location)
             cat = Categorical(list(OUTCOMES), [p[o] for o in OUTCOMES])
             self.cache[key] = cat
+            self.tilt_cache[key] = self.pitch.tilts(zb[_K], zb[_BB], zp[_K], zp[_BB], p["K"], p["BB"], p["HBP"])
             hits = p["1B"] + p["2B"] + p["3B"]
             self.rate_cache[key] = np.array([p["K"], p["BB"], p["HR"], hits / (hits + p["OUT"]), (p["2B"] + p["3B"]) / hits])
         return cat
@@ -217,11 +225,17 @@ class PlayerGameEngine:
             elif st.run_rule_in_effect and st.inning >= r.run_rule_after_inning and abs(m) >= r.run_rule_margin:
                 st.over = st.ended_by_run_rule = True
 
+    def _end_outing(self, st, side):
+        o = st.outing.get(side)
+        if o is not None and o["starter"]:
+            self.starts.append((o["pitches"], o["pa_outs"], bool(st.weekend)))
+
     def _bring_in(self, st, side, pitcher, starter):
+        self._end_outing(st, side)
         st.pitcher[side] = pitcher
         st.used[side].add(pitcher.pid)
         st.p_phantom = 0
-        st.outing[side] = {"starter": starter, "pitches": 0, "runs": 0}
+        st.outing[side] = {"starter": starter, "pitches": 0, "runs": 0, "pa_outs": 0}
         ps = self.pstats[pitcher.pid]
         ps[P_G] += 1
         if starter:
@@ -259,8 +273,10 @@ class PlayerGameEngine:
                 res = self._subtype(st, rng, bunt)
             dests, b_to, err = self.advance.draw(res, st.outs, st.base_code, rng.random(), [rng.random() for _ in range(4)])
             self._record(st, batter, pitcher, res, rng)
+            outs0 = st.outs
             scored = self._apply(st, dests, (pitcher.pid, res == "ROE"), b_to, err, res=res)
             st.outing[fld]["runs"] += scored
+            st.outing[fld]["pa_outs"] += st.outs - outs0
             if scored and st.half == "B":
                 self._end_check(st, True)
             if st.over:
@@ -282,6 +298,47 @@ class PlayerGameEngine:
             others = {k: c for k, c in self._sub_counts[cls].items() if k != "SH"}
             s = Categorical.from_counts(others).draw(rng.random())
         return s
+
+    def _pitches(self, batter, pitcher, home_batting: bool, res: str, rng) -> int:
+        """Draw the PA's pitch sequence given its outcome; record the pitch-level statistics."""
+        key = (batter.pid, pitcher.pid, home_batting)
+        q = self.q_cache.get(key)
+        if q is None:
+            q = self.q_cache[key] = self.pitch.chain(self.tilt_cache[key])
+        o = _PITCH_O.get(res, _PITCH_O["OUT"])
+        seq = self.pitch.sequence(q, o, rng)
+        pr = self.pitch_rec
+        n = len(seq)
+        pr["n_pa"] += 1; pr["pitches"] += n
+        pr["hist"][min(n, MAX_PITCHES_HIST)] += 1
+        first = next((c for c in seq if c != "N"), "B")
+        pr["fps"] += first in "KSFP"
+        b = s = 0
+        seen = set()
+        pp, bp = self.player_pitch[pitcher.pid], self.player_pitch[batter.pid]
+        ev = pr["ev"]
+        for c in seq:
+            seen.add(b * 3 + s)
+            ev[b * 3 + s, _EV7[c]] += 1
+            if c != "N":
+                ei = _EV6[c]
+                pp[ei] += 1; bp[ei] += 1
+                if s == 2:
+                    pr["k2p"] += 1; pr["k2f"] += c == "F"
+            if c == "B":
+                b += 1
+            elif c in "KS":
+                s += 1
+            elif c == "F":
+                s = min(s + 1, 2)
+        is_ab = res not in ("BB", "HBP", "SF", "SH")
+        for i in seen:
+            pr["reach"][i] += 1
+            pr["ab"][i] += is_ab
+            pr["h"][i] += res in ("1B", "2B", "3B", "HR")
+            pr["k"][i] += res == "K"
+            pr["bb"][i] += res == "BB"
+        return n
 
     def _record(self, st, batter, pitcher, res, rng):
         bs, ps = self.bstats[batter.pid], self.pstats[pitcher.pid]
@@ -307,7 +364,7 @@ class PlayerGameEngine:
             ot[batter.pid, ptid, h, 1] += 1
             if rp is not None:
                 ex[batter.pid, 3, 0] += rp[3]; ex[batter.pid, 3, 1] += rp[3] * (1 - rp[3])
-        n = self.pitch_cat[res].draw(rng.random())
+        n = self._pitches(batter, pitcher, bool(h), res, rng)
         ps[P_PITCH] += n
         st.outing[st.fielding_side]["pitches"] += n
         if res == "BB":
@@ -335,6 +392,7 @@ class PlayerGameEngine:
 
     def play(self, rng, home, away, weekend, dec, week=0, day=0) -> GameState2:
         st = GameState2(rng, home, away, weekend)
+        self.q_cache.clear()          # chains are rebuilt per game (memory); the tilts stay cached
         st.run_rule_in_effect = rng.random() < self.rules.p_run_rule_in_effect
         st.week, st.day = week, day
         for side in ("away", "home"):
@@ -357,4 +415,6 @@ class PlayerGameEngine:
             self._end_check(st, False)
             if not st.over:
                 st.inning += 1
+        for side in ("away", "home"):
+            self._end_outing(st, side)
         return st

@@ -50,3 +50,14 @@ Derived inputs are rebuilt in this order: `build_phase2_benchmarks.py`, `build_p
 
 Run: `python3 scripts/run_phase4.py` simulates the report's 20 seasons once and writes `reports/phase2.md` and `reports/phase4.md`.
 Derived inputs: `build_phase4_inputs.py`, `build_phase4_scale.py`, `write_phase4_benchmarks.py`.
+
+## Phase 5 — pitch-by-pitch
+
+| Module | Role |
+|---|---|
+| `pitch.py` | count-state pitch chain (ball, called strike, whiff, foul, in play, HBP, neutral pitch); player tilts along directions measured in the data; a sequence drawn exactly conditioned on the PA outcome (Doob h-transform), so PA totals are the Phase 4 ones |
+| `game2.py` | draws each PA's pitch sequence after its outcome; the outing pitch count (pull hazard) is the sum of those pitches; records pitch-level statistics |
+| `report5.py` | pitch-level realism report and the PA-unchanged check against `reports/phase4_baseline.json` |
+
+Run: `python3 scripts/run_phase5.py` simulates the report's 20 seasons once and writes `reports/phase2.md`, `phase4.md` and `phase5.md`.
+Derived inputs: `build_phase5_benchmarks.py`, `solve_phase5_chain.py`, `write_phase5_benchmarks.py`.

@@ -28,7 +28,7 @@ def status(gate_run) -> dict:
 
 def test_committed_report_matches(status: dict) -> None:
     committed = json.loads((Path(__file__).resolve().parents[1] / "reports/phase4.json").read_text())["status"]
-    assert committed == status, "reports/phase4.md is stale: re-run scripts/run_phase4.py"
+    assert committed == status, "reports/phase4.md is stale: re-run scripts/run_phase5.py"
 
 
 @pytest.mark.parametrize("rating", RATINGS)
