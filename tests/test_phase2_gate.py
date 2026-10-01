@@ -3,7 +3,8 @@
 Simulates PHASE2_GATE_SEASONS full seasons (default 4; the report uses 20) of the
 fictional league and checks every gate row of the realism report against
 benchmarks.json: Phase 1 league totals unchanged, the per-game run histogram,
-extra-innings and run-rule frequency, team R/G and RA/G spread overall and by tier,
+extra-innings and run-rule frequency, home win pct and home run differential, the
+tier-vs-tier scoring matrix, team R/G and RA/G spread overall and by tier,
 qualified-player percentiles and the full-population leaderboard extremes.
 Never xfail or widen these.
 """
@@ -35,6 +36,8 @@ GROUPS = {
     "run_histogram": lambda k: k == "run_histogram",
     "extra_innings": lambda k: k == "extra_innings",
     "run_rule": lambda k: k == "run_rule",
+    "home_field": lambda k: k in ("home_win_pct", "home_run_diff"),
+    "tier_matrix": lambda k: k.startswith("tier_"),
     "team_strength": lambda k: k.startswith("team_"),
     "qualified_percentiles": lambda k: k.startswith("q_"),
     "leaderboards": lambda k: k.startswith("lb_"),

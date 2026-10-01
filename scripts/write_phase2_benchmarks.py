@@ -1,10 +1,12 @@
 """Write the Phase 2 blocks of benchmarks.json from the derived Phase 2 files.
 
-Reads data/ncaa_2025/derived/phase2_inputs_2025.json (scripts/build_phase2_benchmarks.py)
-and phase2_gate_2025.json (scripts/build_phase2_gate.py). Adds player_talent_2025,
-team_strength_2025, usage_2025, qualified_players_2025, leaderboards_2025, and a
-sampling-error tolerance for game_structure.run_rule_freq (it had none). Existing
-values are not changed; every change is recorded in data/ncaa_2025/derived/benchmark_changes_phase2.json.
+Reads data/ncaa_2025/derived/phase2_inputs_2025.json (scripts/build_phase2_benchmarks.py,
+build_phase2_teams.py), phase2_gate_2025.json (build_phase2_gate.py, build_phase2_teams.py)
+and phase2_run_scale_2025.json (build_phase2_run_scale.py). Writes player_talent_2025,
+team_talent_2025, team_strength_2025, tier_matrix_2025, home_2025, usage_2025,
+qualified_players_2025, leaderboards_2025, and a sampling-error tolerance for
+game_structure.run_rule_freq (it had none). Values outside these Phase 2 blocks are not
+changed; every write is recorded in data/ncaa_2025/derived/benchmark_changes_phase2.json.
 """
 from __future__ import annotations
 
@@ -22,6 +24,7 @@ BENCH = Path("benchmarks.json")
 
 def main() -> None:
     inp = json.loads((D / "phase2_inputs_2025.json").read_text())
+    rs = json.loads((D / "phase2_run_scale_2025.json").read_text())
     gate = json.loads((D / "phase2_gate_2025.json").read_text())
     b = json.loads(BENCH.read_text())
     changes = []
@@ -30,7 +33,8 @@ def main() -> None:
         cur = b
         for k in path[:-1]:
             cur = cur.setdefault(k, {})
-        changes.append({"path": ".".join(path), "old": cur.get(path[-1]), "new": new})
+        if json.loads(json.dumps(cur.get(path[-1]), default=str)) != json.loads(json.dumps(new, default=str)):
+            changes.append({"path": ".".join(path), "old": cur.get(path[-1]), "new": new})
         cur[path[-1]] = new
 
     meta = inp["_meta"]
@@ -45,7 +49,9 @@ def main() -> None:
         "_note": (f"True-talent distributions on the logit scale, from {meta['src']}. logit rate = logit L + mu_group + T_tier + U_team + e_player. "
                   "Binomial noise removed by method of moments (observed variance of rate minus tier-cell expectation, less the mean q(1-q)/n); "
                   "team vs individual split from team means of full-season teams (var_team_mean = var_U + var_e / k_eff). Rates: K, BB, HBP, HR per PA; "
-                  "BABIP = hits / non-HR balls in play excluding reached-on-error; XBH = (2B+3B)/(1B+2B+3B). Pitcher XBH is not modeled (hit-type mix attributed to the batter). "
+                  "BABIP = hits / non-HR balls in play excluding reached-on-error; XBH = (2B+3B)/(1B+2B+3B). Pitcher individual XBH is not modeled (hit-type mix attributed to the batter). "
+                  "Since the PR #4 review the league generator uses tier_effects_logit only for the quality directions (P4 minus low contrast) and sd_team_logit only for team style "
+                  "(the part with no run value); tier means, team and conference spreads come from team_talent_2025. "
                   "Bias: the play-by-play holds only WMT client schools' games; full-season teams are "
                   f"{meta['full_season_teams_by_tier']} by tier against a D1 mix of 21% P4, 50% mid, 29% low, so team-level variances and the individual spreads rest mostly on P4 rosters. "
                   "Tier effects are fitted from all 9 batting x pitching tier cells, which every tier enters, and are less exposed. Midweek-starter estimates rest on 25 pitchers."),
@@ -55,6 +61,25 @@ def main() -> None:
         "groups_defined": {"regular": "top 9 by PA on the team", "bench": "rest", "sp_weekend": "starts in >=50% of appearances, >=50% of starts Fri-Sun",
                            "sp_midweek": "starts in >=50% of appearances, mostly Mon-Thu", "rp": "the rest"},
     })
+    tt = inp["team_talent"]
+    setv(["team_talent_2025"], {
+        "_note": ("Team strength on one talent scale. Quasi-Poisson fit of runs per team-game on team offense o, run prevention d (log runs, centred over teams) and the listed "
+                  "home slot; (o, d) = tier mean + conference effect + team effect. Estimation noise removed by method of moments using each team's covariance from the fit; "
+                  "conference covariance = spread of conference means minus (team + noise)/n, per tier, projected to PSD. Hosting of nonconference games: logistic in tier pair "
+                  "and strength gap, slope disattenuated for noise. Engine mapping (phase2_run_scale_2025.json): o and d become logit offsets along the batting and pitching quality "
+                  "directions scaled so one unit is one log run in the engine; the home talent edge is home_log_ratio minus the engine's batting-last effect h0. " + tt["src"]),
+        "conf": "A", "conf_note": "Tier means, team covariances and the home effect rest on all 306 D1 teams (conf A). Conference covariances rest on 4 (P4), 15 (mid) and 10 (low) conferences and the hosting model on 3,550 nonconference games (conf B).",
+        "n_games": tt["n_games"], "n_teams": tt["n_teams"], "dispersion": tt["dispersion"],
+        "home_log_ratio": {"value": tt["home_log_ratio"], "se": tt["home_log_ratio_se"], "conf": "A"},
+        "engine_home_structural_h0": rs["home_structural"]["h0_log_ratio"],
+        "tiers": {t: {k: v for k, v in e.items()} for t, e in tt["tiers"].items()},
+        "conf_cov_pooled": tt["conf_cov_pooled"], "conf_sd_pooled": tt["conf_sd_pooled"],
+        "hosting": {**tt["hosting"], "conf": "B"},
+        "engine_scale": {"v_bat_unit": rs["v_bat_unit"], "v_pit_unit": rs["v_pit_unit"], "w_gradient_logR": rs["w_gradient_logR"], "rates": rs["rates"],
+                         "linearity_quadratic_coef": rs["linearity"]["quadratic_coef"]},
+    })
+    setv(["tier_matrix_2025"], gate["tier_matrix_2025"])
+    setv(["home_2025"], gate["home_2025"])
     ts = gate["team_strength_2025"]
     ts["home_win_pct"] = gate["schedule_mix"]["home_win_pct"]
     setv(["team_strength_2025"], ts)
@@ -64,6 +89,9 @@ def main() -> None:
         "conf": "B", "starter_summary": u["starter_summary"], "starter_bf_share": u["starter_bf_share"], "pitchers_per_team_game": u["pitchers_per_team_game"],
         "batters_per_team_game": u["batters_per_team_game"], "earned_run_share": u["earned_run_share"],
         "batter_start_share_by_rank": u["batter_start_share_by_rank"], "reliever_bf_share_by_rank": u["reliever_bf_share_by_rank"],
+        "weekend_start_share_by_rank": u["weekend_start_share_by_rank"], "weekend_starters_per_team": u["weekend_starters_per_team"],
+        "weekend_start_note": u["weekend_start_note"], "pitcher_ip_by_team_rank": u["pitcher_ip_by_team_rank"],
+        "games_per_full_season_team": u["games_per_full_season_team"], "batter_share_hhi": u["batter_share_hhi"], "pitcher_share_hhi": u["pitcher_share_hhi"],
         "pitchers_50ip_per_team": {"value": round(b["pitching_distribution_2025"]["pitchers_50ip"] / 303, 2), "note": "FanGraphs 882 / 303 teams; WMT full-season teams give 2.90"},
     })
     setv(["qualified_players_2025"], gate["qualified_players_2025"])
@@ -77,7 +105,8 @@ def main() -> None:
         new["tol_note"] = "3 SE of the product estimator (scoreboard share of 10-run margins x WMT conditional share ended early)"
         setv(["game_structure", "run_rule_freq"], new)
     BENCH.write_text(dumps_compact(b) + "\n")
-    (D / "benchmark_changes_phase2.json").write_text(json.dumps(changes, indent=1, default=str) + "\n")
+    if changes:  # a rerun with nothing new keeps the last change record
+        (D / "benchmark_changes_phase2.json").write_text(json.dumps(changes, indent=1, default=str) + "\n")
     print("wrote", [c["path"] for c in changes])
 
 

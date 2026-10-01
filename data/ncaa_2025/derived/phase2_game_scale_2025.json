@@ -1,0 +1,64 @@
+{
+ "_note": "Solve the engine's game-level run scale and home edge.\n\nTeam strength (o, d) and the home effect h come from a quasi-Poisson fit of runs per\nteam-game on the 2025 scoreboard (build_phase2_teams.py). Runs per game include the\nrun rule and the skipped or walk-off bottom of the ninth, which compress lopsided games,\nwhile the half-inning scale (build_phase2_run_scale.py) has no truncation. So the same\nfit is run on simulated seasons and three numbers are found by fixed-point iteration:\n  k_o, k_d   multipliers on the batting / pitching quality directions, so the fitted\n             o (d) of simulated teams regresses on their true o (d) with slope 1:\n             k <- k / slope\n  eta        home talent edge, so the simulated fitted home effect equals the\n             scoreboard's: eta <- eta + (h_scoreboard - h_sim)\nNothing else is matched: runs, spreads and gate rows are not used. Calibration seeds\n(910000+) are disjoint from the location solve and the report.\nOutput: data/ncaa_2025/derived/phase2_game_scale_2025.json\n",
+ "built": "2026-10-01",
+ "seeds": [
+  910001,
+  910002,
+  910003,
+  910004,
+  910005,
+  910006,
+  910007,
+  910008
+ ],
+ "h_scoreboard": 0.0305,
+ "scale": {
+  "k_o": 1.1354920356211982,
+  "k_d": 1.102723589466987,
+  "eta": 0.09492585028541677
+ },
+ "history": [
+  {
+   "iteration": 0,
+   "scale": {
+    "k_o": 1.0,
+    "k_d": 1.0,
+    "eta": 0.08990000000000001
+   },
+   "fitted": {
+    "slope_o": 0.8835224290636625,
+    "slope_d": 0.9046459879593165,
+    "h": 0.018794084583666007,
+    "phi": 2.1673682612639205
+   }
+  },
+  {
+   "iteration": 1,
+   "scale": {
+    "k_o": 1.1318331794471566,
+    "k_d": 1.105404780775938,
+    "eta": 0.101605915416334
+   },
+   "fitted": {
+    "slope_o": 1.0033235702190735,
+    "slope_d": 1.003596741727892,
+    "h": 0.03675553283107601,
+    "phi": 2.172833991108453
+   }
+  },
+  {
+   "iteration": 2,
+   "scale": {
+    "k_o": 1.1280839133481368,
+    "k_d": 1.1014431741505688,
+    "eta": 0.09535038258525799
+   },
+   "fitted": {
+    "slope_o": 0.9934758483189109,
+    "slope_d": 0.9988388610449178,
+    "h": 0.030924532299841226,
+    "phi": 2.1724059262291098
+   }
+  }
+ ]
+}

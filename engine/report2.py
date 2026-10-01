@@ -9,7 +9,7 @@ from pathlib import Path
 import numpy as np
 
 from config.phase2 import LEADERBOARD_MIN_IP, QUAL_GAMES_SHARE, QUAL_IP_PER_TEAM_GAME, QUAL_PA_PER_TEAM_GAME
-from engine.game2 import (B_2B, B_3B, B_AB, B_BB, B_G, B_H, B_HBP, B_HR, B_K, B_PA, B_SF, P_BF, P_ER, P_K, P_OUTS)
+from engine.game2 import (B_2B, B_3B, B_AB, B_BB, B_G, B_H, B_HBP, B_HR, B_K, B_PA, B_SF, P_BF, P_ER, P_K, P_OUTS, P_WGS)
 
 ROOT = Path(__file__).resolve().parents[1]
 TIERS = ("p4", "mid", "low")
@@ -34,6 +34,11 @@ def season_metrics(res: dict) -> dict:
     m["margin_10plus"] = float(np.mean([abs(g[2] - g[3]) >= 10 for g in games]))
     m["runs_sd"] = float(runs.std())
     m["home_win_pct"] = float(np.mean([g[2] > g[3] for g in games]))
+    m["home_run_diff"] = float(np.mean([g[2] - g[3] for g in games]))
+    cell = {(a, b): [] for a in TIERS for b in TIERS}
+    for g in games:
+        cell[(tier[g[0]], tier[g[1]])].append(g[2]); cell[(tier[g[1]], tier[g[0]])].append(g[3])
+    m["tier_matrix"] = {a: {b: float(np.mean(cell[(a, b)])) for b in TIERS} for a in TIERS}
     hv = res["half_innings"]
     hh = Counter(min(x[2], 5) for x in hv)
     m["half_inning_run_dist"] = [hh[i] / len(hv) for i in range(6)]
@@ -74,7 +79,16 @@ def season_metrics(res: dict) -> dict:
                          "teams_era_under_4": int(sum(x["era"] < 4 for x in tv)), "best_team_era": min(x["era"] for x in tv),
                          "team_ba_max": max(x["ba"] for x in tv), "team_hr_per_game_max": max(x["hr_g"] for x in tv),
                          "individual_ba_top": float(np.nanmax(BA)), "individual_hr_top": int(b[:, B_HR].max())}
-    m["usage"] = {"pitchers_per_team_game": float(p[:, 0].sum() / ntg)}
+    # rotation: share of a team's weekend starts made by its three most frequent weekend starters
+    tid_p = np.array([x.team for x in pl]); wgs = p[:, P_WGS]
+    top3, nstart, iprank = [], [], []
+    for t in range(len(lg.teams)):
+        w = np.sort(wgs[tid_p == t])[::-1]
+        if w.sum():
+            top3.append(w[:3].sum() / w.sum()); nstart.append(int((w > 0).sum()))
+        iprank.append(np.sort(ip[tid_p == t])[::-1][:3])
+    m["usage"] = {"pitchers_per_team_game": float(p[:, 0].sum() / ntg), "weekend_top3_share": float(np.mean(top3)),
+                  "weekend_starters_per_team": float(np.mean(nstart)), "ip_top3": [float(x) for x in np.mean(iprank, axis=0)]}
     return m
 
 
@@ -91,7 +105,7 @@ def aggregate(ms: list) -> dict:
     out["league"] = {k: avg(["league", k]) for k in ms[0]["league"]}
     for k in ("run_histogram", "half_inning_run_dist"):
         out[k] = [float(x) for x in avg([k])]
-    for k in ("extra_innings_freq", "run_rule_freq", "margin_10plus", "runs_sd", "home_win_pct", "big_inning_freq", "pa_per_half_inning"):
+    for k in ("extra_innings_freq", "run_rule_freq", "margin_10plus", "runs_sd", "home_win_pct", "home_run_diff", "big_inning_freq", "pa_per_half_inning"):
         out[k] = avg([k])
     out["team_strength"] = {"all": {s: {q: avg(["team_strength", "all", s, q]) for q in ("mean", "sd")} for s in ("r_per_game", "ra_per_game")},
                             "by_tier": {t: {s: {q: avg(["team_strength", "by_tier", t, s, q]) for q in ("mean", "sd")} for s in ("r_per_game", "ra_per_game")} for t in TIERS}}
@@ -102,7 +116,8 @@ def aggregate(ms: list) -> dict:
         v = np.array([m["leaderboards"][k] for m in ms], float)
         lb[k] = {"mean": float(v.mean()), "sd": float(v.std(ddof=1)) if len(v) > 1 else 0.0, "min": float(v.min()), "max": float(v.max())}
     out["leaderboards"] = lb
-    out["usage"] = {"pitchers_per_team_game": avg(["usage", "pitchers_per_team_game"])}
+    out["tier_matrix"] = {a: {b: avg(["tier_matrix", a, b]) for b in TIERS} for a in TIERS}
+    out["usage"] = {k: (avg(["usage", k]) if k != "ip_top3" else [float(x) for x in avg(["usage", k])]) for k in ms[0]["usage"]}
     return out
 
 
@@ -135,6 +150,14 @@ def build_report(agg: dict, seeds: list, bench: dict | None = None) -> tuple[str
     rb = gs["run_distribution_per_team_game"]
     tvd = sum(abs(g - v) for g, v in zip(agg["run_histogram"], rb["bins"])) / 2
     st["run_histogram"] = bool(all(abs(g - v) <= rb["tol_per_bin"] for g, v in zip(agg["run_histogram"], rb["bins"])) and tvd <= rb["tol_total_variation"])
+    hm = b["home_2025"]
+    row("game", "Home win pct", agg["home_win_pct"], hm["home_win_pct"]["value"], hm["home_win_pct"]["tol"], hm["conf"], "home_win_pct")
+    row("game", "Home run differential per game", agg["home_run_diff"], hm["home_run_diff"]["value"], hm["home_run_diff"]["tol"], hm["conf"], "home_run_diff", nd=3)
+    tm = b["tier_matrix_2025"]
+    for bt in TIERS:
+        for pt in TIERS:
+            c = tm["matrix"][bt][pt]
+            row("tiers", f"{bt} batting vs {pt} pitching", agg["tier_matrix"][bt][pt], c["r_per_game"], c["tol"], tm["conf"], f"tier_{bt}_{pt}", nd=3)
     ts = b["team_strength_2025"]
     for scope, sim, real in [("all", agg["team_strength"]["all"], ts["all"])] + [(t, agg["team_strength"]["by_tier"][t], ts["by_tier"][t]) for t in TIERS]:
         for s, lab in (("r_per_game", "R/G"), ("ra_per_game", "RA/G")):
@@ -173,10 +196,13 @@ def build_report(agg: dict, seeds: list, bench: dict | None = None) -> tuple[str
           "| Runs | Sim | Benchmark | Diff | Status |", "|---|---|---|---|---|"]
     for i, (g, v) in enumerate(zip(agg["run_histogram"], rb["bins"])):
         md.append(f"| {i if i < 15 else '15+'} | {g:.4f} | {v:.4f} | {g - v:+.4f} | {'pass' if abs(g - v) <= rb['tol_per_bin'] else 'FAIL'} |")
-    md += ["", "## Team strength spread (scoreboard, all 2025 D1-vs-D1 finals)", "", hdr, sec("team"), "",
+    md += ["", "## Tier vs tier scoring (runs per team-game; scoreboard, all 2025 D1-vs-D1 finals)", "", hdr, sec("tiers"), "",
+           "## Team strength spread (scoreboard, all 2025 D1-vs-D1 finals)", "", hdr, sec("team"), "",
            "## Qualified players (NCAA qualification; WMT full-season + Sidearm, tier-reweighted)", "",
            f"Qualified per team: batters sim {agg['qualified']['batters']['per_team']:.2f} vs data {qp['batters']['per_team']}; pitchers sim {agg['qualified']['pitchers']['per_team']:.2f} vs data {qp['pitchers']['per_team']}.", "",
            hdr, sec("qualified"), "", "## Leaderboards (full-population extremes)", "", hdr, sec("leaders"), "",
-           "## Diagnostics", "", f"- Home win pct {agg['home_win_pct']:.4f} (real {b['team_strength_2025'].get('home_win_pct', 0.5876)}; no home advantage is modeled)",
-           f"- Pitchers per team-game {agg['usage']['pitchers_per_team_game']:.2f} (data {b['usage_2025']['pitchers_per_team_game']}); earned share of runs {agg['league']['earned_share']:.3f} (data {b['usage_2025']['earned_run_share']})", ""]
+           "## Diagnostics", "",
+           f"- Earned share of runs {agg['league']['earned_share']:.4f} (data {b['usage_2025']['earned_run_share']}); pitchers per team-game {agg['usage']['pitchers_per_team_game']:.2f} (data {b['usage_2025']['pitchers_per_team_game']})",
+           f"- Weekend starts by a team's top three starters {agg['usage']['weekend_top3_share']:.3f} (data {sum(b['usage_2025']['weekend_start_share_by_rank'][str(k)] for k in (1, 2, 3)):.3f}); weekend starters per team {agg['usage']['weekend_starters_per_team']:.2f} (data {b['usage_2025']['weekend_starters_per_team']})",
+           f"- Innings of a team's three busiest pitchers {', '.join(f'{x:.1f}' for x in agg['usage']['ip_top3'])} (data, full-season teams averaging {b['usage_2025']['games_per_full_season_team']} games: {', '.join(str(b['usage_2025']['pitcher_ip_by_team_rank'][str(k)]) for k in (1, 2, 3))})", ""]
     return "\n".join(md), st

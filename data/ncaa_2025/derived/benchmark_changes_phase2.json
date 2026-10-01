@@ -1,9 +1,430 @@
 [
  {
   "path": "player_talent_2025",
-  "old": null,
-  "new": {
+  "old": {
    "_note": "True-talent distributions on the logit scale, from WMT play-by-play, 2225 games / 177503 PA, 2025 (data/ncaa_2025/pbp, built 2026-10-01). logit rate = logit L + mu_group + T_tier + U_team + e_player. Binomial noise removed by method of moments (observed variance of rate minus tier-cell expectation, less the mean q(1-q)/n); team vs individual split from team means of full-season teams (var_team_mean = var_U + var_e / k_eff). Rates: K, BB, HBP, HR per PA; BABIP = hits / non-HR balls in play excluding reached-on-error; XBH = (2B+3B)/(1B+2B+3B). Pitcher XBH is not modeled (hit-type mix attributed to the batter). Bias: the play-by-play holds only WMT client schools' games; full-season teams are {'p4': 36, 'low': 1, 'mid': 13} by tier against a D1 mix of 21% P4, 50% mid, 29% low, so team-level variances and the individual spreads rest mostly on P4 rosters. Tier effects are fitted from all 9 batting x pitching tier cells, which every tier enters, and are less exposed. Midweek-starter estimates rest on 25 pitchers.",
+   "conf": "B",
+   "n_full_season_teams": 50,
+   "full_season_teams_by_tier": {
+    "p4": 36,
+    "low": 1,
+    "mid": 13
+   },
+   "tier_effects_logit": {
+    "K": {
+     "bat": {
+      "p4": -0.1781,
+      "mid": -0.0094,
+      "low": 0.1427
+     },
+     "pit": {
+      "p4": 0.3365,
+      "mid": -0.0027,
+      "low": -0.2346
+     }
+    },
+    "BB": {
+     "bat": {
+      "p4": 0.1615,
+      "mid": -0.0186,
+      "low": -0.0832
+     },
+     "pit": {
+      "p4": -0.1625,
+      "mid": -0.037,
+      "low": 0.1785
+     }
+    },
+    "HBP": {
+     "bat": {
+      "p4": 0.1126,
+      "mid": 0.003,
+      "low": -0.0851
+     },
+     "pit": {
+      "p4": -0.153,
+      "mid": -0.0396,
+      "low": 0.1761
+     }
+    },
+    "HR": {
+     "bat": {
+      "p4": 0.4486,
+      "mid": -0.0174,
+      "low": -0.2894
+     },
+     "pit": {
+      "p4": -0.1339,
+      "mid": 0.0353,
+      "low": 0.0352
+     }
+    },
+    "BABIP": {
+     "bat": {
+      "p4": 0.0725,
+      "mid": 0.0046,
+      "low": -0.0594
+     },
+     "pit": {
+      "p4": -0.1187,
+      "mid": 0.0088,
+      "low": 0.0695
+     }
+    },
+    "XBH": {
+     "bat": {
+      "p4": 0.1236,
+      "mid": -0.005,
+      "low": -0.0794
+     },
+     "pit": {
+      "p4": -0.115,
+      "mid": 0.0079,
+      "low": 0.0684
+     }
+    }
+   },
+   "batter": {
+    "K": {
+     "sd_team_logit": 0.1241,
+     "groups": {
+      "regular": {
+       "mu_logit": -0.0676,
+       "sd_ind_logit": 0.3147,
+       "sd_total_true_logit": 0.342,
+       "n_players": 468
+      },
+      "bench": {
+       "mu_logit": 0.2517,
+       "sd_ind_logit": 0.2749,
+       "sd_total_true_logit": 0.2971,
+       "n_players": 216
+      }
+     }
+    },
+    "BB": {
+     "sd_team_logit": 0.0925,
+     "groups": {
+      "regular": {
+       "mu_logit": -0.016,
+       "sd_ind_logit": 0.2559,
+       "sd_total_true_logit": 0.2715,
+       "n_players": 468
+      },
+      "bench": {
+       "mu_logit": -0.0267,
+       "sd_ind_logit": 0.3069,
+       "sd_total_true_logit": 0.32,
+       "n_players": 216
+      }
+     }
+    },
+    "HBP": {
+     "sd_team_logit": 0.2087,
+     "groups": {
+      "regular": {
+       "mu_logit": -0.0225,
+       "sd_ind_logit": 0.4811,
+       "sd_total_true_logit": 0.5238,
+       "n_players": 468
+      },
+      "bench": {
+       "mu_logit": 0.0072,
+       "sd_ind_logit": 0.7347,
+       "sd_total_true_logit": 0.7612,
+       "n_players": 216
+      }
+     }
+    },
+    "HR": {
+     "sd_team_logit": 0.2021,
+     "groups": {
+      "regular": {
+       "mu_logit": 0.0749,
+       "sd_ind_logit": 0.4558,
+       "sd_total_true_logit": 0.4882,
+       "n_players": 468
+      },
+      "bench": {
+       "mu_logit": -0.2782,
+       "sd_ind_logit": 0.089,
+       "sd_total_true_logit": 0.2566,
+       "n_players": 216
+      }
+     }
+    },
+    "BABIP": {
+     "sd_team_logit": 0.0403,
+     "groups": {
+      "regular": {
+       "mu_logit": 0.0303,
+       "sd_ind_logit": 0.0975,
+       "sd_total_true_logit": 0.1053,
+       "n_players": 468
+      },
+      "bench": {
+       "mu_logit": -0.1183,
+       "sd_ind_logit": 0.0,
+       "sd_total_true_logit": 0.0403,
+       "n_players": 240
+      }
+     }
+    },
+    "XBH": {
+     "sd_team_logit": 0.0639,
+     "groups": {
+      "regular": {
+       "mu_logit": 0.0225,
+       "sd_ind_logit": 0.2249,
+       "sd_total_true_logit": 0.2334,
+       "n_players": 462
+      },
+      "bench": {
+       "mu_logit": -0.1737,
+       "sd_ind_logit": 0.0,
+       "sd_total_true_logit": 0.0,
+       "n_players": 90
+      }
+     }
+    }
+   },
+   "pitcher": {
+    "K": {
+     "sd_team_logit": 0.1994,
+     "groups": {
+      "sp_weekend": {
+       "mu_logit": 0.061,
+       "sd_ind_logit": 0.2283,
+       "sd_total_true_logit": 0.2949,
+       "n_players": 174
+      },
+      "sp_midweek": {
+       "mu_logit": -0.1607,
+       "sd_ind_logit": 0.2224,
+       "sd_total_true_logit": 0.2988,
+       "n_players": 25
+      },
+      "rp": {
+       "mu_logit": 0.0053,
+       "sd_ind_logit": 0.2304,
+       "sd_total_true_logit": 0.2985,
+       "n_players": 561
+      }
+     }
+    },
+    "BB": {
+     "sd_team_logit": 0.1001,
+     "groups": {
+      "sp_weekend": {
+       "mu_logit": -0.2081,
+       "sd_ind_logit": 0.2681,
+       "sd_total_true_logit": 0.2944,
+       "n_players": 174
+      },
+      "sp_midweek": {
+       "mu_logit": -0.0943,
+       "sd_ind_logit": 0.2288,
+       "sd_total_true_logit": 0.2572,
+       "n_players": 25
+      },
+      "rp": {
+       "mu_logit": 0.0707,
+       "sd_ind_logit": 0.3551,
+       "sd_total_true_logit": 0.3685,
+       "n_players": 561
+      }
+     }
+    },
+    "HBP": {
+     "sd_team_logit": 0.1434,
+     "groups": {
+      "sp_weekend": {
+       "mu_logit": -0.1475,
+       "sd_ind_logit": 0.3609,
+       "sd_total_true_logit": 0.3988,
+       "n_players": 174
+      },
+      "sp_midweek": {
+       "mu_logit": -0.0401,
+       "sd_ind_logit": 0.3988,
+       "sd_total_true_logit": 0.4301,
+       "n_players": 25
+      },
+      "rp": {
+       "mu_logit": 0.0586,
+       "sd_ind_logit": 0.4827,
+       "sd_total_true_logit": 0.503,
+       "n_players": 561
+      }
+     }
+    },
+    "HR": {
+     "sd_team_logit": 0.1099,
+     "groups": {
+      "sp_weekend": {
+       "mu_logit": 0.0197,
+       "sd_ind_logit": 0.217,
+       "sd_total_true_logit": 0.2441,
+       "n_players": 174
+      },
+      "sp_midweek": {
+       "mu_logit": 0.0768,
+       "sd_ind_logit": 0.4812,
+       "sd_total_true_logit": 0.4966,
+       "n_players": 25
+      },
+      "rp": {
+       "mu_logit": -0.0073,
+       "sd_ind_logit": 0.2336,
+       "sd_total_true_logit": 0.262,
+       "n_players": 561
+      }
+     }
+    },
+    "BABIP": {
+     "sd_team_logit": 0.0762,
+     "groups": {
+      "sp_weekend": {
+       "mu_logit": -0.0189,
+       "sd_ind_logit": 0.0,
+       "sd_total_true_logit": 0.0485,
+       "n_players": 174
+      },
+      "sp_midweek": {
+       "mu_logit": -0.0079,
+       "sd_ind_logit": 0.0,
+       "sd_total_true_logit": 0.0,
+       "n_players": 26
+      },
+      "rp": {
+       "mu_logit": 0.0105,
+       "sd_ind_logit": 0.0435,
+       "sd_total_true_logit": 0.0882,
+       "n_players": 573
+      }
+     }
+    }
+   },
+   "correlation": {
+    "batter": {
+     "rates": [
+      "K",
+      "BB",
+      "HBP",
+      "HR",
+      "BABIP",
+      "XBH"
+     ],
+     "n_players": 460,
+     "matrix": [
+      [
+       1.0,
+       0.139,
+       -0.052,
+       0.402,
+       0.104,
+       0.316
+      ],
+      [
+       0.139,
+       1.0,
+       -0.063,
+       0.136,
+       0.063,
+       0.132
+      ],
+      [
+       -0.052,
+       -0.063,
+       1.0,
+       -0.068,
+       -0.07,
+       -0.063
+      ],
+      [
+       0.402,
+       0.136,
+       -0.068,
+       1.0,
+       0.164,
+       0.68
+      ],
+      [
+       0.104,
+       0.063,
+       -0.07,
+       0.164,
+       1.0,
+       -0.113
+      ],
+      [
+       0.316,
+       0.132,
+       -0.063,
+       0.68,
+       -0.113,
+       1.0
+      ]
+     ]
+    },
+    "pitcher": {
+     "rates": [
+      "K",
+      "BB",
+      "HBP",
+      "HR",
+      "BABIP"
+     ],
+     "n_players": 476,
+     "matrix": [
+      [
+       1.0,
+       -0.013,
+       -0.226,
+       -0.145,
+       0.0
+      ],
+      [
+       -0.013,
+       1.0,
+       0.424,
+       -0.224,
+       0.0
+      ],
+      [
+       -0.226,
+       0.424,
+       1.0,
+       -0.254,
+       0.0
+      ],
+      [
+       -0.145,
+       -0.224,
+       -0.254,
+       1.0,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       1.0
+      ]
+     ]
+    }
+   },
+   "groups_defined": {
+    "regular": "top 9 by PA on the team",
+    "bench": "rest",
+    "sp_weekend": "starts in >=50% of appearances, >=50% of starts Fri-Sun",
+    "sp_midweek": "starts in >=50% of appearances, mostly Mon-Thu",
+    "rp": "the rest"
+   }
+  },
+  "new": {
+   "_note": "True-talent distributions on the logit scale, from WMT play-by-play, 2225 games / 177503 PA, 2025 (data/ncaa_2025/pbp, built 2026-10-01). logit rate = logit L + mu_group + T_tier + U_team + e_player. Binomial noise removed by method of moments (observed variance of rate minus tier-cell expectation, less the mean q(1-q)/n); team vs individual split from team means of full-season teams (var_team_mean = var_U + var_e / k_eff). Rates: K, BB, HBP, HR per PA; BABIP = hits / non-HR balls in play excluding reached-on-error; XBH = (2B+3B)/(1B+2B+3B). Pitcher individual XBH is not modeled (hit-type mix attributed to the batter). Since the PR #4 review the league generator uses tier_effects_logit only for the quality directions (P4 minus low contrast) and sd_team_logit only for team style (the part with no run value); tier means, team and conference spreads come from team_talent_2025. Bias: the play-by-play holds only WMT client schools' games; full-season teams are {'p4': 36, 'low': 1, 'mid': 13} by tier against a D1 mix of 21% P4, 50% mid, 29% low, so team-level variances and the individual spreads rest mostly on P4 rosters. Tier effects are fitted from all 9 batting x pitching tier cells, which every tier enters, and are less exposed. Midweek-starter estimates rest on 25 pitchers.",
    "conf": "B",
    "n_full_season_teams": 50,
    "full_season_teams_by_tier": {
@@ -426,8 +847,404 @@
   }
  },
  {
-  "path": "team_strength_2025",
+  "path": "team_talent_2025",
   "old": null,
+  "new": {
+   "_note": "Team strength on one talent scale. Quasi-Poisson fit of runs per team-game on team offense o, run prevention d (log runs, centred over teams) and the listed home slot; (o, d) = tier mean + conference effect + team effect. Estimation noise removed by method of moments using each team's covariance from the fit; conference covariance = spread of conference means minus (team + noise)/n, per tier, projected to PSD. Hosting of nonconference games: logistic in tier pair and strength gap, slope disattenuated for noise. Engine mapping (phase2_run_scale_2025.json): o and d become logit offsets along the batting and pitching quality directions scaled so one unit is one log run in the engine; the home talent edge is home_log_ratio minus the engine's batting-last effect h0. NCAA scoreboard feed, every 2025 D1-vs-D1 final (data/ncaa_2025/scoreboard/games_2025.csv; fetched for PR #1)",
+   "conf": "A",
+   "conf_note": "Tier means, team covariances and the home effect rest on all 306 D1 teams (conf A). Conference covariances rest on 4 (P4), 15 (mid) and 10 (low) conferences and the hosting model on 3,550 nonconference games (conf B).",
+   "n_games": 7938,
+   "n_teams": 306,
+   "dispersion": 2.6185,
+   "home_log_ratio": {
+    "value": 0.0305,
+    "se": 0.0106,
+    "conf": "A"
+   },
+   "engine_home_structural_h0": -0.0594,
+   "tiers": {
+    "p4": {
+     "n_teams": 64,
+     "n_conferences": 4,
+     "mean_o": 0.2822,
+     "mean_d": 0.3339,
+     "mean_o_se": 0.0119,
+     "mean_d_se": 0.0127,
+     "team_cov": [
+      [
+       0.00575,
+       0.00823
+      ],
+      [
+       0.00823,
+       0.02222
+      ]
+     ],
+     "team_sd": {
+      "o": 0.0758,
+      "d": 0.1491,
+      "corr": 0.728
+     },
+     "conf_cov": [
+      [
+       0.00247,
+       0.00433
+      ],
+      [
+       0.00433,
+       0.0076
+      ]
+     ],
+     "conf_sd": {
+      "o": 0.0497,
+      "d": 0.0872
+     },
+     "observed_sd": {
+      "o": 0.1211,
+      "d": 0.1929
+     },
+     "noise_sd": {
+      "o": 0.0849,
+      "d": 0.0943
+     }
+    },
+    "mid": {
+     "n_teams": 153,
+     "n_conferences": 15,
+     "mean_o": 0.01,
+     "mean_d": 0.0049,
+     "mean_o_se": 0.0063,
+     "mean_d_se": 0.0063,
+     "team_cov": [
+      [
+       0.02387,
+       0.0127
+      ],
+      [
+       0.0127,
+       0.03147
+      ]
+     ],
+     "team_sd": {
+      "o": 0.1545,
+      "d": 0.1774,
+      "corr": 0.464
+     },
+     "conf_cov": [
+      [
+       0.00137,
+       0.00364
+      ],
+      [
+       0.00364,
+       0.0112
+      ]
+     ],
+     "conf_sd": {
+      "o": 0.037,
+      "d": 0.1058
+     },
+     "observed_sd": {
+      "o": 0.1844,
+      "d": 0.2255
+     },
+     "noise_sd": {
+      "o": 0.0915,
+      "d": 0.0901
+     }
+    },
+    "low": {
+     "n_teams": 89,
+     "n_conferences": 10,
+     "mean_o": -0.22,
+     "mean_d": -0.2485,
+     "mean_o_se": 0.0115,
+     "mean_d_se": 0.0111,
+     "team_cov": [
+      [
+       0.02153,
+       0.01728
+      ],
+      [
+       0.01728,
+       0.04033
+      ]
+     ],
+     "team_sd": {
+      "o": 0.1467,
+      "d": 0.2008,
+      "corr": 0.586
+     },
+     "conf_cov": [
+      [
+       0.02098,
+       0.02641
+      ],
+      [
+       0.02641,
+       0.03426
+      ]
+     ],
+     "conf_sd": {
+      "o": 0.1448,
+      "d": 0.1851
+     },
+     "observed_sd": {
+      "o": 0.2292,
+      "d": 0.2937
+     },
+     "noise_sd": {
+      "o": 0.0975,
+      "d": 0.0918
+     }
+    }
+   },
+   "conf_cov_pooled": [
+    [
+     0.00825,
+     0.01162
+    ],
+    [
+     0.01162,
+     0.01875
+    ]
+   ],
+   "conf_sd_pooled": {
+    "o": 0.0908,
+    "d": 0.1369,
+    "corr": 0.934
+   },
+   "hosting": {
+    "n_games": 3550,
+    "tier_pair_logit": {
+     "p4_vs_mid": 0.0112,
+     "p4_vs_low": 0.9172,
+     "mid_vs_low": 0.6385
+    },
+    "tier_pair_se": {
+     "p4_vs_mid": 0.0817,
+     "p4_vs_low": 0.1897,
+     "mid_vs_low": 0.0781
+    },
+    "strength_slope_observed": 1.0113,
+    "strength_slope_se": 0.084,
+    "reliability": 0.8389,
+    "strength_slope": 1.2054,
+    "raw_higher_tier_hosts": {
+     "p4_hosts_vs_mid": 0.638,
+     "p4_hosts_vs_low": 0.8577,
+     "mid_hosts_vs_low": 0.7171
+    },
+    "conf": "B"
+   },
+   "engine_scale": {
+    "v_bat_unit": [
+     -0.63054,
+     0.48096,
+     0.38858,
+     1.45056,
+     0.25925,
+     0.399
+    ],
+    "v_pit_unit": [
+     -1.01624,
+     0.60679,
+     0.58562,
+     0.3009,
+     0.33489,
+     0.32635
+    ],
+    "w_gradient_logR": [
+     -0.3681,
+     0.2611,
+     0.0805,
+     0.2228,
+     0.9022,
+     0.0722
+    ],
+    "rates": [
+     "K",
+     "BB",
+     "HBP",
+     "HR",
+     "BABIP",
+     "XBH"
+    ],
+    "linearity_quadratic_coef": {
+     "bat": 0.0096,
+     "pit": -0.0328
+    }
+   }
+  }
+ },
+ {
+  "path": "tier_matrix_2025",
+  "old": null,
+  "new": {
+   "_note": "NCAA scoreboard feed, every 2025 D1-vs-D1 final (data/ncaa_2025/scoreboard/games_2025.csv; fetched for PR #1). Runs per team-game by batting tier (rows) and pitching tier (columns). Tolerance 3 SE, two-way cluster-robust (batting team, pitching team). Gate for Phase 2.",
+   "conf": "A",
+   "matrix": {
+    "p4": {
+     "p4": {
+      "r_per_game": 6.364,
+      "n_team_games": 2316,
+      "se": 0.1642,
+      "tol": 0.493
+     },
+     "mid": {
+      "r_per_game": 8.614,
+      "n_team_games": 953,
+      "se": 0.2033,
+      "tol": 0.61
+     },
+     "low": {
+      "r_per_game": 9.82,
+      "n_team_games": 267,
+      "se": 0.3451,
+      "tol": 1.035
+     }
+    },
+    "mid": {
+     "p4": {
+      "r_per_game": 4.762,
+      "n_team_games": 953,
+      "se": 0.1743,
+      "tol": 0.523
+     },
+     "mid": {
+      "r_per_game": 6.724,
+      "n_team_games": 6194,
+      "se": 0.1491,
+      "tol": 0.447
+     },
+     "low": {
+      "r_per_game": 8.457,
+      "n_team_games": 905,
+      "se": 0.2552,
+      "tol": 0.766
+     }
+    },
+    "low": {
+     "p4": {
+      "r_per_game": 3.629,
+      "n_team_games": 267,
+      "se": 0.1996,
+      "tol": 0.599
+     },
+     "mid": {
+      "r_per_game": 5.88,
+      "n_team_games": 905,
+      "se": 0.1987,
+      "tol": 0.596
+     },
+     "low": {
+      "r_per_game": 7.046,
+      "n_team_games": 3116,
+      "se": 0.2311,
+      "tol": 0.693
+     }
+    }
+   }
+  }
+ },
+ {
+  "path": "home_2025",
+  "old": null,
+  "new": {
+   "_note": "NCAA scoreboard feed, every 2025 D1-vs-D1 final (data/ncaa_2025/scoreboard/games_2025.csv; fetched for PR #1). Listed home team (no neutral-site flag in the feed). Tolerance 3 SE, two-way cluster-robust (home team, away team).",
+   "conf": "A",
+   "n_games": 7938,
+   "home_win_pct": {
+    "value": 0.5836,
+    "tol": 0.0337
+   },
+   "home_run_diff": {
+    "value": 0.8883,
+    "tol": 0.5125
+   },
+   "home_runs_per_game": 7.225,
+   "away_runs_per_game": 6.337
+  }
+ },
+ {
+  "path": "team_strength_2025",
+  "old": {
+   "_note": "Every 2025 D1-vs-D1 final in the NCAA scoreboard feed (data/ncaa_2025/scoreboard). Team season runs scored and allowed per game; SDs across teams include each team's game-to-game sampling noise, as the simulated seasons do. Tolerances are 3 SE of the real statistic. Gate for Phase 2.",
+   "conf": "A",
+   "n_teams": 306,
+   "games_per_team_mean": 51.88,
+   "all": {
+    "n_teams": 306,
+    "r_per_game": {
+     "mean": 6.747,
+     "mean_tol": 0.199,
+     "sd": 1.162,
+     "sd_tol": 0.141,
+     "sd_true": 0.974
+    },
+    "ra_per_game": {
+     "mean": 6.841,
+     "mean_tol": 0.274,
+     "sd": 1.596,
+     "sd_tol": 0.194,
+     "sd_true": 1.47
+    }
+   },
+   "by_tier": {
+    "p4": {
+     "n_teams": 64,
+     "r_per_game": {
+      "mean": 7.207,
+      "mean_tol": 0.297,
+      "sd": 0.793,
+      "sd_tol": 0.212,
+      "sd_true": 0.493
+     },
+     "ra_per_game": {
+      "mean": 5.767,
+      "mean_tol": 0.417,
+      "sd": 1.112,
+      "sd_tol": 0.297,
+      "sd_true": 0.969
+     }
+    },
+    "mid": {
+     "n_teams": 153,
+     "r_per_game": {
+      "mean": 6.668,
+      "mean_tol": 0.304,
+      "sd": 1.255,
+      "sd_tol": 0.216,
+      "sd_true": 1.095
+     },
+     "ra_per_game": {
+      "mean": 6.871,
+      "mean_tol": 0.334,
+      "sd": 1.377,
+      "sd_tol": 0.237,
+      "sd_true": 1.233
+     }
+    },
+    "low": {
+     "n_teams": 89,
+     "r_per_game": {
+      "mean": 6.553,
+      "mean_tol": 0.363,
+      "sd": 1.141,
+      "sd_tol": 0.258,
+      "sd_true": 0.923
+     },
+     "ra_per_game": {
+      "mean": 7.56,
+      "mean_tol": 0.578,
+      "sd": 1.819,
+      "sd_tol": 0.411,
+      "sd_true": 1.685
+     }
+    }
+   },
+   "home_win_pct": 0.5876
+  },
   "new": {
    "_note": "Every 2025 D1-vs-D1 final in the NCAA scoreboard feed (data/ncaa_2025/scoreboard). Team season runs scored and allowed per game; SDs across teams include each team's game-to-game sampling noise, as the simulated seasons do. Tolerances are 3 SE of the real statistic. Gate for Phase 2.",
    "conf": "A",
@@ -508,8 +1325,7 @@
  },
  {
   "path": "usage_2025",
-  "old": null,
-  "new": {
+  "old": {
    "_note": "Pitcher and lineup usage from WMT play-by-play, 2225 games / 177503 PA, 2025 (data/ncaa_2025/pbp, built 2026-10-01). Full hazard tables (starter and reliever pull probability by outing pitch count, runs allowed and inning end) and pitches-per-PA distributions are in data/ncaa_2025/derived/phase2_inputs_2025.json.",
    "conf": "B",
    "starter_summary": {
@@ -567,11 +1383,224 @@
     "value": 2.91,
     "note": "FanGraphs 882 / 303 teams; WMT full-season teams give 2.90"
    }
+  },
+  "new": {
+   "_note": "Pitcher and lineup usage from WMT play-by-play, 2225 games / 177503 PA, 2025 (data/ncaa_2025/pbp, built 2026-10-01). Full hazard tables (starter and reliever pull probability by outing pitch count, runs allowed and inning end) and pitches-per-PA distributions are in data/ncaa_2025/derived/phase2_inputs_2025.json.",
+   "conf": "B",
+   "starter_summary": {
+    "weekend": {
+     "starts": 3132,
+     "bf_mean": 20.19,
+     "pitches_mean": 75.2,
+     "ip_mean": 4.32
+    },
+    "midweek": {
+     "starts": 1318,
+     "bf_mean": 14.31,
+     "pitches_mean": 53.0,
+     "ip_mean": 3.03
+    }
+   },
+   "starter_bf_share": {
+    "weekend": 0.5058,
+    "midweek": 0.3595
+   },
+   "pitchers_per_team_game": 4.298,
+   "batters_per_team_game": 10.387,
+   "earned_run_share": 0.8824,
+   "batter_start_share_by_rank": {
+    "1": 0.9925,
+    "2": 0.9799,
+    "3": 0.9561,
+    "4": 0.9235,
+    "5": 0.8692,
+    "6": 0.8079,
+    "7": 0.7467,
+    "8": 0.6822,
+    "9": 0.5869,
+    "10": 0.4674,
+    "11": 0.3486,
+    "12": 0.2431,
+    "13": 0.1672,
+    "14": 0.1208,
+    "15": 0.0826,
+    "16": 0.0474
+   },
+   "reliever_bf_share_by_rank": {
+    "1": 0.1612,
+    "2": 0.1288,
+    "3": 0.1104,
+    "4": 0.0968,
+    "5": 0.086,
+    "6": 0.0752,
+    "7": 0.0663,
+    "8": 0.058,
+    "9": 0.0505,
+    "10": 0.0429
+   },
+   "weekend_start_share_by_rank": {
+    "1": 0.3231,
+    "2": 0.2733,
+    "3": 0.193,
+    "4": 0.094,
+    "5": 0.0592,
+    "6": 0.0292,
+    "7": 0.0146,
+    "8": 0.0137
+   },
+   "weekend_starters_per_team": 6.48,
+   "weekend_start_note": "full-season teams; rank = team's k-th most frequent weekend starter, ranks >= 8 pooled; series game = order of the team's Fri-Sun games within the calendar week (third and later pooled)",
+   "pitcher_ip_by_team_rank": {
+    "1": 77.2,
+    "2": 66.7,
+    "3": 54.4,
+    "4": 44.5,
+    "5": 38.3,
+    "6": 33.7,
+    "7": 29.6,
+    "8": 25.7
+   },
+   "games_per_full_season_team": 57.2,
+   "batter_share_hhi": 0.0862,
+   "pitcher_share_hhi": 0.0901,
+   "pitchers_50ip_per_team": {
+    "value": 2.91,
+    "note": "FanGraphs 882 / 303 teams; WMT full-season teams give 2.90"
+   }
   }
  },
  {
   "path": "qualified_players_2025",
-  "old": null,
+  "old": {
+   "_note": "Qualified batters (NCAA rule: 2.0 PA per team game and 75% of team games) and pitchers (1 IP per team game) on WMT full-season teams plus the Sidearm full-season pages, reweighted so each tier counts by its share of D1 teams. Tolerances 3 SE from a team-cluster bootstrap within tier. Conf B: 72% of sample teams are P4 and the low tier rests on few teams, so low-tier tails carry the most uncertainty.",
+   "conf": "B",
+   "qualification": {
+    "batter": "PA >= 2.0 x team games and games >= 0.75 x team games",
+    "pitcher": "IP >= 1.0 x team games"
+   },
+   "batters": {
+    "n": 461,
+    "teams_by_tier": {
+     "p4": 39,
+     "mid": 17,
+     "low": 5
+    },
+    "per_team": 7.56,
+    "BA": {
+     "p10": 0.237,
+     "p25": 0.2578,
+     "p50": 0.2953,
+     "p75": 0.3237,
+     "p90": 0.3505,
+     "tol": {
+      "p10": 0.0185,
+      "p25": 0.0185,
+      "p50": 0.0148,
+      "p75": 0.012,
+      "p90": 0.0168
+     }
+    },
+    "OBP": {
+     "p10": 0.3363,
+     "p25": 0.3607,
+     "p50": 0.388,
+     "p75": 0.4178,
+     "p90": 0.4477,
+     "tol": {
+      "p10": 0.0088,
+      "p25": 0.0109,
+      "p50": 0.0114,
+      "p75": 0.0126,
+      "p90": 0.0125
+     }
+    },
+    "ISO": {
+     "p10": 0.0755,
+     "p25": 0.111,
+     "p50": 0.1632,
+     "p75": 0.2134,
+     "p90": 0.2746,
+     "tol": {
+      "p10": 0.0174,
+      "p25": 0.0166,
+      "p50": 0.0178,
+      "p75": 0.0216,
+      "p90": 0.0394
+     }
+    },
+    "K_pct": {
+     "p10": 0.1064,
+     "p25": 0.1434,
+     "p50": 0.1831,
+     "p75": 0.2265,
+     "p90": 0.2691,
+     "tol": {
+      "p10": 0.0273,
+      "p25": 0.0207,
+      "p50": 0.0163,
+      "p75": 0.0218,
+      "p90": 0.0451
+     }
+    },
+    "BB_pct": {
+     "p10": 0.0663,
+     "p25": 0.0822,
+     "p50": 0.1077,
+     "p75": 0.133,
+     "p90": 0.1544,
+     "tol": {
+      "p10": 0.0098,
+      "p25": 0.0097,
+      "p50": 0.0151,
+      "p75": 0.0165,
+      "p90": 0.0146
+     }
+    }
+   },
+   "pitchers": {
+    "n": 134,
+    "teams_by_tier": {
+     "p4": 37,
+     "mid": 17,
+     "low": 5
+    },
+    "per_team": 2.27,
+    "ERA": {
+     "p10": 3.4051,
+     "p25": 4.1584,
+     "p50": 5.087,
+     "p75": 6.0302,
+     "p90": 7.6935,
+     "tol": {
+      "p10": 0.6754,
+      "p25": 0.527,
+      "p50": 0.6533,
+      "p75": 1.1893,
+      "p90": 1.3645
+     }
+    },
+    "K9": {
+     "p10": 5.8198,
+     "p25": 6.8334,
+     "p50": 7.6571,
+     "p75": 9.5468,
+     "p90": 10.5419,
+     "tol": {
+      "p10": 0.751,
+      "p25": 0.6124,
+      "p50": 0.7711,
+      "p75": 0.9266,
+      "p90": 1.1748
+     }
+    }
+   },
+   "sample_tops": {
+    "BA_max": 0.403,
+    "HR_max": 25,
+    "ERA_min_qualified": 2.58,
+    "note": "Maxima of a sample of ~60 teams, not the 303-team population; informational only"
+   }
+  },
   "new": {
    "_note": "Qualified batters (NCAA rule: 2.0 PA per team game and 75% of team games) and pitchers (1 IP per team game) on WMT full-season teams plus the Sidearm full-season pages, reweighted so each tier counts by its share of D1 teams. Tolerances 3 SE from a team-cluster bootstrap within tier. Conf B: 72% of sample teams are P4 and the low tier rests on few teams, so low-tier tails carry the most uncertainty.",
    "conf": "B",
@@ -705,7 +1734,50 @@
  },
  {
   "path": "leaderboards_2025",
-  "old": null,
+  "old": {
+   "_note": "Full-population extremes for the Phase 2 gate. The sim passes a row if the real value falls inside the central 95% of the simulated seasons. FanGraphs rows are conf A (all D1 pitchers and teams); individual BA and HR tops have no full-population source here (stats.ncaa.org not available), so they are informational.",
+   "pitchers_50ip": {
+    "value": 882,
+    "conf": "A"
+   },
+   "pitchers_50ip_era_under_2": {
+    "value": 5,
+    "conf": "A"
+   },
+   "pitchers_50ip_era_under_3": {
+    "value": 57,
+    "conf": "A"
+   },
+   "teams_era_under_4": {
+    "value": 12,
+    "conf": "A"
+   },
+   "best_team_era": {
+    "value": 3.2,
+    "conf": "A"
+   },
+   "team_ba_max": {
+    "value": 0.356,
+    "conf": "A"
+   },
+   "team_hr_per_game_max": {
+    "value": 2.672,
+    "conf": "A",
+    "note": "Georgia 179 HR in 67 games"
+   },
+   "individual_ba_top": {
+    "value": null,
+    "conf": "D",
+    "sample_max": 0.403,
+    "note": "needs stats.ncaa.org individual table"
+   },
+   "individual_hr_top": {
+    "value": null,
+    "conf": "D",
+    "sample_max": 25,
+    "note": "needs stats.ncaa.org individual table"
+   }
+  },
   "new": {
    "_note": "Full-population extremes for the Phase 2 gate. The sim passes a row if the real value falls inside the central 95% of the simulated seasons. FanGraphs rows are conf A (all D1 pitchers and teams); individual BA and HR tops have no full-population source here (stats.ncaa.org not available), so they are informational.",
    "pitchers_50ip": {
@@ -749,55 +1821,6 @@
     "sample_max": 25,
     "note": "needs stats.ncaa.org individual table"
    }
-  }
- },
- {
-  "path": "game_structure.run_rule_freq",
-  "old": {
-   "value": 0.1524,
-   "conf": "B",
-   "note": "P(run rule) = P(final margin >= 10, all 8,079 scoreboard games) x P(game ended before the 9th | margin >= 10, WMT sample). Scheduled 7-inning doubleheaders that also reach a 10-run margin are counted.",
-   "p_margin_10plus_season": 0.1952,
-   "p_ended_early_given_margin_10plus_wmt": 0.7805,
-   "wmt_sample_run_rule_freq": 0.1549,
-   "short_game_not_run_rule_freq": 0.0123,
-   "innings_dist": {
-    "6": 0.0009,
-    "7": 0.1311,
-    "8": 0.0352,
-    "9": 0.7783,
-    "10": 0.0339,
-    "11": 0.0114,
-    "12": 0.0062,
-    "13": 0.0018,
-    "14": 0.0009,
-    "15": 0.0004
-   },
-   "gate": "phase2"
-  },
-  "new": {
-   "value": 0.1524,
-   "conf": "B",
-   "note": "P(run rule) = P(final margin >= 10, all 8,079 scoreboard games) x P(game ended before the 9th | margin >= 10, WMT sample). Scheduled 7-inning doubleheaders that also reach a 10-run margin are counted.",
-   "p_margin_10plus_season": 0.1952,
-   "p_ended_early_given_margin_10plus_wmt": 0.7805,
-   "wmt_sample_run_rule_freq": 0.1549,
-   "short_game_not_run_rule_freq": 0.0123,
-   "innings_dist": {
-    "6": 0.0009,
-    "7": 0.1311,
-    "8": 0.0352,
-    "9": 0.7783,
-    "10": 0.0339,
-    "11": 0.0114,
-    "12": 0.0062,
-    "13": 0.0018,
-    "14": 0.0009,
-    "15": 0.0004
-   },
-   "gate": "phase2",
-   "tol": 0.0155,
-   "tol_note": "3 SE of the product estimator (scoreboard share of 10-run margins x WMT conditional share ended early)"
   }
  }
 ]

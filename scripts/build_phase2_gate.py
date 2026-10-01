@@ -87,6 +87,9 @@ def team_strength(teams: pd.DataFrame) -> tuple[dict, dict]:
     mix = {}
     for daytype, d in (("weekend", nc[nc.wd.isin([3, 4, 5, 6])]), ("midweek", nc[~nc.wd.isin([3, 4, 5, 6])])):
         mix[daytype] = {t: {o: round(v, 4) for o, v in d[d.tier == t].otier.value_counts(normalize=True).items()} for t in TIERS}
+        # joint share of nonconference games by unordered tier pair (each game appears once per side above)
+        pr = Counter("|".join(sorted((a, b), key=TIERS.index)) for a, b in zip(d.tier, d.otier))
+        mix[f"{daytype}_pairs"] = {k: round(v / sum(pr.values()), 4) for k, v in sorted(pr.items())}
     mix["conference_games_share"] = round(float(tg.conf_game.mean()), 4)
     mix["home_win_pct"] = round(float((sb.home_score > sb.away_score).mean()), 4)
     return out, mix
@@ -154,7 +157,6 @@ def qualified(teams: pd.DataFrame) -> tuple[dict, dict]:
         find(root)
         hit, pit = lists.get("individualHittingStats", []), lists.get("individualPitchingStats", [])
         tot = next((x for x in hit if x.get("playerName") == "Totals"), None) or next((x for x in lists.get("individualFieldingStats", []) if x.get("playerName") == "Totals"), {})
-        tgames = num(next((x for x in pit if x.get("playerName") == "Totals"), {}).get("gamesPlayed")) if False else None
         # team games: the most games any batter played is a lower bound; Totals row of hitting carries it
         team_g = max(num(x.get("gamesPlayed")) for x in hit if x.get("playerName") not in ("Totals", "Opponents") and not np.isnan(num(x.get("gamesPlayed"))))
         for x in hit:

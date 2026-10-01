@@ -19,23 +19,15 @@ def simulate_season(cfg: Phase2Config, seed: int) -> dict:
     schedule = make_schedule(cfg, league, np.random.Generator(np.random.PCG64(s_sched)))
     n = len(league.players)
     bstats = [[0] * 12 for _ in range(n)]
-    pstats = [[0] * 12 for _ in range(n)]
+    pstats = [[0] * 13 for _ in range(n)]
     eng = PlayerGameEngine(cfg, league, bstats, pstats)
     mgr = Manager(cfg)
     team_games = Counter()
-    midweek_count = Counter()
     tg_rows, game_rows, halves = [], [], []
     for g, gss in zip(schedule, s_games.spawn(len(schedule))):
         rng = np.random.Generator(np.random.PCG64(gss))
         home, away = league.teams[g.home], league.teams[g.away]
-        starters = {}
-        for side, tm in (("home", home), ("away", away)):
-            if g.weekend:
-                starters[side] = tm.weekend_sp[g.day]
-            else:
-                starters[side] = tm.midweek_sp[midweek_count[tm.tid] % len(tm.midweek_sp)]
-                midweek_count[tm.tid] += 1
-        st = eng.play(rng, home, away, g.weekend, starters, mgr)
+        st = eng.play(rng, home, away, g.weekend, mgr, week=g.week, day=g.day)
         team_games[g.home] += 1; team_games[g.away] += 1
         game_rows.append((g.home, g.away, st.score["home"], st.score["away"], st.inning, st.ended_by_run_rule, g.weekend))
         for side, tm, opp in (("home", home, "away"), ("away", away, "home")):

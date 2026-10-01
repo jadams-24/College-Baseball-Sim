@@ -1,11 +1,18 @@
 """Fictional D1 league: conferences and tiers mirror 2025 D1, names are invented,
-players carry true per-PA rates on the logit scale.
+players carry true per-PA rates on the logit scale. All teams sit on one talent scale.
 
-  logit rate = logit L + c_rate + mu_group + T_tier + U_team + e_player
+Team strength is a pair (o, d) in log runs (offense, run prevention) relative to an
+average D1 team, drawn as tier mean + conference effect + team effect from the
+scoreboard decomposition (config.phase2.team_draw). It becomes rate offsets along the
+engine's quality directions, plus a style term that changes the rate mix but not runs:
 
-L is the league outcome table; T, U and e come from the Phase 2 estimates in config;
-c_rate is the location (intercept) solved by scripts/solve_phase2_location.py so that
-simulated PA-weighted league rates equal the league table.
+  batter  logit rate = logit L + c_rate + mu_group + o * v_bat + style_bat + e_player
+  pitcher logit rate = logit L + c_rate + mu_group - d * v_pit + style_pit + e_player
+
+Tiers and conferences are only distributions of (o, d); nothing in a matchup knows a
+team's tier. L is the league outcome table, mu_group and e come from the play-by-play
+talent estimates, and c_rate is the location solved by scripts/solve_phase2_location.py
+so that simulated PA-weighted league rates equal the league table.
 """
 from __future__ import annotations
 
@@ -13,8 +20,7 @@ from dataclasses import dataclass, field
 
 import numpy as np
 
-from config.phase2 import (N_BENCH, N_MIDWEEK_SP, N_REGULARS, N_RELIEVERS, N_WEEKEND_SP, PA_RATES, RATES, TIERS,
-                           Phase2Config)
+from config.phase2 import N_BENCH, N_MIDWEEK_SP, N_REGULARS, N_RELIEVERS, N_WEEKEND_SP, RATES, Phase2Config
 from engine.matchup import matchup_probs
 
 _ON = ["br", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "r", "s", "st", "t", "v", "w", "z", "sh", "th", "gr", "cl", "tr"]
@@ -50,6 +56,8 @@ class Team:
     name: str
     conference: int
     tier: str
+    o: float = 0.0     # true offense, log runs above an average team (team level, before players)
+    d: float = 0.0     # true run prevention, log runs
     batters: list = field(default_factory=list)
     weekend_sp: list = field(default_factory=list)
     midweek_sp: list = field(default_factory=list)
@@ -70,16 +78,19 @@ def _mvn(rng, sd: np.ndarray, corr: np.ndarray, n: int) -> np.ndarray:
 
 
 def build_league(cfg: Phase2Config, rng: np.random.Generator) -> League:
-    tal, fx = cfg.talent, cfg.tier_effects
+    tal = cfg.talent
     cb = np.array(cfg.correlation["batter"]["matrix"])
     cp = np.array(cfg.correlation["pitcher"]["matrix"])  # K, BB, HBP, HR, BABIP
-    # conferences: real sizes and tiers, invented names
+    v_bat, v_pit = np.array(cfg.v_bat), np.array(cfg.v_pit)
+    # conferences: real sizes and tiers, invented names, one conference effect each
     confs: dict = {}
     by_conf: dict = {}
     for _, conf, tier in cfg.teams:
         by_conf.setdefault(conf, []).append(tier)
     used = set()
-    for i, (conf, tiers) in enumerate(sorted(by_conf.items(), key=lambda x: (-len(x[1]), x[0]))):
+    order = sorted(by_conf.items(), key=lambda x: (-len(x[1]), x[0]))
+    conf_fx = {}
+    for i, (conf, tiers) in enumerate(order):
         if conf == "DI Independent":
             name = "Independents"
         else:
@@ -88,11 +99,10 @@ def build_league(cfg: Phase2Config, rng: np.random.Generator) -> League:
                 if name not in used:
                     used.add(name); break
         confs[i] = [name, [], tiers[0], conf == "DI Independent"]
-    conf_index = {conf: i for i, (conf, _) in enumerate(sorted(by_conf.items(), key=lambda x: (-len(x[1]), x[0])))}
+        conf_fx[i] = rng.multivariate_normal(np.zeros(2), cfg.team_draw[tiers[0]]["conf_cov"], method="eigh")
+    conf_index = {conf: i for i, (conf, _) in enumerate(order)}
     teams, players = [], []
     team_names = set()
-    sd_team_b = np.array([tal["batter"][r]["sd_team_logit"] for r in RATES])
-    sd_team_p = np.array([tal["pitcher"][r]["sd_team_logit"] for r in RATES[:5]])
     for tid, (_, conf, tier) in enumerate(cfg.teams):
         while True:
             nm = f"{_word(rng, int(rng.integers(1, 3)))} {rng.choice(_MASCOTS)}"
@@ -100,22 +110,23 @@ def build_league(cfg: Phase2Config, rng: np.random.Generator) -> League:
                 team_names.add(nm); break
         t = Team(tid, nm, conf_index[conf], tier)
         confs[t.conference][1].append(tid)
-        u_b = _mvn(rng, sd_team_b, cb, 1)[0]
-        u_p = _mvn(rng, sd_team_p, cp, 1)[0]
-        tb = np.array([fx[r]["bat"][tier] for r in RATES])
-        tp = np.array([fx[r]["pit"][tier] for r in RATES[:5]])
+        td = cfg.team_draw[tier]
+        # an independent has no conference: it draws its own effect from its tier's conference distribution
+        c = conf_fx[t.conference] if not confs[t.conference][3] else rng.multivariate_normal(np.zeros(2), td["conf_cov"], method="eigh")
+        t.o, t.d = np.array(td["mean"]) + c + rng.multivariate_normal(np.zeros(2), td["team_cov"], method="eigh")
+        tb = t.o * v_bat + rng.multivariate_normal(np.zeros(6), cfg.style_cov["bat"], method="eigh")
+        tp = -t.d * v_pit + rng.multivariate_normal(np.zeros(6), cfg.style_cov["pit"], method="eigh")
 
         def make(side, group, n):
             if side == "bat":
                 g = {r: tal["batter"][r]["groups"][group] for r in RATES}
                 mu = np.array([g[r]["mu_logit"] for r in RATES]); sd = np.array([g[r]["sd_ind_logit"] for r in RATES])
-                e = _mvn(rng, sd, cb, n)
-                zs = mu + tb + u_b + e
+                zs = mu + tb + _mvn(rng, sd, cb, n)
             else:
                 g = {r: tal["pitcher"][r]["groups"][group] for r in RATES[:5]}
                 mu = np.array([g[r]["mu_logit"] for r in RATES[:5]]); sd = np.array([g[r]["sd_ind_logit"] for r in RATES[:5]])
-                e = _mvn(rng, sd, cp, n)
-                zs = np.hstack([mu + tp + u_p + e, np.zeros((n, 1))])  # XBH allowed: league (attributed to batter)
+                # individual hit-type mix allowed is not modeled (attributed to the batter); team quality moves it
+                zs = np.hstack([mu + _mvn(rng, sd, cp, n), np.zeros((n, 1))]) + tp
             out = []
             for z in zs:
                 p = Player(len(players), f"{rng.choice(_ON).upper()}. {_word(rng, int(rng.integers(1, 3)))}", tid, side, group, z)

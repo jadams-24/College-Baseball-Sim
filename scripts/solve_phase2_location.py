@@ -8,6 +8,8 @@ after simulating usage, so the six intercepts are found by fixed-point iteration
 simulated seasons:  c <- c + logit(table rate) - logit(simulated rate).
 Only K, BB, HBP, HR per PA, BABIP and XBH are matched; runs, team spreads and player
 distributions are not used. Calibration seeds (900000+) are disjoint from gate seeds.
+League rates vary from season to season (each season draws new conference and team
+effects; K% has a season SD of about .003), so each iteration averages 12 seasons.
 Output: data/ncaa_2025/derived/phase2_location_2025.json
 """
 from __future__ import annotations
@@ -18,6 +20,8 @@ import math
 import sys
 from pathlib import Path
 
+from concurrent.futures import ProcessPoolExecutor
+
 import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -26,8 +30,9 @@ from engine import league as league_mod  # noqa: E402
 from engine.season import simulate_season  # noqa: E402
 
 OUT = Path("data/ncaa_2025/derived/phase2_location_2025.json")
-SEEDS = (900001, 900002)
+SEEDS = tuple(range(900001, 900013))
 ITERS = 4
+WORKERS = 4
 
 
 def realized(res: dict) -> dict:
@@ -41,17 +46,20 @@ def realized(res: dict) -> dict:
     return {"K": k / pa, "BB": bb / pa, "HBP": hbp / pa, "HR": hr / pa, "BABIP": hits / bip_noroe, "XBH": (d2 + d3) / hits}
 
 
+def _season(args) -> dict:
+    loc, seed = args
+    league_mod.FIXED_LOCATION = dict(loc)
+    return realized(simulate_season(phase2.load(), seed))
+
+
 def main() -> None:
     cfg = phase2.load()
     c = {r: 0.0 for r in phase2.RATES}
     lg = lambda p: math.log(p / (1 - p))
     history = []
     for it in range(ITERS):
-        league_mod.FIXED_LOCATION = dict(c)
-        rates = []
-        for s in SEEDS:
-            res = simulate_season(cfg, s)
-            rates.append(realized(res))
+        with ProcessPoolExecutor(WORKERS) as ex:
+            rates = list(ex.map(_season, [(c, s) for s in SEEDS]))
         avg = {r: float(np.mean([x[r] for x in rates])) for r in c}
         gap = {r: lg(cfg.league_rates[r]) - lg(avg[r]) for r in c}
         history.append({"iteration": it, "location": dict(c), "realized": avg, "logit_gap": gap})

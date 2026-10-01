@@ -14,6 +14,9 @@ from config import phase1
 
 ROOT = Path(__file__).resolve().parents[1]
 INPUTS = ROOT / "data/ncaa_2025/derived/phase2_inputs_2025.json"
+RUN_SCALE = ROOT / "data/ncaa_2025/derived/phase2_run_scale_2025.json"
+GAME_SCALE = ROOT / "data/ncaa_2025/derived/phase2_game_scale_2025.json"
+GAME_SCALE_OVERRIDE = None  # set by scripts/solve_phase2_game_scale.py while it iterates
 TEAMS = ROOT / "data/ncaa_2025/pbp/teams_2025.csv"
 TIERS = ("p4", "mid", "low")
 RATES = ("K", "BB", "HBP", "HR", "BABIP", "XBH")
@@ -42,9 +45,14 @@ QUAL_GAMES_SHARE = 0.75
 QUAL_IP_PER_TEAM_GAME = 1.0
 LEADERBOARD_MIN_IP = 50
 
-# Home site of a nonconference series or midweek game: a fair coin. No home-field effect
-# is modeled in Phase 2 (real home win pct .588 is reported as a diagnostic).
-P_FIRST_TEAM_HOSTS = 0.5  # GUESS
+# Weekend starts: the team's k-th most frequent weekend starter (usage weekend_start_share_by_rank)
+# is played by this staff slot. Ranks 1-3 are the weekend rotation; who makes the occasional
+# 4th-8th-ranked starts (here the two midweek starters, then the top relievers) is not in the data.
+ROTATION_STAFF = (("weekend_sp", 0), ("weekend_sp", 1), ("weekend_sp", 2), ("midweek_sp", 0), ("midweek_sp", 1),
+                  ("relievers", 0), ("relievers", 1), ("relievers", 2))  # GUESS (slots for ranks 4-8)
+# Weekend starter pull hazards are tabulated for rotation ranks 1, 2, 3 and 4+ (spot starters),
+# matching usage.weekend_starter_pull_by_rank in phase2_inputs_2025.json.
+SPOT_STARTER_RANK = 4
 
 # Starter/reliever choice weights and lineup start rates come from usage tables; when a
 # hazard cell has fewer than this many batters faced it backs off to the coarser table.
@@ -57,7 +65,13 @@ class Phase2Config:
     league_rates: dict          # per-rate league values implied by the outcome table
     roe_share_of_bip: float     # reached on error as a share of balls in play (league)
     triple_share_of_xbh: float  # 3B / (2B + 3B) (league)
-    tier_effects: dict          # logit tier effects, batting and pitching
+    tier_effects: dict          # logit tier effects from the play-by-play (define the quality directions)
+    team_talent: dict           # scoreboard decomposition: tier means, team and conference covariances, home, hosting
+    v_bat: tuple                # logit offsets per unit of team offense (log runs)
+    v_pit: tuple                # logit offsets per unit of weaker run prevention (log runs)
+    team_draw: dict             # tier -> {"mean", "team_cov", "conf_cov"} of (o, d), individual share removed
+    style_cov: dict             # "bat"/"pit" -> 6x6 covariance of team rate offsets with zero run value
+    home_eta: float             # home talent edge in log runs (matchup-controlled home effect minus batting-last effect)
     talent: dict                # mu / sd by side, rate and role group; team SDs
     correlation: dict           # batter and pitcher correlation matrices
     usage: dict                 # pull hazards, pitches per PA, start shares, reliever shares
@@ -78,11 +92,64 @@ def load() -> Phase2Config:
                     "BABIP": hits / (hits + out_class), "XBH": (t["2B"] + t["3B"]) / hits}
     teams = [(int(r["ncaa_team_id"]), r["conference"], r["tier"]) for r in csv.DictReader(TEAMS.open()) if r["tier"]]
     mix = inp["schedule_mix"]
+    rs = json.loads(RUN_SCALE.read_text())
+    tt = inp["team_talent"]
+    draw, style = _team_draws(inp, rs)
+    # game-level scale (scripts/solve_phase2_game_scale.py): the scoreboard fits runs per game, which
+    # include run-rule and walk-off truncation; k_o, k_d stretch the half-inning quality directions so
+    # the same fit on simulated seasons recovers each team's (o, d) with slope 1, and eta is the home
+    # edge that makes the simulated matchup-controlled home effect equal the scoreboard's
+    gs = GAME_SCALE_OVERRIDE or (json.loads(GAME_SCALE.read_text())["scale"] if GAME_SCALE.exists() else
+                                 {"k_o": 1.0, "k_d": 1.0, "eta": tt["home_log_ratio"] - rs["home_structural"]["h0_log_ratio"]})
     return Phase2Config(
         base=base, league_rates=league_rates, roe_share_of_bip=t["ROE"] / bip_total,
         triple_share_of_xbh=t["3B"] / (t["2B"] + t["3B"]),
-        tier_effects=inp["tier_effects_logit"], talent=inp["talent"], correlation=inp["correlation"],
+        tier_effects=inp["tier_effects_logit"], team_talent=tt, v_bat=tuple(gs["k_o"] * x for x in rs["v_bat_unit"]),
+        v_pit=tuple(gs["k_d"] * x for x in rs["v_pit_unit"]), team_draw=draw, style_cov=style, home_eta=gs["eta"], talent=inp["talent"], correlation=inp["correlation"],
         usage=inp["usage"], schedule_mix=mix,
         conference_weekends=round(mix["conference_games_share"] * SEASON_GAMES / GAMES_PER_WEEKEND),
         teams=teams,
     )
+
+
+def _team_draws(inp: dict, rs: dict) -> tuple[dict, dict]:
+    """Team-level draw covariances on the log-runs scale.
+
+    The scoreboard's true team covariance of (o, d) includes the team mean of its players'
+    individual deviations; with usage shares s_k that part has variance
+    sum s_k^2 * w' Sigma_e w (w: the engine's log-runs gradient). It is removed so the
+    league generator's team effect plus its drawn players reproduce the scoreboard spread.
+    Style: the play-by-play team covariance of rate offsets with its run-value direction
+    projected out (P = I - v w' / w'v), so style moves rate mix but not runs.
+    """
+    import numpy as np
+    w = np.array(rs["w_gradient_logR"])
+    tal, cor, u = inp["talent"], inp["correlation"], inp["usage"]
+    cb = np.array(cor["batter"]["matrix"])
+    cp = np.zeros((6, 6)); cp[:5, :5] = np.array(cor["pitcher"]["matrix"]); cp[5, 5] = 1.0
+
+    def cov(sd, c):
+        sd = np.asarray(sd)
+        return np.outer(sd, sd) * c
+    se_bat = cov([tal["batter"][r]["groups"]["regular"]["sd_ind_logit"] for r in RATES], cb)
+    wk_games = WEEKS * GAMES_PER_WEEKEND / SEASON_GAMES
+    sh = {"sp_weekend": u["starter_bf_share"]["weekend"] * wk_games, "sp_midweek": u["starter_bf_share"]["midweek"] * (1 - wk_games)}
+    sh["rp"] = 1 - sum(sh.values())
+    se_pit = sum(v * cov([tal["pitcher"][r]["groups"][g]["sd_ind_logit"] for r in RATES[:5]] + [0.0], cp) for g, v in sh.items())
+    ind_o = u["batter_share_hhi"] * float(w @ se_bat @ w)
+    ind_d = u["pitcher_share_hhi"] * float(w @ se_pit @ w)
+
+    def psd(m):
+        vals, vecs = np.linalg.eigh((m + m.T) / 2)
+        return vecs @ np.diag(np.clip(vals, 0, None)) @ vecs.T
+    draw = {}
+    for t, e in inp["team_talent"]["tiers"].items():
+        draw[t] = {"mean": (e["mean_o"], e["mean_d"]), "team_cov": psd(np.array(e["team_cov"]) - np.diag([ind_o, ind_d])),
+                   "conf_cov": np.array(e["conf_cov"]), "individual_var": (ind_o, ind_d)}
+    style = {}
+    for side, v, sds, c in (("bat", rs["v_bat_unit"], [tal["batter"][r]["sd_team_logit"] for r in RATES], cb),
+                            ("pit", rs["v_pit_unit"], [tal["pitcher"][r]["sd_team_logit"] for r in RATES[:5]] + [0.0], cp)):
+        v = np.array(v)
+        P = np.eye(6) - np.outer(v, w) / float(w @ v)
+        style[side] = psd(P @ cov(sds, c) @ P.T)
+    return draw, style

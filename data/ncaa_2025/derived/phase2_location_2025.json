@@ -1,17 +1,27 @@
 {
- "_note": "Solve the location (intercept) of each true-talent distribution so that simulated,\nPA-weighted league rates equal the league outcome table.\n\nThe talent model fixes each rate's spread (tier, team, individual) from data; its mean\nis defined by the league table, which is a PA-weighted average over real usage (better\nhitters bat more, better pitchers pitch more). The usage-weighted mean is only known\nafter simulating usage, so the six intercepts are found by fixed-point iteration on\nsimulated seasons:  c <- c + logit(table rate) - logit(simulated rate).\nOnly K, BB, HBP, HR per PA, BABIP and XBH are matched; runs, team spreads and player\ndistributions are not used. Calibration seeds (900000+) are disjoint from gate seeds.\nOutput: data/ncaa_2025/derived/phase2_location_2025.json\n",
+ "_note": "Solve the location (intercept) of each true-talent distribution so that simulated,\nPA-weighted league rates equal the league outcome table.\n\nThe talent model fixes each rate's spread (tier, team, individual) from data; its mean\nis defined by the league table, which is a PA-weighted average over real usage (better\nhitters bat more, better pitchers pitch more). The usage-weighted mean is only known\nafter simulating usage, so the six intercepts are found by fixed-point iteration on\nsimulated seasons:  c <- c + logit(table rate) - logit(simulated rate).\nOnly K, BB, HBP, HR per PA, BABIP and XBH are matched; runs, team spreads and player\ndistributions are not used. Calibration seeds (900000+) are disjoint from gate seeds.\nLeague rates vary from season to season (each season draws new conference and team\neffects; K% has a season SD of about .003), so each iteration averages 12 seasons.\nOutput: data/ncaa_2025/derived/phase2_location_2025.json\n",
  "built": "2026-10-01",
  "seeds": [
   900001,
-  900002
+  900002,
+  900003,
+  900004,
+  900005,
+  900006,
+  900007,
+  900008,
+  900009,
+  900010,
+  900011,
+  900012
  ],
  "location": {
-  "K": -0.05830804004086998,
-  "BB": -0.00904431574768605,
-  "HBP": -0.2216011550702328,
-  "HR": -0.26684041264006364,
-  "BABIP": -0.016937620105418993,
-  "XBH": -0.017694651112225124
+  "K": -0.05262224215901745,
+  "BB": -0.018772335791680472,
+  "HBP": -0.22871827021931912,
+  "HR": -0.31492786228384473,
+  "BABIP": -0.02671624191128319,
+  "XBH": -0.037607269390525166
  },
  "history": [
   {
@@ -25,101 +35,101 @@
     "XBH": 0.0
    },
    "realized": {
-    "K": 0.20244156032334015,
-    "BB": 0.1066739110410903,
-    "HBP": 0.04206226874471474,
-    "HR": 0.03320359665739646,
-    "BABIP": 0.34166591599307494,
-    "XBH": 0.24539732408117082
+    "K": 0.20157071865400503,
+    "BB": 0.10783257557525094,
+    "HBP": 0.04204216194084703,
+    "HR": 0.03520304551252846,
+    "BABIP": 0.343713651911796,
+    "XBH": 0.24973604566351415
    },
    "logit_gap": {
-    "K": -0.054153186384632734,
-    "BB": -0.012155281836153886,
-    "HBP": -0.22707136404787898,
-    "HR": -0.2517796801806007,
-    "BABIP": -0.016988226076403157,
-    "XBH": -0.011528501201196528
+    "K": -0.04875092456903207,
+    "BB": -0.0242563240504583,
+    "HBP": -0.2265722355894404,
+    "HR": -0.3123243354886118,
+    "BABIP": -0.02607905275999378,
+    "XBH": -0.03482068598347565
    }
   },
   {
    "iteration": 1,
    "location": {
-    "K": -0.054153186384632734,
-    "BB": -0.012155281836153886,
-    "HBP": -0.22707136404787898,
-    "HR": -0.2517796801806007,
-    "BABIP": -0.016988226076403157,
-    "XBH": -0.011528501201196528
+    "K": -0.04875092456903207,
+    "BB": -0.0242563240504583,
+    "HBP": -0.2265722355894404,
+    "HR": -0.3123243354886118,
+    "BABIP": -0.02607905275999378,
+    "XBH": -0.03482068598347565
    },
    "realized": {
-    "K": 0.19429608745249405,
-    "BB": 0.10523124759951424,
-    "HBP": 0.03380322191028075,
-    "HR": 0.026297701707900696,
-    "BABIP": 0.3377550163420328,
-    "XBH": 0.24430147275385194
+    "K": 0.19445005138745985,
+    "BB": 0.10501505825436608,
+    "HBP": 0.03385639580689249,
+    "HR": 0.02604784688677281,
+    "BABIP": 0.3380478254766403,
+    "XBH": 0.24369598589179395
    },
    "logit_gap": {
-    "K": -0.002923941742946079,
-    "BB": 0.003074684635095526,
-    "HBP": 0.00010836503533351305,
-    "HR": -0.01148534520828104,
-    "BABIP": 0.0004473752660685282,
-    "XBH": -0.005601710510176217
+    "K": -0.003907157777274239,
+    "BB": 0.005372805010730897,
+    "HBP": -0.0015184770356819755,
+    "HR": -0.0016823390894300516,
+    "BABIP": -0.0008614207596244761,
+    "XBH": -0.002319285536406701
    }
   },
   {
    "iteration": 2,
    "location": {
-    "K": -0.05707712812757881,
-    "BB": -0.00908059720105836,
-    "HBP": -0.22696299901254546,
-    "HR": -0.26326502538888175,
-    "BABIP": -0.01654085081033463,
-    "XBH": -0.017130211711372745
+    "K": -0.05265808234630631,
+    "BB": -0.018883519039727403,
+    "HBP": -0.22809071262512237,
+    "HR": -0.3140066745780419,
+    "BABIP": -0.026940473519618258,
+    "XBH": -0.03713997151988235
    },
    "realized": {
-    "K": 0.19396356419447905,
-    "BB": 0.10555304489996675,
-    "HBP": 0.03360744266698894,
-    "HR": 0.026085022916921177,
-    "BABIP": 0.33792954939192305,
-    "XBH": 0.24332712536896722
+    "K": 0.19383376696883392,
+    "BB": 0.10551900078541014,
+    "HBP": 0.03382426031000776,
+    "HR": 0.026028794132709508,
+    "BABIP": 0.3377840308491471,
+    "XBH": 0.24335634916160523
    },
    "logit_gap": {
-    "K": -0.0007984238446927527,
-    "BB": -0.0003383582367137983,
-    "HBP": 0.006119543606142308,
-    "HR": -0.0031467134391434115,
-    "BABIP": -0.00033281807114882156,
-    "XBH": -0.0003169337992516841
+    "K": 3.200220214094607e-05,
+    "BB": 2.2285561354973282e-05,
+    "HBP": -0.0005355945855862743,
+    "HR": -0.0009310571615195329,
+    "BABIP": 0.0003176616481154193,
+    "XBH": -0.00047564961106960624
    }
   },
   {
    "iteration": 3,
    "location": {
-    "K": -0.057875551972271566,
-    "BB": -0.009418955437772158,
-    "HBP": -0.22084345540640316,
-    "HR": -0.26641173882802516,
-    "BABIP": -0.01687366888148345,
-    "XBH": -0.01744714551062443
+    "K": -0.052626080144165366,
+    "BB": -0.01886123347837243,
+    "HBP": -0.22862630721070865,
+    "HR": -0.3149377317395614,
+    "BABIP": -0.02662281187150284,
+    "XBH": -0.03761562113095196
    },
    "realized": {
-    "K": 0.1939063595801333,
-    "BB": 0.1054857485544431,
-    "HBP": 0.033831519495468684,
-    "HR": 0.026016061095904913,
-    "BABIP": 0.33786939758164614,
-    "XBH": 0.24331434254398354
+    "K": 0.19383816801035536,
+    "BB": 0.1055127137824028,
+    "HBP": 0.033809765348285524,
+    "HR": 0.02600495105861897,
+    "BABIP": 0.337875992427179,
+    "XBH": 0.24326723910971285
    },
    "logit_gap": {
-    "K": -0.0004324880685984134,
-    "BB": 0.0003746396900861093,
-    "HBP": -0.0007576996638296585,
-    "HR": -0.00042867381203848254,
-    "BABIP": -6.395122393554331e-05,
-    "XBH": -0.0002475056016006949
+    "K": 3.837985147914225e-06,
+    "BB": 8.889768669195774e-05,
+    "HBP": -9.19630086104739e-05,
+    "HR": 9.869455716682296e-06,
+    "BABIP": -9.343003978035114e-05,
+    "XBH": 8.351740426792986e-06
    }
   }
  ]

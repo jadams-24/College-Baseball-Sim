@@ -25,11 +25,15 @@ Constants are in `config/phase1.py`; the few that are not benchmark values are i
 
 | Module | Role |
 |---|---|
-| `league.py` | fictional D1 league: real conference count, sizes and tiers, invented names; 14 batters (9 regulars, 5 bench) and 13 pitchers (3 weekend starters, 2 midweek starters, 8 relievers) per team; true rates = league + intercept + group + tier + team + individual (logit scale) |
+| `league.py` | fictional D1 league: real conference count, sizes and tiers, invented names; 14 batters (9 regulars, 5 bench) and 13 pitchers (3 weekend starters, 2 midweek starters, 8 relievers) per team. One talent scale: each team draws (o, d), offense and run prevention in log runs, as tier mean + conference effect + team effect from the scoreboard decomposition; o and d become rate offsets along the engine's quality directions, plus a style term with no run value; players are drawn around their team. Nothing in a matchup knows a team's tier. |
 | `matchup.py` | odds-ratio (generalized log5) batter vs pitcher outcome probabilities |
-| `schedule.py` | 56 games: 14 weeks of a Fri-Sun series plus a midweek game; 10 conference weekends; nonconference opponents by the real tier mix |
-| `manager.py` | `Manager` Decider: lineup start shares by rank, rotation, pull hazards from the play-by-play, reliever choice by usage rank |
-| `game2.py` | game with players: Phase 1 state machine, odds-ratio outcomes, pitch counts per PA from data, runners carry their responsible pitcher for earned runs |
+| `schedule.py` | 56 games: 14 weeks of a Fri-Sun series plus a midweek game; 10 conference weekends (round robin); nonconference pairs drawn from the real joint tier-pair mix; host drawn from the scoreboard hosting model (tier pair and strength gap) |
+| `manager.py` | `Manager` Decider: lineup start shares by rank; weekend starters from real three-game rank patterns (rotation churn), midweek starters alternate; pull hazards from the play-by-play, with a rotation-rank leash for weekend starters; reliever choice by usage rank |
+| `game2.py` | game with players: Phase 1 state machine, odds-ratio outcomes, home edge, pitch counts per PA from data; earned runs by reconstructing the inning (phantom outs, reliever rule, fielder's-choice responsibility) |
 | `season.py`, `report2.py` | full seasons, player and team lines, Phase 2 metrics and realism report |
 
 Run: `python3 scripts/run_phase2.py --seasons 20` writes `reports/phase2.md`.
+
+Derived inputs are rebuilt in this order: `build_phase2_benchmarks.py`, `build_phase2_gate.py`,
+`build_phase2_teams.py`, `build_phase2_run_scale.py`, `solve_phase2_game_scale.py`,
+`solve_phase2_location.py`, `write_phase2_benchmarks.py`.

@@ -3,10 +3,15 @@
   lineup            each regular starts with the real start share for his rank; empty
                     spots go to bench players by their rank's share; batting order is
                     the team's talent order (best expected OBP+SLG first)
-  starting_pitcher  weekend series game k -> k-th weekend starter; midweek alternates
+  starting_pitcher  weekend: each series draws a real three-game pattern of starter ranks
+                    (the team's 1st..8th most frequent weekend starter in games 1, 2, 3 of a
+                    weekend; the top three make ~79% of weekend starts); ranks map to staff
+                    slots (config ROTATION_STAFF), a repeated pooled rank takes the next
+                    reliever. Midweek: the two midweek starters alternate.
   pitching_change   pull hazard from the play-by-play: P(replaced before the next batter |
                     starter or reliever, weekend, outing pitch count, outing runs, inning
-                    just ended)
+                    just ended); weekend starters use the table for their rotation rank
+                    (1, 2, 3, spot starter), which carries the aces' longer leash
   relief_pitcher    an unused reliever, weighted by the real share of relief batters
                     faced by bullpen rank
 Steals, bunts and intentional walks stay at league rates (Phase 6 is manager AI).
@@ -15,7 +20,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from config.phase2 import MIN_HAZARD_N, N_BENCH, N_REGULARS, Phase2Config
+from config.phase2 import GAMES_PER_WEEKEND, MIN_HAZARD_N, N_BENCH, N_REGULARS, ROTATION_STAFF, SPOT_STARTER_RANK, Phase2Config
 from engine.decider import Decision, LeagueAverageDecider
 
 
@@ -29,7 +34,15 @@ class Manager(LeagueAverageDecider):
             t = {k: v for k, v in block["table"].items()}
             b = {k: v for k, v in block["backoff"].items()}
             return t, b
+        pats = u["weekend_series_rank_patterns"]
+        self.patterns = [tuple(int(x) for x in k.split("|")) for k in pats]
+        w = np.array([pats[k] for k in pats], float)
+        self.pattern_w = w / w.sum()
+        self.series_plan: dict = {}
+        self.midweek_count: dict = {}
         self.sp_table, self.sp_back = table(u["starter_pull"])
+        self.wr_table, self.wr_back = table(u["weekend_starter_pull_by_rank"])
+        self.rank_now: dict = {}  # team id -> rotation rank class of today's weekend starter
         self.rp_table, self.rp_back = table(u["reliever_pull"])
 
     # ---- lineup ------------------------------------------------------------------------
@@ -46,19 +59,41 @@ class Manager(LeagueAverageDecider):
         return sorted(starters, key=lambda p: p.order)
 
     def starting_pitcher(self, state, team: str):
-        return state.scheduled_starter[team]
+        tm = state.team_obj[team]
+        if not state.weekend:
+            k = self.midweek_count.get(tm.tid, 0)
+            self.midweek_count[tm.tid] = k + 1
+            return tm.midweek_sp[k % len(tm.midweek_sp)]
+        key = (tm.tid, state.week)
+        if key not in self.series_plan:
+            ranks = self.patterns[int(state.rng.choice(len(self.patterns), p=self.pattern_w))]
+            plan, taken = [], set()
+            for r in ranks:
+                grp, i = ROTATION_STAFF[r - 1]
+                p = getattr(tm, grp)[i]
+                if p.pid in taken:  # pooled deepest rank repeated: next unused reliever
+                    p = next(x for x in tm.relievers if x.pid not in taken)
+                taken.add(p.pid); plan.append((p, r))
+            self.series_plan[key] = plan
+        pitcher, rank = self.series_plan[key][min(state.day, GAMES_PER_WEEKEND - 1)]
+        self.rank_now[tm.tid] = min(rank, SPOT_STARTER_RANK)
+        return pitcher
 
     # ---- pitching changes ------------------------------------------------------------------
-    def _hazard(self, starter: bool, weekend: int, pitches: int, runs: int, inning_end: int) -> float:
+    def _hazard(self, starter: bool, weekend: int, pitches: int, runs: int, inning_end: int, rank: int | None = None) -> float:
         pb, rb = min(pitches // 10, 12), min(runs, 5)
-        if starter:
-            c = self.sp_table.get(f"{weekend}|{pb}|{rb}|{inning_end}")
-            if c is None or c[1] < MIN_HAZARD_N:
-                c = self.sp_back.get(f"{weekend}|{pb}|{inning_end}")
+        if starter and weekend and rank is not None:
+            chain = ((self.wr_table, f"{rank}|{pb}|{rb}|{inning_end}"), (self.wr_back, f"{rank}|{pb}|{inning_end}"),
+                     (self.sp_table, f"{weekend}|{pb}|{rb}|{inning_end}"), (self.sp_back, f"{weekend}|{pb}|{inning_end}"))
+        elif starter:
+            chain = ((self.sp_table, f"{weekend}|{pb}|{rb}|{inning_end}"), (self.sp_back, f"{weekend}|{pb}|{inning_end}"))
         else:
-            c = self.rp_table.get(f"{pb}|{rb}|{inning_end}")
-            if c is None or c[1] < MIN_HAZARD_N:
-                c = self.rp_back.get(f"{pb}|{inning_end}")
+            chain = ((self.rp_table, f"{pb}|{rb}|{inning_end}"), (self.rp_back, f"{pb}|{inning_end}"))
+        c = None
+        for tab, key in chain:
+            c = tab.get(key)
+            if c is not None and c[1] >= MIN_HAZARD_N:
+                break
         if c is None or c[1] == 0:
             return 1.0 if pitches >= 120 else 0.0  # beyond the observed range: the data's maximum
         return c[0] / c[1]
@@ -67,7 +102,8 @@ class Manager(LeagueAverageDecider):
         o = state.outing[state.fielding_side]
         if not state.bullpen_left(state.fielding_side):
             return Decision.NO
-        h = self._hazard(o["starter"], int(state.weekend), o["pitches"], o["runs"], int(state.inning_end))
+        rank = self.rank_now.get(state.team_obj[state.fielding_side].tid) if state.weekend else None
+        h = self._hazard(o["starter"], int(state.weekend), o["pitches"], o["runs"], int(state.inning_end), rank)
         return Decision.YES if state.rng.random() < h else Decision.NO
 
     def relief_pitcher(self, state, team: str):

@@ -4,8 +4,23 @@ Outcome of each plate appearance: odds-ratio matchup of batter and pitcher true 
 (engine.matchup) for K/BB/HBP/HR/1B/2B/3B/ROE/in-play out; the in-play out is subtyped
 (plain out, SF, SH, FC) by base-out state from the league tables, and runners move by
 the same empirical joint advancement and pre-PA base-running tables as Phase 1.
-Runners carry the pitcher responsible for them; a run is unearned if the runner reached
-on an error or scored on a play with an error or a passed ball.
+The home team bats with +eta/2 log runs along the batting quality direction and pitches
+with eta/2 along the pitching direction (config.phase2 home_eta).
+
+Earned runs follow the official scoring rules by reconstructing each half-inning:
+  - a runner who reaches on an error is unearned; runs scoring on a play with an error
+    or on a passed ball are unearned;
+  - every error that prevents an out (reached on error; an out-class play with an error
+    and no out recorded) adds a phantom out; once actual plus phantom outs reach three,
+    every later run in the half-inning is unearned;
+  - runs are charged to the pitcher responsible for the runner; a relief pitcher does
+    not get the benefit of phantom outs from before he entered, so for runners charged
+    to the current pitcher the count is actual outs plus phantom outs since his entry,
+    and for runners left by an earlier pitcher it is the whole half-inning's count;
+  - a batter who reaches on a fielder's choice that retires a runner left by an earlier
+    pitcher becomes that pitcher's responsibility.
+Runner advancement is not re-run without the error, so a run that would have scored
+anyway on an error play is counted unearned.
 """
 from __future__ import annotations
 
@@ -20,14 +35,15 @@ from engine.tables import AdvancementTable, OutcomeTable, PrePaEventTable
 
 # batter stat columns and pitcher stat columns
 B_G, B_PA, B_AB, B_H, B_2B, B_3B, B_HR, B_BB, B_HBP, B_K, B_SF, B_SH = range(12)
-P_G, P_GS, P_BF, P_OUTS, P_H, P_HR, P_BB, P_HBP, P_K, P_R, P_ER, P_PITCH = range(12)
+P_G, P_GS, P_BF, P_OUTS, P_H, P_HR, P_BB, P_HBP, P_K, P_R, P_ER, P_PITCH, P_WGS = range(13)  # P_WGS: weekend starts
 PITCH_MAP = {"IP_OUT": ("FO", "GO", "GIDP", "DP")}
 
 
 class GameState2:
     __slots__ = ("rng", "inning", "half", "outs", "bases", "score", "over", "run_rule_in_effect", "ended_by_run_rule",
-                 "team_obj", "lineup", "slot", "pitcher", "outing", "used", "weekend", "scheduled_starter", "inning_end",
-                 "half_innings", "pa", "errors", "hits", "hr", "ab", "outs_pitched", "er_allowed")
+                 "team_obj", "lineup", "slot", "pitcher", "outing", "used", "weekend", "inning_end",
+                 "half_innings", "pa", "errors", "hits", "hr", "ab", "outs_pitched", "er_allowed",
+                 "week", "day", "phantom", "p_phantom")
 
     def __init__(self, rng, home, away, weekend):
         self.rng = rng
@@ -40,7 +56,6 @@ class GameState2:
         self.team_obj = {"home": home, "away": away}
         self.lineup, self.slot, self.pitcher, self.outing, self.used = {}, {"away": 0, "home": 0}, {}, {}, {"away": set(), "home": set()}
         self.weekend = weekend
-        self.scheduled_starter = {}
         self.inning_end = False
         self.half_innings = []
         self.pa = {"away": 0, "home": 0}
@@ -50,6 +65,9 @@ class GameState2:
         self.ab = {"away": 0, "home": 0}
         self.outs_pitched = {"away": 0, "home": 0}
         self.er_allowed = {"away": 0, "home": 0}
+        self.week, self.day = 0, 0
+        self.phantom = 0      # phantom outs this half-inning (errors that prevented an out)
+        self.p_phantom = 0    # phantom outs since the current pitcher entered this half-inning
 
     @property
     def batting_side(self):
@@ -79,6 +97,9 @@ class PlayerGameEngine:
         self.bstats, self.pstats = bstats, pstats
         self.cache: dict = {}
         self.roe_count = 0
+        eta = cfg.home_eta / 2
+        self.home_bat = eta * np.array(cfg.v_bat)
+        self.home_pit = eta * np.array(cfg.v_pit)
         pr = cfg.usage["pitches_per_pa_by_result"]
         self.pitch_cat = {}
         for res in ("K", "BB", "HBP", "1B", "2B", "3B", "HR", "SF", "SH", "ROE", "FC", "IP_OUT"):
@@ -89,27 +110,30 @@ class PlayerGameEngine:
                     counts[int(n)] = counts.get(int(n), 0) + c
             self.pitch_cat[res] = Categorical.from_counts(counts)
 
-    def _probs(self, batter, pitcher) -> Categorical:
-        key = (batter.pid, pitcher.pid)
+    def _probs(self, batter, pitcher, home_batting: bool) -> Categorical:
+        key = (batter.pid, pitcher.pid, home_batting)
         cat = self.cache.get(key)
         if cat is None:
-            p = matchup_probs(self.cfg, batter.z, pitcher.z, self.league.location)
+            zb, zp = (batter.z + self.home_bat, pitcher.z) if home_batting else (batter.z, pitcher.z - self.home_pit)
+            p = matchup_probs(self.cfg, zb, zp, self.league.location)
             cat = Categorical(list(OUTCOMES), [p[o] for o in OUTCOMES])
             self.cache[key] = cat
         return cat
 
     # ---- runner movement ----------------------------------------------------------------
-    def _apply(self, st, dests, batter_runner, batter_to, errors, event=None):
+    def _apply(self, st, dests, batter_runner, batter_to, errors, event=None, res=None):
         new = [None, None, None]
-        scored, outs, occupied = [], 0, set()
+        scored, outs, occupied, retired = [], 0, set(), []
         bat_side, fld_side = st.batting_side, st.fielding_side
+        cur = st.pitcher[fld_side].pid
+        recon_team, recon_cur = st.outs + st.phantom, st.outs + st.p_phantom
         for origin in (3, 2, 1):
             r = st.bases[origin - 1]
             if r is None:
                 continue
             d = dests[origin - 1] or str(origin)
             if d == "0":
-                outs += 1
+                outs += 1; retired.append(r)
             elif d == "4":
                 scored.append(r)
             else:
@@ -117,10 +141,14 @@ class PlayerGameEngine:
                 while tgt in occupied and tgt > origin:
                     tgt -= 1
                 if tgt in occupied:
-                    outs += 1
+                    outs += 1; retired.append(r)
                 else:
                     occupied.add(tgt); new[tgt - 1] = r
         if batter_runner is not None:
+            if res == "FC":
+                earlier = [r for r in retired if r[0] != cur]
+                if earlier:
+                    batter_runner = (earlier[0][0], batter_runner[1])
             if batter_to in ("", "0"):
                 outs += 1
             elif batter_to == "4":
@@ -137,13 +165,16 @@ class PlayerGameEngine:
         outs = min(outs, 3 - st.outs)
         st.outs += outs
         st.outs_pitched[fld_side] += outs
-        self.pstats[st.pitcher[fld_side].pid][P_OUTS] += outs
+        self.pstats[cur][P_OUTS] += outs
         st.errors[fld_side] += errors
         for pid, unearned in scored:
             self.pstats[pid][P_R] += 1
-            if not (unearned or errors or event == "PB"):
+            recon = recon_cur if pid == cur else recon_team
+            if not (unearned or errors or event == "PB" or recon >= 3):
                 self.pstats[pid][P_ER] += 1
                 st.er_allowed[fld_side] += 1
+        if res == "ROE" or (errors and res in ("FC", "SF", "SH", "IP_OUT", "FO", "GO", "GIDP", "DP") and outs == 0):
+            st.phantom += 1; st.p_phantom += 1
         st.score[bat_side] += len(scored)
         return len(scored)
 
@@ -169,15 +200,19 @@ class PlayerGameEngine:
     def _bring_in(self, st, side, pitcher, starter):
         st.pitcher[side] = pitcher
         st.used[side].add(pitcher.pid)
+        st.p_phantom = 0
         st.outing[side] = {"starter": starter, "pitches": 0, "runs": 0}
         ps = self.pstats[pitcher.pid]
         ps[P_G] += 1
         if starter:
             ps[P_GS] += 1
+            if st.weekend:
+                ps[P_WGS] += 1
 
     def _half(self, st, dec):
         rng = st.rng
         st.outs, st.bases = 0, [None, None, None]
+        st.phantom = st.p_phantom = 0
         bat, fld = st.batting_side, st.fielding_side
         runs0, pa0 = st.score[bat], st.pa[bat]
         while st.outs < 3 and not st.over:
@@ -199,12 +234,12 @@ class PlayerGameEngine:
             pitcher = st.pitcher[fld]
             dec.intentional_walk(st)
             bunt = dec.bunt(st)
-            res = self._probs(batter, pitcher).draw(rng.random())
+            res = self._probs(batter, pitcher, bat == "home").draw(rng.random())
             if res == "OUT":
                 res = self._subtype(st, rng, bunt)
             dests, b_to, err = self.advance.draw(res, st.outs, st.base_code, rng.random(), [rng.random() for _ in range(4)])
             self._record(st, batter, pitcher, res, rng)
-            scored = self._apply(st, dests, (pitcher.pid, res == "ROE"), b_to, err)
+            scored = self._apply(st, dests, (pitcher.pid, res == "ROE"), b_to, err, res=res)
             st.outing[fld]["runs"] += scored
             if scored and st.half == "B":
                 self._end_check(st, True)
@@ -258,10 +293,10 @@ class PlayerGameEngine:
                 elif res == "HR":
                     bs[B_HR] += 1; ps[P_HR] += 1; st.hr[bat] += 1
 
-    def play(self, rng, home, away, weekend, starters, dec) -> GameState2:
+    def play(self, rng, home, away, weekend, dec, week=0, day=0) -> GameState2:
         st = GameState2(rng, home, away, weekend)
         st.run_rule_in_effect = rng.random() < self.rules.p_run_rule_in_effect
-        st.scheduled_starter = starters
+        st.week, st.day = week, day
         for side in ("away", "home"):
             st.lineup[side] = dec.lineup(st, side)
             for p in st.lineup[side]:

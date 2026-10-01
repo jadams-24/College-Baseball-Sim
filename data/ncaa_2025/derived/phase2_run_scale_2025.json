@@ -1,0 +1,94 @@
+{
+ "_note": "The engine's run scale: how log runs respond to talent offsets.\n\nTeam strength is estimated from the scoreboard on the log-runs scale (see\nbuild_phase2_teams.py). To put it into the engine, a team's offense o (log runs above\nan average team) becomes a logit offset o * v_bat on its batters' rates, and its run\nprevention d becomes -d * v_pit on its pitchers' rates. This script measures the\nengine's response so that one unit of o or d is one unit of log runs:\n\n  w        gradient of log(runs per half-inning) with respect to each rate's logit\n           offset at league average (finite differences, common random numbers)\n  v_bat    direction of the 2025 batting tier contrast (P4 minus low, from the additive\n           play-by-play fit), scaled so d log R / d s = 1 along it\n  v_pit    the same for the pitching tier contrast (low minus P4: worse run prevention)\n  linearity  log R on a grid of s in [-0.6, 0.6] along each direction, and a joint\n           batting + pitching point (additivity)\n  h0       log(E home runs / E away runs) between identical teams over full games:\n           the structural home effect of batting last (no bottom of the 9th when ahead,\n           walk-offs end the game). Home talent advantage is the scoreboard's\n           matchup-controlled home effect minus h0.\n\nOutput: data/ncaa_2025/derived/phase2_run_scale_2025.json\n",
+ "built": "2026-10-01",
+ "rates": [
+  "K",
+  "BB",
+  "HBP",
+  "HR",
+  "BABIP",
+  "XBH"
+ ],
+ "seed": 7101,
+ "n_half_innings": 300000,
+ "n_games": 100000,
+ "runs_per_half_inning_league": 0.77675,
+ "w_gradient_logR": [
+  -0.3681,
+  0.2611,
+  0.0805,
+  0.2228,
+  0.9022,
+  0.0722
+ ],
+ "v_bat_unit": [
+  -0.63054,
+  0.48096,
+  0.38858,
+  1.45056,
+  0.25925,
+  0.399
+ ],
+ "v_pit_unit": [
+  -1.01624,
+  0.60679,
+  0.58562,
+  0.3009,
+  0.33489,
+  0.32635
+ ],
+ "slope_raw": {
+  "bat": 0.5088,
+  "pit": 0.562
+ },
+ "linearity": {
+  "grid": [
+   -0.6,
+   -0.4,
+   -0.2,
+   0.0,
+   0.2,
+   0.4,
+   0.6
+  ],
+  "logR_bat": [
+   -0.5568,
+   -0.4577,
+   -0.3583,
+   -0.2526,
+   -0.1553,
+   -0.0493,
+   0.053
+  ],
+  "logR_pit": [
+   -0.6005,
+   -0.4877,
+   -0.3632,
+   -0.2526,
+   -0.1434,
+   -0.0334,
+   0.0724
+  ],
+  "quadratic_coef": {
+   "bat": 0.0096,
+   "pit": -0.0328
+  }
+ },
+ "additivity": {
+  "base_logR": -0.2526,
+  "both_plus_0.4": 0.7603,
+  "both_minus_0.4": -0.8554,
+  "bat_plus_pit_minus_0.4": 0.0232,
+  "expected": [
+   0.8,
+   -0.8,
+   0.0
+  ]
+ },
+ "home_structural": {
+  "h0_log_ratio": -0.0594,
+  "home_runs_per_game": 6.5838,
+  "away_runs_per_game": 6.9867,
+  "home_win_pct": 0.4989
+ }
+}

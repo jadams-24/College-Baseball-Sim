@@ -44,6 +44,8 @@ FULL_SEASON_GAMES = 40     # a team with this many games in the sample has (near
 MIN_TEAM_GAMES = 25        # teams used for player-level estimates (complete enough rosters)
 MIN_TRIALS = 30            # player-seasons below this many trials are left out of the moments
 WEEKEND = {4, 5, 6}        # Fri, Sat, Sun
+ROTATION_RANKS = 8         # weekend-starter ranks reported separately; deeper ranks pooled into the last
+SPOT_STARTER_RANK = 4      # pull hazards by rotation rank 1, 2, 3 and 4+ (config.phase2.SPOT_STARTER_RANK)
 HIT = ("1B", "2B", "3B")
 BIP_NOROE = ("1B", "2B", "3B", "FO", "GO", "GIDP", "DP", "SF", "SH", "FC")
 
@@ -302,6 +304,49 @@ def main() -> None:
     rbf["rank"] = rbf.groupby("pit_team_id").share.rank(ascending=False, method="first")
     usage["reliever_bf_share_by_rank"] = {str(int(k)): round(v, 4) for k, v in rbf.groupby("rank").share.mean().head(10).items()}
     usage["earned_run_share"] = round(1 - rc.unearned.mean(), 4)
+    # rotation: weekend starts by the team's starter rank (rank 1 = most weekend starts), overall
+    # and by game of the series (first, second, third weekend game of the team's week)
+    sg = pa[pa.is_sp == 1].drop_duplicates(["game_id", "pit_team_id"])[["game_id", "pit_team_id", "pkey", "weekend"]]
+    sg = sg[sg.pit_team_id.isin(full_teams)].merge(gm[["game_id", "game_date"]], on="game_id")
+    wk = sg[sg.weekend == 1].copy()
+    wk["week"] = pd.to_datetime(wk.game_date).dt.isocalendar().week.astype(int)
+    wk = wk.sort_values(["pit_team_id", "game_date", "game_id"])
+    wk["series_game"] = wk.groupby(["pit_team_id", "week"]).cumcount().clip(upper=2)
+    cnt = wk.groupby(["pit_team_id", "pkey"]).size().rename("n").reset_index()
+    cnt["rank"] = cnt.groupby("pit_team_id").n.rank(ascending=False, method="first").astype(int).clip(upper=ROTATION_RANKS)
+    wk = wk.merge(cnt[["pit_team_id", "pkey", "rank"]], on=["pit_team_id", "pkey"])
+    tot = wk.groupby("pit_team_id").size()
+    share = (wk.groupby(["pit_team_id", "rank"]).size().unstack(fill_value=0).div(tot, axis=0)).mean()
+    by_game = {}
+    for k, g in wk.groupby("series_game"):
+        t = g.groupby("pit_team_id").size()
+        by_game[str(int(k))] = {str(int(r)): round(float(v), 4) for r, v in (g.groupby(["pit_team_id", "rank"]).size().unstack(fill_value=0).div(t, axis=0)).mean().items()}
+    # whole-series patterns: (rank of game 1, game 2, game 3) starters in weeks with three weekend games
+    trip = wk.groupby(["pit_team_id", "week"])["rank"].apply(list)
+    trip = trip[trip.apply(len) == 3].apply(lambda r: "|".join(str(int(x)) for x in r))
+    usage["weekend_series_rank_patterns"] = {k: int(v) for k, v in trip.value_counts().items()}
+    # weekend starter leash by rotation rank (1, 2, 3, 4 = spot starters ranked 4th or deeper):
+    # same hazard keys as starter_pull, full-season teams' Fri-Sun starts
+    hw = h[(h.is_sp == 1) & (h.weekend == 1) & h.pit_team_id.isin(full_teams)].merge(
+        cnt[["pit_team_id", "pkey", "rank"]], on=["pit_team_id", "pkey"], how="inner")
+    hw["rcls"] = hw["rank"].clip(upper=SPOT_STARTER_RANK)
+    usage["weekend_starter_pull_by_rank"] = {"keys": ["rank_class", "pitch_bin10", "runs_bin", "inning_end"],
+                                             "table": hazard(hw, ["rcls", "pbin", "rbin", "inning_end"]),
+                                             "backoff": hazard(hw, ["rcls", "pbin", "inning_end"])}
+    usage["weekend_start_share_by_rank"] = {str(int(r)): round(float(v), 4) for r, v in share.items()}
+    usage["weekend_start_share_by_rank_and_game"] = by_game
+    usage["weekend_starters_per_team"] = round(float(cnt.groupby("pit_team_id").size().mean()), 2)
+    usage["weekend_start_note"] = (f"full-season teams; rank = team's k-th most frequent weekend starter, ranks >= {ROTATION_RANKS} pooled; "
+                                   "series game = order of the team's Fri-Sun games within the calendar week (third and later pooled)")
+    # innings by the team's k-th busiest pitcher (outs on plate appearances / 3; full-season teams, ~57 games)
+    ipr = pa[pa.pit_team_id.isin(full_teams)].groupby(["pit_team_id", "pkey"]).outs_on_play.sum() / 3
+    usage["pitcher_ip_by_team_rank"] = {str(int(k)): round(float(v), 1) for k, v in ipr.groupby(ipr.groupby(level=0).rank(ascending=False, method="first")).mean().head(8).items()}
+    usage["games_per_full_season_team"] = round(float(games_in_sample[list(full_teams)].mean()), 1)
+    # effective number of batters and pitchers: 1 / sum of squared PA (BF) shares, full-season teams
+    for key, col, team in (("batter", "bkey", "bat_team_id"), ("pitcher", "pkey", "pit_team_id")):
+        s = pa[pa[team].isin(full_teams)].groupby([team, col]).size()
+        sh = s / s.groupby(level=0).transform("sum")
+        usage[f"{key}_share_hhi"] = round(float((sh ** 2).groupby(level=0).sum().mean()), 4)
     usage["_src"] = src
 
     # ---- write ---------------------------------------------------------------------------
