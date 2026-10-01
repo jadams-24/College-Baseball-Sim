@@ -542,7 +542,9 @@ def build_report4(agg: dict, seeds: list, phase2_status: dict) -> tuple[str, dic
           "and weekend rotation patterns follow that order (engine/manager.py), and no in-season statistic feeds any choice. So a player's workload depends on "
           "his true talent, not his results, and a forward regression on true talent is not biased by it. The one outcome-dependent usage rule is the in-game "
           "pull hazard (outing pitch count and runs), so a pitcher's batters faced carry part of his outings' luck; Stamina is therefore split by appearances, "
-          "since its batters faced are partly the pulls themselves.", "",
+          "since its batters faced are partly the pulls themselves. Plate appearances also follow results within a season, though not through the manager: "
+          "a hitter whose balls in play fall for hits keeps innings going, his team bats more and he comes up more often. The heaviest third is therefore "
+          "slightly selected on good luck, most for Contact, the rate that most moves lineup turnover.", "",
           "| Rating | Workload | Light | Middle | Heavy |", "|---|---|---|---|---|", *trows, "",
           "Box-score version (informational): the same regression with opponents adjusted only from the league's team-by-team results. A box score shows which "
           "team a player faced, not which pitcher (or hitter): an ace or a midweek starter. That adds variance the team-level baseline cannot attribute, so its "
