@@ -116,6 +116,26 @@ Results:
 
 CI now runs the report's own 20 seasons and seeds, and checks that the committed report's gate verdicts equal its own.
 
+### Phase 4: 20-80 ratings (2026-10-01)
+
+**Phase order.** Phase 3 (handedness) moved after Phase 4 by project owner decision: no handedness source is reachable from the cloud (the WMT API has no bats/throws; school roster sites refuse this container). `tools/fetch_rosters.py` is run by the owner locally; Phase 3 starts once `data/ncaa_2025/rosters/` exists.
+
+**Scale (`ratings_scale_2025`, conf B).** rating = 50 + 10 sign (z − mean) / sd for one true rate per rating: Contact BABIP, Gap XBH share of hits, Power HR/PA, Eye BB/PA, Avoid K K/PA; Stuff K/BF, Control BB/BF, Movement HR/BF. mean and sd are the PA- (BF-) weighted mean and true SD of z over all of D1, from the Phase 2 noise-removed distributions as the generator draws them (8 calibration seasons, seeds 940001–940008). Batter HBP and pitcher HBP, BABIP and XBH allowed are carried unrated. Speed is reserved: no engine rate depends on a runner's speed yet.
+
+**Stamina (`stamina_2025`, conf B).** Individual leash on the Phase 2 pull hazard, h' = 1 − (1 − h)^θ, log θ ~ N(μ, σ²) per role, fitted by empirical Bayes with the exact discrete-time likelihood on the 2025 play-by-play: starters σ .54 (271 pitchers with 5+ starts), relievers σ .62 (847). Method-of-moments check: .52 and .51. With leash variance, pitchers with 50+ IP rise from 769 to 872 (deferred row; real 882).
+
+**Round trip (engine/report4.py).** Players are generated as ratings and simulated for 20 seasons. Ratings are estimated back from box-score information only: counting stats, each player's opponents (team, home or away) and the league's team-by-team results. The estimator is empirical Bayes on a grid with an opponent-mixture binomial likelihood and a normal prior per role × tier, run in 10 folds of 2 seasons. Gate: slope 1, bias 0 and SD ratio 1 within the Student-t tolerance across folds, on players with at least half a regular's workload.
+
+**Gate result (20 seasons): FAIL on seven rows, explained; not changed.** Every Phase 1 and Phase 2 row passes on the same run. Tier distributions pass for every rating (P4 everyday players above 50, low below). Stamina, Contact, Gap and Eye recover fully. Failing rows: bias for Stuff (+.08 ± .04), Control (+.17 ± .05), Movement (+.33 ± .07), Power (−.13 ± .12) and Avoid K (+.03 ± .03); slope for Control (.991 ± .008) and Movement (.962 ± .028).
+
+**Cause: playing time depends on talent, and the estimator's prior does not know it.** The manager starts, bats high and works its best players most: start shares and batting order by talent, rotation and bullpen ranks by K − BB − HR. Within a role group, true rating and workload correlate +.10 to +.28 for pitchers and +.50 for regulars' Power. A prior per role × tier shrinks a team's busiest players toward too low a mean and its least-used players toward too high a one. Within a role, bias rises with workload: Movement for weekend starters is −1.2 / +.2 / +1.3 by workload tercile, and Power for regulars −2.9 / −.7 / +1.6. Weighted by trials over all players, the bias is .00 for every rating, so the engine and the anchor are right. The gate keeps the busier half of players, which gives the positive pitcher biases, largest where shrinkage is strongest (Movement, reliability .39).
+
+**Fixes tried (4 seasons, not committed).**
+1. Prior mean linear in log trials: pitcher biases go to Stuff +.03, Control .00, Movement +.03. Power gets worse (bias −.39, SD ratio 1.07), because its relation with workload is convex.
+2. A prior per workload rank on the team (role × tier × rank): biases go to about zero. But Power's SD ratio is 1.06–1.13 and Movement's slope .89–.94, and pooling four seasons does not fix either (1.09, .94). Given a rank, one rating is not normally distributed. The rank is the team's order on a combination of ratings (OBP + SLG for hitters, K − BB − HR for pitchers), so a team's top hitter is a mixture of power hitters and on-base hitters, and a normal prior per rank misstates the spread.
+
+Left for the project owner (PR description).
+
 ## Bibliography
 
 - FanGraphs, Michael Baumann, "The Ridiculous Firewagon Offenses of College Baseball," Feb 13, 2026 — https://blogs.fangraphs.com/the-ridiculous-firewagon-offenses-of-college-baseball/
