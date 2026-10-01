@@ -11,8 +11,9 @@ the 2025 play-by-play (config.phase5). A ball in play at count c ends in HR/1B/2
 the data's shares for contact at that count. The matchup tilts three events at every count:
 balls by the walk offset (pitcher Control vs batter Eye), swinging strikes by the strikeout
 offset (Stuff vs Avoid K), HBP by the HBP offset. The tilt sizes solve J t = d, with d the
-matchup's K, BB and HBP logit offsets from the league and J the chain's Jacobian of those logits
-in the tilts: the chain alone then reproduces each matchup's K, BB and HBP rates to first order.
+matchup's K, BB and HBP logits minus the untilted chain's (the data's league average) and J the
+chain's Jacobian of those logits in the tilts: the chain alone then reproduces each matchup's
+K, BB and HBP rates to first order.
 
 Conditioning (exact). With h_o(c) the chain's probability of ending in outcome o from count c, the
 chain conditioned on ending in o is again a chain (Doob h-transform): from c, an event leading to
@@ -24,7 +25,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from config.phase5 import BIP_RESULTS, EVENTS, OUTCOMES, TILTED
+from config.phase5 import BIP_RESULTS, EVENTS, OUTCOMES, TILT_STEPS, TILTED
 
 COUNTS = [(b, s) for b in range(4) for s in range(3)]
 CI = {c: i for i, c in enumerate(COUNTS)}
@@ -40,12 +41,13 @@ def _logit(p):
 
 
 class PitchModel:
-    def __init__(self, data: dict, league_p: dict):
+    def __init__(self, data: dict, league_p: dict | None = None):
         ch = data["chain"]
         assert tuple(ch["events"]) == EVENTS and tuple(ch["bip_results"]) == BIP_RESULTS
         self.q0 = np.array([ch["by_count"][f"{b}-{s}"] for b, s in COUNTS], float)
         self.r = [list(map(float, ch["bip_by_count"][f"{b}-{s}"])) for b, s in COUNTS]
-        self.base = _logit(np.array([league_p["K"], league_p["BB"], league_p["HBP"]]))
+        # tilts are measured from the chain's own league outcome mix (the data's league average)
+        self.base = self._logit_abs(np.zeros(3))
         eps = 1e-4
         J = np.zeros((3, 3))
         for j in range(3):
@@ -64,7 +66,17 @@ class PitchModel:
         return q.tolist()
 
     def tilts(self, p_k: float, p_bb: float, p_hbp: float) -> np.ndarray:
-        return self.Jinv @ (_logit(np.array([p_k, p_bb, p_hbp])) - self.base)
+        """Tilts at which the chain's own K, BB and HBP rates equal the matchup's: a first-order
+        step from the league, then quasi-Newton steps with the same Jacobian."""
+        target = _logit(np.array([p_k, p_bb, p_hbp]))
+        t = self.Jinv @ (target - self.base)
+        for _ in range(TILT_STEPS):
+            t = t + self.Jinv @ (target - self._logit_abs3(t))
+        return t
+
+    def _logit_abs3(self, t) -> np.ndarray:
+        q = self.chain(t)
+        return _logit(np.array([self.absorb(q, O_K)[0], self.absorb(q, O_BB)[0], self.absorb(q, O_HBP)[0]]))
 
     def _logit_abs(self, t) -> np.ndarray:
         a = self.absorb_all(self.chain(t))[CI[(0, 0)]]

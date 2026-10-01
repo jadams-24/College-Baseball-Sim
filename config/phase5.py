@@ -25,6 +25,10 @@ OUTCOMES = ("K", "BB", "HBP", "HR", "1B", "2B", "3B", "ROE", "OUT")
 # it from the chain's own Jacobian, so the chain alone reproduces each matchup's K, BB and HBP
 # rates to first order (the conditioning on the drawn outcome makes it exact).
 TILTED = {"K": "S", "BB": "B", "HBP": "H"}
+# Quasi-Newton steps after the first-order tilt (numerical: two steps bring the chain's K, BB and
+# HBP rates within ~.002 of the matchup's even at the extremes of the talent range; the conditioning on the drawn
+# outcome makes the PA rates exact regardless)
+TILT_STEPS = 2
 # Pitch counts per PA are recorded up to this length for the distribution (longer PAs pool in the last bin)
 MAX_PITCHES_HIST = 10
 
