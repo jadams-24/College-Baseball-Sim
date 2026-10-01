@@ -1,0 +1,151 @@
+{
+ "_note": "Solve the league base chain of the pitch model so that the simulated league's pitch events by\ncount equal the data's.\n\nThe data's per-count event shares (data/ncaa_2025/derived/phase5_pitch_2025.json, chain.by_count)\nare pooled over every pitcher and batter, weighted by who reaches each count. The engine tilts the\nbase chain for each matchup along the measured player directions (engine/pitch.py), and the\npooled result of those tilted chains is not the base chain: deep-count pitches come\ndisproportionately from wild pitchers and patient batters, and tilting the pooled shares a second\ntime skews the aggregate (fewer pitches per PA than the data). So the base chain is found by\nfixed-point iteration on simulated seasons, every count and event at once:\n    q0(c, e) <- q0(c, e) * data(c, e) / sim(c, e), renormalised per count.\nNothing else is matched: pitches per PA, count reach, outcomes by count and starter pitch counts are\nthe gate, not targets. PA outcomes are untouched (each PA's outcome is drawn first). Calibration\nseeds (950000+) are disjoint from gate and other calibration seeds.\nOutput: data/ncaa_2025/derived/phase5_chain_solved_2025.json\n",
+ "built": "2026-10-01",
+ "seeds": [
+  950001,
+  950002,
+  950003,
+  950004
+ ],
+ "iterations": [
+  {
+   "iter": 0,
+   "max_abs_gap": 0.01654,
+   "pitches": 10405952
+  },
+  {
+   "iter": 1,
+   "max_abs_gap": 0.00292,
+   "pitches": 10560988
+  },
+  {
+   "iter": 2,
+   "max_abs_gap": 0.00215,
+   "pitches": 10562952
+  },
+  {
+   "iter": 3,
+   "max_abs_gap": 0.00217,
+   "pitches": 10566548
+  }
+ ],
+ "events": [
+  "B",
+  "K",
+  "S",
+  "F",
+  "P",
+  "H",
+  "N"
+ ],
+ "by_count": {
+  "0-0": [
+   0.410412,
+   0.270625,
+   0.068488,
+   0.113507,
+   0.122628,
+   0.007615,
+   0.006726
+  ],
+  "0-1": [
+   0.411295,
+   0.143262,
+   0.098697,
+   0.159581,
+   0.175898,
+   0.006892,
+   0.004375
+  ],
+  "0-2": [
+   0.470589,
+   0.045291,
+   0.123201,
+   0.161982,
+   0.184783,
+   0.010888,
+   0.003265
+  ],
+  "1-0": [
+   0.361248,
+   0.240242,
+   0.087046,
+   0.139948,
+   0.157696,
+   0.006739,
+   0.007081
+  ],
+  "1-1": [
+   0.365484,
+   0.139597,
+   0.109671,
+   0.174183,
+   0.197956,
+   0.007849,
+   0.005261
+  ],
+  "1-2": [
+   0.389929,
+   0.049652,
+   0.134506,
+   0.19794,
+   0.211511,
+   0.01056,
+   0.005903
+  ],
+  "2-0": [
+   0.339696,
+   0.280768,
+   0.066514,
+   0.142513,
+   0.159749,
+   0.004951,
+   0.00581
+  ],
+  "2-1": [
+   0.324452,
+   0.148428,
+   0.100526,
+   0.191197,
+   0.221126,
+   0.007774,
+   0.006496
+  ],
+  "2-2": [
+   0.312196,
+   0.052769,
+   0.129489,
+   0.23643,
+   0.250171,
+   0.011868,
+   0.007078
+  ],
+  "3-0": [
+   0.373419,
+   0.570239,
+   0.009834,
+   0.018139,
+   0.017355,
+   0.00859,
+   0.002424
+  ],
+  "3-1": [
+   0.317382,
+   0.189602,
+   0.077865,
+   0.183705,
+   0.219503,
+   0.006955,
+   0.004988
+  ],
+  "3-2": [
+   0.255528,
+   0.066927,
+   0.117476,
+   0.254599,
+   0.289156,
+   0.010609,
+   0.005705
+  ]
+ }
+}
