@@ -45,12 +45,12 @@ def run(seasons: int, seed: int, workers: int) -> tuple:
 def chain_info(agg2: dict) -> dict:
     cfg = phase2.load()
     lp = matchup_probs(cfg, np.zeros(len(cfg.v_bat)), np.zeros(len(cfg.v_bat)), load_location())
-    pm = PitchModel(load_pitch(), lp)
+    pm = PitchModel(load_pitch())
     cl = dict(zip(OUTCOMES, pm.chain_league))
     return {"J": np.round(pm.J, 3).tolist(),
             "chain_league": {"K": cl["K"], "BB": cl["BB"], "HBP": cl["HBP"], "BIP": sum(cl[o] for o in BIP_RESULTS)},
             "pa_league": {"K": lp["K"], "BB": lp["BB"], "HBP": lp["HBP"], "BIP": 1 - lp["K"] - lp["BB"] - lp["HBP"]},
-            "p50ip": agg2["leaderboards"]["pitchers_50ip"]["mean"]}
+            "p50ip": agg2["leaderboards"]["pitchers_50ip"]["mean"], "dir_response": pm.dir_response}
 
 
 def reports(agg2, agg4, agg5, seeds) -> tuple:

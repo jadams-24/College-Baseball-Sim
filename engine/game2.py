@@ -52,6 +52,8 @@ EXP_RATES = ("K", "BB", "HR", "BABIP", "XBH")
 _HITS = frozenset(_CELL_IDX[r] for r in ("1B", "2B", "3B"))
 _OUT = _CELL_IDX["OUT"]
 _PITCH_O = {o: i for i, o in enumerate(PITCH_OUTCOMES)}   # in-play outs of every subtype are OUT
+_EV6 = {e: i for i, e in enumerate("BKSFPH")}
+_K, _BB = 0, 1                                             # rate order of the logit offsets (config.phase2.RATES)
 
 
 class GameState2:
@@ -122,14 +124,13 @@ class PlayerGameEngine:
         self.home_bat = eta * np.array(cfg.v_bat)
         self.home_pit = eta * np.array(cfg.v_pit)
         # Phase 5: pitch sequences from the count-state chain conditioned on the PA outcome
-        lp = matchup_probs(cfg, np.zeros(len(cfg.v_bat)), np.zeros(len(cfg.v_bat)), self.league.location)
-        self.pitch = PitchModel(load_pitch(), lp)
+        self.pitch = PitchModel(load_pitch())
         self.tilt_cache: dict = {}
         self.q_cache: dict = {}
         self.pitch_rec = {"hist": np.zeros(MAX_PITCHES_HIST + 1, dtype=np.int64), "n_pa": 0, "pitches": 0, "fps": 0, "k2p": 0, "k2f": 0,
                           "reach": np.zeros(12, dtype=np.int64), "ab": np.zeros(12, dtype=np.int64), "h": np.zeros(12, dtype=np.int64),
                           "k": np.zeros(12, dtype=np.int64), "bb": np.zeros(12, dtype=np.int64)}
-        self.pit_pitch = np.zeros((n_players, 3), dtype=np.int64)   # per pitcher: called pitches, balls, swinging strikes
+        self.player_pitch = np.zeros((n_players, 6), dtype=np.int64)   # per player (as batter or pitcher): B, K, S, F, P, H
         self.starts: list = []                                        # (pitches, outs on his plate appearances, weekend)
 
     def _probs(self, batter, pitcher, home_batting: bool) -> Categorical:
@@ -140,7 +141,7 @@ class PlayerGameEngine:
             p = matchup_probs(self.cfg, zb, zp, self.league.location)
             cat = Categorical(list(OUTCOMES), [p[o] for o in OUTCOMES])
             self.cache[key] = cat
-            self.tilt_cache[key] = self.pitch.tilts(p["K"], p["BB"], p["HBP"])
+            self.tilt_cache[key] = self.pitch.tilts(zb[_K], zb[_BB], zp[_K], zp[_BB], p["K"], p["BB"], p["HBP"])
             hits = p["1B"] + p["2B"] + p["3B"]
             self.rate_cache[key] = np.array([p["K"], p["BB"], p["HR"], hits / (hits + p["OUT"]), (p["2B"] + p["3B"]) / hits])
         return cat
@@ -312,17 +313,18 @@ class PlayerGameEngine:
         pr["fps"] += first in "KSFP"
         b = s = 0
         seen = set()
-        pp = self.pit_pitch[pitcher.pid]
+        pp, bp = self.player_pitch[pitcher.pid], self.player_pitch[batter.pid]
         for c in seq:
             seen.add(b * 3 + s)
             if c != "N":
-                pp[0] += 1
+                ei = _EV6[c]
+                pp[ei] += 1; bp[ei] += 1
                 if s == 2:
                     pr["k2p"] += 1; pr["k2f"] += c == "F"
             if c == "B":
-                b += 1; pp[1] += 1
+                b += 1
             elif c in "KS":
-                s += 1; pp[2] += c == "S"
+                s += 1
             elif c == "F":
                 s = min(s + 1, 2)
         is_ab = res not in ("BB", "HBP", "SF", "SH")

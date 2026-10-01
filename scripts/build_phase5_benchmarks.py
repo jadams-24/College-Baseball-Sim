@@ -98,6 +98,69 @@ def walk(seq: str):
         elif c == "F":
             s = min(s + 1, 2)
 
+SPREAD_EVENTS = ("B", "K", "S", "F", "P")
+MIN_HALF = 75            # plate appearances (batters faced) per half for the split-half estimate
+MIN_SPREAD = 150         # plate appearances (batters faced) for the spread comparison
+N_BOOT_PLAYERS = 200
+
+
+def _lg(p):
+    return np.log(p / (1 - p))
+
+
+def player_directions(v: pd.DataFrame) -> tuple[dict, dict]:
+    """Per side (pitcher, batter): d logit(per-pitch rate of each event) / d logit(K%) and / d logit(BB%),
+    true-talent slopes. Each player's plate appearances are split alternately into halves A and B;
+    the slopes are Cov(X_A, X_B)^-1 Cov(X_A, y_B) (symmetrised), X = logit K%, logit BB%, y = logit
+    event rate: the cross-half covariance of X is the covariance of true talent, so binomial noise
+    neither attenuates the slopes nor (being independent across halves) correlates with y. HBP is left
+    to its own tilt (too rare to estimate a direction). Bootstrap over players for the SE.
+    Also the raw spread of qualified players' per-pitch rates and their correlation with K% and BB%,
+    for comparison with the simulation (informational)."""
+    ev = ("B", "K", "S", "F", "P", "H")
+    d = v[["pit_team_id", "pkey", "bat_team_id", "bkey", "seq", "is_k", "is_bb"]].copy()
+    for e in ev:
+        d["n" + e] = d.seq.str.count(e)
+    d["nc"] = d[["n" + e for e in ev]].sum(axis=1)
+    d["one"] = 1
+    cols = ["one", "is_k", "is_bb", "nc"] + ["n" + e for e in SPREAD_EVENTS]
+    rng = np.random.default_rng(SEED)
+    out, spread = {}, {}
+    for side, key in (("pitcher", ["pit_team_id", "pkey"]), ("batter", ["bat_team_id", "bkey"])):
+        d["half"] = d.groupby(key).cumcount() % 2
+        g = d.groupby(key + ["half"])[cols].sum().unstack("half")
+        g = g[(g[("one", 0)] >= MIN_HALF) & (g[("one", 1)] >= MIN_HALF)]
+        arr = {c: (g[(c, 0)].values.astype(float), g[(c, 1)].values.astype(float)) for c in cols}
+
+        def est(idx):
+            def X(h):
+                return np.column_stack([_lg((arr["is_k"][h][idx] + .5) / (arr["one"][h][idx] + 1)), _lg((arr["is_bb"][h][idx] + .5) / (arr["one"][h][idx] + 1))])
+            XA, XB = X(0), X(1)
+            XA, XB = XA - XA.mean(0), XB - XB.mean(0)
+            C = (XA.T @ XB + XB.T @ XA) / 2 / len(idx)
+            res = {}
+            for e in SPREAD_EVENTS:
+                yA = _lg((arr["n" + e][0][idx] + .5) / (arr["nc"][0][idx] + 1)); yB = _lg((arr["n" + e][1][idx] + .5) / (arr["nc"][1][idx] + 1))
+                yA, yB = yA - yA.mean(), yB - yB.mean()
+                res[e] = np.linalg.solve(C, (XA.T @ yB + XB.T @ yA) / 2 / len(idx))
+            return res
+        n = len(g)
+        pt = est(np.arange(n))
+        bs = [est(rng.integers(0, n, n)) for _ in range(N_BOOT_PLAYERS)]
+        out[side] = {"n_players": int(n), **{rate: {e: {"value": round(float(pt[e][j]), 4), "se": round(float(np.std([b[e][j] for b in bs], ddof=1)), 4)}
+                                                    for e in SPREAD_EVENTS} for j, rate in enumerate(("K", "BB"))}}
+        # raw spread of qualified players (whole season)
+        tot = {c: arr[c][0] + arr[c][1] for c in cols}
+        q = tot["one"] >= MIN_SPREAD
+        k, bb = tot["is_k"][q] / tot["one"][q], tot["is_bb"][q] / tot["one"][q]
+        sp = {"n": int(q.sum())}
+        for e in SPREAD_EVENTS:
+            r = tot["n" + e][q] / tot["nc"][q]
+            sp[e] = {"mean": round(float(r.mean()), 4), "sd": round(float(r.std()), 4), "corr_k": round(float(np.corrcoef(r, k)[0, 1]), 3),
+                     "corr_bb": round(float(np.corrcoef(r, bb)[0, 1]), 3)}
+        spread[side] = sp
+    return out, spread
+
 
 def main() -> None:
     pa = load_pa()
@@ -240,13 +303,8 @@ def main() -> None:
                 out[f"pitches_per_start_{lab}_p{int(qn * 100)}"] = float(vals[o][np.searchsorted(cw, qn)])
         return out
 
-    # informational: spread of pitchers' ball and swinging-strike rates per pitch (150+ BF, raw sample)
-    pv = v.assign(nb=v.seq.str.count("B"), ns=v.seq.str.count("S"), nc=v.seq.str.len() - v.seq.str.count("N"))
-    pg = pv.groupby(["pit_team_id", "pkey"]).agg(bf=("res", "size"), bb=("is_bb", "sum"), k=("is_k", "sum"), nb=("nb", "sum"), ns=("ns", "sum"), nc=("nc", "sum"))
-    pg = pg[pg.bf >= 150]
-    ball, whiff = pg.nb / pg.nc, pg.ns / pg.nc
-    spread = {"n": int(len(pg)), "ball_rate_sd": round(float(ball.std(ddof=0)), 5), "whiff_rate_sd": round(float(whiff.std(ddof=0)), 5),
-              "corr_ball_bb": round(float(np.corrcoef(ball, pg.bb / pg.bf)[0, 1]), 4), "corr_whiff_k": round(float(np.corrcoef(whiff, pg.k / pg.bf)[0, 1]), 4)}
+    # player directions: how a player's per-pitch event rates move with his K and BB rates
+    directions, spread = player_directions(v)
     point = stats(v, starts)
     # bootstrap over games
     rng = np.random.default_rng(SEED)
@@ -264,8 +322,9 @@ def main() -> None:
     res_out = {"_note": __doc__, "built": dt.date.today().isoformat(), "src": "WMT stats API play-by-play 2025, data/ncaa_2025/pbp (fetched 2026-10-01)",
                "cleaning": stats_counts, "matchup_mix_weights": {f"{t}_vs_{o}": round(w, 4) for (t, o), w in mix.items()},
                "n_bootstrap": N_BOOT, "n_games": int(len(games)), "n_starts": {"weekend": int(starts.weekend.sum()), "midweek": int((~starts.weekend).sum())},
-               "chain": {"events": list(EVENTS), "by_count": ev_tab, "n_pitches_by_count": n_ev, "bip_results": list(BIP), "bip_by_count": bip_tab},
-               "pitcher_spread": spread, "benchmarks": bench}
+               "chain": {"events": list(EVENTS), "by_count": ev_tab, "n_pitches_by_count": n_ev, "bip_results": list(BIP), "bip_by_count": bip_tab,
+                         "directions": directions},
+               "player_spread": spread, "benchmarks": bench}
     OUT.write_text(json.dumps(res_out, indent=1) + "\n")
     print(json.dumps(stats_counts), json.dumps({k: bench[k] for k in list(bench)[:8]}, indent=0))
 

@@ -20,7 +20,7 @@ import numpy as np
 
 from config.phase5 import MAX_PITCHES_HIST
 from config.phase5 import load as load_pitch
-from engine.game2 import P_BB, P_BF, P_K
+from engine.game2 import B_BB, B_K, B_PA, P_BB, P_BF, P_K
 from engine.pitch import COUNTS
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -29,6 +29,9 @@ PA_ROWS = (("runs_per_team_game", "Runs per team-game"), ("ba", "Batting average
            ("hr_per_team_game", "HR per team-game"), ("bb_pct", "BB per PA"), ("k_pct", "K per PA"), ("hbp_pct", "HBP per PA"),
            ("pa_per_team_game", "PA per team-game"), ("errors_per_team_game", "Errors per team-game"), ("era", "ERA"), ("earned_share", "Earned share of runs"))
 QUANTS = (10, 50, 90)
+SPREAD_EVENTS = ("B", "K", "S", "F", "P")     # player_pitch columns 0-4 (H is column 5)
+SPREAD_MIN = 150                               # PA (batters) or BF (pitchers), as in the data comparison
+EV_NAME = {"B": "ball", "K": "called strike", "S": "swinging strike", "F": "foul", "P": "in play"}
 
 
 def cname(c) -> str:
@@ -55,13 +58,16 @@ def season_extract5(res: dict) -> dict:
         out[f"ip_per_start_{lab}"] = float(sub[:, 1].mean() / 3)
         for q in QUANTS:
             out[f"pitches_per_start_{lab}_p{q}"] = float(np.percentile(sub[:, 0], q, method="inverted_cdf"))
-    # informational: spread of qualified pitchers' ball and whiff rates per pitch, against their BB and K rates
-    pp, ps = res["pit_pitch"], res["pstats"]
-    q = ps[:, P_BF] >= 150
-    ball, whiff = pp[q, 1] / pp[q, 0], pp[q, 2] / pp[q, 0]
-    bb, kk = ps[q, P_BB] / ps[q, P_BF], ps[q, P_K] / ps[q, P_BF]
-    out["info_ball_rate_sd"] = float(ball.std()); out["info_whiff_rate_sd"] = float(whiff.std())
-    out["info_corr_ball_bb"] = float(np.corrcoef(ball, bb)[0, 1]); out["info_corr_whiff_k"] = float(np.corrcoef(whiff, kk)[0, 1])
+    # informational: qualified players' per-pitch event rates, spread and correlation with K% and BB%
+    pp = res["player_pitch"].astype(float)
+    for side, stats, n_col, k_col, bb_col in (("pitcher", res["pstats"], P_BF, P_K, P_BB), ("batter", res["bstats"], B_PA, B_K, B_BB)):
+        q = stats[:, n_col] >= SPREAD_MIN
+        tot = pp[q].sum(axis=1)
+        kk, bb = stats[q, k_col] / stats[q, n_col], stats[q, bb_col] / stats[q, n_col]
+        for j, e in enumerate(SPREAD_EVENTS):
+            r = pp[q, j] / tot
+            out[f"info_{side}_{e}_mean"] = float(r.mean()); out[f"info_{side}_{e}_sd"] = float(r.std())
+            out[f"info_{side}_{e}_corr_k"] = float(np.corrcoef(r, kk)[0, 1]); out[f"info_{side}_{e}_corr_bb"] = float(np.corrcoef(r, bb)[0, 1])
     return out
 
 
@@ -153,10 +159,19 @@ def build_report5(agg: dict, seeds: list, league: dict, league_se: dict, st2: di
           f"League chain without conditioning: K {info['chain_league']['K']:.4f}, BB {info['chain_league']['BB']:.4f}, HBP {info['chain_league']['HBP']:.4f}, "
           f"in play {info['chain_league']['BIP']:.4f}; PA model at league average: K {info['pa_league']['K']:.4f}, BB {info['pa_league']['BB']:.4f}, "
           f"HBP {info['pa_league']['HBP']:.4f}, in play {info['pa_league']['BIP']:.4f}.",
-          f"- Pitchers with 150+ BF: SD of ball rate per pitch {m['info_ball_rate_sd']:.4f}, of swinging-strike rate {m['info_whiff_rate_sd']:.4f}; "
-          f"correlation of ball rate with BB/BF {m['info_corr_ball_bb']:.3f}, of swinging-strike rate with K/BF {m['info_corr_whiff_k']:.3f}."
-          + (f" Data: SD {data['pitcher_spread']['ball_rate_sd']:.4f} and {data['pitcher_spread']['whiff_rate_sd']:.4f}, correlations "
-             f"{data['pitcher_spread']['corr_ball_bb']:.3f} and {data['pitcher_spread']['corr_whiff_k']:.3f} ({data['pitcher_spread']['n']} pitcher-seasons, raw sample)."
-             if "pitcher_spread" in data else ""),
-          f"- Pitchers with 50+ IP (Phase 6 deferred row, currently passing): {info['p50ip']:.1f} (real 882; Phase 4 run 870.6).", ""]
+          f"- Response of the chain's K and BB logits to one unit of each measured player direction (1, 0 for a K direction and 0, 1 for a BB "
+          f"direction if the event-level directions add up to the rate they were measured on): " + "; ".join(f"{k} {np.round(v[:2], 2).tolist()}" for k, v in info["dir_response"].items()) + ".",
+          f"- Pitchers with 50+ IP (Phase 6 deferred row, currently passing): {info['p50ip']:.1f} (real 882; Phase 4 run 870.6).", "",
+          "### Player pitch profiles (informational)", "",
+          f"Qualified players ({SPREAD_MIN}+ PA or BF): mean and SD across players of each per-pitch event rate, and its correlation with the player's "
+          "K% and BB%. The data columns are the raw 2025 sample (P4-heavy, one season, the same sampling noise as a simulated season).", "",
+          "| Side | Event | Mean sim / data | SD sim / data | Corr with K% sim / data | Corr with BB% sim / data |", "|---|---|---|---|---|---|"]
+    ps_ = data.get("player_spread", {})
+    for side in ("pitcher", "batter"):
+        for e in SPREAD_EVENTS:
+            dd = ps_.get(side, {}).get(e)
+            if dd:
+                md.append(f"| {side} | {EV_NAME[e]} | {m[f'info_{side}_{e}_mean']:.3f} / {dd['mean']:.3f} | {m[f'info_{side}_{e}_sd']:.4f} / {dd['sd']:.4f} | "
+                          f"{m[f'info_{side}_{e}_corr_k']:+.2f} / {dd['corr_k']:+.2f} | {m[f'info_{side}_{e}_corr_bb']:+.2f} / {dd['corr_bb']:+.2f} |")
+    md.append("")
     return "\n".join(md) + "\n", st

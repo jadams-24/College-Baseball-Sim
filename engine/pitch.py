@@ -8,12 +8,18 @@ Chain. At each count (balls 0-3, strikes 0-2) the next pitch is one of B ball, K
 S swinging strike, F foul, P in play, H hit by pitch, N a pitch with no ball/strike call (the
 feed's mid-sequence P; it leaves the count unchanged). League probabilities by count come from
 the 2025 play-by-play (config.phase5). A ball in play at count c ends in HR/1B/2B/3B/ROE/OUT with
-the data's shares for contact at that count. The matchup tilts three events at every count:
-balls by the walk offset (pitcher Control vs batter Eye), swinging strikes by the strikeout
-offset (Stuff vs Avoid K), HBP by the HBP offset. The tilt sizes solve J t = d, with d the
-matchup's K, BB and HBP logits minus the untilted chain's (the data's league average) and J the
-chain's Jacobian of those logits in the tilts: the chain alone then reproduces each matchup's
-K, BB and HBP rates to first order.
+the data's shares for contact at that count.
+
+Players. Each player's strikeout and walk offsets (logit; Stuff and Control for a pitcher, Avoid K
+and Eye for a batter) tilt the pitch events at every count (log-probability shifts, then
+renormalised) along directions measured in the data: how a pitcher's (batter's) per-pitch rates
+of balls, called strikes, swinging strikes, fouls and balls in play move with his true K and BB
+rates (split-half estimates, scripts/build_phase5_benchmarks.py). A high-Eye batter takes more:
+more balls and more called strikes, fewer whiffs, fouls and balls in play; a high-Control pitcher
+throws fewer balls; Stuff and Avoid K work mostly through whiffs against contact. A small
+correction along the average directions (and the HBP event) then makes the chain's own K, BB and
+HBP rates equal the matchup's (quasi-Newton on the chain's Jacobian), so conditioning on the
+drawn outcome only shapes the batted-ball side.
 
 Conditioning (exact). With h_o(c) the chain's probability of ending in outcome o from count c, the
 chain conditioned on ending in o is again a chain (Doob h-transform): from c, an event leading to
@@ -25,13 +31,13 @@ from __future__ import annotations
 
 import numpy as np
 
-from config.phase5 import BIP_RESULTS, EVENTS, OUTCOMES, TILT_STEPS, TILTED
+from config.phase5 import BIP_RESULTS, EVENTS, OUTCOMES, TILT_STEPS
 
 COUNTS = [(b, s) for b in range(4) for s in range(3)]
 CI = {c: i for i, c in enumerate(COUNTS)}
 ORDER = sorted(COUNTS, key=lambda c: -(c[0] + c[1]))    # every transition raises balls + strikes
 B_, K_, S_, F_, P_, H_, N_ = (EVENTS.index(e) for e in ("B", "K", "S", "F", "P", "H", "N"))
-TILT_COL = [EVENTS.index(TILTED[o]) for o in ("K", "BB", "HBP")]
+DIR_EVENTS = ("B", "K", "S", "F", "P")       # events with measured player directions (H, N: none)
 O_K, O_BB, O_HBP = OUTCOMES.index("K"), OUTCOMES.index("BB"), OUTCOMES.index("HBP")
 BIP_OF = {OUTCOMES.index(o): BIP_RESULTS.index(o) for o in BIP_RESULTS}
 
@@ -41,46 +47,59 @@ def _logit(p):
 
 
 class PitchModel:
-    def __init__(self, data: dict, league_p: dict | None = None):
+    def __init__(self, data: dict):
         ch = data["chain"]
         assert tuple(ch["events"]) == EVENTS and tuple(ch["bip_results"]) == BIP_RESULTS
         self.q0 = np.array([ch["by_count"][f"{b}-{s}"] for b, s in COUNTS], float)
         self.r = [list(map(float, ch["bip_by_count"][f"{b}-{s}"])) for b, s in COUNTS]
-        # tilts are measured from the chain's own league outcome mix (the data's league average)
-        self.base = self._logit_abs(np.zeros(3))
+        dirs = ch["directions"]
+        self.U = {}
+        for side in ("batter", "pitcher"):
+            for rate in ("K", "BB"):
+                u = np.zeros(len(EVENTS))
+                for e in DIR_EVENTS:
+                    u[EVENTS.index(e)] = dirs[side][rate][e]["value"]
+                self.U[(side, rate)] = u
+        e_h = np.zeros(len(EVENTS)); e_h[H_] = 1.0
+        # correction basis: the average batter and pitcher directions, and HBP
+        self.M = np.column_stack([(self.U[("batter", "K")] + self.U[("pitcher", "K")]) / 2,
+                                  (self.U[("batter", "BB")] + self.U[("pitcher", "BB")]) / 2, e_h])
+        zero = np.zeros(len(EVENTS))
+        self.base = self._logit_abs3(zero)           # the untilted chain: the data's league average
         eps = 1e-4
         J = np.zeros((3, 3))
         for j in range(3):
-            tp, tm = np.zeros(3), np.zeros(3)
-            tp[j], tm[j] = eps, -eps
-            J[:, j] = (self._logit_abs(tp) - self._logit_abs(tm)) / (2 * eps)
+            J[:, j] = (self._logit_abs3(self.M[:, j] * eps) - self._logit_abs3(-self.M[:, j] * eps)) / (2 * eps)
         self.J = J
         self.Jinv = np.linalg.inv(J)
-        self.chain_league = self.absorb_all(self.chain(np.zeros(3)))[CI[(0, 0)]]
+        # response of the K and BB logits to one unit of each measured direction (1 if the data's
+        # event-level directions add up to the rate they were measured on)
+        self.dir_response = {f"{side}_{rate}": ((self._logit_abs3(self.U[(side, rate)] * eps) - self._logit_abs3(-self.U[(side, rate)] * eps)) / (2 * eps)).tolist()
+                             for side, rate in self.U}
+        self.chain_league = self.absorb_all(self.chain(zero))[CI[(0, 0)]]
 
     # ---- the chain -----------------------------------------------------------------------
     def chain(self, t: np.ndarray) -> list:
-        q = self.q0.copy()
-        q[:, TILT_COL] *= np.exp(t)[None, :]
+        """Pitch event probabilities by count, every event's log-probability shifted by t (per event)."""
+        q = self.q0 * np.exp(t)[None, :]
         q /= q.sum(axis=1, keepdims=True)
         return q.tolist()
 
-    def tilts(self, p_k: float, p_bb: float, p_hbp: float) -> np.ndarray:
-        """Tilts at which the chain's own K, BB and HBP rates equal the matchup's: a first-order
-        step from the league, then quasi-Newton steps with the same Jacobian."""
+    def tilts(self, zb_k: float, zb_bb: float, zp_k: float, zp_bb: float, p_k: float, p_bb: float, p_hbp: float) -> np.ndarray:
+        """Event shifts for a matchup: the batter's and pitcher's K and BB offsets along their
+        measured directions, then a correction (average directions, HBP) at which the chain's own K,
+        BB and HBP rates equal the matchup's (quasi-Newton with the league Jacobian)."""
+        t0 = (zb_k * self.U[("batter", "K")] + zb_bb * self.U[("batter", "BB")]
+              + zp_k * self.U[("pitcher", "K")] + zp_bb * self.U[("pitcher", "BB")])
         target = _logit(np.array([p_k, p_bb, p_hbp]))
-        t = self.Jinv @ (target - self.base)
-        for _ in range(TILT_STEPS):
-            t = t + self.Jinv @ (target - self._logit_abs3(t))
-        return t
+        a = np.zeros(3)
+        for _ in range(TILT_STEPS + 1):
+            a = a + self.Jinv @ (target - self._logit_abs3(t0 + self.M @ a))
+        return t0 + self.M @ a
 
     def _logit_abs3(self, t) -> np.ndarray:
         q = self.chain(t)
         return _logit(np.array([self.absorb(q, O_K)[0], self.absorb(q, O_BB)[0], self.absorb(q, O_HBP)[0]]))
-
-    def _logit_abs(self, t) -> np.ndarray:
-        a = self.absorb_all(self.chain(t))[CI[(0, 0)]]
-        return _logit(np.array([a[O_K], a[O_BB], a[O_HBP]]))
 
     def absorb(self, q: list, o: int) -> list:
         """h_o(c): probability of ending in outcome o from each count."""
