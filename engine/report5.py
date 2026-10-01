@@ -18,7 +18,7 @@ from pathlib import Path
 
 import numpy as np
 
-from config.phase5 import MAX_PITCHES_HIST
+from config.phase5 import DEFERRED_TO_PHASE6, MAX_PITCHES_HIST
 from config.phase5 import load as load_pitch
 from engine.game2 import B_BB, B_K, B_PA, P_BB, P_BF, P_K
 from engine.pitch import COUNTS
@@ -92,7 +92,11 @@ def build_report5(agg: dict, seeds: list, league: dict, league_se: dict, st2: di
 
     def gate(key, label, nd=4, section="other"):
         ok, line = _row(label, m[key], se[key], bm[key]["value"], bm[key]["se"], nd)
-        st[f"p5_{key}"] = bool(ok)
+        if key in DEFERRED_TO_PHASE6:     # reported, gated in Phase 6 (CLAUDE.md deferred rows)
+            st[f"p5_{key}"] = None
+            line = line.replace("| pass |", "| pass (Phase 6) |").replace("| FAIL |", "| FAIL (Phase 6) |")
+        else:
+            st[f"p5_{key}"] = bool(ok)
         sections.setdefault(section, []).append(line)
 
     gate("pitches_per_pa", "Pitches per PA", 3, "pitches")
@@ -149,7 +153,8 @@ def build_report5(agg: dict, seeds: list, league: dict, league_se: dict, st2: di
           "## Outcome of the PAs that pass through each count", "",
           "BA is hits per at-bat, K% and BB% per PA, among the PAs that reach the count at any point.", "", hdr, *sections["by_count"], "",
           "## Starts", "",
-          "Pitches are the starter's pitches on completed plate appearances; innings are the outs on his plate appearances / 3 (as in the data). "
+          "Pitches are the starter's pitches on completed plate appearances; innings are the outs on the starter's plate appearances / 3 (as in the data). "
+          "Midweek p10 is a Phase 6 row (CLAUDE.md deferred rows): the pull hazards ignore tier, and low-tier staffs leave midweek starters in longer. "
           "The pull hazard (Phase 2 usage tables, Stamina leash from Phase 4) now reads the simulated pitch counts.", "", hdr, *sections["starts"], "",
           "## PA-level outcomes unchanged from Phase 4", "",
           "League rates of this run against the merged Phase 4 run (reports/phase4_baseline.json), tolerance 3 SE of the difference.", "",

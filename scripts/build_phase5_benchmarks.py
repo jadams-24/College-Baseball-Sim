@@ -16,7 +16,9 @@ Cleaning (per plate appearance):
     and sequences that break the count rules (0.4%); plate appearances without a sequence (2.8%)
     are excluded.
 Everything is reweighted by batting-tier x pitching-tier cell to the full-season D1 matchup mix
-(as in scripts/build_pbp_benchmarks.py). Standard errors: bootstrap over games (game clusters),
+(as in scripts/build_pbp_benchmarks.py). For the starter pitch-count percentiles, cells with fewer
+than config.benchmarks.MIN_CELL_N_PERCENTILE starts are pooled with their nearest cells first
+(scripts/lib/pooling.py); the unpooled values are kept for the record. Standard errors: bootstrap over games (game clusters),
 reweighting inside each replicate.
 
 Outputs: data/ncaa_2025/derived/phase5_pitch_2025.json
@@ -38,6 +40,9 @@ import pandas as pd
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from lib.players import load_pa  # noqa: E402
+from lib.pooling import describe, pool_cells  # noqa: E402
+
+from config.benchmarks import MIN_CELL_N_PERCENTILE  # noqa: E402
 
 OUT = Path("data/ncaa_2025/derived/phase5_pitch_2025.json")
 TIERS = ("p4", "mid", "low")
@@ -292,16 +297,25 @@ def main() -> None:
                     if d is not None and len(d):
                         tot += w * d[col].mean() * f; wsum += w
                 out[f"{key}_{lab}"] = tot / wsum
-            allp = []
-            for cell, w in mix.items():
-                d = sg.get((cell, wk))
-                if d is not None and len(d):
-                    allp.append((d.pitches.values, w / len(d)))
-            vals = np.concatenate([a for a, _ in allp]); wts = np.concatenate([np.full(len(a), ww) for a, ww in allp])
-            o = np.argsort(vals); cw = np.cumsum(wts[o]) / wts.sum()
-            for qn in (0.1, 0.5, 0.9):
-                out[f"pitches_per_start_{lab}_p{int(qn * 100)}"] = float(vals[o][np.searchsorted(cw, qn)])
+            # percentiles: sparse tier cells pooled with their nearest cells first (scripts/lib/pooling.py)
+            for pooled, suffix in ((True, ""), (False, "_unpooled")):
+                group_of, groups = pools[lab] if pooled else ({c: i for i, c in enumerate(mix)}, [{"weight": w} for w in mix.values()])
+                members = {}
+                for cell in mix:
+                    d = sg.get((cell, wk))
+                    if d is not None and len(d):
+                        members.setdefault(group_of[cell], []).append(d.pitches.values)
+                vals = np.concatenate([np.concatenate(m) for m in members.values()])
+                wts = np.concatenate([np.full(sum(len(a) for a in m), groups[gi]["weight"] / sum(len(a) for a in m)) for gi, m in members.items()])
+                o = np.argsort(vals); cw = np.cumsum(wts[o]) / wts.sum()
+                for qn in (0.1, 0.5, 0.9):
+                    out[f"pitches_per_start_{lab}_p{int(qn * 100)}{suffix}"] = float(vals[o][np.searchsorted(cw, qn)])
         return out
+
+    pools = {}
+    for wk, lab in ((True, "weekend"), (False, "midweek")):
+        cnt = starts[starts.weekend == wk].cell.value_counts().to_dict()
+        pools[lab] = pool_cells({c: cnt.get(c, 0) for c in mix}, mix, MIN_CELL_N_PERCENTILE)
 
     # player directions: how a player's per-pitch event rates move with his K and BB rates
     directions, spread = player_directions(v)
@@ -318,13 +332,16 @@ def main() -> None:
         bs = pd.concat([sgames[gid] for gid in pick if gid in sgames], ignore_index=True)
         boots.append(stats(bv, bs))
     se = {k: float(np.nanstd([b[k] for b in boots], ddof=1)) for k in point}
-    bench = {k: {"value": round(float(point[k]), 5), "se": round(se[k], 5)} for k in point}
+    bench = {k: {"value": round(float(point[k]), 5), "se": round(se[k], 5)} for k in point if not k.endswith("_unpooled")}
+    unpooled = {k[:-len("_unpooled")]: {"value": round(float(point[k]), 5), "se": round(se[k], 5)} for k in point if k.endswith("_unpooled")}
     res_out = {"_note": __doc__, "built": dt.date.today().isoformat(), "src": "WMT stats API play-by-play 2025, data/ncaa_2025/pbp (fetched 2026-10-01)",
                "cleaning": stats_counts, "matchup_mix_weights": {f"{t}_vs_{o}": round(w, 4) for (t, o), w in mix.items()},
                "n_bootstrap": N_BOOT, "n_games": int(len(games)), "n_starts": {"weekend": int(starts.weekend.sum()), "midweek": int((~starts.weekend).sum())},
                "chain": {"events": list(EVENTS), "by_count": ev_tab, "n_pitches_by_count": n_ev, "bip_results": list(BIP), "bip_by_count": bip_tab,
                          "directions": directions},
-               "player_spread": spread, "benchmarks": bench}
+               "player_spread": spread, "benchmarks": bench,
+               "percentile_pooling": {"floor": MIN_CELL_N_PERCENTILE, "starts_cells": {lab: {"_vs_".join(c): int(n) for c, n in starts[starts.weekend == (lab == "weekend")].cell.value_counts().items()} for lab in pools},
+                                      "pooled_groups": {lab: describe(g) for lab, (_, g) in pools.items()}, "unpooled_values": unpooled}}
     OUT.write_text(json.dumps(res_out, indent=1) + "\n")
     print(json.dumps(stats_counts), json.dumps({k: bench[k] for k in list(bench)[:8]}, indent=0))
 

@@ -16,6 +16,9 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from build_pbp_benchmarks import dumps_compact  # noqa: E402
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from config.phase5 import DEFERRED_TO_PHASE6  # noqa: E402
+
 D = Path("data/ncaa_2025/derived")
 BENCH = Path("benchmarks.json")
 
@@ -28,7 +31,10 @@ def main() -> None:
                      "full-season D1 matchup mix. Tolerance 3 SE, bootstrap over games. Cleaning, definitions and the per-count chain tables: "
                      "data/ncaa_2025/derived/phase5_pitch_2025.json. Intentional walks excluded."),
            "conf": "B", "src": src["src"], "n_games": src["n_games"], "n_pa": src["cleaning"]["pa_used"], "n_starts": src["n_starts"],
-           **{k: {"value": v["value"], "tol": round(3 * v["se"], 5)} for k, v in src["benchmarks"].items()}}
+           **{k: {"value": v["value"], "tol": round(3 * v["se"], 5), **({"gate": "phase6"} if k in DEFERRED_TO_PHASE6 else {})}
+              for k, v in src["benchmarks"].items()},
+           "percentile_pooling": {"floor": src["percentile_pooling"]["floor"], "pooled_groups": src["percentile_pooling"]["pooled_groups"],
+                                  "note": "Starter pitch-count percentiles: tier-pair cells with fewer starts than the floor are pooled with their nearest cells before reweighting (scripts/lib/pooling.py)."}}
     changes = []
     if json.loads(json.dumps(b.get("pitch_level_2025"))) != json.loads(json.dumps(new)):
         changes.append({"path": "pitch_level_2025", "old": b.get("pitch_level_2025"), "new": new})

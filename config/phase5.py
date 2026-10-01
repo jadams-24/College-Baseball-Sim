@@ -25,6 +25,9 @@ OUTCOMES = ("K", "BB", "HBP", "HR", "1B", "2B", "3B", "ROE", "OUT")
 # and HBP rates equal the matchup's. Quasi-Newton steps for that correction after the first step
 # (numerical; the conditioning on the drawn outcome makes the PA rates exact regardless).
 TILT_STEPS = 2
+# Rows reported but gated in Phase 6 (owner decision on PR #7, 2026-10-01; CLAUDE.md deferred rows):
+# the pull hazards ignore tier, and low-tier staffs leave midweek starters in longer (manager AI).
+DEFERRED_TO_PHASE6 = ("pitches_per_start_midweek_p10",)
 # Pitch counts per PA are recorded up to this length for the distribution (longer PAs pool in the last bin)
 MAX_PITCHES_HIST = 10
 
