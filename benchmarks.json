@@ -611,73 +611,98 @@
     "pitchers_50ip_per_team": {"value": 2.91, "note": "FanGraphs 882 / 303 teams; WMT full-season teams give 2.90"}
   },
   "qualified_players_2025": {
-    "_note": "Qualified batters (NCAA rule: 2.0 PA per team game and 75% of team games) and pitchers (1 IP per team game) on WMT full-season teams plus the Sidearm full-season pages, reweighted so each tier counts by its share of D1 teams. Tolerances 3 SE from a team-cluster bootstrap within tier. Conf B: 72% of sample teams are P4 and the low tier rests on few teams, so low-tier tails carry the most uncertainty.",
+    "_note": "Qualified batters (NCAA rule: 2.0 PA per team game and 75% of team games) and pitchers (1 IP per team game) on WMT full-season teams plus the Sidearm full-season pages, reweighted so each tier counts by its share of D1 teams (a tier with fewer than 50 qualified players is pooled with its nearest tier first, see pooled_groups). Tolerances 3 SE from a team-cluster bootstrap within tier. Conf B: 72% of sample teams are P4 and the low tier rests on few teams, so low-tier tails carry the most uncertainty.",
     "conf": "B",
     "qualification": {"batter": "PA >= 2.0 x team games and games >= 0.75 x team games", "pitcher": "IP >= 1.0 x team games"},
     "batters": {
       "n": 461,
       "teams_by_tier": {"p4": 39, "mid": 17, "low": 5},
       "per_team": 7.56,
+      "pooled_groups": [
+        {
+          "cells": ["mid", "low"],
+          "n": 165,
+          "weight": 0.7915
+        }
+      ],
+      "unpooled": {
+        "BA": {"p10": 0.237, "p25": 0.2578, "p50": 0.2953, "p75": 0.3237, "p90": 0.3505},
+        "OBP": {"p10": 0.3363, "p25": 0.3607, "p50": 0.388, "p75": 0.4178, "p90": 0.4477},
+        "ISO": {"p10": 0.0755, "p25": 0.111, "p50": 0.1632, "p75": 0.2134, "p90": 0.2746},
+        "K_pct": {"p10": 0.1064, "p25": 0.1434, "p50": 0.1831, "p75": 0.2265, "p90": 0.2691},
+        "BB_pct": {"p10": 0.0663, "p25": 0.0822, "p50": 0.1077, "p75": 0.133, "p90": 0.1544}
+      },
       "BA": {
-        "p10": 0.237,
-        "p25": 0.2578,
-        "p50": 0.2953,
-        "p75": 0.3237,
-        "p90": 0.3505,
-        "tol": {"p10": 0.0185, "p25": 0.0185, "p50": 0.0148, "p75": 0.012, "p90": 0.0168}
+        "p10": 0.2385,
+        "p25": 0.2654,
+        "p50": 0.2959,
+        "p75": 0.3249,
+        "p90": 0.3533,
+        "tol": {"p10": 0.0134, "p25": 0.0192, "p50": 0.0148, "p75": 0.015, "p90": 0.0169}
       },
       "OBP": {
-        "p10": 0.3363,
-        "p25": 0.3607,
-        "p50": 0.388,
-        "p75": 0.4178,
-        "p90": 0.4477,
-        "tol": {"p10": 0.0088, "p25": 0.0109, "p50": 0.0114, "p75": 0.0126, "p90": 0.0125}
+        "p10": 0.3366,
+        "p25": 0.3611,
+        "p50": 0.3889,
+        "p75": 0.4203,
+        "p90": 0.4487,
+        "tol": {"p10": 0.0106, "p25": 0.0109, "p50": 0.0134, "p75": 0.0155, "p90": 0.0128}
       },
       "ISO": {
         "p10": 0.0755,
-        "p25": 0.111,
-        "p50": 0.1632,
-        "p75": 0.2134,
-        "p90": 0.2746,
-        "tol": {"p10": 0.0174, "p25": 0.0166, "p50": 0.0178, "p75": 0.0216, "p90": 0.0394}
+        "p25": 0.1115,
+        "p50": 0.1667,
+        "p75": 0.2192,
+        "p90": 0.2775,
+        "tol": {"p10": 0.0188, "p25": 0.0196, "p50": 0.0198, "p75": 0.0293, "p90": 0.0406}
       },
       "K_pct": {
-        "p10": 0.1064,
-        "p25": 0.1434,
-        "p50": 0.1831,
-        "p75": 0.2265,
-        "p90": 0.2691,
-        "tol": {"p10": 0.0273, "p25": 0.0207, "p50": 0.0163, "p75": 0.0218, "p90": 0.0451}
+        "p10": 0.1075,
+        "p25": 0.144,
+        "p50": 0.1829,
+        "p75": 0.2269,
+        "p90": 0.2689,
+        "tol": {"p10": 0.0249, "p25": 0.0178, "p50": 0.0138, "p75": 0.0199, "p90": 0.0409}
       },
       "BB_pct": {
-        "p10": 0.0663,
-        "p25": 0.0822,
-        "p50": 0.1077,
-        "p75": 0.133,
-        "p90": 0.1544,
-        "tol": {"p10": 0.0098, "p25": 0.0097, "p50": 0.0151, "p75": 0.0165, "p90": 0.0146}
+        "p10": 0.0668,
+        "p25": 0.0803,
+        "p50": 0.1058,
+        "p75": 0.1326,
+        "p90": 0.1584,
+        "tol": {"p10": 0.0106, "p25": 0.0083, "p50": 0.0136, "p75": 0.0144, "p90": 0.0159}
       }
     },
     "pitchers": {
       "n": 134,
       "teams_by_tier": {"p4": 37, "mid": 17, "low": 5},
       "per_team": 2.27,
+      "pooled_groups": [
+        {
+          "cells": ["mid", "low"],
+          "n": 56,
+          "weight": 0.7915
+        }
+      ],
+      "unpooled": {
+        "ERA": {"p10": 3.4051, "p25": 4.1584, "p50": 5.087, "p75": 6.0302, "p90": 7.6935},
+        "K9": {"p10": 5.8198, "p25": 6.8334, "p50": 7.6571, "p75": 9.5468, "p90": 10.5419}
+      },
       "ERA": {
-        "p10": 3.4051,
-        "p25": 4.1584,
-        "p50": 5.087,
-        "p75": 6.0302,
-        "p90": 7.6935,
-        "tol": {"p10": 0.6754, "p25": 0.527, "p50": 0.6533, "p75": 1.1893, "p90": 1.3645}
+        "p10": 3.4076,
+        "p25": 4.2162,
+        "p50": 5.1218,
+        "p75": 6.0433,
+        "p90": 7.6381,
+        "tol": {"p10": 0.6169, "p25": 0.4738, "p50": 0.6631, "p75": 1.0341, "p90": 1.2709}
       },
       "K9": {
-        "p10": 5.8198,
-        "p25": 6.8334,
-        "p50": 7.6571,
-        "p75": 9.5468,
-        "p90": 10.5419,
-        "tol": {"p10": 0.751, "p25": 0.6124, "p50": 0.7711, "p75": 0.9266, "p90": 1.1748},
+        "p10": 5.7191,
+        "p25": 6.7372,
+        "p50": 7.8754,
+        "p75": 9.7033,
+        "p90": 10.5645,
+        "tol": {"p10": 0.6664, "p25": 0.7547, "p50": 0.9199, "p75": 0.8657, "p90": 1.2989},
         "gate_deferred": {"p50": "phase6", "p90": "phase6"}
       }
     },
