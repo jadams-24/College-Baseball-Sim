@@ -26,30 +26,67 @@ session. Every file records its source URL and fetch date.
   plus runs per game by conference. This fills
   `game_structure.run_distribution_per_team_game` in `benchmarks.json`.
 
-## Not pulled (2026-09-30) — team tables and play-by-play
+## data/ncaa_2025/pbp/ — 2025 play-by-play and box lines from the WMT stats API
 
-The Phase 1 pull also called for the full 2025 D1 team batting, pitching and
-fielding tables, individual qualified-player tables, and play-by-play for at
-least 2,000 games. None of that was obtained. What was tried:
+WMT hosts the live-stats platform behind many athletics sites. Its public API
+(`https://api.wmt.games`, robots.txt allows all user agents) is keyed by NCAA
+team id and serves the NCAA game XML as structured actions. Everything below
+was fetched 2026-09-30 to 2026-10-01 at one request per second.
 
-| Host | Purpose | Result |
+| File | Source | Content |
 |---|---|---|
-| stats.ncaa.org | team tables, individual leaders, box scores, PBP | Reachable after the network policy change. The team list (`/team/inst_team_list?sport_code=MBA&division=1&academic_year=2025`, 307 teams) is served plainly, but every team, stats and contest page sits behind Akamai Bot Manager: browser User-Agents get an edge "Access Denied", and other clients get a JavaScript interstitial challenge. Completing that challenge programmatically, and installing a trust store so the pre-installed Chromium could load the pages, were both stopped by the session's safety policy. Not pursued further. |
-| data.ncaa.com | scoreboard JSON (worked), per-game `gameInfo`, `boxscore`, `pbp`, `teamStats`, `scoringSummary` JSON | Per-game endpoints return 404 for every 2025 game tried (both id forms). Only the scoreboard feed exists for this season. |
-| www.ncaa.com | stats pages, game pages | denied by network policy |
-| sdataprod.ncaa.com | GraphQL behind ncaa.com game pages | denied by network policy |
-| web.archive.org, archive.org | cached copies | denied by network policy |
-| baseball-reference.com, d1baseball.com | 2025 register, box scores | denied by network policy |
-| cran.r-project.org, github.com, codeload.github.com, huggingface.co | `baseballr` source, pre-scraped datasets | denied by network policy |
-| ncaa-api.henrygd.me | third-party mirror of ncaa.com JSON | denied by network policy |
-| pypi.org | `collegebaseball` package | reachable; package not on PyPI |
+| `schedules/<ncaa_team_id>.json.gz` | `/api/statistics/teams/{id}/games?per_page=100` for all 307 D1 teams | 282 teams have games; 2,364 distinct games, 2,259 D1-vs-D1 with both teams' box totals and innings played (about 28% of the 8,079-game season) |
+| `parsed/schedule_games_2025.csv` | flattened from the above | one row per game: innings, scores, both box lines (PA, AB, H, 2B, 3B, HR, BB, HBP, K, SF, SH, SB, CS, GO, FO, E, PO, A, IP, ER, pitching K/BB/HBP, WP) |
+| `raw/<ncaa_team_id>.jsonl.gz`, `raw/other.jsonl.gz` | `/api/statistics/games/{id}?with[]=actions` | 2,264 game payloads, one JSON line each. The only transformation is dropping null fields and the ingestion timestamps |
+| `games_index.csv`, `manifest.json` | puller | one row per pulled game; selection rules, counts, skipped programs |
+| `programs_candidates.csv`, `programs_selected.csv` | puller | tier-stratified candidate list and the 54 programs that met the per-tier minimums (13 P4, 26 mid, 15 low); every other WMT-covered D1 game was then added under the pseudo-team `other` |
+| `teams_2025.csv` | NCAA scoreboard conference tags, Phase 0 tiers | conference and tier for all 307 D1 teams (64 P4, 153 mid, 90 low) |
+| `parsed/pa_events_2025.csv.gz` | `scripts/wmt_parse.py` | 178,073 plate appearances from 2,232 games: inning, half, pre-play outs and occupied bases, batter, pitcher, result, batted-ball type, pitch count and sequence, destination of the batter and of each runner (0 out, 1-3 base, 4 scored, same base held), outs and runs on the play, play text |
+| `parsed/runner_events_2025.csv.gz` | same | 13,419 non-PA base-running events (SB, CS, pickoff, WP, PB, balk) with pre-state and destination |
+| `parsed/games_2025.csv` | same | one row per parsed game with both box lines; `parsed/excluded_games.json` lists 5 tournament games whose payloads carry text but no structured actions |
 
-To finish the pull, run the stats.ncaa.org scrape from a machine with a normal
-browser trust store (a laptop, or a runner with `libnss3-tools` installed) and
-commit the results here as:
+**Reconciliation** (`tests/test_pbp_data_integrity.py`): parsed hits, walks, HBP
+and strikeouts equal the box totals exactly; plate appearances are within 0.04%;
+runs from plate appearances plus base-running events equal the final score in
+more than 90% of games and within 1% in aggregate.
 
-- `team_batting_2025.csv`, `team_pitching_2025.csv`, `team_fielding_2025.csv`
-  with a sidecar `manifest.json` (source URLs, fetch date).
-- `individual_batting_2025.csv`, `individual_pitching_2025.csv` for the
-  qualified-player percentiles.
-- `pbp/raw/<contest_id>.html` and `pbp/parsed/<contest_id>.csv`.
+**Coverage and bias.** WMT holds every game of its client schools and nothing
+else, so the sample is 59% P4 plate appearances against 21% of D1 teams, and
+mid and low programs appear mostly in games against P4 opponents. Per-tier
+rates taken straight from the sample are therefore "that tier facing P4
+pitching". `scripts/build_pbp_benchmarks.py` reweights every rate by batting
+tier x opponent tier using the matchup mix of all 8,079 scoreboard games.
+Validation: reweighted runs per team-game 6.64 against the scoreboard's 6.78
+for D1-vs-D1 games (P4 7.23 vs 7.23, mid 6.61 vs 6.69, low 6.23 vs 6.59), BA
+.282 vs the FanGraphs .280, K% .194 vs .193, HR per game 1.05 vs 1.05. The
+low-vs-low cell holds only 68 team-games, so low-tier figures carry the most
+uncertainty. Values derived from this sample are conf B in `benchmarks.json`.
+
+## data/ncaa_2025/sidearm/ — 13 Sidearm season pages (cross-check)
+
+- **Source:** `https://<school>/sports/baseball/stats/2025` for the 13 programs
+  whose Sidearm Sports site answered plainly (Alabama, Baylor, Brown, Bucknell,
+  California, Cal Poly, Mississippi State, Missouri State, Pittsburgh, Sam
+  Houston, Stephen F. Austin, St. Thomas, Troy). Fetched 2026-09-30.
+- **Files:** `raw/<domain>.html.gz` untouched pages; `team_totals_2025.csv`
+  the Totals and Opponents rows (hitting, fielding, pitching) extracted by
+  `scripts/sidearm_totals.py` from the embedded season payload.
+- 202 of 252 D1 athletics domains screened sit behind Imperva Incapsula, which
+  refuses this container after a first request, so Sidearm was not usable for
+  bulk play-by-play. PrestoSports sites (e.g. Tennessee Tech) serve full
+  play-by-play at a 10-second crawl delay and were not needed.
+
+## Not pulled
+
+- **stats.ncaa.org team, individual and contest pages.** The team list is
+  served plainly, but every other page sits behind Akamai Bot Manager's
+  JavaScript challenge; completing it from this environment was stopped by the
+  session's safety policy. The full 303-team rankings tables are to be supplied
+  separately. The conf B `league_totals_2025` line (BA, OBP, SLG, BB%, K%, R/G,
+  HR/G, SB/G, SH/G) is unchanged and cross-checked in
+  `league_totals_2025_team_weighted_wmt`.
+- **Qualified-player percentiles** (`batting_distribution_2025`, conf D): need
+  the individual tables above.
+- data.ncaa.com serves only the scoreboard feed for 2025 (no per-game JSON);
+  www.ncaa.com and sdataprod.ncaa.com were denied by the network policy at the
+  time of the pull.

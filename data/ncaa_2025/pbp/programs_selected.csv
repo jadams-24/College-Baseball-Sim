@@ -1,21 +1,55 @@
 tier,conference,team,ncaa_team_id,athletics_domain,games_listed,games_usable
+p4,ACC,California,596511,calbears.com,26,26
 p4,ACC,Clemson,596523,clemsontigers.com,63,63
-p4,ACC,Florida St.,596545,seminoles.com,64,58
-p4,ACC,Georgia Tech,596553,ramblinwreck.com,60,60
+p4,ACC,Duke,596708,goduke.com,26,26
+p4,Big 12,Arizona,596706,arizonawildcats.com,22,22
 p4,Big 12,Arizona St.,596485,thesundevils.com,60,60
 p4,Big 12,BYU,596499,byucougars.com,55,55
-p4,Big 12,Cincinnati,596521,gobearcats.com,63,59
 p4,Big Ten,Iowa,596569,hawkeyesports.com,58,56
+p4,Big Ten,Minnesota,596604,gophersports.com,22,22
 p4,Big Ten,Nebraska,596712,huskers.com,67,62
-p4,Big Ten,Northwestern,596636,nusports.com,56,52
+p4,Independent,Oregon St.,596643,osubeavers.com,23,23
 p4,SEC,Alabama,596480,rolltide.com,61,59
 p4,SEC,Arkansas,596487,arkansasrazorbacks.com,67,65
 p4,SEC,Auburn,596489,auburntigers.com,62,61
-mid,American,UTSA,596426,goutsa.com,68,62
-mid,Big West,Hawaii,596557,hawaiiathletics.com,56,56
+mid,American,Charlotte,596615,charlotte49ers.com,9,9
+mid,American,Fla. Atlantic,596543,fausports.com,10,10
+mid,American,Memphis,596597,gotigersgo.com,9,9
+mid,Atlantic 10,VCU,596436,vcuathletics.com,9,9
+mid,Atlantic Sun,Stetson,596720,gohatters.com,16,15
+mid,Big East,Xavier,596454,goxavier.com,16,16
+mid,Big South,Presbyterian,596464,gobluehose.com,8,8
+mid,Big West,CSU Bakersfield,596505,gorunners.com,9,9
+mid,Big West,CSUN,596508,gomatadors.com,11,11
+mid,Big West,Cal Poly,596504,gopoly.com,15,15
+mid,C-USA,DBU,596703,dbupatriots.com,8,8
+mid,C-USA,Sam Houston,596667,gobearkats.com,8,8
+mid,Colonial,Northeastern,596631,gonu.com,11,10
+mid,Missouri Valley,Belmont,596470,belmontbruins.com,11,11
+mid,Missouri Valley,Evansville,596709,gopurpleaces.com,9,8
+mid,Missouri Valley,Murray St.,596612,goracers.com,11,11
 mid,Mountain West,Air Force,596430,goairforcefalcons.com,57,54
 mid,Mountain West,Fresno St.,596707,gobulldogs.com,65,60
-mid,Sun Belt,Old Dominion,596642,odusports.com,54,53
+mid,Mountain West,Nevada,596620,nevadawolfpack.com,58,57
+mid,SoCon,Samford,596668,samfordsports.com,8,8
+mid,SoCon,The Citadel,596522,citadelsports.com,8,8
+mid,Sun Belt,Coastal Carolina,596524,goccusports.com,12,11
+mid,Sun Belt,James Madison,596573,jmusports.com,10,9
+mid,Sun Belt,Louisiana,596687,ragincajuns.com,12,10
+mid,WAC,California Baptist,596476,cbulancers.com,12,12
 mid,WAC,Grand Canyon,596462,gculopes.com,58,58
-mid,WAC,Seattle U,596465,goseattleu.com,52,52
+low,America East,Binghamton,596495,binghamtonbearcats.com,5,5
+low,Horizon,Milwaukee,596452,mkepanthers.com,14,14
+low,Horizon,Wright St.,596453,wsuraiders.com,11,11
+low,Ivy League,Dartmouth,596530,dartmouthsports.com,6,6
+low,MAAC,Niagara,596625,purpleeagles.com,7,7
 low,Ohio Valley,Little Rock,596488,lrtrojans.com,66,61
+low,Ohio Valley,Morehead St.,596610,msueagles.com,7,7
+low,Ohio Valley,Tennessee Tech,596691,ttusports.com,5,5
+low,SWAC,Ark.-Pine Bluff,596466,uapblionsroar.com,5,5
+low,SWAC,Texas Southern,596422,tsusports.com,6,6
+low,Southland,A&M-Corpus Christi,596471,goislanders.com,11,9
+low,Southland,Nicholls,596713,geauxcolonels.com,6,6
+low,Summit,North Dakota St.,596629,gobison.com,7,7
+low,Summit,Omaha,596618,omavs.com,9,8
+low,Summit,Oral Roberts,596715,oruathletics.com,10,10

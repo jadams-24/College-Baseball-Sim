@@ -88,14 +88,33 @@ def main() -> None:
     else:
         tier_of, d1_share = {}, {}
     TIERS = ("p4", "mid", "low")
+    CELLS = [(t, o) for t in TIERS for o in TIERS]
 
-    def reweight(by_tier: dict) -> float | None:
-        """Tier-share-weighted mean of a per-tier rate; None if a tier is missing."""
-        if not d1_share or any(t not in by_tier or by_tier[t] is None for t in TIERS):
+    # True matchup mix of 2025 D1-vs-D1 team-games from the full-season scoreboard.
+    # Low- and mid-tier teams enter the WMT sample mostly through games against P4
+    # clients, so a per-tier rate from WMT is really "that tier facing P4 pitching";
+    # weighting per (tier, opponent tier) cell by the true mix removes that bias.
+    mix = {}
+    if teams is not None and Path("data/ncaa_2025/scoreboard/games_2025.csv").exists():
+        sb = pd.read_csv("data/ncaa_2025/scoreboard/games_2025.csv")
+        sb = sb[(sb.state == "final") & sb.home_score.notna() & sb.away_score.notna()].drop_duplicates("url")
+        tier_of_name = dict(zip(teams.team, teams.tier))
+        cnt = Counter()
+        for side, opp in (("home", "away"), ("away", "home")):
+            for t, o in zip(sb[side].map(tier_of_name), sb[opp].map(tier_of_name)):
+                if t and o and isinstance(t, str) and isinstance(o, str):
+                    cnt[(t, o)] += 1
+        tot_tg = sum(cnt.values())
+        mix = {c: cnt[c] / tot_tg for c in CELLS}
+
+    def reweight(by_cell: dict) -> float | None:
+        """Matchup-mix-weighted mean of per-cell rates; None if a cell is missing."""
+        if not mix or any(c not in by_cell or by_cell[c] is None for c in CELLS):
             return None
-        return sum(d1_share[t] * by_tier[t] for t in TIERS)
+        return sum(mix[c] * by_cell[c] for c in CELLS)
 
     pa["bat_tier"] = pa.bat_team_id.map(tier_of).fillna("")
+    pa["pit_tier"] = pa.pit_team_id.map(tier_of).fillna("")
 
     # ---- PA outcome table -------------------------------------------------
     res = pa.result.replace({"IBB": "BB", "CI": "HBP"})  # fold rarities into the nearest bucket
@@ -110,21 +129,21 @@ def main() -> None:
     tot = sum(table.values())
     probs_raw = {k: round(v / tot, 4) for k, v in table.items()}
     # reweight: P(outcome) = sum_tier share_tier * P(outcome | batting team in tier)
-    by_tier_tables = {}
-    for t in TIERS:
-        sub = res[pa.bat_tier == t]
+    by_cell_tables = {}
+    for cell in CELLS:
+        sub = res[(pa.bat_tier == cell[0]) & (pa.pit_tier == cell[1])]
         if len(sub):
             c = Counter(sub)
             tt = {"K": c["K"], "BB": c["BB"], "HBP": c["HBP"], "1B": c["1B"], "2B": c["2B"], "3B": c["3B"], "HR": c["HR"], "SF": c["SF"], "SH": c["SH"],
                   "IP_OUT": c["FO"] + c["GO"] + c["GIDP"] + c["DP"], "ROE_FC": c["ROE"] + c["FC"]}
-            n_t = sum(tt.values())
-            by_tier_tables[t] = {k: v / n_t for k, v in tt.items()}
-            by_tier_tables[t]["_n_pa"] = n_t
-    if all(t in by_tier_tables for t in TIERS):
-        probs = {k: round(sum(d1_share[t] * by_tier_tables[t][k] for t in TIERS), 4) for k in table}
+            n_c = sum(tt.values())
+            by_cell_tables[cell] = {k: v / n_c for k, v in tt.items()}
+            by_cell_tables[cell]["_n_pa"] = n_c
+    if mix and all(c in by_cell_tables for c in CELLS):
+        probs = {k: sum(mix[c] * by_cell_tables[c][k] for c in CELLS) for k in table}
         norm = sum(probs.values()); probs = {k: round(v / norm, 4) for k, v in probs.items()}
-        table = {k: probs[k] * tot for k in table}  # tier-weighted pseudo-counts for the derived line
-        weighting = "tier-reweighted to the D1 mix (" + ", ".join(f"{t} {d1_share[t]:.2f}" for t in TIERS) + ")"
+        table = {k: probs[k] * tot for k in table}  # matchup-weighted pseudo-counts for the derived line
+        weighting = "reweighted by batting-tier x pitching-tier cell to the full-season D1 matchup mix"
     else:
         probs, weighting = probs_raw, "raw sample"
     ab = tot - table["BB"] - table["HBP"] - table["SF"] - table["SH"]
@@ -145,7 +164,8 @@ def main() -> None:
         "gidp_share_of_gb_outs": round(counts["GIDP"] / max(1, split["GB"]), 4),
         "bunt_share_of_in_play": round(pa[pa.result.isin(IN_PLAY_OUT + HIT + ["ROE", "FC"])].bunt.mean(), 4),
     }
-    derived["by_batting_team_tier"] = {t: {k: round(v, 4) for k, v in d.items()} for t, d in by_tier_tables.items()}
+    derived["by_matchup_cell"] = {f"{t}_vs_{o}": {k: round(v, 4) for k, v in d.items()} for (t, o), d in by_cell_tables.items()}
+    derived["matchup_mix_weights"] = {f"{t}_vs_{o}": round(w, 4) for (t, o), w in mix.items()}
     derived["raw_sample_probs"] = probs_raw
     outcome_block = {"_note": f"Per plate appearance, {src}, {weighting}. ROE_FC = reached on error or fielder's choice (batter safe, not a hit). WMT covers about a quarter of the 2025 D1 season and over-represents P4 programs; see PHASE0_NOTES.md.",
                      **probs, "_derived": derived, "_n_pa": tot, "conf": "B"}
@@ -164,7 +184,7 @@ def main() -> None:
     if sched is not None:
         box = sched[(sched.home_is_d1 == 1) & (sched.away_is_d1 == 1) & (sched.home_has_box == 1) & (sched.away_has_box == 1)
                     & (sched.canceled == 0) & (sched.exhibition == 0) & sched.home_score.notna() & sched.away_score.notna()].copy()
-        box_src = f"WMT stats API box totals, {len(box)} 2025 D1-vs-D1 games (about a quarter of the season), team-game weighted and tier-reweighted to the D1 mix; data/ncaa_2025/pbp/schedules (fetched {TODAY})"
+        box_src = f"WMT stats API box totals, {len(box)} 2025 D1-vs-D1 games (about a quarter of the season), reweighted by tier x opponent-tier cell to the full-season matchup mix; data/ncaa_2025/pbp/schedules (fetched {TODAY})"
     else:
         box, box_src = gm, src + "; box totals"
     tg = 2 * len(box)
@@ -186,8 +206,13 @@ def main() -> None:
 
     # one long table of team-games so rates can be computed per tier and reweighted
     cols = ["pa", "hbp", "sf", "sh", "sb", "cs", "e", "po", "a", "er", "ip", "k_pitched", "ab", "h", "2b", "3b", "hr", "bb", "k", "r", "go", "fo"]
-    long = pd.concat([box[[f"{side}_{c}" for c in cols] + [f"{side}_team_id"]].rename(columns=lambda c: c.split("_", 1)[1]) for side in ("home", "away")], ignore_index=True)
-    long["tier"] = long.team_id.map(tier_of).fillna("")
+    parts = []
+    for side, opp in (("home", "away"), ("away", "home")):
+        d = box[[f"{side}_{c}" for c in cols]].rename(columns=lambda c: c.split("_", 1)[1])
+        d["tier"] = box[f"{side}_team_id"].map(tier_of).fillna("").values
+        d["opp"] = box[f"{opp}_team_id"].map(tier_of).fillna("").values
+        parts.append(d)
+    long = pd.concat(parts, ignore_index=True)
     long["ip_inn"] = long.ip.fillna(0).astype(float).apply(lambda v: int(v) + round(v - int(v), 1) * 10 / 3)
 
     def rates(df):
@@ -203,13 +228,14 @@ def main() -> None:
                 "go_fo_ratio_batting": S.go / max(1, S.fo), "n_team_games": n}
     raw_rates = rates(long)
     tier_rates = {t: rates(long[long.tier == t]) for t in TIERS}
-    rw = {k: reweight({t: (tier_rates[t] or {}).get(k) for t in TIERS}) for k in raw_rates if k != "n_team_games"}
+    cell_rates = {c: rates(long[(long.tier == c[0]) & (long.opp == c[1])]) for c in CELLS}
+    rw = {k: reweight({c: (cell_rates[c] or {}).get(k) for c in CELLS}) for k in raw_rates if k != "n_team_games"}
     use = {k: (rw[k] if rw[k] is not None else raw_rates[k]) for k in rw}
     TOL = {"hbp_pct": 0.004, "sf_per_team_game": 0.08, "sh_per_team_game": 0.05, "sb_success_rate": 0.03, "era": 0.3,
            "fielding_pct": 0.004, "errors_per_team_game": 0.15, "pa_per_team_game": 1.0, "k_per_9": 0.4}
     ND = {"hbp_pct": 4, "fielding_pct": 4, "era": 2, "k_per_9": 2, "pa_per_team_game": 2}
     team_rates = {k: {"value": round(use[k], ND.get(k, 3)), **({"tol": TOL[k]} if k in TOL else {}), "conf": "B", "src": box_src,
-                      "raw_sample": round(raw_rates[k], ND.get(k, 3)), "by_tier": {t: round(tier_rates[t][k], ND.get(k, 3)) for t in TIERS if tier_rates[t]}}
+                      "raw_sample": round(raw_rates[k], ND.get(k, 3)), "by_tier_in_sample": {t: round(tier_rates[t][k], ND.get(k, 3)) for t in TIERS if tier_rates[t]}}
                   for k in ("hbp_pct", "sf_per_team_game", "sh_per_team_game", "sb_success_rate", "era", "fielding_pct",
                             "errors_per_team_game", "pa_per_team_game", "k_per_9", "sb_attempts_per_team_game")}
     team_rates["sb_success_rate"]["src"] += f"; {int(SB)} SB / {int(CS)} CS in the sample"
@@ -217,10 +243,12 @@ def main() -> None:
     # FanGraphs conference means. Written as its own block; conf B values are not touched.
     keys_x = ["ba", "obp", "slg", "bb_pct", "k_pct", "hbp_pct", "runs_per_team_game", "hr_per_team_game", "sb_per_team_game", "sh_per_team_game", "sf_per_team_game", "pa_per_team_game", "go_fo_ratio_batting"]
     cross = {
-        "_note": box_src + ". Cross-check of league_totals_2025 conf B values (unweighted conference means) and of the scoreboard R/G; not used to change any conf A/B value. 'raw' is the WMT sample as is, 'reweighted' applies D1 tier shares to per-tier rates.",
-        "conf": "B", "n_games": int(len(box)), "n_team_games": int(tg), "d1_tier_shares": {t: round(d1_share.get(t, 0), 3) for t in TIERS},
+        "_note": box_src + ". Cross-check of league_totals_2025 conf B values (unweighted conference means) and of the scoreboard R/G; not used to change any conf A/B value. 'raw' is the WMT sample as is; 'reweighted' weights each tier x opponent-tier cell by its share of all 2025 D1-vs-D1 team-games (scoreboard). Validation: reweighted R/G should sit near the scoreboard's 6.78 for D1-vs-D1 games.",
+        "conf": "B", "n_games": int(len(box)), "n_team_games": int(tg), "matchup_mix_weights": {f"{t}_vs_{o}": round(w, 4) for (t, o), w in mix.items()},
         "reweighted": {k: round(use[k], 4) for k in keys_x}, "raw": {k: round(raw_rates[k], 4) for k in keys_x},
-        "by_tier": {t: {k: round(tier_rates[t][k], 4) for k in keys_x + ["n_team_games"]} for t in TIERS if tier_rates[t]},
+        "by_tier_in_sample": {t: {k: round(tier_rates[t][k], 4) for k in keys_x + ["n_team_games"]} for t in TIERS if tier_rates[t]},
+        "by_cell": {f"{t}_vs_{o}": {k: round(cell_rates[(t, o)][k], 4) for k in keys_x + ["n_team_games"]} for (t, o) in CELLS if cell_rates[(t, o)]},
+        "reweighted_r_g_by_tier": {t: round(sum(mix[(t, o)] * cell_rates[(t, o)]["runs_per_team_game"] for o in TIERS) / sum(mix[(t, o)] for o in TIERS), 3) for t in TIERS} if mix else {},
     }
 
     # ---- game structure ------------------------------------------------------

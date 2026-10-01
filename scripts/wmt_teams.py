@@ -1,16 +1,17 @@
-"""Fetch each D1 team's 2025 record from the WMT stats API to get its conference,
-and attach the Phase 0 tier (p4 / mid / low) from data/phase0/conf2025.csv.
+"""Build data/ncaa_2025/pbp/teams_2025.csv: every D1 team's conference and Phase 0 tier.
 
-Output: data/ncaa_2025/pbp/teams_2025.csv
-  ncaa_team_id, team, conference, tier, wins, losses
-Used by build_pbp_benchmarks.py to report per-tier rates and to reweight the
-WMT sample (which over-represents P4 programs) to the D1 tier mix.
-One request per second; teams already in the output file are not re-fetched.
+Conference comes from the NCAA scoreboard feed already in
+data/ncaa_2025/scoreboard/games_2025.csv (each game tags both teams' conference;
+306 of 307 NCAA team names match exactly). The WMT team endpoint is used only as
+a fallback; it answers for WMT client schools and 404s for everyone else.
+Tier (p4 / mid / low) is the Phase 0 grouping from data/phase0/conf2025.csv.
+No network access is needed unless the fallback fires (one request per second).
 """
 from __future__ import annotations
 
 import csv
 import time
+from collections import Counter, defaultdict
 from pathlib import Path
 
 import requests
@@ -19,42 +20,41 @@ API = "https://api.wmt.games/api/statistics"
 HEADERS = {"Accept": "application/json", "Origin": "https://wmt.games",
            "User-Agent": "college-baseball-sim data pull (github.com/jadams-24/College-Baseball-Sim)"}
 TEAMS = Path("data/ncaa_2025/ncaa_d1_teams_2025.csv")
+SCOREBOARD = Path("data/ncaa_2025/scoreboard/games_2025.csv")
 OUT = Path("data/ncaa_2025/pbp/teams_2025.csv")
-# WMT conference labels -> Phase 0 conference names (conf2025.csv)
+# scoreboard / WMT conference labels -> Phase 0 conference names (conf2025.csv)
 ALIAS = {"The American": "American", "CUSA": "C-USA", "CAA": "Colonial", "ASUN": "Atlantic Sun", "MVC": "Missouri Valley",
          "OVC": "Ohio Valley", "NEC": "Northeast", "Patriot": "Patriot League", "Summit League": "Summit",
-         "DI Independent": "Independent", "Independent": "Independent"}
+         "DI Independent": "Independent", "IND": "Independent"}
+NAME_ALIAS = {"LSU New Orleans": "New Orleans"}
 
 
 def main() -> None:
     tiers = {r["league"]: r["tier"] for r in csv.DictReader(open("data/phase0/conf2025.csv"))}
-    done = {}
-    if OUT.exists():
-        done = {r["ncaa_team_id"]: r for r in csv.DictReader(OUT.open())}
+    votes: dict[str, Counter] = defaultdict(Counter)
+    for r in csv.DictReader(SCOREBOARD.open()):
+        for side in ("home", "away"):
+            if r[f"{side}_conf"]:
+                votes[r[side]][r[f"{side}_conf"]] += 1
+    sb_conf = {k: v.most_common(1)[0][0] for k, v in votes.items()}
     rows = []
     for t in csv.DictReader(TEAMS.open()):
-        tid = t["ncaa_team_id"]
-        if tid in done:
-            rows.append(done[tid]); continue
-        conf = ""
-        wins = losses = ""
-        for attempt in range(3):
+        tid, name = t["ncaa_team_id"], t["team"]
+        conf = sb_conf.get(name) or sb_conf.get(NAME_ALIAS.get(name, ""), "")
+        source = "ncaa scoreboard" if conf else ""
+        if not conf:
             time.sleep(1.0)
             try:
                 r = requests.get(f"{API}/teams/{tid}", headers=HEADERS, timeout=60)
+                if r.status_code == 200:
+                    conf = r.json().get("data", {}).get("conference_name_tabular") or ""
+                    source = "wmt" if conf else ""
             except requests.RequestException:
-                time.sleep(5); continue
-            if r.status_code == 200:
-                d = r.json().get("data", {})
-                conf = d.get("conference_name_tabular") or ""
-                wins, losses = d.get("wins", ""), d.get("losses", "")
-            break
-        league = ALIAS.get(conf, conf)
-        rows.append({"ncaa_team_id": tid, "team": t["team"], "conference": conf, "tier": tiers.get(league, ""), "wins": wins, "losses": losses})
+                pass
+        rows.append({"ncaa_team_id": tid, "team": name, "conference": conf, "tier": tiers.get(ALIAS.get(conf, conf), ""), "conference_source": source})
     with OUT.open("w", newline="") as fh:
-        w = csv.DictWriter(fh, fieldnames=["ncaa_team_id", "team", "conference", "tier", "wins", "losses"]); w.writeheader(); w.writerows(rows)
-    from collections import Counter
-    print(len(rows), "teams;", Counter(r["tier"] for r in rows), "unmapped conferences:", sorted({r["conference"] for r in rows if not r["tier"]}))
+        w = csv.DictWriter(fh, fieldnames=["ncaa_team_id", "team", "conference", "tier", "conference_source"]); w.writeheader(); w.writerows(rows)
+    print(len(rows), "teams;", Counter(r["tier"] or "none" for r in rows), "| conferences without a tier:", sorted({r["conference"] for r in rows if not r["tier"]}))
 
 
 if __name__ == "__main__":
