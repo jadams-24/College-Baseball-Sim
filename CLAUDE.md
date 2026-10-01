@@ -13,8 +13,8 @@ A college baseball simulation engine, built in phases. Long-term it becomes a fu
 Phases advance only when the gate passes. Do not build ahead of the current phase.
 
 - **Phase 0 — Yardstick.** `benchmarks.json`. Done. Entries marked conf C or D are to be replaced with real data before Phase 1's gate.
-- **Phase 1 — League-average PA engine.** One outcome table, base-out state machine with real runner-advancement tables, no players. *Gate:* 10,000 games; R/G, BA, OBP, SLG and the run-per-game histogram within tolerance.
-- **Phase 2 — Player variance.** Fictional players sampled from empirical distributions with realistic correlations. *Gate:* leaderboard spreads match real percentiles; league totals unchanged.
+- **Phase 1 — League-average PA engine.** One outcome table, base-out state machine with real runner-advancement tables, no players. *Gate:* 10,000 games; R/G, BA, OBP, SLG, the runs-per-half-inning distribution, big-inning frequency and PA per half-inning within tolerance. (The per-game run histogram was moved to Phase 2 on 2026-10-01: identical teams cannot reproduce its tails.)
+- **Phase 2 — Player variance.** Fictional players sampled from empirical distributions with realistic correlations. *Gate:* leaderboard spreads match real percentiles; league totals unchanged; the per-game run histogram, extra-innings frequency and run-rule frequency within tolerance.
 - **Phase 3 — Batter-vs-pitcher.** Log5/odds-ratio interaction. *Gate:* league totals unchanged; good/bad pitchers move outcomes by realistic margins.
 - **Phase 4 — 20–80 ratings layer.** Ratings map to rates, nothing more. *Gate:* round-trip ratings → season → recovered ratings.
 - **Phase 5 — Pitch-by-pitch.** *Gate:* pitches/PA and count distributions match; PA-level totals unchanged from Phase 3.

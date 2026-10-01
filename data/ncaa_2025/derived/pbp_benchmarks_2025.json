@@ -469,6 +469,68 @@
    "low": 6.226
   }
  },
+ "half_inning": {
+  "_note": "Phase 1 gate. Runs per half-inning P(0)..P(4), P(5+), big-inning frequency (3+ runs) and PA per half-inning from WMT stats API play-by-play, 2232 D1 games / 178073 PA, 2025; data/ncaa_2025/pbp (fetched 2026-10-01), reweighted by batting-tier x pitching-tier cell to the full-season matchup mix. Tolerances are 3 SE at the effective sample size after reweighting (9954 of 38106 half-innings). Partial half-innings (walk-offs, run-rule endings) are included as played, as the engine counts them.",
+  "conf": "A",
+  "src": "WMT stats API play-by-play, 2232 D1 games / 178073 PA, 2025; data/ncaa_2025/pbp (fetched 2026-10-01)",
+  "n_half_innings": 38106,
+  "n_effective": 9954,
+  "half_innings_per_game": 17.073,
+  "bins": [
+   0.6397,
+   0.1625,
+   0.0947,
+   0.0491,
+   0.0258,
+   0.0282
+  ],
+  "bin_tol": [
+   0.0144,
+   0.0111,
+   0.0088,
+   0.0065,
+   0.0048,
+   0.005
+  ],
+  "bins_raw_sample": [
+   0.6417,
+   0.166,
+   0.0904,
+   0.0478,
+   0.0266,
+   0.0275
+  ],
+  "big_inning_freq": {
+   "value": 0.1031,
+   "tol": 0.0091,
+   "conf": "A",
+   "note": "P(3+ runs in a half-inning)"
+  },
+  "pa_per_half_inning": {
+   "value": 4.694,
+   "tol": 0.053,
+   "conf": "A"
+  },
+  "mean_runs_per_half_inning": 0.7434
+ },
+ "bb_pct_resolution": {
+  "value": 0.1059,
+  "tol": 0.005,
+  "conf": "B",
+  "src": "WMT stats API box totals, 2259 2025 D1-vs-D1 games (about a quarter of the season), reweighted by tier x opponent-tier cell to the full-season matchup mix; data/ncaa_2025/pbp/schedules (fetched 2026-10-01); team-weighted, matchup-reweighted. Replaces the FanGraphs unweighted conference mean (.1137): WMT and FanGraphs agree conference by conference (SEC .121/.121, ACC .116/.121, Big Ten .114/.117, Big 12 .114/.113, Mountain West .095/.095), so the difference is that P4 conferences walk the most and are a fifth of D1 teams.",
+  "raw_sample": 0.111,
+  "by_tier_in_sample": {
+   "p4": 0.1173,
+   "mid": 0.1025,
+   "low": 0.0991
+  },
+  "fangraphs_conf_mean": 0.1137,
+  "sidearm_13_team_full_season": {
+   "totals": 0.1153,
+   "opponents": 0.1062,
+   "both": 0.1108
+  }
+ },
  "team_rates": {
   "hbp_pct": {
    "value": 0.0334,

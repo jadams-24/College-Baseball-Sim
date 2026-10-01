@@ -2,7 +2,7 @@
  {
   "path": "pa_outcome_table_league_avg",
   "old": {
-   "_note": "Per plate appearance, WMT stats API play-by-play, 2232 D1 games / 178073 PA, 2025; data/ncaa_2025/pbp (fetched 2026-10-01), reweighted by batting-tier x pitching-tier cell to the full-season D1 matchup mix. ROE_FC = reached on error or fielder's choice (batter safe, not a hit). WMT covers about a quarter of the 2025 D1 season and over-represents P4 programs; see PHASE0_NOTES.md.",
+   "_note": "Per plate appearance, WMT stats API play-by-play, 2232 D1 games / 178073 PA, 2025; data/ncaa_2025/pbp (fetched 2026-10-01), reweighted by batting-tier x pitching-tier cell to the full-season D1 matchup mix. ROE = reached on error, FC = reached on fielder's choice (batter safe, not a hit); FC, SF and SH depend on the base-out state, see _derived.state_dependence. WMT covers about a quarter of the 2025 D1 season and over-represents P4 programs; see PHASE0_NOTES.md.",
    "K": 0.1938,
    "BB": 0.1055,
    "HBP": 0.0338,
@@ -13,7 +13,8 @@
    "SF": 0.009,
    "SH": 0.0094,
    "IP_OUT": 0.3693,
-   "ROE_FC": 0.0413,
+   "ROE": 0.0141,
+   "FC": 0.0272,
    "_derived": {
     "ab_share_of_pa": 0.8423,
     "h_per_pa": 0.2377,
@@ -39,6 +40,15 @@
     "k_looking_share": 0.2782,
     "gidp_share_of_gb_outs": 0.0761,
     "bunt_share_of_in_play": 0.0264,
+    "state_dependence": {
+     "fc_rate_runners_on": 0.0463,
+     "fc_rate_bases_empty": 0.0,
+     "roe_rate_runners_on": 0.0122,
+     "roe_rate_bases_empty": 0.0146,
+     "sf_rate_on3_lt2": 0.1286,
+     "sh_rate_runners_on_lt2": 0.0299,
+     "share_pa_runners_on": 0.5092
+    },
     "by_matchup_cell": {
      "p4_vs_p4": {
       "K": 0.2182,
@@ -51,7 +61,8 @@
       "SF": 0.0091,
       "SH": 0.0092,
       "IP_OUT": 0.3598,
-      "ROE_FC": 0.0344,
+      "ROE": 0.0119,
+      "FC": 0.0225,
       "_n_pa": 72156
      },
      "p4_vs_mid": {
@@ -65,7 +76,8 @@
       "SF": 0.0127,
       "SH": 0.0078,
       "IP_OUT": 0.3466,
-      "ROE_FC": 0.0381,
+      "ROE": 0.0145,
+      "FC": 0.0236,
       "_n_pa": 24885
      },
      "p4_vs_low": {
@@ -79,7 +91,8 @@
       "SF": 0.0161,
       "SH": 0.006,
       "IP_OUT": 0.3368,
-      "ROE_FC": 0.0431,
+      "ROE": 0.0173,
+      "FC": 0.0258,
       "_n_pa": 8147
      },
      "mid_vs_p4": {
@@ -93,7 +106,8 @@
       "SF": 0.0079,
       "SH": 0.0095,
       "IP_OUT": 0.359,
-      "ROE_FC": 0.0348,
+      "ROE": 0.0125,
+      "FC": 0.0223,
       "_n_pa": 22557
      },
      "mid_vs_mid": {
@@ -107,7 +121,8 @@
       "SF": 0.0104,
       "SH": 0.0102,
       "IP_OUT": 0.3753,
-      "ROE_FC": 0.0405,
+      "ROE": 0.0144,
+      "FC": 0.0261,
       "_n_pa": 34853
      },
      "mid_vs_low": {
@@ -121,7 +136,8 @@
       "SF": 0.0114,
       "SH": 0.0089,
       "IP_OUT": 0.3416,
-      "ROE_FC": 0.0451,
+      "ROE": 0.0177,
+      "FC": 0.0273,
       "_n_pa": 2708
      },
      "low_vs_p4": {
@@ -135,7 +151,8 @@
       "SF": 0.0045,
       "SH": 0.0082,
       "IP_OUT": 0.3661,
-      "ROE_FC": 0.0317,
+      "ROE": 0.0145,
+      "FC": 0.0172,
       "_n_pa": 6911
      },
      "low_vs_mid": {
@@ -149,7 +166,8 @@
       "SF": 0.0099,
       "SH": 0.0099,
       "IP_OUT": 0.3633,
-      "ROE_FC": 0.0409,
+      "ROE": 0.0175,
+      "FC": 0.0234,
       "_n_pa": 2516
      },
      "low_vs_low": {
@@ -163,7 +181,8 @@
       "SF": 0.0043,
       "SH": 0.0087,
       "IP_OUT": 0.3874,
-      "ROE_FC": 0.0509,
+      "ROE": 0.0134,
+      "FC": 0.0375,
       "_n_pa": 2770
      }
     },
@@ -189,7 +208,8 @@
      "SF": 0.0098,
      "SH": 0.0091,
      "IP_OUT": 0.3603,
-     "ROE_FC": 0.037
+     "ROE": 0.0134,
+     "FC": 0.0236
     }
    },
    "_n_pa": 178073,
@@ -480,7 +500,8 @@
    "tol": 0.015,
    "n_games": 2273,
    "conf": "B",
-   "src": "WMT schedules, 2273 2025 D1 games with innings recorded (about a quarter of the season); data/ncaa_2025/pbp/schedules"
+   "src": "WMT schedules, 2273 2025 D1 games with innings recorded (about a quarter of the season); data/ncaa_2025/pbp/schedules",
+   "gate": "phase2"
   }
  },
  {
@@ -525,7 +546,8 @@
     "13": 0.0018,
     "14": 0.0009,
     "15": 0.0004
-   }
+   },
+   "gate": "phase2"
   }
  },
  {
@@ -1745,6 +1767,80 @@
     "p4": 7.234,
     "mid": 6.609,
     "low": 6.226
+   }
+  }
+ },
+ {
+  "path": "half_inning_2025",
+  "old": null,
+  "new": {
+   "_note": "Phase 1 gate. Runs per half-inning P(0)..P(4), P(5+), big-inning frequency (3+ runs) and PA per half-inning from WMT stats API play-by-play, 2232 D1 games / 178073 PA, 2025; data/ncaa_2025/pbp (fetched 2026-10-01), reweighted by batting-tier x pitching-tier cell to the full-season matchup mix. Tolerances are 3 SE at the effective sample size after reweighting (9954 of 38106 half-innings). Partial half-innings (walk-offs, run-rule endings) are included as played, as the engine counts them.",
+   "conf": "A",
+   "src": "WMT stats API play-by-play, 2232 D1 games / 178073 PA, 2025; data/ncaa_2025/pbp (fetched 2026-10-01)",
+   "n_half_innings": 38106,
+   "n_effective": 9954,
+   "half_innings_per_game": 17.073,
+   "bins": [
+    0.6397,
+    0.1625,
+    0.0947,
+    0.0491,
+    0.0258,
+    0.0282
+   ],
+   "bin_tol": [
+    0.0144,
+    0.0111,
+    0.0088,
+    0.0065,
+    0.0048,
+    0.005
+   ],
+   "bins_raw_sample": [
+    0.6417,
+    0.166,
+    0.0904,
+    0.0478,
+    0.0266,
+    0.0275
+   ],
+   "big_inning_freq": {
+    "value": 0.1031,
+    "tol": 0.0091,
+    "conf": "A",
+    "note": "P(3+ runs in a half-inning)"
+   },
+   "pa_per_half_inning": {
+    "value": 4.694,
+    "tol": 0.053,
+    "conf": "A"
+   },
+   "mean_runs_per_half_inning": 0.7434
+  }
+ },
+ {
+  "path": "league_totals_2025.bb_pct",
+  "old": {
+   "value": 0.1137,
+   "tol": 0.005,
+   "conf": "B"
+  },
+  "new": {
+   "value": 0.1059,
+   "tol": 0.005,
+   "conf": "B",
+   "src": "WMT stats API box totals, 2259 2025 D1-vs-D1 games (about a quarter of the season), reweighted by tier x opponent-tier cell to the full-season matchup mix; data/ncaa_2025/pbp/schedules (fetched 2026-10-01); team-weighted, matchup-reweighted. Replaces the FanGraphs unweighted conference mean (.1137): WMT and FanGraphs agree conference by conference (SEC .121/.121, ACC .116/.121, Big Ten .114/.117, Big 12 .114/.113, Mountain West .095/.095), so the difference is that P4 conferences walk the most and are a fifth of D1 teams.",
+   "raw_sample": 0.111,
+   "by_tier_in_sample": {
+    "p4": 0.1173,
+    "mid": 0.1025,
+    "low": 0.0991
+   },
+   "fangraphs_conf_mean": 0.1137,
+   "sidearm_13_team_full_season": {
+    "totals": 0.1153,
+    "opponents": 0.1062,
+    "both": 0.1108
    }
   }
  }

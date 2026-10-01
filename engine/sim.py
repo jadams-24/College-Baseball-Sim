@@ -13,6 +13,7 @@ from engine.rng import game_seeds
 from engine.state import GameState
 
 HIST_BINS = 16
+HALF_BINS = 6  # runs per half-inning: 0..4, 5+
 
 
 def summarize(games: list[GameState], engine: Engine | None = None) -> dict:
@@ -26,6 +27,8 @@ def summarize(games: list[GameState], engine: Engine | None = None) -> dict:
     ab, h, bb, hbp, sf = S["ab"], S["h"], S["bb"], S["hbp"], S["sf"]
     runs = [t.runs for t in tallies]
     hist = Counter(min(r, HIST_BINS - 1) for r in runs)
+    halves = [h for g in games for h in g.half_innings]
+    hh = Counter(min(h[2], HALF_BINS - 1) for h in halves)
     out = {
         "n_games": n,
         "runs_per_team_game": S["runs"] / tg,
@@ -37,6 +40,10 @@ def summarize(games: list[GameState], engine: Engine | None = None) -> dict:
         "errors_per_team_game": S["errors_committed"] / tg, "pa_per_team_game": S["pa"] / tg,
         "roe_per_team_game": S["roe"] / tg, "fc_per_team_game": S["fc"] / tg, "lob_per_team_game": S["lob"] / tg,
         "run_histogram": [hist[i] / tg for i in range(HIST_BINS)],
+        "half_inning_run_dist": [hh[i] / len(halves) for i in range(HALF_BINS)],
+        "big_inning_freq": sum(1 for h in halves if h[2] >= 3) / len(halves),
+        "pa_per_half_inning": sum(h[3] for h in halves) / len(halves),
+        "half_innings_per_game": len(halves) / n,
         "extra_innings_freq": sum(1 for g in games if g.inning > phase1.load().rules.innings) / n,
         "run_rule_freq": sum(1 for g in games if g.ended_by_run_rule) / n,
         "innings_dist": {str(k): v / n for k, v in sorted(Counter(g.inning for g in games).items())},

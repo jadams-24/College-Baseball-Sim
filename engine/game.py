@@ -96,6 +96,7 @@ class Engine:
             st.bases[1] = True
         dec.lineup(st, "away" if st.half == "T" else "home")
         dec.pitching_change(st)
+        runs_start, pa_start = st.batting.runs, st.batting.pa
         while st.outs < 3 and not st.over:
             dec.pinch_hitter(st)
             # --- pre-PA base running event (steal attempt, WP, PB, pickoff, balk) ---
@@ -130,6 +131,7 @@ class Engine:
             if runs and st.half == "B":
                 self._check_end(st, mid_bottom=True)
         st.batting.lob += sum(st.bases)
+        st.half_innings.append((st.inning, st.half, st.batting.runs - runs_start, st.batting.pa - pa_start))
 
     def play(self, rng: np.random.Generator, decider: Decider) -> GameState:
         st = GameState()

@@ -11,7 +11,16 @@
     "ba": {"value": 0.28, "tol": 0.005, "conf": "B"},
     "obp": {"value": 0.385, "tol": 0.005, "conf": "B"},
     "slg": {"value": 0.44, "tol": 0.01, "conf": "B"},
-    "bb_pct": {"value": 0.1137, "tol": 0.005, "conf": "B"},
+    "bb_pct": {
+      "value": 0.1059,
+      "tol": 0.005,
+      "conf": "B",
+      "src": "WMT stats API box totals, 2259 2025 D1-vs-D1 games (about a quarter of the season), reweighted by tier x opponent-tier cell to the full-season matchup mix; data/ncaa_2025/pbp/schedules (fetched 2026-10-01); team-weighted, matchup-reweighted. Replaces the FanGraphs unweighted conference mean (.1137): WMT and FanGraphs agree conference by conference (SEC .121/.121, ACC .116/.121, Big Ten .114/.117, Big 12 .114/.113, Mountain West .095/.095), so the difference is that P4 conferences walk the most and are a fifth of D1 teams.",
+      "raw_sample": 0.111,
+      "by_tier_in_sample": {"p4": 0.1173, "mid": 0.1025, "low": 0.0991},
+      "fangraphs_conf_mean": 0.1137,
+      "sidearm_13_team_full_season": {"totals": 0.1153, "opponents": 0.1062, "both": 0.1108}
+    },
     "k_pct": {"value": 0.1927, "tol": 0.005, "conf": "B"},
     "hbp_pct": {
       "value": 0.0334,
@@ -211,7 +220,7 @@
     "weekend_series": "Fri-Sat-Sun 3-game series in conference play; midweek 1-2 non-conference games",
     "run_rule": {"value": "conference-optional; commonly 10 runs after 7 innings", "conf": "C"},
     "extra_innings_tiebreaker": {"value": "runner-on-second rule is conference-optional in NCAA; not universal", "conf": "C"},
-    "extra_innings_freq": {"value": 0.0546, "tol": 0.015, "n_games": 2273, "conf": "B", "src": "WMT schedules, 2273 2025 D1 games with innings recorded (about a quarter of the season); data/ncaa_2025/pbp/schedules"},
+    "extra_innings_freq": {"value": 0.0546, "tol": 0.015, "n_games": 2273, "conf": "B", "src": "WMT schedules, 2273 2025 D1 games with innings recorded (about a quarter of the season); data/ncaa_2025/pbp/schedules", "gate": "phase2"},
     "run_distribution_per_team_game": {
       "conf": "A",
       "src": "data.ncaa.com scoreboard JSON, every D1 game day of the season; see data/ncaa_2025/scoreboard/manifest.json",
@@ -226,7 +235,8 @@
       "tol_total_variation": 0.04,
       "share_games_margin_10plus": 0.1952,
       "home_win_pct": 0.5876,
-      "note": "Bins are P(0)..P(14), P(15+) per D1 team-game, final games only, run-rule games included as played. margin_10plus is an upper bound on run-rule frequency, not the rate itself."
+      "note": "Bins are P(0)..P(14), P(15+) per D1 team-game, final games only, run-rule games included as played. margin_10plus is an upper bound on run-rule frequency, not the rate itself.",
+      "gate": "phase2"
     },
     "run_rule_freq": {
       "value": 0.1524,
@@ -236,7 +246,8 @@
       "p_ended_early_given_margin_10plus_wmt": 0.7805,
       "wmt_sample_run_rule_freq": 0.1549,
       "short_game_not_run_rule_freq": 0.0123,
-      "innings_dist": {"6": 0.0009, "7": 0.1311, "8": 0.0352, "9": 0.7783, "10": 0.0339, "11": 0.0114, "12": 0.0062, "13": 0.0018, "14": 0.0009, "15": 0.0004}
+      "innings_dist": {"6": 0.0009, "7": 0.1311, "8": 0.0352, "9": 0.7783, "10": 0.0339, "11": 0.0114, "12": 0.0062, "13": 0.0018, "14": 0.0009, "15": 0.0004},
+      "gate": "phase2"
     }
   },
   "roster_rules_2025_26": {
@@ -367,5 +378,19 @@
       "low_vs_low": {"ba": 0.284, "obp": 0.379, "slg": 0.4321, "bb_pct": 0.1001, "k_pct": 0.1727, "hbp_pct": 0.0332, "runs_per_team_game": 6.5294, "hr_per_team_game": 1.0, "sb_per_team_game": 1.2206, "sh_per_team_game": 0.3529, "sf_per_team_game": 0.1765, "pa_per_team_game": 40.7059, "go_fo_ratio_batting": 0.9933, "n_team_games": 68}
     },
     "reweighted_r_g_by_tier": {"p4": 7.234, "mid": 6.609, "low": 6.226}
+  },
+  "half_inning_2025": {
+    "_note": "Phase 1 gate. Runs per half-inning P(0)..P(4), P(5+), big-inning frequency (3+ runs) and PA per half-inning from WMT stats API play-by-play, 2232 D1 games / 178073 PA, 2025; data/ncaa_2025/pbp (fetched 2026-10-01), reweighted by batting-tier x pitching-tier cell to the full-season matchup mix. Tolerances are 3 SE at the effective sample size after reweighting (9954 of 38106 half-innings). Partial half-innings (walk-offs, run-rule endings) are included as played, as the engine counts them.",
+    "conf": "A",
+    "src": "WMT stats API play-by-play, 2232 D1 games / 178073 PA, 2025; data/ncaa_2025/pbp (fetched 2026-10-01)",
+    "n_half_innings": 38106,
+    "n_effective": 9954,
+    "half_innings_per_game": 17.073,
+    "bins": [0.6397, 0.1625, 0.0947, 0.0491, 0.0258, 0.0282],
+    "bin_tol": [0.0144, 0.0111, 0.0088, 0.0065, 0.0048, 0.005],
+    "bins_raw_sample": [0.6417, 0.166, 0.0904, 0.0478, 0.0266, 0.0275],
+    "big_inning_freq": {"value": 0.1031, "tol": 0.0091, "conf": "A", "note": "P(3+ runs in a half-inning)"},
+    "pa_per_half_inning": {"value": 4.694, "tol": 0.053, "conf": "A"},
+    "mean_runs_per_half_inning": 0.7434
   }
 }

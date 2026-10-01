@@ -63,6 +63,7 @@ class GameState:
     over: bool = False
     run_rule_in_effect: bool = False
     ended_by_run_rule: bool = False
+    half_innings: list = field(default_factory=list)   # (inning, half, runs, pa) per half-inning played
 
     @property
     def batting(self) -> TeamTally:
