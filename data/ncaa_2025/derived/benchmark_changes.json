@@ -1,222 +1,8 @@
 [
  {
-  "path": "league_totals_2025.hbp_pct",
-  "old": {
-   "value": 0.029,
-   "tol": 0.004,
-   "conf": "C",
-   "src": "ACC 2025 team lines, 2.7%-3.6% range"
-  },
-  "new": {
-   "value": 0.0334,
-   "tol": 0.004,
-   "conf": "B",
-   "src": "WMT stats API box totals, 2259 2025 D1-vs-D1 games (about a quarter of the season), reweighted by tier x opponent-tier cell to the full-season matchup mix; data/ncaa_2025/pbp/schedules (fetched 2026-10-01)",
-   "raw_sample": 0.0337,
-   "by_tier_in_sample": {
-    "p4": 0.0349,
-    "mid": 0.0322,
-    "low": 0.0304
-   }
-  }
- },
- {
-  "path": "league_totals_2025.sf_per_team_game",
-  "old": {
-   "value": 0.42,
-   "tol": 0.08,
-   "conf": "C",
-   "src": "ACC 2025 ~0.4-0.7/g; mid-majors lower"
-  },
-  "new": {
-   "value": 0.368,
-   "tol": 0.08,
-   "conf": "B",
-   "src": "WMT stats API box totals, 2259 2025 D1-vs-D1 games (about a quarter of the season), reweighted by tier x opponent-tier cell to the full-season matchup mix; data/ncaa_2025/pbp/schedules (fetched 2026-10-01)",
-   "raw_sample": 0.398,
-   "by_tier_in_sample": {
-    "p4": 0.433,
-    "mid": 0.377,
-    "low": 0.214
-   }
-  }
- },
- {
-  "path": "league_totals_2025.sb_success_rate",
-  "old": {
-   "value": 0.79,
-   "tol": 0.03,
-   "conf": "C",
-   "src": "ACC 2025 SB-ATT lines: 75-88%"
-  },
-  "new": {
-   "value": 0.76,
-   "tol": 0.03,
-   "conf": "B",
-   "src": "WMT stats API box totals, 2259 2025 D1-vs-D1 games (about a quarter of the season), reweighted by tier x opponent-tier cell to the full-season matchup mix; data/ncaa_2025/pbp/schedules (fetched 2026-10-01); 4782 SB / 1374 CS in the sample",
-   "raw_sample": 0.777,
-   "by_tier_in_sample": {
-    "p4": 0.795,
-    "mid": 0.754,
-    "low": 0.71
-   }
-  }
- },
- {
-  "path": "league_totals_2025.era",
-  "old": {
-   "value": 6.0,
-   "tol": 0.3,
-   "conf": "C",
-   "src": "derived: R/G 6.75 x ~0.89 earned share; only 12 of 303 teams had ERA < 4.00 in 2025"
-  },
-  "new": {
-   "value": 6.08,
-   "tol": 0.3,
-   "conf": "B",
-   "src": "WMT stats API box totals, 2259 2025 D1-vs-D1 games (about a quarter of the season), reweighted by tier x opponent-tier cell to the full-season matchup mix; data/ncaa_2025/pbp/schedules (fetched 2026-10-01)",
-   "raw_sample": 6.09,
-   "by_tier_in_sample": {
-    "p4": 5.3,
-    "mid": 6.89,
-    "low": 8.8
-   }
-  }
- },
- {
-  "path": "league_totals_2025.fielding_pct",
-  "old": {
-   "value": 0.97,
-   "tol": 0.004,
-   "conf": "C",
-   "src": "NCAA trend .968 (2018); ACC 2025 .963-.981"
-  },
-  "new": {
-   "value": 0.9694,
-   "tol": 0.004,
-   "conf": "B",
-   "src": "WMT stats API box totals, 2259 2025 D1-vs-D1 games (about a quarter of the season), reweighted by tier x opponent-tier cell to the full-season matchup mix; data/ncaa_2025/pbp/schedules (fetched 2026-10-01)",
-   "raw_sample": 0.9713,
-   "by_tier_in_sample": {
-    "p4": 0.9746,
-    "mid": 0.9679,
-    "low": 0.96
-   }
-  }
- },
- {
-  "path": "league_totals_2025.errors_per_team_game",
-  "old": {
-   "value": 1.05,
-   "tol": 0.15,
-   "conf": "C",
-   "src": "ACC 2025: 37-77 E over 50-66 G"
-  },
-  "new": {
-   "value": 1.099,
-   "tol": 0.15,
-   "conf": "B",
-   "src": "WMT stats API box totals, 2259 2025 D1-vs-D1 games (about a quarter of the season), reweighted by tier x opponent-tier cell to the full-season matchup mix; data/ncaa_2025/pbp/schedules (fetched 2026-10-01)",
-   "raw_sample": 1.009,
-   "by_tier_in_sample": {
-    "p4": 0.893,
-    "mid": 1.132,
-    "low": 1.349
-   }
-  }
- },
- {
-  "path": "league_totals_2025.pa_per_team_game",
-  "old": {
-   "value": 38.5,
-   "tol": 1.0,
-   "conf": "C",
-   "src": "back-solved from ~34.5 AB + BB + HBP + SF + SH per game in ACC 2025"
-  },
-  "new": {
-   "value": 40.31,
-   "tol": 1.0,
-   "conf": "B",
-   "src": "WMT stats API box totals, 2259 2025 D1-vs-D1 games (about a quarter of the season), reweighted by tier x opponent-tier cell to the full-season matchup mix; data/ncaa_2025/pbp/schedules (fetched 2026-10-01)",
-   "raw_sample": 39.85,
-   "by_tier_in_sample": {
-    "p4": 40.41,
-    "mid": 39.46,
-    "low": 37.17
-   }
-  }
- },
- {
-  "path": "league_totals_2025.k_per_9",
-  "old": {
-   "value": 8.7,
-   "tol": 0.4,
-   "conf": "C",
-   "src": "trend 7.88 (2018) plus K% growth; ACC 2025 staffs 9.0-11.1"
-  },
-  "new": {
-   "value": 8.17,
-   "tol": 0.4,
-   "conf": "B",
-   "src": "WMT stats API box totals, 2259 2025 D1-vs-D1 games (about a quarter of the season), reweighted by tier x opponent-tier cell to the full-season matchup mix; data/ncaa_2025/pbp/schedules (fetched 2026-10-01)",
-   "raw_sample": 8.8,
-   "by_tier_in_sample": {
-    "p4": 9.49,
-    "mid": 7.97,
-    "low": 7.06
-   }
-  }
- },
- {
-  "path": "league_totals_2025.sb_attempts_per_team_game",
-  "old": null,
-  "new": {
-   "value": 1.436,
-   "conf": "B",
-   "src": "WMT stats API box totals, 2259 2025 D1-vs-D1 games (about a quarter of the season), reweighted by tier x opponent-tier cell to the full-season matchup mix; data/ncaa_2025/pbp/schedules (fetched 2026-10-01)",
-   "raw_sample": 1.363,
-   "by_tier_in_sample": {
-    "p4": 1.44,
-    "mid": 1.276,
-    "low": 1.154
-   }
-  }
- },
- {
   "path": "pa_outcome_table_league_avg",
   "old": {
-   "_note": "Per plate appearance. Derived to be internally consistent with league_totals_2025 (BA .280 / OBP .385 / SLG ~.445 / HR 1.05 per 38.5 PA). This is Phase 1's single outcome table. conf C until re-fit to full play-by-play.",
-   "K": 0.1927,
-   "BB": 0.1137,
-   "HBP": 0.029,
-   "1B": 0.1541,
-   "2B": 0.0491,
-   "3B": 0.0033,
-   "HR": 0.0274,
-   "SF": 0.011,
-   "SH": 0.011,
-   "IP_OUT": 0.4087,
-   "_derived": {
-    "ab_share_of_pa": 0.835,
-    "h_per_pa": 0.234,
-    "babip": 0.334,
-    "hit_mix": {
-     "1B": 0.659,
-     "2B": 0.21,
-     "3B": 0.014,
-     "HR": 0.117
-    },
-    "in_play_out_split_placeholder": {
-     "GB": 0.44,
-     "FB": 0.36,
-     "LD": 0.08,
-     "PU": 0.12,
-     "conf": "D"
-    }
-   }
-  },
-  "new": {
-   "_note": "Per plate appearance, WMT stats API play-by-play, 2232 D1 games / 178073 PA, 2025; data/ncaa_2025/pbp (fetched 2026-10-01), reweighted by batting-tier x pitching-tier cell to the full-season D1 matchup mix. ROE_FC = reached on error or fielder's choice (batter safe, not a hit). WMT covers about a quarter of the 2025 D1 season and over-represents P4 programs; see PHASE0_NOTES.md.",
+   "_note": "Per plate appearance, WMT stats API play-by-play, 2232 D1 games / 178073 PA, 2025; data/ncaa_2025/pbp (fetched 2026-10-01), reweighted by batting-tier x pitching-tier cell to the full-season D1 matchup mix. ROE = reached on error, FC = reached on fielder's choice (batter safe, not a hit); FC, SF and SH depend on the base-out state, see _derived.state_dependence. WMT covers about a quarter of the 2025 D1 season and over-represents P4 programs; see PHASE0_NOTES.md.",
    "K": 0.1938,
    "BB": 0.1055,
    "HBP": 0.0338,
@@ -227,7 +13,8 @@
    "SF": 0.009,
    "SH": 0.0094,
    "IP_OUT": 0.3693,
-   "ROE_FC": 0.0413,
+   "ROE": 0.0141,
+   "FC": 0.0272,
    "_derived": {
     "ab_share_of_pa": 0.8423,
     "h_per_pa": 0.2377,
@@ -253,6 +40,15 @@
     "k_looking_share": 0.2782,
     "gidp_share_of_gb_outs": 0.0761,
     "bunt_share_of_in_play": 0.0264,
+    "state_dependence": {
+     "fc_rate_runners_on": 0.0463,
+     "fc_rate_bases_empty": 0.0,
+     "roe_rate_runners_on": 0.0122,
+     "roe_rate_bases_empty": 0.0146,
+     "sf_rate_on3_lt2": 0.1286,
+     "sh_rate_runners_on_lt2": 0.0299,
+     "share_pa_runners_on": 0.5092
+    },
     "by_matchup_cell": {
      "p4_vs_p4": {
       "K": 0.2182,
@@ -265,7 +61,8 @@
       "SF": 0.0091,
       "SH": 0.0092,
       "IP_OUT": 0.3598,
-      "ROE_FC": 0.0344,
+      "ROE": 0.0119,
+      "FC": 0.0225,
       "_n_pa": 72156
      },
      "p4_vs_mid": {
@@ -279,7 +76,8 @@
       "SF": 0.0127,
       "SH": 0.0078,
       "IP_OUT": 0.3466,
-      "ROE_FC": 0.0381,
+      "ROE": 0.0145,
+      "FC": 0.0236,
       "_n_pa": 24885
      },
      "p4_vs_low": {
@@ -293,7 +91,8 @@
       "SF": 0.0161,
       "SH": 0.006,
       "IP_OUT": 0.3368,
-      "ROE_FC": 0.0431,
+      "ROE": 0.0173,
+      "FC": 0.0258,
       "_n_pa": 8147
      },
      "mid_vs_p4": {
@@ -307,7 +106,8 @@
       "SF": 0.0079,
       "SH": 0.0095,
       "IP_OUT": 0.359,
-      "ROE_FC": 0.0348,
+      "ROE": 0.0125,
+      "FC": 0.0223,
       "_n_pa": 22557
      },
      "mid_vs_mid": {
@@ -321,7 +121,8 @@
       "SF": 0.0104,
       "SH": 0.0102,
       "IP_OUT": 0.3753,
-      "ROE_FC": 0.0405,
+      "ROE": 0.0144,
+      "FC": 0.0261,
       "_n_pa": 34853
      },
      "mid_vs_low": {
@@ -335,7 +136,8 @@
       "SF": 0.0114,
       "SH": 0.0089,
       "IP_OUT": 0.3416,
-      "ROE_FC": 0.0451,
+      "ROE": 0.0177,
+      "FC": 0.0273,
       "_n_pa": 2708
      },
      "low_vs_p4": {
@@ -349,7 +151,8 @@
       "SF": 0.0045,
       "SH": 0.0082,
       "IP_OUT": 0.3661,
-      "ROE_FC": 0.0317,
+      "ROE": 0.0145,
+      "FC": 0.0172,
       "_n_pa": 6911
      },
      "low_vs_mid": {
@@ -363,7 +166,8 @@
       "SF": 0.0099,
       "SH": 0.0099,
       "IP_OUT": 0.3633,
-      "ROE_FC": 0.0409,
+      "ROE": 0.0175,
+      "FC": 0.0234,
       "_n_pa": 2516
      },
      "low_vs_low": {
@@ -377,7 +181,8 @@
       "SF": 0.0043,
       "SH": 0.0087,
       "IP_OUT": 0.3874,
-      "ROE_FC": 0.0509,
+      "ROE": 0.0134,
+      "FC": 0.0375,
       "_n_pa": 2770
      }
     },
@@ -403,7 +208,222 @@
      "SF": 0.0098,
      "SH": 0.0091,
      "IP_OUT": 0.3603,
-     "ROE_FC": 0.037
+     "ROE": 0.0134,
+     "FC": 0.0236
+    }
+   },
+   "_n_pa": 178073,
+   "conf": "B"
+  },
+  "new": {
+   "_note": "Per plate appearance, WMT stats API play-by-play, 2232 D1 games / 178073 PA, 2025; data/ncaa_2025/pbp (fetched 2026-10-01), reweighted by batting-tier x pitching-tier cell to the full-season D1 matchup mix. ROE = reached on error, FC = reached on fielder's choice (batter safe, not a hit); FC, SF and SH depend on the base-out state, see _derived.state_dependence. WMT covers about a quarter of the 2025 D1 season and over-represents P4 programs; see PHASE0_NOTES.md.",
+   "K": 0.1938,
+   "BB": 0.1055,
+   "HBP": 0.0338,
+   "1B": 0.1602,
+   "2B": 0.0468,
+   "3B": 0.0047,
+   "HR": 0.026,
+   "SF": 0.009,
+   "SH": 0.0094,
+   "IP_OUT": 0.3693,
+   "ROE": 0.0141,
+   "FC": 0.0272,
+   "_derived": {
+    "ab_share_of_pa": 0.8423,
+    "h_per_pa": 0.2377,
+    "ba": 0.2822,
+    "obp": 0.3806,
+    "slg": 0.4415,
+    "babip": 0.3352,
+    "hit_mix": {
+     "1B": 0.674,
+     "2B": 0.1969,
+     "3B": 0.0198,
+     "HR": 0.1094
+    },
+    "in_play_out_split": {
+     "GB": 0.4557,
+     "FB": 0.3564,
+     "LD": 0.0694,
+     "PU": 0.1185,
+     "n": 67182,
+     "conf": "B",
+     "note": "GB/FB/LD/PU among batter outs on balls in play incl. SF/SH/GIDP/DP; from play text"
+    },
+    "k_looking_share": 0.2782,
+    "gidp_share_of_gb_outs": 0.0761,
+    "bunt_share_of_in_play": 0.0264,
+    "state_dependence": {
+     "fc_rate_runners_on": 0.0463,
+     "fc_rate_bases_empty": 0.0,
+     "roe_rate_runners_on": 0.0122,
+     "roe_rate_bases_empty": 0.0146,
+     "sf_rate_on3_lt2": 0.1286,
+     "sh_rate_runners_on_lt2": 0.0299,
+     "share_pa_runners_on": 0.5092
+    },
+    "by_matchup_cell": {
+     "p4_vs_p4": {
+      "K": 0.2182,
+      "BB": 0.1076,
+      "HBP": 0.0326,
+      "1B": 0.1477,
+      "2B": 0.0442,
+      "3B": 0.0041,
+      "HR": 0.033,
+      "SF": 0.0091,
+      "SH": 0.0092,
+      "IP_OUT": 0.3598,
+      "ROE": 0.0119,
+      "FC": 0.0225,
+      "_n_pa": 72156
+     },
+     "p4_vs_mid": {
+      "K": 0.175,
+      "BB": 0.1315,
+      "HBP": 0.0399,
+      "1B": 0.156,
+      "2B": 0.0514,
+      "3B": 0.0047,
+      "HR": 0.0364,
+      "SF": 0.0127,
+      "SH": 0.0078,
+      "IP_OUT": 0.3466,
+      "ROE": 0.0145,
+      "FC": 0.0236,
+      "_n_pa": 24885
+     },
+     "p4_vs_low": {
+      "K": 0.1382,
+      "BB": 0.1566,
+      "HBP": 0.046,
+      "1B": 0.1604,
+      "2B": 0.055,
+      "3B": 0.0061,
+      "HR": 0.0356,
+      "SF": 0.0161,
+      "SH": 0.006,
+      "IP_OUT": 0.3368,
+      "ROE": 0.0173,
+      "FC": 0.0258,
+      "_n_pa": 8147
+     },
+     "mid_vs_p4": {
+      "K": 0.2579,
+      "BB": 0.1027,
+      "HBP": 0.0329,
+      "1B": 0.1388,
+      "2B": 0.0345,
+      "3B": 0.0034,
+      "HR": 0.0187,
+      "SF": 0.0079,
+      "SH": 0.0095,
+      "IP_OUT": 0.359,
+      "ROE": 0.0125,
+      "FC": 0.0223,
+      "_n_pa": 22557
+     },
+     "mid_vs_mid": {
+      "K": 0.1878,
+      "BB": 0.1003,
+      "HBP": 0.0314,
+      "1B": 0.1652,
+      "2B": 0.0479,
+      "3B": 0.0057,
+      "HR": 0.0253,
+      "SF": 0.0104,
+      "SH": 0.0102,
+      "IP_OUT": 0.3753,
+      "ROE": 0.0144,
+      "FC": 0.0261,
+      "_n_pa": 34853
+     },
+     "mid_vs_low": {
+      "K": 0.1665,
+      "BB": 0.1256,
+      "HBP": 0.0451,
+      "1B": 0.1677,
+      "2B": 0.0565,
+      "3B": 0.0078,
+      "HR": 0.024,
+      "SF": 0.0114,
+      "SH": 0.0089,
+      "IP_OUT": 0.3416,
+      "ROE": 0.0177,
+      "FC": 0.0273,
+      "_n_pa": 2708
+     },
+     "low_vs_p4": {
+      "K": 0.2846,
+      "BB": 0.0971,
+      "HBP": 0.0282,
+      "1B": 0.1315,
+      "2B": 0.0327,
+      "3B": 0.0025,
+      "HR": 0.0129,
+      "SF": 0.0045,
+      "SH": 0.0082,
+      "IP_OUT": 0.3661,
+      "ROE": 0.0145,
+      "FC": 0.0172,
+      "_n_pa": 6911
+     },
+     "low_vs_mid": {
+      "K": 0.2158,
+      "BB": 0.0982,
+      "HBP": 0.0346,
+      "1B": 0.1594,
+      "2B": 0.0453,
+      "3B": 0.0048,
+      "HR": 0.0179,
+      "SF": 0.0099,
+      "SH": 0.0099,
+      "IP_OUT": 0.3633,
+      "ROE": 0.0175,
+      "FC": 0.0234,
+      "_n_pa": 2516
+     },
+     "low_vs_low": {
+      "K": 0.1726,
+      "BB": 0.1,
+      "HBP": 0.0339,
+      "1B": 0.1679,
+      "2B": 0.0469,
+      "3B": 0.0029,
+      "HR": 0.0245,
+      "SF": 0.0043,
+      "SH": 0.0087,
+      "IP_OUT": 0.3874,
+      "ROE": 0.0134,
+      "FC": 0.0375,
+      "_n_pa": 2770
+     }
+    },
+    "matchup_mix_weights": {
+     "p4_vs_p4": 0.1459,
+     "p4_vs_mid": 0.06,
+     "p4_vs_low": 0.0168,
+     "mid_vs_p4": 0.06,
+     "mid_vs_mid": 0.3901,
+     "mid_vs_low": 0.057,
+     "low_vs_p4": 0.0168,
+     "low_vs_mid": 0.057,
+     "low_vs_low": 0.1963
+    },
+    "raw_sample_probs": {
+     "K": 0.2085,
+     "BB": 0.1107,
+     "HBP": 0.0341,
+     "1B": 0.1521,
+     "2B": 0.045,
+     "3B": 0.0045,
+     "HR": 0.029,
+     "SF": 0.0098,
+     "SH": 0.0091,
+     "IP_OUT": 0.3603,
+     "ROE": 0.0134,
+     "FC": 0.0236
     }
    },
    "_n_pa": 178073,
@@ -413,10 +433,23 @@
  {
   "path": "pitch_level_2023_2025.pitches_per_pa",
   "old": {
-   "value": 3.9,
+   "value": 3.857,
    "tol": 0.1,
-   "conf": "D",
-   "src": "MLB is 3.9; college assumed similar. Replace with Trackman/PBP count."
+   "conf": "B",
+   "src": "WMT stats API play-by-play, 2232 D1 games / 178073 PA, 2025; data/ncaa_2025/pbp (fetched 2026-10-01)",
+   "n_pa": 173017,
+   "dist": {
+    "1": 0.1228,
+    "2": 0.1462,
+    "3": 0.1704,
+    "4": 0.1879,
+    "5": 0.175,
+    "6": 0.122,
+    "7": 0.0482,
+    "8": 0.0179,
+    "9": 0.0064,
+    "10": 0.0033
+   }
   },
   "new": {
    "value": 3.857,
@@ -440,7 +473,12 @@
  },
  {
   "path": "pitch_level_2023_2025.first_pitch_strike_pct_pbp",
-  "old": null,
+  "old": {
+   "value": 0.5853,
+   "n_pa": 173017,
+   "conf": "B",
+   "note": "cross-check of the Trackman value; first pitch not a called ball"
+  },
   "new": {
    "value": 0.5853,
    "n_pa": 173017,
@@ -451,22 +489,24 @@
  {
   "path": "game_structure.extra_innings_freq",
   "old": {
-   "value": 0.06,
-   "conf": "D",
-   "note": "replace from PBP"
+   "value": 0.0546,
+   "tol": 0.015,
+   "n_games": 2273,
+   "conf": "B",
+   "src": "WMT schedules, 2273 2025 D1 games with innings recorded (about a quarter of the season); data/ncaa_2025/pbp/schedules"
   },
   "new": {
    "value": 0.0546,
    "tol": 0.015,
    "n_games": 2273,
    "conf": "B",
-   "src": "WMT schedules, 2273 2025 D1 games with innings recorded (about a quarter of the season); data/ncaa_2025/pbp/schedules"
+   "src": "WMT schedules, 2273 2025 D1 games with innings recorded (about a quarter of the season); data/ncaa_2025/pbp/schedules",
+   "gate": "phase2"
   }
  },
  {
   "path": "game_structure.run_rule_freq",
-  "old": null,
-  "new": {
+  "old": {
    "value": 0.1524,
    "conf": "B",
    "note": "P(run rule) = P(final margin >= 10, all 8,079 scoreboard games) x P(game ended before the 9th | margin >= 10, WMT sample). Scheduled 7-inning doubleheaders that also reach a 10-run margin are counted.",
@@ -486,11 +526,391 @@
     "14": 0.0009,
     "15": 0.0004
    }
+  },
+  "new": {
+   "value": 0.1524,
+   "conf": "B",
+   "note": "P(run rule) = P(final margin >= 10, all 8,079 scoreboard games) x P(game ended before the 9th | margin >= 10, WMT sample). Scheduled 7-inning doubleheaders that also reach a 10-run margin are counted.",
+   "p_margin_10plus_season": 0.1952,
+   "p_ended_early_given_margin_10plus_wmt": 0.7805,
+   "wmt_sample_run_rule_freq": 0.1549,
+   "short_game_not_run_rule_freq": 0.0123,
+   "innings_dist": {
+    "6": 0.0009,
+    "7": 0.1311,
+    "8": 0.0352,
+    "9": 0.7783,
+    "10": 0.0339,
+    "11": 0.0114,
+    "12": 0.0062,
+    "13": 0.0018,
+    "14": 0.0009,
+    "15": 0.0004
+   },
+   "gate": "phase2"
   }
  },
  {
   "path": "base_running_2025",
-  "old": null,
+  "old": {
+   "_note": "WMT stats API play-by-play, 2232 D1 games / 178073 PA, 2025; data/ncaa_2025/pbp (fetched 2026-10-01). Runner destinations by batter result and starting base, pooled over outs; the full table by outs and base state is data/ncaa_2025/derived/runner_advancement_2025.json. Advancement rates vary little by tier, so these are raw sample values.",
+   "conf": "B",
+   "advancement_by_result": {
+    "GO": {
+     "from1": {
+      "n": 5098,
+      "out": 0.002,
+      "scored": 0.0,
+      "to1": 0.623,
+      "to2": 0.372,
+      "to3": 0.003
+     },
+     "from2": {
+      "n": 5594,
+      "out": 0.0,
+      "scored": 0.001,
+      "to2": 0.635,
+      "to3": 0.364
+     },
+     "from3": {
+      "n": 3020,
+      "out": 0.0,
+      "scored": 0.332,
+      "to3": 0.668
+     }
+    },
+    "K": {
+     "from1": {
+      "n": 11844,
+      "out": 0.011,
+      "scored": 0.0,
+      "to1": 0.96,
+      "to2": 0.027,
+      "to3": 0.002
+     },
+     "from2": {
+      "n": 9415,
+      "out": 0.001,
+      "scored": 0.001,
+      "to2": 0.984,
+      "to3": 0.013
+     },
+     "from3": {
+      "n": 5081,
+      "out": 0.002,
+      "scored": 0.007,
+      "to3": 0.991
+     }
+    },
+    "BB": {
+     "from1": {
+      "n": 6039,
+      "out": 0.0,
+      "scored": 0.0,
+      "to2": 0.998,
+      "to3": 0.002
+     },
+     "from2": {
+      "n": 5847,
+      "out": 0.001,
+      "scored": 0.001,
+      "to2": 0.575,
+      "to3": 0.423
+     },
+     "from3": {
+      "n": 3273,
+      "out": 0.001,
+      "scored": 0.263,
+      "to3": 0.736
+     }
+    },
+    "FO": {
+     "from1": {
+      "n": 11546,
+      "out": 0.001,
+      "scored": 0.0,
+      "to1": 0.985,
+      "to2": 0.013,
+      "to3": 0.001
+     },
+     "from2": {
+      "n": 7980,
+      "out": 0.004,
+      "scored": 0.001,
+      "to2": 0.873,
+      "to3": 0.122
+     },
+     "from3": {
+      "n": 3300,
+      "out": 0.005,
+      "scored": 0.007,
+      "to3": 0.988
+     }
+    },
+    "SH": {
+     "from1": {
+      "n": 1361,
+      "out": 0.005,
+      "scored": 0.003,
+      "to2": 0.97,
+      "to3": 0.022
+     },
+     "from2": {
+      "n": 715,
+      "out": 0.003,
+      "scored": 0.031,
+      "to3": 0.966
+     },
+     "from3": {
+      "n": 170,
+      "out": 0.012,
+      "scored": 0.929,
+      "to3": 0.059
+     }
+    },
+    "1B": {
+     "from1": {
+      "n": 9914,
+      "out": 0.014,
+      "scored": 0.012,
+      "to2": 0.684,
+      "to3": 0.291
+     },
+     "from2": {
+      "n": 6841,
+      "out": 0.02,
+      "scored": 0.611,
+      "to2": 0.013,
+      "to3": 0.356
+     },
+     "from3": {
+      "n": 3965,
+      "out": 0.0,
+      "scored": 0.994,
+      "to3": 0.006
+     }
+    },
+    "FC": {
+     "from1": {
+      "n": 3906,
+      "out": 0.798,
+      "scored": 0.002,
+      "to1": 0.002,
+      "to2": 0.173,
+      "to3": 0.025
+     },
+     "from2": {
+      "n": 1832,
+      "out": 0.227,
+      "scored": 0.049,
+      "to2": 0.266,
+      "to3": 0.459
+     },
+     "from3": {
+      "n": 1161,
+      "out": 0.237,
+      "scored": 0.454,
+      "to3": 0.309
+     }
+    },
+    "HR": {
+     "from1": {
+      "n": 1817,
+      "out": 0.001,
+      "scored": 0.999
+     },
+     "from2": {
+      "n": 1278,
+      "out": 0.0,
+      "scored": 1.0
+     },
+     "from3": {
+      "n": 710,
+      "out": 0.0,
+      "scored": 1.0
+     }
+    },
+    "2B": {
+     "from1": {
+      "n": 2862,
+      "out": 0.028,
+      "scored": 0.418,
+      "to3": 0.554
+     },
+     "from2": {
+      "n": 2131,
+      "out": 0.002,
+      "scored": 0.967,
+      "to3": 0.031
+     },
+     "from3": {
+      "n": 1257,
+      "out": 0.0,
+      "scored": 0.999,
+      "to3": 0.001
+     }
+    },
+    "3B": {
+     "from1": {
+      "n": 263,
+      "out": 0.008,
+      "scored": 0.992
+     },
+     "from2": {
+      "n": 231,
+      "out": 0.004,
+      "scored": 0.996
+     },
+     "from3": {
+      "n": 138,
+      "out": 0.0,
+      "scored": 1.0
+     }
+    },
+    "GIDP": {
+     "from1": {
+      "n": 2325,
+      "out": 0.968,
+      "scored": 0.0,
+      "to1": 0.018,
+      "to2": 0.014
+     },
+     "from2": {
+      "n": 765,
+      "out": 0.076,
+      "scored": 0.0,
+      "to2": 0.642,
+      "to3": 0.282
+     },
+     "from3": {
+      "n": 455,
+      "out": 0.066,
+      "scored": 0.29,
+      "to3": 0.644
+     }
+    },
+    "ROE": {
+     "from1": {
+      "n": 684,
+      "out": 0.019,
+      "scored": 0.044,
+      "to1": 0.031,
+      "to2": 0.608,
+      "to3": 0.298
+     },
+     "from2": {
+      "n": 594,
+      "out": 0.019,
+      "scored": 0.374,
+      "to2": 0.104,
+      "to3": 0.503
+     },
+     "from3": {
+      "n": 356,
+      "out": 0.0,
+      "scored": 0.952,
+      "to3": 0.048
+     }
+    },
+    "HBP": {
+     "from1": {
+      "n": 2246,
+      "out": 0.0,
+      "scored": 0.0,
+      "to2": 1.0
+     },
+     "from2": {
+      "n": 1627,
+      "out": 0.0,
+      "scored": 0.0,
+      "to2": 0.468,
+      "to3": 0.532
+     },
+     "from3": {
+      "n": 952,
+      "out": 0.0,
+      "scored": 0.336,
+      "to3": 0.664
+     }
+    },
+    "SF": {
+     "from1": {
+      "n": 978,
+      "out": 0.002,
+      "scored": 0.0,
+      "to1": 0.892,
+      "to2": 0.102,
+      "to3": 0.004
+     },
+     "from2": {
+      "n": 992,
+      "out": 0.008,
+      "scored": 0.012,
+      "to2": 0.496,
+      "to3": 0.484
+     },
+     "from3": {
+      "n": 1742,
+      "out": 0.0,
+      "scored": 1.0
+     }
+    },
+    "DP": {
+     "from1": {
+      "n": 585,
+      "out": 0.834,
+      "scored": 0.0,
+      "to1": 0.147,
+      "to2": 0.019
+     },
+     "from2": {
+      "n": 241,
+      "out": 0.477,
+      "scored": 0.0,
+      "to2": 0.382,
+      "to3": 0.141
+     },
+     "from3": {
+      "n": 134,
+      "out": 0.276,
+      "scored": 0.216,
+      "to3": 0.507
+     }
+    },
+    "CI": {
+     "from1": {
+      "n": 23,
+      "out": 0.0,
+      "scored": 0.0,
+      "to2": 0.957,
+      "to3": 0.043
+     },
+     "from2": {
+      "n": 11,
+      "out": 0.0,
+      "scored": 0.0,
+      "to2": 0.455,
+      "to3": 0.545
+     },
+     "from3": {
+      "n": 9,
+      "out": 0.0,
+      "scored": 0.556,
+      "to3": 0.444
+     }
+    }
+   },
+   "sb_attempt_rate_per_runner_on_1b_or_2b_pa": 0.0665,
+   "sb_success_rate_pbp": 0.788,
+   "sb_target_base_share": {
+    "3": 0.132,
+    "2": 0.634,
+    "0": 0.204,
+    "4": 0.031
+   },
+   "wp_pb_per_game": 2.587,
+   "pickoffs_per_game": 0.238
+  },
   "new": {
    "_note": "WMT stats API play-by-play, 2232 D1 games / 178073 PA, 2025; data/ncaa_2025/pbp (fetched 2026-10-01). Runner destinations by batter result and starting base, pooled over outs; the full table by outs and base state is data/ncaa_2025/derived/runner_advancement_2025.json. Advancement rates vary little by tier, so these are raw sample values.",
    "conf": "B",
@@ -853,7 +1273,254 @@
  },
  {
   "path": "league_totals_2025_team_weighted_wmt",
-  "old": null,
+  "old": {
+   "_note": "WMT stats API box totals, 2259 2025 D1-vs-D1 games (about a quarter of the season), reweighted by tier x opponent-tier cell to the full-season matchup mix; data/ncaa_2025/pbp/schedules (fetched 2026-10-01). Cross-check of league_totals_2025 conf B values (unweighted conference means) and of the scoreboard R/G; not used to change any conf A/B value. 'raw' is the WMT sample as is; 'reweighted' weights each tier x opponent-tier cell by its share of all 2025 D1-vs-D1 team-games (scoreboard). Validation: reweighted R/G should sit near the scoreboard's 6.78 for D1-vs-D1 games.",
+   "conf": "B",
+   "n_games": 2259,
+   "n_team_games": 4518,
+   "matchup_mix_weights": {
+    "p4_vs_p4": 0.1459,
+    "p4_vs_mid": 0.06,
+    "p4_vs_low": 0.0168,
+    "mid_vs_p4": 0.06,
+    "mid_vs_mid": 0.3901,
+    "mid_vs_low": 0.057,
+    "low_vs_p4": 0.0168,
+    "low_vs_mid": 0.057,
+    "low_vs_low": 0.1963
+   },
+   "reweighted": {
+    "ba": 0.2824,
+    "obp": 0.3805,
+    "slg": 0.4417,
+    "bb_pct": 0.1059,
+    "k_pct": 0.1937,
+    "hbp_pct": 0.0334,
+    "runs_per_team_game": 6.6446,
+    "hr_per_team_game": 1.0505,
+    "sb_per_team_game": 1.0979,
+    "sh_per_team_game": 0.3806,
+    "sf_per_team_game": 0.3679,
+    "pa_per_team_game": 40.3089,
+    "go_fo_ratio_batting": 0.9695
+   },
+   "raw": {
+    "ba": 0.2756,
+    "obp": 0.3786,
+    "slg": 0.4442,
+    "bb_pct": 0.111,
+    "k_pct": 0.2087,
+    "hbp_pct": 0.0337,
+    "runs_per_team_game": 6.5186,
+    "hr_per_team_game": 1.158,
+    "sb_per_team_game": 1.0584,
+    "sh_per_team_game": 0.3623,
+    "sf_per_team_game": 0.3975,
+    "pa_per_team_game": 39.8455,
+    "go_fo_ratio_batting": 0.9502
+   },
+   "by_tier_in_sample": {
+    "p4": {
+     "ba": 0.2849,
+     "obp": 0.3915,
+     "slg": 0.4756,
+     "bb_pct": 0.1173,
+     "k_pct": 0.202,
+     "hbp_pct": 0.0349,
+     "runs_per_team_game": 7.1555,
+     "hr_per_team_game": 1.3825,
+     "sb_per_team_game": 1.1456,
+     "sh_per_team_game": 0.3494,
+     "sf_per_team_game": 0.4331,
+     "pa_per_team_game": 40.4099,
+     "go_fo_ratio_batting": 0.9079,
+     "n_team_games": 2630
+    },
+    "mid": {
+     "ba": 0.2679,
+     "obp": 0.365,
+     "slg": 0.411,
+     "bb_pct": 0.1025,
+     "k_pct": 0.2126,
+     "hbp_pct": 0.0322,
+     "runs_per_team_game": 5.8528,
+     "hr_per_team_game": 0.8959,
+     "sb_per_team_game": 0.9621,
+     "sh_per_team_game": 0.392,
+     "sf_per_team_game": 0.3766,
+     "pa_per_team_game": 39.4614,
+     "go_fo_ratio_batting": 0.9971,
+     "n_team_games": 1556
+    },
+    "low": {
+     "ba": 0.237,
+     "obp": 0.3346,
+     "slg": 0.3455,
+     "bb_pct": 0.0991,
+     "k_pct": 0.247,
+     "hbp_pct": 0.0304,
+     "runs_per_team_game": 4.5934,
+     "hr_per_team_game": 0.6084,
+     "sb_per_team_game": 0.8193,
+     "sh_per_team_game": 0.3253,
+     "sf_per_team_game": 0.2139,
+     "pa_per_team_game": 37.1747,
+     "go_fo_ratio_batting": 1.0919,
+     "n_team_games": 332
+    }
+   },
+   "by_cell": {
+    "p4_vs_p4": {
+     "ba": 0.2723,
+     "obp": 0.3726,
+     "slg": 0.4526,
+     "bb_pct": 0.1078,
+     "k_pct": 0.2184,
+     "hbp_pct": 0.0322,
+     "runs_per_team_game": 6.4061,
+     "hr_per_team_game": 1.3238,
+     "sb_per_team_game": 0.9237,
+     "sh_per_team_game": 0.3666,
+     "sf_per_team_game": 0.371,
+     "pa_per_team_game": 39.9852,
+     "go_fo_ratio_batting": 0.9504,
+     "n_team_games": 1822
+    },
+    "p4_vs_mid": {
+     "ba": 0.3077,
+     "obp": 0.4229,
+     "slg": 0.5186,
+     "bb_pct": 0.1315,
+     "k_pct": 0.1747,
+     "hbp_pct": 0.0393,
+     "runs_per_team_game": 8.4534,
+     "hr_per_team_game": 1.5057,
+     "sb_per_team_game": 1.5663,
+     "sh_per_team_game": 0.3273,
+     "sf_per_team_game": 0.5368,
+     "pa_per_team_game": 41.2504,
+     "go_fo_ratio_batting": 0.8489,
+     "n_team_games": 611
+    },
+    "p4_vs_low": {
+     "ba": 0.3321,
+     "obp": 0.4624,
+     "slg": 0.5594,
+     "bb_pct": 0.1583,
+     "k_pct": 0.1403,
+     "hbp_pct": 0.0459,
+     "runs_per_team_game": 10.0609,
+     "hr_per_team_game": 1.5431,
+     "sb_per_team_game": 1.8934,
+     "sh_per_team_game": 0.2589,
+     "sf_per_team_game": 0.6853,
+     "pa_per_team_game": 41.731,
+     "go_fo_ratio_batting": 0.7339,
+     "n_team_games": 197
+    },
+    "mid_vs_p4": {
+     "ba": 0.231,
+     "obp": 0.3341,
+     "slg": 0.3458,
+     "bb_pct": 0.1029,
+     "k_pct": 0.2585,
+     "hbp_pct": 0.0322,
+     "runs_per_team_game": 4.3912,
+     "hr_per_team_game": 0.6989,
+     "sb_per_team_game": 0.8396,
+     "sh_per_team_game": 0.3519,
+     "sf_per_team_game": 0.2979,
+     "pa_per_team_game": 37.4272,
+     "go_fo_ratio_batting": 1.0894,
+     "n_team_games": 611
+    },
+    "mid_vs_mid": {
+     "ba": 0.2881,
+     "obp": 0.3797,
+     "slg": 0.4467,
+     "bb_pct": 0.1004,
+     "k_pct": 0.187,
+     "hbp_pct": 0.0312,
+     "runs_per_team_game": 6.6617,
+     "hr_per_team_game": 1.0251,
+     "sb_per_team_game": 0.9863,
+     "sh_per_team_game": 0.4214,
+     "sf_per_team_game": 0.4214,
+     "pa_per_team_game": 40.7118,
+     "go_fo_ratio_batting": 0.9501,
+     "n_team_games": 878
+    },
+    "mid_vs_low": {
+     "ba": 0.3142,
+     "obp": 0.4295,
+     "slg": 0.492,
+     "bb_pct": 0.1269,
+     "k_pct": 0.1653,
+     "hbp_pct": 0.0452,
+     "runs_per_team_game": 8.5821,
+     "hr_per_team_game": 1.0,
+     "sb_per_team_game": 1.7612,
+     "sh_per_team_game": 0.3731,
+     "sf_per_team_game": 0.5075,
+     "pa_per_team_game": 41.6269,
+     "go_fo_ratio_batting": 0.9273,
+     "n_team_games": 67
+    },
+    "low_vs_p4": {
+     "ba": 0.2081,
+     "obp": 0.3067,
+     "slg": 0.2955,
+     "bb_pct": 0.0983,
+     "k_pct": 0.2878,
+     "hbp_pct": 0.0279,
+     "runs_per_team_game": 3.4467,
+     "hr_per_team_game": 0.4518,
+     "sb_per_team_game": 0.6548,
+     "sh_per_team_game": 0.2944,
+     "sf_per_team_game": 0.1726,
+     "pa_per_team_game": 35.4162,
+     "go_fo_ratio_batting": 1.1201,
+     "n_team_games": 197
+    },
+    "low_vs_mid": {
+     "ba": 0.2666,
+     "obp": 0.3633,
+     "slg": 0.3908,
+     "bb_pct": 0.1001,
+     "k_pct": 0.2164,
+     "hbp_pct": 0.0339,
+     "runs_per_team_game": 6.0,
+     "hr_per_team_game": 0.6716,
+     "sb_per_team_game": 0.8955,
+     "sh_per_team_game": 0.3881,
+     "sf_per_team_game": 0.3731,
+     "pa_per_team_game": 38.7612,
+     "go_fo_ratio_batting": 1.1365,
+     "n_team_games": 67
+    },
+    "low_vs_low": {
+     "ba": 0.284,
+     "obp": 0.379,
+     "slg": 0.4321,
+     "bb_pct": 0.1001,
+     "k_pct": 0.1727,
+     "hbp_pct": 0.0332,
+     "runs_per_team_game": 6.5294,
+     "hr_per_team_game": 1.0,
+     "sb_per_team_game": 1.2206,
+     "sh_per_team_game": 0.3529,
+     "sf_per_team_game": 0.1765,
+     "pa_per_team_game": 40.7059,
+     "go_fo_ratio_batting": 0.9933,
+     "n_team_games": 68
+    }
+   },
+   "reweighted_r_g_by_tier": {
+    "p4": 7.234,
+    "mid": 6.609,
+    "low": 6.226
+   }
+  },
   "new": {
    "_note": "WMT stats API box totals, 2259 2025 D1-vs-D1 games (about a quarter of the season), reweighted by tier x opponent-tier cell to the full-season matchup mix; data/ncaa_2025/pbp/schedules (fetched 2026-10-01). Cross-check of league_totals_2025 conf B values (unweighted conference means) and of the scoreboard R/G; not used to change any conf A/B value. 'raw' is the WMT sample as is; 'reweighted' weights each tier x opponent-tier cell by its share of all 2025 D1-vs-D1 team-games (scoreboard). Validation: reweighted R/G should sit near the scoreboard's 6.78 for D1-vs-D1 games.",
    "conf": "B",
@@ -1100,6 +1767,80 @@
     "p4": 7.234,
     "mid": 6.609,
     "low": 6.226
+   }
+  }
+ },
+ {
+  "path": "half_inning_2025",
+  "old": null,
+  "new": {
+   "_note": "Phase 1 gate. Runs per half-inning P(0)..P(4), P(5+), big-inning frequency (3+ runs) and PA per half-inning from WMT stats API play-by-play, 2232 D1 games / 178073 PA, 2025; data/ncaa_2025/pbp (fetched 2026-10-01), reweighted by batting-tier x pitching-tier cell to the full-season matchup mix. Tolerances are 3 SE at the effective sample size after reweighting (9954 of 38106 half-innings). Partial half-innings (walk-offs, run-rule endings) are included as played, as the engine counts them.",
+   "conf": "A",
+   "src": "WMT stats API play-by-play, 2232 D1 games / 178073 PA, 2025; data/ncaa_2025/pbp (fetched 2026-10-01)",
+   "n_half_innings": 38106,
+   "n_effective": 9954,
+   "half_innings_per_game": 17.073,
+   "bins": [
+    0.6397,
+    0.1625,
+    0.0947,
+    0.0491,
+    0.0258,
+    0.0282
+   ],
+   "bin_tol": [
+    0.0144,
+    0.0111,
+    0.0088,
+    0.0065,
+    0.0048,
+    0.005
+   ],
+   "bins_raw_sample": [
+    0.6417,
+    0.166,
+    0.0904,
+    0.0478,
+    0.0266,
+    0.0275
+   ],
+   "big_inning_freq": {
+    "value": 0.1031,
+    "tol": 0.0091,
+    "conf": "A",
+    "note": "P(3+ runs in a half-inning)"
+   },
+   "pa_per_half_inning": {
+    "value": 4.694,
+    "tol": 0.053,
+    "conf": "A"
+   },
+   "mean_runs_per_half_inning": 0.7434
+  }
+ },
+ {
+  "path": "league_totals_2025.bb_pct",
+  "old": {
+   "value": 0.1137,
+   "tol": 0.005,
+   "conf": "B"
+  },
+  "new": {
+   "value": 0.1059,
+   "tol": 0.005,
+   "conf": "B",
+   "src": "WMT stats API box totals, 2259 2025 D1-vs-D1 games (about a quarter of the season), reweighted by tier x opponent-tier cell to the full-season matchup mix; data/ncaa_2025/pbp/schedules (fetched 2026-10-01); team-weighted, matchup-reweighted. Replaces the FanGraphs unweighted conference mean (.1137): WMT and FanGraphs agree conference by conference (SEC .121/.121, ACC .116/.121, Big Ten .114/.117, Big 12 .114/.113, Mountain West .095/.095), so the difference is that P4 conferences walk the most and are a fifth of D1 teams.",
+   "raw_sample": 0.111,
+   "by_tier_in_sample": {
+    "p4": 0.1173,
+    "mid": 0.1025,
+    "low": 0.0991
+   },
+   "fangraphs_conf_mean": 0.1137,
+   "sidearm_13_team_full_season": {
+    "totals": 0.1153,
+    "opponents": 0.1062,
+    "both": 0.1108
    }
   }
  }

@@ -1,8 +1,10 @@
 """Phase 1 gate.
 
 Runs the league-average PA engine for GATE_GAMES games and checks that the
-league totals and the runs-per-team-game histogram fall inside the tolerances in
-benchmarks.json. There is no engine yet, so the simulation tests skip with an
+league totals, the runs-per-half-inning distribution, the big-inning frequency
+and PA per half-inning fall inside the tolerances in benchmarks.json. The
+per-game run histogram, extra-innings and run-rule frequencies need team and
+pitcher variance and are the Phase 2 gate (tests/test_phase2_gate.py). There is no engine yet, so the simulation tests skip with an
 explicit reason; the benchmark-shape tests run regardless. Once engine/sim.py
 exists the skip disappears and the gate is enforced. Never widen a tolerance here.
 
@@ -18,8 +20,10 @@ Engine contract (Phase 1, see CLAUDE.md):
     result["bb_pct"], result["k_pct"], result["hbp_pct"]  float, per PA
     result["hr_per_team_game"], result["sb_per_team_game"],
     result["sh_per_team_game"], result["sf_per_team_game"]  float
-    result["run_histogram"]  list of 16 probabilities P(0)..P(14), P(15+); sums to 1
-    result["extra_innings_freq"]  float, share of games past 9 innings
+    result["half_inning_run_dist"]  list of 6 probabilities P(0)..P(4), P(5+) runs per half-inning
+    result["big_inning_freq"]  float, share of half-innings with 3+ runs
+    result["pa_per_half_inning"]  float
+    result["run_histogram"], result["extra_innings_freq"], result["run_rule_freq"]  Phase 2 gate (tests/test_phase2_gate.py)
 """
 from __future__ import annotations
 
@@ -49,10 +53,7 @@ LEAGUE_TOTAL_KEYS = {
     "sf_per_team_game": "sf_per_team_game",
 }
 
-# Fallbacks only; benchmarks.json carries tol_per_bin and tol_total_variation.
-DEFAULT_BIN_TOL = 0.01
-MAX_TOTAL_VARIATION = 0.04
-HISTOGRAM_BINS = 16  # P(0) .. P(14), P(15+)
+HALF_BINS = 6  # P(0)..P(4), P(5+) runs per half-inning
 
 
 @pytest.fixture(scope="module")
@@ -83,17 +84,11 @@ def test_benchmarks_file_is_well_formed(benchmarks: dict) -> None:
         assert {"value", "tol"} <= set(totals[key]), f"{key} needs value and tol"
 
 
-def test_run_histogram_benchmark_is_populated(benchmarks: dict) -> None:
-    """The gate cannot be evaluated until the Phase 1 data pull fills this in."""
-    hist = benchmarks["game_structure"]["run_distribution_per_team_game"]
-    bins = hist.get("bins")
-    assert bins is not None, (
-        "game_structure.run_distribution_per_team_game has no 'bins'. It is still the "
-        "conf D placeholder; the Phase 1 data pull must compute P(0)..P(15+) from PBP."
-    )
-    assert len(bins) == HISTOGRAM_BINS
-    assert abs(sum(bins) - 1.0) < 1e-3
-    assert hist.get("conf") in {"A", "B"}, "histogram must come from real PBP, not a placeholder"
+def test_half_inning_benchmark_is_populated(benchmarks: dict) -> None:
+    hb = benchmarks["half_inning_2025"]
+    assert len(hb["bins"]) == HALF_BINS and len(hb["bin_tol"]) == HALF_BINS
+    assert abs(sum(hb["bins"]) - 1.0) < 1e-3
+    assert hb["conf"] in {"A", "B"}
 
 
 @pytest.mark.parametrize("bench_key,sim_key", sorted(LEAGUE_TOTAL_KEYS.items()))
@@ -108,30 +103,20 @@ def test_league_total_within_tolerance(
     )
 
 
-def test_run_histogram_within_tolerance(benchmarks: dict, sim_result: dict) -> None:
-    hist = benchmarks["game_structure"]["run_distribution_per_team_game"]
-    bins = hist.get("bins")
-    assert bins is not None, "benchmark histogram not populated; see test_run_histogram_benchmark_is_populated"
-    got = sim_result["run_histogram"]
-    assert len(got) == HISTOGRAM_BINS
-    assert abs(sum(got) - 1.0) < 1e-6
-
-    tol = hist.get("tol_per_bin", DEFAULT_BIN_TOL)
-    tols = hist.get("bin_tol") or [tol] * HISTOGRAM_BINS
-    misses = [
-        f"P({i if i < 15 else '15+'}): sim {g:.4f} vs {b:.4f} ± {t}"
-        for i, (g, b, t) in enumerate(zip(got, bins, tols))
-        if abs(g - b) > t
-    ]
-    assert not misses, "run histogram bins outside tolerance:\n  " + "\n  ".join(misses)
-
-    max_tvd = hist.get("tol_total_variation", MAX_TOTAL_VARIATION)
-    tvd = 0.5 * sum(abs(g - b) for g, b in zip(got, bins))
-    assert tvd <= max_tvd, f"total variation distance {tvd:.4f} > {max_tvd}"
+def test_half_inning_run_distribution_within_tolerance(benchmarks: dict, sim_result: dict) -> None:
+    hb = benchmarks["half_inning_2025"]
+    got = sim_result["half_inning_run_dist"]
+    assert len(got) == HALF_BINS and abs(sum(got) - 1.0) < 1e-6
+    misses = [f"P({i if i < 5 else '5+'}): sim {g:.4f} vs {b:.4f} ± {t}"
+              for i, (g, b, t) in enumerate(zip(got, hb["bins"], hb["bin_tol"])) if abs(g - b) > t]
+    assert not misses, "runs-per-half-inning bins outside tolerance:\n  " + "\n  ".join(misses)
 
 
-def test_extra_innings_frequency(benchmarks: dict, sim_result: dict) -> None:
-    bench = benchmarks["game_structure"]["extra_innings_freq"]
-    assert bench.get("conf") in {"A", "B"}, "extra_innings_freq is still a placeholder (conf D)"
-    tol = bench.get("tol", 0.015)
-    assert abs(sim_result["extra_innings_freq"] - bench["value"]) <= tol
+def test_big_inning_frequency(benchmarks: dict, sim_result: dict) -> None:
+    b = benchmarks["half_inning_2025"]["big_inning_freq"]
+    assert abs(sim_result["big_inning_freq"] - b["value"]) <= b["tol"], f"sim {sim_result['big_inning_freq']:.4f} vs {b['value']} ± {b['tol']}"
+
+
+def test_pa_per_half_inning(benchmarks: dict, sim_result: dict) -> None:
+    b = benchmarks["half_inning_2025"]["pa_per_half_inning"]
+    assert abs(sim_result["pa_per_half_inning"] - b["value"]) <= b["tol"], f"sim {sim_result['pa_per_half_inning']:.3f} vs {b['value']} ± {b['tol']}"

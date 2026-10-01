@@ -120,11 +120,10 @@ def main() -> None:
     res = pa.result.replace({"IBB": "BB", "CI": "HBP"})  # fold rarities into the nearest bucket
     counts = Counter(res)
     ip_out = sum(counts[k] for k in IN_PLAY_OUT)
-    reach_other = counts["ROE"] + counts["FC"]
     table = {
         "K": counts["K"], "BB": counts["BB"], "HBP": counts["HBP"], "1B": counts["1B"], "2B": counts["2B"],
         "3B": counts["3B"], "HR": counts["HR"], "SF": counts["SF"], "SH": counts["SH"],
-        "IP_OUT": counts["FO"] + counts["GO"] + counts["GIDP"] + counts["DP"], "ROE_FC": reach_other,
+        "IP_OUT": counts["FO"] + counts["GO"] + counts["GIDP"] + counts["DP"], "ROE": counts["ROE"], "FC": counts["FC"],
     }
     tot = sum(table.values())
     probs_raw = {k: round(v / tot, 4) for k, v in table.items()}
@@ -135,7 +134,7 @@ def main() -> None:
         if len(sub):
             c = Counter(sub)
             tt = {"K": c["K"], "BB": c["BB"], "HBP": c["HBP"], "1B": c["1B"], "2B": c["2B"], "3B": c["3B"], "HR": c["HR"], "SF": c["SF"], "SH": c["SH"],
-                  "IP_OUT": c["FO"] + c["GO"] + c["GIDP"] + c["DP"], "ROE_FC": c["ROE"] + c["FC"]}
+                  "IP_OUT": c["FO"] + c["GO"] + c["GIDP"] + c["DP"], "ROE": c["ROE"], "FC": c["FC"]}
             n_c = sum(tt.values())
             by_cell_tables[cell] = {k: v / n_c for k, v in tt.items()}
             by_cell_tables[cell]["_n_pa"] = n_c
@@ -150,6 +149,16 @@ def main() -> None:
     h = sum(table[k] for k in HIT)
     tb = table["1B"] + 2 * table["2B"] + 3 * table["3B"] + 4 * table["HR"]
     outs = pa[pa.result.isin(IN_PLAY_OUT)]
+    # state dependence the single table cannot carry: SF needs a runner on 3rd with <2 outs,
+    # SH and FC need runners on; the engine subtypes the in-play class by state using these
+    runners_on = (pa.on1 + pa.on2 + pa.on3) > 0
+    state_dep = {
+        "fc_rate_runners_on": round((pa.result[runners_on] == "FC").mean(), 4), "fc_rate_bases_empty": round((pa.result[~runners_on] == "FC").mean(), 4),
+        "roe_rate_runners_on": round((pa.result[runners_on] == "ROE").mean(), 4), "roe_rate_bases_empty": round((pa.result[~runners_on] == "ROE").mean(), 4),
+        "sf_rate_on3_lt2": round((pa.result[(pa.on3 == 1) & (pa.outs < 2)] == "SF").mean(), 4),
+        "sh_rate_runners_on_lt2": round((pa.result[runners_on & (pa.outs < 2)] == "SH").mean(), 4),
+        "share_pa_runners_on": round(runners_on.mean(), 4),
+    }
     split = Counter(outs.bb_type.fillna(""))
     split_tot = sum(v for k, v in split.items() if k)
     out_split = {k: round(split[k] / split_tot, 4) for k in ("GB", "FB", "LD", "PU")}
@@ -163,11 +172,12 @@ def main() -> None:
         "k_looking_share": round(pa[pa.result == "K"].k_looking.mean(), 4),
         "gidp_share_of_gb_outs": round(counts["GIDP"] / max(1, split["GB"]), 4),
         "bunt_share_of_in_play": round(pa[pa.result.isin(IN_PLAY_OUT + HIT + ["ROE", "FC"])].bunt.mean(), 4),
+        "state_dependence": state_dep,
     }
     derived["by_matchup_cell"] = {f"{t}_vs_{o}": {k: round(v, 4) for k, v in d.items()} for (t, o), d in by_cell_tables.items()}
     derived["matchup_mix_weights"] = {f"{t}_vs_{o}": round(w, 4) for (t, o), w in mix.items()}
     derived["raw_sample_probs"] = probs_raw
-    outcome_block = {"_note": f"Per plate appearance, {src}, {weighting}. ROE_FC = reached on error or fielder's choice (batter safe, not a hit). WMT covers about a quarter of the 2025 D1 season and over-represents P4 programs; see PHASE0_NOTES.md.",
+    outcome_block = {"_note": f"Per plate appearance, {src}, {weighting}. ROE = reached on error, FC = reached on fielder's choice (batter safe, not a hit); FC, SF and SH depend on the base-out state, see _derived.state_dependence. WMT covers about a quarter of the 2025 D1 season and over-represents P4 programs; see PHASE0_NOTES.md.",
                      **probs, "_derived": derived, "_n_pa": tot, "conf": "B"}
 
     # ---- pitches per PA ----------------------------------------------------
@@ -321,9 +331,55 @@ def main() -> None:
     json.dump({"by_result_outs_base": runner_adv, "by_result_state": {res_: {s: dict(c.most_common(12)) for s, c in d.items()} for res_, d in adv_state.items()},
                "n_pa": n_pa, "n_games": n_games, "src": src}, (D / "runner_advancement_2025.json").open("w"), indent=1)
 
+    # ---- Phase 1 gate: runs per half-inning, big innings, PA per half-inning ---------
+    # Half-innings from the play-by-play, reweighted by batting-tier x pitching-tier cell.
+    # Tolerances are 3 standard errors using the effective sample size after reweighting.
+    key = ["game_id", "inning", "half"]
+    hi = pa.groupby(key).agg(runs_pa=("runs_on_play", "sum"), n_pa=("result", "size"), bt=("bat_tier", "first"), pt=("pit_tier", "first")).reset_index()
+    rr = rev[rev.to_base == 4].groupby(key).size().rename("runs_ev").reset_index()
+    hi = hi.merge(rr, on=key, how="left"); hi["runs_ev"] = hi.runs_ev.fillna(0); hi["runs"] = hi.runs_pa + hi.runs_ev
+    hi["cell"] = list(zip(hi.bt, hi.pt))
+    ok_hi = hi[hi.cell.isin(mix)] if mix else hi
+    n_hi = len(hi)
+    import numpy as np
+    def hbins(r):
+        return np.bincount(np.clip(r, 0, 5).astype(int), minlength=6) / len(r)
+    raw_bins = hbins(hi.runs.values)
+    if mix:
+        w_rows = ok_hi.cell.map({c: mix[c] / (len(ok_hi[ok_hi.cell == c]) / len(ok_hi)) for c in mix if len(ok_hi[ok_hi.cell == c])})
+        n_eff = float(w_rows.sum() ** 2 / (w_rows ** 2).sum())
+        rw_bins = np.zeros(6); rw_pa = 0.0
+        for c, w in mix.items():
+            sub = ok_hi[ok_hi.cell == c]
+            if len(sub):
+                rw_bins += w * hbins(sub.runs.values); rw_pa += w * sub.n_pa.mean()
+        rw_bins = rw_bins / rw_bins.sum()
+    else:
+        n_eff, rw_bins, rw_pa = float(n_hi), raw_bins, hi.n_pa.mean()
+    se = np.sqrt(rw_bins * (1 - rw_bins) / n_eff)
+    big = float(rw_bins[3:].sum()); se_big = float(np.sqrt(big * (1 - big) / n_eff))
+    se_pa = float(hi.n_pa.std() / np.sqrt(n_eff))
+    half_inning = {
+        "_note": f"Phase 1 gate. Runs per half-inning P(0)..P(4), P(5+), big-inning frequency (3+ runs) and PA per half-inning from {src}, reweighted by batting-tier x pitching-tier cell to the full-season matchup mix. Tolerances are 3 SE at the effective sample size after reweighting ({int(n_eff)} of {n_hi} half-innings). Partial half-innings (walk-offs, run-rule endings) are included as played, as the engine counts them.",
+        "conf": "A", "src": src, "n_half_innings": int(n_hi), "n_effective": int(n_eff), "half_innings_per_game": round(n_hi / n_games, 3),
+        "bins": [round(float(x), 4) for x in rw_bins], "bin_tol": [round(float(max(3 * x, 0.002)), 4) for x in se],
+        "bins_raw_sample": [round(float(x), 4) for x in raw_bins],
+        "big_inning_freq": {"value": round(big, 4), "tol": round(max(3 * se_big, 0.002), 4), "conf": "A", "note": "P(3+ runs in a half-inning)"},
+        "pa_per_half_inning": {"value": round(float(rw_pa), 3), "tol": round(max(3 * se_pa, 0.01), 3), "conf": "A"},
+        "mean_runs_per_half_inning": round(float(sum(i * b for i, b in enumerate(rw_bins[:5])) + 5 * rw_bins[5]), 4),
+    }
+
+    # ---- walk-rate resolution (user decision 2026-10-01) -----------------------------
+    # WMT box totals agree with FanGraphs conference by conference; the league gap is
+    # weighting. The team-weighted all-D1 estimate is the matchup-reweighted WMT value.
+    bb_res = {"value": round(use["bb_pct"], 4), "tol": 0.005, "conf": "B",
+              "src": box_src + "; team-weighted, matchup-reweighted. Replaces the FanGraphs unweighted conference mean (.1137): WMT and FanGraphs agree conference by conference (SEC .121/.121, ACC .116/.121, Big Ten .114/.117, Big 12 .114/.113, Mountain West .095/.095), so the difference is that P4 conferences walk the most and are a fifth of D1 teams.",
+              "raw_sample": round(raw_rates["bb_pct"], 4), "by_tier_in_sample": {t: round(tier_rates[t]["bb_pct"], 4) for t in TIERS if tier_rates[t]},
+              "fangraphs_conf_mean": 0.1137, "sidearm_13_team_full_season": {"totals": 0.1153, "opponents": 0.1062, "both": 0.1108}}
+
     # per-tier composition and per-tier rates for the notes
     comp = pa.bat_tier.replace("", "unknown").value_counts(normalize=True).round(3).to_dict()
-    summary = {"n_games": n_games, "n_pa": n_pa, "pa_by_batting_team_tier": comp, "outcome_table": outcome_block, "team_weighted_cross_check": cross,
+    summary = {"n_games": n_games, "n_pa": n_pa, "pa_by_batting_team_tier": comp, "outcome_table": outcome_block, "team_weighted_cross_check": cross, "half_inning": half_inning, "bb_pct_resolution": bb_res,
                "team_rates": team_rates, "pitches": pitch_block, "game_structure": game_block, "base_running": base_running}
     json.dump(summary, (D / "pbp_benchmarks_2025.json").open("w"), indent=1)
 
@@ -349,6 +405,14 @@ def main() -> None:
     setv(["game_structure", "run_rule_freq"], game_block["run_rule_freq"])
     setv(["base_running_2025"], base_running)
     setv(["league_totals_2025_team_weighted_wmt"], cross)
+    setv(["half_inning_2025"], half_inning)
+    if b["league_totals_2025"]["bb_pct"].get("value") != bb_res["value"]:
+        setv(["league_totals_2025", "bb_pct"], bb_res)
+    for path in (["game_structure", "run_distribution_per_team_game"], ["game_structure", "extra_innings_freq"], ["game_structure", "run_rule_freq"]):
+        cur = b
+        for k in path:
+            cur = cur[k]
+        cur["gate"] = "phase2"
     BENCH.write_text(dumps_compact(b) + "\n")
     json.dump(changes, (D / "benchmark_changes.json").open("w"), indent=1, default=str)
     print(json.dumps({"n_games": n_games, "n_pa": n_pa, "composition": comp}, indent=1))
