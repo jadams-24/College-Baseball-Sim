@@ -1,0 +1,49 @@
+{
+ "_note": "Phase 4 baseline for the Phase 5 gate: league PA-level rates and their standard errors from the merged Phase 4 report run (reports/phase2.json at commit 595ab3d, 20 seasons, seeds 20251000-20251019). Phase 5 must leave every PA-level rate unchanged: each rate of the Phase 5 run must sit within 3 combined SE of these.",
+ "commit": "595ab3d",
+ "n_seasons": 20,
+ "league": {
+  "runs_per_team_game": 6.742256069094306,
+  "ba": 0.281944124121093,
+  "obp": 0.3801548434122835,
+  "slg": 0.4424029797234496,
+  "hr_per_team_game": 1.0683531746031745,
+  "bb_pct": 0.10588088233426515,
+  "k_pct": 0.19487324797068492,
+  "hbp_pct": 0.03371239259829568,
+  "pa_per_team_game": 40.53169934640523,
+  "errors_per_team_game": 1.0820057189542482,
+  "era": 6.22100354443218,
+  "earned_share": 0.8830377987874842
+ },
+ "se": {
+  "runs_per_team_game": 0.019180060204240748,
+  "ba": 0.00047898039148623546,
+  "obp": 0.0005341357273262356,
+  "slg": 0.0006069056971391478,
+  "hr_per_team_game": 0.004885409602857018,
+  "bb_pct": 0.00035733391419534767,
+  "k_pct": 0.0008269317320359921,
+  "hbp_pct": 0.00010115654229089605,
+  "pa_per_team_game": 0.028348208589366534,
+  "errors_per_team_game": 0.0030926021059889913,
+  "era": 0.019845713998497834,
+  "earned_share": 0.0003254088815747926
+ },
+ "usage": {
+  "pitchers_per_team_game": 4.6103378851540615,
+  "weekend_top3_share": 0.8066370365067433,
+  "weekend_starters_per_team": 6.234201954397394,
+  "ip_top3": [
+   70.1373507057546,
+   59.88061889250814,
+   52.4327904451683
+  ]
+ },
+ "pitchers_50ip": {
+  "mean": 870.55,
+  "sd": 12.106870602656727,
+  "min": 851.0,
+  "max": 894.0
+ }
+}
