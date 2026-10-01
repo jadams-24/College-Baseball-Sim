@@ -120,11 +120,10 @@ def main() -> None:
     res = pa.result.replace({"IBB": "BB", "CI": "HBP"})  # fold rarities into the nearest bucket
     counts = Counter(res)
     ip_out = sum(counts[k] for k in IN_PLAY_OUT)
-    reach_other = counts["ROE"] + counts["FC"]
     table = {
         "K": counts["K"], "BB": counts["BB"], "HBP": counts["HBP"], "1B": counts["1B"], "2B": counts["2B"],
         "3B": counts["3B"], "HR": counts["HR"], "SF": counts["SF"], "SH": counts["SH"],
-        "IP_OUT": counts["FO"] + counts["GO"] + counts["GIDP"] + counts["DP"], "ROE_FC": reach_other,
+        "IP_OUT": counts["FO"] + counts["GO"] + counts["GIDP"] + counts["DP"], "ROE": counts["ROE"], "FC": counts["FC"],
     }
     tot = sum(table.values())
     probs_raw = {k: round(v / tot, 4) for k, v in table.items()}
@@ -135,7 +134,7 @@ def main() -> None:
         if len(sub):
             c = Counter(sub)
             tt = {"K": c["K"], "BB": c["BB"], "HBP": c["HBP"], "1B": c["1B"], "2B": c["2B"], "3B": c["3B"], "HR": c["HR"], "SF": c["SF"], "SH": c["SH"],
-                  "IP_OUT": c["FO"] + c["GO"] + c["GIDP"] + c["DP"], "ROE_FC": c["ROE"] + c["FC"]}
+                  "IP_OUT": c["FO"] + c["GO"] + c["GIDP"] + c["DP"], "ROE": c["ROE"], "FC": c["FC"]}
             n_c = sum(tt.values())
             by_cell_tables[cell] = {k: v / n_c for k, v in tt.items()}
             by_cell_tables[cell]["_n_pa"] = n_c
@@ -150,6 +149,16 @@ def main() -> None:
     h = sum(table[k] for k in HIT)
     tb = table["1B"] + 2 * table["2B"] + 3 * table["3B"] + 4 * table["HR"]
     outs = pa[pa.result.isin(IN_PLAY_OUT)]
+    # state dependence the single table cannot carry: SF needs a runner on 3rd with <2 outs,
+    # SH and FC need runners on; the engine subtypes the in-play class by state using these
+    runners_on = (pa.on1 + pa.on2 + pa.on3) > 0
+    state_dep = {
+        "fc_rate_runners_on": round((pa.result[runners_on] == "FC").mean(), 4), "fc_rate_bases_empty": round((pa.result[~runners_on] == "FC").mean(), 4),
+        "roe_rate_runners_on": round((pa.result[runners_on] == "ROE").mean(), 4), "roe_rate_bases_empty": round((pa.result[~runners_on] == "ROE").mean(), 4),
+        "sf_rate_on3_lt2": round((pa.result[(pa.on3 == 1) & (pa.outs < 2)] == "SF").mean(), 4),
+        "sh_rate_runners_on_lt2": round((pa.result[runners_on & (pa.outs < 2)] == "SH").mean(), 4),
+        "share_pa_runners_on": round(runners_on.mean(), 4),
+    }
     split = Counter(outs.bb_type.fillna(""))
     split_tot = sum(v for k, v in split.items() if k)
     out_split = {k: round(split[k] / split_tot, 4) for k in ("GB", "FB", "LD", "PU")}
@@ -163,11 +172,12 @@ def main() -> None:
         "k_looking_share": round(pa[pa.result == "K"].k_looking.mean(), 4),
         "gidp_share_of_gb_outs": round(counts["GIDP"] / max(1, split["GB"]), 4),
         "bunt_share_of_in_play": round(pa[pa.result.isin(IN_PLAY_OUT + HIT + ["ROE", "FC"])].bunt.mean(), 4),
+        "state_dependence": state_dep,
     }
     derived["by_matchup_cell"] = {f"{t}_vs_{o}": {k: round(v, 4) for k, v in d.items()} for (t, o), d in by_cell_tables.items()}
     derived["matchup_mix_weights"] = {f"{t}_vs_{o}": round(w, 4) for (t, o), w in mix.items()}
     derived["raw_sample_probs"] = probs_raw
-    outcome_block = {"_note": f"Per plate appearance, {src}, {weighting}. ROE_FC = reached on error or fielder's choice (batter safe, not a hit). WMT covers about a quarter of the 2025 D1 season and over-represents P4 programs; see PHASE0_NOTES.md.",
+    outcome_block = {"_note": f"Per plate appearance, {src}, {weighting}. ROE = reached on error, FC = reached on fielder's choice (batter safe, not a hit); FC, SF and SH depend on the base-out state, see _derived.state_dependence. WMT covers about a quarter of the 2025 D1 season and over-represents P4 programs; see PHASE0_NOTES.md.",
                      **probs, "_derived": derived, "_n_pa": tot, "conf": "B"}
 
     # ---- pitches per PA ----------------------------------------------------

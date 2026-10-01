@@ -10,7 +10,8 @@ running events (stolen base, caught stealing, pickoff, wild pitch, passed ball).
 Outputs under data/ncaa_2025/pbp/parsed/:
   pa_events_2025.csv.gz      one row per plate appearance; r1_to/r2_to/r3_to are the
                              destination of the runner who started on that base
-                             (0 = out, 1-3 = base, 4 = scored, same base = held)
+                             (0 = out, 1-3 = base, 4 = scored, same base = held); errors_on_play
+                             counts fielder error credits on the play
   runner_events_2025.csv.gz  one row per non-PA base running event
   games_2025.csv             one row per game with both teams' box totals
 """
@@ -122,6 +123,7 @@ def parse_game(g: dict) -> tuple[dict, list[dict], list[dict]]:
                 "on1": int(1 in onbase), "on2": int(2 in onbase), "on3": int(3 in onbase),
                 "away_score": start.get("visitor_score"), "home_score": start.get("home_score")}
         outcome = [r for r in rows if r.get("play_action_type") == "batter" and r.get("play_action_sub_type") not in ("atbat", None)]
+        errors_on_play = sum(int(r.get("errors_committed") or 0) for r in rows if r.get("play_action_type") == "fielder")
         movers = [r for r in rows if r.get("play_action_type") == "runner" and r.get("play_action_sub_type") not in ("onbase", None)]
         # A runner with no movement record held his base.
         dest = {b: b for b in onbase}
@@ -161,7 +163,8 @@ def parse_game(g: dict) -> tuple[dict, list[dict], list[dict]]:
                         "pitch_seq": o.get("pitch_sequence"), "batter_to": b_to,
                         "r1_to": dest.get(1, "") if 1 in onbase else "", "r2_to": dest.get(2, "") if 2 in onbase else "",
                         "r3_to": dest.get(3, "") if 3 in onbase else "",
-                        "outs_on_play": outs_play, "runs_on_play": runs_play, "rbi": o.get("rbi") or 0, "text": text})
+                        "outs_on_play": outs_play, "runs_on_play": runs_play, "rbi": o.get("rbi") or 0,
+                        "errors_on_play": errors_on_play, "text": text})
         elif movers:
             subs = {r.get("play_action_sub_type") for r in movers}
             ev = next((RUNNER_EVENT[s] for s in ("stolen base", "caught stealing", "picked off") if s in subs), None)
@@ -173,7 +176,7 @@ def parse_game(g: dict) -> tuple[dict, list[dict], list[dict]]:
                 if not frm:
                     continue
                 runs_ev.append({**base, "event": ev, "runner": r.get("checkname"), "from_base": frm,
-                                "to_base": dest.get(frm), "text": text})
+                                "to_base": dest.get(frm), "errors_on_play": errors_on_play, "text": text})
     game["n_pa_parsed"] = len(pas)
     return game, pas, runs_ev
 

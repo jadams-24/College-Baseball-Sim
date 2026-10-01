@@ -45,6 +45,12 @@ was fetched 2026-09-30 to 2026-10-01 at one request per second.
 | `parsed/runner_events_2025.csv.gz` | same | 13,419 non-PA base-running events (SB, CS, pickoff, WP, PB, balk) with pre-state and destination |
 | `parsed/games_2025.csv` | same | one row per parsed game with both box lines; `parsed/excluded_games.json` lists 5 tournament games whose payloads carry text but no structured actions |
 
+`../derived/engine_tables_2025.json` (`scripts/build_engine_tables.py`) holds the
+tables the Phase 1 engine samples: joint runner and batter destinations per
+result and base-out state (with pooled and marginal fallbacks for sparse cells),
+the in-play subtype shares (plain out / SF / SH / FC) by state class, and per-PA
+base-running event rates and outcomes by state.
+
 **Reconciliation** (`tests/test_pbp_data_integrity.py`): parsed hits, walks, HBP
 and strikeouts equal the box totals exactly; plate appearances are within 0.04%;
 runs from plate appearances plus base-running events equal the final score in
