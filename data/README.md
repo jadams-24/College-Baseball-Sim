@@ -68,6 +68,13 @@ for D1-vs-D1 games (P4 7.23 vs 7.23, mid 6.61 vs 6.69, low 6.23 vs 6.59), BA
 low-vs-low cell holds only 68 team-games, so low-tier figures carry the most
 uncertainty. Values derived from this sample are conf B in `benchmarks.json`.
 
+## data/ncaa_2025/derived/ — Phase 2 inputs
+
+- `phase2_inputs_2025.json` (`scripts/build_phase2_benchmarks.py`, then `scripts/build_phase2_gate.py` adds the schedule mix): league rates, tier effects, talent distributions by side, rate and role group, correlations, and usage tables (pitches per PA by result, starter and reliever pull hazards, lineup start shares, reliever usage by rank).
+- `phase2_gate_2025.json` (`scripts/build_phase2_gate.py`): team R/G and RA/G spreads from the scoreboard, qualified-player percentiles, leaderboard references.
+- `phase2_location_2025.json` (`scripts/solve_phase2_location.py`): the six league intercepts.
+- `pbp/parsed/runs_charged_2025.csv.gz`: one row per run with the charged pitcher and an unearned flag (29,118 runs; earned 25,695 vs box 25,713).
+
 ## data/ncaa_2025/sidearm/ — 13 Sidearm season pages (cross-check)
 
 - **Source:** `https://<school>/sports/baseball/stats/2025` for the 13 programs

@@ -35,6 +35,14 @@ class Decider(ABC):
     def lineup(self, state, team: str):
         """Return a lineup for `team` ('away'/'home'); None means no players yet."""
 
+    def starting_pitcher(self, state, team: str):
+        """Return the starting pitcher for `team`; None means no players (Phase 1)."""
+        return None
+
+    def relief_pitcher(self, state, team: str):
+        """Return the reliever who replaces the current pitcher; None means no players."""
+        return None
+
 
 class LeagueAverageDecider(Decider):
     """Phase 1 manager: everything at league rates, no substitutions, no players."""

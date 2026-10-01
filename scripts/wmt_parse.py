@@ -20,6 +20,7 @@ from __future__ import annotations
 import csv
 import glob
 import gzip
+import io
 import json
 import re
 from collections import defaultdict
@@ -178,12 +179,22 @@ def parse_game(g: dict) -> tuple[dict, list[dict], list[dict]]:
                 runs_ev.append({**base, "event": ev, "runner": r.get("checkname"), "from_base": frm,
                                 "to_base": dest.get(frm), "errors_on_play": errors_on_play, "text": text})
     game["n_pa_parsed"] = len(pas)
-    return game, pas, runs_ev
+    # one row per run scored: the pitcher charged with it and whether it was unearned
+    runs_rows = []
+    for a in acts:
+        if a.get("to_base") == 4 and a.get("pitcher_of_record") and a.get("play_action_type") in ("batter", "runner"):
+            scorer_team = by_comp.get(a.get("competitor_id"), {}).get("teamId")
+            pit_team = away["teamId"] if scorer_team == home["teamId"] else home["teamId"]
+            runs_rows.append({"game_id": g["id"], "inning": a.get("period_number"), "scorer": a.get("checkname"),
+                              "pit_team_id": pit_team, "pitcher": a.get("pitcher_of_record"),
+                              "unearned": int(bool(a.get("unearned_run") or a.get("team_unearned_run")))})
+    game["n_runs_charged"] = len(runs_rows)
+    return game, pas, runs_ev, runs_rows
 
 
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
-    games, pas, revs, text_only = [], [], [], []
+    games, pas, revs, text_only, charged = [], [], [], [], []
     for fn in sorted(glob.glob(str(RAW / "*.jsonl.gz"))):
         try:
             with gzip.open(fn, "rt") as fh:
@@ -191,16 +202,17 @@ def main() -> None:
                     g = json.loads(line)
                     if not (g.get("actions") or {}).get("data"):
                         continue
-                    gm, p, r = parse_game(g)
+                    gm, p, r, rc = parse_game(g)
                     if not p:  # play text present but no structured outcome records; a few tournament games
                         text_only.append(g["id"]); continue
-                    games.append(gm); pas.extend(p); revs.extend(r)
+                    games.append(gm); pas.extend(p); revs.extend(r); charged.extend(rc)
         except (EOFError, json.JSONDecodeError) as exc:
             print(f"WARNING {fn}: stopped at a truncated record ({exc.__class__.__name__}); file still being written?")
-    for name, rows, gz in (("games_2025.csv", games, False), ("pa_events_2025.csv.gz", pas, True), ("runner_events_2025.csv.gz", revs, True)):
+    for name, rows, gz in (("games_2025.csv", games, False), ("pa_events_2025.csv.gz", pas, True), ("runner_events_2025.csv.gz", revs, True), ("runs_charged_2025.csv.gz", charged, True)):
         fields = sorted({k for r in rows for k in r}, key=lambda k: (k not in rows[0], k)) if rows else []
         fields = list(rows[0].keys()) + [f for f in fields if f not in rows[0]] if rows else []
-        fh = gzip.open(OUT / name, "wt", newline="") if gz else (OUT / name).open("w", newline="")
+        # mtime=0: identical content gives identical bytes, so re-parsing does not churn git
+        fh = io.TextIOWrapper(gzip.GzipFile(OUT / name, "wb", mtime=0), newline="") if gz else (OUT / name).open("w", newline="")
         with fh:
             w = csv.DictWriter(fh, fieldnames=fields); w.writeheader(); w.writerows(rows)
     (OUT / "excluded_games.json").write_text(json.dumps({"text_only_no_structured_actions": text_only}, indent=1) + "\n")

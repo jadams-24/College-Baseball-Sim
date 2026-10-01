@@ -1,0 +1,126 @@
+{
+ "_note": "Solve the location (intercept) of each true-talent distribution so that simulated,\nPA-weighted league rates equal the league outcome table.\n\nThe talent model fixes each rate's spread (tier, team, individual) from data; its mean\nis defined by the league table, which is a PA-weighted average over real usage (better\nhitters bat more, better pitchers pitch more). The usage-weighted mean is only known\nafter simulating usage, so the six intercepts are found by fixed-point iteration on\nsimulated seasons:  c <- c + logit(table rate) - logit(simulated rate).\nOnly K, BB, HBP, HR per PA, BABIP and XBH are matched; runs, team spreads and player\ndistributions are not used. Calibration seeds (900000+) are disjoint from gate seeds.\nOutput: data/ncaa_2025/derived/phase2_location_2025.json\n",
+ "built": "2026-10-01",
+ "seeds": [
+  900001,
+  900002
+ ],
+ "location": {
+  "K": -0.05830804004086998,
+  "BB": -0.00904431574768605,
+  "HBP": -0.2216011550702328,
+  "HR": -0.26684041264006364,
+  "BABIP": -0.016937620105418993,
+  "XBH": -0.017694651112225124
+ },
+ "history": [
+  {
+   "iteration": 0,
+   "location": {
+    "K": 0.0,
+    "BB": 0.0,
+    "HBP": 0.0,
+    "HR": 0.0,
+    "BABIP": 0.0,
+    "XBH": 0.0
+   },
+   "realized": {
+    "K": 0.20244156032334015,
+    "BB": 0.1066739110410903,
+    "HBP": 0.04206226874471474,
+    "HR": 0.03320359665739646,
+    "BABIP": 0.34166591599307494,
+    "XBH": 0.24539732408117082
+   },
+   "logit_gap": {
+    "K": -0.054153186384632734,
+    "BB": -0.012155281836153886,
+    "HBP": -0.22707136404787898,
+    "HR": -0.2517796801806007,
+    "BABIP": -0.016988226076403157,
+    "XBH": -0.011528501201196528
+   }
+  },
+  {
+   "iteration": 1,
+   "location": {
+    "K": -0.054153186384632734,
+    "BB": -0.012155281836153886,
+    "HBP": -0.22707136404787898,
+    "HR": -0.2517796801806007,
+    "BABIP": -0.016988226076403157,
+    "XBH": -0.011528501201196528
+   },
+   "realized": {
+    "K": 0.19429608745249405,
+    "BB": 0.10523124759951424,
+    "HBP": 0.03380322191028075,
+    "HR": 0.026297701707900696,
+    "BABIP": 0.3377550163420328,
+    "XBH": 0.24430147275385194
+   },
+   "logit_gap": {
+    "K": -0.002923941742946079,
+    "BB": 0.003074684635095526,
+    "HBP": 0.00010836503533351305,
+    "HR": -0.01148534520828104,
+    "BABIP": 0.0004473752660685282,
+    "XBH": -0.005601710510176217
+   }
+  },
+  {
+   "iteration": 2,
+   "location": {
+    "K": -0.05707712812757881,
+    "BB": -0.00908059720105836,
+    "HBP": -0.22696299901254546,
+    "HR": -0.26326502538888175,
+    "BABIP": -0.01654085081033463,
+    "XBH": -0.017130211711372745
+   },
+   "realized": {
+    "K": 0.19396356419447905,
+    "BB": 0.10555304489996675,
+    "HBP": 0.03360744266698894,
+    "HR": 0.026085022916921177,
+    "BABIP": 0.33792954939192305,
+    "XBH": 0.24332712536896722
+   },
+   "logit_gap": {
+    "K": -0.0007984238446927527,
+    "BB": -0.0003383582367137983,
+    "HBP": 0.006119543606142308,
+    "HR": -0.0031467134391434115,
+    "BABIP": -0.00033281807114882156,
+    "XBH": -0.0003169337992516841
+   }
+  },
+  {
+   "iteration": 3,
+   "location": {
+    "K": -0.057875551972271566,
+    "BB": -0.009418955437772158,
+    "HBP": -0.22084345540640316,
+    "HR": -0.26641173882802516,
+    "BABIP": -0.01687366888148345,
+    "XBH": -0.01744714551062443
+   },
+   "realized": {
+    "K": 0.1939063595801333,
+    "BB": 0.1054857485544431,
+    "HBP": 0.033831519495468684,
+    "HR": 0.026016061095904913,
+    "BABIP": 0.33786939758164614,
+    "XBH": 0.24331434254398354
+   },
+   "logit_gap": {
+    "K": -0.0004324880685984134,
+    "BB": 0.0003746396900861093,
+    "HBP": -0.0007576996638296585,
+    "HR": -0.00042867381203848254,
+    "BABIP": -6.395122393554331e-05,
+    "XBH": -0.0002475056016006949
+   }
+  }
+ ]
+}
