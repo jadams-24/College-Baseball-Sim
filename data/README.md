@@ -79,6 +79,16 @@ uncertainty. Values derived from this sample are conf B in `benchmarks.json`.
 - `phase2_game_scale_2025.json` (`scripts/solve_phase2_game_scale.py`): the map from a team's scoreboard rating x (log runs per game) to engine units, k x + q x² per side and the same for every team, and the home edge. They are solved so the scoreboard decomposition fitted on simulated seasons recovers each team's true (o, d) with slope 1 and no curvature, and reproduces the scoreboard's home effect (8 calibration seasons per iteration).
 - `pbp/parsed/runs_charged_2025.csv.gz`: one row per run with the charged pitcher and an unearned flag (29,118 runs; earned 25,695 vs box 25,713).
 
+## data/ncaa_2025/derived/ — Phase 4 inputs
+
+- `phase4_inputs_2025.json` (`scripts/build_phase4_inputs.py`): the individual pitcher leash (Stamina). Each decision after a batter in the 2025 play-by-play gets the Phase 2 baseline pull hazard; a pitcher's log hazard multiplier is fitted by empirical Bayes per role (starters 271 pitchers, log SD .54; relievers 847, log SD .62), with a method-of-moments check.
+- `phase4_rating_scale_2025.json` (`scripts/build_phase4_scale.py`): the PA- or BF-weighted D1 mean and true SD of each rated rate (the 20-80 scale), from 8 simulated calibration seasons of the Phase 2 talent distributions.
+- Both are written into `benchmarks.json` (`stamina_2025`, `ratings_scale_2025`) by `scripts/write_phase4_benchmarks.py`; changes are logged in `benchmark_changes_phase4.json`.
+
+## data/ncaa_2025/rosters/ — 2025 rosters with bats/throws (to be supplied)
+
+- Produced by `tools/fetch_rosters.py`, run by the project owner on their own machine (school athletics sites refuse this container). One CSV: team_ncaa_id, team, name, jersey, position, class, bats, throws, source_url (see `tools/README.md`). Scope: the 283 teams in the WMT play-by-play sample (`tools/roster_teams.csv`). Phase 3 (handedness) starts once it is committed here.
+
 ## data/ncaa_2025/sidearm/ — 13 Sidearm season pages (cross-check)
 
 - **Source:** `https://<school>/sports/baseball/stats/2025` for the 13 programs

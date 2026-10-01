@@ -1,0 +1,35 @@
+{
+ "_note": "Phase 4 inputs: individual pitcher leash (the Stamina rating) from the play-by-play.\n\nThe engine pulls a pitcher with a hazard from the Phase 2 usage tables (engine/manager.py):\nP(replaced before the next batter | role, weekend, rotation rank, outing pitch count,\nouting runs, inning just ended). Real pitchers differ around that baseline: some are\nleft in longer at the same pitch count and runs. That individual leash is modelled as a\nproportional-hazards multiplier theta_i: h_i = 1 - (1 - h)^theta_i, with log theta normal.\n\nEstimate: empirical Bayes with the exact likelihood (engine/eb.py, the estimator the\nPhase 4 round trip uses on simulated seasons). Each decision after a batter has the\nbaseline hazard h from the Manager's own lookup chain (including the weekend rotation-rank\nleash on full-season teams); a pitcher's log theta has prior N(mu, tau^2) per role (starter,\nreliever), fitted by marginal maximum likelihood. tau is the true spread of individual leash.\nPitchers with >= MIN_APPS appearances in the role. A method-of-moments check (O/E ratio,\nobserved variance minus Poisson noise) is reported alongside.\nOutput: data/ncaa_2025/derived/phase4_inputs_2025.json\n",
+ "built": "2026-10-01",
+ "src": "WMT play-by-play 2025 (data/ncaa_2025/pbp), Phase 2 usage tables",
+ "stamina": {
+  "starter": {
+   "n_pitchers": 271,
+   "log_sd": 0.5426,
+   "log_mean": 0.0927,
+   "posterior_sd_mean": 0.2967,
+   "mom_check": {
+    "mean_ratio": 0.9506,
+    "var_obs": 0.37451,
+    "var_noise": 0.09631,
+    "var_true": 0.2782,
+    "log_sd": 0.5181
+   },
+   "ratio_sd_obs": 0.612
+  },
+  "reliever": {
+   "n_pitchers": 847,
+   "log_sd": 0.6218,
+   "log_mean": 0.0763,
+   "posterior_sd_mean": 0.336,
+   "mom_check": {
+    "mean_ratio": 1.0021,
+    "var_obs": 0.42932,
+    "var_noise": 0.12544,
+    "var_true": 0.30389,
+    "log_sd": 0.5142
+   },
+   "ratio_sd_obs": 0.6552
+  }
+ }
+}

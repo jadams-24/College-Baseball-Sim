@@ -6,7 +6,7 @@ from collections import Counter
 import numpy as np
 
 from config.phase2 import Phase2Config
-from engine.game2 import B_AB, B_BB, B_G, B_H, B_HBP, B_HR, B_K, B_PA, B_SF, B_2B, B_3B, P_BF, P_ER, P_K, P_OUTS, PlayerGameEngine
+from engine.game2 import B_NCOL, P_NCOL, PlayerGameEngine
 from engine.league import build_league
 from engine.manager import Manager
 from engine.schedule import make_schedule
@@ -18,8 +18,8 @@ def simulate_season(cfg: Phase2Config, seed: int) -> dict:
     league = build_league(cfg, np.random.Generator(np.random.PCG64(s_league)))
     schedule = make_schedule(cfg, league, np.random.Generator(np.random.PCG64(s_sched)))
     n = len(league.players)
-    bstats = [[0] * 12 for _ in range(n)]
-    pstats = [[0] * 13 for _ in range(n)]
+    bstats = [[0] * B_NCOL for _ in range(n)]
+    pstats = [[0] * P_NCOL for _ in range(n)]
     eng = PlayerGameEngine(cfg, league, bstats, pstats)
     mgr = Manager(cfg)
     team_games = Counter()
@@ -35,4 +35,6 @@ def simulate_season(cfg: Phase2Config, seed: int) -> dict:
                             st.er_allowed[side], st.outs_pitched[side], st.errors[side], st.pa[side]))
         halves.extend(st.half_innings)
     return {"league": league, "roe": eng.roe_count, "bstats": np.array(bstats), "pstats": np.array(pstats), "team_games": team_games,
-            "team_game_rows": np.array(tg_rows, dtype=float), "games": game_rows, "half_innings": halves}
+            "team_game_rows": np.array(tg_rows, dtype=float), "games": game_rows, "half_innings": halves,
+            "team_cell": eng.team_cell, "opp_trials": eng.opp_trials, "exp_trials": eng.exp_trials, "leash_survive": mgr.leash_survive, "leash_pulls": mgr.leash_pulls,
+            "leash_expected": mgr.leash_expected, "leash_var": mgr.leash_var}

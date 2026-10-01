@@ -116,6 +116,33 @@ Results:
 
 CI now runs the report's own 20 seasons and seeds, and checks that the committed report's gate verdicts equal its own.
 
+### Phase 4: 20-80 ratings (2026-10-01)
+
+**Phase order.** Phase 3 (handedness) moved after Phase 4 by project owner decision: no handedness source is reachable from the cloud (the WMT API has no bats/throws; school roster sites refuse this container). `tools/fetch_rosters.py` is run by the owner locally; Phase 3 starts once `data/ncaa_2025/rosters/` exists.
+
+**Scale (`ratings_scale_2025`, conf B).** rating = 50 + 10 sign (z − mean) / sd for one true rate per rating: Contact BABIP, Gap XBH share of hits, Power HR/PA, Eye BB/PA, Avoid K K/PA; Stuff K/BF, Control BB/BF, Movement HR/BF. mean and sd are the PA- (BF-) weighted mean and true SD of z over all of D1, from the Phase 2 noise-removed distributions as the generator draws them (8 calibration seasons, seeds 940001–940008). Batter HBP and pitcher HBP, BABIP and XBH allowed are carried unrated. Speed is reserved: no engine rate depends on a runner's speed yet.
+
+**Stamina (`stamina_2025`, conf B).** Individual leash on the Phase 2 pull hazard, h' = 1 − (1 − h)^θ, log θ ~ N(μ, σ²) per role, fitted by empirical Bayes with the exact discrete-time likelihood on the 2025 play-by-play: starters σ .54 (271 pitchers with 5+ starts), relievers σ .62 (847). Method-of-moments check: .52 and .51. With leash variance, pitchers with 50+ IP rise from 769 to 872 (deferred row; real 882).
+
+**Round trip, first version: reverse direction (engine/report4.py, now the informational scouting estimator).** Players are generated as ratings and simulated for 20 seasons. Ratings are estimated back from box-score information only: counting stats, each player's opponents (team, home or away) and the league's team-by-team results. The estimator is empirical Bayes on a grid with an opponent-mixture binomial likelihood and a normal prior per role × tier, run in 10 folds of 2 seasons. Gate: slope 1, bias 0 and SD ratio 1 within the Student-t tolerance across folds, on players with at least half a regular's workload.
+
+**First gate result (20 seasons, reverse direction): FAIL on seven rows, explained.** Every Phase 1 and Phase 2 row passes on the same run. Tier distributions pass for every rating (P4 everyday players above 50, low below). Stamina, Contact, Gap and Eye recover fully. Failing rows: bias for Stuff (+.08 ± .04), Control (+.17 ± .05), Movement (+.33 ± .07), Power (−.13 ± .12) and Avoid K (+.03 ± .03); slope for Control (.991 ± .008) and Movement (.962 ± .028).
+
+**Cause: playing time depends on talent, and the estimator's prior does not know it.** The manager starts, bats high and works its best players most: start shares and batting order by talent, rotation and bullpen ranks by K − BB − HR. Within a role group, true rating and workload correlate +.10 to +.28 for pitchers and +.50 for regulars' Power. A prior per role × tier shrinks a team's busiest players toward too low a mean and its least-used players toward too high a one. Within a role, bias rises with workload: Movement for weekend starters is −1.2 / +.2 / +1.3 by workload tercile, and Power for regulars −2.9 / −.7 / +1.6. Weighted by trials over all players, the bias is .00 for every rating, so the engine and the anchor are right. The gate keeps the busier half of players, which gives the positive pitcher biases, largest where shrinkage is strongest (Movement, reliability .39).
+
+**Fixes tried (4 seasons, not committed).**
+1. Prior mean linear in log trials: pitcher biases go to Stuff +.03, Control .00, Movement +.03. Power gets worse (bias −.39, SD ratio 1.07), because its relation with workload is convex.
+2. A prior per workload rank on the team (role × tier × rank): biases go to about zero. But Power's SD ratio is 1.06–1.13 and Movement's slope .89–.94, and pooling four seasons does not fix either (1.09, .94). Given a rank, one rating is not normally distributed. The rank is the team's order on a combination of ratings (OBP + SLG for hitters, K − BB − HR for pitchers), so a team's top hitter is a mixture of power hitters and on-base hitters, and a normal prior per rank misstates the spread.
+
+**Gate changed to the forward direction (2026-10-01, project owner decision on PR #5).** The reverse direction (ratings estimated from stats) tests an estimator, and its prior has to model how managers hand out playing time. The forward direction tests what Phase 4 claims: ratings map to rates, and the engine turns those rates into stats with nothing but sampling noise. For each rated rate, each qualifying player-season's opponent-adjusted observed rate is regressed on his true rate on the logit scale. The gate asks for slope 1, intercept 0 and dispersion 1 within sampling error, and the result is also reported by workload tercile.
+
+- The engine records, per player and rate, the sum of p and of p(1 − p) over his own trials at his true rates against the opponents he actually faced (E, V). The observed offset is z + (x − E)/V.
+- The box-score version (opponents adjusted from the team-by-team fit only) runs 1–7% over dispersion 1. A box score shows which team a player faced, not which pitcher, so it is reported as informational.
+- The manager orders players by true talent only: lineup, rotation and bullpen order are set once per season from the true offsets, and no in-season statistic feeds any choice. Workload therefore does not select on results, and the forward regression on true talent is not biased by it.
+- The in-game pull hazard (outing pitches and runs) is the one outcome-dependent usage rule. Stamina's terciles are split by appearances, because its batters faced are partly the pulls themselves.
+- The empirical-Bayes estimator stays in the report as informational: the future scouting estimator for Phase 9, with the workload-selection diagnosis above.
+- Pitchers with 50+ IP (870.5 vs 882) now passes. It stays in the Phase 6 deferred table, marked currently passing, because swingman relief may still move it.
+
 ## Bibliography
 
 - FanGraphs, Michael Baumann, "The Ridiculous Firewagon Offenses of College Baseball," Feb 13, 2026 — https://blogs.fangraphs.com/the-ridiculous-firewagon-offenses-of-college-baseball/
