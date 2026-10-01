@@ -71,7 +71,7 @@ uncertainty. Values derived from this sample are conf B in `benchmarks.json`.
 ## data/ncaa_2025/derived/ — Phase 2 inputs
 
 - `phase2_inputs_2025.json` (`scripts/build_phase2_benchmarks.py`, then `scripts/build_phase2_gate.py` adds the schedule mix): league rates, tier effects, talent distributions by side, rate and role group, correlations, and usage tables (pitches per PA by result, starter and reliever pull hazards, lineup start shares, reliever usage by rank).
-- `phase2_gate_2025.json` (`scripts/build_phase2_gate.py`): team R/G and RA/G spreads from the scoreboard, qualified-player percentiles, leaderboard references.
+- `phase2_gate_2025.json` (`scripts/build_phase2_gate.py`): team R/G and RA/G spreads from the scoreboard, qualified-player percentiles (tiers with fewer than 50 qualified players pooled with the nearest tier; the unpooled values are kept under `unpooled`), leaderboard references.
 - `phase2_location_2025.json` (`scripts/solve_phase2_location.py`): the six league intercepts (12 calibration seasons per iteration).
 - `phase2_inputs_2025.json` also carries `team_talent` (`scripts/build_phase2_teams.py`): the quasi-Poisson decomposition of every 2025 D1-vs-D1 scoreboard final into team offense and run prevention (log runs), tier means, per-tier team and conference covariances with estimation noise removed, the matchup-controlled home effect and the nonconference hosting model; and usage tables for rotation churn (weekend start shares and three-game rank patterns, the rotation-rank leash, effective roster sizes).
 - `phase2_gate_2025.json` also carries `tier_matrix_2025` (runs per team-game by batting tier x pitching tier) and `home_2025` (home win pct, home run differential), with two-way cluster-robust tolerances.
@@ -91,7 +91,7 @@ uncertainty. Values derived from this sample are conf B in `benchmarks.json`.
   - the pitch chain: events by count, and ball-in-play results by count of contact;
   - player directions: per-pitch event rates on true K% and BB%, split halves;
   - qualified players' pitch profiles;
-  - the pitch-level benchmarks, with bootstrap SEs over games;
+  - the pitch-level benchmarks, with bootstrap SEs over games (starter pitch-count percentiles pool tier-pair cells with fewer than 50 starts, `percentile_pooling`);
   - the cleaning counts. No pitch type, velocity or location exists in the source.
 - `phase5_chain_solved_2025.json` (`scripts/solve_phase5_chain.py`): the league base chain solved so simulated per-count event shares equal the data's (seeds 950001–950004).
 - Written into `benchmarks.json` as `pitch_level_2025` by `scripts/write_phase5_benchmarks.py`; change logged in `benchmark_changes_phase5.json`.

@@ -174,6 +174,35 @@ Every PA-level rate is unchanged from Phase 4, every Phase 1 and Phase 2 row pas
 
 Left for the project owner (PR description).
 
+### Sparse-cell pooling for tier-reweighted percentiles (2026-10-01, project owner decision on PR #7)
+
+**Rule** (`scripts/lib/pooling.py`, floor `config.benchmarks.MIN_CELL_N_PERCENTILE` = 50). In a tier-reweighted percentile benchmark, a tier cell (a tier, or a batting-tier × pitching-tier pair) with fewer than 50 observations is pooled with its nearest cell before reweighting.
+- The merge repeats until every group has 50: the smallest group merges with its smallest neighbour, a neighbour being one tier step away on one side (p4 – mid – low). Sparse cells therefore pool with each other first.
+- A pooled group keeps the sum of its cells' weights.
+- The pooling is fixed from the full sample and held fixed in every bootstrap replicate.
+- Why 50: with 50 observations a p10 has about 5 values below it, so the quantile is bracketed by data. A 15-start cell whose minimum is above the pooled p10 cannot estimate its own tail, and its bootstrap never draws below that minimum, which understates the SE.
+
+**Rows it applies to.** Every tier-reweighted percentile in the repo:
+- the qualified-player percentiles (BA, OBP, ISO, K%, BB%, ERA, K/9 at p10–p90; 35 rows);
+- the starter pitch-count percentiles (p10, p50, p90, weekend and midweek; 6 rows).
+
+Every other reweighted benchmark is a mean or a share.
+
+**Results.** Recomputed without pooling, every row equals its old value exactly, so the changes come from the rule alone. Changes are logged in `benchmark_changes_phase2.json` and `benchmark_changes_phase5.json`.
+- **Qualified players.** The low tier has fewer than 50 qualified players on both sides, so it pools with mid (batters 165, pitchers 56).
+  - BA p10–p90 .237 / .258 / .295 / .324 / .351 → .239 / .265 / .296 / .325 / .353.
+  - OBP: largest move p75 .418 → .420.
+  - ISO: p50 .163 → .167, p75 .213 → .219.
+  - K%: no move above .002.
+  - BB%: p25 .082 → .080, p50 .108 → .106, p90 .154 → .158.
+  - ERA: p25 4.16 → 4.22, p50 5.09 → 5.12, p90 7.69 → 7.64.
+  - K/9: p10 5.82 → 5.72, p25 6.83 → 6.74, p50 7.66 → 7.88, p75 9.55 → 9.70.
+  - Every move is within the row's tolerance; tolerances changed slightly because the bootstrap now uses the pooled weights.
+- **Starter pitch counts.**
+  - Weekend: low-vs-low, mid-vs-low and low-vs-mid pool (125 starts). p10 46 → 47, p50 82, p90 104 → 103.
+  - Midweek: the same three cells pool (15 + 17 + 18 = 50 starts). p10 27 → 26, p50 54 → 52, p90 94.
+- **Midweek starter p10** is still a Phase 6 row (owner decision). The pooled value (26) is closer to the sim (22) but not within tolerance. The tier behaviour behind it is real: low-tier staffs leave midweek starters in longer. It belongs with manager AI.
+
 ## Bibliography
 
 - FanGraphs, Michael Baumann, "The Ridiculous Firewagon Offenses of College Baseball," Feb 13, 2026 — https://blogs.fangraphs.com/the-ridiculous-firewagon-offenses-of-college-baseball/
