@@ -1,0 +1,7866 @@
+{
+ "_note": "Top 50 (and ties) per stat from NCAA.com's national leader pages, fetched 2026-10-01; season = the year the season is played (NCAA.com URL year + 1). Qualification is NCAA.com's: BA 2.0 PA per team game and 75% of team games; ERA 1 IP per team game.",
+ "seasons": {
+  "2024": {
+   "hr": {
+    "url": "https://www.ncaa.com/stats/baseball/d1/2023/individual/470",
+    "rows": [
+     {
+      "Rank": "1",
+      "Name": "Charlie Condon",
+      "Team": "Georgia",
+      "Cl": "So.",
+      "Position": "1B",
+      "G": "60",
+      "HR": "37"
+     },
+     {
+      "Rank": "2",
+      "Name": "Jac Caglianone",
+      "Team": "Florida",
+      "Cl": "Jr.",
+      "Position": "UT",
+      "G": "66",
+      "HR": "35"
+     },
+     {
+      "Rank": "3",
+      "Name": "Christian Moore",
+      "Team": "Tennessee",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "72",
+      "HR": "34"
+     },
+     {
+      "Rank": "4",
+      "Name": "Roman Kuntz",
+      "Team": "Morehead St.",
+      "Cl": "Sr.",
+      "Position": "OF",
+      "G": "61",
+      "HR": "33"
+     },
+     {
+      "Rank": "5",
+      "Name": "Lyle Miller-Green",
+      "Team": "Austin Peay",
+      "Cl": "Sr.",
+      "Position": "OF",
+      "G": "56",
+      "HR": "30"
+     },
+     {
+      "Rank": "6",
+      "Name": "Jace Laviolette",
+      "Team": "Texas A&M",
+      "Cl": "So.",
+      "Position": "OF",
+      "G": "68",
+      "HR": "29"
+     },
+     {
+      "Rank": "7",
+      "Name": "Travis Bazzana",
+      "Team": "Oregon St.",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "60",
+      "HR": "28"
+     },
+     {
+      "Rank": "-",
+      "Name": "Vance Honeycutt",
+      "Team": "North Carolina",
+      "Cl": "Jr.",
+      "Position": "OF",
+      "G": "62",
+      "HR": "28"
+     },
+     {
+      "Rank": "-",
+      "Name": "Jared Jones",
+      "Team": "LSU",
+      "Cl": "So.",
+      "Position": "1B",
+      "G": "66",
+      "HR": "28"
+     },
+     {
+      "Rank": "-",
+      "Name": "James Tibbs III",
+      "Team": "Florida St.",
+      "Cl": "Jr.",
+      "Position": "OF",
+      "G": "66",
+      "HR": "28"
+     },
+     {
+      "Rank": "11",
+      "Name": "Braden Montgomery",
+      "Team": "Texas A&M",
+      "Cl": "Jr.",
+      "Position": "OF",
+      "G": "61",
+      "HR": "27"
+     },
+     {
+      "Rank": "-",
+      "Name": "Tanner Thach",
+      "Team": "UNCW",
+      "Cl": "So.",
+      "Position": "INF",
+      "G": "61",
+      "HR": "27"
+     },
+     {
+      "Rank": "13",
+      "Name": "Jakob Christian",
+      "Team": "San Diego",
+      "Cl": "So.",
+      "Position": "OF",
+      "G": "51",
+      "HR": "26"
+     },
+     {
+      "Rank": "-",
+      "Name": "Banks Tolley",
+      "Team": "App State",
+      "Cl": "Sr.",
+      "Position": "OF",
+      "G": "55",
+      "HR": "26"
+     },
+     {
+      "Rank": "15",
+      "Name": "Drew Burress",
+      "Team": "Georgia Tech",
+      "Cl": "Fr.",
+      "Position": "OF",
+      "G": "58",
+      "HR": "25"
+     },
+     {
+      "Rank": "16",
+      "Name": "Christian Almanza",
+      "Team": "Saint Mary's (CA)",
+      "Cl": "Sr.",
+      "Position": "1B",
+      "G": "56",
+      "HR": "24"
+     },
+     {
+      "Rank": "-",
+      "Name": "John Bay",
+      "Team": "Austin Peay",
+      "Cl": "Jr.",
+      "Position": "OF",
+      "G": "55",
+      "HR": "24"
+     },
+     {
+      "Rank": "-",
+      "Name": "Daniel Cuvet",
+      "Team": "Miami (FL)",
+      "Cl": "Fr.",
+      "Position": "INF",
+      "G": "57",
+      "HR": "24"
+     },
+     {
+      "Rank": "-",
+      "Name": "Alec Makarewicz",
+      "Team": "NC State",
+      "Cl": "Sr.",
+      "Position": "INF",
+      "G": "61",
+      "HR": "24"
+     },
+     {
+      "Rank": "-",
+      "Name": "Mike Sears",
+      "Team": "Indiana St.",
+      "Cl": "Sr.",
+      "Position": "INF",
+      "G": "57",
+      "HR": "24"
+     },
+     {
+      "Rank": "-",
+      "Name": "Mitchel Simon",
+      "Team": "California Baptist",
+      "Cl": "Sr.",
+      "Position": "INF",
+      "G": "62",
+      "HR": "24"
+     },
+     {
+      "Rank": "-",
+      "Name": "Tommy White",
+      "Team": "LSU",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "66",
+      "HR": "24"
+     },
+     {
+      "Rank": "23",
+      "Name": "Billy Amick",
+      "Team": "Tennessee",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "65",
+      "HR": "23"
+     },
+     {
+      "Rank": "-",
+      "Name": "Harrison Didawick",
+      "Team": "Virginia",
+      "Cl": "So.",
+      "Position": "OF",
+      "G": "63",
+      "HR": "23"
+     },
+     {
+      "Rank": "-",
+      "Name": "Dylan Dreiling",
+      "Team": "Tennessee",
+      "Cl": "So.",
+      "Position": "OF",
+      "G": "71",
+      "HR": "23"
+     },
+     {
+      "Rank": "-",
+      "Name": "Gavin Grahovac",
+      "Team": "Texas A&M",
+      "Cl": "Fr.",
+      "Position": "UT",
+      "G": "67",
+      "HR": "23"
+     },
+     {
+      "Rank": "-",
+      "Name": "Lawson Harrill",
+      "Team": "Campbell",
+      "Cl": "Sr.",
+      "Position": "OF",
+      "G": "53",
+      "HR": "23"
+     },
+     {
+      "Rank": "-",
+      "Name": "Luis Hernandez",
+      "Team": "Indiana St.",
+      "Cl": "Jr.",
+      "Position": "C",
+      "G": "59",
+      "HR": "23"
+     },
+     {
+      "Rank": "-",
+      "Name": "Lucas Loos",
+      "Team": "Eastern Ill.",
+      "Cl": "Sr.",
+      "Position": "INF",
+      "G": "53",
+      "HR": "23"
+     },
+     {
+      "Rank": "-",
+      "Name": "Ryan Nicholson",
+      "Team": "Kentucky",
+      "Cl": "Sr.",
+      "Position": "INF",
+      "G": "59",
+      "HR": "23"
+     },
+     {
+      "Rank": "-",
+      "Name": "Nolan Schubart",
+      "Team": "Oklahoma St.",
+      "Cl": "So.",
+      "Position": "OF",
+      "G": "49",
+      "HR": "23"
+     },
+     {
+      "Rank": "-",
+      "Name": "Cameron Sisneros",
+      "Team": "ETSU",
+      "Cl": "Sr.",
+      "Position": "1B",
+      "G": "56",
+      "HR": "23"
+     },
+     {
+      "Rank": "33",
+      "Name": "Caleb Cozart",
+      "Team": "UNC Greensboro",
+      "Cl": "Sr.",
+      "Position": "P",
+      "G": "53",
+      "HR": "22"
+     },
+     {
+      "Rank": "-",
+      "Name": "Jaime Ferrer",
+      "Team": "Florida St.",
+      "Cl": "Jr.",
+      "Position": "OF",
+      "G": "63",
+      "HR": "22"
+     },
+     {
+      "Rank": "-",
+      "Name": "Kip Fougerousse",
+      "Team": "Evansville",
+      "Cl": "Sr.",
+      "Position": "INF",
+      "G": "65",
+      "HR": "22"
+     },
+     {
+      "Rank": "-",
+      "Name": "Wyatt Henseler",
+      "Team": "Penn",
+      "Cl": "Sr.",
+      "Position": "3B",
+      "G": "49",
+      "HR": "22"
+     },
+     {
+      "Rank": "-",
+      "Name": "Jeremiah Jenkins",
+      "Team": "Maine",
+      "Cl": "Jr.",
+      "Position": "1B",
+      "G": "49",
+      "HR": "22"
+     },
+     {
+      "Rank": "-",
+      "Name": "Nick Kurtz",
+      "Team": "Wake Forest",
+      "Cl": "Jr.",
+      "Position": "OF",
+      "G": "54",
+      "HR": "22"
+     },
+     {
+      "Rank": "-",
+      "Name": "Liam McFadden-Ackman",
+      "Team": "Northern Ky.",
+      "Cl": "Sr.",
+      "Position": "INF",
+      "G": "59",
+      "HR": "22"
+     },
+     {
+      "Rank": "-",
+      "Name": "Jimmy Obertop",
+      "Team": "Clemson",
+      "Cl": "Sr.",
+      "Position": "UT",
+      "G": "57",
+      "HR": "22"
+     },
+     {
+      "Rank": "-",
+      "Name": "JP Smith",
+      "Team": "Sacramento St.",
+      "Cl": "So.",
+      "Position": "INF",
+      "G": "56",
+      "HR": "22"
+     },
+     {
+      "Rank": "-",
+      "Name": "Blake Wright",
+      "Team": "Clemson",
+      "Cl": "Sr.",
+      "Position": "INF",
+      "G": "60",
+      "HR": "22"
+     },
+     {
+      "Rank": "43",
+      "Name": "Ty Dalley",
+      "Team": "Mercer",
+      "Cl": "So.",
+      "Position": "1B",
+      "G": "57",
+      "HR": "21"
+     },
+     {
+      "Rank": "-",
+      "Name": "Kyle DeBarge",
+      "Team": "Louisiana",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "62",
+      "HR": "21"
+     },
+     {
+      "Rank": "-",
+      "Name": "Carson DeMartini",
+      "Team": "Virginia Tech",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "54",
+      "HR": "21"
+     },
+     {
+      "Rank": "-",
+      "Name": "Kendal Ewell",
+      "Team": "UIC",
+      "Cl": "Sr.",
+      "Position": "OF",
+      "G": "55",
+      "HR": "21"
+     },
+     {
+      "Rank": "-",
+      "Name": "Cael Frost",
+      "Team": "South Dakota St.",
+      "Cl": "Jr.",
+      "Position": "OF",
+      "G": "49",
+      "HR": "21"
+     },
+     {
+      "Rank": "-",
+      "Name": "Michael Hallquist",
+      "Team": "Ball St.",
+      "Cl": "Sr.",
+      "Position": "INF",
+      "G": "59",
+      "HR": "21"
+     },
+     {
+      "Rank": "-",
+      "Name": "Grant Jay",
+      "Team": "DBU",
+      "Cl": "So.",
+      "Position": "C",
+      "G": "60",
+      "HR": "21"
+     },
+     {
+      "Rank": "-",
+      "Name": "Cole Messina",
+      "Team": "South Carolina",
+      "Cl": "Jr.",
+      "Position": "C",
+      "G": "59",
+      "HR": "21"
+     }
+    ]
+   },
+   "hr_top5": [
+    37.0,
+    35.0,
+    34.0,
+    33.0,
+    30.0
+   ],
+   "n_hr_30": 5,
+   "n_hr_25": 15,
+   "hr_list_min": 21.0,
+   "ba": {
+    "url": "https://www.ncaa.com/stats/baseball/d1/2023/individual/200",
+    "rows": [
+     {
+      "Rank": "1",
+      "Name": "Charlie Condon",
+      "Team": "Georgia",
+      "Cl": "So.",
+      "Position": "1B",
+      "G": "60",
+      "AB": "231",
+      "H": "100",
+      "BA": ".433"
+     },
+     {
+      "Rank": "2",
+      "Name": "Joshua Kuroda-Grauer",
+      "Team": "Rutgers",
+      "Cl": "Jr.",
+      "Position": "UT",
+      "G": "53",
+      "AB": "222",
+      "H": "95",
+      "BA": ".428"
+     },
+     {
+      "Rank": "3",
+      "Name": "Jac Caglianone",
+      "Team": "Florida",
+      "Cl": "Jr.",
+      "Position": "UT",
+      "G": "66",
+      "AB": "248",
+      "H": "104",
+      "BA": ".419"
+     },
+     {
+      "Rank": "4",
+      "Name": "Ben Watson",
+      "Team": "Virginia Tech",
+      "Cl": "Sr.",
+      "Position": "OF",
+      "G": "54",
+      "AB": "222",
+      "H": "93",
+      "BA": ".419"
+     },
+     {
+      "Rank": "5",
+      "Name": "JT Marr",
+      "Team": "Penn St.",
+      "Cl": "Sr.",
+      "Position": "C",
+      "G": "53",
+      "AB": "221",
+      "H": "92",
+      "BA": ".416"
+     },
+     {
+      "Rank": "6",
+      "Name": "Kien Vu",
+      "Team": "Arizona St.",
+      "Cl": "So.",
+      "Position": "OF",
+      "G": "47",
+      "AB": "150",
+      "H": "62",
+      "BA": ".413"
+     },
+     {
+      "Rank": "7",
+      "Name": "Edwin Delacruz",
+      "Team": "Ark.-Pine Bluff",
+      "Cl": "Sr.",
+      "Position": "C",
+      "G": "46",
+      "AB": "154",
+      "H": "63",
+      "BA": ".409"
+     },
+     {
+      "Rank": "8",
+      "Name": "Travis Bazzana",
+      "Team": "Oregon St.",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "60",
+      "AB": "214",
+      "H": "87",
+      "BA": ".407"
+     },
+     {
+      "Rank": "9",
+      "Name": "Edgar Alvarez",
+      "Team": "Nicholls",
+      "Cl": "Sr.",
+      "Position": "INF",
+      "G": "58",
+      "AB": "227",
+      "H": "92",
+      "BA": ".405"
+     },
+     {
+      "Rank": "10",
+      "Name": "Jon Jon Gazdar",
+      "Team": "Austin Peay",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "56",
+      "AB": "237",
+      "H": "96",
+      "BA": ".405"
+     },
+     {
+      "Rank": "11",
+      "Name": "Sean Keys",
+      "Team": "Bucknell",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "46",
+      "AB": "163",
+      "H": "66",
+      "BA": ".405"
+     },
+     {
+      "Rank": "12",
+      "Name": "Ben Rounds",
+      "Team": "Harvard",
+      "Cl": "Sr.",
+      "Position": "OF",
+      "G": "39",
+      "AB": "149",
+      "H": "60",
+      "BA": ".403"
+     },
+     {
+      "Rank": "13",
+      "Name": "Tyler MacGregor",
+      "Team": "Northeastern",
+      "Cl": "Sr.",
+      "Position": "1B",
+      "G": "55",
+      "AB": "234",
+      "H": "94",
+      "BA": ".402"
+     },
+     {
+      "Rank": "14",
+      "Name": "Myles Smith",
+      "Team": "UC Irvine",
+      "Cl": "Jr.",
+      "Position": "OF",
+      "G": "48",
+      "AB": "182",
+      "H": "73",
+      "BA": ".401"
+     },
+     {
+      "Rank": "15",
+      "Name": "Joel Dragoo",
+      "Team": "Presbyterian",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "56",
+      "AB": "197",
+      "H": "79",
+      "BA": ".401"
+     },
+     {
+      "Rank": "16",
+      "Name": "Julian Greenwell",
+      "Team": "Wright St.",
+      "Cl": "Sr.",
+      "Position": "UT",
+      "G": "45",
+      "AB": "183",
+      "H": "73",
+      "BA": ".399"
+     },
+     {
+      "Rank": "17",
+      "Name": "Eric Rataczak",
+      "Team": "Niagara",
+      "Cl": "Jr.",
+      "Position": "OF",
+      "G": "55",
+      "AB": "222",
+      "H": "88",
+      "BA": ".396"
+     },
+     {
+      "Rank": "18",
+      "Name": "Lyle Miller-Green",
+      "Team": "Austin Peay",
+      "Cl": "Sr.",
+      "Position": "OF",
+      "G": "56",
+      "AB": "219",
+      "H": "86",
+      "BA": ".393"
+     },
+     {
+      "Rank": "19",
+      "Name": "Chase Swain",
+      "Team": "Manhattan",
+      "Cl": "So.",
+      "Position": "OF",
+      "G": "40",
+      "AB": "153",
+      "H": "60",
+      "BA": ".392"
+     },
+     {
+      "Rank": "20",
+      "Name": "Khalil Walker",
+      "Team": "New Mexico",
+      "Cl": "Jr.",
+      "Position": "OF",
+      "G": "50",
+      "AB": "161",
+      "H": "63",
+      "BA": ".391"
+     },
+     {
+      "Rank": "21",
+      "Name": "Kendal Ewell",
+      "Team": "UIC",
+      "Cl": "Sr.",
+      "Position": "OF",
+      "G": "55",
+      "AB": "210",
+      "H": "82",
+      "BA": ".390"
+     },
+     {
+      "Rank": "22",
+      "Name": "Ethan Conrad",
+      "Team": "Marist",
+      "Cl": "So.",
+      "Position": "ph/1b",
+      "G": "55",
+      "AB": "226",
+      "H": "88",
+      "BA": ".389"
+     },
+     {
+      "Rank": "23",
+      "Name": "Treyvin Moss",
+      "Team": "Northern Ky.",
+      "Cl": "Sr.",
+      "Position": "INF",
+      "G": "57",
+      "AB": "244",
+      "H": "95",
+      "BA": ".389"
+     },
+     {
+      "Rank": "24",
+      "Name": "Juan Cruz",
+      "Team": "Alabama St.",
+      "Cl": "So.",
+      "Position": "1B",
+      "G": "47",
+      "AB": "170",
+      "H": "66",
+      "BA": ".388"
+     },
+     {
+      "Rank": "25",
+      "Name": "Dalton McIntyre",
+      "Team": "Southern Miss.",
+      "Cl": "Jr.",
+      "Position": "P",
+      "G": "60",
+      "AB": "237",
+      "H": "92",
+      "BA": ".388"
+     },
+     {
+      "Rank": "26",
+      "Name": "Brady Short",
+      "Team": "Central Conn. St.",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "42",
+      "AB": "178",
+      "H": "69",
+      "BA": ".388"
+     },
+     {
+      "Rank": "27",
+      "Name": "Cade Sullivan",
+      "Team": "Western Mich.",
+      "Cl": "Sr.",
+      "Position": "1B",
+      "G": "55",
+      "AB": "222",
+      "H": "86",
+      "BA": ".387"
+     },
+     {
+      "Rank": "28",
+      "Name": "Dean Ferrara",
+      "Team": "Fairfield",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "56",
+      "AB": "248",
+      "H": "96",
+      "BA": ".387"
+     },
+     {
+      "Rank": "-",
+      "Name": "Nick Iannantone",
+      "Team": "ETSU",
+      "Cl": "Sr.",
+      "Position": "OF",
+      "G": "56",
+      "AB": "217",
+      "H": "84",
+      "BA": ".387"
+     },
+     {
+      "Rank": "30",
+      "Name": "Ty Jackson",
+      "Team": "Florida A&M",
+      "Cl": "Sr.",
+      "Position": "OF",
+      "G": "47",
+      "AB": "168",
+      "H": "65",
+      "BA": ".387"
+     },
+     {
+      "Rank": "31",
+      "Name": "Caden Kendle",
+      "Team": "UC Irvine",
+      "Cl": "Sr.",
+      "Position": "OF",
+      "G": "51",
+      "AB": "212",
+      "H": "82",
+      "BA": ".387"
+     },
+     {
+      "Rank": "32",
+      "Name": "Cam Smith",
+      "Team": "Florida St.",
+      "Cl": "So.",
+      "Position": "INF",
+      "G": "66",
+      "AB": "269",
+      "H": "104",
+      "BA": ".387"
+     },
+     {
+      "Rank": "33",
+      "Name": "Dylan Palmer",
+      "Team": "Hofstra",
+      "Cl": "So.",
+      "Position": "UT",
+      "G": "57",
+      "AB": "241",
+      "H": "93",
+      "BA": ".386"
+     },
+     {
+      "Rank": "34",
+      "Name": "Josiah Ragsdale",
+      "Team": "Iona",
+      "Cl": "So.",
+      "Position": "OF",
+      "G": "50",
+      "AB": "192",
+      "H": "74",
+      "BA": ".385"
+     },
+     {
+      "Rank": "35",
+      "Name": "Lucas Spence",
+      "Team": "SIUE",
+      "Cl": "Jr.",
+      "Position": "OF",
+      "G": "56",
+      "AB": "221",
+      "H": "85",
+      "BA": ".385"
+     },
+     {
+      "Rank": "36",
+      "Name": "Kyle Walker",
+      "Team": "Grambling",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "54",
+      "AB": "203",
+      "H": "78",
+      "BA": ".384"
+     },
+     {
+      "Rank": "37",
+      "Name": "Ben Patacsil",
+      "Team": "Portland",
+      "Cl": "Sr.",
+      "Position": "INF",
+      "G": "50",
+      "AB": "177",
+      "H": "68",
+      "BA": ".384"
+     },
+     {
+      "Rank": "38",
+      "Name": "Jack Frank",
+      "Team": "Michigan St.",
+      "Cl": "Sr.",
+      "Position": "OF",
+      "G": "51",
+      "AB": "209",
+      "H": "80",
+      "BA": ".383"
+     },
+     {
+      "Rank": "39",
+      "Name": "John Anderson",
+      "Team": "Samford",
+      "Cl": "Sr.",
+      "Position": "INF",
+      "G": "57",
+      "AB": "217",
+      "H": "83",
+      "BA": ".382"
+     },
+     {
+      "Rank": "-",
+      "Name": "Evan Bouldin",
+      "Team": "Delaware St.",
+      "Cl": "So.",
+      "Position": "INF",
+      "G": "49",
+      "AB": "217",
+      "H": "83",
+      "BA": ".382"
+     },
+     {
+      "Rank": "41",
+      "Name": "Rafe Perich",
+      "Team": "Lehigh",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "42",
+      "AB": "152",
+      "H": "58",
+      "BA": ".382"
+     },
+     {
+      "Rank": "42",
+      "Name": "Jacob Steels",
+      "Team": "Cal Poly",
+      "Cl": "Sr.",
+      "Position": "OF",
+      "G": "54",
+      "AB": "215",
+      "H": "82",
+      "BA": ".381"
+     },
+     {
+      "Rank": "43",
+      "Name": "Jake Holland",
+      "Team": "New Mexico",
+      "Cl": "Sr.",
+      "Position": "C",
+      "G": "44",
+      "AB": "168",
+      "H": "64",
+      "BA": ".381"
+     },
+     {
+      "Rank": "44",
+      "Name": "Drew Burress",
+      "Team": "Georgia Tech",
+      "Cl": "Fr.",
+      "Position": "OF",
+      "G": "58",
+      "AB": "218",
+      "H": "83",
+      "BA": ".381"
+     },
+     {
+      "Rank": "-",
+      "Name": "Gage Miller",
+      "Team": "Alabama",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "55",
+      "AB": "218",
+      "H": "83",
+      "BA": ".381"
+     },
+     {
+      "Rank": "46",
+      "Name": "Mitchell Sanford",
+      "Team": "LSU New Orleans",
+      "Cl": "Jr.",
+      "Position": "OF",
+      "G": "57",
+      "AB": "226",
+      "H": "86",
+      "BA": ".381"
+     },
+     {
+      "Rank": "47",
+      "Name": "Brice Martinez",
+      "Team": "Wofford",
+      "Cl": "Sr.",
+      "Position": "INF",
+      "G": "62",
+      "AB": "255",
+      "H": "97",
+      "BA": ".380"
+     },
+     {
+      "Rank": "48",
+      "Name": "Patrick Clohisy",
+      "Team": "Saint Louis",
+      "Cl": "Jr.",
+      "Position": "OF",
+      "G": "43",
+      "AB": "163",
+      "H": "62",
+      "BA": ".380"
+     },
+     {
+      "Rank": "49",
+      "Name": "CJ Richmond",
+      "Team": "Western Mich.",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "55",
+      "AB": "213",
+      "H": "81",
+      "BA": ".380"
+     },
+     {
+      "Rank": "50",
+      "Name": "Clayton Gray",
+      "Team": "Austin Peay",
+      "Cl": "Jr.",
+      "Position": "OF",
+      "G": "55",
+      "AB": "250",
+      "H": "95",
+      "BA": ".380"
+     }
+    ]
+   },
+   "ba_top5": [
+    0.433,
+    0.428,
+    0.419,
+    0.419,
+    0.416
+   ],
+   "era": {
+    "url": "https://www.ncaa.com/stats/baseball/d1/2023/individual/205",
+    "rows": [
+     {
+      "Rank": "1",
+      "Name": "Evan Aschenbeck",
+      "Team": "Texas A&M",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "32",
+      "IP": "75.2",
+      "R": "17",
+      "ER": "15",
+      "ERA": "1.78"
+     },
+     {
+      "Rank": "2",
+      "Name": "Charlie Beilenson",
+      "Team": "Duke",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "34",
+      "IP": "62.2",
+      "R": "19",
+      "ER": "14",
+      "ERA": "2.01"
+     },
+     {
+      "Rank": "3",
+      "Name": "Trey Yesavage",
+      "Team": "East Carolina",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "93.1",
+      "R": "21",
+      "ER": "21",
+      "ERA": "2.02"
+     },
+     {
+      "Rank": "4",
+      "Name": "Hagen Smith",
+      "Team": "Arkansas",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "84.0",
+      "R": "22",
+      "ER": "19",
+      "ERA": "2.04"
+     },
+     {
+      "Rank": "5",
+      "Name": "Brett Sears",
+      "Team": "Nebraska",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "17",
+      "IP": "104.0",
+      "R": "29",
+      "ER": "25",
+      "ERA": "2.16"
+     },
+     {
+      "Rank": "6",
+      "Name": "Ryan Johnson",
+      "Team": "DBU",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "106.0",
+      "R": "32",
+      "ER": "26",
+      "ERA": "2.21"
+     },
+     {
+      "Rank": "7",
+      "Name": "Ryan Gallagher",
+      "Team": "UC Santa Barbara",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "14",
+      "IP": "89.0",
+      "R": "26",
+      "ER": "22",
+      "ERA": "2.22"
+     },
+     {
+      "Rank": "8",
+      "Name": "Brooks Caple",
+      "Team": "Lamar University",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "97.2",
+      "R": "31",
+      "ER": "26",
+      "ERA": "2.40"
+     },
+     {
+      "Rank": "9",
+      "Name": "Nate Knowles",
+      "Team": "William & Mary",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "19",
+      "IP": "80.0",
+      "R": "32",
+      "ER": "22",
+      "ERA": "2.48"
+     },
+     {
+      "Rank": "10",
+      "Name": "Tyler Bremner",
+      "Team": "UC Santa Barbara",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "19",
+      "IP": "88.2",
+      "R": "27",
+      "ER": "25",
+      "ERA": "2.54"
+     },
+     {
+      "Rank": "11",
+      "Name": "Daniel Eagen",
+      "Team": "Presbyterian",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "14",
+      "IP": "77.2",
+      "R": "30",
+      "ER": "23",
+      "ERA": "2.67"
+     },
+     {
+      "Rank": "12",
+      "Name": "Bryson Van Sickle",
+      "Team": "Utah",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "94.1",
+      "R": "32",
+      "ER": "28",
+      "ERA": "2.67"
+     },
+     {
+      "Rank": "13",
+      "Name": "Justin Lehman",
+      "Team": "Army West Point",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "13",
+      "IP": "74.0",
+      "R": "26",
+      "ER": "22",
+      "ERA": "2.68"
+     },
+     {
+      "Rank": "14",
+      "Name": "Chase Burns",
+      "Team": "Wake Forest",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "100.0",
+      "R": "32",
+      "ER": "30",
+      "ERA": "2.70"
+     },
+     {
+      "Rank": "15",
+      "Name": "Ryan Verdugo",
+      "Team": "CSU Bakersfield",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "14",
+      "IP": "89.1",
+      "R": "33",
+      "ER": "27",
+      "ERA": "2.72"
+     },
+     {
+      "Rank": "16",
+      "Name": "Luke Holman",
+      "Team": "LSU",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "91.2",
+      "R": "36",
+      "ER": "28",
+      "ERA": "2.75"
+     },
+     {
+      "Rank": "17",
+      "Name": "Luke Delongchamp",
+      "Team": "Bryant",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "14",
+      "IP": "65.1",
+      "R": "31",
+      "ER": "20",
+      "ERA": "2.76"
+     },
+     {
+      "Rank": "18",
+      "Name": "Connor Wietgrefe",
+      "Team": "Minnesota",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "78.0",
+      "R": "35",
+      "ER": "24",
+      "ERA": "2.77"
+     },
+     {
+      "Rank": "19",
+      "Name": "Blayze Berry",
+      "Team": "UAB",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "92.2",
+      "R": "39",
+      "ER": "29",
+      "ERA": "2.82"
+     },
+     {
+      "Rank": "20",
+      "Name": "Sam Downs",
+      "Team": "UMBC",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "20",
+      "IP": "70.0",
+      "R": "28",
+      "ER": "22",
+      "ERA": "2.83"
+     },
+     {
+      "Rank": "21",
+      "Name": "Dominic Castellano",
+      "Team": "UCF",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "22",
+      "IP": "60.1",
+      "R": "21",
+      "ER": "19",
+      "ERA": "2.83"
+     },
+     {
+      "Rank": "22",
+      "Name": "Brennan Stuprich",
+      "Team": "Southeastern La.",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "14",
+      "IP": "84.2",
+      "R": "37",
+      "ER": "27",
+      "ERA": "2.87"
+     },
+     {
+      "Rank": "23",
+      "Name": "Brian Curley",
+      "Team": "VCU",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "19",
+      "IP": "78.1",
+      "R": "28",
+      "ER": "25",
+      "ERA": "2.87"
+     },
+     {
+      "Rank": "24",
+      "Name": "Caleb Granger",
+      "Team": "Florida A&M",
+      "Cl": "Jr.",
+      "Position": "",
+      "App": "15",
+      "IP": "87.2",
+      "R": "35",
+      "ER": "28",
+      "ERA": "2.87"
+     },
+     {
+      "Rank": "25",
+      "Name": "Tristan Walton",
+      "Team": "UT Martin",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "93.2",
+      "R": "37",
+      "ER": "30",
+      "ERA": "2.88"
+     },
+     {
+      "Rank": "26",
+      "Name": "Kellen O'Connor",
+      "Team": "CSU Bakersfield",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "13",
+      "IP": "81.0",
+      "R": "33",
+      "ER": "26",
+      "ERA": "2.89"
+     },
+     {
+      "Rank": "27",
+      "Name": "Zach Cameron",
+      "Team": "Niagara",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "24",
+      "IP": "59.0",
+      "R": "24",
+      "ER": "19",
+      "ERA": "2.90"
+     },
+     {
+      "Rank": "28",
+      "Name": "Andrew Williams",
+      "Team": "Georgetown",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "65.0",
+      "R": "32",
+      "ER": "21",
+      "ERA": "2.91"
+     },
+     {
+      "Rank": "29",
+      "Name": "Michael Foltz",
+      "Team": "George Washington",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "13",
+      "IP": "74.0",
+      "R": "30",
+      "ER": "24",
+      "ERA": "2.92"
+     },
+     {
+      "Rank": "-",
+      "Name": "Jacob Weatherley",
+      "Team": "Little Rock",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "24",
+      "IP": "61.2",
+      "R": "22",
+      "ER": "20",
+      "ERA": "2.92"
+     },
+     {
+      "Rank": "31",
+      "Name": "Nick Wissman",
+      "Team": "Dayton",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "25",
+      "IP": "67.2",
+      "R": "26",
+      "ER": "22",
+      "ERA": "2.93"
+     },
+     {
+      "Rank": "32",
+      "Name": "Tanner Boccabello",
+      "Team": "Bethune-Cookman",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "98.1",
+      "R": "40",
+      "ER": "32",
+      "ERA": "2.93"
+     },
+     {
+      "Rank": "33",
+      "Name": "Brian Holiday",
+      "Team": "Oklahoma St.",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "113.0",
+      "R": "41",
+      "ER": "37",
+      "ERA": "2.95"
+     },
+     {
+      "Rank": "34",
+      "Name": "Andrew Devine",
+      "Team": "Austin Peay",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "10",
+      "IP": "58.0",
+      "R": "22",
+      "ER": "19",
+      "ERA": "2.95"
+     },
+     {
+      "Rank": "35",
+      "Name": "Ryan Prager",
+      "Team": "Texas A&M",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "19",
+      "IP": "97.2",
+      "R": "36",
+      "ER": "32",
+      "ERA": "2.95"
+     },
+     {
+      "Rank": "36",
+      "Name": "Mario Pesca",
+      "Team": "St. John's (NY)",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "15",
+      "IP": "76.0",
+      "R": "31",
+      "ER": "25",
+      "ERA": "2.96"
+     },
+     {
+      "Rank": "37",
+      "Name": "Jakob Wright",
+      "Team": "Cal Poly",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "15",
+      "IP": "88.0",
+      "R": "35",
+      "ER": "29",
+      "ERA": "2.97"
+     },
+     {
+      "Rank": "38",
+      "Name": "Tony Roca",
+      "Team": "North Florida",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "13",
+      "IP": "63.2",
+      "R": "25",
+      "ER": "21",
+      "ERA": "2.97"
+     },
+     {
+      "Rank": "39",
+      "Name": "Jamie Arnold",
+      "Team": "Florida St.",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "19",
+      "IP": "105.2",
+      "R": "45",
+      "ER": "35",
+      "ERA": "2.98"
+     },
+     {
+      "Rank": "40",
+      "Name": "Connor Maggi",
+      "Team": "Gardner-Webb",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "29",
+      "IP": "60.0",
+      "R": "24",
+      "ER": "20",
+      "ERA": "3.00"
+     },
+     {
+      "Rank": "41",
+      "Name": "Carter Gaston",
+      "Team": "Portland",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "16",
+      "IP": "80.2",
+      "R": "29",
+      "ER": "27",
+      "ERA": "3.01"
+     },
+     {
+      "Rank": "42",
+      "Name": "Davian Garcia",
+      "Team": "FGCU",
+      "Cl": "Fr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "59.1",
+      "R": "24",
+      "ER": "20",
+      "ERA": "3.03"
+     },
+     {
+      "Rank": "43",
+      "Name": "Aiden May",
+      "Team": "Oregon St.",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "14",
+      "IP": "73.2",
+      "R": "27",
+      "ER": "25",
+      "ERA": "3.05"
+     },
+     {
+      "Rank": "44",
+      "Name": "Andrew Herrmann",
+      "Team": "Louisiana",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "14",
+      "IP": "67.0",
+      "R": "33",
+      "ER": "23",
+      "ERA": "3.09"
+     },
+     {
+      "Rank": "45",
+      "Name": "Nate Snead",
+      "Team": "Tennessee",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "29",
+      "IP": "75.1",
+      "R": "28",
+      "ER": "26",
+      "ERA": "3.11"
+     },
+     {
+      "Rank": "46",
+      "Name": "Eddie Smink",
+      "Team": "Stony Brook",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "11",
+      "IP": "55.0",
+      "R": "23",
+      "ER": "19",
+      "ERA": "3.11"
+     },
+     {
+      "Rank": "47",
+      "Name": "Zander Sechrist",
+      "Team": "Tennessee",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "20",
+      "IP": "78.0",
+      "R": "31",
+      "ER": "27",
+      "ERA": "3.12"
+     },
+     {
+      "Rank": "48",
+      "Name": "Colin Daniel",
+      "Team": "UAB",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "14",
+      "IP": "92.0",
+      "R": "43",
+      "ER": "32",
+      "ERA": "3.13"
+     },
+     {
+      "Rank": "49",
+      "Name": "Jacob Faulkner",
+      "Team": "Princeton",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "20",
+      "IP": "66.0",
+      "R": "30",
+      "ER": "23",
+      "ERA": "3.14"
+     },
+     {
+      "Rank": "50",
+      "Name": "Patrick Gardner",
+      "Team": "FDU",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "86.0",
+      "R": "39",
+      "ER": "30",
+      "ERA": "3.14"
+     }
+    ]
+   },
+   "era_low5": [
+    1.78,
+    2.01,
+    2.02,
+    2.04,
+    2.16
+   ],
+   "k": {
+    "url": "https://www.ncaa.com/stats/baseball/d1/2023/individual/356",
+    "rows": [
+     {
+      "Rank": "1",
+      "Name": "Chase Burns",
+      "Team": "Wake Forest",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "100.0",
+      "SO": "191"
+     },
+     {
+      "Rank": "2",
+      "Name": "Hagen Smith",
+      "Team": "Arkansas",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "84.0",
+      "SO": "161"
+     },
+     {
+      "Rank": "3",
+      "Name": "Jamie Arnold",
+      "Team": "Florida St.",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "19",
+      "IP": "105.2",
+      "SO": "159"
+     },
+     {
+      "Rank": "4",
+      "Name": "Ryan Johnson",
+      "Team": "DBU",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "106.0",
+      "SO": "151"
+     },
+     {
+      "Rank": "5",
+      "Name": "Trey Yesavage",
+      "Team": "East Carolina",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "93.1",
+      "SO": "145"
+     },
+     {
+      "Rank": "6",
+      "Name": "Nick Brink",
+      "Team": "Portland",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "99.2",
+      "SO": "130"
+     },
+     {
+      "Rank": "7",
+      "Name": "Merritt Beeker",
+      "Team": "Ball St.",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "81.0",
+      "SO": "128"
+     },
+     {
+      "Rank": "-",
+      "Name": "Brody Brecht",
+      "Team": "Iowa",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "78.1",
+      "SO": "128"
+     },
+     {
+      "Rank": "-",
+      "Name": "Brian Holiday",
+      "Team": "Oklahoma St.",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "113.0",
+      "SO": "128"
+     },
+     {
+      "Rank": "10",
+      "Name": "Luke Holman",
+      "Team": "LSU",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "91.2",
+      "SO": "127"
+     },
+     {
+      "Rank": "11",
+      "Name": "AJ Causey",
+      "Team": "Tennessee",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "19",
+      "IP": "91.1",
+      "SO": "125"
+     },
+     {
+      "Rank": "-",
+      "Name": "Payton Tolle",
+      "Team": "TCU",
+      "Cl": "Jr.",
+      "Position": "UT",
+      "App": "14",
+      "IP": "81.1",
+      "SO": "125"
+     },
+     {
+      "Rank": "13",
+      "Name": "Zac Cowan",
+      "Team": "Wofford",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "17",
+      "IP": "110.0",
+      "SO": "124"
+     },
+     {
+      "Rank": "-",
+      "Name": "Ryan Prager",
+      "Team": "Texas A&M",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "19",
+      "IP": "97.2",
+      "SO": "124"
+     },
+     {
+      "Rank": "15",
+      "Name": "Daniel Eagen",
+      "Team": "Presbyterian",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "14",
+      "IP": "77.2",
+      "SO": "121"
+     },
+     {
+      "Rank": "16",
+      "Name": "Jesse Barker",
+      "Team": "Central Ark.",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "18",
+      "IP": "108.2",
+      "SO": "119"
+     },
+     {
+      "Rank": "17",
+      "Name": "Braden Davis",
+      "Team": "Oklahoma",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "92.0",
+      "SO": "117"
+     },
+     {
+      "Rank": "18",
+      "Name": "Sam Garcia",
+      "Team": "Oklahoma St.",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "89.0",
+      "SO": "115"
+     },
+     {
+      "Rank": "-",
+      "Name": "Jackson Wentworth",
+      "Team": "Kansas St.",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "28",
+      "IP": "87.0",
+      "SO": "115"
+     },
+     {
+      "Rank": "20",
+      "Name": "Jurrangelo Cijntje",
+      "Team": "Mississippi St.",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "16",
+      "IP": "90.2",
+      "SO": "113"
+     },
+     {
+      "Rank": "21",
+      "Name": "Nate Knowles",
+      "Team": "William & Mary",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "19",
+      "IP": "80.0",
+      "SO": "112"
+     },
+     {
+      "Rank": "22",
+      "Name": "Riley Huge",
+      "Team": "Winthrop",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "13",
+      "IP": "66.2",
+      "SO": "111"
+     },
+     {
+      "Rank": "-",
+      "Name": "Gus Hughes",
+      "Team": "High Point",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "102.2",
+      "SO": "111"
+     },
+     {
+      "Rank": "-",
+      "Name": "Garrett Yawn",
+      "Team": "LIU",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "17",
+      "IP": "96.1",
+      "SO": "111"
+     },
+     {
+      "Rank": "25",
+      "Name": "Owen Boerema",
+      "Team": "Kansas St.",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "19",
+      "IP": "98.0",
+      "SO": "110"
+     },
+     {
+      "Rank": "-",
+      "Name": "Jakob Hall",
+      "Team": "Oral Roberts",
+      "Cl": "Jr.",
+      "Position": "UT",
+      "App": "16",
+      "IP": "107.0",
+      "SO": "110"
+     },
+     {
+      "Rank": "27",
+      "Name": "Deven Sheerin",
+      "Team": "Mount St. Mary's",
+      "Cl": "Fr.",
+      "Position": "P",
+      "App": "18",
+      "IP": "70.0",
+      "SO": "109"
+     },
+     {
+      "Rank": "28",
+      "Name": "Aidan Knaak",
+      "Team": "Clemson",
+      "Cl": "Fr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "83.1",
+      "SO": "108"
+     },
+     {
+      "Rank": "-",
+      "Name": "Brandon Neely",
+      "Team": "Florida",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "28",
+      "IP": "79.0",
+      "SO": "108"
+     },
+     {
+      "Rank": "30",
+      "Name": "Austin Cates",
+      "Team": "UNLV",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "14",
+      "IP": "90.1",
+      "SO": "107"
+     },
+     {
+      "Rank": "-",
+      "Name": "Caden Favors",
+      "Team": "Wichita St.",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "17",
+      "IP": "106.2",
+      "SO": "107"
+     },
+     {
+      "Rank": "-",
+      "Name": "Khal Stephen",
+      "Team": "Mississippi St.",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "96.0",
+      "SO": "107"
+     },
+     {
+      "Rank": "33",
+      "Name": "Ben Hess",
+      "Team": "Alabama",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "68.1",
+      "SO": "106"
+     },
+     {
+      "Rank": "-",
+      "Name": "LP Langevin",
+      "Team": "Louisiana",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "23",
+      "IP": "62.2",
+      "SO": "106"
+     },
+     {
+      "Rank": "-",
+      "Name": "Jacob Mayers",
+      "Team": "Nicholls",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "18",
+      "IP": "70.2",
+      "SO": "106"
+     },
+     {
+      "Rank": "36",
+      "Name": "Brandon Decker",
+      "Team": "Oakland",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "29",
+      "IP": "102.2",
+      "SO": "105"
+     },
+     {
+      "Rank": "-",
+      "Name": "Aidan Foeller",
+      "Team": "Southern Ill.",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "77.2",
+      "SO": "105"
+     },
+     {
+      "Rank": "-",
+      "Name": "Jacob James",
+      "Team": "North Ala.",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "76.2",
+      "SO": "105"
+     },
+     {
+      "Rank": "-",
+      "Name": "Kolten Smith",
+      "Team": "Georgia",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "20",
+      "IP": "69.2",
+      "SO": "105"
+     },
+     {
+      "Rank": "40",
+      "Name": "Tyler Bremner",
+      "Team": "UC Santa Barbara",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "19",
+      "IP": "88.2",
+      "SO": "104"
+     },
+     {
+      "Rank": "41",
+      "Name": "Clark Candiotti",
+      "Team": "Arizona",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "95.2",
+      "SO": "103"
+     },
+     {
+      "Rank": "-",
+      "Name": "Matt Scott",
+      "Team": "Stanford",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "16",
+      "IP": "80.0",
+      "SO": "103"
+     },
+     {
+      "Rank": "43",
+      "Name": "Brooks Caple",
+      "Team": "Lamar University",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "97.2",
+      "SO": "102"
+     },
+     {
+      "Rank": "-",
+      "Name": "Chris Cortez",
+      "Team": "Texas A&M",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "25",
+      "IP": "64.2",
+      "SO": "102"
+     },
+     {
+      "Rank": "-",
+      "Name": "Christian Gordon",
+      "Team": "VCU",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "79.2",
+      "SO": "102"
+     },
+     {
+      "Rank": "-",
+      "Name": "Ben Jacobs",
+      "Team": "Arizona St.",
+      "Cl": "Fr.",
+      "Position": "P",
+      "App": "20",
+      "IP": "66.1",
+      "SO": "102"
+     },
+     {
+      "Rank": "47",
+      "Name": "Hoss Brewer",
+      "Team": "Little Rock",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "84.1",
+      "SO": "101"
+     },
+     {
+      "Rank": "-",
+      "Name": "Gage Jump",
+      "Team": "LSU",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "17",
+      "IP": "83.0",
+      "SO": "101"
+     },
+     {
+      "Rank": "-",
+      "Name": "Brett Sears",
+      "Team": "Nebraska",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "17",
+      "IP": "104.0",
+      "SO": "101"
+     },
+     {
+      "Rank": "-",
+      "Name": "Jakob Wright",
+      "Team": "Cal Poly",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "15",
+      "IP": "88.0",
+      "SO": "101"
+     }
+    ]
+   },
+   "k_top5": [
+    191.0,
+    161.0,
+    159.0,
+    151.0,
+    145.0
+   ],
+   "app": {
+    "url": "https://www.ncaa.com/stats/baseball/d1/2023/individual/863",
+    "rows": [
+     {
+      "Rank": "1",
+      "Name": "Hunter Holmes",
+      "Team": "Wichita St.",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "38",
+      "IP": "33.2"
+     },
+     {
+      "Rank": "2",
+      "Name": "Ethan Bates",
+      "Team": "Louisiana Tech",
+      "Cl": "Sr.",
+      "Position": "UT",
+      "App": "36",
+      "IP": "44.2"
+     },
+     {
+      "Rank": "-",
+      "Name": "Kirby Connell",
+      "Team": "Tennessee",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "36",
+      "IP": "49.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "Matthew Matthijs",
+      "Team": "North Carolina",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "36",
+      "IP": "58.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "Cameron O'Brien",
+      "Team": "Kentucky",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "36",
+      "IP": "35.2"
+     },
+     {
+      "Rank": "-",
+      "Name": "Dalton Pence",
+      "Team": "North Carolina",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "36",
+      "IP": "58.2"
+     },
+     {
+      "Rank": "7",
+      "Name": "Danny Beal",
+      "Team": "East Carolina",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "35",
+      "IP": "72.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "Ryan Mullan",
+      "Team": "LMU (CA)",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "35",
+      "IP": "45.1"
+     },
+     {
+      "Rank": "9",
+      "Name": "Charlie Beilenson",
+      "Team": "Duke",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "34",
+      "IP": "62.2"
+     },
+     {
+      "Rank": "-",
+      "Name": "Gavin Galy",
+      "Team": "Nicholls",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "34",
+      "IP": "35.1"
+     },
+     {
+      "Rank": "-",
+      "Name": "Fisher Jameson",
+      "Team": "Florida",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "34",
+      "IP": "67.2"
+     },
+     {
+      "Rank": "-",
+      "Name": "Reagan Klawiter",
+      "Team": "NIU",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "34",
+      "IP": "27.2"
+     },
+     {
+      "Rank": "-",
+      "Name": "Kyle Kramer",
+      "Team": "UCF",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "34",
+      "IP": "42.2"
+     },
+     {
+      "Rank": "-",
+      "Name": "Bryce Travis",
+      "Team": "Eastern Ky.",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "34",
+      "IP": "33.2"
+     },
+     {
+      "Rank": "15",
+      "Name": "Sam Brodersen",
+      "Team": "Louisiana Tech",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "33",
+      "IP": "56.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "Tim Cunningham",
+      "Team": "St. John's (NY)",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "33",
+      "IP": "40.2"
+     },
+     {
+      "Rank": "-",
+      "Name": "Eric Gialloreto",
+      "Team": "Iona",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "33",
+      "IP": "23.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "PJ Moritz",
+      "Team": "LIU",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "33",
+      "IP": "43.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "Will Ray",
+      "Team": "Wake Forest",
+      "Cl": "Jr.",
+      "Position": "OF",
+      "App": "33",
+      "IP": "44.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "Mason Telford",
+      "Team": "Western Ill.",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "33",
+      "IP": "40.2"
+     },
+     {
+      "Rank": "-",
+      "Name": "Angelo Tonas",
+      "Team": "Virginia",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "33",
+      "IP": "38.1"
+     },
+     {
+      "Rank": "-",
+      "Name": "Alex Vera",
+      "Team": "Xavier",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "33",
+      "IP": "59.1"
+     },
+     {
+      "Rank": "23",
+      "Name": "Evan Aschenbeck",
+      "Team": "Texas A&M",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "32",
+      "IP": "75.2"
+     },
+     {
+      "Rank": "-",
+      "Name": "Brennen Oxford",
+      "Team": "Florida St.",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "32",
+      "IP": "57.2"
+     },
+     {
+      "Rank": "-",
+      "Name": "Austin Schroeder",
+      "Team": "LMU (CA)",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "32",
+      "IP": "34.1"
+     },
+     {
+      "Rank": "-",
+      "Name": "Cam Schuelke",
+      "Team": "Mississippi St.",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "32",
+      "IP": "47.0"
+     },
+     {
+      "Rank": "27",
+      "Name": "Reese Ligtenberg",
+      "Team": "North Dakota St.",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "31",
+      "IP": "26.2"
+     },
+     {
+      "Rank": "-",
+      "Name": "Xavier Martinez",
+      "Team": "Southern California",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "31",
+      "IP": "48.1"
+     },
+     {
+      "Rank": "29",
+      "Name": "Davis Aiken",
+      "Team": "Col. of Charleston",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "30",
+      "IP": "31.1"
+     },
+     {
+      "Rank": "-",
+      "Name": "Joe Charles",
+      "Team": "Florida St.",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "30",
+      "IP": "33.1"
+     },
+     {
+      "Rank": "-",
+      "Name": "Robert Cranz",
+      "Team": "Oklahoma St.",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "30",
+      "IP": "49.2"
+     },
+     {
+      "Rank": "-",
+      "Name": "Kellen Davis",
+      "Team": "Old Dominion",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "30",
+      "IP": "19.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "Chase Hungate",
+      "Team": "Virginia",
+      "Cl": "So.",
+      "Position": "UT",
+      "App": "30",
+      "IP": "53.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "Sam Maynard",
+      "Team": "Jacksonville St.",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "30",
+      "IP": "28.2"
+     },
+     {
+      "Rank": "-",
+      "Name": "Nick McClanahan",
+      "Team": "Northern Ky.",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "30",
+      "IP": "52.1"
+     },
+     {
+      "Rank": "-",
+      "Name": "Will McEntire",
+      "Team": "Arkansas",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "30",
+      "IP": "54.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "Jakob Meyer",
+      "Team": "Evansville",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "30",
+      "IP": "46.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "Gabriel Nard",
+      "Team": "Duke",
+      "Cl": "So.",
+      "Position": "INF",
+      "App": "30",
+      "IP": "45.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "Jaxon O'Neal",
+      "Team": "Mercer",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "30",
+      "IP": "31.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "Kaden Riccomini",
+      "Team": "UC Davis",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "30",
+      "IP": "24.1"
+     },
+     {
+      "Rank": "-",
+      "Name": "Henry Shuffler",
+      "Team": "Tulane",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "30",
+      "IP": "46.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "Ryan Slater",
+      "Team": "Florida",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "30",
+      "IP": "49.2"
+     },
+     {
+      "Rank": "-",
+      "Name": "Ricky Tibbett",
+      "Team": "UC Irvine",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "30",
+      "IP": "50.1"
+     },
+     {
+      "Rank": "44",
+      "Name": "Ben Adams",
+      "Team": "St. John's (NY)",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "29",
+      "IP": "35.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "Hunter Alexander",
+      "Team": "Central Ark.",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "29",
+      "IP": "55.1"
+     },
+     {
+      "Rank": "-",
+      "Name": "Stone Cushing",
+      "Team": "BYU",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "29",
+      "IP": "34.1"
+     },
+     {
+      "Rank": "-",
+      "Name": "Blake Dean",
+      "Team": "Kansas St.",
+      "Cl": "Fr.",
+      "Position": "P",
+      "App": "29",
+      "IP": "61.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "Brandon Decker",
+      "Team": "Oakland",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "29",
+      "IP": "102.2"
+     },
+     {
+      "Rank": "-",
+      "Name": "Andre Duplantier II",
+      "Team": "Texas",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "29",
+      "IP": "43.2"
+     },
+     {
+      "Rank": "-",
+      "Name": "David Falco",
+      "Team": "Wake Forest",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "29",
+      "IP": "43.0"
+     }
+    ]
+   },
+   "app_max": 38.0
+  },
+  "2025": {
+   "hr": {
+    "url": "https://www.ncaa.com/stats/baseball/d1/2024/individual/470",
+    "rows": [
+     {
+      "Rank": "1",
+      "Name": "Mason Neville",
+      "Team": "Oregon",
+      "Cl": "Jr.",
+      "Position": "OF",
+      "G": "57",
+      "HR": "26"
+     },
+     {
+      "Rank": "-",
+      "Name": "Boston Smith",
+      "Team": "Wright St.",
+      "Cl": "Sr.",
+      "Position": "C",
+      "G": "59",
+      "HR": "26"
+     },
+     {
+      "Rank": "3",
+      "Name": "Andrew Fischer",
+      "Team": "Tennessee",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "65",
+      "HR": "25"
+     },
+     {
+      "Rank": "4",
+      "Name": "Matt Schark",
+      "Team": "Southern Ill.",
+      "Cl": "Sr.",
+      "Position": "INF",
+      "G": "57",
+      "HR": "24"
+     },
+     {
+      "Rank": "5",
+      "Name": "Roch Cholowsky",
+      "Team": "UCLA",
+      "Cl": "So.",
+      "Position": "INF",
+      "G": "66",
+      "HR": "23"
+     },
+     {
+      "Rank": "-",
+      "Name": "Kyle Fossum",
+      "Team": "Youngstown St.",
+      "Cl": "Sr.",
+      "Position": "OF",
+      "G": "57",
+      "HR": "23"
+     },
+     {
+      "Rank": "-",
+      "Name": "Cooper Torres",
+      "Team": "ETSU",
+      "Cl": "Sr.",
+      "Position": "INF",
+      "G": "58",
+      "HR": "23"
+     },
+     {
+      "Rank": "8",
+      "Name": "Beau Ankeney",
+      "Team": "LMU (CA)",
+      "Cl": "Jr.",
+      "Position": "1B",
+      "G": "57",
+      "HR": "22"
+     },
+     {
+      "Rank": "-",
+      "Name": "John Bay",
+      "Team": "Austin Peay",
+      "Cl": "Sr.",
+      "Position": "OF",
+      "G": "59",
+      "HR": "22"
+     },
+     {
+      "Rank": "-",
+      "Name": "Jonathan Hogart",
+      "Team": "Murray St.",
+      "Cl": "Sr.",
+      "Position": "OF",
+      "G": "61",
+      "HR": "22"
+     },
+     {
+      "Rank": "-",
+      "Name": "Jared Jones",
+      "Team": "LSU",
+      "Cl": "Jr.",
+      "Position": "1B",
+      "G": "68",
+      "HR": "22"
+     },
+     {
+      "Rank": "-",
+      "Name": "Tyler Minick",
+      "Team": "UConn",
+      "Cl": "So.",
+      "Position": "INF",
+      "G": "54",
+      "HR": "22"
+     },
+     {
+      "Rank": "-",
+      "Name": "Brayden Simpson",
+      "Team": "High Point",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "58",
+      "HR": "22"
+     },
+     {
+      "Rank": "-",
+      "Name": "Judd Utermark",
+      "Team": "Ole Miss",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "64",
+      "HR": "22"
+     },
+     {
+      "Rank": "15",
+      "Name": "Wehiwa Aloy",
+      "Team": "Arkansas",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "65",
+      "HR": "21"
+     },
+     {
+      "Rank": "-",
+      "Name": "Evan Appelwick",
+      "Team": "Miami (OH)",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "58",
+      "HR": "21"
+     },
+     {
+      "Rank": "-",
+      "Name": "Austin Fawley",
+      "Team": "Ole Miss",
+      "Cl": "So.",
+      "Position": "C",
+      "G": "51",
+      "HR": "21"
+     },
+     {
+      "Rank": "-",
+      "Name": "Eddie Madrigal",
+      "Team": "Saint Mary's (CA)",
+      "Cl": "Sr.",
+      "Position": "OF",
+      "G": "62",
+      "HR": "21"
+     },
+     {
+      "Rank": "-",
+      "Name": "Ben Miller",
+      "Team": "Duke",
+      "Cl": "Sr.",
+      "Position": "INF",
+      "G": "61",
+      "HR": "21"
+     },
+     {
+      "Rank": "-",
+      "Name": "Nick Monistere",
+      "Team": "Southern Miss.",
+      "Cl": "Jr.",
+      "Position": "P",
+      "G": "63",
+      "HR": "21"
+     },
+     {
+      "Rank": "-",
+      "Name": "Hollis Porter",
+      "Team": "Maryland",
+      "Cl": "So.",
+      "Position": "UT",
+      "G": "55",
+      "HR": "21"
+     },
+     {
+      "Rank": "-",
+      "Name": "Ace Reese",
+      "Team": "Mississippi St.",
+      "Cl": "So.",
+      "Position": "INF",
+      "G": "57",
+      "HR": "21"
+     },
+     {
+      "Rank": "-",
+      "Name": "Ben Slanker",
+      "Team": "Ohio",
+      "Cl": "So.",
+      "Position": "OF",
+      "G": "50",
+      "HR": "21"
+     },
+     {
+      "Rank": "24",
+      "Name": "Nico Azpilcueta",
+      "Team": "Stony Brook",
+      "Cl": "Jr.",
+      "Position": "UT",
+      "G": "52",
+      "HR": "20"
+     },
+     {
+      "Rank": "-",
+      "Name": "Robbie Burnett",
+      "Team": "Georgia",
+      "Cl": "Sr.",
+      "Position": "UT",
+      "G": "56",
+      "HR": "20"
+     },
+     {
+      "Rank": "-",
+      "Name": "Anthony DePino",
+      "Team": "Rhode Island",
+      "Cl": "Sr.",
+      "Position": "INF",
+      "G": "58",
+      "HR": "20"
+     },
+     {
+      "Rank": "-",
+      "Name": "Kishon Frett",
+      "Team": "FIU",
+      "Cl": "Sr.",
+      "Position": "OF",
+      "G": "57",
+      "HR": "20"
+     },
+     {
+      "Rank": "-",
+      "Name": "Grant Gallagher",
+      "Team": "ETSU",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "58",
+      "HR": "20"
+     },
+     {
+      "Rank": "-",
+      "Name": "Jackson Hauge",
+      "Team": "Kansas",
+      "Cl": "Sr.",
+      "Position": "UT",
+      "G": "59",
+      "HR": "20"
+     },
+     {
+      "Rank": "-",
+      "Name": "Andrey Martinez",
+      "Team": "Bethune-Cookman",
+      "Cl": "Jr.",
+      "Position": "OF",
+      "G": "54",
+      "HR": "20"
+     },
+     {
+      "Rank": "-",
+      "Name": "Brady O'Brien",
+      "Team": "Richmond",
+      "Cl": "---",
+      "Position": "INF",
+      "G": "50",
+      "HR": "20"
+     },
+     {
+      "Rank": "-",
+      "Name": "Daniel Pacella",
+      "Team": "Illinois St.",
+      "Cl": "Jr.",
+      "Position": "OF",
+      "G": "56",
+      "HR": "20"
+     },
+     {
+      "Rank": "-",
+      "Name": "JP Peltier",
+      "Team": "Wright St.",
+      "Cl": "So.",
+      "Position": "INF",
+      "G": "60",
+      "HR": "20"
+     },
+     {
+      "Rank": "-",
+      "Name": "Nate Savoie",
+      "Team": "LMU (CA)",
+      "Cl": "Fr.",
+      "Position": "C",
+      "G": "53",
+      "HR": "20"
+     },
+     {
+      "Rank": "-",
+      "Name": "Gavin Turley",
+      "Team": "Oregon St.",
+      "Cl": "Jr.",
+      "Position": "OF",
+      "G": "65",
+      "HR": "20"
+     },
+     {
+      "Rank": "-",
+      "Name": "Mason White",
+      "Team": "Arizona",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "65",
+      "HR": "20"
+     },
+     {
+      "Rank": "37",
+      "Name": "Slate Alford",
+      "Team": "Georgia",
+      "Cl": "Sr.",
+      "Position": "INF",
+      "G": "60",
+      "HR": "19"
+     },
+     {
+      "Rank": "-",
+      "Name": "Aiva Arquette",
+      "Team": "Oregon St.",
+      "Cl": "So.",
+      "Position": "INF",
+      "G": "65",
+      "HR": "19"
+     },
+     {
+      "Rank": "-",
+      "Name": "Myles Bailey",
+      "Team": "Florida St.",
+      "Cl": "Fr.",
+      "Position": "INF",
+      "G": "56",
+      "HR": "19"
+     },
+     {
+      "Rank": "-",
+      "Name": "Drew Burress",
+      "Team": "Georgia Tech",
+      "Cl": "So.",
+      "Position": "OF",
+      "G": "60",
+      "HR": "19"
+     },
+     {
+      "Rank": "-",
+      "Name": "Alex Calarco",
+      "Team": "Maryland",
+      "Cl": "Sr.",
+      "Position": "UT",
+      "G": "56",
+      "HR": "19"
+     },
+     {
+      "Rank": "-",
+      "Name": "Diego Cardenas",
+      "Team": "Abilene Christian",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "54",
+      "HR": "19"
+     },
+     {
+      "Rank": "-",
+      "Name": "Ty Dalley",
+      "Team": "Mercer",
+      "Cl": "Jr.",
+      "Position": "1B",
+      "G": "60",
+      "HR": "19"
+     },
+     {
+      "Rank": "-",
+      "Name": "Korbyn Dickerson",
+      "Team": "Indiana",
+      "Cl": "Jr.",
+      "Position": "OF",
+      "G": "56",
+      "HR": "19"
+     },
+     {
+      "Rank": "-",
+      "Name": "Logan Hughes",
+      "Team": "Texas Tech",
+      "Cl": "So.",
+      "Position": "OF",
+      "G": "52",
+      "HR": "19"
+     },
+     {
+      "Rank": "-",
+      "Name": "Ike Irish",
+      "Team": "Auburn",
+      "Cl": "Jr.",
+      "Position": "C",
+      "G": "55",
+      "HR": "19"
+     },
+     {
+      "Rank": "-",
+      "Name": "Grant Jay",
+      "Team": "DBU",
+      "Cl": "Jr.",
+      "Position": "C",
+      "G": "59",
+      "HR": "19"
+     },
+     {
+      "Rank": "-",
+      "Name": "John Lemm",
+      "Team": "Southern Ill.",
+      "Cl": "Jr.",
+      "Position": "",
+      "G": "55",
+      "HR": "19"
+     },
+     {
+      "Rank": "-",
+      "Name": "Mack Mitchell",
+      "Team": "SIUE",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "52",
+      "HR": "19"
+     },
+     {
+      "Rank": "-",
+      "Name": "Judah Morris",
+      "Team": "Illinois St.",
+      "Cl": "Sr.",
+      "Position": "1B",
+      "G": "56",
+      "HR": "19"
+     }
+    ]
+   },
+   "hr_top5": [
+    26.0,
+    26.0,
+    25.0,
+    24.0,
+    23.0
+   ],
+   "n_hr_30": 0,
+   "n_hr_25": 3,
+   "hr_list_min": 19.0,
+   "ba": {
+    "url": "https://www.ncaa.com/stats/baseball/d1/2024/individual/200",
+    "rows": [
+     {
+      "Rank": "1",
+      "Name": "Aidan Redahan",
+      "Team": "Central Conn. St.",
+      "Cl": "Sr.",
+      "Position": "INF",
+      "G": "48",
+      "AB": "200",
+      "H": "91",
+      "BA": ".455"
+     },
+     {
+      "Rank": "2",
+      "Name": "Cardell Thibodeaux",
+      "Team": "Southern U.",
+      "Cl": "So.",
+      "Position": "OF",
+      "G": "49",
+      "AB": "189",
+      "H": "83",
+      "BA": ".439"
+     },
+     {
+      "Rank": "3",
+      "Name": "Konni Durschlag",
+      "Team": "High Point",
+      "Cl": "Sr.",
+      "Position": "OF",
+      "G": "56",
+      "AB": "221",
+      "H": "96",
+      "BA": ".434"
+     },
+     {
+      "Rank": "4",
+      "Name": "Logen Devenport",
+      "Team": "Northern Ky.",
+      "Cl": "Jr.",
+      "Position": "OF",
+      "G": "46",
+      "AB": "168",
+      "H": "71",
+      "BA": ".423"
+     },
+     {
+      "Rank": "5",
+      "Name": "Cameron Nickens",
+      "Team": "Austin Peay",
+      "Cl": "Sr.",
+      "Position": "OF",
+      "G": "59",
+      "AB": "237",
+      "H": "100",
+      "BA": ".422"
+     },
+     {
+      "Rank": "6",
+      "Name": "Aiden Robbins",
+      "Team": "Seton Hall",
+      "Cl": "So.",
+      "Position": "OF",
+      "G": "53",
+      "AB": "204",
+      "H": "86",
+      "BA": ".422"
+     },
+     {
+      "Rank": "7",
+      "Name": "James Quinn-Irons",
+      "Team": "George Mason",
+      "Cl": "Jr.",
+      "Position": "OF",
+      "G": "61",
+      "AB": "241",
+      "H": "101",
+      "BA": ".419"
+     },
+     {
+      "Rank": "8",
+      "Name": "Juan Cruz",
+      "Team": "Alabama St.",
+      "Cl": "Jr.",
+      "Position": "1B",
+      "G": "60",
+      "AB": "255",
+      "H": "106",
+      "BA": ".416"
+     },
+     {
+      "Rank": "9",
+      "Name": "Ben Parker",
+      "Team": "William & Mary",
+      "Cl": "Sr.",
+      "Position": "OF",
+      "G": "56",
+      "AB": "231",
+      "H": "94",
+      "BA": ".407"
+     },
+     {
+      "Rank": "10",
+      "Name": "Drew Wyers",
+      "Team": "Bryant",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "45",
+      "AB": "145",
+      "H": "59",
+      "BA": ".407"
+     },
+     {
+      "Rank": "11",
+      "Name": "Michael DiMartini",
+      "Team": "Dayton",
+      "Cl": "So.",
+      "Position": "INF",
+      "G": "55",
+      "AB": "238",
+      "H": "96",
+      "BA": ".403"
+     },
+     {
+      "Rank": "12",
+      "Name": "Jayce Tharnish",
+      "Team": "St. Bonaventure",
+      "Cl": "Jr.",
+      "Position": "OF",
+      "G": "46",
+      "AB": "196",
+      "H": "79",
+      "BA": ".403"
+     },
+     {
+      "Rank": "13",
+      "Name": "Matt King",
+      "Team": "Arizona St.",
+      "Cl": "Sr.",
+      "Position": "INF",
+      "G": "56",
+      "AB": "216",
+      "H": "87",
+      "BA": ".403"
+     },
+     {
+      "Rank": "14",
+      "Name": "Benny Casillas",
+      "Team": "Michigan",
+      "Cl": "Sr.",
+      "Position": "INF",
+      "G": "55",
+      "AB": "207",
+      "H": "83",
+      "BA": ".401"
+     },
+     {
+      "Rank": "15",
+      "Name": "Dylan Palmer",
+      "Team": "Hofstra",
+      "Cl": "Jr.",
+      "Position": "UT",
+      "G": "53",
+      "AB": "220",
+      "H": "88",
+      "BA": ".400"
+     },
+     {
+      "Rank": "-",
+      "Name": "Mason Wolf",
+      "Team": "NJIT",
+      "Cl": "Sr.",
+      "Position": "C",
+      "G": "44",
+      "AB": "150",
+      "H": "60",
+      "BA": ".400"
+     },
+     {
+      "Rank": "17",
+      "Name": "Khalil Walker",
+      "Team": "New Mexico",
+      "Cl": "Sr.",
+      "Position": "OF",
+      "G": "53",
+      "AB": "198",
+      "H": "79",
+      "BA": ".399"
+     },
+     {
+      "Rank": "18",
+      "Name": "Bryce Phelps",
+      "Team": "Wagner",
+      "Cl": "Sr.",
+      "Position": "OF",
+      "G": "51",
+      "AB": "188",
+      "H": "75",
+      "BA": ".399"
+     },
+     {
+      "Rank": "19",
+      "Name": "Ryan Wideman",
+      "Team": "Western Ky.",
+      "Cl": "Jr.",
+      "Position": "OF",
+      "G": "60",
+      "AB": "244",
+      "H": "97",
+      "BA": ".398"
+     },
+     {
+      "Rank": "20",
+      "Name": "Kerrington Cross",
+      "Team": "Cincinnati",
+      "Cl": "Sr.",
+      "Position": "INF",
+      "G": "56",
+      "AB": "207",
+      "H": "82",
+      "BA": ".396"
+     },
+     {
+      "Rank": "-",
+      "Name": "Jayden Smith",
+      "Team": "Utah Valley",
+      "Cl": "Sr.",
+      "Position": "OF",
+      "G": "54",
+      "AB": "207",
+      "H": "82",
+      "BA": ".396"
+     },
+     {
+      "Rank": "22",
+      "Name": "Garrett Wright",
+      "Team": "Bowling Green",
+      "Cl": "So.",
+      "Position": "C",
+      "G": "54",
+      "AB": "202",
+      "H": "80",
+      "BA": ".396"
+     },
+     {
+      "Rank": "23",
+      "Name": "Alex Lodise",
+      "Team": "Florida St.",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "58",
+      "AB": "241",
+      "H": "95",
+      "BA": ".394"
+     },
+     {
+      "Rank": "24",
+      "Name": "Bryce Calloway",
+      "Team": "LSU New Orleans",
+      "Cl": "Sr.",
+      "Position": "UT",
+      "G": "54",
+      "AB": "205",
+      "H": "80",
+      "BA": ".390"
+     },
+     {
+      "Rank": "25",
+      "Name": "Jacob French",
+      "Team": "California",
+      "Cl": "So.",
+      "Position": "UT",
+      "G": "53",
+      "AB": "195",
+      "H": "76",
+      "BA": ".390"
+     },
+     {
+      "Rank": "26",
+      "Name": "Nolan Sailors",
+      "Team": "Creighton",
+      "Cl": "Sr.",
+      "Position": "INF",
+      "G": "59",
+      "AB": "226",
+      "H": "88",
+      "BA": ".389"
+     },
+     {
+      "Rank": "27",
+      "Name": "Isaiah Barkett",
+      "Team": "Stetson",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "54",
+      "AB": "221",
+      "H": "86",
+      "BA": ".389"
+     },
+     {
+      "Rank": "28",
+      "Name": "Bradley Garner",
+      "Team": "VMI",
+      "Cl": "So.",
+      "Position": "UT",
+      "G": "52",
+      "AB": "198",
+      "H": "77",
+      "BA": ".389"
+     },
+     {
+      "Rank": "-",
+      "Name": "Trey Rutledge",
+      "Team": "Alabama A&M",
+      "Cl": "Jr.",
+      "Position": "OF",
+      "G": "41",
+      "AB": "126",
+      "H": "49",
+      "BA": ".389"
+     },
+     {
+      "Rank": "-",
+      "Name": "Brayden Simpson",
+      "Team": "High Point",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "58",
+      "AB": "234",
+      "H": "91",
+      "BA": ".389"
+     },
+     {
+      "Rank": "31",
+      "Name": "Braden Burress",
+      "Team": "East Carolina",
+      "Cl": "Fr.",
+      "Position": "INF",
+      "G": "61",
+      "AB": "211",
+      "H": "82",
+      "BA": ".389"
+     },
+     {
+      "Rank": "32",
+      "Name": "Scott Campbell",
+      "Team": "USC Upstate",
+      "Cl": "Jr.",
+      "Position": "UT",
+      "G": "55",
+      "AB": "188",
+      "H": "73",
+      "BA": ".388"
+     },
+     {
+      "Rank": "33",
+      "Name": "Dyrenson Wouters",
+      "Team": "Dayton",
+      "Cl": "So.",
+      "Position": "INF",
+      "G": "46",
+      "AB": "152",
+      "H": "59",
+      "BA": ".388"
+     },
+     {
+      "Rank": "34",
+      "Name": "Jordy Oriach",
+      "Team": "New Mexico",
+      "Cl": "Jr.",
+      "Position": "OF",
+      "G": "52",
+      "AB": "214",
+      "H": "83",
+      "BA": ".388"
+     },
+     {
+      "Rank": "-",
+      "Name": "Damian Ruiz",
+      "Team": "Lamar University",
+      "Cl": "So.",
+      "Position": "OF",
+      "G": "56",
+      "AB": "214",
+      "H": "83",
+      "BA": ".388"
+     },
+     {
+      "Rank": "36",
+      "Name": "Luke Nowak",
+      "Team": "UIC",
+      "Cl": "Sr.",
+      "Position": "OF",
+      "G": "53",
+      "AB": "222",
+      "H": "86",
+      "BA": ".387"
+     },
+     {
+      "Rank": "37",
+      "Name": "Trevor Cohen",
+      "Team": "Rutgers",
+      "Cl": "Jr.",
+      "Position": "OF",
+      "G": "57",
+      "AB": "235",
+      "H": "91",
+      "BA": ".387"
+     },
+     {
+      "Rank": "38",
+      "Name": "Owen Prince",
+      "Team": "VMI",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "53",
+      "AB": "213",
+      "H": "82",
+      "BA": ".385"
+     },
+     {
+      "Rank": "39",
+      "Name": "Armani Raygoza",
+      "Team": "UTRGV",
+      "Cl": "So.",
+      "Position": "INF",
+      "G": "53",
+      "AB": "211",
+      "H": "81",
+      "BA": ".384"
+     },
+     {
+      "Rank": "40",
+      "Name": "Henry Zipay",
+      "Team": "Omaha",
+      "Cl": "Sr.",
+      "Position": "UT",
+      "G": "48",
+      "AB": "185",
+      "H": "71",
+      "BA": ".384"
+     },
+     {
+      "Rank": "41",
+      "Name": "Kyle Fossum",
+      "Team": "Youngstown St.",
+      "Cl": "Sr.",
+      "Position": "OF",
+      "G": "57",
+      "AB": "220",
+      "H": "84",
+      "BA": ".382"
+     },
+     {
+      "Rank": "42",
+      "Name": "Kelton Phillips",
+      "Team": "Texas Southern",
+      "Cl": "Jr.",
+      "Position": "cf",
+      "G": "49",
+      "AB": "158",
+      "H": "60",
+      "BA": ".380"
+     },
+     {
+      "Rank": "43",
+      "Name": "Tyler Howard",
+      "Team": "Portland",
+      "Cl": "Jr.",
+      "Position": "C",
+      "G": "39",
+      "AB": "153",
+      "H": "58",
+      "BA": ".379"
+     },
+     {
+      "Rank": "44",
+      "Name": "Dean Toigo",
+      "Team": "UNLV",
+      "Cl": "Sr.",
+      "Position": "OF",
+      "G": "54",
+      "AB": "220",
+      "H": "83",
+      "BA": ".377"
+     },
+     {
+      "Rank": "45",
+      "Name": "Tatum Marsh",
+      "Team": "Stanford",
+      "Cl": "Fr.",
+      "Position": "OF",
+      "G": "50",
+      "AB": "175",
+      "H": "66",
+      "BA": ".377"
+     },
+     {
+      "Rank": "46",
+      "Name": "Joe Tiroly",
+      "Team": "Rider",
+      "Cl": "So.",
+      "Position": "INF",
+      "G": "52",
+      "AB": "199",
+      "H": "75",
+      "BA": ".377"
+     },
+     {
+      "Rank": "47",
+      "Name": "Ahmar Donatto",
+      "Team": "Prairie View",
+      "Cl": "Fr.",
+      "Position": "UT",
+      "G": "51",
+      "AB": "178",
+      "H": "67",
+      "BA": ".376"
+     },
+     {
+      "Rank": "48",
+      "Name": "Kade Lewis",
+      "Team": "Wake Forest",
+      "Cl": "So.",
+      "Position": "INF",
+      "G": "60",
+      "AB": "226",
+      "H": "85",
+      "BA": ".376"
+     },
+     {
+      "Rank": "49",
+      "Name": "Dylan Grego",
+      "Team": "Ball St.",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "58",
+      "AB": "242",
+      "H": "91",
+      "BA": ".376"
+     },
+     {
+      "Rank": "50",
+      "Name": "Jermel Ford",
+      "Team": "Alcorn",
+      "Cl": "Sr.",
+      "Position": "P",
+      "G": "44",
+      "AB": "125",
+      "H": "47",
+      "BA": ".376"
+     }
+    ]
+   },
+   "ba_top5": [
+    0.455,
+    0.439,
+    0.434,
+    0.423,
+    0.422
+   ],
+   "era": {
+    "url": "https://www.ncaa.com/stats/baseball/d1/2024/individual/205",
+    "rows": [
+     {
+      "Rank": "1",
+      "Name": "Jack Ohman",
+      "Team": "Yale",
+      "Cl": "Fr.",
+      "Position": "P",
+      "App": "12",
+      "IP": "73.2",
+      "R": "15",
+      "ER": "11",
+      "ERA": "1.34"
+     },
+     {
+      "Rank": "2",
+      "Name": "Evan Dempsey",
+      "Team": "FGCU",
+      "Cl": "So.",
+      "Position": "OF",
+      "App": "15",
+      "IP": "68.2",
+      "R": "19",
+      "ER": "15",
+      "ERA": "1.97"
+     },
+     {
+      "Rank": "3",
+      "Name": "Zane Taylor",
+      "Team": "UNCW",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "95.2",
+      "R": "24",
+      "ER": "21",
+      "ERA": "1.98"
+     },
+     {
+      "Rank": "4",
+      "Name": "Jake Knapp",
+      "Team": "North Carolina",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "102.1",
+      "R": "27",
+      "ER": "23",
+      "ERA": "2.02"
+     },
+     {
+      "Rank": "5",
+      "Name": "Jonathan Gonzalez",
+      "Team": "Stetson",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "93.2",
+      "R": "23",
+      "ER": "22",
+      "ERA": "2.11"
+     },
+     {
+      "Rank": "6",
+      "Name": "Ryan Bilka",
+      "Team": "Richmond",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "18",
+      "IP": "62.0",
+      "R": "18",
+      "ER": "15",
+      "ERA": "2.18"
+     },
+     {
+      "Rank": "7",
+      "Name": "Clay Edmondson",
+      "Team": "UNC Asheville",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "13",
+      "IP": "81.2",
+      "R": "25",
+      "ER": "20",
+      "ERA": "2.20"
+     },
+     {
+      "Rank": "8",
+      "Name": "Jordan Gottesman",
+      "Team": "Northeastern",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "83.1",
+      "R": "24",
+      "ER": "21",
+      "ERA": "2.27"
+     },
+     {
+      "Rank": "9",
+      "Name": "JB Middleton",
+      "Team": "Southern Miss.",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "105.1",
+      "R": "28",
+      "ER": "27",
+      "ERA": "2.31"
+     },
+     {
+      "Rank": "10",
+      "Name": "Cade Montgomery",
+      "Team": "Utah Tech",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "10",
+      "IP": "57.1",
+      "R": "18",
+      "ER": "15",
+      "ERA": "2.35"
+     },
+     {
+      "Rank": "11",
+      "Name": "Joseph Dzierwa",
+      "Team": "Michigan St.",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "91.2",
+      "R": "31",
+      "ER": "24",
+      "ERA": "2.36"
+     },
+     {
+      "Rank": "12",
+      "Name": "Blake Gillespie",
+      "Team": "Charlotte",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "100.1",
+      "R": "28",
+      "ER": "27",
+      "ERA": "2.42"
+     },
+     {
+      "Rank": "13",
+      "Name": "Jacob Morrison",
+      "Team": "Coastal Carolina",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "19",
+      "IP": "107.2",
+      "R": "29",
+      "ER": "29",
+      "ERA": "2.42"
+     },
+     {
+      "Rank": "14",
+      "Name": "Riely Hunsaker",
+      "Team": "Lamar University",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "14",
+      "IP": "76.2",
+      "R": "26",
+      "ER": "21",
+      "ERA": "2.47"
+     },
+     {
+      "Rank": "15",
+      "Name": "Bryan Green",
+      "Team": "UC Davis",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "81.1",
+      "R": "27",
+      "ER": "23",
+      "ERA": "2.55"
+     },
+     {
+      "Rank": "16",
+      "Name": "Ian Umlandt",
+      "Team": "Oregon",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "18",
+      "IP": "60.0",
+      "R": "23",
+      "ER": "17",
+      "ERA": "2.55"
+     },
+     {
+      "Rank": "17",
+      "Name": "Antoine Jean",
+      "Team": "Houston",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "21",
+      "IP": "67.0",
+      "R": "21",
+      "ER": "19",
+      "ERA": "2.55"
+     },
+     {
+      "Rank": "18",
+      "Name": "Aidan King",
+      "Team": "Florida",
+      "Cl": "Fr.",
+      "Position": "P",
+      "App": "17",
+      "IP": "73.1",
+      "R": "28",
+      "ER": "21",
+      "ERA": "2.58"
+     },
+     {
+      "Rank": "19",
+      "Name": "Richard Long",
+      "Team": "Jacksonville",
+      "Cl": "Sr.",
+      "Position": "UT",
+      "App": "15",
+      "IP": "93.2",
+      "R": "37",
+      "ER": "27",
+      "ERA": "2.59"
+     },
+     {
+      "Rank": "20",
+      "Name": "Carson Byers",
+      "Team": "Miami (OH)",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "23",
+      "IP": "76.0",
+      "R": "27",
+      "ER": "22",
+      "ERA": "2.61"
+     },
+     {
+      "Rank": "21",
+      "Name": "Will Jones",
+      "Team": "Northeastern",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "72.0",
+      "R": "26",
+      "ER": "21",
+      "ERA": "2.62"
+     },
+     {
+      "Rank": "22",
+      "Name": "Kyson Witherspoon",
+      "Team": "Oklahoma",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "95.0",
+      "R": "39",
+      "ER": "28",
+      "ERA": "2.65"
+     },
+     {
+      "Rank": "23",
+      "Name": "Carter White",
+      "Team": "Northwestern St.",
+      "Cl": "Fr.",
+      "Position": "P",
+      "App": "19",
+      "IP": "57.2",
+      "R": "19",
+      "ER": "17",
+      "ERA": "2.65"
+     },
+     {
+      "Rank": "24",
+      "Name": "Brady Frederick",
+      "Team": "ETSU",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "24",
+      "IP": "77.2",
+      "R": "25",
+      "ER": "23",
+      "ERA": "2.67"
+     },
+     {
+      "Rank": "25",
+      "Name": "Peyton Havard",
+      "Team": "Lamar University",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "22",
+      "IP": "63.2",
+      "R": "28",
+      "ER": "19",
+      "ERA": "2.69"
+     },
+     {
+      "Rank": "26",
+      "Name": "Caleb Leys",
+      "Team": "Maine",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "14",
+      "IP": "67.0",
+      "R": "31",
+      "ER": "20",
+      "ERA": "2.69"
+     },
+     {
+      "Rank": "27",
+      "Name": "Isaiah Magdaleno",
+      "Team": "Hawaii",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "24",
+      "IP": "60.0",
+      "R": "19",
+      "ER": "18",
+      "ERA": "2.70"
+     },
+     {
+      "Rank": "28",
+      "Name": "Albert Roblez",
+      "Team": "Long Beach St.",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "19",
+      "IP": "58.1",
+      "R": "20",
+      "ER": "18",
+      "ERA": "2.78"
+     },
+     {
+      "Rank": "29",
+      "Name": "Connor O'Hara",
+      "Team": "George Mason",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "17",
+      "IP": "89.2",
+      "R": "35",
+      "ER": "28",
+      "ERA": "2.81"
+     },
+     {
+      "Rank": "30",
+      "Name": "Brian Young",
+      "Team": "Rider",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "14",
+      "IP": "89.0",
+      "R": "36",
+      "ER": "28",
+      "ERA": "2.83"
+     },
+     {
+      "Rank": "31",
+      "Name": "Sergio Lopez",
+      "Team": "McNeese",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "53.0",
+      "R": "20",
+      "ER": "17",
+      "ERA": "2.89"
+     },
+     {
+      "Rank": "32",
+      "Name": "Brennan Stuprich",
+      "Team": "Southeastern La.",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "14",
+      "IP": "90.0",
+      "R": "34",
+      "ER": "29",
+      "ERA": "2.90"
+     },
+     {
+      "Rank": "33",
+      "Name": "Aiven Cabral",
+      "Team": "Northeastern",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "89.1",
+      "R": "30",
+      "ER": "29",
+      "ERA": "2.92"
+     },
+     {
+      "Rank": "34",
+      "Name": "Ryan Lynch",
+      "Team": "North Carolina",
+      "Cl": "Fr.",
+      "Position": "P",
+      "App": "27",
+      "IP": "61.1",
+      "R": "29",
+      "ER": "20",
+      "ERA": "2.93"
+     },
+     {
+      "Rank": "35",
+      "Name": "Hunter Elliott",
+      "Team": "Ole Miss",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "17",
+      "IP": "85.2",
+      "R": "31",
+      "ER": "28",
+      "ERA": "2.94"
+     },
+     {
+      "Rank": "36",
+      "Name": "Easton Teel",
+      "Team": "Oral Roberts",
+      "Cl": "Fr.",
+      "Position": "P",
+      "App": "17",
+      "IP": "82.1",
+      "R": "37",
+      "ER": "27",
+      "ERA": "2.95"
+     },
+     {
+      "Rank": "37",
+      "Name": "Jamie Arnold",
+      "Team": "Florida St.",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "84.2",
+      "R": "30",
+      "ER": "28",
+      "ERA": "2.98"
+     },
+     {
+      "Rank": "38",
+      "Name": "Anthony Eyanson",
+      "Team": "LSU",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "20",
+      "IP": "108.0",
+      "R": "39",
+      "ER": "36",
+      "ERA": "3.00"
+     },
+     {
+      "Rank": "39",
+      "Name": "Grayson Grinsell",
+      "Team": "Oregon",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "98.2",
+      "R": "37",
+      "ER": "33",
+      "ERA": "3.01"
+     },
+     {
+      "Rank": "40",
+      "Name": "Cade Obermueller",
+      "Team": "Iowa",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "83.1",
+      "R": "36",
+      "ER": "28",
+      "ERA": "3.02"
+     },
+     {
+      "Rank": "41",
+      "Name": "Reid Easterly",
+      "Team": "Duke",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "37",
+      "IP": "74.0",
+      "R": "34",
+      "ER": "25",
+      "ERA": "3.04"
+     },
+     {
+      "Rank": "42",
+      "Name": "Edwin Sanchez",
+      "Team": "Bethune-Cookman",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "17",
+      "IP": "82.2",
+      "R": "34",
+      "ER": "28",
+      "ERA": "3.05"
+     },
+     {
+      "Rank": "43",
+      "Name": "Luke Harrison",
+      "Team": "Texas",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "70.2",
+      "R": "37",
+      "ER": "24",
+      "ERA": "3.06"
+     },
+     {
+      "Rank": "44",
+      "Name": "Cam Bagwell",
+      "Team": "UNCW",
+      "Cl": "Fr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "85.0",
+      "R": "37",
+      "ER": "29",
+      "ERA": "3.07"
+     },
+     {
+      "Rank": "45",
+      "Name": "Cooper Katskee",
+      "Team": "Miami (OH)",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "16",
+      "IP": "84.2",
+      "R": "33",
+      "ER": "29",
+      "ERA": "3.08"
+     },
+     {
+      "Rank": "46",
+      "Name": "Tommy LaPour",
+      "Team": "TCU",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "16",
+      "IP": "90.1",
+      "R": "33",
+      "ER": "31",
+      "ERA": "3.09"
+     },
+     {
+      "Rank": "47",
+      "Name": "Riley Eikhoff",
+      "Team": "Coastal Carolina",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "17",
+      "IP": "90.0",
+      "R": "35",
+      "ER": "31",
+      "ERA": "3.10"
+     },
+     {
+      "Rank": "48",
+      "Name": "Jack Bennett",
+      "Team": "Western Ky.",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "14",
+      "IP": "63.1",
+      "R": "29",
+      "ER": "22",
+      "ERA": "3.13"
+     },
+     {
+      "Rank": "49",
+      "Name": "Colton Shaw",
+      "Team": "Yale",
+      "Cl": "Sr.",
+      "Position": "INF",
+      "App": "12",
+      "IP": "77.2",
+      "R": "32",
+      "ER": "27",
+      "ERA": "3.13"
+     },
+     {
+      "Rank": "50",
+      "Name": "Trey Beard",
+      "Team": "Fla. Atlantic",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "16",
+      "IP": "86.0",
+      "R": "33",
+      "ER": "30",
+      "ERA": "3.14"
+     }
+    ]
+   },
+   "era_low5": [
+    1.34,
+    1.97,
+    1.98,
+    2.02,
+    2.11
+   ],
+   "k": {
+    "url": "https://www.ncaa.com/stats/baseball/d1/2024/individual/356",
+    "rows": [
+     {
+      "Rank": "1",
+      "Name": "Kade Anderson",
+      "Team": "LSU",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "19",
+      "IP": "119.0",
+      "SO": "180"
+     },
+     {
+      "Rank": "2",
+      "Name": "Liam Doyle",
+      "Team": "Tennessee",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "19",
+      "IP": "95.2",
+      "SO": "164"
+     },
+     {
+      "Rank": "3",
+      "Name": "Anthony Eyanson",
+      "Team": "LSU",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "20",
+      "IP": "108.0",
+      "SO": "152"
+     },
+     {
+      "Rank": "4",
+      "Name": "Blake Gillespie",
+      "Team": "Charlotte",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "100.1",
+      "SO": "131"
+     },
+     {
+      "Rank": "5",
+      "Name": "Zach Root",
+      "Team": "Arkansas",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "19",
+      "IP": "99.1",
+      "SO": "126"
+     },
+     {
+      "Rank": "6",
+      "Name": "Kyson Witherspoon",
+      "Team": "Oklahoma",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "95.0",
+      "SO": "124"
+     },
+     {
+      "Rank": "7",
+      "Name": "Colton Book",
+      "Team": "Saint Joseph's",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "14",
+      "IP": "86.2",
+      "SO": "122"
+     },
+     {
+      "Rank": "-",
+      "Name": "JB Middleton",
+      "Team": "Southern Miss.",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "105.1",
+      "SO": "122"
+     },
+     {
+      "Rank": "-",
+      "Name": "JD Thompson",
+      "Team": "Vanderbilt",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "90.0",
+      "SO": "122"
+     },
+     {
+      "Rank": "10",
+      "Name": "Ben Jacobs",
+      "Team": "Arizona St.",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "16",
+      "IP": "83.2",
+      "SO": "120"
+     },
+     {
+      "Rank": "-",
+      "Name": "Dax Whitney",
+      "Team": "Oregon St.",
+      "Cl": "Fr.",
+      "Position": "P",
+      "App": "17",
+      "IP": "76.2",
+      "SO": "120"
+     },
+     {
+      "Rank": "12",
+      "Name": "Jamie Arnold",
+      "Team": "Florida St.",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "84.2",
+      "SO": "119"
+     },
+     {
+      "Rank": "-",
+      "Name": "Ethan Norby",
+      "Team": "East Carolina",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "18",
+      "IP": "90.0",
+      "SO": "119"
+     },
+     {
+      "Rank": "14",
+      "Name": "Trey Beard",
+      "Team": "Fla. Atlantic",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "16",
+      "IP": "86.0",
+      "SO": "118"
+     },
+     {
+      "Rank": "-",
+      "Name": "Cameron Flukey",
+      "Team": "Coastal Carolina",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "18",
+      "IP": "101.2",
+      "SO": "118"
+     },
+     {
+      "Rank": "16",
+      "Name": "Patrick Forbes",
+      "Team": "Louisville",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "71.1",
+      "SO": "117"
+     },
+     {
+      "Rank": "-",
+      "Name": "Cade Obermueller",
+      "Team": "Iowa",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "83.1",
+      "SO": "117"
+     },
+     {
+      "Rank": "18",
+      "Name": "Pico Kohn",
+      "Team": "Mississippi St.",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "80.0",
+      "SO": "114"
+     },
+     {
+      "Rank": "19",
+      "Name": "Ethan Kleinschmit",
+      "Team": "Oregon St.",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "17",
+      "IP": "91.0",
+      "SO": "113"
+     },
+     {
+      "Rank": "-",
+      "Name": "Garrett Yawn",
+      "Team": "LIU",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "105.1",
+      "SO": "113"
+     },
+     {
+      "Rank": "21",
+      "Name": "Aidan Cremarosa",
+      "Team": "Fresno St.",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "17",
+      "IP": "95.1",
+      "SO": "112"
+     },
+     {
+      "Rank": "-",
+      "Name": "Dominick Reid",
+      "Team": "Abilene Christian",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "88.1",
+      "SO": "112"
+     },
+     {
+      "Rank": "23",
+      "Name": "Tyler Bremner",
+      "Team": "UC Santa Barbara",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "14",
+      "IP": "77.1",
+      "SO": "111"
+     },
+     {
+      "Rank": "24",
+      "Name": "Antoine Jean",
+      "Team": "Houston",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "21",
+      "IP": "67.0",
+      "SO": "110"
+     },
+     {
+      "Rank": "-",
+      "Name": "Aidan Knaak",
+      "Team": "Clemson",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "16",
+      "IP": "90.1",
+      "SO": "110"
+     },
+     {
+      "Rank": "-",
+      "Name": "Jack Martinez",
+      "Team": "Arizona St.",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "77.1",
+      "SO": "110"
+     },
+     {
+      "Rank": "27",
+      "Name": "Jack Anker",
+      "Team": "Fresno St.",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "96.1",
+      "SO": "109"
+     },
+     {
+      "Rank": "-",
+      "Name": "Brennan Stuprich",
+      "Team": "Southeastern La.",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "14",
+      "IP": "90.0",
+      "SO": "109"
+     },
+     {
+      "Rank": "29",
+      "Name": "Dominic Fritton",
+      "Team": "NC State",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "17",
+      "IP": "86.2",
+      "SO": "107"
+     },
+     {
+      "Rank": "30",
+      "Name": "Max Bayles",
+      "Team": "Santa Clara",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "15",
+      "IP": "66.2",
+      "SO": "105"
+     },
+     {
+      "Rank": "-",
+      "Name": "Jonathan Gonzalez",
+      "Team": "Stetson",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "93.2",
+      "SO": "105"
+     },
+     {
+      "Rank": "-",
+      "Name": "Zane Taylor",
+      "Team": "UNCW",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "95.2",
+      "SO": "105"
+     },
+     {
+      "Rank": "-",
+      "Name": "Joey Volini",
+      "Team": "Florida St.",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "16",
+      "IP": "87.1",
+      "SO": "105"
+     },
+     {
+      "Rank": "34",
+      "Name": "Joseph Dzierwa",
+      "Team": "Michigan St.",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "91.2",
+      "SO": "104"
+     },
+     {
+      "Rank": "-",
+      "Name": "Jacob Morrison",
+      "Team": "Coastal Carolina",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "19",
+      "IP": "107.2",
+      "SO": "104"
+     },
+     {
+      "Rank": "36",
+      "Name": "Griffin Kirn",
+      "Team": "West Virginia",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "18",
+      "IP": "99.0",
+      "SO": "103"
+     },
+     {
+      "Rank": "37",
+      "Name": "Harrison Bodendorf",
+      "Team": "Oklahoma St.",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "17",
+      "IP": "92.2",
+      "SO": "102"
+     },
+     {
+      "Rank": "-",
+      "Name": "Dylan Brown",
+      "Team": "Old Dominion",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "82.0",
+      "SO": "102"
+     },
+     {
+      "Rank": "-",
+      "Name": "Hunter Elliott",
+      "Team": "Ole Miss",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "17",
+      "IP": "85.2",
+      "SO": "102"
+     },
+     {
+      "Rank": "40",
+      "Name": "Grayson Grinsell",
+      "Team": "Oregon",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "98.2",
+      "SO": "101"
+     },
+     {
+      "Rank": "-",
+      "Name": "Edwin Sanchez",
+      "Team": "Bethune-Cookman",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "17",
+      "IP": "82.2",
+      "SO": "101"
+     },
+     {
+      "Rank": "42",
+      "Name": "Braylon Owens",
+      "Team": "UTSA",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "21",
+      "IP": "90.2",
+      "SO": "100"
+     },
+     {
+      "Rank": "43",
+      "Name": "Cody Bowker",
+      "Team": "Vanderbilt",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "72.0",
+      "SO": "99"
+     },
+     {
+      "Rank": "-",
+      "Name": "Erick Gonzalez",
+      "Team": "Jackson St.",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "18",
+      "IP": "84.1",
+      "SO": "99"
+     },
+     {
+      "Rank": "45",
+      "Name": "Justin Lamkin",
+      "Team": "Texas A&M",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "84.1",
+      "SO": "98"
+     },
+     {
+      "Rank": "-",
+      "Name": "Cody New",
+      "Team": "California Baptist",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "16",
+      "IP": "80.0",
+      "SO": "98"
+     },
+     {
+      "Rank": "-",
+      "Name": "Marcus Phillips",
+      "Team": "Tennessee",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "17",
+      "IP": "83.0",
+      "SO": "98"
+     },
+     {
+      "Rank": "48",
+      "Name": "Corey Braun",
+      "Team": "South Fla.",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "97.0",
+      "SO": "97"
+     },
+     {
+      "Rank": "-",
+      "Name": "Jordan Gottesman",
+      "Team": "Northeastern",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "83.1",
+      "SO": "97"
+     },
+     {
+      "Rank": "-",
+      "Name": "Reagan Rivera",
+      "Team": "Coppin St.",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "80.2",
+      "SO": "97"
+     }
+    ]
+   },
+   "k_top5": [
+    180.0,
+    164.0,
+    152.0,
+    131.0,
+    126.0
+   ],
+   "app": {
+    "url": "https://www.ncaa.com/stats/baseball/d1/2024/individual/863",
+    "rows": [
+     {
+      "Rank": "1",
+      "Name": "Reid Easterly",
+      "Team": "Duke",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "37",
+      "IP": "74.0"
+     },
+     {
+      "Rank": "2",
+      "Name": "Garrett Hicks",
+      "Team": "Arizona",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "34",
+      "IP": "45.2"
+     },
+     {
+      "Rank": "-",
+      "Name": "Daniel Lingle",
+      "Team": "William & Mary",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "34",
+      "IP": "37.0"
+     },
+     {
+      "Rank": "4",
+      "Name": "Alex Breckheimer",
+      "Team": "Kansas",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "33",
+      "IP": "48.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "Dylan Loy",
+      "Team": "Tennessee",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "33",
+      "IP": "34.0"
+     },
+     {
+      "Rank": "6",
+      "Name": "Peyton Rodgers",
+      "Team": "San Diego St.",
+      "Cl": "Fr.",
+      "Position": "P",
+      "App": "32",
+      "IP": "56.1"
+     },
+     {
+      "Rank": "7",
+      "Name": "Steven Andrews",
+      "Team": "Fla. Atlantic",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "31",
+      "IP": "35.1"
+     },
+     {
+      "Rank": "-",
+      "Name": "Jason Bodin",
+      "Team": "Oklahoma",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "31",
+      "IP": "41.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "Drew Christo",
+      "Team": "Nebraska",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "31",
+      "IP": "51.1"
+     },
+     {
+      "Rank": "-",
+      "Name": "Quinton Hall",
+      "Team": "Winthrop",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "31",
+      "IP": "33.1"
+     },
+     {
+      "Rank": "-",
+      "Name": "Alex Lyon",
+      "Team": "Col. of Charleston",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "31",
+      "IP": "59.2"
+     },
+     {
+      "Rank": "12",
+      "Name": "Brandon Arvidson",
+      "Team": "Tennessee",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "30",
+      "IP": "38.2"
+     },
+     {
+      "Rank": "-",
+      "Name": "Reese Bassinger",
+      "Team": "West Virginia",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "30",
+      "IP": "61.2"
+     },
+     {
+      "Rank": "-",
+      "Name": "Walker Brodt",
+      "Team": "Winthrop",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "30",
+      "IP": "44.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "David Butler",
+      "Team": "UC Irvine",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "30",
+      "IP": "40.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "Carson Fischer",
+      "Team": "Miami (FL)",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "30",
+      "IP": "36.2"
+     },
+     {
+      "Rank": "-",
+      "Name": "J.C. Franconere",
+      "Team": "Quinnipiac",
+      "Cl": "Fr.",
+      "Position": "P",
+      "App": "30",
+      "IP": "37.1"
+     },
+     {
+      "Rank": "-",
+      "Name": "Justin Lee",
+      "Team": "UCLA",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "30",
+      "IP": "32.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "Tony Pluta",
+      "Team": "Arizona",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "30",
+      "IP": "37.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "August Souza",
+      "Team": "UCLA",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "30",
+      "IP": "28.1"
+     },
+     {
+      "Rank": "-",
+      "Name": "Cody Williams",
+      "Team": "Florida A&M",
+      "Cl": "Sr.",
+      "Position": "p",
+      "App": "30",
+      "IP": "63.1"
+     },
+     {
+      "Rank": "22",
+      "Name": "Davis Aiken",
+      "Team": "Col. of Charleston",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "29",
+      "IP": "32.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "Parker Aikens",
+      "Team": "Rhode Island",
+      "Cl": "Fr.",
+      "Position": "P",
+      "App": "29",
+      "IP": "34.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "Colby Allen",
+      "Team": "Southern Miss.",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "29",
+      "IP": "67.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "Cole Carlon",
+      "Team": "Arizona St.",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "29",
+      "IP": "54.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "Ryan Faulks",
+      "Team": "Cal St. Fullerton",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "29",
+      "IP": "37.1"
+     },
+     {
+      "Rank": "-",
+      "Name": "Carter Holjes",
+      "Team": "Fla. Atlantic",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "29",
+      "IP": "30.2"
+     },
+     {
+      "Rank": "-",
+      "Name": "Sax Matson",
+      "Team": "Southern California",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "29",
+      "IP": "27.1"
+     },
+     {
+      "Rank": "-",
+      "Name": "Andrew Monson",
+      "Team": "Sacramento St.",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "29",
+      "IP": "33.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "Tyler Muscar",
+      "Team": "James Madison",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "29",
+      "IP": "38.1"
+     },
+     {
+      "Rank": "-",
+      "Name": "Gabriel Nard",
+      "Team": "Duke",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "App": "29",
+      "IP": "50.2"
+     },
+     {
+      "Rank": "-",
+      "Name": "Ricky Ojeda",
+      "Team": "UC Irvine",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "29",
+      "IP": "66.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "Carson Ozmer",
+      "Team": "Alabama",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "29",
+      "IP": "38.1"
+     },
+     {
+      "Rank": "-",
+      "Name": "Hunter Royal",
+      "Team": "Little Rock",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "29",
+      "IP": "42.0"
+     },
+     {
+      "Rank": "35",
+      "Name": "Josh Barnhouse",
+      "Team": "New Mexico",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "28",
+      "IP": "43.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "Adam Behrens",
+      "Team": "LMU (CA)",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "28",
+      "IP": "35.2"
+     },
+     {
+      "Rank": "-",
+      "Name": "MJ Bollinger",
+      "Team": "Fla. Atlantic",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "28",
+      "IP": "44.2"
+     },
+     {
+      "Rank": "-",
+      "Name": "Evan Byers",
+      "Team": "Kentucky",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "28",
+      "IP": "16.2"
+     },
+     {
+      "Rank": "-",
+      "Name": "Dominick Carbone",
+      "Team": "Coastal Carolina",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "28",
+      "IP": "42.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "Chase Carson",
+      "Team": "Charlotte",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "28",
+      "IP": "50.1"
+     },
+     {
+      "Rank": "-",
+      "Name": "Avery Cook",
+      "Team": "Purdue",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "28",
+      "IP": "42.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "Wyatt Danilowicz",
+      "Team": "Louisville",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "28",
+      "IP": "33.1"
+     },
+     {
+      "Rank": "-",
+      "Name": "Tyler Gebb",
+      "Team": "Long Beach St.",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "28",
+      "IP": "37.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "James Hitt",
+      "Team": "Oklahoma",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "28",
+      "IP": "35.1"
+     },
+     {
+      "Rank": "-",
+      "Name": "Jake Hunter",
+      "Team": "East Carolina",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "28",
+      "IP": "59.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "Ben Keefe",
+      "Team": "Radford",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "28",
+      "IP": "35.1"
+     },
+     {
+      "Rank": "-",
+      "Name": "Mason Lerma",
+      "Team": "UC Davis",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "28",
+      "IP": "35.2"
+     },
+     {
+      "Rank": "-",
+      "Name": "Emerson Lott",
+      "Team": "Ark.-Pine Bluff",
+      "Cl": "Jr.",
+      "Position": "p",
+      "App": "28",
+      "IP": "40.1"
+     },
+     {
+      "Rank": "-",
+      "Name": "Aden Lucas",
+      "Team": "Tarleton St.",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "28",
+      "IP": "37.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "Ryan Lynch",
+      "Team": "Coastal Carolina",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "28",
+      "IP": "32.0"
+     }
+    ]
+   },
+   "app_max": 37.0
+  },
+  "2026": {
+   "hr": {
+    "url": "https://www.ncaa.com/stats/baseball/d1/2025/individual/470",
+    "rows": [
+     {
+      "Rank": "1",
+      "Name": "Tague Davis",
+      "Team": "Louisville",
+      "Cl": "So.",
+      "Position": "UT",
+      "G": "57",
+      "HR": "34"
+     },
+     {
+      "Rank": "2",
+      "Name": "Daniel Jackson",
+      "Team": "Georgia",
+      "Cl": "Jr.",
+      "Position": "C",
+      "G": "67",
+      "HR": "32"
+     },
+     {
+      "Rank": "-",
+      "Name": "Hunter Ray",
+      "Team": "FDU",
+      "Cl": "So.",
+      "Position": "OF",
+      "G": "55",
+      "HR": "32"
+     },
+     {
+      "Rank": "4",
+      "Name": "Kollin Ritchie",
+      "Team": "Oklahoma St.",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "60",
+      "HR": "31"
+     },
+     {
+      "Rank": "5",
+      "Name": "Quinton Coats",
+      "Team": "Cincinnati",
+      "Cl": "So.",
+      "Position": "INF",
+      "G": "60",
+      "HR": "28"
+     },
+     {
+      "Rank": "-",
+      "Name": "Landon Hairston",
+      "Team": "Arizona St.",
+      "Cl": "So.",
+      "Position": "INF",
+      "G": "59",
+      "HR": "28"
+     },
+     {
+      "Rank": "7",
+      "Name": "Ryan Niedzwiedz",
+      "Team": "SIUE",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "57",
+      "HR": "27"
+     },
+     {
+      "Rank": "8",
+      "Name": "Diego Cardenas",
+      "Team": "Abilene Christian",
+      "Cl": "Sr.",
+      "Position": "INF",
+      "G": "57",
+      "HR": "25"
+     },
+     {
+      "Rank": "-",
+      "Name": "Tyson LeBlanc",
+      "Team": "Kansas",
+      "Cl": "Jr.",
+      "Position": "UT",
+      "G": "63",
+      "HR": "25"
+     },
+     {
+      "Rank": "10",
+      "Name": "Tyce Armstrong",
+      "Team": "Baylor",
+      "Cl": "Sr.",
+      "Position": "1B",
+      "G": "56",
+      "HR": "24"
+     },
+     {
+      "Rank": "-",
+      "Name": "Blake Primrose",
+      "Team": "Saint Joseph's",
+      "Cl": "So.",
+      "Position": "C",
+      "G": "54",
+      "HR": "24"
+     },
+     {
+      "Rank": "-",
+      "Name": "Ace Reese",
+      "Team": "Mississippi St.",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "62",
+      "HR": "24"
+     },
+     {
+      "Rank": "-",
+      "Name": "Aiden Robbins",
+      "Team": "Texas",
+      "Cl": "Jr.",
+      "Position": "OF",
+      "G": "60",
+      "HR": "24"
+     },
+     {
+      "Rank": "14",
+      "Name": "Tristan Bissetta",
+      "Team": "Ole Miss",
+      "Cl": "Sr.",
+      "Position": "OF",
+      "G": "64",
+      "HR": "23"
+     },
+     {
+      "Rank": "-",
+      "Name": "Chris Katz",
+      "Team": "Mercer",
+      "Cl": "Sr.",
+      "Position": "OF",
+      "G": "59",
+      "HR": "23"
+     },
+     {
+      "Rank": "-",
+      "Name": "Caden Sorrell",
+      "Team": "Texas A&M",
+      "Cl": "Jr.",
+      "Position": "OF",
+      "G": "56",
+      "HR": "23"
+     },
+     {
+      "Rank": "-",
+      "Name": "Ryan Zuckerman",
+      "Team": "Georgia Tech",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "61",
+      "HR": "23"
+     },
+     {
+      "Rank": "18",
+      "Name": "Gavin Grahovac",
+      "Team": "Texas A&M",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "57",
+      "HR": "22"
+     },
+     {
+      "Rank": "-",
+      "Name": "John Paul Head",
+      "Team": "UAB",
+      "Cl": "So.",
+      "Position": "OF",
+      "G": "55",
+      "HR": "22"
+     },
+     {
+      "Rank": "-",
+      "Name": "Brennan Hudson",
+      "Team": "Georgia",
+      "Cl": "Sr.",
+      "Position": "C",
+      "G": "56",
+      "HR": "22"
+     },
+     {
+      "Rank": "-",
+      "Name": "Hunter Katschke",
+      "Team": "Utah Valley",
+      "Cl": "Sr.",
+      "Position": "UT",
+      "G": "53",
+      "HR": "22"
+     },
+     {
+      "Rank": "-",
+      "Name": "Jett Music",
+      "Team": "Campbell",
+      "Cl": "So.",
+      "Position": "UT",
+      "G": "52",
+      "HR": "22"
+     },
+     {
+      "Rank": "-",
+      "Name": "Carson Tinney",
+      "Team": "Texas",
+      "Cl": "Jr.",
+      "Position": "C",
+      "G": "61",
+      "HR": "22"
+     },
+     {
+      "Rank": "-",
+      "Name": "Judd Utermark",
+      "Team": "Ole Miss",
+      "Cl": "Sr.",
+      "Position": "INF",
+      "G": "64",
+      "HR": "22"
+     },
+     {
+      "Rank": "25",
+      "Name": "Roch Cholowsky",
+      "Team": "UCLA",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "60",
+      "HR": "21"
+     },
+     {
+      "Rank": "-",
+      "Name": "Nu'u Contrades",
+      "Team": "Arizona St.",
+      "Cl": "Sr.",
+      "Position": "INF",
+      "G": "53",
+      "HR": "21"
+     },
+     {
+      "Rank": "-",
+      "Name": "Grayson Fitzwater",
+      "Team": "VMI",
+      "Cl": "Sr.",
+      "Position": "1B",
+      "G": "55",
+      "HR": "21"
+     },
+     {
+      "Rank": "-",
+      "Name": "Jimmy Janicki",
+      "Team": "Troy",
+      "Cl": "So.",
+      "Position": "C",
+      "G": "70",
+      "HR": "21"
+     },
+     {
+      "Rank": "-",
+      "Name": "Braydon Kersey",
+      "Team": "Mercer",
+      "Cl": "So.",
+      "Position": "UT",
+      "G": "58",
+      "HR": "21"
+     },
+     {
+      "Rank": "-",
+      "Name": "Joey Morton",
+      "Team": "Campbell",
+      "Cl": "Sr.",
+      "Position": "INF",
+      "G": "57",
+      "HR": "21"
+     },
+     {
+      "Rank": "31",
+      "Name": "Adam Agresti",
+      "Team": "St. John's (NY)",
+      "Cl": "So.",
+      "Position": "INF",
+      "G": "62",
+      "HR": "20"
+     },
+     {
+      "Rank": "-",
+      "Name": "Michael Anderson",
+      "Team": "Penn St.",
+      "Cl": "Sr.",
+      "Position": "INF",
+      "G": "50",
+      "HR": "20"
+     },
+     {
+      "Rank": "-",
+      "Name": "Luke Boykin",
+      "Team": "Samford",
+      "Cl": "Jr.",
+      "Position": "OF",
+      "G": "52",
+      "HR": "20"
+     },
+     {
+      "Rank": "-",
+      "Name": "Kolby Branch",
+      "Team": "Georgia",
+      "Cl": "Sr.",
+      "Position": "INF",
+      "G": "67",
+      "HR": "20"
+     },
+     {
+      "Rank": "-",
+      "Name": "Matthew Bucciero",
+      "Team": "Fairfield",
+      "Cl": "Sr.",
+      "Position": "OF",
+      "G": "53",
+      "HR": "20"
+     },
+     {
+      "Rank": "-",
+      "Name": "Lorenzo Carrier",
+      "Team": "Pittsburgh",
+      "Cl": "Sr.",
+      "Position": "OF",
+      "G": "57",
+      "HR": "20"
+     },
+     {
+      "Rank": "-",
+      "Name": "Henry Ford",
+      "Team": "Tennessee",
+      "Cl": "Jr.",
+      "Position": "UT",
+      "G": "58",
+      "HR": "20"
+     },
+     {
+      "Rank": "-",
+      "Name": "Chase Fralick",
+      "Team": "Auburn",
+      "Cl": "So.",
+      "Position": "UT",
+      "G": "63",
+      "HR": "20"
+     },
+     {
+      "Rank": "-",
+      "Name": "Will Gasparino",
+      "Team": "UCLA",
+      "Cl": "Jr.",
+      "Position": "OF",
+      "G": "58",
+      "HR": "20"
+     },
+     {
+      "Rank": "-",
+      "Name": "Jackson Hotchkiss",
+      "Team": "Washington",
+      "Cl": "So.",
+      "Position": "OF",
+      "G": "46",
+      "HR": "20"
+     },
+     {
+      "Rank": "-",
+      "Name": "Jorsixt Jimenez",
+      "Team": "Tennessee Tech",
+      "Cl": "Sr.",
+      "Position": "OF",
+      "G": "52",
+      "HR": "20"
+     },
+     {
+      "Rank": "-",
+      "Name": "Dee Kennedy",
+      "Team": "Kansas St.",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "57",
+      "HR": "20"
+     },
+     {
+      "Rank": "-",
+      "Name": "Camden Kozeal",
+      "Team": "Arkansas",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "62",
+      "HR": "20"
+     },
+     {
+      "Rank": "-",
+      "Name": "Vahn Lackey",
+      "Team": "Georgia Tech",
+      "Cl": "Jr.",
+      "Position": "C",
+      "G": "61",
+      "HR": "20"
+     },
+     {
+      "Rank": "-",
+      "Name": "Michael O'Shaughnessy",
+      "Team": "Georgia",
+      "Cl": "Sr.",
+      "Position": "INF",
+      "G": "54",
+      "HR": "20"
+     },
+     {
+      "Rank": "-",
+      "Name": "Eli Stephens",
+      "Team": "Mercer",
+      "Cl": "So.",
+      "Position": "C",
+      "G": "54",
+      "HR": "20"
+     },
+     {
+      "Rank": "-",
+      "Name": "Dean Toigo",
+      "Team": "Arizona St.",
+      "Cl": "Sr.",
+      "Position": "OF",
+      "G": "60",
+      "HR": "20"
+     },
+     {
+      "Rank": "-",
+      "Name": "Grant Watkins",
+      "Team": "Abilene Christian",
+      "Cl": "Sr.",
+      "Position": "INF",
+      "G": "51",
+      "HR": "20"
+     },
+     {
+      "Rank": "49",
+      "Name": "Jake Bennett",
+      "Team": "DBU",
+      "Cl": "Sr.",
+      "Position": "UT",
+      "G": "43",
+      "HR": "19"
+     },
+     {
+      "Rank": "-",
+      "Name": "Jake Busson",
+      "Team": "UIC",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "57",
+      "HR": "19"
+     }
+    ]
+   },
+   "hr_top5": [
+    34.0,
+    32.0,
+    32.0,
+    31.0,
+    28.0
+   ],
+   "n_hr_30": 4,
+   "n_hr_25": 9,
+   "hr_list_min": 19.0,
+   "ba": {
+    "url": "https://www.ncaa.com/stats/baseball/d1/2025/individual/200",
+    "rows": [
+     {
+      "Rank": "1",
+      "Name": "Tanner Mally",
+      "Team": "Western Mich.",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "50",
+      "AB": "195",
+      "H": "87",
+      "BA": ".446"
+     },
+     {
+      "Rank": "2",
+      "Name": "Jarren Advincula",
+      "Team": "Georgia Tech",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "61",
+      "AB": "256",
+      "H": "111",
+      "BA": ".434"
+     },
+     {
+      "Rank": "3",
+      "Name": "KJ White",
+      "Team": "Southern U.",
+      "Cl": "Sr.",
+      "Position": "INF",
+      "G": "48",
+      "AB": "187",
+      "H": "79",
+      "BA": ".422"
+     },
+     {
+      "Rank": "4",
+      "Name": "Michael Rodriguez",
+      "Team": "Bethune-Cookman",
+      "Cl": "Jr.",
+      "Position": "OF",
+      "G": "54",
+      "AB": "154",
+      "H": "64",
+      "BA": ".416"
+     },
+     {
+      "Rank": "5",
+      "Name": "Michael Gibson",
+      "Team": "The Citadel",
+      "Cl": "Sr.",
+      "Position": "P",
+      "G": "51",
+      "AB": "147",
+      "H": "60",
+      "BA": ".408"
+     },
+     {
+      "Rank": "6",
+      "Name": "Lukas Torres",
+      "Team": "Wagner",
+      "Cl": "Sr.",
+      "Position": "OF",
+      "G": "53",
+      "AB": "202",
+      "H": "82",
+      "BA": ".406"
+     },
+     {
+      "Rank": "7",
+      "Name": "Miller Durham",
+      "Team": "Utah Tech",
+      "Cl": "Jr.",
+      "Position": "1B",
+      "G": "45",
+      "AB": "175",
+      "H": "71",
+      "BA": ".406"
+     },
+     {
+      "Rank": "8",
+      "Name": "Jackson McKenzie",
+      "Team": "Florida A&M",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "45",
+      "AB": "131",
+      "H": "53",
+      "BA": ".405"
+     },
+     {
+      "Rank": "9",
+      "Name": "Mikey Cruz Jr.",
+      "Team": "Nevada",
+      "Cl": "Sr.",
+      "Position": "1B",
+      "G": "39",
+      "AB": "149",
+      "H": "60",
+      "BA": ".403"
+     },
+     {
+      "Rank": "10",
+      "Name": "Tyree Reed",
+      "Team": "Jackson St.",
+      "Cl": "Sr.",
+      "Position": "OF",
+      "G": "53",
+      "AB": "187",
+      "H": "75",
+      "BA": ".401"
+     },
+     {
+      "Rank": "11",
+      "Name": "Alex Fernandes",
+      "Team": "San Jose St.",
+      "Cl": "Sr.",
+      "Position": "OF",
+      "G": "51",
+      "AB": "192",
+      "H": "77",
+      "BA": ".401"
+     },
+     {
+      "Rank": "12",
+      "Name": "Jorsixt Jimenez",
+      "Team": "Tennessee Tech",
+      "Cl": "Sr.",
+      "Position": "OF",
+      "G": "52",
+      "AB": "202",
+      "H": "81",
+      "BA": ".401"
+     },
+     {
+      "Rank": "13",
+      "Name": "Landon Hairston",
+      "Team": "Arizona St.",
+      "Cl": "So.",
+      "Position": "INF",
+      "G": "59",
+      "AB": "235",
+      "H": "94",
+      "BA": ".400"
+     },
+     {
+      "Rank": "14",
+      "Name": "Vahn Lackey",
+      "Team": "Georgia Tech",
+      "Cl": "Jr.",
+      "Position": "C",
+      "G": "61",
+      "AB": "219",
+      "H": "87",
+      "BA": ".397"
+     },
+     {
+      "Rank": "15",
+      "Name": "Titan Kamaka",
+      "Team": "Mercer",
+      "Cl": "Sr.",
+      "Position": "INF",
+      "G": "55",
+      "AB": "206",
+      "H": "81",
+      "BA": ".393"
+     },
+     {
+      "Rank": "-",
+      "Name": "Blake Primrose",
+      "Team": "Saint Joseph's",
+      "Cl": "So.",
+      "Position": "C",
+      "G": "54",
+      "AB": "206",
+      "H": "81",
+      "BA": ".393"
+     },
+     {
+      "Rank": "17",
+      "Name": "Brayden Bakes",
+      "Team": "Illinois St.",
+      "Cl": "So.",
+      "Position": "OF",
+      "G": "57",
+      "AB": "234",
+      "H": "92",
+      "BA": ".393"
+     },
+     {
+      "Rank": "18",
+      "Name": "Owen Hull",
+      "Team": "North Carolina",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "69",
+      "AB": "262",
+      "H": "103",
+      "BA": ".393"
+     },
+     {
+      "Rank": "19",
+      "Name": "Marcus Dierks",
+      "Team": "Miami (OH)",
+      "Cl": "Jr.",
+      "Position": "OF",
+      "G": "55",
+      "AB": "203",
+      "H": "79",
+      "BA": ".389"
+     },
+     {
+      "Rank": "20",
+      "Name": "Chris Ramirez",
+      "Team": "California Baptist",
+      "Cl": "So.",
+      "Position": "INF",
+      "G": "59",
+      "AB": "252",
+      "H": "98",
+      "BA": ".389"
+     },
+     {
+      "Rank": "21",
+      "Name": "Aubrey Kearns",
+      "Team": "Morehead St.",
+      "Cl": "So.",
+      "Position": "INF",
+      "G": "55",
+      "AB": "217",
+      "H": "84",
+      "BA": ".387"
+     },
+     {
+      "Rank": "22",
+      "Name": "Lorenzo Carrier",
+      "Team": "Pittsburgh",
+      "Cl": "Sr.",
+      "Position": "OF",
+      "G": "57",
+      "AB": "199",
+      "H": "77",
+      "BA": ".387"
+     },
+     {
+      "Rank": "23",
+      "Name": "Chris Katz",
+      "Team": "Mercer",
+      "Cl": "Sr.",
+      "Position": "OF",
+      "G": "59",
+      "AB": "220",
+      "H": "85",
+      "BA": ".386"
+     },
+     {
+      "Rank": "24",
+      "Name": "Tommy Harrison",
+      "Team": "Miami (OH)",
+      "Cl": "Jr.",
+      "Position": "UT",
+      "G": "54",
+      "AB": "215",
+      "H": "83",
+      "BA": ".386"
+     },
+     {
+      "Rank": "25",
+      "Name": "Terence Grines",
+      "Team": "UT Martin",
+      "Cl": "Sr.",
+      "Position": "UT",
+      "G": "55",
+      "AB": "241",
+      "H": "93",
+      "BA": ".386"
+     },
+     {
+      "Rank": "26",
+      "Name": "Drew Detlefsen",
+      "Team": "UTSA",
+      "Cl": "Sr.",
+      "Position": "OF",
+      "G": "57",
+      "AB": "249",
+      "H": "96",
+      "BA": ".386"
+     },
+     {
+      "Rank": "27",
+      "Name": "Diego Cruz",
+      "Team": "Miami (OH)",
+      "Cl": "Fr.",
+      "Position": "INF",
+      "G": "52",
+      "AB": "192",
+      "H": "74",
+      "BA": ".385"
+     },
+     {
+      "Rank": "28",
+      "Name": "Caleb Wulf",
+      "Team": "Iowa",
+      "Cl": "Sr.",
+      "Position": "UT",
+      "G": "56",
+      "AB": "231",
+      "H": "89",
+      "BA": ".385"
+     },
+     {
+      "Rank": "29",
+      "Name": "Ryland Duson",
+      "Team": "Prairie View",
+      "Cl": "Fr.",
+      "Position": "UT",
+      "G": "50",
+      "AB": "190",
+      "H": "73",
+      "BA": ".384"
+     },
+     {
+      "Rank": "30",
+      "Name": "Carson Kerce",
+      "Team": "Georgia Tech",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "61",
+      "AB": "237",
+      "H": "91",
+      "BA": ".384"
+     },
+     {
+      "Rank": "31",
+      "Name": "Danny MacDougall",
+      "Team": "Dayton",
+      "Cl": "Sr.",
+      "Position": "INF",
+      "G": "54",
+      "AB": "224",
+      "H": "86",
+      "BA": ".384"
+     },
+     {
+      "Rank": "32",
+      "Name": "Brady Christman",
+      "Team": "Ga. Southern",
+      "Cl": "Fr.",
+      "Position": "C",
+      "G": "46",
+      "AB": "146",
+      "H": "56",
+      "BA": ".384"
+     },
+     {
+      "Rank": "33",
+      "Name": "Diego Castellanos",
+      "Team": "Saint Mary's (CA)",
+      "Cl": "Jr.",
+      "Position": "OF",
+      "G": "62",
+      "AB": "251",
+      "H": "96",
+      "BA": ".382"
+     },
+     {
+      "Rank": "-",
+      "Name": "Gavin Kelly",
+      "Team": "West Virginia",
+      "Cl": "So.",
+      "Position": "UT",
+      "G": "63",
+      "AB": "251",
+      "H": "96",
+      "BA": ".382"
+     },
+     {
+      "Rank": "35",
+      "Name": "Hunter Miller",
+      "Team": "Southern Ind.",
+      "Cl": "Sr.",
+      "Position": "INF",
+      "G": "46",
+      "AB": "123",
+      "H": "47",
+      "BA": ".382"
+     },
+     {
+      "Rank": "36",
+      "Name": "Evan Bottone",
+      "Team": "Marshall",
+      "Cl": "Jr.",
+      "Position": "OF",
+      "G": "54",
+      "AB": "215",
+      "H": "82",
+      "BA": ".381"
+     },
+     {
+      "Rank": "37",
+      "Name": "Rett Johnson",
+      "Team": "NC State",
+      "Cl": "Fr.",
+      "Position": "OF",
+      "G": "54",
+      "AB": "197",
+      "H": "75",
+      "BA": ".381"
+     },
+     {
+      "Rank": "38",
+      "Name": "JP Pennella",
+      "Team": "UNCW",
+      "Cl": "So.",
+      "Position": "OF",
+      "G": "55",
+      "AB": "200",
+      "H": "76",
+      "BA": ".380"
+     },
+     {
+      "Rank": "39",
+      "Name": "Byron Robinson",
+      "Team": "Texas Southern",
+      "Cl": "Jr.",
+      "Position": "",
+      "G": "45",
+      "AB": "158",
+      "H": "60",
+      "BA": ".380"
+     },
+     {
+      "Rank": "40",
+      "Name": "Chase Swain",
+      "Team": "La Salle",
+      "Cl": "Sr.",
+      "Position": "OF",
+      "G": "54",
+      "AB": "216",
+      "H": "82",
+      "BA": ".380"
+     },
+     {
+      "Rank": "41",
+      "Name": "Daniel Jackson",
+      "Team": "Georgia",
+      "Cl": "Jr.",
+      "Position": "C",
+      "G": "67",
+      "AB": "264",
+      "H": "100",
+      "BA": ".379"
+     },
+     {
+      "Rank": "42",
+      "Name": "Braeden Schnabel",
+      "Team": "Pacific",
+      "Cl": "Jr.",
+      "Position": "OF",
+      "G": "44",
+      "AB": "148",
+      "H": "56",
+      "BA": ".378"
+     },
+     {
+      "Rank": "43",
+      "Name": "Mikey Bell",
+      "Team": "Gonzaga",
+      "Cl": "Jr.",
+      "Position": "INF",
+      "G": "54",
+      "AB": "225",
+      "H": "85",
+      "BA": ".378"
+     },
+     {
+      "Rank": "44",
+      "Name": "Rayner Heinrich",
+      "Team": "Tarleton St.",
+      "Cl": "So.",
+      "Position": "UT",
+      "G": "55",
+      "AB": "220",
+      "H": "83",
+      "BA": ".377"
+     },
+     {
+      "Rank": "45",
+      "Name": "Cole Howarth",
+      "Team": "California Baptist",
+      "Cl": "Sr.",
+      "Position": "INF",
+      "G": "49",
+      "AB": "146",
+      "H": "55",
+      "BA": ".377"
+     },
+     {
+      "Rank": "46",
+      "Name": "Jackson Trout",
+      "Team": "Omaha",
+      "Cl": "Sr.",
+      "Position": "UT",
+      "G": "47",
+      "AB": "194",
+      "H": "73",
+      "BA": ".376"
+     },
+     {
+      "Rank": "47",
+      "Name": "Johnathan Gomez",
+      "Team": "FDU",
+      "Cl": "So.",
+      "Position": "INF",
+      "G": "53",
+      "AB": "218",
+      "H": "82",
+      "BA": ".376"
+     },
+     {
+      "Rank": "48",
+      "Name": "Joseph Mennella",
+      "Team": "Wagner",
+      "Cl": "So.",
+      "Position": "INF",
+      "G": "53",
+      "AB": "189",
+      "H": "71",
+      "BA": ".376"
+     },
+     {
+      "Rank": "49",
+      "Name": "Mark Quatrani",
+      "Team": "Notre Dame",
+      "Cl": "Jr.",
+      "Position": "C",
+      "G": "53",
+      "AB": "213",
+      "H": "80",
+      "BA": ".376"
+     },
+     {
+      "Rank": "-",
+      "Name": "Derek Williams",
+      "Team": "Miami (FL)",
+      "Cl": "Sr.",
+      "Position": "OF",
+      "G": "59",
+      "AB": "213",
+      "H": "80",
+      "BA": ".376"
+     }
+    ]
+   },
+   "ba_top5": [
+    0.446,
+    0.434,
+    0.422,
+    0.416,
+    0.408
+   ],
+   "era": {
+    "url": "https://www.ncaa.com/stats/baseball/d1/2025/individual/205",
+    "rows": [
+     {
+      "Rank": "1",
+      "Name": "Jackson Flora",
+      "Team": "UC Santa Barbara",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "102.0",
+      "R": "14",
+      "ER": "12",
+      "ERA": "1.06"
+     },
+     {
+      "Rank": "2",
+      "Name": "Trey Morris",
+      "Team": "Oregon St.",
+      "Cl": "Fr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "59.0",
+      "R": "18",
+      "ER": "13",
+      "ERA": "1.98"
+     },
+     {
+      "Rank": "3",
+      "Name": "Dax Whitney",
+      "Team": "Oregon St.",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "11",
+      "IP": "63.0",
+      "R": "16",
+      "ER": "14",
+      "ERA": "2.00"
+     },
+     {
+      "Rank": "4",
+      "Name": "Caden Glauber",
+      "Team": "North Carolina",
+      "Cl": "Fr.",
+      "Position": "P",
+      "App": "30",
+      "IP": "92.0",
+      "R": "24",
+      "ER": "21",
+      "ERA": "2.05"
+     },
+     {
+      "Rank": "5",
+      "Name": "Mason Edwards",
+      "Team": "Southern California",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "17",
+      "IP": "95.2",
+      "R": "26",
+      "ER": "22",
+      "ERA": "2.07"
+     },
+     {
+      "Rank": "6",
+      "Name": "Dylan Volantis",
+      "Team": "Texas",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "17",
+      "IP": "95.0",
+      "R": "28",
+      "ER": "22",
+      "ERA": "2.08"
+     },
+     {
+      "Rank": "7",
+      "Name": "Maxx Yehl",
+      "Team": "West Virginia",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "18",
+      "IP": "97.0",
+      "R": "33",
+      "ER": "23",
+      "ERA": "2.13"
+     },
+     {
+      "Rank": "8",
+      "Name": "Eric Segura",
+      "Team": "Oregon St.",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "73.0",
+      "R": "23",
+      "ER": "18",
+      "ERA": "2.22"
+     },
+     {
+      "Rank": "9",
+      "Name": "Michael Addari",
+      "Team": "Illinois St.",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "14",
+      "IP": "67.1",
+      "R": "31",
+      "ER": "17",
+      "ERA": "2.27"
+     },
+     {
+      "Rank": "10",
+      "Name": "Seth Benes",
+      "Team": "Lindenwood",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "92.1",
+      "R": "29",
+      "ER": "24",
+      "ERA": "2.34"
+     },
+     {
+      "Rank": "11",
+      "Name": "Matt Archibald",
+      "Team": "Navy",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "11",
+      "IP": "65.0",
+      "R": "22",
+      "ER": "17",
+      "ERA": "2.35"
+     },
+     {
+      "Rank": "12",
+      "Name": "Isaiah Magdaleno",
+      "Team": "Hawaii",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "95.1",
+      "R": "28",
+      "ER": "25",
+      "ERA": "2.36"
+     },
+     {
+      "Rank": "13",
+      "Name": "Brady Bendik",
+      "Team": "Navy",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "13",
+      "IP": "81.2",
+      "R": "31",
+      "ER": "22",
+      "ERA": "2.42"
+     },
+     {
+      "Rank": "14",
+      "Name": "Sam Simmons",
+      "Team": "UTSA",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "27",
+      "IP": "66.2",
+      "R": "24",
+      "ER": "18",
+      "ERA": "2.43"
+     },
+     {
+      "Rank": "15",
+      "Name": "Sheamus Ryan",
+      "Team": "North Dakota St.",
+      "Cl": "Fr.",
+      "Position": "P",
+      "App": "13",
+      "IP": "48.0",
+      "R": "14",
+      "ER": "13",
+      "ERA": "2.44"
+     },
+     {
+      "Rank": "16",
+      "Name": "Ben Alekson",
+      "Team": "Fairfield",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "87.1",
+      "R": "30",
+      "ER": "24",
+      "ERA": "2.47"
+     },
+     {
+      "Rank": "17",
+      "Name": "Landon Hood",
+      "Team": "Gonzaga",
+      "Cl": "Fr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "54.1",
+      "R": "16",
+      "ER": "15",
+      "ERA": "2.48"
+     },
+     {
+      "Rank": "18",
+      "Name": "Hunter Alexander",
+      "Team": "Central Ark.",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "28",
+      "IP": "65.0",
+      "R": "22",
+      "ER": "18",
+      "ERA": "2.49"
+     },
+     {
+      "Rank": "-",
+      "Name": "Wylan Moss",
+      "Team": "UCLA",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "17",
+      "IP": "65.0",
+      "R": "21",
+      "ER": "18",
+      "ERA": "2.49"
+     },
+     {
+      "Rank": "20",
+      "Name": "Andrew Evans",
+      "Team": "Southern Ill.",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "89.2",
+      "R": "30",
+      "ER": "25",
+      "ERA": "2.51"
+     },
+     {
+      "Rank": "21",
+      "Name": "David Rossow",
+      "Team": "Campbell",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "81.2",
+      "R": "31",
+      "ER": "23",
+      "ERA": "2.53"
+     },
+     {
+      "Rank": "22",
+      "Name": "Max Bayles",
+      "Team": "Santa Clara",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "71.0",
+      "R": "22",
+      "ER": "20",
+      "ERA": "2.54"
+     },
+     {
+      "Rank": "23",
+      "Name": "Andrew Damiani",
+      "Team": "Niagara",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "28",
+      "IP": "49.1",
+      "R": "16",
+      "ER": "14",
+      "ERA": "2.55"
+     },
+     {
+      "Rank": "24",
+      "Name": "John Damozonio",
+      "Team": "Saint Mary's (CA)",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "14",
+      "IP": "83.1",
+      "R": "31",
+      "ER": "24",
+      "ERA": "2.59"
+     },
+     {
+      "Rank": "25",
+      "Name": "Josh Newell",
+      "Team": "Lindenwood",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "103.0",
+      "R": "41",
+      "ER": "30",
+      "ERA": "2.62"
+     },
+     {
+      "Rank": "26",
+      "Name": "Mikiah Negrete",
+      "Team": "Cal St. Fullerton",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "100.0",
+      "R": "33",
+      "ER": "30",
+      "ERA": "2.70"
+     },
+     {
+      "Rank": "27",
+      "Name": "Garret Plata",
+      "Team": "Pacific",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "14",
+      "IP": "76.0",
+      "R": "24",
+      "ER": "23",
+      "ERA": "2.72"
+     },
+     {
+      "Rank": "28",
+      "Name": "Charlie Hale",
+      "Team": "UConn",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "19",
+      "IP": "62.1",
+      "R": "22",
+      "ER": "19",
+      "ERA": "2.74"
+     },
+     {
+      "Rank": "29",
+      "Name": "Cody Brasch",
+      "Team": "Louisiana",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "22",
+      "IP": "74.2",
+      "R": "24",
+      "ER": "23",
+      "ERA": "2.77"
+     },
+     {
+      "Rank": "30",
+      "Name": "Chris Olivier",
+      "Team": "Lamar University",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "94.0",
+      "R": "32",
+      "ER": "29",
+      "ERA": "2.78"
+     },
+     {
+      "Rank": "31",
+      "Name": "Tyler Grenn",
+      "Team": "Navy",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "18",
+      "IP": "58.1",
+      "R": "29",
+      "ER": "18",
+      "ERA": "2.78"
+     },
+     {
+      "Rank": "32",
+      "Name": "Aidan Flinn",
+      "Team": "Illinois",
+      "Cl": "Fr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "61.1",
+      "R": "21",
+      "ER": "19",
+      "ERA": "2.79"
+     },
+     {
+      "Rank": "33",
+      "Name": "Cooper Allen",
+      "Team": "UNCW",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "87.0",
+      "R": "30",
+      "ER": "27",
+      "ERA": "2.79"
+     },
+     {
+      "Rank": "34",
+      "Name": "Wes Mendes",
+      "Team": "Florida St.",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "93.0",
+      "R": "35",
+      "ER": "29",
+      "ERA": "2.81"
+     },
+     {
+      "Rank": "35",
+      "Name": "Nathan Leininger",
+      "Team": "Toledo",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "96.0",
+      "R": "33",
+      "ER": "30",
+      "ERA": "2.81"
+     },
+     {
+      "Rank": "36",
+      "Name": "Cayden Suchy",
+      "Team": "UConn",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "15",
+      "IP": "89.1",
+      "R": "33",
+      "ER": "28",
+      "ERA": "2.82"
+     },
+     {
+      "Rank": "37",
+      "Name": "William Labonte",
+      "Team": "Portland",
+      "Cl": "Fr.",
+      "Position": "P",
+      "App": "14",
+      "IP": "73.1",
+      "R": "24",
+      "ER": "23",
+      "ERA": "2.82"
+     },
+     {
+      "Rank": "-",
+      "Name": "Chris Levonas",
+      "Team": "Wake Forest",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "15",
+      "IP": "73.1",
+      "R": "25",
+      "ER": "23",
+      "ERA": "2.82"
+     },
+     {
+      "Rank": "39",
+      "Name": "Alec Bouchard",
+      "Team": "Wofford",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "86.0",
+      "R": "31",
+      "ER": "27",
+      "ERA": "2.83"
+     },
+     {
+      "Rank": "40",
+      "Name": "Ryland Urbanczyk",
+      "Team": "Rice",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "66.2",
+      "R": "24",
+      "ER": "21",
+      "ERA": "2.84"
+     },
+     {
+      "Rank": "41",
+      "Name": "Dakota Stone",
+      "Team": "North Florida",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "79.0",
+      "R": "31",
+      "ER": "25",
+      "ERA": "2.85"
+     },
+     {
+      "Rank": "42",
+      "Name": "Elias Holbert",
+      "Team": "VCU",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "18",
+      "IP": "66.0",
+      "R": "26",
+      "ER": "21",
+      "ERA": "2.86"
+     },
+     {
+      "Rank": "43",
+      "Name": "Jason DeCaro",
+      "Team": "North Carolina",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "19",
+      "IP": "97.1",
+      "R": "37",
+      "ER": "31",
+      "ERA": "2.87"
+     },
+     {
+      "Rank": "44",
+      "Name": "Gavin Eddy",
+      "Team": "California",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "14",
+      "IP": "84.2",
+      "R": "33",
+      "ER": "27",
+      "ERA": "2.87"
+     },
+     {
+      "Rank": "-",
+      "Name": "Tate Evans",
+      "Team": "Yale",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "22",
+      "IP": "84.2",
+      "R": "30",
+      "ER": "27",
+      "ERA": "2.87"
+     },
+     {
+      "Rank": "46",
+      "Name": "Grant Govel",
+      "Team": "Southern California",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "19",
+      "IP": "103.1",
+      "R": "35",
+      "ER": "33",
+      "ERA": "2.87"
+     },
+     {
+      "Rank": "47",
+      "Name": "Ross Yoshida",
+      "Team": "Cornell",
+      "Cl": "Fr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "43.2",
+      "R": "16",
+      "ER": "14",
+      "ERA": "2.89"
+     },
+     {
+      "Rank": "48",
+      "Name": "Cullen Condon",
+      "Team": "Wofford",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "13",
+      "IP": "64.2",
+      "R": "31",
+      "ER": "21",
+      "ERA": "2.92"
+     },
+     {
+      "Rank": "49",
+      "Name": "Jackson Sanders",
+      "Team": "Auburn",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "17",
+      "IP": "70.1",
+      "R": "27",
+      "ER": "23",
+      "ERA": "2.94"
+     },
+     {
+      "Rank": "50",
+      "Name": "Thomas Shurtleff",
+      "Team": "Penn",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "11",
+      "IP": "61.0",
+      "R": "23",
+      "ER": "20",
+      "ERA": "2.95"
+     }
+    ]
+   },
+   "era_low5": [
+    1.06,
+    1.98,
+    2.0,
+    2.05,
+    2.07
+   ],
+   "k": {
+    "url": "https://www.ncaa.com/stats/baseball/d1/2025/individual/356",
+    "rows": [
+     {
+      "Rank": "1",
+      "Name": "Mason Edwards",
+      "Team": "Southern California",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "17",
+      "IP": "95.2",
+      "SO": "169"
+     },
+     {
+      "Rank": "2",
+      "Name": "Ethan Lund",
+      "Team": "Oklahoma St.",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "17",
+      "IP": "84.1",
+      "SO": "137"
+     },
+     {
+      "Rank": "3",
+      "Name": "Dylan Volantis",
+      "Team": "Texas",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "17",
+      "IP": "95.0",
+      "SO": "135"
+     },
+     {
+      "Rank": "4",
+      "Name": "Tomas Valincius",
+      "Team": "Mississippi St.",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "17",
+      "IP": "97.2",
+      "SO": "134"
+     },
+     {
+      "Rank": "5",
+      "Name": "Cole Carlon",
+      "Team": "Arizona St.",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "83.2",
+      "SO": "133"
+     },
+     {
+      "Rank": "-",
+      "Name": "Jackson Flora",
+      "Team": "UC Santa Barbara",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "102.0",
+      "SO": "133"
+     },
+     {
+      "Rank": "7",
+      "Name": "Hunter Dietz",
+      "Team": "Arkansas",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "16",
+      "IP": "85.2",
+      "SO": "131"
+     },
+     {
+      "Rank": "-",
+      "Name": "Ethan Norby",
+      "Team": "East Carolina",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "18",
+      "IP": "90.1",
+      "SO": "131"
+     },
+     {
+      "Rank": "9",
+      "Name": "Eric Nachtsheim",
+      "Team": "McNeese",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "20",
+      "IP": "93.0",
+      "SO": "129"
+     },
+     {
+      "Rank": "10",
+      "Name": "Tyler Fay",
+      "Team": "Alabama",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "18",
+      "IP": "109.0",
+      "SO": "127"
+     },
+     {
+      "Rank": "11",
+      "Name": "Evan Dempsey",
+      "Team": "FGCU",
+      "Cl": "Jr.",
+      "Position": "OF",
+      "App": "15",
+      "IP": "88.2",
+      "SO": "126"
+     },
+     {
+      "Rank": "-",
+      "Name": "Will Sanford",
+      "Team": "Oregon",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "17",
+      "IP": "84.1",
+      "SO": "126"
+     },
+     {
+      "Rank": "13",
+      "Name": "Wes Mendes",
+      "Team": "Florida St.",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "93.0",
+      "SO": "125"
+     },
+     {
+      "Rank": "14",
+      "Name": "Will Holmes",
+      "Team": "The Citadel",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "17",
+      "IP": "92.2",
+      "SO": "120"
+     },
+     {
+      "Rank": "-",
+      "Name": "Ruger Riojas",
+      "Team": "Texas",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "17",
+      "IP": "81.2",
+      "SO": "120"
+     },
+     {
+      "Rank": "-",
+      "Name": "Dominic Voegele",
+      "Team": "Kansas",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "17",
+      "IP": "97.0",
+      "SO": "120"
+     },
+     {
+      "Rank": "17",
+      "Name": "Joey Volchko",
+      "Team": "Georgia",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "18",
+      "IP": "95.1",
+      "SO": "119"
+     },
+     {
+      "Rank": "18",
+      "Name": "Carson Jasa",
+      "Team": "Nebraska",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "16",
+      "IP": "87.2",
+      "SO": "117"
+     },
+     {
+      "Rank": "19",
+      "Name": "Andrew Herrmann",
+      "Team": "Louisiana",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "20",
+      "IP": "109.1",
+      "SO": "116"
+     },
+     {
+      "Rank": "-",
+      "Name": "Chris Levonas",
+      "Team": "Wake Forest",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "15",
+      "IP": "73.1",
+      "SO": "116"
+     },
+     {
+      "Rank": "-",
+      "Name": "Isaiah Magdaleno",
+      "Team": "Hawaii",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "95.1",
+      "SO": "116"
+     },
+     {
+      "Rank": "-",
+      "Name": "Jack Radel",
+      "Team": "Notre Dame",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "87.2",
+      "SO": "116"
+     },
+     {
+      "Rank": "23",
+      "Name": "Nathan Taylor",
+      "Team": "Cincinnati",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "90.0",
+      "SO": "115"
+     },
+     {
+      "Rank": "24",
+      "Name": "Caden Glauber",
+      "Team": "North Carolina",
+      "Cl": "Fr.",
+      "Position": "P",
+      "App": "30",
+      "IP": "92.0",
+      "SO": "114"
+     },
+     {
+      "Rank": "25",
+      "Name": "Andreas Alvarez",
+      "Team": "Auburn",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "16",
+      "IP": "85.0",
+      "SO": "113"
+     },
+     {
+      "Rank": "-",
+      "Name": "Ben Blair",
+      "Team": "Liberty",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "94.1",
+      "SO": "113"
+     },
+     {
+      "Rank": "27",
+      "Name": "Maxx Yehl",
+      "Team": "West Virginia",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "18",
+      "IP": "97.0",
+      "SO": "112"
+     },
+     {
+      "Rank": "28",
+      "Name": "Hunter Elliott",
+      "Team": "Ole Miss",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "17",
+      "IP": "85.0",
+      "SO": "111"
+     },
+     {
+      "Rank": "-",
+      "Name": "Michael Malki",
+      "Team": "California Baptist",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "18",
+      "IP": "75.0",
+      "SO": "111"
+     },
+     {
+      "Rank": "-",
+      "Name": "Liam Peterson",
+      "Team": "Florida",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "84.1",
+      "SO": "111"
+     },
+     {
+      "Rank": "-",
+      "Name": "Charlie West",
+      "Team": "UConn",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "87.1",
+      "SO": "111"
+     },
+     {
+      "Rank": "32",
+      "Name": "Caden Aoki",
+      "Team": "Georgia",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "20",
+      "IP": "86.0",
+      "SO": "110"
+     },
+     {
+      "Rank": "-",
+      "Name": "Karsten Sweum",
+      "Team": "Gonzaga",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "15",
+      "IP": "78.2",
+      "SO": "110"
+     },
+     {
+      "Rank": "34",
+      "Name": "Chansen Cole",
+      "Team": "West Virginia",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "21",
+      "IP": "99.2",
+      "SO": "109"
+     },
+     {
+      "Rank": "35",
+      "Name": "Jake Marciano",
+      "Team": "Auburn",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "17",
+      "IP": "86.2",
+      "SO": "108"
+     },
+     {
+      "Rank": "-",
+      "Name": "Chris Olivier",
+      "Team": "Lamar University",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "94.0",
+      "SO": "108"
+     },
+     {
+      "Rank": "37",
+      "Name": "Grayden Harris",
+      "Team": "Southern Miss.",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "17",
+      "IP": "87.1",
+      "SO": "107"
+     },
+     {
+      "Rank": "-",
+      "Name": "Gage Peterson",
+      "Team": "App State",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "85.0",
+      "SO": "107"
+     },
+     {
+      "Rank": "-",
+      "Name": "Duke Stone",
+      "Team": "Mississippi St.",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "18",
+      "IP": "79.2",
+      "SO": "107"
+     },
+     {
+      "Rank": "40",
+      "Name": "Jaxon Jelkin",
+      "Team": "Kentucky",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "17",
+      "IP": "97.0",
+      "SO": "106"
+     },
+     {
+      "Rank": "-",
+      "Name": "Tegan Kuhns",
+      "Team": "Tennessee",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "15",
+      "IP": "81.0",
+      "SO": "106"
+     },
+     {
+      "Rank": "42",
+      "Name": "Kurt Barr",
+      "Team": "Michigan",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "79.2",
+      "SO": "105"
+     },
+     {
+      "Rank": "-",
+      "Name": "James Guyette",
+      "Team": "Kansas St.",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "16",
+      "IP": "79.1",
+      "SO": "105"
+     },
+     {
+      "Rank": "-",
+      "Name": "Ryan Peterson",
+      "Team": "Sam Houston",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "88.0",
+      "SO": "105"
+     },
+     {
+      "Rank": "-",
+      "Name": "Taylor Rabe",
+      "Team": "Ole Miss",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "17",
+      "IP": "76.0",
+      "SO": "105"
+     },
+     {
+      "Rank": "-",
+      "Name": "Cayden Suchy",
+      "Team": "UConn",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "15",
+      "IP": "89.1",
+      "SO": "105"
+     },
+     {
+      "Rank": "47",
+      "Name": "Max Bayles",
+      "Team": "Santa Clara",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "71.0",
+      "SO": "104"
+     },
+     {
+      "Rank": "-",
+      "Name": "Alec Bouchard",
+      "Team": "Wofford",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "86.0",
+      "SO": "104"
+     },
+     {
+      "Rank": "-",
+      "Name": "Braden Gebhardt",
+      "Team": "Youngstown St.",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "15",
+      "IP": "87.1",
+      "SO": "104"
+     },
+     {
+      "Rank": "-",
+      "Name": "Steele Murdock",
+      "Team": "UC San Diego",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "15",
+      "IP": "74.0",
+      "SO": "104"
+     }
+    ]
+   },
+   "k_top5": [
+    169.0,
+    137.0,
+    135.0,
+    134.0,
+    133.0
+   ],
+   "app": {
+    "url": "https://www.ncaa.com/stats/baseball/d1/2025/individual/863",
+    "rows": [
+     {
+      "Rank": "1",
+      "Name": "Walker McDuffie",
+      "Team": "North Carolina",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "39",
+      "IP": "72.0"
+     },
+     {
+      "Rank": "2",
+      "Name": "Riane Ritter",
+      "Team": "Kansas",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "38",
+      "IP": "61.1"
+     },
+     {
+      "Rank": "3",
+      "Name": "Lucas Hartman",
+      "Team": "Virginia",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "37",
+      "IP": "64.1"
+     },
+     {
+      "Rank": "-",
+      "Name": "Sax Matson",
+      "Team": "Southern California",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "37",
+      "IP": "43.0"
+     },
+     {
+      "Rank": "5",
+      "Name": "Andres Gonzalez",
+      "Team": "Southern Ind.",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "34",
+      "IP": "49.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "Christopher Gutierrez",
+      "Team": "UTSA",
+      "Cl": "Fr.",
+      "Position": "P",
+      "App": "34",
+      "IP": "27.2"
+     },
+     {
+      "Rank": "-",
+      "Name": "Easton Hawk",
+      "Team": "UCLA",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "34",
+      "IP": "42.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "Cal Randall",
+      "Team": "UCLA",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "34",
+      "IP": "31.0"
+     },
+     {
+      "Rank": "9",
+      "Name": "Marco DiGirolamo",
+      "Team": "UC Riverside",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "32",
+      "IP": "27.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "Toby Scheidt",
+      "Team": "Kansas",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "32",
+      "IP": "38.1"
+     },
+     {
+      "Rank": "-",
+      "Name": "Cameron Teper",
+      "Team": "California Baptist",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "32",
+      "IP": "46.1"
+     },
+     {
+      "Rank": "12",
+      "Name": "Parker Aikens",
+      "Team": "Rhode Island",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "31",
+      "IP": "31.1"
+     },
+     {
+      "Rank": "-",
+      "Name": "Reese Bassinger",
+      "Team": "West Virginia",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "31",
+      "IP": "60.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "Tanner Bradley",
+      "Team": "Oregon",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "31",
+      "IP": "54.1"
+     },
+     {
+      "Rank": "-",
+      "Name": "Sean Fitzpatrick",
+      "Team": "Arizona St.",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "31",
+      "IP": "26.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "JR Fordham",
+      "Team": "Longwood",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "31",
+      "IP": "44.1"
+     },
+     {
+      "Rank": "-",
+      "Name": "Darin Horn",
+      "Team": "Coastal Carolina",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "31",
+      "IP": "67.1"
+     },
+     {
+      "Rank": "-",
+      "Name": "Trevor Kester-Johnson",
+      "Team": "Purdue",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "31",
+      "IP": "17.1"
+     },
+     {
+      "Rank": "-",
+      "Name": "Caydon Laird",
+      "Team": "Southern Ind.",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "31",
+      "IP": "21.2"
+     },
+     {
+      "Rank": "-",
+      "Name": "Boede Rahe",
+      "Team": "Kansas",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "31",
+      "IP": "59.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "Derek Schaefer",
+      "Team": "Arizona St.",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "31",
+      "IP": "33.2"
+     },
+     {
+      "Rank": "-",
+      "Name": "Kevin Schoneboom",
+      "Team": "UCF",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "31",
+      "IP": "37.2"
+     },
+     {
+      "Rank": "-",
+      "Name": "Adam Troy",
+      "Team": "Southern California",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "31",
+      "IP": "33.2"
+     },
+     {
+      "Rank": "-",
+      "Name": "Joseph Webb",
+      "Team": "East Carolina",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "31",
+      "IP": "68.0"
+     },
+     {
+      "Rank": "25",
+      "Name": "Ben Brash",
+      "Team": "The Citadel",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "30",
+      "IP": "35.1"
+     },
+     {
+      "Rank": "-",
+      "Name": "Cooper Ellingworth",
+      "Team": "Troy",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "30",
+      "IP": "55.2"
+     },
+     {
+      "Rank": "-",
+      "Name": "Caden Glauber",
+      "Team": "North Carolina",
+      "Cl": "Fr.",
+      "Position": "P",
+      "App": "30",
+      "IP": "92.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "Lyndon Glidewell",
+      "Team": "Miami (FL)",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "30",
+      "IP": "38.2"
+     },
+     {
+      "Rank": "-",
+      "Name": "Ernesto Lugo-Canchola",
+      "Team": "Florida",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "30",
+      "IP": "34.1"
+     },
+     {
+      "Rank": "-",
+      "Name": "Dillon Masters",
+      "Team": "Ohio",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "30",
+      "IP": "54.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "James Peterson",
+      "Team": "Alabama St.",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "30",
+      "IP": "86.1"
+     },
+     {
+      "Rank": "32",
+      "Name": "Josh Beezley",
+      "Team": "Little Rock",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "29",
+      "IP": "40.1"
+     },
+     {
+      "Rank": "-",
+      "Name": "Nate Crider",
+      "Team": "Louisiana Tech",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "29",
+      "IP": "22.1"
+     },
+     {
+      "Rank": "-",
+      "Name": "Zach Crotchfelt",
+      "Team": "Troy",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "29",
+      "IP": "67.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "Jake Dorn",
+      "Team": "Miami (FL)",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "29",
+      "IP": "29.2"
+     },
+     {
+      "Rank": "-",
+      "Name": "Rylan Haider",
+      "Team": "Washington St.",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "29",
+      "IP": "30.1"
+     },
+     {
+      "Rank": "-",
+      "Name": "Skyler Hutto",
+      "Team": "Jacksonville St.",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "29",
+      "IP": "41.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "Jake Jakubowski",
+      "Team": "UIC",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "29",
+      "IP": "34.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "Jake Kramer",
+      "Team": "Purdue",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "29",
+      "IP": "42.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "Gavin Lyons",
+      "Team": "Texas A&M",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "29",
+      "IP": "69.1"
+     },
+     {
+      "Rank": "-",
+      "Name": "Ethan Rose",
+      "Team": "East Carolina",
+      "Cl": "Fr.",
+      "Position": "P",
+      "App": "29",
+      "IP": "39.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "Hunter Sipe",
+      "Team": "VMI",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "29",
+      "IP": "79.0"
+     },
+     {
+      "Rank": "43",
+      "Name": "Hunter Alexander",
+      "Team": "Central Ark.",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "28",
+      "IP": "65.0"
+     },
+     {
+      "Rank": "-",
+      "Name": "Dylan Alonso",
+      "Team": "Troy",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "28",
+      "IP": "49.1"
+     },
+     {
+      "Rank": "-",
+      "Name": "Ryan Ashford",
+      "Team": "Arkansas St.",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "28",
+      "IP": "29.2"
+     },
+     {
+      "Rank": "-",
+      "Name": "Tyler August",
+      "Team": "Liberty",
+      "Cl": "Jr.",
+      "Position": "P",
+      "App": "28",
+      "IP": "46.2"
+     },
+     {
+      "Rank": "-",
+      "Name": "Devin Bell",
+      "Team": "Oregon",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "28",
+      "IP": "37.1"
+     },
+     {
+      "Rank": "-",
+      "Name": "Nick Bonn",
+      "Team": "Cal Poly",
+      "Cl": "Sr.",
+      "Position": "P",
+      "App": "28",
+      "IP": "49.2"
+     },
+     {
+      "Rank": "-",
+      "Name": "Beau Brailey",
+      "Team": "Campbell",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "28",
+      "IP": "31.1"
+     },
+     {
+      "Rank": "-",
+      "Name": "Adam Buczkowski",
+      "Team": "Cincinnati",
+      "Cl": "So.",
+      "Position": "P",
+      "App": "28",
+      "IP": "41.1"
+     }
+    ]
+   },
+   "app_max": 39.0
+  },
+  "2023": {
+   "source": "NCAA Division I baseball record book, 2024 edition, 2023 individual leaders: http://fs.ncaa.org/Docs/stats/baseball_RB/2024/D1.pdf",
+   "hr": [
+    {
+     "name": "Jac Caglianone",
+     "team": "Florida",
+     "G": 71,
+     "HR": 33
+    },
+    {
+     "name": "Brock Wilken",
+     "team": "Wake Forest",
+     "HR": 31
+    }
+   ],
+   "ba": [
+    {
+     "name": "JJ Wetherholt",
+     "team": "West Virginia",
+     "G": 55,
+     "AB": 225,
+     "H": 101,
+     "BA": 0.449
+    }
+   ],
+   "k": [
+    {
+     "name": "Paul Skenes",
+     "team": "LSU",
+     "IP": 122.2,
+     "SO": 209
+    }
+   ]
+  }
+ }
+}
