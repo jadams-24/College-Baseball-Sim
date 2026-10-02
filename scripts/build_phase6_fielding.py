@@ -107,6 +107,34 @@ def team_error(err: dict) -> dict:
             "total_sd": round(float(np.sqrt(var_true + b[1] ** 2 * max(var_d, 0.0))), 4)}
 
 
+def steal_tiers(opp_rows, att_rows, sb_rows, tier) -> dict:
+    """Steal attempt (per opportunity: runner on first, second open) and success (every attempt) by
+    the running team's tier x the fielding team's tier: each cell's log-odds against the sample rate,
+    centred so that they average zero over this sample's opportunities (attempts). The cells, not tier
+    main effects: attempts rise in mismatches (P4 running on mid or low defenses .117-.132 per
+    opportunity; P4 on P4 .081, mid on mid .087), which main effects spread onto every game. The
+    engine's league tables come from this sample; in a league with another matchup mix the rates
+    move as the data's."""
+    out = {}
+    att_ids = set(att_rows.play_by_play_id.astype(str) + "|" + att_rows.team_id.astype(str))
+    o = opp_rows.copy()
+    o["y"] = (o.play_by_play_id.astype(str) + "|" + o.team_id.astype(str)).isin(att_ids).astype(float)
+    s = sb_rows.copy()
+    s["y"] = (s.kind == "stolen base").astype(float)
+    for comp, d in (("attempt", o), ("success", s)):
+        d = d.assign(ot=d.team_id.map(tier), dt=d.pit_team_id.map(tier)).dropna(subset=["ot", "dt"])
+        c = d.groupby(["ot", "dt"]).y.agg(["mean", "size", "sum"])
+        lo = np.log(c["mean"] / (1 - c["mean"]))
+        lo = lo - float((lo * c["size"]).sum() / c["size"].sum())
+        out[comp] = {"cell": {f"{a}|{b}": round(float(v), 4) for (a, b), v in lo.items()},
+                     "n": {f"{a}|{b}": int(v) for (a, b), v in c["size"].items()},
+                     "rate": {f"{a}|{b}": round(float(v), 4) for (a, b), v in c["mean"].items()},
+                     # spread of the offense-tier means (the share of the pooled individual spread they carry)
+                     "var_offense": round(float(d.groupby("ot").y.mean().pipe(lambda m: np.log(m / (1 - m)))
+                                                .pipe(lambda x: ((x - (x * d.ot.value_counts()).sum() / len(d)) ** 2 * d.ot.value_counts() / len(d)).sum())), 5)}
+    return out
+
+
 def main() -> None:
     meta = pd.read_csv(P / "games_meta_2025.csv")
     teams = pd.read_csv(ROOT / "data/ncaa_2025/pbp/teams_2025.csv")
@@ -227,6 +255,12 @@ def main() -> None:
             corr[f"{a}|{b}"] = round(float(np.clip(cm_[i, j] / np.sqrt(va * vb), -1, 1)), 3)
     speed["corr"] = corr
     speed["n_runners_corr"] = int(len(q))
+    speed["tier_logodds"] = steal_tiers(opp_rows=ob[(ob.on_base == 1) & ~ob.play_by_play_id.isin(occ2)], att_rows=att_ev,
+                                        sb_rows=r[r.kind.isin(["stolen base", "caught stealing"])], tier=tier)
+    # the individual spreads above pool runners of every tier: the tier share comes off
+    for k, comp in (("attempt", "attempt"), ("success", "success")):
+        v = speed[k]["sd_logit"] ** 2 - speed["tier_logodds"][comp]["var_offense"]
+        speed[k]["sd_logit_within_tier"] = round(float(np.sqrt(max(v, 0.0))), 4)
     out["speed"] = speed
     out["team_error"] = team_error(out["error"])
     cur = json.loads(INPUTS6.read_text()) if INPUTS6.exists() else {}

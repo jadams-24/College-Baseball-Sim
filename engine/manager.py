@@ -1,7 +1,9 @@
 """AI manager for Phase 2: answers the engine's Decider calls from empirical usage.
 
-  lineup            each regular starts with the real start share for his rank; empty
-                    spots go to bench players by their rank's share; batting order is
+  lineup            each regular starts with the real start share for his rank (Phase 6: by
+                    his rank and whether he started the team's previous game, from the 2025
+                    start persistence); empty spots go to bench players in proportion to the
+                    same chances; batting order is
                     the team's talent order (best expected OBP+SLG first)
   starting_pitcher  weekend: each series draws a real three-game pattern of starter ranks
                     (the team's 1st..8th most frequent weekend starter in games 1, 2, 3 of a
@@ -40,7 +42,7 @@ from engine.decider import Decision, LeagueAverageDecider
 class Manager(LeagueAverageDecider):
     def __init__(self, cfg: Phase2Config):
         u = cfg.usage
-        self.start = [u["batter_start_share_by_rank"][str(k + 1)] for k in range(N_REGULARS + N_BENCH)]
+        self.start = phase6.batter_start_shares(u["batter_start_share_by_rank"], N_REGULARS + N_BENCH)
         self.relw = [u["reliever_bf_share_by_rank"][str(k + 1)] for k in range(len(u["reliever_bf_share_by_rank"]))]
 
         def table(block):
@@ -72,21 +74,37 @@ class Manager(LeagueAverageDecider):
         self.midweek_coef = u6.get("midweek", {}).get("coef", {})
         self.pull6 = phase6.load().get("pull6", {}) if phase6.on("leash") else {}
         self.subs6 = phase6.load().get("subs6", {}) if phase6.on("subs") else {}
+        bp = self.subs6.get("bench_pick_weight", {})
+        n_b = N_REGULARS + N_BENCH
+        self.start_markov = ([bp["start_after_start"][str(k + 1)] for k in range(n_b)], [bp["start_after_sit"][str(k + 1)] for k in range(n_b)]) \
+            if "start_after_start" in bp else None
+        self.last_lineup: dict = {}       # team id -> starters of its previous game
         if self.subs6:
             self.sub_ib, self.sub_mb = np.array(self.subs6["inning_bins"]), np.array(self.subs6["margin_bins"])
             self.def_slot = [self.subs6["def_slot_factor"][str(k + 1)] for k in range(9)]
 
     # ---- lineup ------------------------------------------------------------------------
+    def _start_prob(self, tid: int, p) -> float:
+        """Phase 6: a batter's chance to start, by his rank and whether he started the team's previous
+        game (2025 start persistence, subs6); without it, or before a team's first game, his rank's share."""
+        last = self.last_lineup.get(tid)
+        if not self.start_markov or last is None:
+            return self.start[p.order]
+        ss, sn = self.start_markov
+        return ss[p.order] if p.pid in last else sn[p.order]
+
     def lineup(self, state, team: str):
         tm = state.team_obj[team]
         rng = state.rng
-        starters = [p for k, p in enumerate(tm.batters[:N_REGULARS]) if rng.random() < self.start[k]]
+        starters = [p for p in tm.batters[:N_REGULARS] if rng.random() < self._start_prob(tm.tid, p)]
         bench = list(tm.batters[N_REGULARS:])
         while len(starters) < N_REGULARS and bench:
-            w = np.array([self.start[p.order] for p in bench])
+            w = np.array([self._start_prob(tm.tid, p) for p in bench])
             pick = bench.pop(int(rng.choice(len(bench), p=w / w.sum())))
             starters.append(pick)
         starters += [p for p in tm.batters[:N_REGULARS] if p not in starters][: N_REGULARS - len(starters)]
+        if self.start_markov:
+            self.last_lineup[tm.tid] = {p.pid for p in starters}
         return sorted(starters, key=lambda p: p.order)
 
     # ---- Phase 6: rest, roles and the choice logits ---------------------------------------
@@ -217,11 +235,15 @@ class Manager(LeagueAverageDecider):
         mb = int(np.searchsorted(self.sub_mb, margin, side="right") - 1)
         return s6["hazard"][kind].get(f"{ib}|{mb}", 0.0) * s6["tier_multiplier"].get(state.team_obj[team].tier, 1.0)
 
-    def _bench_pick(self, state, team: str):
-        bench = [p for p in state.team_obj[team].batters if p.pid not in state.in_game[team]]
+    def _bench_pick(self, state, team: str, bench: list | None = None):
+        """A substitute among the players not in the game, in proportion to his start rank's
+        substitute entries per game not started (subs6 bench_pick_weight, 2025 play-by-play)."""
+        if bench is None:
+            bench = [p for p in state.team_obj[team].batters if p.pid not in state.in_game[team]]
         if not bench:
             return None
-        w = np.array([self.start[p.order] for p in bench])
+        bw = self.subs6.get("bench_pick_weight", {}).get("weight") if self.subs6 else None
+        w = np.array([bw[str(p.order + 1)] if bw else self.start[p.order] for p in bench])
         return bench[int(state.rng.choice(len(bench), p=w / w.sum()))]
 
     def pinch_hit(self, state, team: str, slot: int):
@@ -236,8 +258,11 @@ class Manager(LeagueAverageDecider):
         if state.rng.random() >= self._sub_rate(state, team, "pr"):
             return None
         bench = [p for p in state.team_obj[team].batters if p.pid not in state.in_game[team]]
-        # the fastest bench player runs (Speed, Phase 6); without speed the bench pick by rank
-        return max(bench, key=lambda p: p.ratings.get("speed", 0.0)) if bench and "speed" in bench[0].ratings else self._bench_pick(state, team)
+        # with Speed (Phase 6) only a faster player runs for him; the pick among them by rank as for any substitute
+        runner = state.lineup[team][slot]
+        if bench and "speed" in bench[0].ratings:
+            bench = [p for p in bench if p.ratings["speed"] > runner.ratings.get("speed", 0.0)]
+        return self._bench_pick(state, team, bench)
 
     def defensive_subs(self, state, team: str) -> list:
         if not self.subs6:

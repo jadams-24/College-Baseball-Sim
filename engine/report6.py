@@ -137,10 +137,12 @@ def build_report6(agg: dict, agg2: dict, agg5: dict, seeds: list, st2: dict, st4
     lb = agg2["leaderboards"]["pitchers_50ip"]
     tq = _t_quantile((1 + LEADERBOARD_PI) / 2, n - 1) if n > 1 else float("inf")
     half = tq * lb["sd"] * math.sqrt(1 + 1 / n)
-    real = b["leaderboards_2025"]["pitchers_50ip"]["value"]
+    pb = b["leaderboards_2025"]["pitchers_50ip"]
+    real = pb["value_56g"]
     ok = bool(abs(real - lb["mean"]) <= half)
     st["p6_pitchers_50ip"] = ok
-    rows.append(("deferred", f"| Pitchers with 50+ IP | {lb['mean']:.1f} (seasons {lb['min']:.0f}–{lb['max']:.0f}) | {real} | ±{half:.1f} (95% PI) | {'pass' if ok else 'FAIL'} | |"))
+    rows.append(("deferred", f"| Pitchers with 50+ IP | {lb['mean']:.1f} (seasons {lb['min']:.0f}–{lb['max']:.0f}) | {real} | ±{half:.1f} (95% PI) | {'pass' if ok else 'FAIL'} | "
+                             f"56-game equivalent of the raw {pb['value']} (ratio {pb['ratio_56g']['value']} ± {pb['ratio_56g']['se']}, WMT full-season teams) |"))
     for name, s_ in (("phase2_gate", st2), ("phase4_gate", st4), ("phase5_gate", st5)):
         st[name] = bool(all(v for kk, v in s_.items() if v is not None))
     gate_ok = all(v for v in st.values() if v is not None)

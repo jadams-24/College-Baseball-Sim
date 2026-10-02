@@ -222,7 +222,8 @@ def build_report(agg: dict, seeds: list, bench: dict | None = None) -> tuple[str
     for k, lab in (("pitchers_50ip", "Pitchers with 50+ IP"), ("pitchers_50ip_era_under_2", "50+ IP pitchers with ERA < 2.00"), ("pitchers_50ip_era_under_3", "50+ IP pitchers with ERA < 3.00"),
                    ("teams_era_under_4", "Teams with ERA < 4.00"), ("best_team_era", "Best team ERA"), ("team_ba_max", "Best team BA"),
                    ("team_hr_per_game_max", "Most team HR per game")):
-        s, real = agg["leaderboards"][k], lbb[k]["value"]
+        # counts of 50+ IP pitchers at a 56-game equivalent where the benchmark carries one (the sim plays 56 games)
+        s, real = agg["leaderboards"][k], lbb[k].get("value_56g", lbb[k]["value"])
         half = tq * s["sd"] * np.sqrt(1 + 1 / n)
         ok = None if real is None else bool(abs(real - s["mean"]) <= half)
         deferred = f"lb_{k}" in DEFERRED_TO_PHASE6
@@ -230,7 +231,7 @@ def build_report(agg: dict, seeds: list, bench: dict | None = None) -> tuple[str
             st[f"lb_{k}"] = ok
         nd = 3 if s["mean"] < 10 else 1
         gcol = "Phase 6" if deferred else ("yes" if real is not None else "")
-        rows.append(("leaders", f"| {lab} | {s['mean']:.{nd}f} (season range {s['min']:.{nd}f}–{s['max']:.{nd}f}) | {'—' if real is None else real} | ±{half:.{nd}f} | {lbb[k]['conf']} | {gcol} | "
+        rows.append(("leaders", f"| {lab} | {s['mean']:.{nd}f} (season range {s['min']:.{nd}f}–{s['max']:.{nd}f}) | {'—' if real is None else real}{' (56-game eq. of ' + str(lbb[k]['value']) + ')' if 'value_56g' in lbb[k] else ''} | ±{half:.{nd}f} | {lbb[k]['conf']} | {gcol} | "
                                 f"{'pass' if ok else ('FAIL' if ok is False else 'n/a (no full-population source)')} |"))
     il = b["individual_leaders_2023_2026"]
     for k, lab, nd in (("hr_leader_56g", "HR leader (56-game equivalent)", 1), ("hr_30plus_56g", "Hitters with 30+ HR (56-game equivalent)", 2),

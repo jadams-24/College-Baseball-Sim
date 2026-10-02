@@ -25,7 +25,9 @@ PA_RATES = ("K", "BB", "HBP", "HR")
 # Roster shape: owner's Phase 2 spec ("about 9 regulars plus bench, a weekend rotation
 # of 3 starters, midweek starters, about 8 relievers").
 N_REGULARS = 9
-N_BENCH = 5
+N_BENCH = 8        # Phase 6: 2025 full-season teams give a plate appearance to 17.5 position players (median 17;
+                   # scripts/build_phase6_subs.py, subs6 bench_pick_weight.position_players_with_pa), so 9 + 8. With 5,
+                   # substitutes crowded onto too few players and marginal regulars passed the qualifying games share.
 N_WEEKEND_SP = 3
 N_MIDWEEK_SP = 2
 N_RELIEVERS = 13   # Phase 6: 2025 full-season teams use 18.3 pitchers (median 18; scripts/build_phase6_usage.py), so 3 + 2 + 13

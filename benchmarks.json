@@ -40,7 +40,7 @@
     },
     "runs_per_team_game": {"value": 6.75, "tol": 0.15, "conf": "B"},
     "hr_per_team_game": {"value": 1.05, "tol": 0.05, "conf": "B", "cross_check": "FanGraphs cites 1.07 for 2025 D1 overall"},
-    "sb_per_team_game": {"value": 1.29, "tol": 0.1, "conf": "B"},
+    "sb_per_team_game": {"value": 1.0979, "tol": 0.1, "conf": "B", "src": "WMT stats API box totals, 2259 2025 D1-vs-D1 games, reweighted by tier x opponent-tier cell to the full-season matchup mix (league_totals_2025_team_weighted_wmt; raw sample 1.058), the source of sb_attempts_per_team_game and sb_success_rate. Full-season Sidearm team totals agree: 13 teams, 1.047 per team-game (data/ncaa_2025/sidearm/team_totals_2025.csv). Replaces 1.29, the FanGraphs unweighted mean of conference tables (Phase 0).", "phase0_value": 1.29},
     "sh_per_team_game": {"value": 0.43, "tol": 0.05, "conf": "B"},
     "sf_per_team_game": {
       "value": 0.368,
@@ -710,7 +710,14 @@
   },
   "leaderboards_2025": {
     "_note": "Full-population extremes for the Phase 2 gate. The sim passes a row if the real value falls inside the central 95% of the simulated seasons. FanGraphs rows are conf A (all D1 pitchers and teams); individual BA and HR tops have no full-population source here (stats.ncaa.org not available), so they are informational.",
-    "pitchers_50ip": {"value": 882, "conf": "A", "gate": "phase6"},
+    "pitchers_50ip": {
+      "value": 882,
+      "conf": "A",
+      "gate": "phase6",
+      "value_56g": 821.1,
+      "ratio_56g": {"value": 0.931, "se": 0.0342, "raw_per_team": 2.9, "eq_per_team": 2.7},
+      "note_56g": "Gated value: the raw count x the ratio of 56-game-equivalent to raw 50+ IP counts on the 50 WMT full-season teams (each pitcher's IP x 56 / his team's games; scripts/build_phase6_usage.py). The sim plays 56 games with no postseason."
+    },
     "pitchers_50ip_era_under_2": {"value": 5, "conf": "A"},
     "pitchers_50ip_era_under_3": {"value": 57, "conf": "A"},
     "teams_era_under_4": {"value": 12, "conf": "A"},

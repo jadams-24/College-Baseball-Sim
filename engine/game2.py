@@ -41,6 +41,7 @@ B_G, B_PA, B_AB, B_H, B_2B, B_3B, B_HR, B_BB, B_HBP, B_K, B_SF, B_SH, B_ROE = ra
 B_NCOL = 13
 P_G, P_GS, P_BF, P_OUTS, P_H, P_HR, P_BB, P_HBP, P_K, P_R, P_ER, P_PITCH, P_WGS = range(13)  # P_WGS: weekend starts
 P_NCOL = 13
+_OUTING_COLS = (P_BF, P_K, P_BB, P_HBP, P_H, P_HR, P_R)
 # box-score tables for the Phase 4 estimator: plate-appearance results by batting team x pitching
 # team x (batting team at home), and each player's trials by opposing team x home
 CELL_RESULTS = ("K", "BB", "HBP", "HR", "1B", "2B", "3B", "ROE", "OUT")
@@ -80,7 +81,7 @@ class GameState2:
                  "team_obj", "lineup", "slot", "pitcher", "outing", "used", "weekend", "inning_end",
                  "half_innings", "pa", "errors", "hits", "hr", "ab", "outs_pitched", "er_allowed",
                  "week", "day", "phantom", "p_phantom", "date", "pitch_log", "in_game", "subs", "batted",
-                 "err_or", "catcher_arm", "of_arm")
+                 "err_or", "catcher_arm", "of_arm", "pending_change", "sb_att", "sb_ok")
 
     def __init__(self, rng, home, away, weekend):
         self.rng = rng
@@ -110,6 +111,9 @@ class GameState2:
         self.err_or = {"away": 1.0, "home": 1.0}          # Phase 6: error odds of each side's defense
         self.catcher_arm = {"away": 0.0, "home": 0.0}
         self.of_arm = {"away": {}, "home": {}}
+        self.sb_att = {"away": 0, "home": 0}     # steal attempts and stolen bases by the batting side
+        self.sb_ok = {"away": 0, "home": 0}
+        self.pending_change = {"away": False, "home": False}   # pulled at an inning's end: the reliever enters when the side next takes the field
         self.phantom = 0      # phantom outs this half-inning (errors that prevented an out)
         self.p_phantom = 0    # phantom outs since the current pitcher entered this half-inning
 
@@ -165,6 +169,7 @@ class PlayerGameEngine:
         self.roe_cache: dict = {}
         self.sb = [0, 0]                                              # steal attempts, steals
         self.outings: list = []                                       # (pitcher, started, outs, weekday) of every outing
+        self.outing_lines: list = []                                  # (pitcher, started, BF, K, BB, HBP, H, HR, R) of every outing
         self.fielding_on, self.speed_on = phase6.on("fielding"), phase6.on("speed")
         f6 = phase6.load().get("fielding6", {})
         self.err_share = f6.get("team_error", {}).get("error_share", {})
@@ -178,6 +183,9 @@ class PlayerGameEngine:
                           "ok": _centre(sp["success"]["rate"], float(np.hypot(sp["success"]["sd_logit"], f6["arm_c"]["sd_logit"]))),
                           "xb": _centre(sp["extra_base"]["rate"], float(np.hypot(sp["extra_base"]["sd_logit"], f6["arm_of"]["sd_logit"]))),
                           "err": _centre(te["rate_per_chance"], te["total_sd"])}
+        # steal attempt and success by the running x the fielding team's tier (logit cells, centred on
+        # the play-by-play sample the league tables come from)
+        self.sb_tier = f6.get("speed", {}).get("tier_logodds") if self.speed_on else None
         zs = f6.get("of_zone_share", {"lf": 1 / 3, "cf": 1 / 3, "rf": 1 / 3})
         self.of_zone = list(zs)
         self.of_zone_cum = np.cumsum([zs[k] for k in self.of_zone]) / sum(zs.values())
@@ -281,6 +289,8 @@ class PlayerGameEngine:
         if o is not None:
             st.pitch_log.append((st.pitcher[side].pid, o["pitches"]))
             self.outings.append((st.pitcher[side].pid, int(o["starter"]), o["pa_outs"], st.date % 7))
+            ps = self.pstats[st.pitcher[side].pid]
+            self.outing_lines.append((st.pitcher[side].pid, int(o["starter"]), *(ps[c] - v for c, v in zip(_OUTING_COLS, o["ps0"]))))   # BF, K, BB, HBP, H, HR, R of the outing
         if o is not None and o["starter"]:
             self.starts.append((o["pitches"], o["pa_outs"], bool(st.weekend)))
 
@@ -289,8 +299,8 @@ class PlayerGameEngine:
         st.pitcher[side] = pitcher
         st.used[side].add(pitcher.pid)
         st.p_phantom = 0
-        st.outing[side] = {"starter": starter, "pitches": 0, "runs": 0, "pa_outs": 0}
         ps = self.pstats[pitcher.pid]
+        st.outing[side] = {"starter": starter, "pitches": 0, "runs": 0, "pa_outs": 0, "ps0": [ps[c] for c in _OUTING_COLS]}
         ps[P_G] += 1
         if starter:
             ps[P_GS] += 1
@@ -303,26 +313,39 @@ class PlayerGameEngine:
         st.phantom = st.p_phantom = 0
         bat, fld = st.batting_side, st.fielding_side
         runs0, pa0 = st.score[bat], st.pa[bat]
+        if st.pending_change[fld]:
+            # a pitcher pulled at the end of an inning is replaced when his side takes the field again,
+            # so a reliever never appears in a game that ends first (as in the play-by-play)
+            st.pending_change[fld] = False
+            nxt = dec.relief_pitcher(st, fld)
+            if nxt is not None:
+                self._bring_in(st, fld, nxt, False)
         for slot, player in dec.defensive_subs(st, fld):
             self._sub(st, fld, player, slot)
         while st.outs < 3 and not st.over:
             if any(b is not None for b in st.bases):
                 steal = dec.steal_attempt(st)
                 runner = self._lead_stealer(st, bat)
-                sb_or = np.exp(runner.run[0] + self.delta["att"]) if runner is not None else 1.0
+                ta = to_ = 0.0
+                if self.sb_tier:
+                    cell = f"{st.team_obj[bat].tier}|{st.team_obj[fld].tier}"
+                    ta, to_ = self.sb_tier["attempt"]["cell"][cell], self.sb_tier["success"]["cell"][cell]
+                sb_or = np.exp(runner.run[0] + self.delta["att"] + ta) if runner is not None else 1.0
                 ev = self.pre_pa.draw_event(st.outs, st.base_code, rng.random(), sb_or)
                 if steal == Decision.NO and ev == "SB_ATT":
                     ev = None
                 if ev is not None:
                     ok_or = 1.0
                     if ev == "SB_ATT" and runner is not None:
-                        ok_or = np.exp(runner.run[1] - st.catcher_arm[fld] + self.delta["ok"])
+                        ok_or = np.exp(runner.run[1] - st.catcher_arm[fld] + self.delta["ok"] + to_)
                     out = self.pre_pa.draw_outcome(ev, st.outs, st.base_code, rng.random(), ok_or)
                     if out is not None:
                         dests, _, err = out
                         if ev == "SB_ATT":
                             self.sb[0] += 1
                             self.sb[1] += "0" not in dests
+                            st.sb_att[bat] += 1
+                            st.sb_ok[bat] += "0" not in dests
                         if self._apply(st, dests, None, None, err, event=ev) and st.half == "B":
                             self._end_check(st, True)
                         if st.outs >= 3 or st.over:
@@ -357,9 +380,12 @@ class PlayerGameEngine:
                 break
             st.inning_end = st.outs >= 3
             if dec.pitching_change(st) == Decision.YES:
-                nxt = dec.relief_pitcher(st, fld)
-                if nxt is not None:
-                    self._bring_in(st, fld, nxt, False)
+                if st.inning_end:
+                    st.pending_change[fld] = True
+                else:
+                    nxt = dec.relief_pitcher(st, fld)
+                    if nxt is not None:
+                        self._bring_in(st, fld, nxt, False)
         st.half_innings.append((st.inning, st.half, st.score[bat] - runs0, st.pa[bat] - pa0))
 
     # ---- Phase 6: base running and fielding --------------------------------------------------

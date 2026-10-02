@@ -5,8 +5,15 @@ pitcher usage on the 50 full-season teams of the 2025 play-by-play at a 56-game 
 starts, with 40+ and 60+ IP; the top three pitchers' innings and their split into Fri-Sun starts,
 other starts and relief), and distinct batters per team-game. Tolerance 3 SE (bootstrap over teams,
 or over games for batters). Errors and stolen bases are gated on their existing league_totals_2025
-rows; the deferred rows on their existing blocks. Every write is recorded in
-data/ncaa_2025/derived/benchmark_changes_phase6.json.
+rows; the deferred rows on their existing blocks. Two existing rows change (PHASE0_NOTES, Phase 6):
+  league_totals_2025.sb_per_team_game  1.29 (FanGraphs unweighted conference means, Phase 0) -> the WMT
+      box-total value reweighted to the full-season matchup mix (league_totals_2025_team_weighted_wmt),
+      the source of the attempt and success rows it is the product of; full-season Sidearm team totals
+      (data/ncaa_2025/sidearm/team_totals_2025.csv) agree.
+  leaderboards_2025.pitchers_50ip      gains value_56g: the raw full-population count x the ratio of the
+      56-game-equivalent count to the raw count on the WMT full-season teams (the sim plays 56 games, real
+      teams 57-72 with the postseason), as for the individual-leader rows.
+Every write is recorded in data/ncaa_2025/derived/benchmark_changes_phase6.json.
 
     python3 scripts/write_phase6_benchmarks.py
 """
@@ -16,6 +23,8 @@ import datetime
 import json
 import sys
 from pathlib import Path
+
+import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
@@ -36,14 +45,38 @@ def main() -> None:
            "conf": "B", "src": "WMT stats API play-by-play 2025, data/ncaa_2025/pbp (fetched 2026-09-30 to 2026-10-01)",
            "n_teams": u["teams"], "team_games_mean": u["team_games_mean"]}
     for k, v in u.items():
-        if isinstance(v, dict) and "value" in v:
+        if isinstance(v, dict) and "value" in v and k != "pitchers_50ip_ratio_56g":
             new[k] = {"value": v["value"], "tol": round(3 * v["se"], 3), **({} if k in GATED else {"gate": "report"})}
     new["batters_per_team_game"] = {"value": sb["batters_per_team_game"]["value"], "tol": round(3 * sb["batters_per_team_game"]["se"], 3)}
     b = json.loads(BENCH.read_text())
     changes = []
-    if json.loads(json.dumps(b.get("usage_phase6_2025"))) != json.loads(json.dumps(new)):
-        changes.append({"path": "usage_phase6_2025", "old": b.get("usage_phase6_2025"), "new": new})
+
+    def put(path, old, val):
+        if json.loads(json.dumps(old)) != json.loads(json.dumps(val)):
+            changes.append({"path": path, "old": old, "new": val})
+    put("usage_phase6_2025", b.get("usage_phase6_2025"), new)
     b["usage_phase6_2025"] = new
+    # stolen bases per team-game: attempts x success on the same box totals
+    lt, wmt = b["league_totals_2025"], b["league_totals_2025_team_weighted_wmt"]
+    sd = pd.read_csv(ROOT / "data/ncaa_2025/sidearm/team_totals_2025.csv")
+    sd = sd[sd.side == "Totals"]
+    sb_new = {"value": wmt["reweighted"]["sb_per_team_game"], "tol": lt["sb_per_team_game"]["tol"], "conf": "B",
+              "src": ("WMT stats API box totals, 2259 2025 D1-vs-D1 games, reweighted by tier x opponent-tier cell to the full-season matchup mix "
+                      "(league_totals_2025_team_weighted_wmt; raw sample 1.058), the source of sb_attempts_per_team_game and sb_success_rate. "
+                      f"Full-season Sidearm team totals agree: {len(sd)} teams, {sd.h_stolenBases.sum() / sd.h_gamesPlayed.sum():.3f} per team-game "
+                      "(data/ncaa_2025/sidearm/team_totals_2025.csv). Replaces 1.29, the FanGraphs unweighted mean of conference tables (Phase 0)."),
+              "phase0_value": 1.29}
+    put("league_totals_2025.sb_per_team_game", lt["sb_per_team_game"], sb_new)
+    lt["sb_per_team_game"] = sb_new
+    # pitchers with 50+ IP at a 56-game equivalent
+    r = inp["usage6"]["benchmarks"]["pitchers_50ip_ratio_56g"]
+    p50 = dict(b["leaderboards_2025"]["pitchers_50ip"])
+    p50_new = {**{k: v for k, v in p50.items() if k not in ("value_56g", "ratio_56g", "note_56g")}, "value_56g": round(p50["value"] * r["value"], 1),
+               "ratio_56g": r,
+               "note_56g": ("Gated value: the raw count x the ratio of 56-game-equivalent to raw 50+ IP counts on the 50 WMT full-season teams "
+                            "(each pitcher's IP x 56 / his team's games; scripts/build_phase6_usage.py). The sim plays 56 games with no postseason.")}
+    put("leaderboards_2025.pitchers_50ip", p50, p50_new)
+    b["leaderboards_2025"]["pitchers_50ip"] = p50_new
     BENCH.write_text(dumps_compact(b) + "\n")
     if changes:
         log = D / "benchmark_changes_phase6.json"

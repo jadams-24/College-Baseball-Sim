@@ -11,8 +11,13 @@ substituting team's side, at the substitution):
   def  per defensive half-inning of the team             (opportunities: half-innings in the field)
 Cells with fewer than MIN_SUB_CELL opportunities back off to the inning bin alone.
 Also: the lineup spot a pinch hitter or defensive substitute replaces (share of entries over
-share of opportunities, by spot), and a tier multiplier on all three hazards (substitutions per
-team-game by tier over the pooled rate, from the same cells).
+share of opportunities, by spot), a tier multiplier on all three hazards (substitutions per
+team-game by tier over the pooled rate, from the same cells), and who comes in: the substitute's
+rank on his team by games started (full-season teams), as entries per team-game in which that
+rank did not start. The engine picks among the players not in the game in proportion to it.
+Ranks are pooled from the top until a cell has MIN_SUB_CELL opportunities; the engine's last
+roster rank (N_REGULARS + N_BENCH) pools every deeper rank. With it, by rank: the start share and
+start persistence, P(start | started the team's previous game) and P(start | sat it).
 Gate value: distinct batters per team-game (batters with a plate appearance).
 Writes the "subs6" block of data/ncaa_2025/derived/phase6_inputs_2025.json.
 
@@ -30,7 +35,11 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from config.phase6 import INNING_BINS, INPUTS6, MARGIN_BINS, MIN_SUB_CELL  # noqa: E402
+from config.phase2 import N_BENCH, N_REGULARS  # noqa: E402
+from config.phase6 import FULL_SEASON_GAMES, INNING_BINS, INPUTS6, MARGIN_BINS, MIN_SUB_CELL  # noqa: E402
+
+sys.path.insert(0, str(ROOT / "scripts"))
+from lib.players import _toks, name_map  # noqa: E402
 
 P = ROOT / "data/ncaa_2025/pbp/parsed"
 
@@ -43,12 +52,81 @@ def mbin(margin) -> np.ndarray:
     return np.searchsorted(np.array(MARGIN_BINS), np.asarray(margin), side="right") - 1
 
 
+def bench_pick_weight(pa: pd.DataFrame, s: pd.DataFrame) -> dict:
+    """Substitute entries per team-game in which the player's start rank did not start, by rank."""
+    s = s.copy()
+    gk = pa.drop_duplicates(["game_id", "batter_id"]).set_index(["game_id", "batter_id"]).bkey
+    s["bkey"] = gk.reindex(list(zip(s.game_id, s.game_player_id))).values
+    keys = pa.groupby("bat_team_id").bkey.unique().to_dict()
+
+    def match(team, name):            # substitutes without a plate appearance: by name tokens
+        k = set(_toks(name))
+        c = [x for x in keys.get(team, []) if k <= set(x.split())]
+        return c[0] if len(c) == 1 else None
+    miss = s.bkey.isna()
+    s.loc[miss, "bkey"] = [match(t, n) for t, n in zip(s[miss].team_id, s[miss].name)]
+    sub_ids = set(zip(s.game_id, s.game_player_id))
+    b = pa.drop_duplicates(["game_id", "bat_team_id", "batter_id"])
+    b = b[[(g, i) not in sub_ids for g, i in zip(b.game_id, b.batter_id)]]          # starters
+    ng = b.groupby("bat_team_id").game_id.nunique()
+    full = ng[ng >= FULL_SEASON_GAMES].index
+    n_rank = N_REGULARS + N_BENCH
+    ev, opp, starts = np.zeros(n_rank), np.zeros(n_rank), np.zeros(n_rank)
+    n_used = []
+    for t in full:
+        bt = b[b.bat_team_id == t]
+        order = bt.groupby("bkey").size().sort_values(ascending=False).index
+        rank = {k: min(i, n_rank - 1) for i, k in enumerate(order)}
+        started = bt.groupby("bkey").game_id.nunique()
+        n_used.append(pa[pa.bat_team_id == t].bkey.nunique())
+        for k, r in rank.items():
+            opp[r] += ng[t] - started[k]
+            starts[r] += started[k]
+        st = s[(s.team_id == t) & s.bkey.notna()]
+        for k in st.bkey:
+            if k in rank:
+                ev[rank[k]] += 1
+    # pool from the top until a cell has MIN_SUB_CELL opportunities
+    w, i = {}, 0
+    while i < n_rank:
+        j = i
+        while opp[i:j + 1].sum() < MIN_SUB_CELL and j < n_rank - 1:
+            j += 1
+        rate = ev[i:j + 1].sum() / opp[i:j + 1].sum()
+        for r in range(i, j + 1):
+            w[str(r + 1)] = round(float(rate), 4)
+        i = j + 1
+    tg_total = float(ng[full].sum())
+    # start persistence: P(start | started the team's previous game) and P(start | did not), by rank
+    meta = pd.read_csv(P / "games_meta_2025.csv")
+    meta["d"] = pd.to_datetime(meta.local_date)
+    pos = {g: i for i, g in enumerate(meta.sort_values(["d", "dbl_header_game_no"]).game_id)}
+    trans = np.zeros((n_rank, 2, 2))            # [rank, previous start, today start]
+    for t in full:
+        bt = b[b.bat_team_id == t]
+        games = sorted(bt.game_id.unique(), key=pos.get)
+        order = bt.groupby("bkey").size().sort_values(ascending=False).index
+        for i, k in enumerate(order):
+            started = set(bt[bt.bkey == k].game_id)
+            x = np.array([g in started for g in games], dtype=int)
+            np.add.at(trans[min(i, n_rank - 1)], (x[:-1], x[1:]), 1)
+    return {"weight": w, "entries": ev.astype(int).tolist(), "opportunities": opp.astype(int).tolist(),
+            "matched_share": round(float(s.bkey.notna().mean()), 4),
+            # start share by rank on the same ranks (the last pools every deeper rank), and the roster depth
+            "start_share_by_rank": {str(r + 1): round(float(starts[r] / tg_total), 4) for r in range(n_rank)},
+            "start_after_start": {str(r + 1): round(float(trans[r, 1, 1] / max(trans[r, 1].sum(), 1)), 4) for r in range(n_rank)},
+            "start_after_sit": {str(r + 1): round(float(trans[r, 0, 1] / max(trans[r, 0].sum(), 1)), 4) for r in range(n_rank)},
+            "position_players_with_pa": {"mean": round(float(np.mean(n_used)), 2), "median": float(np.median(n_used))}}
+
+
 def main() -> None:
     meta = pd.read_csv(P / "games_meta_2025.csv")
     teams = pd.read_csv(ROOT / "data/ncaa_2025/pbp/teams_2025.csv")
     tier = dict(zip(teams.ncaa_team_id, teams.tier))
     pa = pd.read_csv(P / "pa_events_2025.csv.gz", low_memory=False)
     pa = pa[pa.game_id.isin(meta.game_id)].copy()
+    bm = name_map(pa, "bat_team_id", "batter")
+    pa["bkey"] = [bm[(t, n)] for t, n in zip(pa.bat_team_id, pa.batter)]
     home = dict(zip(meta.game_id, meta.home_team_id))
     # the batting team's margin before the plate appearance
     bat_home = pa.bat_team_id.values == pa.game_id.map(home).values
@@ -103,6 +181,7 @@ def main() -> None:
     # positions of defensive substitutes (fielding positions only): the bench's positions in the engine
     dp = s[(s.kind6 == "def") & s.position.isin(["c", "1b", "2b", "3b", "ss", "lf", "cf", "rf"])].position.value_counts(normalize=True)
     out["def_position_shares"] = {k: round(float(v), 4) for k, v in dp.items()}
+    out["bench_pick_weight"] = bench_pick_weight(pa, s)
     out["subs_per_team_game_by_kind"] = {k: round(float((s.kind6 == k).sum() / tg.sum()), 4) for k in ("ph", "pr", "def")}
     # gate value: distinct batters with a plate appearance per team-game, with a bootstrap SE over games
     nb = pa.groupby(["game_id", "bat_team_id"]).batter_id.nunique()

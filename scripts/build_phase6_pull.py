@@ -35,7 +35,10 @@ from engine.manager import Manager  # noqa: E402
 from lib.players import load_pa  # noqa: E402
 
 P = ROOT / "data/ncaa_2025/pbp/parsed"
-WEEKEND = {4, 5, 6}    # the Phase 2 tables' definition (Fri-Sun)
+# the engine's split (Phase 6 calendar): series games Thu-Sun use the weekend tables, Mon-Wed the
+# midweek ones. The Phase 2 baseline tables pool Thursday with midweek; the multipliers fitted here
+# on the engine's split absorb the difference (Thursday games are series openers by weekend aces).
+WEEKEND = {3, 4, 5, 6}
 
 
 def decisions() -> pd.DataFrame:
@@ -60,7 +63,7 @@ def decisions() -> pd.DataFrame:
     pa["inning_end"] = ((pa.outs + pa.outs_on_play) >= 3).astype(int)
     pa["tier"] = pa.pit_team_id.map(tier)
     h = pa[~pa.last_of_game & pa.out_pitches.notna() & pa.tier.notna()].copy()
-    # weekend rotation rank (most Fri-Sun starts on the team), as the Phase 2 rank tables
+    # weekend rotation rank (most series starts on the team), as the Phase 2 rank tables
     st = h[(h.is_sp == 1) & (h.weekend == 1)].drop_duplicates(["game_id", "pit_team_id"])
     cnt = st.groupby(["pit_team_id", "pkey"]).size().rename("n").reset_index()
     cnt["rank"] = cnt.groupby("pit_team_id").n.rank(ascending=False, method="first").astype(int).clip(upper=SPOT_STARTER_RANK)

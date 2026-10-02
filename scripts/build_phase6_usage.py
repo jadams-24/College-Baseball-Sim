@@ -42,7 +42,7 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
 from config.phase6 import (CLOGIT_RIDGE, FULL_SEASON_GAMES, INPUTS6, LEVERAGE_BLOWOUT, LEVERAGE_CLOSE, LEVERAGE_LATE_INNING, N_ROLE_RELIEVERS,  # noqa: E402
                            PITCH_BINS, REST_SPLIT_DAYS, ROLES)
-from config.phase2 import SEASON_GAMES  # noqa: E402
+from config.phase2 import LEADERBOARD_MIN_IP, SEASON_GAMES  # noqa: E402
 from lib.players import load_pa  # noqa: E402
 
 P = ROOT / "data/ncaa_2025/pbp/parsed"
@@ -261,6 +261,14 @@ def benchmarks(a: pd.DataFrame, full: set) -> dict:
            "app_max_overall_raw": int(per.G.max())}
     for i, k in enumerate(vals.columns):
         out[k] = {"value": round(float(vals[k].mean()), 3), "se": round(float(boot[:, i].std(ddof=1)), 3)}
+    # pitchers with 50+ IP: count at a 56-game equivalent over the raw count (real teams play past 56
+    # games with the postseason); converts the full-population raw count (leaderboards_2025) for the sim
+    ip = per.outs / 3
+    raw = (ip >= LEADERBOARD_MIN_IP).groupby(per.pit_team_id).sum().reindex(tg.index).values.astype(float)
+    eq = (ip * SEASON_GAMES / per.pit_team_id.map(tg) >= LEADERBOARD_MIN_IP).groupby(per.pit_team_id).sum().reindex(tg.index).values.astype(float)
+    idx = [rng.integers(0, len(tg), len(tg)) for _ in range(2000)]
+    out["pitchers_50ip_ratio_56g"] = {"value": round(float(eq.mean() / raw.mean()), 4), "se": round(float(np.std([eq[i].mean() / raw[i].mean() for i in idx], ddof=1)), 4),
+                                      "raw_per_team": round(float(raw.mean()), 3), "eq_per_team": round(float(eq.mean()), 3)}
     return out
 
 

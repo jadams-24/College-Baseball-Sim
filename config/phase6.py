@@ -77,3 +77,11 @@ def load() -> dict:
 
 def on(feature: str) -> bool:
     return bool(FEATURES.get(feature)) and bool(load())
+
+
+def batter_start_shares(table: dict, n: int) -> list:
+    """Start share of the 1st..n-th most-started batter: the Phase 2 table (usage_2025, 16 ranks), and
+    past it the Phase 6 substitution inputs' table on the same definition (its last rank pools every
+    deeper one); 0 where neither has the rank."""
+    ext = load().get("subs6", {}).get("bench_pick_weight", {}).get("start_share_by_rank", {})
+    return [float(table.get(str(k + 1), ext.get(str(k + 1), 0.0))) for k in range(n)]

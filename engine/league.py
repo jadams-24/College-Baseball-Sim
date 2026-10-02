@@ -253,7 +253,9 @@ def _fielding(fl6: dict, t, regs: list, bench: list, rng) -> None:
         p.pos = str(pos)
         z = float(rng.standard_normal())
         own = rng.standard_normal(3)
-        p.run = tuple(sp[k]["sd_logit"] * (lam[k] * z + np.sqrt(1 - lam[k] ** 2) * own[i]) for i, k in enumerate(("attempt", "success", "extra_base")))
+        # within-tier spreads where the tier effects are applied in the engine (steal attempt and success)
+        p.run = tuple(sp[k].get("sd_logit_within_tier", sp[k]["sd_logit"]) * (lam[k] * z + np.sqrt(1 - lam[k] ** 2) * own[i])
+                      for i, k in enumerate(("attempt", "success", "extra_base")))
         p.ratings["speed"] = 50 + 10 * z
         sd_e = fl6["error"]["by_position"].get(p.pos, {}).get("sd_logit", 0.0)
         sd_e = sd_e if sd_e == sd_e else 0.0

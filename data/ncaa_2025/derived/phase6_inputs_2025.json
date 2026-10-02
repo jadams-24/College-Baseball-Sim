@@ -299,6 +299,12 @@
    "ip_rank3_relief": {
     "value": 18.741,
     "se": 2.377
+   },
+   "pitchers_50ip_ratio_56g": {
+    "value": 0.931,
+    "se": 0.0342,
+    "raw_per_team": 2.9,
+    "eq_per_team": 2.7
    }
   }
  },
@@ -307,31 +313,31 @@
   "built": "2026-10-02",
   "season_start": "2025-02-14",
   "sp_weekend": {
-   "n_decisions": 42238,
-   "n_pulls": 2969,
+   "n_decisions": 45363,
+   "n_pulls": 3154,
    "log_theta_tier": {
-    "p4": 0.017,
-    "mid": -0.2498,
-    "low": -0.2658
+    "p4": -0.0155,
+    "mid": -0.2547,
+    "low": -0.2521
    },
    "se_tier": {
-    "p4": 0.0456,
-    "mid": 0.0527,
-    "low": 0.0846
+    "p4": 0.0446,
+    "mid": 0.052,
+    "low": 0.0832
    },
    "log_theta_week": {
-    "0": 0.5635,
-    "1": 0.2913,
+    "0": 0.5961,
+    "1": 0.3058,
     "2": 0.0,
-    "3": -0.0403,
-    "4": -0.1358
+    "3": -0.0166,
+    "4": -0.0935
    },
    "se_week": {
-    "0": 0.0632,
-    "1": 0.0624,
+    "0": 0.0623,
+    "1": 0.0618,
     "2": 0.0,
-    "3": 0.0632,
-    "4": 0.0556
+    "3": 0.0612,
+    "4": 0.0539
    },
    "week_bins": [
     0,
@@ -342,31 +348,31 @@
    ]
   },
   "sp_midweek": {
-   "n_decisions": 18359,
-   "n_pulls": 1264,
+   "n_decisions": 14107,
+   "n_pulls": 1070,
    "log_theta_tier": {
-    "p4": 0.1745,
-    "mid": 0.2323,
-    "low": 0.3499
+    "p4": 0.2718,
+    "mid": 0.1216,
+    "low": 0.1439
    },
    "se_tier": {
-    "p4": 0.0653,
-    "mid": 0.0691,
-    "low": 0.1094
+    "p4": 0.0714,
+    "mid": 0.0696,
+    "low": 0.1128
    },
    "log_theta_week": {
-    "0": -0.0995,
-    "1": -0.0116,
+    "0": -0.2713,
+    "1": -0.1868,
     "2": 0.0,
-    "3": -0.1725,
-    "4": -0.5315
+    "3": -0.0374,
+    "4": -0.4983
    },
    "se_week": {
-    "0": 0.0987,
-    "1": 0.0943,
+    "0": 0.1033,
+    "1": 0.0964,
     "2": 0.0,
-    "3": 0.0822,
-    "4": 0.0825
+    "3": 0.0876,
+    "4": 0.0933
    },
    "week_bins": [
     0,
@@ -392,7 +398,7 @@
   }
  },
  "subs6": {
-  "_note": "Phase 6 substitution inputs from the 2025 play-by-play: pinch hitters, pinch runners and\ndefensive (including blowout) substitutions.\n\nEvery non-pitcher who enters a game (players with a plate appearance before the entry are starters\nchanging position, not new players) is classified by how he first entered (subs_2025, from\nscripts/build_phase6_events.py): 'ph' pinch hitter, 'pr' pinch runner, anything else (a fielding\nposition or dh) a defensive substitution. Hazards, by inning bin x margin bin (margin from the\nsubstituting team's side, at the substitution):\n  ph   per plate appearance of the team                 (opportunities: the team's PAs in the cell)\n  pr   per batter reaching base (not on a home run)      (opportunities: such batters in the cell)\n  def  per defensive half-inning of the team             (opportunities: half-innings in the field)\nCells with fewer than MIN_SUB_CELL opportunities back off to the inning bin alone.\nAlso: the lineup spot a pinch hitter or defensive substitute replaces (share of entries over\nshare of opportunities, by spot), and a tier multiplier on all three hazards (substitutions per\nteam-game by tier over the pooled rate, from the same cells).\nGate value: distinct batters per team-game (batters with a plate appearance).\nWrites the \"subs6\" block of data/ncaa_2025/derived/phase6_inputs_2025.json.\n\n    python3 scripts/build_phase6_subs.py\n",
+  "_note": "Phase 6 substitution inputs from the 2025 play-by-play: pinch hitters, pinch runners and\ndefensive (including blowout) substitutions.\n\nEvery non-pitcher who enters a game (players with a plate appearance before the entry are starters\nchanging position, not new players) is classified by how he first entered (subs_2025, from\nscripts/build_phase6_events.py): 'ph' pinch hitter, 'pr' pinch runner, anything else (a fielding\nposition or dh) a defensive substitution. Hazards, by inning bin x margin bin (margin from the\nsubstituting team's side, at the substitution):\n  ph   per plate appearance of the team                 (opportunities: the team's PAs in the cell)\n  pr   per batter reaching base (not on a home run)      (opportunities: such batters in the cell)\n  def  per defensive half-inning of the team             (opportunities: half-innings in the field)\nCells with fewer than MIN_SUB_CELL opportunities back off to the inning bin alone.\nAlso: the lineup spot a pinch hitter or defensive substitute replaces (share of entries over\nshare of opportunities, by spot), a tier multiplier on all three hazards (substitutions per\nteam-game by tier over the pooled rate, from the same cells), and who comes in: the substitute's\nrank on his team by games started (full-season teams), as entries per team-game in which that\nrank did not start. The engine picks among the players not in the game in proportion to it.\nRanks are pooled from the top until a cell has MIN_SUB_CELL opportunities; the engine's last\nroster rank (N_REGULARS + N_BENCH) pools every deeper rank. With it, by rank: the start share and\nstart persistence, P(start | started the team's previous game) and P(start | sat it).\nGate value: distinct batters per team-game (batters with a plate appearance).\nWrites the \"subs6\" block of data/ncaa_2025/derived/phase6_inputs_2025.json.\n\n    python3 scripts/build_phase6_subs.py\n",
   "built": "2026-10-02",
   "inning_bins": [
    1,
@@ -561,6 +567,127 @@
    "1b": 0.1022,
    "cf": 0.0907,
    "ss": 0.0688
+  },
+  "bench_pick_weight": {
+   "weight": {
+    "1": 0.3448,
+    "2": 0.3448,
+    "3": 0.3448,
+    "4": 0.3448,
+    "5": 0.3794,
+    "6": 0.3291,
+    "7": 0.3213,
+    "8": 0.3223,
+    "9": 0.3201,
+    "10": 0.323,
+    "11": 0.268,
+    "12": 0.2914,
+    "13": 0.245,
+    "14": 0.2027,
+    "15": 0.1927,
+    "16": 0.1601,
+    "17": 0.1374
+   },
+   "entries": [
+    4,
+    18,
+    45,
+    73,
+    140,
+    180,
+    232,
+    291,
+    378,
+    491,
+    499,
+    632,
+    583,
+    450,
+    352,
+    218,
+    196
+   ],
+   "opportunities": [
+    16,
+    52,
+    121,
+    217,
+    369,
+    547,
+    722,
+    903,
+    1181,
+    1520,
+    1862,
+    2169,
+    2380,
+    2220,
+    1827,
+    1362,
+    1426
+   ],
+   "matched_share": 0.9678,
+   "start_share_by_rank": {
+    "1": 0.9944,
+    "2": 0.9818,
+    "3": 0.9577,
+    "4": 0.9241,
+    "5": 0.871,
+    "6": 0.8087,
+    "7": 0.7476,
+    "8": 0.6843,
+    "9": 0.5871,
+    "10": 0.4685,
+    "11": 0.349,
+    "12": 0.2416,
+    "13": 0.1678,
+    "14": 0.1066,
+    "15": 0.0566,
+    "16": 0.0231,
+    "17": 0.0175
+   },
+   "start_after_start": {
+    "1": 0.9964,
+    "2": 0.9859,
+    "3": 0.9666,
+    "4": 0.9507,
+    "5": 0.9174,
+    "6": 0.8816,
+    "7": 0.8406,
+    "8": 0.8221,
+    "9": 0.7712,
+    "10": 0.6626,
+    "11": 0.5859,
+    "12": 0.4919,
+    "13": 0.4253,
+    "14": 0.3488,
+    "15": 0.3608,
+    "16": 0.1719,
+    "17": 0.1224
+   },
+   "start_after_sit": {
+    "1": 0.625,
+    "2": 0.8039,
+    "3": 0.7647,
+    "4": 0.6215,
+    "5": 0.5671,
+    "6": 0.5019,
+    "7": 0.4732,
+    "8": 0.3874,
+    "9": 0.3227,
+    "10": 0.2991,
+    "11": 0.2205,
+    "12": 0.1602,
+    "13": 0.1161,
+    "14": 0.0872,
+    "15": 0.0568,
+    "16": 0.0388,
+    "17": 0.03
+   },
+   "position_players_with_pa": {
+    "mean": 17.46,
+    "median": 17.0
+   }
   },
   "subs_per_team_game_by_kind": {
    "ph": 0.9857,
@@ -932,7 +1059,8 @@
     "rate": 0.09784,
     "sd_logit": 0.7901,
     "var_obs": 0.007395383533474408,
-    "var_noise": 0.002531941484617349
+    "var_noise": 0.002531941484617349,
+    "sd_logit_within_tier": 0.7894
    },
    "success": {
     "n_units": 324,
@@ -940,7 +1068,8 @@
     "rate": 0.81064,
     "sd_logit": 0.4249,
     "var_obs": 0.021101385616129183,
-    "var_noise": 0.01684808159986716
+    "var_noise": 0.01684808159986716,
+    "sd_logit_within_tier": 0.3964
    },
    "extra_base": {
     "n_units": 1061,
@@ -955,7 +1084,81 @@
     "attempt|extra_base": 0.37,
     "success|extra_base": 0.27
    },
-   "n_runners_corr": 466
+   "n_runners_corr": 466,
+   "tier_logodds": {
+    "attempt": {
+     "cell": {
+      "low|low": 0.1983,
+      "low|mid": 0.1539,
+      "low|p4": -0.202,
+      "mid|low": 0.4652,
+      "mid|mid": -0.0449,
+      "mid|p4": -0.083,
+      "p4|low": 0.422,
+      "p4|mid": 0.2856,
+      "p4|p4": -0.1188
+     },
+     "n": {
+      "low|low": 820,
+      "low|mid": 719,
+      "low|p4": 1750,
+      "mid|low": 780,
+      "mid|mid": 10156,
+      "mid|p4": 6428,
+      "p4|low": 2535,
+      "p4|mid": 7410,
+      "p4|p4": 20873
+     },
+     "rate": {
+      "low|low": 0.1085,
+      "low|mid": 0.1043,
+      "low|p4": 0.0754,
+      "mid|low": 0.1372,
+      "mid|mid": 0.0871,
+      "mid|p4": 0.0842,
+      "p4|low": 0.1321,
+      "p4|mid": 0.1173,
+      "p4|p4": 0.0814
+     },
+     "var_offense": 0.00115
+    },
+    "success": {
+     "cell": {
+      "low|low": -0.24,
+      "low|mid": -0.5389,
+      "low|p4": -0.3554,
+      "mid|low": 0.1033,
+      "mid|mid": -0.1728,
+      "mid|p4": -0.2114,
+      "p4|low": 0.6132,
+      "p4|mid": 0.3198,
+      "p4|p4": -0.0795
+     },
+     "n": {
+      "low|low": 110,
+      "low|mid": 82,
+      "low|p4": 172,
+      "mid|low": 144,
+      "mid|mid": 1102,
+      "mid|p4": 662,
+      "p4|low": 419,
+      "p4|mid": 1123,
+      "p4|p4": 2125
+     },
+     "rate": {
+      "low|low": 0.7545,
+      "low|mid": 0.6951,
+      "low|p4": 0.7326,
+      "mid|low": 0.8125,
+      "mid|mid": 0.7668,
+      "mid|p4": 0.7598,
+      "p4|low": 0.8783,
+      "p4|mid": 0.8433,
+      "p4|p4": 0.7831
+     },
+     "var_offense": 0.02343
+    }
+   }
   },
   "team_error": {
    "n_teams": 133,

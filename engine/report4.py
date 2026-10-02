@@ -51,7 +51,7 @@ from pathlib import Path
 
 import numpy as np
 
-from config import phase2
+from config import phase2, phase6
 from config.phase2 import GAMES_PER_WEEKEND, N_BENCH, N_REGULARS, SEASON_GAMES, TIERS, WEEKS
 from config.phase4 import (BATTER_RATINGS, CENTER, EB_QUAD_NODES, FOLD_SEASONS, FOLD_WORKERS, GATE_COVERAGE, MIN_TRIALS, PITCHER_RATINGS, POINTS_PER_SD,
                            SHARED_TAU_ROLES, STAMINA_ROLE)
@@ -134,7 +134,7 @@ def _within_team_var(cfg) -> dict:
     wk = WEEKS * GAMES_PER_WEEKEND / SEASON_GAMES
     pit_share = {"sp_weekend": u["starter_bf_share"]["weekend"] * wk, "sp_midweek": u["starter_bf_share"]["midweek"] * (1 - wk)}
     pit_share["rp"] = 1 - sum(pit_share.values())
-    starts = [u["batter_start_share_by_rank"][str(k + 1)] for k in range(N_REGULARS + N_BENCH)]
+    starts = phase6.batter_start_shares(u["batter_start_share_by_rank"], N_REGULARS + N_BENCH)
     bat_share = {"regular": sum(starts[:N_REGULARS]) / sum(starts), "bench": sum(starts[N_REGULARS:]) / sum(starts)}
     out = {}
     for side, opp, shares in (("bat", "pitcher", pit_share), ("pit", "batter", bat_share)):
