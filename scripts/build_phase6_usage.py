@@ -42,6 +42,7 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
 from config.phase6 import (CLOGIT_RIDGE, FULL_SEASON_GAMES, INPUTS6, LEVERAGE_BLOWOUT, LEVERAGE_CLOSE, LEVERAGE_LATE_INNING, N_ROLE_RELIEVERS,  # noqa: E402
                            PITCH_BINS, REST_SPLIT_DAYS, ROLES)
+from config.phase2 import SEASON_GAMES  # noqa: E402
 from lib.players import load_pa  # noqa: E402
 
 P = ROOT / "data/ncaa_2025/pbp/parsed"
@@ -225,32 +226,41 @@ def calendar(a: pd.DataFrame) -> dict:
             "note": "weekday numbers: 0 Mon ... 6 Sun; (midweek day, series day 1, 2, 3); equal days are doubleheaders"}
 
 
+def team_usage(per: pd.DataFrame, g: float) -> dict:
+    """One team's usage values at a 56-game equivalent (counts x 56 / its games)."""
+    f = SEASON_GAMES / g
+    app = np.sort(per.G.values * f)[::-1]
+    ip = np.sort(per.outs.values / 3 * f)[::-1]
+    rel = per.GS.values <= 3
+    out = {"app_max": app[0], "app_5th": app[4] if len(app) > 4 else 0.0, "app_10th": app[9] if len(app) > 9 else 0.0,
+           "relief_only_40ip": float((rel & (per.outs.values / 3 * f >= 40)).sum()), "relief_only_60ip": float((rel & (per.outs.values / 3 * f >= 60)).sum())}
+    for k in range(3):
+        out[f"ip_rank{k + 1}"] = ip[k] if len(ip) > k else 0.0
+    top = per.assign(ipx=per.outs / 3 * f).sort_values("ipx", ascending=False).head(3)
+    for k, (_, r) in enumerate(top.iterrows()):
+        out[f"ip_rank{k + 1}_fri_sun_starts"] = r.fs_outs / 3 * f
+        out[f"ip_rank{k + 1}_other_starts"] = r.os_outs / 3 * f
+        out[f"ip_rank{k + 1}_relief"] = r.rl_outs / 3 * f
+    return out
+
+
 def benchmarks(a: pd.DataFrame, full: set) -> dict:
-    a = a[a.pit_team_id.isin(full)]
-    per = a.groupby(["pit_team_id", "pkey"]).agg(G=("game_id", "size"), GS=("start", "sum"), outs=("outs", "sum")).reset_index()
+    """Usage gate values, per team at a 56-game equivalent, mean over the full-season teams, with
+    SEs from a bootstrap over teams. Starts split as in usage_2025: Fri-Sun starts, other starts,
+    relief."""
+    a = a[a.pit_team_id.isin(full)].copy()
+    a["fs"] = a.start & a.wd.isin([4, 5, 6])
+    a["fs_outs"] = np.where(a.fs, a.outs, 0); a["os_outs"] = np.where(a.start & ~a.fs, a.outs, 0); a["rl_outs"] = np.where(~a.start, a.outs, 0)
+    per = a.groupby(["pit_team_id", "pkey"]).agg(G=("game_id", "size"), GS=("start", "sum"), outs=("outs", "sum"),
+                                                 fs_outs=("fs_outs", "sum"), os_outs=("os_outs", "sum"), rl_outs=("rl_outs", "sum")).reset_index()
     tg = a.groupby("pit_team_id").game_id.nunique()
-    rk = lambda s, k: s.sort_values(ascending=False).iloc[k - 1] if len(s) >= k else 0  # noqa: E731
-    app = per.groupby("pit_team_id").G
-    out = {"teams": len(tg), "team_games_mean": round(float(tg.mean()), 2),
-           "app_max_per_team": round(float(app.max().mean()), 2), "app_5th_per_team": round(float(app.apply(lambda s: rk(s, 5)).mean()), 2),
-           "app_10th_per_team": round(float(app.apply(lambda s: rk(s, 10)).mean()), 2), "app_max_overall": int(per.G.max()),
-           "relief_only_40ip_per_team": round(float(((per.GS <= 3) & (per.outs >= 120)).sum() / len(tg)), 3),
-           "relief_only_60ip_per_team": round(float(((per.GS <= 3) & (per.outs >= 180)).sum() / len(tg)), 3)}
-    # per-team bootstrap SEs of each team-level mean
+    vals = pd.DataFrame({t: team_usage(per[per.pit_team_id == t], tg[t]) for t in tg.index}).T
     rng = np.random.default_rng(6)
-    teams = np.array(sorted(tg.index))
-    vals = {k: [] for k in ("app_max_per_team", "app_5th_per_team", "app_10th_per_team", "relief_only_40ip_per_team", "relief_only_60ip_per_team")}
-    pt = {t: per[per.pit_team_id == t] for t in teams}
-    for _ in range(400):
-        pick = rng.choice(teams, len(teams))
-        pp = pd.concat([pt[t] for t in pick])
-        g = [pt[t].G for t in pick]
-        vals["app_max_per_team"].append(np.mean([x.max() for x in g]))
-        vals["app_5th_per_team"].append(np.mean([rk(x, 5) for x in g]))
-        vals["app_10th_per_team"].append(np.mean([rk(x, 10) for x in g]))
-        vals["relief_only_40ip_per_team"].append(((pp.GS <= 3) & (pp.outs >= 120)).sum() / len(pick))
-        vals["relief_only_60ip_per_team"].append(((pp.GS <= 3) & (pp.outs >= 180)).sum() / len(pick))
-    out["se"] = {k: round(float(np.std(v, ddof=1)), 4) for k, v in vals.items()}
+    boot = np.array([vals.values[rng.integers(0, len(vals), len(vals))].mean(0) for _ in range(1000)])
+    out = {"teams": int(len(tg)), "team_games_mean": round(float(tg.mean()), 2), "season_games": SEASON_GAMES,
+           "app_max_overall_raw": int(per.G.max())}
+    for i, k in enumerate(vals.columns):
+        out[k] = {"value": round(float(vals[k].mean()), 3), "se": round(float(boot[:, i].std(ddof=1)), 3)}
     return out
 
 

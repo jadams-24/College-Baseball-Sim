@@ -64,6 +64,14 @@ class Player:
     ratings: dict = field(default_factory=dict)   # 20-80 true ratings (continuous; engine.ratings)
     hidden: dict = field(default_factory=dict)    # true components without a rating (HBP; pitcher BABIP/XBH)
     log_theta: float = 0.0                        # pitcher leash multiplier on the pull hazard (Stamina)
+    # Phase 6 (batters): position, and logit offsets for base running and fielding: steal attempts per
+    # opportunity, steal success, extra bases taken on hits (Speed drives the shared part); error per
+    # chance at his position (Glove); extra bases allowed on hits to him (outfield arm) or steal
+    # success against (catcher arm)
+    pos: str = ""
+    run: tuple = (0.0, 0.0, 0.0)
+    err: float = 0.0
+    arm: float = 0.0
 
 
 @dataclass
@@ -75,6 +83,7 @@ class Team:
     o: float = 0.0     # true offense, log runs above an average team (team level, before players)
     d: float = 0.0     # true run prevention, log runs
     park: np.ndarray = None   # Phase 6: logit offsets (RATES order) on every plate appearance in this team's home park
+    err_team: float = 0.0     # Phase 6: team error log-odds beyond its fielders (run prevention slope + team residual)
     batters: list = field(default_factory=list)
     weekend_sp: list = field(default_factory=list)
     midweek_sp: list = field(default_factory=list)
@@ -147,6 +156,8 @@ def build_league(cfg: Phase2Config, rng: np.random.Generator) -> League:
     rng_park = np.random.Generator(np.random.PCG64(rng.bit_generator.seed_seq.spawn(1)[0]))
     from config import phase6
     pk6 = phase6.load().get("parks6") if phase6.on("parks") else None
+    rng_field = np.random.Generator(np.random.PCG64(rng.bit_generator.seed_seq.spawn(1)[0]))
+    fl6 = phase6.load().get("fielding6") if phase6.on("fielding") else None
     if pk6:
         vals, vecs = np.linalg.eigh(np.array(pk6["cov"]))
         park_cov = vecs @ np.diag(np.clip(vals, 0, None)) @ vecs.T     # positive semi-definite after rounding
@@ -197,6 +208,8 @@ def build_league(cfg: Phase2Config, rng: np.random.Generator) -> League:
             return out
         regs = make("bat", "regular", N_REGULARS)
         bench = make("bat", "bench", N_BENCH)
+        if fl6:
+            _fielding(fl6, t, regs, bench, rng_field)
         # lineup rank by expected on-base plus slugging against a league-average pitcher
         def bat_value(p):
             pr = matchup_probs(cfg, p.z, np.zeros(6), {r: 0.0 for r in RATES})
@@ -216,6 +229,46 @@ def build_league(cfg: Phase2Config, rng: np.random.Generator) -> League:
     league.location = dict(FIXED_LOCATION) if FIXED_LOCATION is not None else load_location()
     return league
 
+
+def _fielding(fl6: dict, t, regs: list, bench: list, rng) -> None:
+    from config import phase6
+    """Phase 6 positions, base running and fielding (scripts/build_phase6_fielding.py).
+    Regulars cover the eight fielding positions and DH in random order; bench players get positions
+    at the real shares of defensive substitutes (scripts/build_phase6_subs.py). Speed: one standard-normal factor per batter; each
+    base-running component is sd * (loading * speed + sqrt(1 - loading^2) * own), the loadings from the
+    one-factor fit of the components' noise-free correlations. Glove: error log-odds at his position,
+    N(0, sd of the position). Arm: outfielders (extra bases allowed) and catchers (steal success
+    against). Team error log-odds beyond the fielders: slope x run prevention d + N(0, team sd)."""
+    sp = fl6["speed"]
+    c = sp["corr"]
+    # one-factor loadings from the three pairwise correlations (clipped to [0.05, 0.95])
+    ab, ax, sx = c["attempt|success"], c["attempt|extra_base"], c["success|extra_base"]
+    lam = {"attempt": np.sqrt(max(ab * ax / max(sx, 1e-3), 0)), "success": np.sqrt(max(ab * sx / max(ax, 1e-3), 0)),
+           "extra_base": np.sqrt(max(ax * sx / max(ab, 1e-3), 0))}
+    lam = {k: float(np.clip(v, 0.05, 0.95)) for k, v in lam.items()}
+    pos_reg = list(rng.permutation(FIELD_POSITIONS + ("dh",)))
+    shares = phase6.load()["subs6"]["def_position_shares"]
+    bpos = list(rng.choice(list(shares), size=len(bench), p=np.array(list(shares.values())) / sum(shares.values())))
+    for p, pos in zip(regs + bench, pos_reg + bpos):
+        p.pos = str(pos)
+        z = float(rng.standard_normal())
+        own = rng.standard_normal(3)
+        p.run = tuple(sp[k]["sd_logit"] * (lam[k] * z + np.sqrt(1 - lam[k] ** 2) * own[i]) for i, k in enumerate(("attempt", "success", "extra_base")))
+        p.ratings["speed"] = 50 + 10 * z
+        sd_e = fl6["error"]["by_position"].get(p.pos, {}).get("sd_logit", 0.0)
+        sd_e = sd_e if sd_e == sd_e else 0.0
+        ze = float(rng.standard_normal())
+        p.err = sd_e * ze
+        p.ratings["glove"] = 50 - 10 * ze
+        if p.pos in ("lf", "cf", "rf", "c"):
+            za = float(rng.standard_normal())
+            p.arm = (fl6["arm_c"] if p.pos == "c" else fl6["arm_of"])["sd_logit"] * za
+            p.ratings["arm"] = 50 + 10 * za
+    te = fl6["team_error"]
+    t.err_team = te["slope_d"] * float(t.d) + te["team_sd"] * float(rng.standard_normal())
+
+
+FIELD_POSITIONS = ("c", "1b", "2b", "3b", "ss", "lf", "cf", "rf")
 
 FIXED_LOCATION = None  # set by scripts/solve_phase2_location.py while it iterates
 

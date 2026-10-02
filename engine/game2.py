@@ -57,11 +57,30 @@ _EV7 = {e: i for i, e in enumerate("BKSFPHN")}            # config.phase5.EVENTS
 _K, _BB = 0, 1                                             # rate order of the logit offsets (config.phase2.RATES)
 
 
+def _centre(p: float, sd: float) -> float:
+    """Logit shift d with E[expit(logit p + d + sd Z)] = p, Z standard normal (Gauss-Hermite)."""
+    if not (0 < p < 1) or sd <= 0:
+        return 0.0
+    x, w = np.polynomial.hermite_e.hermegauss(40)
+    w = w / w.sum()
+    base = np.log(p / (1 - p))
+    d = 0.0
+    for _ in range(50):
+        q = 1 / (1 + np.exp(-(base + d + sd * x)))
+        f = float((w * q).sum()) - p
+        g = float((w * q * (1 - q)).sum())
+        d -= f / g
+        if abs(f) < 1e-12:
+            break
+    return d
+
+
 class GameState2:
     __slots__ = ("rng", "inning", "half", "outs", "bases", "score", "over", "run_rule_in_effect", "ended_by_run_rule",
                  "team_obj", "lineup", "slot", "pitcher", "outing", "used", "weekend", "inning_end",
                  "half_innings", "pa", "errors", "hits", "hr", "ab", "outs_pitched", "er_allowed",
-                 "week", "day", "phantom", "p_phantom", "date", "pitch_log", "in_game", "subs", "batted")
+                 "week", "day", "phantom", "p_phantom", "date", "pitch_log", "in_game", "subs", "batted",
+                 "err_or", "catcher_arm", "of_arm")
 
     def __init__(self, rng, home, away, weekend):
         self.rng = rng
@@ -88,6 +107,9 @@ class GameState2:
         self.in_game = {"away": set(), "home": set()}   # batters who have played (starters and substitutes)
         self.subs = {"away": 0, "home": 0}
         self.batted = {"away": set(), "home": set()}     # batters with a plate appearance
+        self.err_or = {"away": 1.0, "home": 1.0}          # Phase 6: error odds of each side's defense
+        self.catcher_arm = {"away": 0.0, "home": 0.0}
+        self.of_arm = {"away": {}, "home": {}}
         self.phantom = 0      # phantom outs this half-inning (errors that prevented an out)
         self.p_phantom = 0    # phantom outs since the current pitcher entered this half-inning
 
@@ -138,6 +160,27 @@ class PlayerGameEngine:
                           "ev": np.zeros((12, 7), dtype=np.int64)}                  # pitch events by count before the pitch
         self.player_pitch = np.zeros((n_players, 6), dtype=np.int64)   # per player (as batter or pitcher): B, K, S, F, P, H
         self.starts: list = []                                        # (pitches, outs on his plate appearances, weekend)
+        # Phase 6 fielding and base running (config.phase6)
+        from config import phase6
+        self.roe_cache: dict = {}
+        self.sb = [0, 0]                                              # steal attempts, steals
+        self.outings: list = []                                       # (pitcher, started, outs, weekday) of every outing
+        self.fielding_on, self.speed_on = phase6.on("fielding"), phase6.on("speed")
+        f6 = phase6.load().get("fielding6", {})
+        self.err_share = f6.get("team_error", {}).get("error_share", {})
+        # centring of the individual offsets: a spread on the logit scale moves the population-average
+        # rate (Jensen); each component gets the logit shift delta that keeps the population average at the
+        # league rate, from its base rate and total spread (scripts/build_phase6_fielding.py)
+        self.delta = {"att": 0.0, "ok": 0.0, "xb": 0.0, "err": 0.0}
+        if f6:
+            sp, te = f6["speed"], f6["team_error"]
+            self.delta = {"att": _centre(sp["attempt"]["rate"], sp["attempt"]["sd_logit"]),
+                          "ok": _centre(sp["success"]["rate"], float(np.hypot(sp["success"]["sd_logit"], f6["arm_c"]["sd_logit"]))),
+                          "xb": _centre(sp["extra_base"]["rate"], float(np.hypot(sp["extra_base"]["sd_logit"], f6["arm_of"]["sd_logit"]))),
+                          "err": _centre(te["rate_per_chance"], te["total_sd"])}
+        zs = f6.get("of_zone_share", {"lf": 1 / 3, "cf": 1 / 3, "rf": 1 / 3})
+        self.of_zone = list(zs)
+        self.of_zone_cum = np.cumsum([zs[k] for k in self.of_zone]) / sum(zs.values())
 
     def _probs(self, batter, pitcher, home_batting: bool) -> Categorical:
         key = (batter.pid, pitcher.pid, home_batting)
@@ -150,6 +193,7 @@ class PlayerGameEngine:
             p = matchup_probs(self.cfg, zb, zp, self.league.location)
             cat = Categorical(list(OUTCOMES), [p[o] for o in OUTCOMES])
             self.cache[key] = cat
+            self.roe_cache[key] = (p["ROE"], p["OUT"])
             self.tilt_cache[key] = self.pitch.tilts(zb[_K], zb[_BB], zp[_K], zp[_BB], p["K"], p["BB"], p["HBP"])
             hits = p["1B"] + p["2B"] + p["3B"]
             self.rate_cache[key] = np.array([p["K"], p["BB"], p["HR"], hits / (hits + p["OUT"]), (p["2B"] + p["3B"]) / hits])
@@ -236,6 +280,7 @@ class PlayerGameEngine:
         o = st.outing.get(side)
         if o is not None:
             st.pitch_log.append((st.pitcher[side].pid, o["pitches"]))
+            self.outings.append((st.pitcher[side].pid, int(o["starter"]), o["pa_outs"], st.date % 7))
         if o is not None and o["starter"]:
             self.starts.append((o["pitches"], o["pa_outs"], bool(st.weekend)))
 
@@ -263,13 +308,21 @@ class PlayerGameEngine:
         while st.outs < 3 and not st.over:
             if any(b is not None for b in st.bases):
                 steal = dec.steal_attempt(st)
-                ev = self.pre_pa.draw_event(st.outs, st.base_code, rng.random())
+                runner = self._lead_stealer(st, bat)
+                sb_or = np.exp(runner.run[0] + self.delta["att"]) if runner is not None else 1.0
+                ev = self.pre_pa.draw_event(st.outs, st.base_code, rng.random(), sb_or)
                 if steal == Decision.NO and ev == "SB_ATT":
                     ev = None
                 if ev is not None:
-                    out = self.pre_pa.draw_outcome(ev, st.outs, st.base_code, rng.random())
+                    ok_or = 1.0
+                    if ev == "SB_ATT" and runner is not None:
+                        ok_or = np.exp(runner.run[1] - st.catcher_arm[fld] + self.delta["ok"])
+                    out = self.pre_pa.draw_outcome(ev, st.outs, st.base_code, rng.random(), ok_or)
                     if out is not None:
                         dests, _, err = out
+                        if ev == "SB_ATT":
+                            self.sb[0] += 1
+                            self.sb[1] += "0" not in dests
                         if self._apply(st, dests, None, None, err, event=ev) and st.half == "B":
                             self._end_check(st, True)
                         if st.outs >= 3 or st.over:
@@ -281,9 +334,15 @@ class PlayerGameEngine:
             dec.intentional_walk(st)
             bunt = dec.bunt(st)
             res = self._probs(batter, pitcher, bat == "home").draw(rng.random())
+            eo = st.err_or[fld]
+            if eo != 1.0 and res in ("ROE", "OUT"):
+                res = self._roe_tilt(batter, pitcher, bat == "home", res, eo, rng)
             if res == "OUT":
                 res = self._subtype(st, rng, bunt)
-            dests, b_to, err = self.advance.draw(res, st.outs, st.base_code, rng.random(), [rng.random() for _ in range(4)])
+            bases0 = list(st.bases)
+            dests, b_to, err = self.advance.draw(res, st.outs, st.base_code, rng.random(), [rng.random() for _ in range(4)], eo)
+            if res in ("1B", "2B") and self.speed_on:
+                dests = self._extra_bases(st, bat, fld, res, dests, bases0, rng)
             self._record(st, batter, pitcher, res, rng)
             outs0 = st.outs
             slot = (st.slot[bat] - 1) % 9
@@ -302,6 +361,71 @@ class PlayerGameEngine:
                 if nxt is not None:
                     self._bring_in(st, fld, nxt, False)
         st.half_innings.append((st.inning, st.half, st.score[bat] - runs0, st.pa[bat] - pa0))
+
+    # ---- Phase 6: base running and fielding --------------------------------------------------
+    def _lead_stealer(self, st, bat):
+        """The runner who would steal: on first with second open, else on second with third open."""
+        if not self.speed_on:
+            return None
+        b = st.bases
+        r = b[0] if (b[0] is not None and b[1] is None) else (b[1] if (b[1] is not None and b[2] is None) else None)
+        return st.lineup[bat][r[2]] if r is not None and len(r) > 2 else None
+
+    def _roe_tilt(self, batter, pitcher, home_batting, res, eo, rng):
+        """Reached on error against an in-play out, tilted by the fielding team's error odds; each
+        keeps its probability otherwise (exact marginal: P(ROE | ROE or out) -> odds x eo)."""
+        p_roe, p_out = self.roe_cache[(batter.pid, pitcher.pid, home_batting)]
+        r = p_roe / (p_roe + p_out)
+        r2 = r * eo / (1 - r + r * eo)
+        if res == "ROE" and r2 < r:
+            return "OUT" if rng.random() < 1 - r2 / r else res
+        if res == "OUT" and r2 > r:
+            return "ROE" if rng.random() < (r2 - r) / (1 - r) else res
+        return res
+
+    def _extra_bases(self, st, bat, fld, res, dests, bases0, rng):
+        """Runners' extra bases on a single (first to third/home, second to home) or double (first to
+        home): the league probability of the cell, tilted on the logit scale by the runner's speed
+        and the arm of the outfielder the ball went to (exact marginal per runner)."""
+        cases = ((1, ("3", "4"), "2", "3"), (2, ("4",), "3", "4")) if res == "1B" else ((1, ("4",), "3", "4"),)
+        zone = self.of_zone[int(np.searchsorted(self.of_zone_cum, rng.random(), side="right"))]
+        arm = st.of_arm[fld].get(zone, 0.0)
+        code = "".join("0" if b is None else "1" for b in bases0)
+        for origin, extra, std, target in cases:
+            r = bases0[origin - 1]
+            if r is None or len(r) < 3:
+                continue
+            p0 = self.advance.extra_prob(res, st.outs, code, origin, extra, std)
+            if p0 is None or p0 >= 1:
+                continue
+            runner = st.lineup[bat][r[2]]
+            x = np.log(p0 / (1 - p0)) + runner.run[2] - arm + self.delta["xb"]
+            p1 = 1 / (1 + np.exp(-x))
+            d = dests[origin - 1]
+            if d in extra and p1 < p0 and rng.random() < 1 - p1 / p0:
+                dests[origin - 1] = std
+            elif d == std and p1 > p0 and rng.random() < (p1 - p0) / (1 - p0):
+                dests[origin - 1] = target
+        return dests
+
+    def _fielding_context(self, st):
+        """Per side, at the start of a game: the error odds of its defense (team error log-odds plus
+        each fielder's at his position, weighted by the position's share of errors), the catcher's
+        arm and the outfielders' arms."""
+        for side in ("away", "home"):
+            tm = st.team_obj[side]
+            if not self.fielding_on:
+                st.err_or[side], st.catcher_arm[side], st.of_arm[side] = 1.0, 0.0, {}
+                continue
+            x = tm.err_team
+            arms = {}
+            for p in st.lineup[side]:
+                x += self.err_share.get(p.pos, 0.0) * p.err
+                if p.pos in ("lf", "cf", "rf", "c"):
+                    arms[p.pos] = p.arm
+            st.err_or[side] = float(np.exp(x + self.delta["err"]))
+            st.catcher_arm[side] = arms.pop("c", 0.0)
+            st.of_arm[side] = arms
 
     def _sub(self, st, side, player, slot):
         """A substitute takes lineup slot `slot` for the rest of the game (pinch hitter, pinch runner,
@@ -428,6 +552,7 @@ class PlayerGameEngine:
                 self.bstats[p.pid][B_G] += 1
                 st.in_game[side].add(p.pid)
             self._bring_in(st, side, dec.starting_pitcher(st, side), True)
+        self._fielding_context(st)
         while not st.over:
             st.half = "T"
             self._half(st, dec)

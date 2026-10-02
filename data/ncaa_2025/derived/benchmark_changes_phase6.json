@@ -1,0 +1,95 @@
+[
+ {
+  "path": "usage_phase6_2025",
+  "old": null,
+  "new": {
+   "_note": "Phase 6 gate: pitcher usage of the 2025 full-season teams (WMT play-by-play, data/ncaa_2025/pbp; 50 teams, 57.2 games on average) at a 56-game equivalent (each team's counts x 56 / its games), mean over teams; tolerance 3 SE (bootstrap over teams). The top three pitchers' innings split (Fri-Sun starts, other starts, relief) is reported, not gated. Batters per team-game: distinct batters with a plate appearance, tolerance 3 SE (bootstrap over games).",
+   "conf": "B",
+   "src": "WMT stats API play-by-play 2025, data/ncaa_2025/pbp (fetched 2026-09-30 to 2026-10-01)",
+   "n_teams": 50,
+   "team_games_mean": 57.2,
+   "app_max": {
+    "value": 24.487,
+    "tol": 1.215
+   },
+   "app_5th": {
+    "value": 17.577,
+    "tol": 0.771
+   },
+   "app_10th": {
+    "value": 13.169,
+    "tol": 0.72
+   },
+   "relief_only_40ip": {
+    "value": 0.76,
+    "tol": 0.33
+   },
+   "relief_only_60ip": {
+    "value": 0.06,
+    "tol": 0.099
+   },
+   "ip_rank1": {
+    "value": 75.351,
+    "tol": 4.236
+   },
+   "ip_rank2": {
+    "value": 65.25,
+    "tol": 4.455
+   },
+   "ip_rank3": {
+    "value": 53.288,
+    "tol": 3.828
+   },
+   "ip_rank1_fri_sun_starts": {
+    "value": 61.226,
+    "tol": 6.576,
+    "gate": "report"
+   },
+   "ip_rank1_other_starts": {
+    "value": 9.77,
+    "tol": 3.495,
+    "gate": "report"
+   },
+   "ip_rank1_relief": {
+    "value": 4.355,
+    "tol": 3.186,
+    "gate": "report"
+   },
+   "ip_rank2_fri_sun_starts": {
+    "value": 50.347,
+    "tol": 8.568,
+    "gate": "report"
+   },
+   "ip_rank2_other_starts": {
+    "value": 5.623,
+    "tol": 3.081,
+    "gate": "report"
+   },
+   "ip_rank2_relief": {
+    "value": 9.28,
+    "tol": 6.177,
+    "gate": "report"
+   },
+   "ip_rank3_fri_sun_starts": {
+    "value": 29.159,
+    "tol": 8.925,
+    "gate": "report"
+   },
+   "ip_rank3_other_starts": {
+    "value": 5.387,
+    "tol": 3.684,
+    "gate": "report"
+   },
+   "ip_rank3_relief": {
+    "value": 18.741,
+    "tol": 7.131,
+    "gate": "report"
+   },
+   "batters_per_team_game": {
+    "value": 10.4203,
+    "tol": 0.078
+   }
+  },
+  "date": "2026-10-02"
+ }
+]

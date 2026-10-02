@@ -909,5 +909,650 @@
    }
   },
   "date": "2026-10-01"
+ },
+ {
+  "path": "pitch_level_2025",
+  "old": {
+   "_note": "Phase 5 gate. Pitch sequences of the 2025 WMT play-by-play (B ball, K called strike, S swinging strike, F foul, P in play, H hit by pitch; no pitch type, velocity or location in the data), reweighted by batting-tier x pitching-tier cell to the full-season D1 matchup mix. Tolerance 3 SE, bootstrap over games. Cleaning, definitions and the per-count chain tables: data/ncaa_2025/derived/phase5_pitch_2025.json. Intentional walks excluded.",
+   "conf": "B",
+   "src": "WMT stats API play-by-play 2025, data/ncaa_2025/pbp (fetched 2026-10-01)",
+   "n_games": 2175,
+   "n_pa": 171592,
+   "n_starts": {
+    "weekend": 2866,
+    "midweek": 1206
+   },
+   "pitches_per_pa": {
+    "value": 3.80545,
+    "tol": 0.03252
+   },
+   "pitches_dist_1": {
+    "value": 0.13115,
+    "tol": 0.0048
+   },
+   "pitches_dist_2": {
+    "value": 0.15071,
+    "tol": 0.00609
+   },
+   "pitches_dist_3": {
+    "value": 0.17202,
+    "tol": 0.00552
+   },
+   "pitches_dist_4": {
+    "value": 0.18274,
+    "tol": 0.00549
+   },
+   "pitches_dist_5": {
+    "value": 0.17205,
+    "tol": 0.00522
+   },
+   "pitches_dist_6": {
+    "value": 0.11591,
+    "tol": 0.00519
+   },
+   "pitches_dist_7": {
+    "value": 0.04771,
+    "tol": 0.00324
+   },
+   "pitches_dist_8": {
+    "value": 0.01775,
+    "tol": 0.00189
+   },
+   "pitches_dist_9": {
+    "value": 0.00695,
+    "tol": 0.0015
+   },
+   "pitches_dist_10+": {
+    "value": 0.00301,
+    "tol": 0.00072
+   },
+   "first_pitch_strike": {
+    "value": 0.58205,
+    "tol": 0.00681
+   },
+   "two_strike_foul_rate": {
+    "value": 0.20784,
+    "tol": 0.00561
+   },
+   "ba_after_0-0": {
+    "value": 0.28208,
+    "tol": 0.00792
+   },
+   "k_after_0-0": {
+    "value": 0.19572,
+    "tol": 0.00837
+   },
+   "bb_after_0-0": {
+    "value": 0.10445,
+    "tol": 0.00507
+   },
+   "reach_0-1": {
+    "value": 0.45797,
+    "tol": 0.00732
+   },
+   "ba_after_0-1": {
+    "value": 0.24492,
+    "tol": 0.01053
+   },
+   "k_after_0-1": {
+    "value": 0.28453,
+    "tol": 0.01176
+   },
+   "bb_after_0-1": {
+    "value": 0.06266,
+    "tol": 0.00549
+   },
+   "reach_0-2": {
+    "value": 0.18813,
+    "tol": 0.00678
+   },
+   "ba_after_0-2": {
+    "value": 0.18373,
+    "tol": 0.01464
+   },
+   "k_after_0-2": {
+    "value": 0.44582,
+    "tol": 0.01641
+   },
+   "bb_after_0-2": {
+    "value": 0.03972,
+    "tol": 0.00747
+   },
+   "reach_1-0": {
+    "value": 0.40971,
+    "tol": 0.00687
+   },
+   "ba_after_1-0": {
+    "value": 0.29666,
+    "tol": 0.01218
+   },
+   "k_after_1-0": {
+    "value": 0.15902,
+    "tol": 0.01098
+   },
+   "bb_after_1-0": {
+    "value": 0.18455,
+    "tol": 0.00951
+   },
+   "reach_1-1": {
+    "value": 0.3766,
+    "tol": 0.00726
+   },
+   "ba_after_1-1": {
+    "value": 0.25646,
+    "tol": 0.01155
+   },
+   "k_after_1-1": {
+    "value": 0.24945,
+    "tol": 0.0108
+   },
+   "bb_after_1-1": {
+    "value": 0.11586,
+    "tol": 0.00816
+   },
+   "reach_1-2": {
+    "value": 0.26293,
+    "tol": 0.00624
+   },
+   "ba_after_1-2": {
+    "value": 0.19447,
+    "tol": 0.01287
+   },
+   "k_after_1-2": {
+    "value": 0.41531,
+    "tol": 0.01458
+   },
+   "bb_after_1-2": {
+    "value": 0.06982,
+    "tol": 0.00774
+   },
+   "reach_2-0": {
+    "value": 0.15159,
+    "tol": 0.00486
+   },
+   "ba_after_2-0": {
+    "value": 0.31508,
+    "tol": 0.02544
+   },
+   "k_after_2-0": {
+    "value": 0.11507,
+    "tol": 0.01509
+   },
+   "bb_after_2-0": {
+    "value": 0.35101,
+    "tol": 0.01671
+   },
+   "reach_2-1": {
+    "value": 0.21246,
+    "tol": 0.00555
+   },
+   "ba_after_2-1": {
+    "value": 0.27139,
+    "tol": 0.01914
+   },
+   "k_after_2-1": {
+    "value": 0.19294,
+    "tol": 0.01371
+   },
+   "bb_after_2-1": {
+    "value": 0.23626,
+    "tol": 0.01326
+   },
+   "reach_2-2": {
+    "value": 0.21919,
+    "tol": 0.00633
+   },
+   "ba_after_2-2": {
+    "value": 0.20514,
+    "tol": 0.01398
+   },
+   "k_after_2-2": {
+    "value": 0.35373,
+    "tol": 0.01437
+   },
+   "bb_after_2-2": {
+    "value": 0.14801,
+    "tol": 0.01077
+   },
+   "reach_3-0": {
+    "value": 0.05356,
+    "tol": 0.00291
+   },
+   "ba_after_3-0": {
+    "value": 0.31521,
+    "tol": 0.05649
+   },
+   "k_after_3-0": {
+    "value": 0.06353,
+    "tol": 0.01734
+   },
+   "bb_after_3-0": {
+    "value": 0.66726,
+    "tol": 0.03159
+   },
+   "reach_3-1": {
+    "value": 0.10308,
+    "tol": 0.00462
+   },
+   "ba_after_3-1": {
+    "value": 0.29372,
+    "tol": 0.03246
+   },
+   "k_after_3-1": {
+    "value": 0.11286,
+    "tol": 0.01827
+   },
+   "bb_after_3-1": {
+    "value": 0.49631,
+    "tol": 0.02616
+   },
+   "reach_3-2": {
+    "value": 0.13657,
+    "tol": 0.00549
+   },
+   "ba_after_3-2": {
+    "value": 0.22255,
+    "tol": 0.01908
+   },
+   "k_after_3-2": {
+    "value": 0.25257,
+    "tol": 0.01842
+   },
+   "bb_after_3-2": {
+    "value": 0.35836,
+    "tol": 0.01869
+   },
+   "pitches_per_start_weekend": {
+    "value": 78.50433,
+    "tol": 2.95626
+   },
+   "ip_per_start_weekend": {
+    "value": 4.46465,
+    "tol": 0.24396
+   },
+   "pitches_per_start_weekend_p10": {
+    "value": 47.0,
+    "tol": 7.27422
+   },
+   "pitches_per_start_weekend_p50": {
+    "value": 82.0,
+    "tol": 2.70075
+   },
+   "pitches_per_start_weekend_p90": {
+    "value": 103.0,
+    "tol": 1.84809
+   },
+   "pitches_per_start_midweek": {
+    "value": 57.60716,
+    "tol": 5.07168
+   },
+   "ip_per_start_midweek": {
+    "value": 3.24412,
+    "tol": 0.35253
+   },
+   "pitches_per_start_midweek_p10": {
+    "value": 26.0,
+    "tol": 3.91206,
+    "gate": "phase6"
+   },
+   "pitches_per_start_midweek_p50": {
+    "value": 52.0,
+    "tol": 5.26185
+   },
+   "pitches_per_start_midweek_p90": {
+    "value": 94.0,
+    "tol": 5.79273
+   },
+   "percentile_pooling": {
+    "floor": 50,
+    "pooled_groups": {
+     "weekend": [
+      {
+       "cells": [
+        "low_vs_low",
+        "mid_vs_low",
+        "low_vs_mid"
+       ],
+       "n": 125,
+       "weight": 0.3103
+      }
+     ],
+     "midweek": [
+      {
+       "cells": [
+        "mid_vs_low",
+        "low_vs_low",
+        "low_vs_mid"
+       ],
+       "n": 50,
+       "weight": 0.3103
+      }
+     ]
+    },
+    "note": "Starter pitch-count percentiles: tier-pair cells with fewer starts than the floor are pooled with their nearest cells before reweighting (scripts/lib/pooling.py)."
+   }
+  },
+  "new": {
+   "_note": "Phase 5 gate. Pitch sequences of the 2025 WMT play-by-play (B ball, K called strike, S swinging strike, F foul, P in play, H hit by pitch; no pitch type, velocity or location in the data), reweighted by batting-tier x pitching-tier cell to the full-season D1 matchup mix. Tolerance 3 SE, bootstrap over games. Cleaning, definitions and the per-count chain tables: data/ncaa_2025/derived/phase5_pitch_2025.json. Intentional walks excluded.",
+   "conf": "B",
+   "src": "WMT stats API play-by-play 2025, data/ncaa_2025/pbp (fetched 2026-10-01)",
+   "n_games": 2175,
+   "n_pa": 171592,
+   "n_starts": {
+    "weekend": 3052,
+    "midweek": 1020
+   },
+   "pitches_per_pa": {
+    "value": 3.80545,
+    "tol": 0.03252
+   },
+   "pitches_dist_1": {
+    "value": 0.13115,
+    "tol": 0.0048
+   },
+   "pitches_dist_2": {
+    "value": 0.15071,
+    "tol": 0.00609
+   },
+   "pitches_dist_3": {
+    "value": 0.17202,
+    "tol": 0.00552
+   },
+   "pitches_dist_4": {
+    "value": 0.18274,
+    "tol": 0.00549
+   },
+   "pitches_dist_5": {
+    "value": 0.17205,
+    "tol": 0.00522
+   },
+   "pitches_dist_6": {
+    "value": 0.11591,
+    "tol": 0.00519
+   },
+   "pitches_dist_7": {
+    "value": 0.04771,
+    "tol": 0.00324
+   },
+   "pitches_dist_8": {
+    "value": 0.01775,
+    "tol": 0.00189
+   },
+   "pitches_dist_9": {
+    "value": 0.00695,
+    "tol": 0.0015
+   },
+   "pitches_dist_10+": {
+    "value": 0.00301,
+    "tol": 0.00072
+   },
+   "first_pitch_strike": {
+    "value": 0.58205,
+    "tol": 0.00681
+   },
+   "two_strike_foul_rate": {
+    "value": 0.20784,
+    "tol": 0.00561
+   },
+   "ba_after_0-0": {
+    "value": 0.28208,
+    "tol": 0.00792
+   },
+   "k_after_0-0": {
+    "value": 0.19572,
+    "tol": 0.00837
+   },
+   "bb_after_0-0": {
+    "value": 0.10445,
+    "tol": 0.00507
+   },
+   "reach_0-1": {
+    "value": 0.45797,
+    "tol": 0.00732
+   },
+   "ba_after_0-1": {
+    "value": 0.24492,
+    "tol": 0.01053
+   },
+   "k_after_0-1": {
+    "value": 0.28453,
+    "tol": 0.01176
+   },
+   "bb_after_0-1": {
+    "value": 0.06266,
+    "tol": 0.00549
+   },
+   "reach_0-2": {
+    "value": 0.18813,
+    "tol": 0.00678
+   },
+   "ba_after_0-2": {
+    "value": 0.18373,
+    "tol": 0.01464
+   },
+   "k_after_0-2": {
+    "value": 0.44582,
+    "tol": 0.01641
+   },
+   "bb_after_0-2": {
+    "value": 0.03972,
+    "tol": 0.00747
+   },
+   "reach_1-0": {
+    "value": 0.40971,
+    "tol": 0.00687
+   },
+   "ba_after_1-0": {
+    "value": 0.29666,
+    "tol": 0.01218
+   },
+   "k_after_1-0": {
+    "value": 0.15902,
+    "tol": 0.01098
+   },
+   "bb_after_1-0": {
+    "value": 0.18455,
+    "tol": 0.00951
+   },
+   "reach_1-1": {
+    "value": 0.3766,
+    "tol": 0.00726
+   },
+   "ba_after_1-1": {
+    "value": 0.25646,
+    "tol": 0.01155
+   },
+   "k_after_1-1": {
+    "value": 0.24945,
+    "tol": 0.0108
+   },
+   "bb_after_1-1": {
+    "value": 0.11586,
+    "tol": 0.00816
+   },
+   "reach_1-2": {
+    "value": 0.26293,
+    "tol": 0.00624
+   },
+   "ba_after_1-2": {
+    "value": 0.19447,
+    "tol": 0.01287
+   },
+   "k_after_1-2": {
+    "value": 0.41531,
+    "tol": 0.01458
+   },
+   "bb_after_1-2": {
+    "value": 0.06982,
+    "tol": 0.00774
+   },
+   "reach_2-0": {
+    "value": 0.15159,
+    "tol": 0.00486
+   },
+   "ba_after_2-0": {
+    "value": 0.31508,
+    "tol": 0.02544
+   },
+   "k_after_2-0": {
+    "value": 0.11507,
+    "tol": 0.01509
+   },
+   "bb_after_2-0": {
+    "value": 0.35101,
+    "tol": 0.01671
+   },
+   "reach_2-1": {
+    "value": 0.21246,
+    "tol": 0.00555
+   },
+   "ba_after_2-1": {
+    "value": 0.27139,
+    "tol": 0.01914
+   },
+   "k_after_2-1": {
+    "value": 0.19294,
+    "tol": 0.01371
+   },
+   "bb_after_2-1": {
+    "value": 0.23626,
+    "tol": 0.01326
+   },
+   "reach_2-2": {
+    "value": 0.21919,
+    "tol": 0.00633
+   },
+   "ba_after_2-2": {
+    "value": 0.20514,
+    "tol": 0.01398
+   },
+   "k_after_2-2": {
+    "value": 0.35373,
+    "tol": 0.01437
+   },
+   "bb_after_2-2": {
+    "value": 0.14801,
+    "tol": 0.01077
+   },
+   "reach_3-0": {
+    "value": 0.05356,
+    "tol": 0.00291
+   },
+   "ba_after_3-0": {
+    "value": 0.31521,
+    "tol": 0.05649
+   },
+   "k_after_3-0": {
+    "value": 0.06353,
+    "tol": 0.01734
+   },
+   "bb_after_3-0": {
+    "value": 0.66726,
+    "tol": 0.03159
+   },
+   "reach_3-1": {
+    "value": 0.10308,
+    "tol": 0.00462
+   },
+   "ba_after_3-1": {
+    "value": 0.29372,
+    "tol": 0.03246
+   },
+   "k_after_3-1": {
+    "value": 0.11286,
+    "tol": 0.01827
+   },
+   "bb_after_3-1": {
+    "value": 0.49631,
+    "tol": 0.02616
+   },
+   "reach_3-2": {
+    "value": 0.13657,
+    "tol": 0.00549
+   },
+   "ba_after_3-2": {
+    "value": 0.22255,
+    "tol": 0.01908
+   },
+   "k_after_3-2": {
+    "value": 0.25257,
+    "tol": 0.01842
+   },
+   "bb_after_3-2": {
+    "value": 0.35836,
+    "tol": 0.01869
+   },
+   "pitches_per_start_weekend": {
+    "value": 78.02287,
+    "tol": 2.94897
+   },
+   "ip_per_start_weekend": {
+    "value": 4.4325,
+    "tol": 0.23748
+   },
+   "pitches_per_start_weekend_p10": {
+    "value": 46.0,
+    "tol": 6.48384
+   },
+   "pitches_per_start_weekend_p50": {
+    "value": 81.0,
+    "tol": 2.74311
+   },
+   "pitches_per_start_weekend_p90": {
+    "value": 103.0,
+    "tol": 1.80897
+   },
+   "pitches_per_start_midweek": {
+    "value": 53.8498,
+    "tol": 5.54211
+   },
+   "ip_per_start_midweek": {
+    "value": 3.02052,
+    "tol": 0.37326
+   },
+   "pitches_per_start_midweek_p10": {
+    "value": 23.0,
+    "tol": 2.88018,
+    "gate": "phase6"
+   },
+   "pitches_per_start_midweek_p50": {
+    "value": 47.0,
+    "tol": 4.78293
+   },
+   "pitches_per_start_midweek_p90": {
+    "value": 80.0,
+    "tol": 6.43203
+   },
+   "percentile_pooling": {
+    "floor": 50,
+    "pooled_groups": {
+     "weekend": [
+      {
+       "cells": [
+        "low_vs_low",
+        "mid_vs_low",
+        "low_vs_mid"
+       ],
+       "n": 131,
+       "weight": 0.3103
+      }
+     ],
+     "midweek": [
+      {
+       "cells": [
+        "p4_vs_low",
+        "mid_vs_low",
+        "low_vs_low",
+        "low_vs_mid"
+       ],
+       "n": 120,
+       "weight": 0.3271
+      }
+     ]
+    },
+    "note": "Starter pitch-count percentiles: tier-pair cells with fewer starts than the floor are pooled with their nearest cells before reweighting (scripts/lib/pooling.py)."
+   }
+  },
+  "date": "2026-10-02"
  }
 ]

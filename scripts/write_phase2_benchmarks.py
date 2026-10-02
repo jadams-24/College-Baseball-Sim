@@ -69,13 +69,17 @@ def main() -> None:
     })
     tt = inp["team_talent"]
     setv(["team_talent_2025"], {
-        "_note": ("Team strength on one talent scale. Quasi-Poisson fit of runs per team-game on team offense o, run prevention d (log runs, centred over teams) and the listed "
-                  "home slot; (o, d) = tier mean + conference effect + team effect. Estimation noise removed by method of moments using each team's covariance from the fit; "
+        "_note": ("Team strength on one talent scale. Quasi-Poisson fit of runs per team-game on team offense o, run prevention d (log runs, centred over teams), the listed "
+                  "home slot and (Phase 6) the listed home team's park; (o, d) = tier mean + conference effect + team effect. Estimation noise removed by method of moments using each team's covariance from the fit; "
                   "conference covariance = spread of conference means minus (team + noise)/n, per tier, projected to PSD. Hosting of nonconference games: logistic in tier pair "
                   "and strength gap, slope disattenuated for noise. Engine mapping (phase2_run_scale_2025.json): o and d become logit offsets along the batting and pitching quality "
                   "directions scaled so one unit is one log run in the engine; the home talent edge is home_log_ratio minus the engine's batting-last effect h0. " + tt["src"]),
         "conf": "A", "conf_note": "Tier means, team covariances and the home effect rest on all 306 D1 teams (conf A). Conference covariances rest on 4 (P4), 15 (mid) and 10 (low) conferences and the hosting model on 3,550 nonconference games (conf B).",
         "n_games": tt["n_games"], "n_teams": tt["n_teams"], "dispersion": tt["dispersion"], "residual_corr_within_game": tt["residual_corr_within_game"],
+        # Phase 6: the fit carries a park term (the listed home team's park), so o and d are net of home parks; the
+        # residual correlation and dispersion above are from the fit without it (the Phase 2 definition)
+        **({"dispersion_without_parks": tt["dispersion_without_parks"], "residual_corr_within_game_with_parks": tt["residual_corr_within_game_with_parks"],
+            "parks": tt["parks"]} if "parks" in tt else {}),
         "home_log_ratio": {"value": tt["home_log_ratio"], "se": tt["home_log_ratio_se"], "conf": "A"},
         "engine_home_structural_h0": rs["home_structural"]["h0_log_ratio"],
         "tiers": {t: {k: v for k, v in e.items()} for t, e in tt["tiers"].items()},
@@ -107,7 +111,8 @@ def main() -> None:
         "pitchers_50ip_per_team": {"value": round(b["pitching_distribution_2025"]["pitchers_50ip"] / 303, 2), "note": "FanGraphs 882 / 303 teams; WMT full-season teams give 2.90"},
     })
     setv(["qualified_players_2025"], gate["qualified_players_2025"])
-    setv(["leaderboards_2025"], gate["leaderboards_2025"])
+    # the individual BA / HR placeholders are superseded by individual_leaders_2023_2026 (scripts/write_leader_benchmarks.py)
+    setv(["leaderboards_2025"], {k: v for k, v in gate["leaderboards_2025"].items() if k not in ("individual_ba_top", "individual_hr_top")})
     rr = b["game_structure"]["run_rule_freq"]
     if "tol" not in rr:
         pb, pe = rr["p_margin_10plus_season"], rr["p_ended_early_given_margin_10plus_wmt"]

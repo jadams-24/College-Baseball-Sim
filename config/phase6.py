@@ -57,9 +57,14 @@ MIN_SUB_CELL = 200                   # GUESS (statistical threshold)
 # sample are left out of the composition estimate.
 MIN_PARK_GAMES = 5                   # GUESS (statistical threshold)
 
+# Fielding and speed (scripts/build_phase6_fielding.py): a fielder needs this many chances (balls hit
+# to his zone for range) to enter the method of moments; a runner or catcher this many opportunities.
+MIN_FIELD_CHANCES = 30               # GUESS (statistical threshold)
+MIN_RUNNER_OPP = 10                  # GUESS (statistical threshold)
+
 # Phase 6 mechanisms, switchable one by one so each one's effect on the gate rows can be measured
 # (scripts set FEATURES[...] = False for an ablation run; the engine reads it at season start).
-FEATURES = {"calendar": True, "bullpen": True, "leash": True, "subs": True, "parks": True}
+FEATURES = {"calendar": True, "bullpen": True, "leash": True, "subs": True, "parks": True, "fielding": True, "speed": True}
 
 _CACHE: dict = {}
 

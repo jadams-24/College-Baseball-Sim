@@ -204,9 +204,19 @@ def _team_draws(inp: dict, rs: dict) -> tuple[dict, dict]:
     for t, e in inp["team_talent"]["tiers"].items():
         draw[t] = {"mean": (e["mean_o"], e["mean_d"]), "team_cov": psd(np.array(e["team_cov"]) - np.diag([ind_o, ind_d])),
                    "conf_cov": psd(np.array(e["conf_cov"])), "individual_var": (ind_o, ind_d)}
+    # Phase 6 parks: a team's observed rates include its home park in about half its games, so the
+    # team-level spreads measured in Phase 2 carry a quarter of the park variance; with parks drawn
+    # on their own (engine/league.py), the team spread is net of it
+    park_var = np.zeros(6)
+    from config import phase6
+    if phase6.on("parks"):
+        park_var = np.diag(np.array(phase6.load()["parks6"]["cov"]))
+
+    def net(sd, r):
+        return float(np.sqrt(max(sd ** 2 - 0.25 * park_var[RATES.index(r)], 0.0)))
     style = {}
-    for side, v, sds, c in (("bat", rs["v_bat_unit"], [tal["batter"][r]["sd_team_logit"] for r in RATES], cb),
-                            ("pit", rs["v_pit_unit"], [tal["pitcher"][r]["sd_team_logit"] for r in RATES[:5]] + [0.0], cp)):
+    for side, v, sds, c in (("bat", rs["v_bat_unit"], [net(tal["batter"][r]["sd_team_logit"], r) for r in RATES], cb),
+                            ("pit", rs["v_pit_unit"], [net(tal["pitcher"][r]["sd_team_logit"], r) for r in RATES[:5]] + [0.0], cp)):
         v = np.array(v)
         P = np.eye(6) - np.outer(v, w) / float(w @ v)
         style[side] = psd(P @ cov(sds, c) @ P.T)

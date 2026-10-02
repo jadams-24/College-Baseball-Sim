@@ -52,7 +52,10 @@ EVENTS = ("B", "K", "S", "F", "P", "H", "N")
 BIP = ("HR", "1B", "2B", "3B", "ROE", "OUT")
 HITS = ("1B", "2B", "3B", "HR")
 NOT_AB = ("BB", "HBP", "SF", "SH")
-WEEKEND = {4, 5, 6}
+# Series days: a three-game series runs Thu-Sat or Fri-Sun, so a Thursday game is a series opener
+# (Phase 6 calendar, 2026-10-02; Thursday starts were counted as midweek before: their median start
+# is 82 pitches, a weekend start's); midweek is Mon-Wed
+WEEKEND = {3, 4, 5, 6}
 N_BOOT = 200
 SEED = 5001
 

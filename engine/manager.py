@@ -233,7 +233,11 @@ class Manager(LeagueAverageDecider):
     def pinch_runner(self, state, team: str, slot: int):
         if not self.subs6:
             return None
-        return self._bench_pick(state, team) if state.rng.random() < self._sub_rate(state, team, "pr") else None
+        if state.rng.random() >= self._sub_rate(state, team, "pr"):
+            return None
+        bench = [p for p in state.team_obj[team].batters if p.pid not in state.in_game[team]]
+        # the fastest bench player runs (Speed, Phase 6); without speed the bench pick by rank
+        return max(bench, key=lambda p: p.ratings.get("speed", 0.0)) if bench and "speed" in bench[0].ratings else self._bench_pick(state, team)
 
     def defensive_subs(self, state, team: str) -> list:
         if not self.subs6:

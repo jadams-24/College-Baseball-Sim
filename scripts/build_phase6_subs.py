@@ -1,7 +1,8 @@
 """Phase 6 substitution inputs from the 2025 play-by-play: pinch hitters, pinch runners and
 defensive (including blowout) substitutions.
 
-Every non-pitcher who enters a game is classified by how he first entered (subs_2025, from
+Every non-pitcher who enters a game (players with a plate appearance before the entry are starters
+changing position, not new players) is classified by how he first entered (subs_2025, from
 scripts/build_phase6_events.py): 'ph' pinch hitter, 'pr' pinch runner, anything else (a fielding
 position or dh) a defensive substitution. Hazards, by inning bin x margin bin (margin from the
 substituting team's side, at the substitution):
@@ -63,6 +64,11 @@ def main() -> None:
     s = pd.read_csv(P / "subs_2025.csv.gz")
     s = s[(s.kind == "in") & (s.position != "p") & s.game_id.isin(meta.game_id)].copy()
     s = s.drop_duplicates(["game_id", "team_id", "game_player_id"])      # first entry of each player
+    # a starter who moves position (DH to first base, say) is logged as entering at the new position:
+    # not a new player. Players with a plate appearance before the substitution are dropped.
+    first_pa = pa.groupby(["game_id", "batter_id"]).group_id.min()
+    fp = first_pa.reindex(list(zip(s.game_id, s.game_player_id))).values
+    s = s[~(pd.notna(fp) & (fp < s.play_by_play_id.values))]
     s["home"] = s.team_id.values == s.game_id.map(home).values
     s["margin"] = np.where(s.home, s.home_score - s.visitor_score, s.visitor_score - s.home_score)
     s["kind6"] = np.where(s.position == "ph", "ph", np.where(s.position == "pr", "pr", "def"))
@@ -94,6 +100,9 @@ def main() -> None:
     pooled = len(s) / tg.sum()
     out["tier_multiplier"] = {t: round(float(per.get(t, pooled) / pooled), 4) for t in ("p4", "mid", "low")}
     out["subs_per_team_game"] = round(float(pooled), 4)
+    # positions of defensive substitutes (fielding positions only): the bench's positions in the engine
+    dp = s[(s.kind6 == "def") & s.position.isin(["c", "1b", "2b", "3b", "ss", "lf", "cf", "rf"])].position.value_counts(normalize=True)
+    out["def_position_shares"] = {k: round(float(v), 4) for k, v in dp.items()}
     out["subs_per_team_game_by_kind"] = {k: round(float((s.kind6 == k).sum() / tg.sum()), 4) for k in ("ph", "pr", "def")}
     # gate value: distinct batters with a plate appearance per team-game, with a bootstrap SE over games
     nb = pa.groupby(["game_id", "bat_team_id"]).batter_id.nunique()

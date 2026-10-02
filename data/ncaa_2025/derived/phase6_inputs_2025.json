@@ -230,18 +230,75 @@
   "benchmarks": {
    "teams": 50,
    "team_games_mean": 57.2,
-   "app_max_per_team": 24.98,
-   "app_5th_per_team": 17.96,
-   "app_10th_per_team": 13.48,
-   "app_max_overall": 33,
-   "relief_only_40ip_per_team": 0.88,
-   "relief_only_60ip_per_team": 0.04,
-   "se": {
-    "app_max_per_team": 0.4831,
-    "app_5th_per_team": 0.345,
-    "app_10th_per_team": 0.3215,
-    "relief_only_40ip_per_team": 0.1216,
-    "relief_only_60ip_per_team": 0.0264
+   "season_games": 56,
+   "app_max_overall_raw": 33,
+   "app_max": {
+    "value": 24.487,
+    "se": 0.405
+   },
+   "app_5th": {
+    "value": 17.577,
+    "se": 0.257
+   },
+   "app_10th": {
+    "value": 13.169,
+    "se": 0.24
+   },
+   "relief_only_40ip": {
+    "value": 0.76,
+    "se": 0.11
+   },
+   "relief_only_60ip": {
+    "value": 0.06,
+    "se": 0.033
+   },
+   "ip_rank1": {
+    "value": 75.351,
+    "se": 1.412
+   },
+   "ip_rank2": {
+    "value": 65.25,
+    "se": 1.485
+   },
+   "ip_rank3": {
+    "value": 53.288,
+    "se": 1.276
+   },
+   "ip_rank1_fri_sun_starts": {
+    "value": 61.226,
+    "se": 2.192
+   },
+   "ip_rank1_other_starts": {
+    "value": 9.77,
+    "se": 1.165
+   },
+   "ip_rank1_relief": {
+    "value": 4.355,
+    "se": 1.062
+   },
+   "ip_rank2_fri_sun_starts": {
+    "value": 50.347,
+    "se": 2.856
+   },
+   "ip_rank2_other_starts": {
+    "value": 5.623,
+    "se": 1.027
+   },
+   "ip_rank2_relief": {
+    "value": 9.28,
+    "se": 2.059
+   },
+   "ip_rank3_fri_sun_starts": {
+    "value": 29.159,
+    "se": 2.975
+   },
+   "ip_rank3_other_starts": {
+    "value": 5.387,
+    "se": 1.228
+   },
+   "ip_rank3_relief": {
+    "value": 18.741,
+    "se": 2.377
    }
   }
  },
@@ -335,7 +392,7 @@
   }
  },
  "subs6": {
-  "_note": "Phase 6 substitution inputs from the 2025 play-by-play: pinch hitters, pinch runners and\ndefensive (including blowout) substitutions.\n\nEvery non-pitcher who enters a game is classified by how he first entered (subs_2025, from\nscripts/build_phase6_events.py): 'ph' pinch hitter, 'pr' pinch runner, anything else (a fielding\nposition or dh) a defensive substitution. Hazards, by inning bin x margin bin (margin from the\nsubstituting team's side, at the substitution):\n  ph   per plate appearance of the team                 (opportunities: the team's PAs in the cell)\n  pr   per batter reaching base (not on a home run)      (opportunities: such batters in the cell)\n  def  per defensive half-inning of the team             (opportunities: half-innings in the field)\nCells with fewer than MIN_SUB_CELL opportunities back off to the inning bin alone.\nAlso: the lineup spot a pinch hitter or defensive substitute replaces (share of entries over\nshare of opportunities, by spot), and a tier multiplier on all three hazards (substitutions per\nteam-game by tier over the pooled rate, from the same cells).\nGate value: distinct batters per team-game (batters with a plate appearance).\nWrites the \"subs6\" block of data/ncaa_2025/derived/phase6_inputs_2025.json.\n\n    python3 scripts/build_phase6_subs.py\n",
+  "_note": "Phase 6 substitution inputs from the 2025 play-by-play: pinch hitters, pinch runners and\ndefensive (including blowout) substitutions.\n\nEvery non-pitcher who enters a game (players with a plate appearance before the entry are starters\nchanging position, not new players) is classified by how he first entered (subs_2025, from\nscripts/build_phase6_events.py): 'ph' pinch hitter, 'pr' pinch runner, anything else (a fielding\nposition or dh) a defensive substitution. Hazards, by inning bin x margin bin (margin from the\nsubstituting team's side, at the substitution):\n  ph   per plate appearance of the team                 (opportunities: the team's PAs in the cell)\n  pr   per batter reaching base (not on a home run)      (opportunities: such batters in the cell)\n  def  per defensive half-inning of the team             (opportunities: half-innings in the field)\nCells with fewer than MIN_SUB_CELL opportunities back off to the inning bin alone.\nAlso: the lineup spot a pinch hitter or defensive substitute replaces (share of entries over\nshare of opportunities, by spot), and a tier multiplier on all three hazards (substitutions per\nteam-game by tier over the pooled rate, from the same cells).\nGate value: distinct batters per team-game (batters with a plate appearance).\nWrites the \"subs6\" block of data/ncaa_2025/derived/phase6_inputs_2025.json.\n\n    python3 scripts/build_phase6_subs.py\n",
   "built": "2026-10-02",
   "inning_bins": [
    1,
@@ -384,7 +441,7 @@
     "3|4": 0.01695,
     "3|5": 0.02603,
     "3|6": 0.09153,
-    "4|0": 0.25141,
+    "4|0": 0.25084,
     "4|1": 0.11368,
     "4|2": 0.09739,
     "4|3": 0.04416,
@@ -418,7 +475,7 @@
     "3|1": 0.00989,
     "3|2": 0.06891,
     "3|3": 0.07782,
-    "3|4": 0.06072,
+    "3|4": 0.06008,
     "3|5": 0.03868,
     "3|6": 0.03868,
     "4|0": 0.02542,
@@ -430,75 +487,85 @@
     "4|6": 0.048
    },
    "def": {
-    "0|0": 0.20848,
-    "0|1": 0.06496,
-    "0|2": 0.02328,
-    "0|3": 0.01071,
-    "0|4": 0.0204,
-    "0|5": 0.03601,
-    "0|6": 0.12928,
-    "1|0": 0.39547,
-    "1|1": 0.12209,
-    "1|2": 0.08824,
-    "1|3": 0.0771,
-    "1|4": 0.06831,
-    "1|5": 0.09396,
-    "1|6": 0.39381,
-    "2|0": 0.47075,
-    "2|1": 0.18574,
-    "2|2": 0.15929,
-    "2|3": 0.08635,
-    "2|4": 0.14004,
-    "2|5": 0.13605,
-    "2|6": 0.49666,
-    "3|0": 0.51534,
-    "3|1": 0.24581,
-    "3|2": 0.18919,
-    "3|3": 0.23077,
-    "3|4": 0.32987,
-    "3|5": 0.34251,
-    "3|6": 0.47356,
-    "4|0": 0.33471,
-    "4|1": 0.2,
-    "4|2": 0.31667,
-    "4|3": 0.3045,
-    "4|4": 0.33333,
-    "4|5": 0.29928,
-    "4|6": 0.44796
+    "0|0": 0.16254,
+    "0|1": 0.04526,
+    "0|2": 0.01567,
+    "0|3": 0.00754,
+    "0|4": 0.0136,
+    "0|5": 0.02128,
+    "0|6": 0.07985,
+    "1|0": 0.29471,
+    "1|1": 0.08333,
+    "1|2": 0.04868,
+    "1|3": 0.03505,
+    "1|4": 0.04459,
+    "1|5": 0.05705,
+    "1|6": 0.28041,
+    "2|0": 0.37604,
+    "2|1": 0.12758,
+    "2|2": 0.09292,
+    "2|3": 0.06128,
+    "2|4": 0.09232,
+    "2|5": 0.09014,
+    "2|6": 0.3796,
+    "3|0": 0.3773,
+    "3|1": 0.1676,
+    "3|2": 0.13278,
+    "3|3": 0.16434,
+    "3|4": 0.2376,
+    "3|5": 0.22031,
+    "3|6": 0.30288,
+    "4|0": 0.2355,
+    "4|1": 0.13636,
+    "4|2": 0.17778,
+    "4|3": 0.20934,
+    "4|4": 0.24603,
+    "4|5": 0.20789,
+    "4|6": 0.31448
    }
   },
   "ph_slot_factor": {
-   "1": 0.5154,
-   "2": 0.4758,
-   "3": 0.4513,
-   "4": 0.6397,
-   "5": 0.7541,
-   "6": 0.9337,
-   "7": 1.3681,
-   "8": 1.8409,
-   "9": 2.0208
+   "1": 0.5155,
+   "2": 0.4759,
+   "3": 0.4495,
+   "4": 0.6398,
+   "5": 0.7543,
+   "6": 0.9339,
+   "7": 1.3684,
+   "8": 1.8413,
+   "9": 2.0213
   },
   "def_slot_factor": {
-   "1": 0.8178,
-   "2": 0.7772,
-   "3": 0.8543,
-   "4": 0.8259,
-   "5": 0.897,
-   "6": 1.0796,
-   "7": 1.175,
-   "8": 1.3089,
-   "9": 1.2643
+   "1": 0.5695,
+   "2": 0.7238,
+   "3": 0.7386,
+   "4": 0.7624,
+   "5": 0.8217,
+   "6": 1.0887,
+   "7": 1.2637,
+   "8": 1.5218,
+   "9": 1.5099
   },
   "tier_multiplier": {
-   "p4": 0.9921,
-   "mid": 1.0229,
-   "low": 0.9118
+   "p4": 0.9808,
+   "mid": 1.0341,
+   "low": 0.9435
   },
-  "subs_per_team_game": 2.2809,
+  "subs_per_team_game": 1.9669,
+  "def_position_shares": {
+   "c": 0.2179,
+   "lf": 0.1427,
+   "rf": 0.1376,
+   "2b": 0.1376,
+   "3b": 0.1025,
+   "1b": 0.1022,
+   "cf": 0.0907,
+   "ss": 0.0688
+  },
   "subs_per_team_game_by_kind": {
-   "ph": 0.9859,
-   "pr": 0.2751,
-   "def": 1.0199
+   "ph": 0.9857,
+   "pr": 0.2749,
+   "def": 0.7063
   },
   "batters_per_team_game": {
    "value": 10.4203,
@@ -654,6 +721,261 @@
     0.01701,
     0.01886
    ]
+  }
+ },
+ "fielding6": {
+  "_note": "Phase 6 fielding and speed inputs from the 2025 play-by-play.\n\nFielder identity: the fielder credits of every play (fielding_2025, scripts/build_phase6_events.py),\nplayer keys by team and canonical name (scripts/lib/players.py). The fielder at a position in a\nteam-game is the player with most fielder credits there (the starter, usually).\n\nError (per fielder): errors per chance (putouts + assists + errors) at his position. League rate by\nposition; tier effect (log-odds, all positions pooled); individual true SD on the logit scale by\nposition by method of moments (players with MIN_FIELD_CHANCES chances or more; binomial noise\nremoved).\n\nRange: hit rate of balls in play hit to the fielder's zone (hit_to_position 1-9, home runs and\nreached-on-error excluded). A team's pitchers and park act on every fielder of the team alike, so\nrange is measured within team: each fielder's rate against his team's rate at the same position,\ntrue SD by method of moments.\n\nArm: outfielders, runners taking the extra base on a single to the fielder's zone (first to third\nor home, second to home), within team as range; catchers, stolen-base success against while he\ncatches (all runners), around the league rate.\n\nSpeed (per runner): stolen-base attempts per opportunity (on first, second open, at the start of a\nplay), success per attempt, and extra bases taken on singles (first to third or home, second to\nhome) and doubles (first to home), each with its true SD on the logit scale by method of moments,\nand the correlations of the noise-free components (one Speed rating drives all three if they move\ntogether).\nWrites the \"fielding6\" block of data/ncaa_2025/derived/phase6_inputs_2025.json.\n\n    python3 scripts/build_phase6_fielding.py\n",
+  "built": "2026-10-02",
+  "error": {
+   "by_position": {
+    "p": {
+     "n_units": 0,
+     "trials": 0,
+     "rate": NaN,
+     "sd_logit": NaN,
+     "var_obs": 0.0,
+     "var_noise": 0.0,
+     "league_rate": 0.09806
+    },
+    "c": {
+     "n_units": 260,
+     "trials": 36057,
+     "rate": 0.01015,
+     "sd_logit": 0.6254,
+     "var_obs": 0.00011193752303423709,
+     "var_noise": 7.245099930223701e-05,
+     "league_rate": 0.01127
+    },
+    "1b": {
+     "n_units": 241,
+     "trials": 30806,
+     "rate": 0.01133,
+     "sd_logit": 0.6363,
+     "var_obs": 0.00013842529617426436,
+     "var_noise": 8.762411801722581e-05,
+     "league_rate": 0.01177
+    },
+    "2b": {
+     "n_units": 156,
+     "trials": 13698,
+     "rate": 0.03307,
+     "sd_logit": 0.2857,
+     "var_obs": 0.0004476307075776413,
+     "var_noise": 0.000364169254745664,
+     "league_rate": 0.03785
+    },
+    "3b": {
+     "n_units": 86,
+     "trials": 6518,
+     "rate": 0.06965,
+     "sd_logit": 0.1995,
+     "var_obs": 0.0010221624452000273,
+     "var_noise": 0.0008550084922886833,
+     "league_rate": 0.07777
+    },
+    "ss": {
+     "n_units": 135,
+     "trials": 14280,
+     "rate": 0.04643,
+     "sd_logit": 0.288,
+     "var_obs": 0.0005811049643831227,
+     "var_noise": 0.00041854688303892974,
+     "league_rate": 0.05001
+    },
+    "lf": {
+     "n_units": 75,
+     "trials": 4101,
+     "rate": 0.02121,
+     "sd_logit": 0.3678,
+     "var_obs": 0.0004380571831664088,
+     "var_noise": 0.0003797419500914258,
+     "league_rate": 0.02549
+    },
+    "cf": {
+     "n_units": 97,
+     "trials": 7825,
+     "rate": 0.01137,
+     "sd_logit": 0.0,
+     "var_obs": 0.00011851290946939859,
+     "var_noise": 0.0001393879283128519,
+     "league_rate": 0.01385
+    },
+    "rf": {
+     "n_units": 71,
+     "trials": 4478,
+     "rate": 0.02389,
+     "sd_logit": 0.136,
+     "var_obs": 0.00037986151219365,
+     "var_noise": 0.0003698032002266903,
+     "league_rate": 0.02657
+    }
+   },
+   "tier_logodds": {
+    "p4": -0.1167,
+    "mid": 0.0952,
+    "low": 0.2943
+   },
+   "chances_share": {
+    "p": 0.0428,
+    "c": 0.2586,
+    "1b": 0.2244,
+    "2b": 0.1162,
+    "3b": 0.0665,
+    "ss": 0.1135,
+    "lf": 0.0515,
+    "cf": 0.0723,
+    "rf": 0.0542
+   }
+  },
+  "range": {
+   "by_position": {
+    "c": {
+     "n_units": 0,
+     "trials": 0,
+     "rate": NaN,
+     "sd_logit": NaN,
+     "var_obs": 0.0,
+     "var_noise": 0.0,
+     "league_rate": 0.06679
+    },
+    "1b": {
+     "n_units": 59,
+     "trials": 3111,
+     "rate": 0.05464,
+     "sd_logit": 2.3127,
+     "var_obs": 0.015175066185538696,
+     "var_noise": 0.0009020852157587609,
+     "league_rate": 0.05802
+    },
+    "2b": {
+     "n_units": 92,
+     "trials": 6886,
+     "rate": 0.06143,
+     "sd_logit": 1.0464,
+     "var_obs": 0.004352067576444679,
+     "var_noise": 0.0007119779559364975,
+     "league_rate": 0.06319
+    },
+    "3b": {
+     "n_units": 71,
+     "trials": 5251,
+     "rate": 0.12321,
+     "sd_logit": 0.9148,
+     "var_obs": 0.011129254165953197,
+     "var_noise": 0.0013626160905265228,
+     "league_rate": 0.12976
+    },
+    "ss": {
+     "n_units": 69,
+     "trials": 6706,
+     "rate": 0.10021,
+     "sd_logit": 0.9964,
+     "var_obs": 0.008797927218980697,
+     "var_noise": 0.0007266305444645245,
+     "league_rate": 0.09931
+    },
+    "lf": {
+     "n_units": 139,
+     "trials": 11804,
+     "rate": 0.57752,
+     "sd_logit": 0.3303,
+     "var_obs": 0.009271052634990243,
+     "var_noise": 0.0027743290254416244,
+     "league_rate": 0.57951
+    },
+    "cf": {
+     "n_units": 98,
+     "trials": 10924,
+     "rate": 0.38621,
+     "sd_logit": 0.6932,
+     "var_obs": 0.028955258532688367,
+     "var_noise": 0.0019508469699774879,
+     "league_rate": 0.3911
+    },
+    "rf": {
+     "n_units": 121,
+     "trials": 10351,
+     "rate": 0.52903,
+     "sd_logit": 0.4474,
+     "var_obs": 0.01523518338809432,
+     "var_noise": 0.0028078926685886235,
+     "league_rate": 0.53553
+    }
+   },
+   "note": "within team: each fielder against the rest of his team at the position"
+  },
+  "of_zone_share": {
+   "lf": 0.3576,
+   "cf": 0.3127,
+   "rf": 0.3297
+  },
+  "arm_of": {
+   "n_units": 345,
+   "trials": 8582,
+   "rate": 0.48695,
+   "sd_logit": 0.3517,
+   "var_obs": 0.017762860935015144,
+   "var_noise": 0.010043258039635971
+  },
+  "arm_c": {
+   "n_units": 169,
+   "trials": 4340,
+   "rate": 0.78456,
+   "sd_logit": 0.3624,
+   "var_obs": 0.010334291823816167,
+   "var_noise": 0.0065818236704043
+  },
+  "speed": {
+   "attempt": {
+    "n_units": 1230,
+    "trials": 42878,
+    "rate": 0.09784,
+    "sd_logit": 0.7901,
+    "var_obs": 0.007395383533474408,
+    "var_noise": 0.002531941484617349
+   },
+   "success": {
+    "n_units": 324,
+    "trials": 2952,
+    "rate": 0.81064,
+    "sd_logit": 0.4249,
+    "var_obs": 0.021101385616129183,
+    "var_noise": 0.01684808159986716
+   },
+   "extra_base": {
+    "n_units": 1061,
+    "trials": 16193,
+    "rate": 0.43439,
+    "sd_logit": 0.299,
+    "var_obs": 0.021496797465012266,
+    "var_noise": 0.016098442445783213
+   },
+   "corr": {
+    "attempt|success": 0.175,
+    "attempt|extra_base": 0.37,
+    "success|extra_base": 0.27
+   },
+   "n_runners_corr": 466
+  },
+  "team_error": {
+   "n_teams": 133,
+   "rate_per_chance": 0.02764,
+   "slope_d": -0.7202,
+   "resid_sd_true": 0.1361,
+   "fielders_sd": 0.1191,
+   "team_sd": 0.0657,
+   "error_share": {
+    "p": 0.146,
+    "c": 0.1014,
+    "1b": 0.0919,
+    "2b": 0.153,
+    "3b": 0.1799,
+    "ss": 0.1974,
+    "lf": 0.0457,
+    "cf": 0.0348,
+    "rf": 0.0501
+   },
+   "total_sd": 0.2377
   }
  }
 }
