@@ -32,8 +32,9 @@ faced at home and away.
      the spread unidentified within one tier, the SD is shared across tiers
      (config.phase4.SHARED_TAU_ROLES). His estimate is the posterior mean (engine.eb).
      Stamina: the same with the discrete-time pull-hazard likelihood, prior per role.
-  3. Anchor: 50 is the D1 average, so offsets are centred on their PA- (BF-) weighted mean,
-     an observable, then rating = 50 + 10 * sign * (z - anchor) / s (the rating scale's SD).
+  3. Anchor: the estimated offsets are centred on their PA- (BF-) weighted mean, an observable,
+     placed at the D1 mean of true z, and read on the rating scale's percentile map
+     (engine.ratings): rating = 50 + 10 * sign * Phi^-1(F(z)).
 The estimator runs on folds of FOLD_SEASONS seasons, each fitting its own priors (one season
 leaves bench spreads unidentified; folds keep the replicates independent, so the standard
 error across folds includes the priors' own sampling error).
@@ -195,7 +196,7 @@ def season_extract4(res: dict, scale: RatingScale | None = None) -> dict:
                                     "z": np.array([players[i].z[IDX[rate]] for i in np.where(keep)[0]]), "work": work[keep].astype(float),
                                     "E": res["exp_trials"][ids, EXP_RATES.index(rate), 0][keep], "V": res["exp_trials"][ids, EXP_RATES.index(rate), 1][keep],
                                     "true": np.array([players[i].ratings[name] for i in np.where(keep)[0]]),
-                                    "q": n[keep] >= MIN_TRIALS[kind], "sign": sign, "s": s_}
+                                    "q": n[keep] >= MIN_TRIALS[kind], "sign": sign, "s": s_, "side": side, "rate": rate}
         # true rating distributions: D1 (PA/BF weighted) and by tier for everyday players
         wcol = B_PA if side == "bat" else P_BF
         w = st[:, wcol].astype(float)
@@ -415,9 +416,14 @@ def _estimate(ex: list, scale: RatingScale) -> dict:
             mean[i], sd[i] = f["mean"], f["sd"]
             priors.setdefault(name, {}).update({g: {k: round(v, 4) for k, v in pr.items()} for g, pr in f["prior"].items()})
         anchor = float(np.average(mean, weights=ns))   # the D1 average, measured on the estimates
-        s_, sign = d[0]["s"], d[0]["sign"]
-        est = CENTER + POINTS_PER_SD * sign * (mean - anchor) / s_
-        psd = POINTS_PER_SD * sd / s_
+        sign, side_, rate_ = d[0]["sign"], d[0]["side"], d[0]["rate"]
+        # estimates as true offsets (the D1 mean plus each estimate's distance from the estimated
+        # average), then on the percentile scale like the true ratings; the posterior SD in points
+        # uses the scale's local slope
+        zest = scale.ms(side_, rate_)[0] + (mean - anchor)
+        est = scale.rating(side_, rate_, sign, zest)
+        h = 1e-4
+        psd = POINTS_PER_SD * sd * np.abs(scale.score(side_, rate_, zest + h) - scale.score(side_, rate_, zest - h)) / (2 * h)
         q, true = cat("q"), cat("true")
         # 50 is the D1 average of this simulated world on both sides: the estimates are anchored on
         # the league's own average, so the true ratings are measured from the realized average too
@@ -519,7 +525,8 @@ def build_report4(agg: dict, seeds: list, phase2_status: dict) -> tuple[str, dic
     gate_ok = all(v for v in st.values() if v is not None)
     md = ["# Phase 4 realism report: 20–80 ratings", "",
           f"{agg['n_seasons']} simulated seasons, seeds {seeds[0]}–{seeds[-1]}, players generated from ratings. Generated {dt.date.today().isoformat()}.",
-          "Ratings re-express the true rates the engine uses: 50 is the D1 average (PA- or BF-weighted), 10 points one true-talent SD, all of D1 on one scale. "
+          "Ratings re-express the true rates the engine uses, on percentiles of each rate's D1 distribution (PA- or BF-weighted, all of D1 on one scale): "
+          "50 is the D1 median, 60/70/80 the 84.1st/97.7th/99.87th percentiles; for a Gaussian rate this is 10 points per true-talent SD. "
           "Batters: Contact (BABIP), Gap (extra-base share of hits), Power (HR/PA), Eye (BB/PA), Avoid K (K/PA). Pitchers: Stuff (K/BF), Control (BB/BF), "
           "Movement (HR/BF), Stamina (individual leash on the pull hazard). Speed is reserved for Phase 6: the engine has no speed-linked rate yet.", "",
           f"## Gate: **{'PASS' if gate_ok else 'FAIL'}**", "",

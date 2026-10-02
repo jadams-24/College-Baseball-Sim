@@ -1,0 +1,77 @@
+[
+ {
+  "path": "individual_leaders_2023_2026",
+  "old": null,
+  "new": {
+   "_note": "Phase 2 gate. National individual leaders, 2023-2026 seasons: NCAA.com national leader pages (top 50) for 2024-2026 and the NCAA record book for 2023 (data/ncaa_leaders/). Counting stats at a 56-game equivalent (each player's HR x 56 / his games), rates as they are. A row passes if the simulated mean over the seasons run lies in the band from the lowest to the highest real season, widened by 3 SE of the simulated mean; the single-season record is a hard ceiling on every simulated player-season.",
+   "conf": "A",
+   "src": "https://www.ncaa.com/stats/baseball/d1/{2023,2024,2025}/individual/{470,200} (fetched 2026-10-01); http://fs.ncaa.org/Docs/stats/baseball_RB/2024/D1.pdf",
+   "season_games": 56,
+   "hr_leader_56g": {
+    "by_season": {
+     "2023": 26.3,
+     "2024": 34.53,
+     "2025": 25.54,
+     "2026": 33.4
+    },
+    "lo": 25.54,
+    "hi": 34.53
+   },
+   "hr_30plus_56g": {
+    "by_season": {
+     "2024": 3,
+     "2025": 0,
+     "2026": 2
+    },
+    "lo": 0,
+    "hi": 3
+   },
+   "ba_leader": {
+    "by_season": {
+     "2023": 0.449,
+     "2024": 0.433,
+     "2025": 0.455,
+     "2026": 0.446
+    },
+    "lo": 0.433,
+    "hi": 0.455
+   },
+   "hr_top5_per_game": {
+    "by_season": {
+     "2024": 0.5392,
+     "2025": 0.4102,
+     "2026": 0.5279
+    },
+    "lo": 0.4102,
+    "hi": 0.5392
+   },
+   "hr_season_record": {
+    "value": 48,
+    "note": "Pete Incaviglia, Oklahoma State, 1985 (NCAA record book)"
+   }
+  },
+  "date": "2026-10-02"
+ },
+ {
+  "path": "leaderboards_2025.individual_ba_top",
+  "old": {
+   "value": null,
+   "conf": "D",
+   "sample_max": 0.403,
+   "note": "needs stats.ncaa.org individual table"
+  },
+  "new": null,
+  "date": "2026-10-02"
+ },
+ {
+  "path": "leaderboards_2025.individual_hr_top",
+  "old": {
+   "value": null,
+   "conf": "D",
+   "sample_max": 25,
+   "note": "needs stats.ncaa.org individual table"
+  },
+  "new": null,
+  "date": "2026-10-02"
+ }
+]

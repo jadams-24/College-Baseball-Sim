@@ -209,8 +209,62 @@ Every other reweighted benchmark is a mean or a share.
   - Midweek: the same three cells pool (15 + 17 + 18 = 50 starts). p10 27 → 26, p50 54 → 52, p90 94.
 - **Midweek starter p10** is still a Phase 6 row (owner decision). The pooled value (26) is closer to the sim (22) but not within tolerance. The tier behaviour behind it is real: low-tier staffs leave midweek starters in longer. It belongs with manager AI.
 
+### True-talent shapes, percentile ratings and the individual-leader gate (2026-10-02, project owner decision after the leaders audit, PR #8)
+
+**Problem.** The national-leaders audit (`reports/leaders_audit.md`) found the HR tail too long: the sim's HR leader averaged 43.4 (35–75) and 8.3 hitters a season reached 30 HR. Real seasons had 26–37 and 0–5. The cause was the talent draw, not season length. Batter HR talent was Gaussian on the logit scale: method-of-moments mean and SD, with the SD converted from the probability scale by the delta method.
+
+**Shapes by deconvolution** (`scripts/build_talent_shapes.py`, `data/ncaa_2025/derived/talent_shapes_2025.json`, `reports/talent_shapes.md`).
+- Data: the method-of-moments player-season lines, role groups, tier expectations and qualifying cut, with each team's effect removed by empirical-Bayes shrinkage.
+- Fits per side and rate: the individual distribution in units of the group's method-of-moments SD, by marginal likelihood (binomial integrated over the distribution). Three fits: Gaussian; sinh-arcsinh (Jones & Pewsey 2009: skew eps, tail weight delta); and NPMLE (Kiefer–Wolfowitz, the nonparametric bound).
+- A shape is used when the likelihood-ratio statistic against the Gaussian exceeds 13.82 (chi-square, 2 df, p < .001; strict because 11 shapes are tested).
+- Result: only **batter HR/PA** qualifies (LRT 27.7). Its shape has eps −1.66 and delta 1.07: a long left tail (hitters with almost no power sit far down on the logit scale) and a short right tail. Standardized quantiles: q.99 +1.21 and q.999 +1.31, against the Gaussian's +2.33 and +3.09.
+- The NPMLE is only 1.0 log-likelihood unit above the sinh-arcsinh fit and puts no mass above +0.85 SD units.
+- Batter K is borderline (LRT 11.9, a shorter high-K tail) and stays Gaussian. Every other rate has LRT ≤ 4.7.
+- Pitcher BABIP has no individual spread to shape (SD 0 for starters).
+
+**HR uses the full fitted distribution.**
+- For a skewed rate, the method of moments' location (logit of the mean rate) and its delta-method SD are biased. HR therefore takes the fitted location (−.42) and scale (1.28) in method-of-moments SD units, as well as the shape.
+- The other rates keep their method-of-moments mean and SD, so their draws are unchanged bit for bit.
+- The team draw's removal of the individual share (config.phase2._team_draws) uses the fitted SD.
+
+**Draw** (`engine/league.py`).
+- Gaussian copula: the correlated normal draw on the play-by-play correlations is unchanged. Each component's normal score is mapped through its rate's fitted quantile table, so rank correlations are kept exactly.
+- The league location was re-solved because the new shape has a lower mean rate. The HR intercept moved from −.311 to −.163; the other five moved within solve noise. Simulated league rates equal the table to 4 decimals.
+- Regular batters' true HR/PA against an average pitcher, before the re-solve: p99 .073 → .054, maximum .142 → .069.
+
+**20-80 scale on percentiles** (`engine/ratings.py`, `scripts/build_phase4_scale.py`, `ratings_scale_2025`).
+- rating = 50 + 10 · sign · Φ⁻¹(F(z)), with F the PA- (BF-) weighted D1 distribution of true z. 50 is the D1 median; 60, 70 and 80 are the 84.1st, 97.7th and 99.87th percentiles, the meaning these ratings had under the Gaussian.
+- F is a quantile table at normal scores ±4.25 (step .05) from 200 generated leagues, weighted by each roster slot's mean PA/BF in 8 simulated seasons. Between points the map is linear both ways, so it inverts exactly; beyond the table it continues the end segments.
+- Rates still Gaussian map as before within table noise (Eye at 80: z +.904, against +.908 linear).
+- Power at 80 is z +1.364, against +1.940 on the old linear map.
+- The scouting estimator (informational) reads its estimates through the same map.
+
+**Individual-leader gate** (`individual_leaders_2023_2026`, conf A, new block; `scripts/write_leader_benchmarks.py`).
+- Sources: NCAA.com national leader pages (top 50) for 2024–2026, and the record book for 2023 (Caglianone 33 HR in 71 G, Wilken 31 in 66, Wetherholt .449).
+- Counting stats use a 56-game equivalent: each player's HR × 56 / his games, because real leaders' teams played 57–72 games with the postseason.
+- The pages give games but not plate appearances, so the top-5 row is HR per game played on both sides.
+- Bands (lowest to highest real season): HR leader 25.5–34.5; 30+ HR hitters 0–3; BA leader .433–.455; top-5 HR per game .410–.539.
+- A row passes if the 20-season sim mean lies in the band, widened by 3 SE of the sim mean. The single-season record (48, Incaviglia 1985) is a hard ceiling on every simulated player-season.
+- The conf D placeholders `leaderboards_2025.individual_ba_top` and `individual_hr_top` are removed, superseded by this block (logged in `benchmark_changes_leaders.json`).
+
+**Result (20 seasons, seeds 20251000–20251019): every Phase 1, 2, 4 and 5 gate row passes, and no row changed status.**
+- HR leader: 43.4 → 29.7 (26–35).
+- Hitters with 30+ HR: 8.3 → 0.95.
+- Top-5 HR per game: .499.
+- Most HR in any of the 20 seasons: 35.
+- BA leader: .442.
+
+Rows that moved but still pass:
+- Qualified ISO p50 .1625 → .1669 (benchmark .1667) and p25 .1184 → .1207.
+- Most team HR per game 2.80 → 2.68 (real 2.672).
+- Pitchers with 50+ IP 879 → 870 (deferred row).
+- Power forward test: slope 1.004, dispersion 1.008.
+- League rates within .001 of their old values.
+
 ## Bibliography
 
+- Jones, M. C. and Pewsey, A. (2009). Sinh-arcsinh distributions. *Biometrika* 96(4), 761–780.
+- Kiefer, J. and Wolfowitz, J. (1956). Consistency of the maximum likelihood estimator in the presence of infinitely many incidental parameters. *Annals of Mathematical Statistics* 27(4), 887–906.
 - FanGraphs, Michael Baumann, "The Ridiculous Firewagon Offenses of College Baseball," Feb 13, 2026 — https://blogs.fangraphs.com/the-ridiculous-firewagon-offenses-of-college-baseball/
 - NCAA, "Division I Baseball Statistics Trends (1970-2018)" — http://fs.ncaa.org/Docs/stats/baseball_RB/reports/TrendsYBY.pdf
 - Baseball America, "The NCAA Division I Home Run Record Has Been Broken, Again" (2024) — https://www.baseballamerica.com/stories/the-ncaa-division-i-home-run-record-has-been-broken-again/

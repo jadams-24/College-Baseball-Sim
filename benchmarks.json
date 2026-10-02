@@ -716,9 +716,7 @@
     "teams_era_under_4": {"value": 12, "conf": "A"},
     "best_team_era": {"value": 3.2, "conf": "A"},
     "team_ba_max": {"value": 0.356, "conf": "A"},
-    "team_hr_per_game_max": {"value": 2.672, "conf": "A", "note": "Georgia 179 HR in 67 games"},
-    "individual_ba_top": {"value": null, "conf": "D", "sample_max": 0.403, "note": "needs stats.ncaa.org individual table"},
-    "individual_hr_top": {"value": null, "conf": "D", "sample_max": 25, "note": "needs stats.ncaa.org individual table"}
+    "team_hr_per_game_max": {"value": 2.672, "conf": "A", "note": "Georgia 179 HR in 67 games"}
   },
   "team_talent_2025": {
     "_note": "Team strength on one talent scale. Quasi-Poisson fit of runs per team-game on team offense o, run prevention d (log runs, centred over teams) and the listed home slot; (o, d) = tier mean + conference effect + team effect. Estimation noise removed by method of moments using each team's covariance from the fit; conference covariance = spread of conference means minus (team + noise)/n, per tier, projected to PSD. Hosting of nonconference games: logistic in tier pair and strength gap, slope disattenuated for noise. Engine mapping (phase2_run_scale_2025.json): o and d become logit offsets along the batting and pitching quality directions scaled so one unit is one log run in the engine; the home talent edge is home_log_ratio minus the engine's batting-last effect h0. NCAA scoreboard feed, every 2025 D1-vs-D1 final (data/ncaa_2025/scoreboard/games_2025.csv; fetched for PR #1)",
@@ -860,19 +858,75 @@
     "reliever": {"n_pitchers": 847, "log_mean": 0.0763, "log_sd": 0.6218, "mom_log_sd": 0.5142}
   },
   "ratings_scale_2025": {
-    "_note": "The 20-80 scale: rating = 50 + 10 sign (z - mean) / sd, z the player's true logit offset of the rate. mean and sd are the PA-weighted (batters) or BF-weighted (pitchers) mean and SD of true z across all D1 players, all tiers, as the Phase 2 talent distributions (player_talent_2025, team_talent_2025: sampling noise removed) generate them; usage weights from simulated seasons (seeds 940001-940008). A definition of the scale, not a target.",
+    "_note": "The 20-80 scale: rating = 50 + 10 sign Phi^-1(F(z)), z the player's true logit offset of the rate and F its distribution across all D1 players, all tiers, weighted by PA (batters) or BF (pitchers), as the Phase 2 talent distributions (player_talent_2025 with the fitted true-talent shapes, team_talent_2025: sampling noise removed) generate them. 50 is the D1 median, 60/70/80 the 84.1st/97.7th/99.87th percentiles (for sign -1, of the reversed rate). z_at_rating: the true offset at each rating; between table points the map is linear (full table: data/ncaa_2025/derived/phase4_rating_scale_2025.json). Usage weights from simulated seasons (seeds 940001-940008), distribution from generated leagues (seeds 950001-950200). mean and sd are descriptive. A definition of the scale, not a target.",
     "conf": "B",
     "batter": {
-      "contact": {"rate": "BABIP", "sign": 1, "mean": 0.01465, "sd": 0.13121},
-      "gap": {"rate": "XBH", "sign": 1, "mean": 0.00666, "sd": 0.25688},
-      "power": {"rate": "HR", "sign": 1, "mean": 0.06812, "sd": 0.63004},
-      "eye": {"rate": "BB", "sign": 1, "mean": -0.00978, "sd": 0.30778},
-      "avoid_k": {"rate": "K", "sign": -1, "mean": -0.03035, "sd": 0.38089}
+      "contact": {
+        "rate": "BABIP",
+        "sign": 1,
+        "mean": 0.0147,
+        "sd": 0.13018,
+        "median": 0.01395,
+        "z_at_rating": {"20": -0.35208, "30": -0.23803, "40": -0.1194, "50": 0.01395, "60": 0.14819, "70": 0.2708, "80": 0.39086}
+      },
+      "gap": {
+        "rate": "XBH",
+        "sign": 1,
+        "mean": 0.0064,
+        "sd": 0.25425,
+        "median": -0.00673,
+        "z_at_rating": {"20": -0.74035, "30": -0.47474, "40": -0.24458, "50": -0.00673, "60": 0.26863, "70": 0.5302, "80": 0.78066}
+      },
+      "power": {
+        "rate": "HR",
+        "sign": 1,
+        "mean": -0.09153,
+        "sd": 0.67723,
+        "median": -0.021,
+        "z_at_rating": {"20": -2.74957, "30": -1.67963, "40": -0.74316, "50": -0.021, "60": 0.57226, "70": 1.03196, "80": 1.36408}
+      },
+      "eye": {
+        "rate": "BB",
+        "sign": 1,
+        "mean": -0.01171,
+        "sd": 0.30652,
+        "median": -0.00953,
+        "z_at_rating": {"20": -0.95742, "30": -0.63099, "40": -0.31763, "50": -0.00953, "60": 0.29434, "70": 0.59642, "80": 0.90445}
+      },
+      "avoid_k": {
+        "rate": "K",
+        "sign": -1,
+        "mean": -0.03365,
+        "sd": 0.37468,
+        "median": -0.03446,
+        "z_at_rating": {"20": 1.10346, "30": 0.7184, "40": 0.34105, "50": -0.03446, "60": -0.40843, "70": -0.78029, "80": -1.14549}
+      }
     },
     "pitcher": {
-      "stuff": {"rate": "K", "sign": 1, "mean": -0.01609, "sd": 0.43888},
-      "control": {"rate": "BB", "sign": -1, "mean": -0.04384, "sd": 0.40736},
-      "movement": {"rate": "HR", "sign": -1, "mean": 0.00068, "sd": 0.31264}
+      "stuff": {
+        "rate": "K",
+        "sign": 1,
+        "mean": 0.00962,
+        "sd": 0.436,
+        "median": 0.02247,
+        "z_at_rating": {"20": -1.40245, "30": -0.90277, "40": -0.4256, "50": 0.02247, "60": 0.44566, "70": 0.83978, "80": 1.21417}
+      },
+      "control": {
+        "rate": "BB",
+        "sign": -1,
+        "mean": -0.06581,
+        "sd": 0.40408,
+        "median": -0.07959,
+        "z_at_rating": {"20": 1.2453, "30": 0.78291, "40": 0.33663, "50": -0.07959, "60": -0.46672, "70": -0.83839, "80": -1.20157}
+      },
+      "movement": {
+        "rate": "HR",
+        "sign": -1,
+        "mean": -0.00061,
+        "sd": 0.31383,
+        "median": -0.00565,
+        "z_at_rating": {"20": 1.23266, "30": 0.65349, "40": 0.29196, "50": -0.00565, "60": -0.2956, "70": -0.61654, "80": -1.11487}
+      }
     }
   },
   "pitch_level_2025": {
@@ -972,5 +1026,32 @@
       },
       "note": "Starter pitch-count percentiles: tier-pair cells with fewer starts than the floor are pooled with their nearest cells before reweighting (scripts/lib/pooling.py)."
     }
+  },
+  "individual_leaders_2023_2026": {
+    "_note": "Phase 2 gate. National individual leaders, 2023-2026 seasons: NCAA.com national leader pages (top 50) for 2024-2026 and the NCAA record book for 2023 (data/ncaa_leaders/). Counting stats at a 56-game equivalent (each player's HR x 56 / his games), rates as they are. A row passes if the simulated mean over the seasons run lies in the band from the lowest to the highest real season, widened by 3 SE of the simulated mean; the single-season record is a hard ceiling on every simulated player-season.",
+    "conf": "A",
+    "src": "https://www.ncaa.com/stats/baseball/d1/{2023,2024,2025}/individual/{470,200} (fetched 2026-10-01); http://fs.ncaa.org/Docs/stats/baseball_RB/2024/D1.pdf",
+    "season_games": 56,
+    "hr_leader_56g": {
+      "by_season": {"2023": 26.3, "2024": 34.53, "2025": 25.54, "2026": 33.4},
+      "lo": 25.54,
+      "hi": 34.53
+    },
+    "hr_30plus_56g": {
+      "by_season": {"2024": 3, "2025": 0, "2026": 2},
+      "lo": 0,
+      "hi": 3
+    },
+    "ba_leader": {
+      "by_season": {"2023": 0.449, "2024": 0.433, "2025": 0.455, "2026": 0.446},
+      "lo": 0.433,
+      "hi": 0.455
+    },
+    "hr_top5_per_game": {
+      "by_season": {"2024": 0.5392, "2025": 0.4102, "2026": 0.5279},
+      "lo": 0.4102,
+      "hi": 0.5392
+    },
+    "hr_season_record": {"value": 48, "note": "Pete Incaviglia, Oklahoma State, 1985 (NCAA record book)"}
   }
 }
