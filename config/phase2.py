@@ -203,14 +203,16 @@ def _team_draws(inp: dict, rs: dict) -> tuple[dict, dict]:
         vals, vecs = np.linalg.eigh((m + m.T) / 2)
         return vecs @ np.diag(np.clip(vals, 0, None)) @ vecs.T
     draw = {}
-    for t, e in inp["team_talent"]["tiers"].items():
+    from config import phase6
+    # Phase 6 with parks: team totals (fit without parks); the league nets the drawn park out of them
+    tiers = inp["team_talent"].get("tiers_total") if phase6.on("parks") and "tiers_total" in inp["team_talent"] else inp["team_talent"]["tiers"]
+    for t, e in tiers.items():
         draw[t] = {"mean": (e["mean_o"], e["mean_d"]), "team_cov": psd(np.array(e["team_cov"]) - np.diag([ind_o, ind_d])),
                    "conf_cov": psd(np.array(e["conf_cov"])), "individual_var": (ind_o, ind_d)}
     # Phase 6 parks: a team's observed rates include its home park in about half its games, so the
     # team-level spreads measured in Phase 2 carry a quarter of the park variance; with parks drawn
     # on their own (engine/league.py), the team spread is net of it
     park_var = np.zeros(6)
-    from config import phase6
     if phase6.on("parks"):
         park_var = np.diag(np.array(phase6.load()["parks6"]["cov"]))
 

@@ -83,6 +83,7 @@ def main() -> None:
         "home_log_ratio": {"value": tt["home_log_ratio"], "se": tt["home_log_ratio_se"], "conf": "A"},
         "engine_home_structural_h0": rs["home_structural"]["h0_log_ratio"],
         "tiers": {t: {k: v for k, v in e.items()} for t, e in tt["tiers"].items()},
+        **({"tiers_total": tt["tiers_total"]} if "tiers_total" in tt else {}),
         "conf_cov_pooled": tt["conf_cov_pooled"], "conf_sd_pooled": tt["conf_sd_pooled"],
         "hosting": {**tt["hosting"], "conf": "B"},
         "engine_scale": {"v_bat_unit": rs["v_bat_unit"], "v_pit_unit": rs["v_pit_unit"], "w_gradient_logR": rs["w_gradient_logR"], "rates": rs["rates"],

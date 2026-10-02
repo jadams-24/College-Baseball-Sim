@@ -18,9 +18,9 @@ the normal score of each component is mapped to the rate's standardized shape an
 its method-of-moments SD, so variances and rank correlations are kept and only the shape changes.
 
 Phase 6: each team has a home park, a vector of logit offsets on the six rates drawn from the
-park covariance and tier means of scripts/build_phase6_parks.py, its run level conditional on the
-team's offense and defense (parks correlate about -.4 with both within tier); every plate
-appearance in the park carries it, for both teams.
+park covariance and tier means of scripts/build_phase6_parks.py, its run level by tier; the team's
+(o, d) are drawn as totals (home park included in half the games) and the park's half is netted
+out; every plate appearance in the park carries it, for both teams.
 
 Tiers and conferences are only distributions of (o, d); nothing in a matchup knows a
 team's tier. L is the league outcome table, mu_group and e come from the play-by-play
@@ -165,7 +165,7 @@ def build_league(cfg: Phase2Config, rng: np.random.Generator) -> League:
     if pk6:
         vals, vecs = np.linalg.eigh(np.array(pk6["cov"]))
         park_cov = vecs @ np.diag(np.clip(vals, 0, None)) @ vecs.T     # positive semi-definite after rounding
-        if pk6.get("joint"):
+        if "w" in pk6:
             w_ = np.array(pk6["w"]); cw = park_cov @ w_
             run_dir = cw / float(w_ @ cw)
             park_resid = park_cov - np.outer(cw, cw) / float(w_ @ cw)
@@ -184,12 +184,13 @@ def build_league(cfg: Phase2Config, rng: np.random.Generator) -> League:
         # an independent has no conference: it draws its own effect from its tier's conference distribution
         c = conf_fx[t.conference] if not confs[t.conference][3] else rng.multivariate_normal(np.zeros(2), td["conf_cov"], method="eigh")
         t.o, t.d = np.array(td["mean"]) + c + rng.multivariate_normal(np.zeros(2), td["team_cov"], method="eigh")
-        if pk6 and pk6.get("joint"):
-            # the park's run level given the team's (o, d) deviations from its tier mean, in engine units
-            # (k_o), along the run direction; the rest of the park's rate vector orthogonal to it
-            j = pk6["joint"]
-            run = pk6["k_o"] * (float(np.dot(j["park_on_od"], np.array([t.o, t.d]) - np.array(td["mean"]))) + j["park_sd_given_od"] * rng_park.standard_normal())
-            t.park = np.array(pk6["tier_mean"][tier]) + run_dir * run + rng_park.multivariate_normal(np.zeros(len(RATES)), park_resid, method="eigh")
+        if pk6 and "tier_run_sd" in pk6:
+            # the park's run level from its tier (scoreboard log runs), its rate vector along the run direction plus the
+            # orthogonal rest; (o, d) above are totals with the home park in half the games, so the net ratings drop half of it
+            dev = pk6["tier_run_sd"][tier] * rng_park.standard_normal()
+            t.park = np.array(pk6["tier_mean"][tier]) + run_dir * pk6["k_o"] * dev + rng_park.multivariate_normal(np.zeros(len(RATES)), park_resid, method="eigh")
+            run_level = pk6["tier_run_mean"][tier] + dev
+            t.o, t.d = t.o - run_level / 2, t.d + run_level / 2
         elif pk6:
             t.park = np.array(pk6["tier_mean"][tier]) + rng_park.multivariate_normal(np.zeros(len(RATES)), park_cov, method="eigh")
         else:

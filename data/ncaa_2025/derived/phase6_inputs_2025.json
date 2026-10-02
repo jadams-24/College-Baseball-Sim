@@ -1357,7 +1357,7 @@
   }
  },
  "parks6": {
-  "_note": "Phase 6 park effects.\n\nMagnitude, from the full 2025 scoreboard (every D1-vs-D1 final; scripts/build_phase2_teams.py fits\nit with a park term, the home team's park, alongside team offense and run prevention): the true SD\nand tier means of park effects in log runs per game, estimation noise removed by method of\nmoments. Composition, from the box scores of the play-by-play sample (data/ncaa_2025/pbp/parsed/\nschedule_games_2025.csv, neutral sites dropped), for the full-season teams: per rate (K, BB,\nHBP, HR per PA; BABIP; XBH share of hits) the classic park factor on the logit scale, both teams'\nrate in the team's home games minus both teams' rate in its road games, then the covariance of the\npark factors across rates with binomial noise removed (method of moments). The engine draws each team's park as\na vector of logit offsets from that covariance, scaled so its run variance (through the engine's\nrun-value gradient) equals the scoreboard's, with the tier mean placed along the run direction.\nThe run level itself is drawn conditional on the home team's offense and defense (the scoreboard\nfit's within-tier joint covariance: parks correlate about -.4 with both).\nEvery plate appearance in the park carries the offsets, for both teams.\nWrites the \"parks6\" block of data/ncaa_2025/derived/phase6_inputs_2025.json.\n\n    python3 scripts/build_phase6_parks.py      (after scripts/build_phase2_teams.py)\n",
+  "_note": "Phase 6 park effects.\n\nMagnitude, from the full 2025 scoreboard (every D1-vs-D1 final; scripts/build_phase2_teams.py fits\nit with a park term, the home team's park, alongside team offense and run prevention): the true SD\nand tier means of park effects in log runs per game, estimation noise removed by method of\nmoments. Composition, from the box scores of the play-by-play sample (data/ncaa_2025/pbp/parsed/\nschedule_games_2025.csv, neutral sites dropped), for the full-season teams: per rate (K, BB,\nHBP, HR per PA; BABIP; XBH share of hits) the classic park factor on the logit scale, both teams'\nrate in the team's home games minus both teams' rate in its road games, then the covariance of the\npark factors across rates with binomial noise removed (method of moments). The engine draws each team's park as\na vector of logit offsets from that covariance, scaled so its run variance (through the engine's\nrun-value gradient) equals the scoreboard's, with the tier mean placed along the run direction.\nThe run level is drawn with its tier's SD, and the engine nets half of it out of the team's total\n(o, d) from the fit without parks, so team totals match the scoreboard and the net ratings the park fit.\nEvery plate appearance in the park carries the offsets, for both teams.\nWrites the \"parks6\" block of data/ncaa_2025/derived/phase6_inputs_2025.json.\n\n    python3 scripts/build_phase6_parks.py      (after scripts/build_phase2_teams.py)\n",
   "built": "2026-10-02",
   "rates": [
    "K",
@@ -1522,32 +1522,15 @@
    0.368578,
    0.408603
   ],
-  "joint": {
-   "cov_odp_within_tier": [
-    [
-     0.033433,
-     0.028744,
-     -0.009299
-    ],
-    [
-     0.028744,
-     0.039153,
-     -0.00924
-    ],
-    [
-     -0.009299,
-     -0.00924,
-     0.015177
-    ]
-   ],
-   "corr_o_park": -0.413,
-   "corr_d_park": -0.379,
-   "park_on_od": [
-    -0.204,
-    -0.0862
-   ],
-   "park_sd_given_od": 0.1117,
-   "r2": 0.178
+  "tier_run_sd": {
+   "p4": 0.111,
+   "mid": 0.0945,
+   "low": 0.1674
+  },
+  "tier_run_mean": {
+   "p4": -0.0742,
+   "mid": 0.0074,
+   "low": 0.0406
   }
  },
  "fielding6": {

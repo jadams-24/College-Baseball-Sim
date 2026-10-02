@@ -471,7 +471,7 @@
   "residual_corr_within_game_with_parks": 0.0377,
   "dispersion_without_parks": 2.6185,
   "parks": {
-   "_note": "Park effect of the listed home team's park, log runs per game, from the scoreboard fit with a park term; tier means relative to the D1 average park, SDs within tier with estimation noise removed (method of moments); joint: true covariance of (o, d, park) within tier (pooled over tiers), and the park's regression on the team's (o, d) deviations from its tier mean (park_on_od, park_sd_given_od), as the engine draws it.",
+   "_note": "Park effect of the listed home team's park, log runs per game, from the scoreboard fit with a park term; tier means relative to the D1 average park, SDs within tier with estimation noise removed (method of moments).",
    "tiers": {
     "p4": {
      "n": 64,
@@ -495,34 +495,7 @@
      "noise_sd": 0.1432
     }
    },
-   "sd_pooled": 0.1232,
-   "joint": {
-    "cov_odp_within_tier": [
-     [
-      0.033433,
-      0.028744,
-      -0.009299
-     ],
-     [
-      0.028744,
-      0.039153,
-      -0.00924
-     ],
-     [
-      -0.009299,
-      -0.00924,
-      0.015177
-     ]
-    ],
-    "corr_o_park": -0.413,
-    "corr_d_park": -0.379,
-    "park_on_od": [
-     -0.204,
-     -0.0862
-    ],
-    "park_sd_given_od": 0.1117,
-    "r2": 0.178
-   }
+   "sd_pooled": 0.1232
   },
   "log_runs_league": 1.8555,
   "home_log_ratio": 0.0438,
@@ -700,6 +673,143 @@
     "p4_hosts_vs_mid": 0.638,
     "p4_hosts_vs_low": 0.8577,
     "mid_hosts_vs_low": 0.7171
+   }
+  },
+  "tiers_total": {
+   "p4": {
+    "n_teams": 64,
+    "n_conferences": 4,
+    "mean_o": 0.2822,
+    "mean_d": 0.3339,
+    "mean_o_se": 0.0119,
+    "mean_d_se": 0.0127,
+    "team_cov": [
+     [
+      0.00575,
+      0.00823
+     ],
+     [
+      0.00823,
+      0.02222
+     ]
+    ],
+    "team_sd": {
+     "o": 0.0758,
+     "d": 0.1491,
+     "corr": 0.728
+    },
+    "conf_cov": [
+     [
+      0.00247,
+      0.00433
+     ],
+     [
+      0.00433,
+      0.0076
+     ]
+    ],
+    "conf_sd": {
+     "o": 0.0497,
+     "d": 0.0872
+    },
+    "observed_sd": {
+     "o": 0.1211,
+     "d": 0.1929
+    },
+    "noise_sd": {
+     "o": 0.0849,
+     "d": 0.0943
+    }
+   },
+   "mid": {
+    "n_teams": 153,
+    "n_conferences": 15,
+    "mean_o": 0.01,
+    "mean_d": 0.0049,
+    "mean_o_se": 0.0063,
+    "mean_d_se": 0.0063,
+    "team_cov": [
+     [
+      0.02387,
+      0.0127
+     ],
+     [
+      0.0127,
+      0.03147
+     ]
+    ],
+    "team_sd": {
+     "o": 0.1545,
+     "d": 0.1774,
+     "corr": 0.464
+    },
+    "conf_cov": [
+     [
+      0.00137,
+      0.00364
+     ],
+     [
+      0.00364,
+      0.0112
+     ]
+    ],
+    "conf_sd": {
+     "o": 0.037,
+     "d": 0.1058
+    },
+    "observed_sd": {
+     "o": 0.1844,
+     "d": 0.2255
+    },
+    "noise_sd": {
+     "o": 0.0915,
+     "d": 0.0901
+    }
+   },
+   "low": {
+    "n_teams": 89,
+    "n_conferences": 10,
+    "mean_o": -0.22,
+    "mean_d": -0.2485,
+    "mean_o_se": 0.0115,
+    "mean_d_se": 0.0111,
+    "team_cov": [
+     [
+      0.02153,
+      0.01728
+     ],
+     [
+      0.01728,
+      0.04033
+     ]
+    ],
+    "team_sd": {
+     "o": 0.1467,
+     "d": 0.2008,
+     "corr": 0.586
+    },
+    "conf_cov": [
+     [
+      0.02098,
+      0.02641
+     ],
+     [
+      0.02641,
+      0.03426
+     ]
+    ],
+    "conf_sd": {
+     "o": 0.1448,
+     "d": 0.1851
+    },
+    "observed_sd": {
+     "o": 0.2292,
+     "d": 0.2937
+    },
+    "noise_sd": {
+     "o": 0.0975,
+     "d": 0.0918
+    }
    }
   }
  }

@@ -10,8 +10,8 @@ rate in the team's home games minus both teams' rate in its road games, then the
 park factors across rates with binomial noise removed (method of moments). The engine draws each team's park as
 a vector of logit offsets from that covariance, scaled so its run variance (through the engine's
 run-value gradient) equals the scoreboard's, with the tier mean placed along the run direction.
-The run level itself is drawn conditional on the home team's offense and defense (the scoreboard
-fit's within-tier joint covariance: parks correlate about -.4 with both).
+The run level is drawn with its tier's SD, and the engine nets half of it out of the team's total
+(o, d) from the fit without parks, so team totals match the scoreboard and the net ratings the park fit.
 Every plate appearance in the park carries the offsets, for both teams.
 Writes the "parks6" block of data/ncaa_2025/derived/phase6_inputs_2025.json.
 
@@ -124,7 +124,10 @@ def main() -> None:
            # the engine draws a park's run level (scoreboard log runs) from its regression on the home team's
            # (o, d) deviations from the tier mean (team_talent parks.joint), then its rate vector along run_dir
            # (w.run_dir = 1) plus the part of cov orthogonal to the run direction in that metric
-           "w": [round(float(v), 6) for v in w], "run_dir": u.round(6).tolist(), "joint": pk.get("joint")}
+           "w": [round(float(v), 6) for v in w], "run_dir": u.round(6).tolist(),
+           # the run level of a park is drawn by tier (scoreboard log runs, noise removed), the rest of its rate vector
+           # orthogonal to the run direction from cov; the engine nets it out of the team's total ratings
+           "tier_run_sd": {tier: v["sd"] for tier, v in pk["tiers"].items()}, "tier_run_mean": {tier: v["mean"] for tier, v in pk["tiers"].items()}}
     cur = json.loads(INPUTS6.read_text()) if INPUTS6.exists() else {}
     cur["parks6"] = out
     INPUTS6.write_text(json.dumps(cur, indent=1, default=float) + "\n")
