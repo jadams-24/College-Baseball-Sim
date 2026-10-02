@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 """Fetch 2025 college baseball rosters with bats/throws for the teams in the WMT
-play-by-play sample. Run it on your own machine (athletics sites block cloud IPs).
+play-by-play sample. Runs on your own machine or in GitHub Actions
+(.github/workflows/fetch_rosters.yml); many athletics sites block cloud IPs, and blocked sites
+are logged and skipped.
 
     pip install requests
     python tools/fetch_rosters.py                 # all teams in tools/roster_teams.csv
     python tools/fetch_rosters.py --only 596583   # one team (LSU) to try it out
     python tools/fetch_rosters.py --selftest      # check the parsers offline
     python tools/fetch_rosters.py --reparse       # rebuild the CSV from saved pages (no fetching)
+    python tools/fetch_rosters.py --probe 5       # try 5 teams across Sidearm, WMT and Presto; report blocks
 
 Writes to data/ncaa_2025/rosters/ (change with --out):
     rosters_2025.csv     team_ncaa_id, team, name, jersey, position, class, bats, throws,
@@ -42,6 +45,7 @@ import requests
 HERE = Path(__file__).resolve().parent
 UA = "CollegeBaseballSim-roster-fetcher/1.0 (personal research project; one request every few seconds)"
 MIN_DELAY = 3.0
+PROBE_MAX_TRIES = 25      # teams the probe may try while looking for each platform
 MIN_PLAYERS = 10          # a parsed page with fewer players carrying bats/throws is treated as a miss
 ORIGIN = ["hometown_city", "hometown_state", "high_school", "previous_school"]
 FIELDS = ["team_ncaa_id", "team", "name", "jersey", "position", "class", "bats", "throws", *ORIGIN, "source_url", "wmt_person_id"]
@@ -486,6 +490,110 @@ class Fetcher:
         return r.url, r.text, ""
 
 
+# ---------------------------------------------------------------- one team
+def team_host(t: dict) -> str:
+    return (t.get("domain") or "").strip().lower().removeprefix("https://").removeprefix("http://").strip("/")
+
+
+def fetch_team(fetcher: "Fetcher", t: dict, out: Path) -> tuple[list[dict], str, str, str, list]:
+    """Try the roster URLs of one team in turn. Returns (rows, parser, failure reason, last URL,
+    [(url, page, error)] for every URL tried). The last page fetched is saved to raw/."""
+    tid, host = t["team_ncaa_id"], team_host(t)
+    if not host:
+        return [], "", "no domain in roster_teams.csv (add one and rerun)", "", []
+    reasons, tried, rows, how, last_url = [], [], [], "", ""
+    for path in PATHS:
+        url, page, err = fetcher.get(host, path)
+        last_url = url
+        err = err or (off_target(url) if page else "")
+        tried.append((url, page, err))
+        if page:
+            with gzip.open(out / "raw" / f"{tid}.html.gz", "wt", encoding="utf-8") as g:
+                g.write(f"<!-- source: {url} fetched {time.strftime('%Y-%m-%d')} -->\n" + page)
+        if err:
+            reasons.append(f"{path}: {err}")
+            continue
+        rows, how = parse_page(page)
+        if len(rows) >= MIN_PLAYERS:
+            return rows, how, "", last_url, tried
+        reasons.append(f"{path}: parsed {len(rows)} players with bats/throws")
+        rows = []
+    return [], "", "; ".join(reasons), last_url, tried
+
+
+def platform_of(tried: list) -> str:
+    """Which site platform served the roster pages, from the pages themselves (Sidearm Sports,
+    WMT Digital, PrestoSports), or 'unknown'."""
+    for _, page, _ in reversed(tried):          # the last page fetched is the one that parsed, if any
+        low = (page or "").lower()
+        if not low:
+            continue
+        if "wmt_stats2" in low or "wmt.games" in low or "wmt.digital" in low:
+            return "WMT"
+        if "prestosports" in low:
+            return "Presto"
+        if "sidearmsports" in low or "sidearm-roster" in low or "sidearm_" in low:
+            return "Sidearm"
+    return "unknown"
+
+
+def off_target(url: str) -> str:
+    """A roster URL can redirect to another season's roster or away from baseball (seen: a 2025
+    URL served the 2006 roster; another a soccer player page). Such a page is not used."""
+    path = url.split("://", 1)[-1].split("/", 1)[-1].lower()
+    if "baseball" not in path and "/bsb/" not in "/" + path and "path=baseball" not in path:
+        return f"redirected away from the baseball roster ({url})"
+    for y in re.findall(r"(?<!\d)((?:19|20)\d\d)(?:-\d\d)?(?!\d)", path):
+        if y not in ("2024", "2025"):
+            return f"redirected to another season ({url})"
+    return ""
+
+
+def blocked_by(tried: list) -> str:
+    """The bot protection a page came back with, if any."""
+    for _, page, err in tried:
+        low = (page or "")[:5000]
+        if "Incapsula" in low:
+            return "Imperva Incapsula"
+        if "cf-chl-" in low or "Cloudflare" in low:
+            return "Cloudflare"
+        if err in ("HTTP 403", "HTTP 429"):
+            return err
+    return ""
+
+
+def probe(fetcher: "Fetcher", teams: list[dict], out: Path, n: int, max_tries: int) -> int:
+    """Fetch a handful of teams' roster pages to see which platforms answer and which block.
+    Goes down the team list until it has n pages and at least one Sidearm, WMT and Presto
+    site (or max_tries teams). Writes probe.md and probe.json in out; never fails the run."""
+    results, seen = [], set()
+    for t in teams:
+        if len(results) >= max_tries or (len(results) >= n and {"Sidearm", "WMT", "Presto"} <= seen):
+            break
+        if not team_host(t):
+            continue
+        rows, how, reason, last_url, tried = fetch_team(fetcher, t, out)
+        plat = platform_of(tried)
+        block = blocked_by(tried)
+        if plat in seen and len(results) >= n:
+            continue      # enough of this platform; keep looking for the missing ones
+        seen.add(plat)
+        results.append({"team_ncaa_id": t["team_ncaa_id"], "team": t["team"], "domain": team_host(t), "platform": plat,
+                        "status": f"ok: {len(rows)} players ({how})" if rows else ("blocked: " + block if block else "failed"),
+                        "detail": reason, "url": last_url})
+        print(f"probe {t['team']} ({team_host(t)}): {plat}, {results[-1]['status']}", flush=True)
+    lines = ["# Roster probe", "", f"{time.strftime('%Y-%m-%d %H:%M')} UTC. Platforms seen: {', '.join(sorted(seen)) or 'none'}.", "",
+             "| Team | Domain | Platform | Status | Detail |", "|---|---|---|---|---|"]
+    lines += [f"| {r['team']} | {r['domain']} | {r['platform']} | {r['status']} | {r['detail'][:200]} |" for r in results]
+    blocked = [r for r in results if r["status"].startswith("blocked")]
+    lines += ["", f"Blocked: {len(blocked)} of {len(results)}" + (" (" + ", ".join(f"{r['domain']} [{r['status'][9:]}]" for r in blocked) + ")" if blocked else "") + ".",
+              "Blocked sites are logged and skipped; nothing tries to get around bot protection."]
+    (out / "probe.md").write_text("\n".join(lines) + "\n")
+    (out / "probe.json").write_text(json.dumps(results, indent=1) + "\n")
+    print("\n".join(lines))
+    return 0
+
+
 # ---------------------------------------------------------------- main
 def load_state(path: Path) -> dict:
     return json.loads(path.read_text()) if path.exists() else {"done": {}, "failed": {}}
@@ -501,6 +609,7 @@ def main() -> int:
     ap.add_argument("--retry-failed", action="store_true", help="retry teams that failed on an earlier run")
     ap.add_argument("--selftest", action="store_true", help="run the offline parser checks and exit")
     ap.add_argument("--reparse", action="store_true", help="rebuild rosters_2025.csv from the saved raw/ pages without fetching")
+    ap.add_argument("--probe", type=int, metavar="N", help="fetch N teams' roster pages (covering Sidearm, WMT and Presto) and report which are blocked")
     a = ap.parse_args()
     if a.selftest:
         return selftest()
@@ -517,6 +626,8 @@ def main() -> int:
     teams = list(csv.DictReader(open(a.teams, newline="")))
     if a.only:
         teams = [t for t in teams if t["team_ncaa_id"] in set(a.only)]
+    if a.probe:
+        return probe(Fetcher(a.delay), teams, out, a.probe, PROBE_MAX_TRIES)
     csv_path, fail_path = out / "rosters_2025.csv", out / "failures.csv"
     new_csv = not csv_path.exists()
     if not new_csv:
@@ -541,26 +652,9 @@ def main() -> int:
             if a.limit is not None and done_now >= a.limit:
                 break
             done_now += 1
-            host = (t.get("domain") or "").strip().lower().removeprefix("https://").removeprefix("http://").strip("/")
+            host = team_host(t)
             print(f"[{i + 1}/{len(teams)}] {t['team']} ({host or 'no domain'})", flush=True)
-            reason, last_url, rows, how = "no domain in roster_teams.csv (add one and rerun)", "", [], ""
-            if host:
-                reasons = []
-                for path in PATHS:
-                    url, page, err = fetcher.get(host, path)
-                    last_url = url
-                    if page:
-                        with gzip.open(out / "raw" / f"{tid}.html.gz", "wt", encoding="utf-8") as g:
-                            g.write(f"<!-- source: {url} fetched {time.strftime('%Y-%m-%d')} -->\n" + page)
-                    if err:
-                        reasons.append(f"{path}: {err}")
-                        continue
-                    rows, how = parse_page(page)
-                    if len(rows) >= MIN_PLAYERS:
-                        break
-                    reasons.append(f"{path}: parsed {len(rows)} players with bats/throws")
-                    rows = []
-                reason = "; ".join(reasons)
+            rows, how, reason, last_url, _ = fetch_team(fetcher, t, out)
             if rows:
                 for r in rows:
                     w.writerow({"team_ncaa_id": tid, "team": t["team"], "wmt_person_id": "", **r, "source_url": last_url})
@@ -663,6 +757,17 @@ def selftest() -> int:
         (parse_json(o_wmt), [("Jacob Mayers", "Tulsa", "Okla.", "Jenks HS", "Connors State College")]),
     ]
     ok = True
+    for url, want in (("https://lsusports.net/sports/bsb/roster/season/2025", ""), ("https://x.com/sports/baseball/roster/2024-25", ""),
+                      ("https://x.com/roster.aspx?path=baseball&year=2025", ""),
+                      ("https://goutsa.com/sports/baseball/roster/season/2006", "season"), ("https://m.com/sports/soc/roster/player/emma", "away")):
+        if want not in off_target(url) or (not want and off_target(url)):
+            ok = False
+            print("OFF-TARGET MISMATCH", url, repr(off_target(url)))
+    for page, want in (('<script>{"wmt_stats2_person_id":1}</script>', "WMT"), ('<li class="sidearm-roster-player">', "Sidearm"),
+                       ('<a href="https://www.prestosports.com">', "Presto"), ("<html></html>", "unknown")):
+        if platform_of([("u", page, "")]) != want:
+            ok = False
+            print("PLATFORM MISMATCH", want, platform_of([("u", page, "")]))
     for got, want in ocheck:
         g = [(r["name"], r.get("hometown_city", ""), r.get("hometown_state", ""), r.get("high_school", ""), r.get("previous_school", "")) for r in got]
         if g != want:
