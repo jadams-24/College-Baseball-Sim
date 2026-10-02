@@ -858,19 +858,75 @@
     "reliever": {"n_pitchers": 847, "log_mean": 0.0763, "log_sd": 0.6218, "mom_log_sd": 0.5142}
   },
   "ratings_scale_2025": {
-    "_note": "The 20-80 scale: rating = 50 + 10 sign (z - mean) / sd, z the player's true logit offset of the rate. mean and sd are the PA-weighted (batters) or BF-weighted (pitchers) mean and SD of true z across all D1 players, all tiers, as the Phase 2 talent distributions (player_talent_2025, team_talent_2025: sampling noise removed) generate them; usage weights from simulated seasons (seeds 940001-940008). A definition of the scale, not a target.",
+    "_note": "The 20-80 scale: rating = 50 + 10 sign Phi^-1(F(z)), z the player's true logit offset of the rate and F its distribution across all D1 players, all tiers, weighted by PA (batters) or BF (pitchers), as the Phase 2 talent distributions (player_talent_2025 with the fitted true-talent shapes, team_talent_2025: sampling noise removed) generate them. 50 is the D1 median, 60/70/80 the 84.1st/97.7th/99.87th percentiles (for sign -1, of the reversed rate). z_at_rating: the true offset at each rating; between table points the map is linear (full table: data/ncaa_2025/derived/phase4_rating_scale_2025.json). Usage weights from simulated seasons (seeds 940001-940008), distribution from generated leagues (seeds 950001-950200). mean and sd are descriptive. A definition of the scale, not a target.",
     "conf": "B",
     "batter": {
-      "contact": {"rate": "BABIP", "sign": 1, "mean": 0.01465, "sd": 0.13121},
-      "gap": {"rate": "XBH", "sign": 1, "mean": 0.00666, "sd": 0.25688},
-      "power": {"rate": "HR", "sign": 1, "mean": 0.06812, "sd": 0.63004},
-      "eye": {"rate": "BB", "sign": 1, "mean": -0.00978, "sd": 0.30778},
-      "avoid_k": {"rate": "K", "sign": -1, "mean": -0.03035, "sd": 0.38089}
+      "contact": {
+        "rate": "BABIP",
+        "sign": 1,
+        "mean": 0.0147,
+        "sd": 0.13018,
+        "median": 0.01395,
+        "z_at_rating": {"20": -0.35208, "30": -0.23803, "40": -0.1194, "50": 0.01395, "60": 0.14819, "70": 0.2708, "80": 0.39086}
+      },
+      "gap": {
+        "rate": "XBH",
+        "sign": 1,
+        "mean": 0.0064,
+        "sd": 0.25425,
+        "median": -0.00673,
+        "z_at_rating": {"20": -0.74035, "30": -0.47474, "40": -0.24458, "50": -0.00673, "60": 0.26863, "70": 0.5302, "80": 0.78066}
+      },
+      "power": {
+        "rate": "HR",
+        "sign": 1,
+        "mean": -0.09153,
+        "sd": 0.67723,
+        "median": -0.021,
+        "z_at_rating": {"20": -2.74957, "30": -1.67963, "40": -0.74316, "50": -0.021, "60": 0.57226, "70": 1.03196, "80": 1.36408}
+      },
+      "eye": {
+        "rate": "BB",
+        "sign": 1,
+        "mean": -0.01171,
+        "sd": 0.30652,
+        "median": -0.00953,
+        "z_at_rating": {"20": -0.95742, "30": -0.63099, "40": -0.31763, "50": -0.00953, "60": 0.29434, "70": 0.59642, "80": 0.90445}
+      },
+      "avoid_k": {
+        "rate": "K",
+        "sign": -1,
+        "mean": -0.03365,
+        "sd": 0.37468,
+        "median": -0.03446,
+        "z_at_rating": {"20": 1.10346, "30": 0.7184, "40": 0.34105, "50": -0.03446, "60": -0.40843, "70": -0.78029, "80": -1.14549}
+      }
     },
     "pitcher": {
-      "stuff": {"rate": "K", "sign": 1, "mean": -0.01609, "sd": 0.43888},
-      "control": {"rate": "BB", "sign": -1, "mean": -0.04384, "sd": 0.40736},
-      "movement": {"rate": "HR", "sign": -1, "mean": 0.00068, "sd": 0.31264}
+      "stuff": {
+        "rate": "K",
+        "sign": 1,
+        "mean": 0.00962,
+        "sd": 0.436,
+        "median": 0.02247,
+        "z_at_rating": {"20": -1.40245, "30": -0.90277, "40": -0.4256, "50": 0.02247, "60": 0.44566, "70": 0.83978, "80": 1.21417}
+      },
+      "control": {
+        "rate": "BB",
+        "sign": -1,
+        "mean": -0.06581,
+        "sd": 0.40408,
+        "median": -0.07959,
+        "z_at_rating": {"20": 1.2453, "30": 0.78291, "40": 0.33663, "50": -0.07959, "60": -0.46672, "70": -0.83839, "80": -1.20157}
+      },
+      "movement": {
+        "rate": "HR",
+        "sign": -1,
+        "mean": -0.00061,
+        "sd": 0.31383,
+        "median": -0.00565,
+        "z_at_rating": {"20": 1.23266, "30": 0.65349, "40": 0.29196, "50": -0.00565, "60": -0.2956, "70": -0.61654, "80": -1.11487}
+      }
     }
   },
   "pitch_level_2025": {
