@@ -15,7 +15,7 @@ rows; the deferred rows on their existing blocks. Two existing rows change (PHAS
       teams 57-72 with the postseason), as for the individual-leader rows.
 Every write is recorded in data/ncaa_2025/derived/benchmark_changes_phase6.json.
 
-    python3 scripts/write_phase6_benchmarks.py
+    python3 scripts/write_phase6_benchmarks.py      (after scripts/write_phase2_benchmarks.py, which rewrites leaderboards_2025)
 """
 from __future__ import annotations
 
@@ -24,6 +24,7 @@ import json
 import sys
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -48,6 +49,13 @@ def main() -> None:
         if isinstance(v, dict) and "value" in v and k != "pitchers_50ip_ratio_56g":
             new[k] = {"value": v["value"], "tol": round(3 * v["se"], 3), **({} if k in GATED else {"gate": "report"})}
     new["batters_per_team_game"] = {"value": sb["batters_per_team_game"]["value"], "tol": round(3 * sb["batters_per_team_game"]["se"], 3)}
+    # earned share of runs (the Phase 5 run held it to the Phase 4 run; Phase 6 fielding moves it): tolerance 3 SE, bootstrap over games
+    rc = pd.read_csv(ROOT / "data/ncaa_2025/pbp/parsed/runs_charged_2025.csv.gz")
+    g = rc.groupby("game_id").agg(n=("unearned", "size"), u=("unearned", "sum"))
+    rng = np.random.default_rng(6)
+    bs = [1 - g.u.values[i].sum() / g.n.values[i].sum() for i in (rng.integers(0, len(g), len(g)) for _ in range(1000))]
+    new["earned_run_share"] = {"value": round(float(1 - g.u.sum() / g.n.sum()), 4), "tol": round(3 * float(np.std(bs, ddof=1)), 4),
+                               "src": "runs charged by inning reconstruction of the WMT play-by-play (data/ncaa_2025/pbp/parsed/runs_charged_2025.csv.gz)"}
     b = json.loads(BENCH.read_text())
     changes = []
 

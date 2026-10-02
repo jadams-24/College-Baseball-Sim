@@ -736,13 +736,25 @@
     "dispersion_without_parks": 2.6185,
     "residual_corr_within_game_with_parks": 0.0377,
     "parks": {
-      "_note": "Park effect of the listed home team's park, log runs per game, from the scoreboard fit with a park term; tier means relative to the D1 average park, SDs within tier with estimation noise removed (method of moments).",
+      "_note": "Park effect of the listed home team's park, log runs per game, from the scoreboard fit with a park term; tier means relative to the D1 average park, SDs within tier with estimation noise removed (method of moments); joint: true covariance of (o, d, park) within tier (pooled over tiers), and the park's regression on the team's (o, d) deviations from its tier mean (park_on_od, park_sd_given_od), as the engine draws it.",
       "tiers": {
         "p4": {"n": 64, "mean": -0.0742, "sd": 0.111, "raw_sd": 0.1724, "noise_sd": 0.1319},
         "mid": {"n": 153, "mean": 0.0074, "sd": 0.0945, "raw_sd": 0.1633, "noise_sd": 0.1332},
         "low": {"n": 89, "mean": 0.0406, "sd": 0.1674, "raw_sd": 0.2203, "noise_sd": 0.1432}
       },
-      "sd_pooled": 0.1232
+      "sd_pooled": 0.1232,
+      "joint": {
+        "cov_odp_within_tier": [
+          [0.033433, 0.028744, -0.009299],
+          [0.028744, 0.039153, -0.00924],
+          [-0.009299, -0.00924, 0.015177]
+        ],
+        "corr_o_park": -0.413,
+        "corr_d_park": -0.379,
+        "park_on_od": [-0.204, -0.0862],
+        "park_sd_given_od": 0.1117,
+        "r2": 0.178
+      }
     },
     "home_log_ratio": {"value": 0.0438, "se": 0.0108, "conf": "A"},
     "engine_home_structural_h0": -0.0594,
@@ -1095,6 +1107,7 @@
     "ip_rank3_fri_sun_starts": {"value": 29.159, "tol": 8.925, "gate": "report"},
     "ip_rank3_other_starts": {"value": 5.387, "tol": 3.684, "gate": "report"},
     "ip_rank3_relief": {"value": 18.741, "tol": 7.131, "gate": "report"},
-    "batters_per_team_game": {"value": 10.4203, "tol": 0.078}
+    "batters_per_team_game": {"value": 10.4203, "tol": 0.078},
+    "earned_run_share": {"value": 0.8824, "tol": 0.0082, "src": "runs charged by inning reconstruction of the WMT play-by-play (data/ncaa_2025/pbp/parsed/runs_charged_2025.csv.gz)"}
   }
 }

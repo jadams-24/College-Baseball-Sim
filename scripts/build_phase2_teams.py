@@ -112,11 +112,38 @@ def parks_mom(names, tier, f) -> dict:
         out[tr] = {"n": int(k.sum()), "mean": round(float(p[k].mean()), 4),
                    "sd": round(float(np.sqrt(max(p[k].var(ddof=1) - v[k].mean(), 0.0))), 4),
                    "raw_sd": round(float(p[k].std(ddof=1)), 4), "noise_sd": round(float(np.sqrt(v[k].mean())), 4)}
+    # joint (o, d, park) by tier: covariance of the estimates less the mean sampling covariance of
+    # each team's three estimates. A park correlates with its team's offense and defense (about -.5
+    # within tier: hitter-friendly parks host weaker teams net of the park), so the engine draws the
+    # park conditional on (o, d); independent draws overstate R/G spread (P4: var(o + park/2) .0132
+    # against .0076).
+    n_, Vc = f["n"], f["Vc"]
+    idx = [np.arange(2, 2 + n_), np.arange(2 + n_, 2 + 2 * n_), np.arange(2 + 2 * n_, 2 + 3 * n_)]
+    # pooled within tier: 64 P4 teams alone give a near-singular matrix (o-d correlation .95)
+    obs, noise, dof = np.zeros((3, 3)), np.zeros((3, 3)), 0
+    for tr in TIERS:
+        k = t == tr
+        E = np.column_stack([f["o"][k], f["d"][k], p[k]])
+        obs += np.cov(E.T, ddof=1) * (k.sum() - 1)
+        noise += np.array([[Vc[a[k], b[k]].mean() for b in idx] for a in idx]) * (k.sum() - 1)
+        dof += k.sum() - 1
+    true = (obs - noise) / dof
+    vals, vecs = np.linalg.eigh(true)
+    true = vecs @ np.diag(np.clip(vals, 1e-8, None)) @ vecs.T
+    Suu, Spu = true[:2, :2], true[2, :2]
+    B = np.linalg.solve(Suu, Spu)
+    sd = np.sqrt(np.diag(true))
+    joint = {"cov_odp_within_tier": [[round(float(v), 6) for v in row] for row in true],
+             "corr_o_park": round(float(true[0, 2] / sd[0] / sd[2]), 3), "corr_d_park": round(float(true[1, 2] / sd[1] / sd[2]), 3),
+             "park_on_od": [round(float(v), 4) for v in B], "park_sd_given_od": round(float(np.sqrt(max(true[2, 2] - Spu @ B, 0.0))), 4),
+             "r2": round(float(Spu @ B / true[2, 2]), 3)}
     within = np.concatenate([p[t == tr] - p[t == tr].mean() for tr in TIERS])
     sd_pooled = float(np.sqrt(max(within.var(ddof=len(TIERS)) * len(within) / (len(within) - len(TIERS) + len(TIERS)) - v.mean(), 0.0)))
     return {"_note": "Park effect of the listed home team's park, log runs per game, from the scoreboard fit with a park term; "
-                     "tier means relative to the D1 average park, SDs within tier with estimation noise removed (method of moments).",
-            "tiers": out, "sd_pooled": round(sd_pooled, 4)}
+                     "tier means relative to the D1 average park, SDs within tier with estimation noise removed (method of moments); "
+                     "joint: true covariance of (o, d, park) within tier (pooled over tiers), and the park's regression on the team's "
+                     "(o, d) deviations from its tier mean (park_on_od, park_sd_given_od), as the engine draws it.",
+            "tiers": out, "sd_pooled": round(sd_pooled, 4), "joint": joint}
 
 
 def components(names, tier, conf, f) -> dict:

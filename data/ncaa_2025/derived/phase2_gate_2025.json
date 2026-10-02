@@ -471,7 +471,7 @@
   "residual_corr_within_game_with_parks": 0.0377,
   "dispersion_without_parks": 2.6185,
   "parks": {
-   "_note": "Park effect of the listed home team's park, log runs per game, from the scoreboard fit with a park term; tier means relative to the D1 average park, SDs within tier with estimation noise removed (method of moments).",
+   "_note": "Park effect of the listed home team's park, log runs per game, from the scoreboard fit with a park term; tier means relative to the D1 average park, SDs within tier with estimation noise removed (method of moments); joint: true covariance of (o, d, park) within tier (pooled over tiers), and the park's regression on the team's (o, d) deviations from its tier mean (park_on_od, park_sd_given_od), as the engine draws it.",
    "tiers": {
     "p4": {
      "n": 64,
@@ -495,7 +495,34 @@
      "noise_sd": 0.1432
     }
    },
-   "sd_pooled": 0.1232
+   "sd_pooled": 0.1232,
+   "joint": {
+    "cov_odp_within_tier": [
+     [
+      0.033433,
+      0.028744,
+      -0.009299
+     ],
+     [
+      0.028744,
+      0.039153,
+      -0.00924
+     ],
+     [
+      -0.009299,
+      -0.00924,
+      0.015177
+     ]
+    ],
+    "corr_o_park": -0.413,
+    "corr_d_park": -0.379,
+    "park_on_od": [
+     -0.204,
+     -0.0862
+    ],
+    "park_sd_given_od": 0.1117,
+    "r2": 0.178
+   }
   },
   "log_runs_league": 1.8555,
   "home_log_ratio": 0.0438,

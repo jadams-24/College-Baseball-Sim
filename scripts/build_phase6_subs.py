@@ -17,7 +17,9 @@ rank on his team by games started (full-season teams), as entries per team-game 
 rank did not start. The engine picks among the players not in the game in proportion to it.
 Ranks are pooled from the top until a cell has MIN_SUB_CELL opportunities; the engine's last
 roster rank (N_REGULARS + N_BENCH) pools every deeper rank. With it, by rank: the start share and
-start persistence, P(start | started the team's previous game) and P(start | sat it).
+start persistence, P(start | started the team's previous game) and P(start | sat it); and how
+closely playing time follows hitting among regulars (start share vs OBP and OPS within team,
+disattenuated): about .46, so playing time also rewards defense, position and the rest.
 Gate value: distinct batters per team-game (batters with a plate appearance).
 Writes the "subs6" block of data/ncaa_2025/derived/phase6_inputs_2025.json.
 
@@ -97,6 +99,25 @@ def bench_pick_weight(pa: pd.DataFrame, s: pd.DataFrame) -> dict:
             w[str(r + 1)] = round(float(rate), 4)
         i = j + 1
     tg_total = float(ng[full].sum())
+    # playing time vs hitting among regulars (start ranks 1-9): within-team correlation of start share with
+    # OBP and with OPS, each disattenuated by the stat's reliability (within-team variance less sampling noise)
+    pq = pa.assign(ob=pa.result.isin(["1B", "2B", "3B", "HR", "BB", "IBB", "HBP"]), den=~pa.result.isin(["SH", "CI"]),
+                   tb=pa.result.map({"1B": 1, "2B": 2, "3B": 3, "HR": 4}).fillna(0), ab=~pa.result.isin(["BB", "IBB", "HBP", "SH", "SF", "CI"]))
+    pq = pq.groupby(["bat_team_id", "bkey"]).agg(ob=("ob", "sum"), den=("den", "sum"), tb=("tb", "sum"), ab=("ab", "sum"))
+    reg = []
+    for t in full:
+        bt = b[b.bat_team_id == t].groupby("bkey").size().sort_values(ascending=False).head(N_REGULARS)
+        reg += [(t, n / ng[t], *pq.loc[(t, k)]) for k, n in bt.items() if (t, k) in pq.index]
+    rg = pd.DataFrame(reg, columns=["t", "share", "ob", "den", "tb", "ab"])
+    rg["obp"], rg["slg"] = rg.ob / rg.den, rg.tb / rg.ab
+    rg["ops"] = rg.obp + rg.slg
+    noise = {"obp": (rg.obp * (1 - rg.obp) / rg.den).mean(), "ops": (rg.obp * (1 - rg.obp) / rg.den + (1.6 * rg.slg - rg.slg ** 2) / rg.ab).mean()}
+    s_ = rg.share - rg.groupby("t").share.transform("mean")
+    rho = {}
+    for c in ("obp", "ops"):
+        x = rg[c] - rg.groupby("t")[c].transform("mean")
+        v = float(x.var() * len(x) / (len(x) - len(full)))
+        rho[c] = round(float(np.corrcoef(x, s_)[0, 1] / np.sqrt(max(v - noise[c], 1e-12) / v)), 3)
     # start persistence: P(start | started the team's previous game) and P(start | did not), by rank
     meta = pd.read_csv(P / "games_meta_2025.csv")
     meta["d"] = pd.to_datetime(meta.local_date)
@@ -116,7 +137,10 @@ def bench_pick_weight(pa: pd.DataFrame, s: pd.DataFrame) -> dict:
             "start_share_by_rank": {str(r + 1): round(float(starts[r] / tg_total), 4) for r in range(n_rank)},
             "start_after_start": {str(r + 1): round(float(trans[r, 1, 1] / max(trans[r, 1].sum(), 1)), 4) for r in range(n_rank)},
             "start_after_sit": {str(r + 1): round(float(trans[r, 0, 1] / max(trans[r, 0].sum(), 1)), 4) for r in range(n_rank)},
-            "position_players_with_pa": {"mean": round(float(np.mean(n_used)), 2), "median": float(np.median(n_used))}}
+            "position_players_with_pa": {"mean": round(float(np.mean(n_used)), 2), "median": float(np.median(n_used))},
+            # the engine orders start ranks by rho x hitting value + noise (an upper bound: hot streaks earn
+            # starts, which the disattenuation reads as talent)
+            "playing_time_rho": {**rho, "value": round(float(np.mean(list(rho.values()))), 3), "n_regulars": int(len(rg))}}
 
 
 def main() -> None:

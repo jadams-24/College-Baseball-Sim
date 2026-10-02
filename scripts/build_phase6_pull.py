@@ -31,6 +31,8 @@ sys.path.insert(0, str(ROOT / "scripts"))
 from config import phase2  # noqa: E402
 from config.phase2 import SPOT_STARTER_RANK, TIERS  # noqa: E402
 from config.phase6 import INPUTS6, SEASON_START, WEEK_BINS  # noqa: E402
+
+MIN_APPS = 5    # midweek starts before a pitcher enters the spread estimate (Phase 4's MIN_APPS)
 from engine.manager import Manager  # noqa: E402
 from lib.players import load_pa  # noqa: E402
 
@@ -62,6 +64,13 @@ def decisions() -> pd.DataFrame:
     pa["last_of_game"] = nxt.isna()
     pa["inning_end"] = ((pa.outs + pa.outs_on_play) >= 3).astype(int)
     pa["tier"] = pa.pit_team_id.map(tier)
+    # each pitcher's staff role class on his team (weekend rotation, midweek starter, reliever), as the engine's
+    import build_phase6_usage as usage6
+    pu, _, _, _ = usage6.load()
+    role = usage6.roles(usage6.appearances(pu))
+    role["cls"] = role.role.str.replace(r"\d", "", regex=True)
+    pa = pa.merge(role[["pit_team_id", "pkey", "cls"]], on=["pit_team_id", "pkey"], how="left")
+    pa["cls"] = pa.cls.fillna("r")
     h = pa[~pa.last_of_game & pa.out_pitches.notna() & pa.tier.notna()].copy()
     # weekend rotation rank (most series starts on the team), as the Phase 2 rank tables
     st = h[(h.is_sp == 1) & (h.weekend == 1)].drop_duplicates(["game_id", "pit_team_id"])
@@ -69,6 +78,14 @@ def decisions() -> pd.DataFrame:
     cnt["rank"] = cnt.groupby("pit_team_id").n.rank(ascending=False, method="first").astype(int).clip(upper=SPOT_STARTER_RANK)
     h = h.merge(cnt[["pit_team_id", "pkey", "rank"]], on=["pit_team_id", "pkey"], how="left")
     mgr = Manager(phase2.load())
+    # midweek starters' baseline: the Phase 2 table's cells rebuilt on Mon-Wed starts only (the engine uses it)
+    m = h[(h.is_sp == 1) & (h.weekend == 0)].assign(pbin=lambda x: (x.out_pitches // 10).clip(upper=12).astype(int),
+                                                   rbin=lambda x: x.out_runs.clip(upper=5).astype(int))
+    tab = lambda keys: {"|".join(str(int(v)) for v in k): [int(r["sum"]), int(r["count"])]  # noqa: E731
+                        for k, r in m.groupby(keys).pulled.agg(["sum", "count"]).iterrows()}
+    mid_table = {"keys": ["weekend", "pitch_bin10", "runs_bin", "inning_end"], "table": tab(["weekend", "pbin", "rbin", "inning_end"]),
+                 "backoff": tab(["weekend", "pbin", "inning_end"])}
+    mgr.spm_table, mgr.spm_back = mid_table["table"], mid_table["backoff"]
     base = []
     for r in h.itertuples():
         rank = int(r.rank) if (r.is_sp and r.weekend and not np.isnan(r.rank)) else None
@@ -77,21 +94,29 @@ def decisions() -> pd.DataFrame:
     h["h"] = base
     h["role"] = np.where(h.is_sp == 0, "rp", np.where(h.weekend == 1, "sp_weekend", "sp_midweek"))
     h["wbin"] = np.searchsorted(np.array(WEEK_BINS), h.week.values, side="right") - 1
-    return h[h.h.notna() & (h.h > 0) & (h.h < 1)]
+    return h[h.h.notna() & (h.h > 0) & (h.h < 1)], mid_table
 
 
-def fit_role(d: pd.DataFrame, with_week: bool) -> dict:
-    """MLE of log theta = a[tier] + b[week bin] (p4 and the middle week bin the reference before
-    centring) by Newton on the exact Bernoulli likelihood: P(pulled) = 1 - (1 - h)^theta."""
-    tiers = [t for t in TIERS if (d.tier == t).any()]
+def fit_role(d: pd.DataFrame, with_week: bool, with_tier: bool = True, with_cls: bool = False) -> dict:
+    """MLE of log theta = a[tier] + b[week bin] (+ c[staff role class]) (p4, the middle week bin and the
+    midweek-starter class the references before centring) by Newton on the exact Bernoulli likelihood:
+    P(pulled) = 1 - (1 - h)^theta. Without the tier term, a single intercept."""
+    tiers = [t for t in TIERS if (d.tier == t).any()] if with_tier else []
     wbins = sorted(d.wbin.unique()) if with_week else []
     ref_w = wbins[len(wbins) // 2] if wbins else None
-    cols = [f"tier|{t}" for t in tiers] + [f"week|{w}" for w in wbins if w != ref_w]
+    classes = [c for c in ("wk", "r") if (d.cls == c).any()] if with_cls else []
+    cols = ([f"tier|{t}" for t in tiers] if tiers else ["const"]) + [f"week|{w}" for w in wbins if w != ref_w] + [f"cls|{c}" for c in classes]
     X = np.zeros((len(d), len(cols)))
-    for i, t in enumerate(tiers):
-        X[:, i] = (d.tier == t).values
+    if tiers:
+        for i, t in enumerate(tiers):
+            X[:, i] = (d.tier == t).values
+    else:
+        X[:, 0] = 1.0
+    nb = len(tiers) or 1
     for j, w in enumerate([w for w in wbins if w != ref_w]):
-        X[:, len(tiers) + j] = (d.wbin == w).values
+        X[:, nb + j] = (d.wbin == w).values
+    for j, c in enumerate(classes):
+        X[:, nb + len(wbins) - (1 if wbins else 0) + j] = (d.cls == c).values
     L = np.log1p(-d.h.values)          # log(1 - h) < 0
     y = d.pulled.values
     b = np.zeros(len(cols))
@@ -117,8 +142,15 @@ def fit_role(d: pd.DataFrame, with_week: bool) -> dict:
     c = float(eta.mean())
     coef = dict(zip(cols, b))
     out = {"n_decisions": int(len(d)), "n_pulls": int(y.sum())}
-    out["log_theta_tier"] = {t: round(coef[f"tier|{t}"] - c, 4) for t in tiers}
-    out["se_tier"] = {t: round(float(np.sqrt(cov[i, i])), 4) for i, t in enumerate(tiers)}
+    if tiers:
+        out["log_theta_tier"] = {t: round(coef[f"tier|{t}"] - c, 4) for t in tiers}
+        out["se_tier"] = {t: round(float(np.sqrt(cov[i, i])), 4) for i, t in enumerate(tiers)}
+    else:
+        out["log_theta_tier"] = {t: round(coef["const"] - c, 4) for t in TIERS}
+        out["tier_note"] = "no tier term: realized pitch counts by tier are flat in the data (p90 101 / 103 / 101) and the per-decision tier effect overshoots them in the engine"
+    if classes:
+        out["log_theta_class"] = {"mid": 0.0, **{k: round(coef[f"cls|{k}"], 4) for k in classes}}
+        out["se_class"] = {k: round(float(np.sqrt(cov[cols.index(f'cls|{k}'), cols.index(f'cls|{k}')])), 4) for k in classes}
     if with_week:
         wk = {int(w): (coef.get(f"week|{w}", 0.0)) for w in wbins}
         out["log_theta_week"] = {str(w): round(v, 4) for w, v in wk.items()}
@@ -127,12 +159,38 @@ def fit_role(d: pd.DataFrame, with_week: bool) -> dict:
     return out
 
 
+def midweek_spread(d: pd.DataFrame, fit: dict) -> dict:
+    """True spread of individual leash in midweek starts, around the fitted context (tier, week, role
+    class) on the Mon-Wed table: empirical Bayes on the exact hazard likelihood (engine/eb.py, as
+    Phase 4's Stamina estimate), pitchers with MIN_APPS or more midweek starts. Phase 4's starter
+    spread comes mostly from weekend starts; the engine scales a pitcher's Stamina deviation by the
+    ratio in midweek starts."""
+    from engine import eb
+    wk = {int(k): v for k, v in fit["log_theta_week"].items()}
+    eta = (d.tier.map(fit["log_theta_tier"]).values + d.wbin.map(wk).fillna(0).values
+           + d.cls.map(fit.get("log_theta_class", {})).fillna(0).values)
+    h = 1 - (1 - d.h.values) ** np.exp(eta)
+    x = d.assign(hc=np.clip(h, 1e-9, 1 - 1e-9))
+    g = x.groupby(["pit_team_id", "pkey"]).agg(starts=("game_id", "nunique"))
+    g = g[g.starts >= MIN_APPS]
+    k = x.set_index(["pit_team_id", "pkey"]).loc[g.index].reset_index()
+    k["ls"] = np.log1p(-k.hc)
+    surv = k[k.pulled == 0].groupby(["pit_team_id", "pkey"]).ls.sum().reindex(g.index).fillna(0).values
+    pulls = k[k.pulled == 1].groupby(["pit_team_id", "pkey"]).hc.apply(list).reindex(g.index)
+    pulls = [v if isinstance(v, list) else [] for v in pulls]
+    f = eb.fit(eb.hazard_loglik(surv, pulls), np.zeros(len(g), int))
+    pr = f["prior"][0]
+    return {"n_pitchers": int(len(g)), "log_sd": round(float(pr["tau"]), 4), "log_mean": round(float(pr["mu"]), 4), "min_starts": MIN_APPS}
+
+
 def main() -> None:
-    d = decisions()
-    out = {"_note": __doc__, "built": dt.date.today().isoformat(), "season_start": SEASON_START}
-    for role, wk in (("sp_weekend", True), ("sp_midweek", True), ("rp", False)):
-        out[role] = fit_role(d[d.role == role], wk)
+    d, mid_table = decisions()
+    out = {"_note": __doc__, "built": dt.date.today().isoformat(), "season_start": SEASON_START, "sp_midweek_table": mid_table}
+    for role, wk, tr, cl in (("sp_weekend", True, False, False), ("sp_midweek", True, True, True), ("rp", False, True, False)):
+        out[role] = fit_role(d[d.role == role], wk, tr, cl)
         print(role, json.dumps(out[role]))
+    out["sp_midweek"]["leash_spread"] = midweek_spread(d[d.role == "sp_midweek"], out["sp_midweek"])
+    print("midweek leash spread", out["sp_midweek"]["leash_spread"])
     cur = json.loads(INPUTS6.read_text()) if INPUTS6.exists() else {}
     cur["pull6"] = out
     INPUTS6.write_text(json.dumps(cur, indent=1, default=float) + "\n")

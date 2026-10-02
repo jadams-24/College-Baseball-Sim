@@ -292,7 +292,7 @@ class PlayerGameEngine:
             ps = self.pstats[st.pitcher[side].pid]
             self.outing_lines.append((st.pitcher[side].pid, int(o["starter"]), *(ps[c] - v for c, v in zip(_OUTING_COLS, o["ps0"]))))   # BF, K, BB, HBP, H, HR, R of the outing
         if o is not None and o["starter"]:
-            self.starts.append((o["pitches"], o["pa_outs"], bool(st.weekend)))
+            self.starts.append((o["pitches"], o["pa_outs"], bool(st.weekend), st.pitcher[side].pid))
 
     def _bring_in(self, st, side, pitcher, starter):
         self._end_outing(st, side)

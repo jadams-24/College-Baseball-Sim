@@ -18,6 +18,7 @@ from pathlib import Path
 
 import numpy as np
 
+from config import phase6
 from config.phase5 import DEFERRED_TO_PHASE6, MAX_PITCHES_HIST
 from config.phase5 import load as load_pitch
 from engine.game2 import B_BB, B_K, B_PA, P_BB, P_BF, P_K
@@ -28,6 +29,7 @@ BASELINE = ROOT / "reports/phase4_baseline.json"
 PA_ROWS = (("runs_per_team_game", "Runs per team-game"), ("ba", "Batting average"), ("obp", "On-base pct"), ("slg", "Slugging pct"),
            ("hr_per_team_game", "HR per team-game"), ("bb_pct", "BB per PA"), ("k_pct", "K per PA"), ("hbp_pct", "HBP per PA"),
            ("pa_per_team_game", "PA per team-game"), ("errors_per_team_game", "Errors per team-game"), ("era", "ERA"), ("earned_share", "Earned share of runs"))
+PHASE6_MOVED = ("errors_per_team_game", "earned_share")
 QUANTS = (10, 50, 90)
 SPREAD_EVENTS = ("B", "K", "S", "F", "P")     # player_pitch columns 0-4 (H is column 5)
 SPREAD_MIN = 150                               # PA (batters) or BF (pitchers), as in the data comparison
@@ -118,11 +120,15 @@ def build_report5(agg: dict, seeds: list, league: dict, league_se: dict, st2: di
         gate(f"ip_per_start_{lab}", f"Innings per start, {lab}", 3, "starts")
     base = json.loads(BASELINE.read_text())
     pa_lines = []
+    # rates a Phase 6 mechanism changes on purpose (fielding: errors, and through them earned runs) are
+    # gated against real data in reports/phase6.md instead of against the Phase 4 run
+    moved = PHASE6_MOVED if phase6.on("fielding") else ()
     for key, label in PA_ROWS:
         tol = 3 * np.sqrt(base["se"][key] ** 2 + league_se[key] ** 2)
         ok = abs(league[key] - base["league"][key]) <= tol
-        st[f"pa_unchanged_{key}"] = bool(ok)
-        pa_lines.append(f"| {label} | {league[key]:.4f} | {base['league'][key]:.4f} | ±{tol:.4f} | {'pass' if ok else 'FAIL'} |")
+        st[f"pa_unchanged_{key}"] = None if key in moved else bool(ok)
+        status = ("pass" if ok else "differs") + " (Phase 6 fielding; gated against data in reports/phase6.md)" if key in moved else ("pass" if ok else "FAIL")
+        pa_lines.append(f"| {label} | {league[key]:.4f} | {base['league'][key]:.4f} | ±{tol:.4f} | {status} |")
     p2_ok = all(v for v in st2.values() if v is not None)
     p4_ok = all(v for v in st4.values() if v is not None)
     st["phase2_gate"], st["phase4_gate"] = bool(p2_ok), bool(p4_ok)

@@ -114,6 +114,8 @@ def build_report6(agg: dict, agg2: dict, agg5: dict, seeds: list, st2: dict, st4
     row("field", "p6_sb_per_team_game", "Stolen bases per team-game", m["sb_per_team_game"], se["sb_per_team_game"], lt["sb_per_team_game"]["value"], lt["sb_per_team_game"]["tol"])
     row("field", "p6_sb_success_rate", "Steal success rate", m["sb_success_rate"], se["sb_success_rate"], lt["sb_success_rate"]["value"], lt["sb_success_rate"]["tol"])
     u6 = b["usage_phase6_2025"]
+    row("field", "p6_earned_share", "Earned share of runs", agg2["league"]["earned_share"], agg2["se"]["league/earned_share"], u6["earned_run_share"]["value"],
+        u6["earned_run_share"]["tol"], 4, "gated here, not against the Phase 4 run (Phase 6 fielding moves it)")
     for key, label in (("app_max", "Appearances, team's busiest pitcher"), ("app_5th", "Appearances, 5th busiest"), ("app_10th", "Appearances, 10th busiest"),
                        ("relief_only_40ip", "Relief-only pitchers (≤3 GS) with 40+ IP, per team"), ("relief_only_60ip", "Relief-only pitchers with 60+ IP, per team"),
                        ("ip_rank1", "IP, team's top pitcher"), ("ip_rank2", "IP, 2nd"), ("ip_rank3", "IP, 3rd")):

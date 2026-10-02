@@ -73,6 +73,14 @@ class Manager(LeagueAverageDecider):
         self.relief_coef = u6.get("relief", {}).get("coef", {})
         self.midweek_coef = u6.get("midweek", {}).get("coef", {})
         self.pull6 = phase6.load().get("pull6", {}) if phase6.on("leash") else {}
+        # Phase 6: midweek starts (Mon-Wed on the engine's calendar) use a table built on Mon-Wed starts only;
+        # the Phase 2 table pools Thursday series openers, whose aces carry long leashes into its high cells
+        self.mid_spread = self.pull6.get("sp_midweek", {}).get("leash_spread", {}).get("log_sd")
+        if self.mid_spread:
+            from config.phase4 import load_stamina
+            self.stamina = load_stamina()
+        mt = self.pull6.get("sp_midweek_table")
+        self.spm_table, self.spm_back = (mt["table"], mt["backoff"]) if mt else (self.sp_table, self.sp_back)
         self.subs6 = phase6.load().get("subs6", {}) if phase6.on("subs") else {}
         bp = self.subs6.get("bench_pick_weight", {})
         n_b = N_REGULARS + N_BENCH
@@ -105,7 +113,7 @@ class Manager(LeagueAverageDecider):
         starters += [p for p in tm.batters[:N_REGULARS] if p not in starters][: N_REGULARS - len(starters)]
         if self.start_markov:
             self.last_lineup[tm.tid] = {p.pid for p in starters}
-        return sorted(starters, key=lambda p: p.order)
+        return sorted(starters, key=lambda p: p.bat_order)
 
     # ---- Phase 6: rest, roles and the choice logits ---------------------------------------
     @staticmethod
@@ -149,7 +157,8 @@ class Manager(LeagueAverageDecider):
             self.history.setdefault(pid, []).append((state.date, pitches))
 
     def _leash_ctx(self, state, starter: bool) -> float:
-        """Phase 6 multiplier on log theta: tier of the pitching team and, for starters, season week."""
+        """Phase 6 multiplier on log theta: tier of the pitching team (not for weekend starters), for
+        starters season week, and for midweek starters the starter's staff role."""
         if not self.pull6:
             return 0.0
         role = ("sp_weekend" if state.weekend else "sp_midweek") if starter else "rp"
@@ -158,6 +167,11 @@ class Manager(LeagueAverageDecider):
         if starter:
             wb = int(np.searchsorted(np.array(r["week_bins"]), state.week, side="right") - 1)
             x += r["log_theta_week"].get(str(wb), 0.0)
+        if "log_theta_class" in r:
+            # a midweek start by a weekend-rotation arm runs longer, a reliever's (bullpen game) shorter
+            tm, pid = state.team_obj[state.fielding_side], state.pitcher[state.fielding_side].pid
+            cls = "wk" if any(p.pid == pid for p in tm.weekend_sp) else ("mid" if any(p.pid == pid for p in tm.midweek_sp) else "r")
+            x += r["log_theta_class"].get(cls, 0.0)
         return x
 
     def starting_pitcher(self, state, team: str):
@@ -189,6 +203,8 @@ class Manager(LeagueAverageDecider):
         if starter and weekend and rank is not None:
             chain = ((self.wr_table, f"{rank}|{pb}|{rb}|{inning_end}"), (self.wr_back, f"{rank}|{pb}|{inning_end}"),
                      (self.sp_table, f"{weekend}|{pb}|{rb}|{inning_end}"), (self.sp_back, f"{weekend}|{pb}|{inning_end}"))
+        elif starter and not weekend:
+            chain = ((self.spm_table, f"{weekend}|{pb}|{rb}|{inning_end}"), (self.spm_back, f"{weekend}|{pb}|{inning_end}"))
         elif starter:
             chain = ((self.sp_table, f"{weekend}|{pb}|{rb}|{inning_end}"), (self.sp_back, f"{weekend}|{pb}|{inning_end}"))
         else:
@@ -216,7 +232,14 @@ class Manager(LeagueAverageDecider):
         ctx = self._leash_ctx(state, o["starter"])
         if ctx:
             h = -np.expm1(np.exp(ctx) * np.log1p(-min(h, 1 - 1e-9)))
-        theta = np.exp(state.pitcher[state.fielding_side].log_theta)
+        pit = state.pitcher[state.fielding_side]
+        lt = pit.log_theta
+        if o["starter"] and not state.weekend and self.mid_spread:
+            # midweek starts: the leash spread around the context is narrower than the Stamina scale's
+            # (2025 Mon-Wed starts, pull6 sp_midweek leash_spread), so the pitcher's deviation shrinks
+            g = self.stamina["reliever" if pit.group == "rp" else "starter"]
+            lt = g["log_mean"] + (lt - g["log_mean"]) * self.mid_spread / g["log_sd"]
+        theta = np.exp(lt)
         hp = -np.expm1(theta * np.log1p(-min(h, 1 - 1e-9)))
         pulled = state.rng.random() < hp
         self.leash_expected[pid] = self.leash_expected.get(pid, 0) + hp

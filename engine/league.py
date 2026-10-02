@@ -18,8 +18,9 @@ the normal score of each component is mapped to the rate's standardized shape an
 its method-of-moments SD, so variances and rank correlations are kept and only the shape changes.
 
 Phase 6: each team has a home park, a vector of logit offsets on the six rates drawn from the
-park covariance and tier means of scripts/build_phase6_parks.py; every plate appearance in the
-park carries it, for both teams.
+park covariance and tier means of scripts/build_phase6_parks.py, its run level conditional on the
+team's offense and defense (parks correlate about -.4 with both within tier); every plate
+appearance in the park carries it, for both teams.
 
 Tiers and conferences are only distributions of (o, d); nothing in a matchup knows a
 team's tier. L is the league outcome table, mu_group and e come from the play-by-play
@@ -60,7 +61,8 @@ class Player:
     side: str          # "bat" or "pit"
     group: str         # regular / bench / sp_weekend / sp_midweek / rp
     z: np.ndarray      # logit offsets for RATES (relative to league, before location), built from ratings
-    order: int = 0     # role order on the team (lineup rank, rotation slot, bullpen rank)
+    order: int = 0     # role order on the team (start rank, rotation slot, bullpen rank)
+    bat_order: int = 0  # batters: rank by hitting value (the batting order)
     ratings: dict = field(default_factory=dict)   # 20-80 true ratings (continuous; engine.ratings)
     hidden: dict = field(default_factory=dict)    # true components without a rating (HBP; pitcher BABIP/XBH)
     log_theta: float = 0.0                        # pitcher leash multiplier on the pull hazard (Stamina)
@@ -157,10 +159,18 @@ def build_league(cfg: Phase2Config, rng: np.random.Generator) -> League:
     from config import phase6
     pk6 = phase6.load().get("parks6") if phase6.on("parks") else None
     rng_field = np.random.Generator(np.random.PCG64(rng.bit_generator.seed_seq.spawn(1)[0]))
+    rng_pt = np.random.Generator(np.random.PCG64(rng.bit_generator.seed_seq.spawn(1)[0]))
+    pt_rho = phase6.load().get("subs6", {}).get("bench_pick_weight", {}).get("playing_time_rho", {}).get("value") if phase6.on("subs") else None
     fl6 = phase6.load().get("fielding6") if phase6.on("fielding") else None
     if pk6:
         vals, vecs = np.linalg.eigh(np.array(pk6["cov"]))
         park_cov = vecs @ np.diag(np.clip(vals, 0, None)) @ vecs.T     # positive semi-definite after rounding
+        if pk6.get("joint"):
+            w_ = np.array(pk6["w"]); cw = park_cov @ w_
+            run_dir = cw / float(w_ @ cw)
+            park_resid = park_cov - np.outer(cw, cw) / float(w_ @ cw)
+            vals, vecs = np.linalg.eigh(park_resid)
+            park_resid = vecs @ np.diag(np.clip(vals, 0, None)) @ vecs.T
     teams, players = [], []
     team_names = set()
     for tid, (_, conf, tier) in enumerate(cfg.teams):
@@ -169,15 +179,21 @@ def build_league(cfg: Phase2Config, rng: np.random.Generator) -> League:
             if nm not in team_names:
                 team_names.add(nm); break
         t = Team(tid, nm, conf_index[conf], tier)
-        if pk6:
-            t.park = np.array(pk6["tier_mean"][tier]) + rng_park.multivariate_normal(np.zeros(len(RATES)), park_cov, method="eigh")
-        else:
-            t.park = np.zeros(len(RATES))
         confs[t.conference][1].append(tid)
         td = cfg.team_draw[tier]
         # an independent has no conference: it draws its own effect from its tier's conference distribution
         c = conf_fx[t.conference] if not confs[t.conference][3] else rng.multivariate_normal(np.zeros(2), td["conf_cov"], method="eigh")
         t.o, t.d = np.array(td["mean"]) + c + rng.multivariate_normal(np.zeros(2), td["team_cov"], method="eigh")
+        if pk6 and pk6.get("joint"):
+            # the park's run level given the team's (o, d) deviations from its tier mean, in engine units
+            # (k_o), along the run direction; the rest of the park's rate vector orthogonal to it
+            j = pk6["joint"]
+            run = pk6["k_o"] * (float(np.dot(j["park_on_od"], np.array([t.o, t.d]) - np.array(td["mean"]))) + j["park_sd_given_od"] * rng_park.standard_normal())
+            t.park = np.array(pk6["tier_mean"][tier]) + run_dir * run + rng_park.multivariate_normal(np.zeros(len(RATES)), park_resid, method="eigh")
+        elif pk6:
+            t.park = np.array(pk6["tier_mean"][tier]) + rng_park.multivariate_normal(np.zeros(len(RATES)), park_cov, method="eigh")
+        else:
+            t.park = np.zeros(len(RATES))
         g_o = cfg.map_o[0] * t.o + cfg.map_o[1] * t.o ** 2
         g_d = cfg.map_d[0] * t.d + cfg.map_d[1] * t.d ** 2
         tb = g_o * v_bat + rng.multivariate_normal(np.zeros(6), cfg.style_cov["bat"], method="eigh")
@@ -215,9 +231,19 @@ def build_league(cfg: Phase2Config, rng: np.random.Generator) -> League:
             pr = matchup_probs(cfg, p.z, np.zeros(6), {r: 0.0 for r in RATES})
             ob = pr["BB"] + pr["HBP"] + pr["1B"] + pr["2B"] + pr["3B"] + pr["HR"]
             return ob + (pr["1B"] + 2 * pr["2B"] + 3 * pr["3B"] + 4 * pr["HR"])
+        # start rank (playing time): Phase 6 orders by rho x standardized hitting value + independent noise,
+        # since real playing time among regulars follows hitting at about .46 (defense, position, the rest);
+        # the batting order stays by hitting value
         for grp, base in ((regs, 0), (bench, N_REGULARS)):
-            for k, p in enumerate(sorted(grp, key=bat_value, reverse=True)):
-                p.order = base + k
+            v = np.array([bat_value(p) for p in grp])
+            for k, i in enumerate(np.argsort(-v)):
+                grp[i].bat_order = base + k
+            key = v
+            if pt_rho is not None:
+                z = (v - v.mean()) / (v.std() if v.std() > 0 else 1.0)
+                key = pt_rho * z + np.sqrt(1 - pt_rho ** 2) * rng_pt.standard_normal(len(v))
+            for k, i in enumerate(np.argsort(-key)):
+                grp[i].order = base + k
         t.batters = sorted(regs + bench, key=lambda p: p.order)
         # pitchers ordered by K - BB - HR (logit offsets): best gets Friday / most relief work
         quality = lambda p: p.z[0] - p.z[1] - p.z[3]

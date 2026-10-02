@@ -312,29 +312,665 @@
   "_note": "Phase 6 pull-hazard multipliers by tier and season week, from the 2025 play-by-play.\n\nThe engine's pull hazard (engine/manager.py) is the Phase 2 baseline h(role, weekend, outing\npitches, outing runs, inning just ended), times the pitcher's own leash (Stamina):\nh' = 1 - (1 - h)^theta. Phase 2 tabulated h over all teams pooled, a P4-heavy sample, so low-tier\nmanagers' longer leash on midweek starters was averaged away (the deferred midweek p10 row).\nHere every pull decision of the sample (after each batter faced: replaced before the next batter\nor not) gets its baseline h from the engine's own tables, and a multiplier is fitted by maximum\nlikelihood:  log theta = a[tier] + b[season week bin]  per role (weekend starter, midweek starter,\nreliever), with the season-week term for starters only (build-up early in the season and wear late).\nThe multipliers are centred so that their batters-faced-weighted mean log theta is 0 within each\nrole: the pooled leash, and with it every Phase 2 and Phase 5 row tuned on it, is unchanged on\naverage; only its split by tier and week is new.\nWrites the \"pull6\" block of data/ncaa_2025/derived/phase6_inputs_2025.json.\n\n    python3 scripts/build_phase6_pull.py\n",
   "built": "2026-10-02",
   "season_start": "2025-02-14",
+  "sp_midweek_table": {
+   "keys": [
+    "weekend",
+    "pitch_bin10",
+    "runs_bin",
+    "inning_end"
+   ],
+   "table": {
+    "0|0|0|0": [
+     3,
+     1902
+    ],
+    "0|0|0|1": [
+     7,
+     99
+    ],
+    "0|0|1|0": [
+     1,
+     151
+    ],
+    "0|0|1|1": [
+     0,
+     3
+    ],
+    "0|0|2|0": [
+     0,
+     33
+    ],
+    "0|0|3|0": [
+     1,
+     7
+    ],
+    "0|1|0|0": [
+     10,
+     1498
+    ],
+    "0|1|0|1": [
+     25,
+     466
+    ],
+    "0|1|1|0": [
+     7,
+     451
+    ],
+    "0|1|1|1": [
+     9,
+     89
+    ],
+    "0|1|2|0": [
+     3,
+     186
+    ],
+    "0|1|2|1": [
+     3,
+     24
+    ],
+    "0|1|3|0": [
+     1,
+     43
+    ],
+    "0|1|3|1": [
+     0,
+     5
+    ],
+    "0|1|4|0": [
+     1,
+     19
+    ],
+    "0|1|4|1": [
+     0,
+     1
+    ],
+    "0|1|5|0": [
+     0,
+     2
+    ],
+    "0|2|0|0": [
+     9,
+     1071
+    ],
+    "0|2|0|1": [
+     36,
+     300
+    ],
+    "0|2|1|0": [
+     15,
+     491
+    ],
+    "0|2|1|1": [
+     18,
+     137
+    ],
+    "0|2|2|0": [
+     6,
+     278
+    ],
+    "0|2|2|1": [
+     14,
+     73
+    ],
+    "0|2|3|0": [
+     9,
+     97
+    ],
+    "0|2|3|1": [
+     4,
+     20
+    ],
+    "0|2|4|0": [
+     0,
+     50
+    ],
+    "0|2|4|1": [
+     4,
+     8
+    ],
+    "0|2|5|0": [
+     4,
+     35
+    ],
+    "0|2|5|1": [
+     1,
+     1
+    ],
+    "0|3|0|0": [
+     13,
+     699
+    ],
+    "0|3|0|1": [
+     30,
+     233
+    ],
+    "0|3|1|0": [
+     22,
+     440
+    ],
+    "0|3|1|1": [
+     26,
+     125
+    ],
+    "0|3|2|0": [
+     24,
+     298
+    ],
+    "0|3|2|1": [
+     29,
+     76
+    ],
+    "0|3|3|0": [
+     14,
+     127
+    ],
+    "0|3|3|1": [
+     4,
+     24
+    ],
+    "0|3|4|0": [
+     7,
+     60
+    ],
+    "0|3|4|1": [
+     8,
+     15
+    ],
+    "0|3|5|0": [
+     17,
+     67
+    ],
+    "0|3|5|1": [
+     11,
+     16
+    ],
+    "0|4|0|0": [
+     16,
+     476
+    ],
+    "0|4|0|1": [
+     37,
+     144
+    ],
+    "0|4|1|0": [
+     13,
+     354
+    ],
+    "0|4|1|1": [
+     23,
+     111
+    ],
+    "0|4|2|0": [
+     27,
+     225
+    ],
+    "0|4|2|1": [
+     13,
+     70
+    ],
+    "0|4|3|0": [
+     9,
+     108
+    ],
+    "0|4|3|1": [
+     9,
+     28
+    ],
+    "0|4|4|0": [
+     13,
+     64
+    ],
+    "0|4|4|1": [
+     6,
+     14
+    ],
+    "0|4|5|0": [
+     13,
+     54
+    ],
+    "0|4|5|1": [
+     6,
+     9
+    ],
+    "0|5|0|0": [
+     8,
+     277
+    ],
+    "0|5|0|1": [
+     24,
+     92
+    ],
+    "0|5|1|0": [
+     20,
+     259
+    ],
+    "0|5|1|1": [
+     23,
+     87
+    ],
+    "0|5|2|0": [
+     17,
+     187
+    ],
+    "0|5|2|1": [
+     20,
+     52
+    ],
+    "0|5|3|0": [
+     12,
+     99
+    ],
+    "0|5|3|1": [
+     13,
+     29
+    ],
+    "0|5|4|0": [
+     5,
+     40
+    ],
+    "0|5|4|1": [
+     6,
+     13
+    ],
+    "0|5|5|0": [
+     14,
+     47
+    ],
+    "0|5|5|1": [
+     8,
+     16
+    ],
+    "0|6|0|0": [
+     5,
+     140
+    ],
+    "0|6|0|1": [
+     21,
+     54
+    ],
+    "0|6|1|0": [
+     13,
+     176
+    ],
+    "0|6|1|1": [
+     21,
+     60
+    ],
+    "0|6|2|0": [
+     16,
+     120
+    ],
+    "0|6|2|1": [
+     12,
+     35
+    ],
+    "0|6|3|0": [
+     9,
+     69
+    ],
+    "0|6|3|1": [
+     6,
+     17
+    ],
+    "0|6|4|0": [
+     8,
+     36
+    ],
+    "0|6|4|1": [
+     7,
+     12
+    ],
+    "0|6|5|0": [
+     10,
+     31
+    ],
+    "0|6|5|1": [
+     2,
+     4
+    ],
+    "0|7|0|0": [
+     9,
+     70
+    ],
+    "0|7|0|1": [
+     9,
+     22
+    ],
+    "0|7|1|0": [
+     12,
+     109
+    ],
+    "0|7|1|1": [
+     8,
+     36
+    ],
+    "0|7|2|0": [
+     8,
+     59
+    ],
+    "0|7|2|1": [
+     10,
+     19
+    ],
+    "0|7|3|0": [
+     12,
+     52
+    ],
+    "0|7|3|1": [
+     7,
+     15
+    ],
+    "0|7|4|0": [
+     4,
+     24
+    ],
+    "0|7|4|1": [
+     1,
+     6
+    ],
+    "0|7|5|0": [
+     10,
+     27
+    ],
+    "0|7|5|1": [
+     1,
+     2
+    ],
+    "0|8|0|0": [
+     4,
+     36
+    ],
+    "0|8|0|1": [
+     7,
+     13
+    ],
+    "0|8|1|0": [
+     6,
+     54
+    ],
+    "0|8|1|1": [
+     5,
+     20
+    ],
+    "0|8|2|0": [
+     8,
+     32
+    ],
+    "0|8|2|1": [
+     3,
+     7
+    ],
+    "0|8|3|0": [
+     2,
+     17
+    ],
+    "0|8|3|1": [
+     4,
+     8
+    ],
+    "0|8|4|0": [
+     4,
+     13
+    ],
+    "0|8|4|1": [
+     1,
+     5
+    ],
+    "0|8|5|0": [
+     1,
+     5
+    ],
+    "0|8|5|1": [
+     2,
+     3
+    ],
+    "0|9|0|0": [
+     1,
+     16
+    ],
+    "0|9|0|1": [
+     1,
+     5
+    ],
+    "0|9|1|0": [
+     6,
+     25
+    ],
+    "0|9|1|1": [
+     4,
+     8
+    ],
+    "0|9|2|0": [
+     4,
+     16
+    ],
+    "0|9|2|1": [
+     5,
+     8
+    ],
+    "0|9|3|0": [
+     4,
+     7
+    ],
+    "0|9|3|1": [
+     1,
+     2
+    ],
+    "0|9|4|0": [
+     2,
+     10
+    ],
+    "0|9|4|1": [
+     2,
+     4
+    ],
+    "0|9|5|1": [
+     2,
+     2
+    ],
+    "0|10|0|0": [
+     2,
+     5
+    ],
+    "0|10|0|1": [
+     2,
+     3
+    ],
+    "0|10|1|0": [
+     1,
+     10
+    ],
+    "0|10|1|1": [
+     1,
+     1
+    ],
+    "0|10|2|0": [
+     3,
+     8
+    ],
+    "0|10|2|1": [
+     1,
+     4
+    ],
+    "0|10|3|0": [
+     1,
+     5
+    ],
+    "0|10|3|1": [
+     2,
+     2
+    ],
+    "0|10|4|0": [
+     0,
+     4
+    ],
+    "0|10|4|1": [
+     2,
+     2
+    ],
+    "0|11|0|0": [
+     0,
+     3
+    ],
+    "0|11|1|0": [
+     0,
+     2
+    ],
+    "0|11|1|1": [
+     0,
+     1
+    ],
+    "0|11|2|0": [
+     1,
+     1
+    ],
+    "0|11|3|0": [
+     1,
+     1
+    ],
+    "0|11|3|1": [
+     1,
+     1
+    ],
+    "0|11|5|0": [
+     1,
+     1
+    ],
+    "0|12|0|1": [
+     1,
+     1
+    ],
+    "0|12|1|0": [
+     0,
+     1
+    ]
+   },
+   "backoff": {
+    "0|0|0": [
+     5,
+     2093
+    ],
+    "0|0|1": [
+     7,
+     102
+    ],
+    "0|1|0": [
+     22,
+     2199
+    ],
+    "0|1|1": [
+     37,
+     585
+    ],
+    "0|2|0": [
+     43,
+     2022
+    ],
+    "0|2|1": [
+     77,
+     539
+    ],
+    "0|3|0": [
+     97,
+     1691
+    ],
+    "0|3|1": [
+     108,
+     489
+    ],
+    "0|4|0": [
+     91,
+     1281
+    ],
+    "0|4|1": [
+     94,
+     376
+    ],
+    "0|5|0": [
+     76,
+     909
+    ],
+    "0|5|1": [
+     94,
+     289
+    ],
+    "0|6|0": [
+     61,
+     572
+    ],
+    "0|6|1": [
+     69,
+     182
+    ],
+    "0|7|0": [
+     55,
+     341
+    ],
+    "0|7|1": [
+     36,
+     100
+    ],
+    "0|8|0": [
+     25,
+     157
+    ],
+    "0|8|1": [
+     22,
+     56
+    ],
+    "0|9|0": [
+     17,
+     74
+    ],
+    "0|9|1": [
+     15,
+     29
+    ],
+    "0|10|0": [
+     7,
+     32
+    ],
+    "0|10|1": [
+     8,
+     12
+    ],
+    "0|11|0": [
+     3,
+     8
+    ],
+    "0|11|1": [
+     1,
+     2
+    ],
+    "0|12|0": [
+     0,
+     1
+    ],
+    "0|12|1": [
+     1,
+     1
+    ]
+   }
+  },
   "sp_weekend": {
    "n_decisions": 45363,
    "n_pulls": 3154,
    "log_theta_tier": {
-    "p4": -0.0155,
-    "mid": -0.2547,
-    "low": -0.2521
+    "p4": -0.092,
+    "mid": -0.092,
+    "low": -0.092
    },
-   "se_tier": {
-    "p4": 0.0446,
-    "mid": 0.052,
-    "low": 0.0832
-   },
+   "tier_note": "no tier term: realized pitch counts by tier are flat in the data (p90 101 / 103 / 101) and the per-decision tier effect overshoots them in the engine",
    "log_theta_week": {
-    "0": 0.5961,
-    "1": 0.3058,
+    "0": 0.5419,
+    "1": 0.2489,
     "2": 0.0,
-    "3": -0.0166,
-    "4": -0.0935
+    "3": -0.0123,
+    "4": -0.0953
    },
    "se_week": {
-    "0": 0.0623,
-    "1": 0.0618,
+    "0": 0.0614,
+    "1": 0.0611,
     "2": 0.0,
     "3": 0.0612,
     "4": 0.0539
@@ -348,31 +984,40 @@
    ]
   },
   "sp_midweek": {
-   "n_decisions": 14107,
+   "n_decisions": 14057,
    "n_pulls": 1070,
    "log_theta_tier": {
-    "p4": 0.2718,
-    "mid": 0.1216,
-    "low": 0.1439
+    "p4": 0.2744,
+    "mid": 0.1471,
+    "low": 0.1356
    },
    "se_tier": {
-    "p4": 0.0714,
-    "mid": 0.0696,
-    "low": 0.1128
+    "p4": 0.0747,
+    "mid": 0.072,
+    "low": 0.1139
+   },
+   "log_theta_class": {
+    "mid": 0.0,
+    "wk": -0.4648,
+    "r": 0.2849
+   },
+   "se_class": {
+    "wk": 0.0904,
+    "r": 0.0792
    },
    "log_theta_week": {
-    "0": -0.2713,
-    "1": -0.1868,
+    "0": -0.2514,
+    "1": -0.2238,
     "2": 0.0,
-    "3": -0.0374,
-    "4": -0.4983
+    "3": -0.0194,
+    "4": -0.3811
    },
    "se_week": {
-    "0": 0.1033,
-    "1": 0.0964,
+    "0": 0.1034,
+    "1": 0.0966,
     "2": 0.0,
     "3": 0.0876,
-    "4": 0.0933
+    "4": 0.0953
    },
    "week_bins": [
     0,
@@ -380,7 +1025,13 @@
     4,
     7,
     10
-   ]
+   ],
+   "leash_spread": {
+    "n_pitchers": 29,
+    "log_sd": 0.3065,
+    "log_mean": -0.1266,
+    "min_starts": 5
+   }
   },
   "rp": {
    "n_decisions": 88327,
@@ -398,7 +1049,7 @@
   }
  },
  "subs6": {
-  "_note": "Phase 6 substitution inputs from the 2025 play-by-play: pinch hitters, pinch runners and\ndefensive (including blowout) substitutions.\n\nEvery non-pitcher who enters a game (players with a plate appearance before the entry are starters\nchanging position, not new players) is classified by how he first entered (subs_2025, from\nscripts/build_phase6_events.py): 'ph' pinch hitter, 'pr' pinch runner, anything else (a fielding\nposition or dh) a defensive substitution. Hazards, by inning bin x margin bin (margin from the\nsubstituting team's side, at the substitution):\n  ph   per plate appearance of the team                 (opportunities: the team's PAs in the cell)\n  pr   per batter reaching base (not on a home run)      (opportunities: such batters in the cell)\n  def  per defensive half-inning of the team             (opportunities: half-innings in the field)\nCells with fewer than MIN_SUB_CELL opportunities back off to the inning bin alone.\nAlso: the lineup spot a pinch hitter or defensive substitute replaces (share of entries over\nshare of opportunities, by spot), a tier multiplier on all three hazards (substitutions per\nteam-game by tier over the pooled rate, from the same cells), and who comes in: the substitute's\nrank on his team by games started (full-season teams), as entries per team-game in which that\nrank did not start. The engine picks among the players not in the game in proportion to it.\nRanks are pooled from the top until a cell has MIN_SUB_CELL opportunities; the engine's last\nroster rank (N_REGULARS + N_BENCH) pools every deeper rank. With it, by rank: the start share and\nstart persistence, P(start | started the team's previous game) and P(start | sat it).\nGate value: distinct batters per team-game (batters with a plate appearance).\nWrites the \"subs6\" block of data/ncaa_2025/derived/phase6_inputs_2025.json.\n\n    python3 scripts/build_phase6_subs.py\n",
+  "_note": "Phase 6 substitution inputs from the 2025 play-by-play: pinch hitters, pinch runners and\ndefensive (including blowout) substitutions.\n\nEvery non-pitcher who enters a game (players with a plate appearance before the entry are starters\nchanging position, not new players) is classified by how he first entered (subs_2025, from\nscripts/build_phase6_events.py): 'ph' pinch hitter, 'pr' pinch runner, anything else (a fielding\nposition or dh) a defensive substitution. Hazards, by inning bin x margin bin (margin from the\nsubstituting team's side, at the substitution):\n  ph   per plate appearance of the team                 (opportunities: the team's PAs in the cell)\n  pr   per batter reaching base (not on a home run)      (opportunities: such batters in the cell)\n  def  per defensive half-inning of the team             (opportunities: half-innings in the field)\nCells with fewer than MIN_SUB_CELL opportunities back off to the inning bin alone.\nAlso: the lineup spot a pinch hitter or defensive substitute replaces (share of entries over\nshare of opportunities, by spot), a tier multiplier on all three hazards (substitutions per\nteam-game by tier over the pooled rate, from the same cells), and who comes in: the substitute's\nrank on his team by games started (full-season teams), as entries per team-game in which that\nrank did not start. The engine picks among the players not in the game in proportion to it.\nRanks are pooled from the top until a cell has MIN_SUB_CELL opportunities; the engine's last\nroster rank (N_REGULARS + N_BENCH) pools every deeper rank. With it, by rank: the start share and\nstart persistence, P(start | started the team's previous game) and P(start | sat it); and how\nclosely playing time follows hitting among regulars (start share vs OBP and OPS within team,\ndisattenuated): about .46, so playing time also rewards defense, position and the rest.\nGate value: distinct batters per team-game (batters with a plate appearance).\nWrites the \"subs6\" block of data/ncaa_2025/derived/phase6_inputs_2025.json.\n\n    python3 scripts/build_phase6_subs.py\n",
   "built": "2026-10-02",
   "inning_bins": [
    1,
@@ -687,6 +1338,12 @@
    "position_players_with_pa": {
     "mean": 17.46,
     "median": 17.0
+   },
+   "playing_time_rho": {
+    "obp": 0.492,
+    "ops": 0.453,
+    "value": 0.473,
+    "n_regulars": 450
    }
   },
   "subs_per_team_game_by_kind": {
@@ -700,7 +1357,7 @@
   }
  },
  "parks6": {
-  "_note": "Phase 6 park effects.\n\nMagnitude, from the full 2025 scoreboard (every D1-vs-D1 final; scripts/build_phase2_teams.py fits\nit with a park term, the home team's park, alongside team offense and run prevention): the true SD\nand tier means of park effects in log runs per game, estimation noise removed by method of\nmoments. Composition, from the box scores of the play-by-play sample (data/ncaa_2025/pbp/parsed/\nschedule_games_2025.csv, neutral sites dropped), for the full-season teams: per rate (K, BB,\nHBP, HR per PA; BABIP; XBH share of hits) the classic park factor on the logit scale, both teams'\nrate in the team's home games minus both teams' rate in its road games, then the covariance of the\npark factors across rates with binomial noise removed (method of moments). The engine draws each team's park as\na vector of logit offsets from that covariance, scaled so its run variance (through the engine's\nrun-value gradient) equals the scoreboard's, with the tier mean placed along the run direction.\nEvery plate appearance in the park carries the offsets, for both teams.\nWrites the \"parks6\" block of data/ncaa_2025/derived/phase6_inputs_2025.json.\n\n    python3 scripts/build_phase6_parks.py      (after scripts/build_phase2_teams.py)\n",
+  "_note": "Phase 6 park effects.\n\nMagnitude, from the full 2025 scoreboard (every D1-vs-D1 final; scripts/build_phase2_teams.py fits\nit with a park term, the home team's park, alongside team offense and run prevention): the true SD\nand tier means of park effects in log runs per game, estimation noise removed by method of\nmoments. Composition, from the box scores of the play-by-play sample (data/ncaa_2025/pbp/parsed/\nschedule_games_2025.csv, neutral sites dropped), for the full-season teams: per rate (K, BB,\nHBP, HR per PA; BABIP; XBH share of hits) the classic park factor on the logit scale, both teams'\nrate in the team's home games minus both teams' rate in its road games, then the covariance of the\npark factors across rates with binomial noise removed (method of moments). The engine draws each team's park as\na vector of logit offsets from that covariance, scaled so its run variance (through the engine's\nrun-value gradient) equals the scoreboard's, with the tier mean placed along the run direction.\nThe run level itself is drawn conditional on the home team's offense and defense (the scoreboard\nfit's within-tier joint covariance: parks correlate about -.4 with both).\nEvery plate appearance in the park carries the offsets, for both teams.\nWrites the \"parks6\" block of data/ncaa_2025/derived/phase6_inputs_2025.json.\n\n    python3 scripts/build_phase6_parks.py      (after scripts/build_phase2_teams.py)\n",
   "built": "2026-10-02",
   "rates": [
    "K",
@@ -848,6 +1505,49 @@
     0.01454,
     0.01612
    ]
+  },
+  "w": [
+   -0.3681,
+   0.2611,
+   0.0805,
+   0.2228,
+   0.9022,
+   0.0722
+  ],
+  "run_dir": [
+   -0.576332,
+   0.02708,
+   0.433071,
+   1.723011,
+   0.368578,
+   0.408603
+  ],
+  "joint": {
+   "cov_odp_within_tier": [
+    [
+     0.033433,
+     0.028744,
+     -0.009299
+    ],
+    [
+     0.028744,
+     0.039153,
+     -0.00924
+    ],
+    [
+     -0.009299,
+     -0.00924,
+     0.015177
+    ]
+   ],
+   "corr_o_park": -0.413,
+   "corr_d_park": -0.379,
+   "park_on_od": [
+    -0.204,
+    -0.0862
+   ],
+   "park_sd_given_od": 0.1117,
+   "r2": 0.178
   }
  },
  "fielding6": {
