@@ -114,6 +114,22 @@ uncertainty. Values derived from this sample are conf B in `benchmarks.json`.
   bulk play-by-play. PrestoSports sites (e.g. Tennessee Tech) serve full
   play-by-play at a 10-second crawl delay and were not needed.
 
+## data/ncaa_leaders/ — national individual leaders, 2023–2026 seasons (audit only)
+
+- **Source:** NCAA.com D1 baseball national leader pages,
+  `https://www.ncaa.com/stats/baseball/d1/{year}/individual/{stat}`, page 1 (top 50
+  and ties) for stats 470 (HR), 200 (BA), 205 (ERA), 356 (SO) and 863 (appearances),
+  URL years 2023–2025. NCAA.com labels a season by the academic year it starts, so
+  /2023/ is the 2024 season, /2024/ is 2025 and /2025/ is 2026 (/2022/ has no tables).
+  robots.txt allows /stats/. Fetched 2026-10-01, one page per request. The 2023 season
+  is transcribed from the NCAA record book's 2023 leaders
+  (`http://fs.ncaa.org/Docs/stats/baseball_RB/2024/D1.pdf`).
+- **Files:** `raw/s<stat>_<url year>.html.gz` untouched pages; `ncaa_leaders.json`
+  the parsed tables plus top-five values and HR threshold counts
+  (`scripts/parse_ncaa_leaders.py`).
+- **Used by:** `scripts/audit_leaders.py` (`reports/leaders_audit.md`). This is
+  informational, not a benchmark: nothing in `benchmarks.json` reads it.
+
 ## Not pulled
 
 - **stats.ncaa.org team, individual and contest pages.** The team list is
