@@ -195,7 +195,7 @@ def season_extract4(res: dict, scale: RatingScale | None = None) -> dict:
                                     "z": np.array([players[i].z[IDX[rate]] for i in np.where(keep)[0]]), "work": work[keep].astype(float),
                                     "E": res["exp_trials"][ids, EXP_RATES.index(rate), 0][keep], "V": res["exp_trials"][ids, EXP_RATES.index(rate), 1][keep],
                                     "true": np.array([players[i].ratings[name] for i in np.where(keep)[0]]),
-                                    "q": n[keep] >= MIN_TRIALS[kind], "sign": sign, "s": s_}
+                                    "q": n[keep] >= MIN_TRIALS[kind], "sign": sign, "s": s_, "side": side, "rate": rate}
         # true rating distributions: D1 (PA/BF weighted) and by tier for everyday players
         wcol = B_PA if side == "bat" else P_BF
         w = st[:, wcol].astype(float)
@@ -415,9 +415,14 @@ def _estimate(ex: list, scale: RatingScale) -> dict:
             mean[i], sd[i] = f["mean"], f["sd"]
             priors.setdefault(name, {}).update({g: {k: round(v, 4) for k, v in pr.items()} for g, pr in f["prior"].items()})
         anchor = float(np.average(mean, weights=ns))   # the D1 average, measured on the estimates
-        s_, sign = d[0]["s"], d[0]["sign"]
-        est = CENTER + POINTS_PER_SD * sign * (mean - anchor) / s_
-        psd = POINTS_PER_SD * sd / s_
+        sign, side_, rate_ = d[0]["sign"], d[0]["side"], d[0]["rate"]
+        # estimates as true offsets (the D1 mean plus each estimate's distance from the estimated
+        # average), then on the percentile scale like the true ratings; the posterior SD in points
+        # uses the scale's local slope
+        zest = scale.ms(side_, rate_)[0] + (mean - anchor)
+        est = scale.rating(side_, rate_, sign, zest)
+        h = 1e-4
+        psd = POINTS_PER_SD * sd * np.abs(scale.score(side_, rate_, zest + h) - scale.score(side_, rate_, zest - h)) / (2 * h)
         q, true = cat("q"), cat("true")
         # 50 is the D1 average of this simulated world on both sides: the estimates are anchored on
         # the league's own average, so the true ratings are measured from the realized average too

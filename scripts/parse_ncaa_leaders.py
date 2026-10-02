@@ -24,7 +24,7 @@ SEASON_OF_URL_YEAR = {2023: 2024, 2024: 2025, 2025: 2026}
 STATS = {470: ("hr", "HR"), 200: ("ba", "BA"), 205: ("era", "ERA"), 356: ("k", "SO"), 863: ("app", "App")}
 RECORD_BOOK_2023 = {
     "source": "NCAA Division I baseball record book, 2024 edition, 2023 individual leaders: http://fs.ncaa.org/Docs/stats/baseball_RB/2024/D1.pdf",
-    "hr": [{"name": "Jac Caglianone", "team": "Florida", "G": 71, "HR": 33}, {"name": "Brock Wilken", "team": "Wake Forest", "HR": 31}],
+    "hr": [{"name": "Jac Caglianone", "team": "Florida", "G": 71, "HR": 33}, {"name": "Brock Wilken", "team": "Wake Forest", "G": 66, "HR": 31}],
     "ba": [{"name": "JJ Wetherholt", "team": "West Virginia", "G": 55, "AB": 225, "H": 101, "BA": 0.449}],
     "k": [{"name": "Paul Skenes", "team": "LSU", "IP": 122.2, "SO": 209}],
 }

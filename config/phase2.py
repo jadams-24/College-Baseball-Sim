@@ -73,6 +73,18 @@ DEFERRED_TO_PHASE6 = {
     "tier_p4_low": "reserves in mismatches and blowouts (manager AI)",
 }
 
+# Shape of the individual true-talent distributions (scripts/build_talent_shapes.py). A rate is drawn
+# from its fitted sinh-arcsinh shape when the likelihood-ratio statistic against the Gaussian
+# (2 degrees of freedom) exceeds the chi-square(2) critical value at p = .001 (13.82; strict, as
+# 17 side-rate shapes are tested); otherwise Gaussian. Grids are numerical settings.
+TALENT_SHAPES = ROOT / "data/ncaa_2025/derived/talent_shapes_2025.json"
+SHAPE_LRT_CRIT = 13.82
+TALENT_SHAPES_OVERRIDE = None              # set by scripts that compare shapes (e.g. {} for all-Gaussian)
+SHAPE_NPMLE_GRID = (-8.0, 8.0, 321)        # NPMLE support: standardized offsets, 0.05 apart
+SHAPE_NPMLE_ITERS = 20000                  # EM steps (stops earlier when the log-likelihood gains < 1e-8)
+SHAPE_Z_GRID = (8.0, 401)                  # quadrature over Z ~ N(0, 1) for the sinh-arcsinh likelihood
+SHAPE_QUANTILE_POINTS = (-6.0, 6.0, 241)   # stored quantile table of each standardized shape (normal scores)
+
 # Starter/reliever choice weights and lineup start rates come from usage tables; when a
 # hazard cell has fewer than this many batters faced it backs off to the coarser table.
 MIN_HAZARD_N = 30  # GUESS (statistical threshold)
@@ -99,6 +111,7 @@ class Phase2Config:
     schedule_mix: dict          # nonconference opponent-tier mix by own tier and day type
     conference_weekends: int
     teams: list                 # (ncaa_team_id, conference, tier) for the real D1 structure
+    talent_shape: dict = None   # "bat_HR" etc. -> (normal scores, standardized shape values) for rates drawn non-Gaussian
 
 
 def load() -> Phase2Config:
@@ -131,8 +144,25 @@ def load() -> Phase2Config:
         v_pit=tuple(rs["v_pit_unit"]), map_o=(gs["k_o"], gs["q_o"]), map_d=(gs["k_d"], gs["q_d"]), team_draw=draw, style_cov=style, home_eta=gs["eta"], talent=inp["talent"], correlation=inp["correlation"],
         usage=inp["usage"], schedule_mix=mix,
         conference_weekends=round(mix["conference_games_share"] * SEASON_GAMES / GAMES_PER_WEEKEND),
-        teams=teams,
+        teams=teams, talent_shape=load_talent_shapes(),
     )
+
+
+def load_talent_shapes() -> dict:
+    """Quantile tables (normal score -> offset in method-of-moments SD units: location + scale x
+    standardized shape) of the fitted individual true-talent distributions that differ
+    meaningfully from Gaussian (scripts/build_talent_shapes.py); rates not listed are Gaussian."""
+    import numpy as np
+    if TALENT_SHAPES_OVERRIDE is not None:
+        return TALENT_SHAPES_OVERRIDE
+    if not TALENT_SHAPES.exists():
+        return {}
+    out = {}
+    for key, e in json.loads(TALENT_SHAPES.read_text())["rates"].items():
+        if e.get("shape") == "shash":
+            st = e["standard"]
+            out[key] = (np.array(st["normal_scores"]), st["loc"] + st["scale"] * np.array(st["values"]))
+    return out
 
 
 def _team_draws(inp: dict, rs: dict) -> tuple[dict, dict]:
@@ -154,11 +184,16 @@ def _team_draws(inp: dict, rs: dict) -> tuple[dict, dict]:
     def cov(sd, c):
         sd = np.asarray(sd)
         return np.outer(sd, sd) * c
-    se_bat = cov([tal["batter"][r]["groups"]["regular"]["sd_ind_logit"] for r in RATES], cb)
+    # individual SDs on the logit scale: fitted distributions where a shape is fitted (talent_shapes)
+    shp = load_talent_shapes()
+    def sd_ind(side, r, g):
+        tab = shp.get(f"{side}_{r}")
+        return tal["batter" if side == "bat" else "pitcher"][r]["groups"][g]["sd_ind_logit"] * (float(np.std(_shape_draws(tab))) if tab else 1.0)
+    se_bat = cov([sd_ind("bat", r, "regular") for r in RATES], cb)
     wk_games = WEEKS * GAMES_PER_WEEKEND / SEASON_GAMES
     sh = {"sp_weekend": u["starter_bf_share"]["weekend"] * wk_games, "sp_midweek": u["starter_bf_share"]["midweek"] * (1 - wk_games)}
     sh["rp"] = 1 - sum(sh.values())
-    se_pit = sum(v * cov([tal["pitcher"][r]["groups"][g]["sd_ind_logit"] for r in RATES[:5]] + [0.0], cp) for g, v in sh.items())
+    se_pit = sum(v * cov([sd_ind("pit", r, g) for r in RATES[:5]] + [0.0], cp) for g, v in sh.items())
     ind_o = u["batter_share_hhi"] * float(w @ se_bat @ w)
     ind_d = u["pitcher_share_hhi"] * float(w @ se_pit @ w)
 
@@ -176,3 +211,15 @@ def _team_draws(inp: dict, rs: dict) -> tuple[dict, dict]:
         P = np.eye(6) - np.outer(v, w) / float(w @ v)
         style[side] = psd(P @ cov(sds, c) @ P.T)
     return draw, style
+
+
+def _shape_draws(tab) -> "np.ndarray":
+    """The fitted distribution's values at the normal quantiles of a fixed fine grid (for its SD)."""
+    import numpy as np
+    from math import erf, sqrt
+    p = (np.arange(20000) + 0.5) / 20000
+    # normal scores of p by bisection-free inversion: interpolate the CDF on a fine grid
+    xs = np.linspace(-6, 6, 24001)
+    cdf = np.array([0.5 * (1 + erf(x / sqrt(2))) for x in xs])
+    u = np.interp(p, cdf, xs)
+    return np.interp(u, tab[0], tab[1])

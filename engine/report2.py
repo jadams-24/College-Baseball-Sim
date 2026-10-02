@@ -16,6 +16,7 @@ from engine.game2 import (B_2B, B_3B, B_AB, B_BB, B_G, B_H, B_HBP, B_HR, B_K, B_
 ROOT = Path(__file__).resolve().parents[1]
 TIERS = ("p4", "mid", "low")
 QS = (10, 25, 50, 75, 90)
+LEADER_TOP = 5          # home-run leaders whose HR per game is gated (benchmarks individual_leaders_2023_2026)
 
 
 def season_metrics(res: dict) -> dict:
@@ -81,6 +82,10 @@ def season_metrics(res: dict) -> dict:
                          "teams_era_under_4": int(sum(x["era"] < 4 for x in tv)), "best_team_era": min(x["era"] for x in tv),
                          "team_ba_max": max(x["ba"] for x in tv), "team_hr_per_game_max": max(x["hr_g"] for x in tv),
                          "individual_ba_top": float(np.nanmax(BA)), "individual_hr_top": int(b[:, B_HR].max())}
+    # individual leaders (gate block individual_leaders_2023_2026): the five home-run leaders' HR per game played
+    top = np.argsort(-b[:, B_HR], kind="stable")[:LEADER_TOP]
+    m["leaders"] = {"hr_leader_56g": int(b[:, B_HR].max()), "hr_30plus_56g": int((b[:, B_HR] >= 30).sum()), "ba_leader": float(np.nanmax(BA)),
+                    "hr_top5_per_game": float(np.mean(b[top, B_HR] / np.maximum(b[top, B_G], 1))), "hr_max": int(b[:, B_HR].max())}
     # rotation: share of a team's weekend starts made by its three most frequent weekend starters
     tid_p = np.array([x.team for x in pl]); wgs = p[:, P_WGS]
     top3, nstart, iprank = [], [], []
@@ -126,6 +131,8 @@ def aggregate(ms: list) -> dict:
         v = np.array([m["leaderboards"][k] for m in ms], float)
         lb[k] = {"mean": float(v.mean()), "sd": float(v.std(ddof=1)) if len(v) > 1 else 0.0, "min": float(v.min()), "max": float(v.max())}
     out["leaderboards"] = lb
+    out["leaders"] = {k: {"mean": avg(["leaders", k]), "min": float(min(m["leaders"][k] for m in ms)), "max": float(max(m["leaders"][k] for m in ms))}
+                      for k in ms[0]["leaders"]}
     out["tier_matrix"] = {a: {b: avg(["tier_matrix", a, b]) for b in TIERS} for a in TIERS}
     out["usage"] = {k: (avg(["usage", k]) if k != "ip_top3" else [float(x) for x in avg(["usage", k])]) for k in ms[0]["usage"]}
     return out
@@ -214,7 +221,7 @@ def build_report(agg: dict, seeds: list, bench: dict | None = None) -> tuple[str
     tq = _t_quantile((1 + LEADERBOARD_PI) / 2, n - 1) if n > 1 else float("inf")
     for k, lab in (("pitchers_50ip", "Pitchers with 50+ IP"), ("pitchers_50ip_era_under_2", "50+ IP pitchers with ERA < 2.00"), ("pitchers_50ip_era_under_3", "50+ IP pitchers with ERA < 3.00"),
                    ("teams_era_under_4", "Teams with ERA < 4.00"), ("best_team_era", "Best team ERA"), ("team_ba_max", "Best team BA"),
-                   ("team_hr_per_game_max", "Most team HR per game"), ("individual_ba_top", "Top qualified BA"), ("individual_hr_top", "Most HR, individual")):
+                   ("team_hr_per_game_max", "Most team HR per game")):
         s, real = agg["leaderboards"][k], lbb[k]["value"]
         half = tq * s["sd"] * np.sqrt(1 + 1 / n)
         ok = None if real is None else bool(abs(real - s["mean"]) <= half)
@@ -225,6 +232,20 @@ def build_report(agg: dict, seeds: list, bench: dict | None = None) -> tuple[str
         gcol = "Phase 6" if deferred else ("yes" if real is not None else "")
         rows.append(("leaders", f"| {lab} | {s['mean']:.{nd}f} (season range {s['min']:.{nd}f}–{s['max']:.{nd}f}) | {'—' if real is None else real} | ±{half:.{nd}f} | {lbb[k]['conf']} | {gcol} | "
                                 f"{'pass' if ok else ('FAIL' if ok is False else 'n/a (no full-population source)')} |"))
+    il = b["individual_leaders_2023_2026"]
+    for k, lab, nd in (("hr_leader_56g", "HR leader (56-game equivalent)", 1), ("hr_30plus_56g", "Hitters with 30+ HR (56-game equivalent)", 2),
+                       ("ba_leader", "BA leader (qualified)", 3), ("hr_top5_per_game", "Top-5 HR hitters, HR per game", 3)):
+        s, real = agg["leaders"][k], il[k]
+        pad = k_se * se[f"leaders/{k}"]
+        ok = bool(real["lo"] - pad <= s["mean"] <= real["hi"] + pad)
+        st[f"lb_ind_{k}"] = ok
+        seasons = ", ".join(f"{y} {v:.{nd}f}" for y, v in real["by_season"].items())
+        rows.append(("individual", f"| {lab} | {s['mean']:.{nd}f} (season range {s['min']:.{nd}f}–{s['max']:.{nd}f}) | {real['lo']:.{nd}f}–{real['hi']:.{nd}f} ({seasons}) | "
+                                   f"±{pad:.{nd}f} | {il['conf']} | yes | {'pass' if ok else 'FAIL'} |"))
+    rec = il["hr_season_record"]["value"]
+    hr_max = agg["leaders"]["hr_max"]["max"]
+    st["lb_ind_hr_record_ceiling"] = bool(hr_max <= rec)
+    rows.append(("individual", f"| Most HR by any player, all {n} seasons (hard ceiling) | {hr_max:.0f} | ≤ {rec} (D1 record) | — | A | yes | {'pass' if hr_max <= rec else 'FAIL'} |"))
     gate_ok = all(v for v in st.values() if v is not None)
     hdr = "| Metric | Sim | Benchmark | Tol | Conf | Gate | Status |\n|---|---|---|---|---|---|---|"
     sec = lambda name: "\n".join(r for s, r in rows if s == name)
@@ -248,6 +269,11 @@ def build_report(agg: dict, seeds: list, bench: dict | None = None) -> tuple[str
            "## Qualified players (NCAA qualification; WMT full-season + Sidearm, tier-reweighted)", "",
            f"Qualified per team: batters sim {agg['qualified']['batters']['per_team']:.2f} vs data {qp['batters']['per_team']}; pitchers sim {agg['qualified']['pitchers']['per_team']:.2f} vs data {qp['pitchers']['per_team']}.", "",
            hdr, sec("qualified"), "", "## Leaderboards (full-population extremes)", "", hdr, sec("leaders"), "",
+           "## Individual leaders (NCAA.com national leaders 2024–2026, record book 2023)", "",
+           f"Counting stats at a {il['season_games']}-game equivalent (each real player's HR × {il['season_games']} / his games; real leaders' teams played 57–72 games, "
+           "the sim plays 56); rates as they are. A row passes if the simulated mean lies in the band from the lowest to the highest real season, widened by "
+           f"{k_se} SE of the simulated mean. Benchmark column: the band, then each season.", "",
+           "| Metric | Sim | Real band (seasons) | Sim SE pad | Conf | Gate | Status |\n|---|---|---|---|---|---|---|", sec("individual"), "",
            "## Diagnostics", "",
            f"- Earned share of runs {agg['league']['earned_share']:.4f} (data {b['usage_2025']['earned_run_share']}); pitchers per team-game {agg['usage']['pitchers_per_team_game']:.2f} (data {b['usage_2025']['pitchers_per_team_game']})",
            f"- Weekend starts by a team's top three starters {agg['usage']['weekend_top3_share']:.3f} (data {sum(b['usage_2025']['weekend_start_share_by_rank'][str(k)] for k in (1, 2, 3)):.3f}); weekend starters per team {agg['usage']['weekend_starters_per_team']:.2f} (data {b['usage_2025']['weekend_starters_per_team']})",

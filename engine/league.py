@@ -12,6 +12,11 @@ engine's quality directions, plus a style term that changes the rate mix but not
 g_o, g_d (config map_o, map_d) take the scoreboard's per-game log-run rating to engine
 units; one monotone map for every team, so tiers stay on one scale.
 
+e_player is drawn from the correlated normal (play-by-play correlations) and, through a
+Gaussian copula, given each rate's fitted true-talent shape (scripts/build_talent_shapes.py):
+the normal score of each component is mapped to the rate's standardized shape and rescaled by
+its method-of-moments SD, so variances and rank correlations are kept and only the shape changes.
+
 Tiers and conferences are only distributions of (o, d); nothing in a matchup knows a
 team's tier. L is the league outcome table, mu_group and e come from the play-by-play
 talent estimates, and c_rate is the location solved by scripts/solve_phase2_location.py
@@ -84,6 +89,25 @@ def _mvn(rng, sd: np.ndarray, corr: np.ndarray, n: int) -> np.ndarray:
     return rng.multivariate_normal(np.zeros(len(sd)), cov, size=n, method="eigh")
 
 
+def _shaped(e: np.ndarray, sd: np.ndarray, shapes: list) -> np.ndarray:
+    """Gaussian copula: each column of the correlated normal draw e (SDs sd) is a normal score
+    u = e / sd, mapped to the rate's fitted standardized shape (quantile table at normal scores,
+    linear beyond its ends) and scaled back by sd. Ranks, hence rank correlations, are unchanged;
+    a rate without a fitted shape stays Gaussian (identity)."""
+    out = e.copy()
+    for j, sh in enumerate(shapes):
+        if sh is None or sd[j] <= 0:
+            continue
+        x, y = sh
+        u = e[:, j] / sd[j]
+        v = np.interp(u, x, y)
+        lo, hi = u < x[0], u > x[-1]
+        v[lo] = y[0] + (u[lo] - x[0]) * (y[1] - y[0]) / (x[1] - x[0])
+        v[hi] = y[-1] + (u[hi] - x[-1]) * (y[-1] - y[-2]) / (x[-1] - x[-2])
+        out[:, j] = sd[j] * v
+    return out
+
+
 def build_league(cfg: Phase2Config, rng: np.random.Generator) -> League:
     tal = cfg.talent
     cb = np.array(cfg.correlation["batter"]["matrix"])
@@ -109,6 +133,8 @@ def build_league(cfg: Phase2Config, rng: np.random.Generator) -> League:
         conf_fx[i] = rng.multivariate_normal(np.zeros(2), cfg.team_draw[tiers[0]]["conf_cov"], method="eigh")
     conf_index = {conf: i for i, (conf, _) in enumerate(order)}
     scale = RatingScale()
+    shapes_bat = [cfg.talent_shape.get(f"bat_{r}") for r in RATES]
+    shapes_pit = [cfg.talent_shape.get(f"pit_{r}") for r in RATES[:5]]
     # stamina draws use their own stream so the Phase 2 talent draws are unchanged for a given seed
     rng_stamina = np.random.Generator(np.random.PCG64(rng.bit_generator.seed_seq.spawn(1)[0]))
     teams, players = [], []
@@ -133,12 +159,12 @@ def build_league(cfg: Phase2Config, rng: np.random.Generator) -> League:
             if side == "bat":
                 g = {r: tal["batter"][r]["groups"][group] for r in RATES}
                 mu = np.array([g[r]["mu_logit"] for r in RATES]); sd = np.array([g[r]["sd_ind_logit"] for r in RATES])
-                zs = mu + tb + _mvn(rng, sd, cb, n)
+                zs = mu + tb + _shaped(_mvn(rng, sd, cb, n), sd, shapes_bat)
             else:
                 g = {r: tal["pitcher"][r]["groups"][group] for r in RATES[:5]}
                 mu = np.array([g[r]["mu_logit"] for r in RATES[:5]]); sd = np.array([g[r]["sd_ind_logit"] for r in RATES[:5]])
                 # individual hit-type mix allowed is not modeled (attributed to the batter); team quality moves it
-                zs = np.hstack([mu + _mvn(rng, sd, cp, n), np.zeros((n, 1))]) + tp
+                zs = np.hstack([mu + _shaped(_mvn(rng, sd, cp, n), sd, shapes_pit), np.zeros((n, 1))]) + tp
             out = []
             # players are generated from ratings: the drawn true rates are expressed on the 20-80 scale and
             # the engine's rates are rebuilt from those ratings (plus unrated components)

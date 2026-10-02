@@ -2,7 +2,7 @@
 
 Reads data/ncaa_2025/derived/phase4_inputs_2025.json (scripts/build_phase4_inputs.py: the
 individual pitcher leash from the 2025 play-by-play) and phase4_rating_scale_2025.json
-(scripts/build_phase4_scale.py: the D1 mean and true SD of each rated rate). Writes
+(scripts/build_phase4_scale.py: the D1 percentile table of each rated rate). Writes
 stamina_2025 and ratings_scale_2025. No other block is changed; every write is recorded in
 data/ncaa_2025/derived/benchmark_changes_phase4.json.
 """
@@ -43,14 +43,24 @@ def main() -> None:
         **{role: {"n_pitchers": e["n_pitchers"], "log_mean": e["log_mean"], "log_sd": e["log_sd"], "mom_log_sd": e["mom_check"]["log_sd"]}
            for role, e in inp["stamina"].items()},
     })
+    def entry(side, rate, sign):
+        e = sc["scale"][side][rate]
+        q = dict(zip(e["quantiles"]["normal_scores"], e["quantiles"]["z"]))
+        # z at ratings 20, 30, ..., 80 (normal score sign * (rating - 50) / 10)
+        at = {str(r): q[round(sign * (r - 50) / 10, 4)] for r in range(20, 81, 10)}
+        return {"rate": rate, "sign": sign, "mean": e["mean"], "sd": e["sd"], "median": e["median"], "z_at_rating": at}
     setv("ratings_scale_2025", {
-        "_note": ("The 20-80 scale: rating = 50 + 10 sign (z - mean) / sd, z the player's true logit offset of the rate. mean and sd are the "
-                  "PA-weighted (batters) or BF-weighted (pitchers) mean and SD of true z across all D1 players, all tiers, as the Phase 2 "
-                  "talent distributions (player_talent_2025, team_talent_2025: sampling noise removed) generate them; usage weights from "
-                  f"simulated seasons (seeds {sc['seeds'][0]}-{sc['seeds'][1]}). A definition of the scale, not a target."),
+        "_note": ("The 20-80 scale: rating = 50 + 10 sign Phi^-1(F(z)), z the player's true logit offset of the rate and F its distribution "
+                  "across all D1 players, all tiers, weighted by PA (batters) or BF (pitchers), as the Phase 2 talent distributions "
+                  "(player_talent_2025 with the fitted true-talent shapes, team_talent_2025: sampling noise removed) generate them. 50 is the "
+                  "D1 median, 60/70/80 the 84.1st/97.7th/99.87th percentiles (for sign -1, of the reversed rate). z_at_rating: the true "
+                  "offset at each rating; between table points the map is linear (full table: data/ncaa_2025/derived/"
+                  f"phase4_rating_scale_2025.json). Usage weights from simulated seasons (seeds {sc['seeds']['usage'][0]}-{sc['seeds']['usage'][1]}), "
+                  f"distribution from generated leagues (seeds {sc['seeds']['leagues'][0]}-{sc['seeds']['leagues'][1]}). mean and sd are descriptive. "
+                  "A definition of the scale, not a target."),
         "conf": "B",
-        "batter": {name: {"rate": rate, "sign": sign, **sc["scale"]["bat"][rate]} for name, rate, sign in BATTER_RATINGS},
-        "pitcher": {name: {"rate": rate, "sign": sign, **sc["scale"]["pit"][rate]} for name, rate, sign in PITCHER_RATINGS},
+        "batter": {name: entry("bat", rate, sign) for name, rate, sign in BATTER_RATINGS},
+        "pitcher": {name: entry("pit", rate, sign) for name, rate, sign in PITCHER_RATINGS},
     })
     BENCH.write_text(dumps_compact(b) + "\n")
     if changes:

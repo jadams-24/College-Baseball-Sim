@@ -1,11 +1,12 @@
 """Phase 4 constants: the 20-80 ratings layer.
 
 Ratings are a display and generation layer over the true per-PA rates the engine already
-uses (Phase 2). Each rating maps to one true rate (logit offset z) by a linear, monotonic
-function:  rating = 50 + 10 * sign * (z - m) / s, where m and s are the PA-weighted
-(BF-weighted for pitchers) mean and SD of true z across all D1 players, so 50 is the D1
-average and 10 points is one true-talent SD everywhere. They are relative to all of D1,
-not to a player's tier. m and s come from scripts/build_phase4_scale.py.
+uses (Phase 2). Each rating maps to one true rate (logit offset z) by a monotonic function on
+percentiles of the D1 distribution: rating = 50 + 10 * sign * Phi^-1(F(z)), F the PA-weighted
+(BF-weighted for pitchers) distribution of true z across all D1 players, so 50 is the D1 median
+and each 10 points one standard-normal step in percentile (60, 70, 80 = 84.1st, 97.7th, 99.87th
+percentiles), the meaning of 50/60/70/80 under a Gaussian, kept whatever the fitted shapes. They
+are relative to all of D1, not to a player's tier. F comes from scripts/build_phase4_scale.py.
 Stamina is the pitcher's individual leash: a proportional-hazards multiplier theta on the
 pull hazard (h' = 1 - (1 - h)^theta), log theta ~ N(mu, sd^2) by role (starter, reliever),
 both fitted by empirical Bayes on the 2025 play-by-play (scripts/build_phase4_inputs.py).
@@ -28,7 +29,14 @@ RESERVED = {"bat": ("speed",)}
 # True components with no rating: batter HBP; pitcher HBP; pitcher BABIP and XBH allowed (team
 # defense, rated with fielding in Phase 6). They stay part of the player's true rates.
 CENTER = 50
-POINTS_PER_SD = 10
+POINTS_PER_SD = 10                         # 10 points per normal score: 60 = 84.1st, 70 = 97.7th, 80 = 99.87th D1 percentile
+# The percentile table of each rated rate (scripts/build_phase4_scale.py): z quantiles of the D1
+# distribution at normal scores -SCALE_MAX_SCORE..+SCALE_MAX_SCORE, step SCALE_SCORE_STEP, from
+# SCALE_LEAGUES generated leagues (about 4,300 batters and 4,000 pitchers each: at 200 leagues the
+# outermost table point, p = 1e-5 at score 4.25, still has about 8 batters beyond it).
+SCALE_LEAGUES = 200
+SCALE_MAX_SCORE = 4.25
+SCALE_SCORE_STEP = 0.05
 DISPLAY_MIN, DISPLAY_MAX = 20, 80          # displayed ratings are rounded and clipped; the true rating is not
 STAMINA_ROLE = {"sp_weekend": "starter", "sp_midweek": "starter", "rp": "reliever"}
 
