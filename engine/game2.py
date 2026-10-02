@@ -61,7 +61,7 @@ class GameState2:
     __slots__ = ("rng", "inning", "half", "outs", "bases", "score", "over", "run_rule_in_effect", "ended_by_run_rule",
                  "team_obj", "lineup", "slot", "pitcher", "outing", "used", "weekend", "inning_end",
                  "half_innings", "pa", "errors", "hits", "hr", "ab", "outs_pitched", "er_allowed",
-                 "week", "day", "phantom", "p_phantom")
+                 "week", "day", "phantom", "p_phantom", "date", "pitch_log", "in_game", "subs", "batted")
 
     def __init__(self, rng, home, away, weekend):
         self.rng = rng
@@ -83,7 +83,11 @@ class GameState2:
         self.ab = {"away": 0, "home": 0}
         self.outs_pitched = {"away": 0, "home": 0}
         self.er_allowed = {"away": 0, "home": 0}
-        self.week, self.day = 0, 0
+        self.week, self.day, self.date = 0, 0, 0
+        self.pitch_log = []   # (pitcher id, pitches) of every outing in this game
+        self.in_game = {"away": set(), "home": set()}   # batters who have played (starters and substitutes)
+        self.subs = {"away": 0, "home": 0}
+        self.batted = {"away": set(), "home": set()}     # batters with a plate appearance
         self.phantom = 0      # phantom outs this half-inning (errors that prevented an out)
         self.p_phantom = 0    # phantom outs since the current pitcher entered this half-inning
 
@@ -140,6 +144,9 @@ class PlayerGameEngine:
         cat = self.cache.get(key)
         if cat is None:
             zb, zp = (batter.z + self.home_bat, pitcher.z) if home_batting else (batter.z, pitcher.z - self.home_pit)
+            park = self.league.teams[(batter if home_batting else pitcher).team].park if hasattr(self.league, "teams") else None
+            if park is not None:
+                zb = zb + park          # the home team's park, for both teams' plate appearances
             p = matchup_probs(self.cfg, zb, zp, self.league.location)
             cat = Categorical(list(OUTCOMES), [p[o] for o in OUTCOMES])
             self.cache[key] = cat
@@ -176,7 +183,7 @@ class PlayerGameEngine:
             if res == "FC":
                 earlier = [r for r in retired if r[0] != cur]
                 if earlier:
-                    batter_runner = (earlier[0][0], batter_runner[1])
+                    batter_runner = (earlier[0][0],) + tuple(batter_runner[1:])
             if batter_to in ("", "0"):
                 outs += 1
             elif batter_to == "4":
@@ -195,7 +202,7 @@ class PlayerGameEngine:
         st.outs_pitched[fld_side] += outs
         self.pstats[cur][P_OUTS] += outs
         st.errors[fld_side] += errors
-        for pid, unearned in scored:
+        for pid, unearned, *_ in scored:
             self.pstats[pid][P_R] += 1
             recon = recon_cur if pid == cur else recon_team
             if not (unearned or errors or event == "PB" or recon >= 3):
@@ -227,6 +234,8 @@ class PlayerGameEngine:
 
     def _end_outing(self, st, side):
         o = st.outing.get(side)
+        if o is not None:
+            st.pitch_log.append((st.pitcher[side].pid, o["pitches"]))
         if o is not None and o["starter"]:
             self.starts.append((o["pitches"], o["pa_outs"], bool(st.weekend)))
 
@@ -249,6 +258,8 @@ class PlayerGameEngine:
         st.phantom = st.p_phantom = 0
         bat, fld = st.batting_side, st.fielding_side
         runs0, pa0 = st.score[bat], st.pa[bat]
+        for slot, player in dec.defensive_subs(st, fld):
+            self._sub(st, fld, player, slot)
         while st.outs < 3 and not st.over:
             if any(b is not None for b in st.bases):
                 steal = dec.steal_attempt(st)
@@ -263,6 +274,7 @@ class PlayerGameEngine:
                             self._end_check(st, True)
                         if st.outs >= 3 or st.over:
                             break
+            self._sub(st, bat, dec.pinch_hit(st, bat, st.slot[bat] % 9), st.slot[bat] % 9)
             batter = st.lineup[bat][st.slot[bat] % 9]
             st.slot[bat] += 1
             pitcher = st.pitcher[fld]
@@ -274,7 +286,10 @@ class PlayerGameEngine:
             dests, b_to, err = self.advance.draw(res, st.outs, st.base_code, rng.random(), [rng.random() for _ in range(4)])
             self._record(st, batter, pitcher, res, rng)
             outs0 = st.outs
-            scored = self._apply(st, dests, (pitcher.pid, res == "ROE"), b_to, err, res=res)
+            slot = (st.slot[bat] - 1) % 9
+            scored = self._apply(st, dests, (pitcher.pid, res == "ROE", slot), b_to, err, res=res)
+            if b_to in ("1", "2", "3") and not st.over:
+                self._sub(st, bat, dec.pinch_runner(st, bat, slot), slot)
             st.outing[fld]["runs"] += scored
             st.outing[fld]["pa_outs"] += st.outs - outs0
             if scored and st.half == "B":
@@ -287,6 +302,17 @@ class PlayerGameEngine:
                 if nxt is not None:
                     self._bring_in(st, fld, nxt, False)
         st.half_innings.append((st.inning, st.half, st.score[bat] - runs0, st.pa[bat] - pa0))
+
+    def _sub(self, st, side, player, slot):
+        """A substitute takes lineup slot `slot` for the rest of the game (pinch hitter, pinch runner,
+        defensive or blowout substitution); the player he replaces cannot return."""
+        if player is None:
+            return
+        st.lineup[side] = list(st.lineup[side])
+        st.lineup[side][slot] = player
+        st.in_game[side].add(player.pid)
+        self.bstats[player.pid][B_G] += 1
+        st.subs[side] += 1
 
     def _subtype(self, st, rng, bunt):
         cls = self.subtypes.feasibility_class(st.outs, [b is not None for b in st.bases])
@@ -344,6 +370,7 @@ class PlayerGameEngine:
         bs, ps = self.bstats[batter.pid], self.pstats[pitcher.pid]
         bat = st.batting_side
         bs[B_PA] += 1; ps[P_BF] += 1; st.pa[bat] += 1
+        st.batted[bat].add(batter.pid)
         ci = _CELL_IDX.get(res, _OUT)
         btid, ptid, h = st.team_obj[bat].tid, st.team_obj[st.fielding_side].tid, int(bat == "home")
         self.team_cell[btid, ptid, h, ci] += 1
@@ -390,15 +417,16 @@ class PlayerGameEngine:
                 elif res == "HR":
                     bs[B_HR] += 1; ps[P_HR] += 1; st.hr[bat] += 1
 
-    def play(self, rng, home, away, weekend, dec, week=0, day=0) -> GameState2:
+    def play(self, rng, home, away, weekend, dec, week=0, day=0, date=0) -> GameState2:
         st = GameState2(rng, home, away, weekend)
         self.q_cache.clear()          # chains are rebuilt per game (memory); the tilts stay cached
         st.run_rule_in_effect = rng.random() < self.rules.p_run_rule_in_effect
-        st.week, st.day = week, day
+        st.week, st.day, st.date = week, day, date
         for side in ("away", "home"):
             st.lineup[side] = dec.lineup(st, side)
             for p in st.lineup[side]:
                 self.bstats[p.pid][B_G] += 1
+                st.in_game[side].add(p.pid)
             self._bring_in(st, side, dec.starting_pitcher(st, side), True)
         while not st.over:
             st.half = "T"
@@ -417,4 +445,6 @@ class PlayerGameEngine:
                 st.inning += 1
         for side in ("away", "home"):
             self._end_outing(st, side)
+        if hasattr(dec, "record_game"):
+            dec.record_game(st)
         return st

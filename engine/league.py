@@ -17,6 +17,10 @@ Gaussian copula, given each rate's fitted true-talent shape (scripts/build_talen
 the normal score of each component is mapped to the rate's standardized shape and rescaled by
 its method-of-moments SD, so variances and rank correlations are kept and only the shape changes.
 
+Phase 6: each team has a home park, a vector of logit offsets on the six rates drawn from the
+park covariance and tier means of scripts/build_phase6_parks.py; every plate appearance in the
+park carries it, for both teams.
+
 Tiers and conferences are only distributions of (o, d); nothing in a matchup knows a
 team's tier. L is the league outcome table, mu_group and e come from the play-by-play
 talent estimates, and c_rate is the location solved by scripts/solve_phase2_location.py
@@ -70,6 +74,7 @@ class Team:
     tier: str
     o: float = 0.0     # true offense, log runs above an average team (team level, before players)
     d: float = 0.0     # true run prevention, log runs
+    park: np.ndarray = None   # Phase 6: logit offsets (RATES order) on every plate appearance in this team's home park
     batters: list = field(default_factory=list)
     weekend_sp: list = field(default_factory=list)
     midweek_sp: list = field(default_factory=list)
@@ -137,6 +142,14 @@ def build_league(cfg: Phase2Config, rng: np.random.Generator) -> League:
     shapes_pit = [cfg.talent_shape.get(f"pit_{r}") for r in RATES[:5]]
     # stamina draws use their own stream so the Phase 2 talent draws are unchanged for a given seed
     rng_stamina = np.random.Generator(np.random.PCG64(rng.bit_generator.seed_seq.spawn(1)[0]))
+    # Phase 6 parks: own stream too, and drawn for every team whether parks are on or not, so
+    # switching them does not move any other draw
+    rng_park = np.random.Generator(np.random.PCG64(rng.bit_generator.seed_seq.spawn(1)[0]))
+    from config import phase6
+    pk6 = phase6.load().get("parks6") if phase6.on("parks") else None
+    if pk6:
+        vals, vecs = np.linalg.eigh(np.array(pk6["cov"]))
+        park_cov = vecs @ np.diag(np.clip(vals, 0, None)) @ vecs.T     # positive semi-definite after rounding
     teams, players = [], []
     team_names = set()
     for tid, (_, conf, tier) in enumerate(cfg.teams):
@@ -145,6 +158,10 @@ def build_league(cfg: Phase2Config, rng: np.random.Generator) -> League:
             if nm not in team_names:
                 team_names.add(nm); break
         t = Team(tid, nm, conf_index[conf], tier)
+        if pk6:
+            t.park = np.array(pk6["tier_mean"][tier]) + rng_park.multivariate_normal(np.zeros(len(RATES)), park_cov, method="eigh")
+        else:
+            t.park = np.zeros(len(RATES))
         confs[t.conference][1].append(tid)
         td = cfg.team_draw[tier]
         # an independent has no conference: it draws its own effect from its tier's conference distribution

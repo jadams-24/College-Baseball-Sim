@@ -1,7 +1,9 @@
 """Team strength on one talent scale, from every 2025 D1-vs-D1 final in the scoreboard.
 
 Model (quasi-Poisson, log link), one row per team-game:
-  log E[runs of i against j] = a + o_i - d_j + h * (+1/2 if i bats at home, -1/2 away)
+  log E[runs of i against j] = a + o_i - d_j + h * (+1/2 if i bats at home, -1/2 away) + p_k
+p_k is the park effect of the listed home team's park (Phase 6; both teams' runs in the park), so
+o and d are net of each team's home park.
 o_i is offense and d_i run prevention, both in log runs relative to an average D1 team
 (centred over teams); h is the matchup-controlled home effect (home runs over away
 runs between equal teams). The scoreboard has no neutral-site flag, so h is the effect
@@ -54,15 +56,19 @@ def load():
     return sb, names, tier, conf
 
 
-def fit(sb: pd.DataFrame, names: list) -> dict:
+def fit(sb: pd.DataFrame, names: list, parks: bool = True) -> dict:
+    """parks: also fit a park term for the listed home team's park (Phase 6), so o and d are net of
+    each team's home park; the park estimates are centred like o and d."""
     n, G = len(names), len(sb)
     ix = {t: k for k, t in enumerate(names)}
     hi = sb.home.map(ix).values; ai = sb.away.map(ix).values
-    X = np.zeros((2 * G, 2 + 2 * n)); y = np.empty(2 * G)
+    X = np.zeros((2 * G, 2 + (3 if parks else 2) * n)); y = np.empty(2 * G)
     r = np.arange(G)
     for rows, bat, pit, sgn, score in ((2 * r, hi, ai, 0.5, sb.home_score), (2 * r + 1, ai, hi, -0.5, sb.away_score)):
         X[rows, 0] = 1; X[rows, 1] = sgn
         X[rows, 2 + bat] = 1; X[rows, 2 + n + pit] = -1
+        if parks:
+            X[rows, 2 + 2 * n + hi] = 1
         y[rows] = score.values.astype(float)
     beta = np.zeros(X.shape[1]); beta[0] = np.log(y.mean())
     for _ in range(25):
@@ -80,10 +86,12 @@ def fit(sb: pd.DataFrame, names: list) -> dict:
     V = phi * np.linalg.pinv(A)
     # centre o and d over teams (estimable contrasts); transform the covariance
     C = np.eye(X.shape[1])
-    for blk in (slice(2, 2 + n), slice(2 + n, 2 + 2 * n)):
+    for blk in (slice(2, 2 + n), slice(2 + n, 2 + 2 * n)) + ((slice(2 + 2 * n, 2 + 3 * n),) if parks else ()):
         C[blk, blk] -= 1.0 / n
     b = C @ beta; Vc = C @ V @ C.T
-    o, d = b[2:2 + n], b[2 + n:]
+    o, d = b[2:2 + n], b[2 + n:2 + 2 * n]
+    park = b[2 + 2 * n:] if parks else np.zeros(n)
+    park_noise = np.diag(Vc)[2 + 2 * n:] if parks else np.zeros(n)
     noise = np.array([[[Vc[2 + i, 2 + i], Vc[2 + i, 2 + n + i]], [Vc[2 + n + i, 2 + i], Vc[2 + n + i, 2 + n + i]]] for i in range(n)])
     a_league = float(beta[0] + beta[2:2 + n].mean() - beta[2 + n:].mean())
     # correlation of the two teams' Pearson residuals within a game: variation shared by both
@@ -91,7 +99,24 @@ def fit(sb: pd.DataFrame, names: list) -> dict:
     r_ = (y - mu) / np.sqrt(mu)
     rcorr = float(np.corrcoef(r_[0::2], r_[1::2])[0, 1])
     return {"o": o, "d": d, "noise": noise, "h": float(beta[1]), "h_se": float(np.sqrt(V[1, 1])), "phi": phi, "a": a_league,
-            "n_games": G, "Vc": Vc, "n": n, "residual_corr": rcorr}
+            "n_games": G, "Vc": Vc, "n": n, "residual_corr": rcorr, "park": park, "park_noise": park_noise}
+
+
+def parks_mom(names, tier, f) -> dict:
+    """Park effects (log runs per game) by tier: mean and true SD, estimation noise removed."""
+    out = {}
+    p, v = f["park"], f["park_noise"]
+    t = np.array([tier[x] for x in names])
+    for tr in TIERS:
+        k = t == tr
+        out[tr] = {"n": int(k.sum()), "mean": round(float(p[k].mean()), 4),
+                   "sd": round(float(np.sqrt(max(p[k].var(ddof=1) - v[k].mean(), 0.0))), 4),
+                   "raw_sd": round(float(p[k].std(ddof=1)), 4), "noise_sd": round(float(np.sqrt(v[k].mean())), 4)}
+    within = np.concatenate([p[t == tr] - p[t == tr].mean() for tr in TIERS])
+    sd_pooled = float(np.sqrt(max(within.var(ddof=len(TIERS)) * len(within) / (len(within) - len(TIERS) + len(TIERS)) - v.mean(), 0.0)))
+    return {"_note": "Park effect of the listed home team's park, log runs per game, from the scoreboard fit with a park term; "
+                     "tier means relative to the D1 average park, SDs within tier with estimation noise removed (method of moments).",
+            "tiers": out, "sd_pooled": round(sd_pooled, 4)}
 
 
 def components(names, tier, conf, f) -> dict:
@@ -103,7 +128,7 @@ def components(names, tier, conf, f) -> dict:
         idx = np.where(df.tier == t)[0]
         m = x[idx].mean(0)
         a = np.zeros(len(names)); a[idx] = 1 / len(idx)
-        se_o = float(np.sqrt(a @ f["Vc"][2:2 + f["n"], 2:2 + f["n"]] @ a)); se_d = float(np.sqrt(a @ f["Vc"][2 + f["n"]:, 2 + f["n"]:] @ a))
+        se_o = float(np.sqrt(a @ f["Vc"][2:2 + f["n"], 2:2 + f["n"]] @ a)); se_d = float(np.sqrt(a @ f["Vc"][2 + f["n"]:2 + 2 * f["n"], 2 + f["n"]:2 + 2 * f["n"]] @ a))
         sub = df.iloc[idx]
         confs = [c for c in sub.conf.unique() if c != IND]
         Sw, dfw, Nw, cm, nk = np.zeros((2, 2)), 0, [], [], []
@@ -216,6 +241,7 @@ def gate_targets(sb, tier) -> dict:
 
 def main() -> None:
     sb, names, tier, conf = load()
+    f0 = fit(sb, names, parks=False)     # the Phase 2 fit, kept for the within-game residual correlation without parks
     f = fit(sb, names)
     comp = components(names, tier, conf, f)
     host = hosting(sb, names, tier, conf, f)
@@ -224,7 +250,10 @@ def main() -> None:
         "_note": ("Team strength on the log-runs scale (quasi-Poisson fit of runs on team offense o, run prevention d and the home slot; "
                   "(o, d) = tier mean + conference effect + team effect, noise removed by method of moments). " + SRC + "."),
         "src": SRC, "n_games": f["n_games"], "n_teams": len(names), "dispersion": round(f["phi"], 4),
-        "residual_corr_within_game": round(f["residual_corr"], 4),
+        "residual_corr_within_game": round(f0["residual_corr"], 4),
+        "residual_corr_within_game_with_parks": round(f["residual_corr"], 4),
+        "dispersion_without_parks": round(f0["phi"], 4),
+        "parks": parks_mom(names, tier, f),
         "log_runs_league": round(f["a"], 4), "home_log_ratio": round(f["h"], 4), "home_log_ratio_se": round(f["h_se"], 4),
         **comp, "hosting": host,
     }

@@ -43,6 +43,18 @@ class Decider(ABC):
         """Return the reliever who replaces the current pitcher; None means no players."""
         return None
 
+    def pinch_hit(self, state, team: str, slot: int):
+        """Return a bench player to bat for lineup slot `slot` now, or None (no change)."""
+        return None
+
+    def pinch_runner(self, state, team: str, slot: int):
+        """Return a bench player to run for the batter of slot `slot` who just reached base, or None."""
+        return None
+
+    def defensive_subs(self, state, team: str) -> list:
+        """At the start of a half-inning in the field: [(slot, bench player), ...] to substitute."""
+        return []
+
 
 class LeagueAverageDecider(Decider):
     """Phase 1 manager: everything at league rates, no substitutions, no players."""
