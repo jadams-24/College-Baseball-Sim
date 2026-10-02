@@ -102,7 +102,7 @@ uncertainty. Values derived from this sample are conf B in `benchmarks.json`.
 
 ## data/ncaa_2025/rosters/ — 2025 rosters with bats/throws (to be supplied)
 
-- Produced by `tools/fetch_rosters.py`, run by the project owner on their own machine (school athletics sites refuse this container). One CSV: team_ncaa_id, team, name, jersey, position, class, bats, throws, source_url (see `tools/README.md`). Scope: the 283 teams in the WMT play-by-play sample (`tools/roster_teams.csv`). Phase 3 (handedness) starts once it is committed here.
+- Produced by `tools/fetch_rosters.py`, run by the GitHub Actions workflow `fetch rosters` (`.github/workflows/fetch_rosters.yml`, started by hand from the Actions tab), which commits this folder to a new branch and opens a pull request; the fetch date is in the commit message and the run summary. One CSV: team_ncaa_id, team, name, jersey, position, class, bats, throws, source_url (see `tools/README.md`). Scope: the 283 teams in the WMT play-by-play sample (`tools/roster_teams.csv`). Phase 3 (handedness) starts once it is committed here.
 
 ## data/ncaa_2025/sidearm/ — 13 Sidearm season pages (cross-check)
 

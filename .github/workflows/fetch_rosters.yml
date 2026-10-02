@@ -1,0 +1,84 @@
+name: fetch rosters
+
+# Manual run only: Actions tab -> "fetch rosters" -> "Run workflow".
+# Fetches the 2025 baseball rosters (bats/throws, hometown, high school, previous school) for the
+# teams in tools/roster_teams.csv with tools/fetch_rosters.py: robots.txt obeyed, at least 3 s
+# between requests to a site, one request at a time. Sites behind bot protection are logged and
+# skipped, never worked around. The result goes to a new branch with a pull request.
+
+on:
+  workflow_dispatch:
+    inputs:
+      delay:
+        description: "Seconds between requests to one site (minimum 3)"
+        default: "3"
+        required: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    env:
+      DELAY: ${{ inputs.delay }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install requests
+        run: pip install "$(grep '^requests==' requirements.txt)"
+
+      - name: Parser self-test
+        run: python tools/fetch_rosters.py --selftest
+
+      - name: Probe 5 roster pages (Sidearm, WMT, Presto)
+        run: |
+          python tools/fetch_rosters.py --probe 5 --delay "$DELAY"
+          cat data/ncaa_2025/rosters/probe.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Fetch all rosters
+        # Stops itself 10 minutes before the job limit so the partial result is still committed;
+        # the fetcher saves progress after every team and a later run resumes from it.
+        continue-on-error: true
+        run: |
+          timeout --signal=INT 165m python tools/fetch_rosters.py --delay "$DELAY"
+
+      - name: Summarize
+        if: always()
+        run: |
+          python - <<'EOF' >> "$GITHUB_STEP_SUMMARY"
+          import csv, json, pathlib
+          d = pathlib.Path("data/ncaa_2025/rosters")
+          st = json.loads((d / "state.json").read_text()) if (d / "state.json").exists() else {"done": {}, "failed": {}}
+          n = sum(1 for _ in csv.DictReader(open(d / "rosters_2025.csv"))) if (d / "rosters_2025.csv").exists() else 0
+          print(f"\n## Fetch\n\n{len(st['done'])} teams parsed ({n} players), {len(st['failed'])} failed.\n")
+          blocked = {k: v for k, v in st["failed"].items() if "bot challenge" in v["reason"] or "HTTP 403" in v["reason"]}
+          print(f"Blocked by bot protection or HTTP 403: {len(blocked)} teams (logged in failures.csv, skipped).")
+          EOF
+
+      - name: Commit to a new branch and open a pull request
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          d=data/ncaa_2025/rosters
+          if [ ! -d "$d" ]; then echo "nothing fetched"; exit 1; fi
+          branch="rosters/fetch-$(date -u +%Y-%m-%d)-${{ github.run_id }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$branch"
+          git add "$d"
+          git commit -m "Rosters 2025: fetched $(date -u +%Y-%m-%d) by the fetch rosters workflow (run ${{ github.run_id }})"
+          git push -u origin "$branch"
+          body="Fetched $(date -u +%Y-%m-%d) by [workflow run ${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) with \`tools/fetch_rosters.py\` (robots.txt obeyed, delay $DELAY s). Probe, counts and blocked sites: see the run summary, \`$d/probe.md\` and \`$d/failures.csv\`."
+          if ! gh pr create --base main --head "$branch" --title "Rosters 2025 (bats/throws, origins): fetch of $(date -u +%Y-%m-%d)" --body "$body"; then
+            echo "Could not open the pull request (Settings -> Actions -> General -> 'Allow GitHub Actions to create and approve pull requests' may be off). The branch is pushed: ${{ github.server_url }}/${{ github.repository }}/compare/main...$branch" | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi
