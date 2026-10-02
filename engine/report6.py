@@ -75,6 +75,14 @@ def season_extract6(res: dict) -> dict:
     qual = [x.pid for x in lg.players if x.side == "pit" and p[x.pid, P_OUTS] >= 3 * team_g[x.team]]
     era = np.sort([9 * p[i, P_ER] / ipp[i] for i in qual])
     out.update({"k_leader": float(p[:, P_K].max()), "era_rank2": float(era[1]), "era_rank5": float(era[4]), "era_rank1": float(era[0])})
+    # reliever workloads, national (the leaders audit's watch item; raw 56-game counts)
+    pit = np.array([x.pid for x in lg.players if x.side == "pit"])
+    gp, gs, ip = p[pit, P_G], p[pit, P_GS], p[pit, P_OUTS] / 3
+    by_app = np.argsort(-gp, kind="stable")
+    rel = gs <= 3
+    out.update({"app_max_national": float(gp[by_app[0]]), "app_50th_national": float(gp[by_app[49]]),
+                "top50_app_with_60ip": float((ip[by_app[:50]] >= 60).sum()), "relief_ip_max": float(ip[rel].max()),
+                "relievers_60ip": float((rel & (ip >= 60)).sum()), "ip_leader_is_reliever": float(rel[np.argmax(ip)])})
     return out
 
 
@@ -175,6 +183,11 @@ def build_report6(agg: dict, agg2: dict, agg5: dict, seeds: list, st2: dict, st4
           f"- Strikeout leader {m['k_leader']:.1f} (seasons {agg['min']['k_leader']:.0f}–{agg['max']['k_leader']:.0f}); real 2024-2026 leaders 191 / 180 / 169 "
           "in 57-72 team games.",
           f"- Qualified ERA: leader {m['era_rank1']:.2f}, #2 {m['era_rank2']:.2f}, #5 {m['era_rank5']:.2f} (real 2024-2026 #2 2.01 / 1.97 / 1.98, #5 2.16 / 2.11 / 2.07).",
+          f"- Reliever workloads (raw 56-game seasons; real 2024 / 2025 / 2026 national leaders in up to 72 games): most appearances "
+          f"{m['app_max_national']:.1f} (real 38 / 37 / 39); 50th-most-used pitcher {m['app_50th_national']:.1f} (29 / 28 / 28); of the top 50 by "
+          f"appearances {m['top50_app_with_60ip']:.1f} have 60+ IP (6 / 5 / 12); most IP with 3 or fewer starts {m['relief_ip_max']:.1f} "
+          f"(the top-50 appearance leaders' maximum: 102.2 / 74.0 / 92.0); relievers with 60+ IP {m['relievers_60ip']:.1f}; the IP leader is a reliever "
+          f"in {m['ip_leader_is_reliever'] * n:.0f} of {n} seasons.",
           f"- Elite run prevention (Phase 2 rows): best team ERA {lbs['best_team_era']['mean']:.2f} (real 3.20), 50+ IP pitchers with ERA < 2.00 "
           f"{lbs['pitchers_50ip_era_under_2']['mean']:.1f} (5), < 3.00 {lbs['pitchers_50ip_era_under_3']['mean']:.1f} (57), teams with ERA < 4.00 "
           f"{lbs['teams_era_under_4']['mean']:.1f} (12).", ""]
