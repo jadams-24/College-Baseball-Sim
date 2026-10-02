@@ -234,7 +234,8 @@ class Manager(LeagueAverageDecider):
             h = -np.expm1(np.exp(ctx) * np.log1p(-min(h, 1 - 1e-9)))
         pit = state.pitcher[state.fielding_side]
         lt = pit.log_theta
-        if o["starter"] and not state.weekend and self.mid_spread:
+        midweek_start = bool(o["starter"] and not state.weekend and self.mid_spread)
+        if midweek_start:
             # midweek starts: the leash spread around the context is narrower than the Stamina scale's
             # (2025 Mon-Wed starts, pull6 sp_midweek leash_spread), so the pitcher's deviation shrinks
             g = self.stamina["reliever" if pit.group == "rp" else "starter"]
@@ -242,12 +243,15 @@ class Manager(LeagueAverageDecider):
         theta = np.exp(lt)
         hp = -np.expm1(theta * np.log1p(-min(h, 1 - 1e-9)))
         pulled = state.rng.random() < hp
-        self.leash_expected[pid] = self.leash_expected.get(pid, 0) + hp
-        self.leash_var[pid] = self.leash_var.get(pid, 0) + hp * (1 - hp)
-        if pulled:
-            self.leash_pulls.setdefault(pid, []).append(h)
-        else:
-            self.leash_survive[pid] = self.leash_survive.get(pid, 0) + np.log1p(-min(h, 1 - 1e-9))
+        if not midweek_start:
+            # the Phase 4 round trip reads the leash where the Stamina rating applies in full (midweek starts,
+            # where it is shrunk to the midweek spread, stay out of it)
+            self.leash_expected[pid] = self.leash_expected.get(pid, 0) + hp
+            self.leash_var[pid] = self.leash_var.get(pid, 0) + hp * (1 - hp)
+            if pulled:
+                self.leash_pulls.setdefault(pid, []).append(h)
+            else:
+                self.leash_survive[pid] = self.leash_survive.get(pid, 0) + np.log1p(-min(h, 1 - 1e-9))
         return Decision.YES if pulled else Decision.NO
 
     # ---- Phase 6: substitutions --------------------------------------------------------------
