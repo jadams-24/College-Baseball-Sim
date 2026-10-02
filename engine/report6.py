@@ -168,8 +168,8 @@ def build_report6(agg: dict, agg2: dict, agg5: dict, seeds: list, st2: dict, st4
           "## Rows deferred from Phases 2 and 5", "", hdr, sec("deferred"), "",
           "## Diagnostics (CLAUDE.md watch items)", "",
           f"- Runs around the team-strength fit (scoreboard model without parks, as in team_talent_2025): within-game residual correlation "
-          f"{m['resid_corr']:.4f} (real {tt['residual_corr_within_game']}), dispersion {m['dispersion']:.3f} (real {tt['dispersion']}); "
-          f"with the park term: {m['resid_corr_parks']:.4f} (real {tt.get('residual_corr_within_game_with_parks', '—')}), {m['dispersion_parks']:.3f}.",
+          f"{m['resid_corr']:.4f} (real {tt['residual_corr_within_game']}), dispersion {m['dispersion']:.3f} (real {tt.get('dispersion_without_parks', '—')}); "
+          f"with the park term: {m['resid_corr_parks']:.4f} (real {tt.get('residual_corr_within_game_with_parks', '—')}), {m['dispersion_parks']:.3f} (real {tt['dispersion']}).",
           f"- Strikeout leader {m['k_leader']:.1f} (seasons {agg['min']['k_leader']:.0f}–{agg['max']['k_leader']:.0f}); real 2024-2026 leaders 191 / 180 / 169 "
           "in 57-72 team games.",
           f"- Qualified ERA: leader {m['era_rank1']:.2f}, #2 {m['era_rank2']:.2f}, #5 {m['era_rank5']:.2f} (real 2024-2026 #2 2.01 / 1.97 / 1.98, #5 2.16 / 2.11 / 2.07).",

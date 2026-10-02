@@ -95,8 +95,11 @@ doubleheader number), `subs_2025.csv.gz` (every substitution action), `fielding_
 
 `phase6_inputs_2025.json`, blocks written by `scripts/build_phase6_usage.py` (weekly calendar,
 relief and midweek-start choice logits, usage benchmarks), `build_phase6_pull.py` (pull multipliers
-by tier and season week), `build_phase6_subs.py` (substitution hazards), `build_phase6_parks.py`
-(park covariance and tier means) and `build_phase6_fielding.py` (errors, arms, speed). The park
+by tier and season week, on the engine's split: Thu-Sun series games, Mon-Wed midweek),
+`build_phase6_subs.py` (substitution hazards; who comes in, by start rank; start shares and start
+persistence by rank; roster depth), `build_phase6_parks.py` (park covariance and tier means) and
+`build_phase6_fielding.py` (errors, arms, speed, steal attempt and success by offense x defense tier
+cell). The usage block also carries the 56-game conversion of the 50+ IP count. The park
 magnitude comes from the scoreboard fit with a park term (`scripts/build_phase2_teams.py`, the
 `parks` entry of `team_talent` in `phase2_inputs_2025.json`).
 
