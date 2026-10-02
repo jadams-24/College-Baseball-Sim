@@ -3,9 +3,9 @@
 20 simulated seasons, seeds 20251000–20251019, players generated from ratings. Generated 2026-10-02.
 Ratings re-express the true rates the engine uses, on percentiles of each rate's D1 distribution (PA- or BF-weighted, all of D1 on one scale): 50 is the D1 median, 60/70/80 the 84.1st/97.7th/99.87th percentiles; for a Gaussian rate this is 10 points per true-talent SD. Batters: Contact (BABIP), Gap (extra-base share of hits), Power (HR/PA), Eye (BB/PA), Avoid K (K/PA). Pitchers: Stuff (K/BF), Control (BB/BF), Movement (HR/BF), Stamina (individual leash on the pull hazard). Speed is reserved for Phase 6: the engine has no speed-linked rate yet.
 
-## Gate: **PASS**
+## Gate: **FAIL**
 
-Phase 1 and Phase 2 gate rows on the same run: **pass** (reports/phase2.md).
+Phase 1 and Phase 2 gate rows on the same run: **FAIL** (reports/phase2.md).
 
 ## Round trip, forward: true rates → 20 seasons → observed rates
 
@@ -13,15 +13,15 @@ For each rated rate, every qualifying player-season's opponent-adjusted observed
 
 | Rating | Rate | Player-seasons per season | Intercept (logit) | Intercept (rating pts) | Status | Slope | Status | Dispersion | Status |
 |---|---|---|---|---|---|---|---|---|---|
-| contact | BABIP | 2315 | +0.0004 ± 0.0031 | +0.03 | pass | 1.007 ± 0.026 | pass | 1.002 ± 0.022 | pass |
-| gap | XBH share of hits | 2156 | +0.0007 ± 0.0082 | +0.03 | pass | 0.999 ± 0.007 | pass | 1.003 ± 0.027 | pass |
-| power | HR/PA | 2450 | -0.0010 ± 0.0075 | -0.01 | pass | 1.004 ± 0.014 | pass | 1.008 ± 0.032 | pass |
-| eye | BB/PA | 2450 | +0.0010 ± 0.0041 | +0.03 | pass | 1.002 ± 0.016 | pass | 1.001 ± 0.027 | pass |
-| avoid_k | K/PA | 2450 | -0.0000 ± 0.0023 | -0.00 | pass | 1.000 ± 0.008 | pass | 1.000 ± 0.032 | pass |
-| stuff | K/BF | 2258 | -0.0002 ± 0.0041 | -0.01 | pass | 1.001 ± 0.008 | pass | 0.992 ± 0.015 | pass |
-| control | BB/BF | 2258 | +0.0020 ± 0.0045 | +0.05 | pass | 1.002 ± 0.011 | pass | 1.012 ± 0.022 | pass |
-| movement | HR/BF | 2258 | -0.0062 ± 0.0072 | -0.20 | pass | 0.993 ± 0.020 | pass | 0.995 ± 0.034 | pass |
-| stamina | pull hazard (log leash) | 3878 | +0.0001 ± 0.0026 | — | pass | 1.001 ± 0.009 | pass | 0.994 ± 0.033 | pass |
+| contact | BABIP | 2229 | +0.0015 ± 0.0034 | +0.12 | pass | 0.982 ± 0.032 | pass | 1.002 ± 0.026 | pass |
+| gap | XBH share of hits | 2090 | +0.0014 ± 0.0066 | +0.06 | pass | 0.999 ± 0.022 | pass | 1.010 ± 0.030 | pass |
+| power | HR/PA | 2364 | -0.0004 ± 0.0058 | -0.01 | pass | 0.998 ± 0.017 | pass | 0.999 ± 0.025 | pass |
+| eye | BB/PA | 2364 | +0.0010 ± 0.0037 | +0.03 | pass | 1.002 ± 0.016 | pass | 1.006 ± 0.031 | pass |
+| avoid_k | K/PA | 2364 | +0.0011 ± 0.0043 | +0.03 | pass | 0.999 ± 0.008 | pass | 0.997 ± 0.028 | pass |
+| stuff | K/BF | 1812 | +0.0006 ± 0.0043 | +0.01 | pass | 1.002 ± 0.007 | pass | 0.993 ± 0.038 | pass |
+| control | BB/BF | 1812 | -0.0006 ± 0.0064 | -0.02 | pass | 1.002 ± 0.015 | pass | 0.995 ± 0.028 | pass |
+| movement | HR/BF | 1812 | -0.0023 ± 0.0071 | -0.07 | pass | 0.992 ± 0.025 | pass | 1.004 ± 0.032 | pass |
+| stamina | pull hazard (log leash) | 4171 | -0.0017 ± 0.0029 | — | pass | 1.002 ± 0.006 | pass | 0.994 ± 0.017 | pass |
 
 ### By workload tercile (informational)
 
@@ -29,28 +29,28 @@ Qualifying player-seasons split into thirds by workload. Each cell: intercept (l
 
 | Rating | Workload | Light | Middle | Heavy |
 |---|---|---|---|---|
-| contact | plate appearances | -0.0029 / 1.019 / 1.004 | -0.0030 / 0.993 / 0.994 | +0.0056 † / 0.979 / 1.007 |
-| gap | plate appearances | +0.0038 / 1.005 / 1.007 | -0.0024 / 0.984 / 0.995 | +0.0012 / 1.009 / 1.007 |
-| power | plate appearances | -0.0045 / 1.008 / 0.990 | +0.0005 / 1.004 / 1.015 | -0.0007 / 1.001 / 1.010 |
-| eye | plate appearances | +0.0018 / 0.990 / 0.988 | -0.0023 / 1.002 / 0.994 | +0.0032 / 1.010 / 1.014 |
-| avoid_k | plate appearances | +0.0022 / 1.002 / 0.993 | -0.0021 / 1.001 / 0.998 | +0.0003 / 0.996 / 1.007 |
-| stuff | batters faced | +0.0008 / 1.006 / 1.008 | +0.0007 / 0.997 / 0.994 | -0.0015 / 1.001 / 0.983 |
-| control | batters faced | +0.0022 / 0.990 / 1.016 | +0.0045 / 1.000 / 1.011 | -0.0002 / 1.009 / 1.010 |
-| movement | batters faced | -0.0026 / 0.986 / 0.989 | -0.0074 / 1.006 / 0.992 | -0.0073 / 0.986 / 1.001 |
-| stamina | appearances | -0.0019 / 0.997 / 1.008 | -0.0009 / 1.002 / 0.990 | +0.0014 / 1.001 / 0.991 |
+| contact | plate appearances | +0.0004 / 0.967 / 0.994 | -0.0005 / 0.983 / 1.007 | +0.0040 / 0.972 / 1.002 |
+| gap | plate appearances | -0.0007 / 0.999 / 0.983 | +0.0033 / 1.017 / 1.008 | +0.0013 / 0.981 / 1.028 |
+| power | plate appearances | +0.0050 / 0.998 / 1.006 | -0.0069 / 1.001 / 0.992 | +0.0018 / 0.994 / 1.000 |
+| eye | plate appearances | -0.0013 / 1.010 / 1.019 | -0.0001 / 0.997 / 0.992 | +0.0035 / 0.997 / 1.009 |
+| avoid_k | plate appearances | +0.0001 / 1.004 / 1.001 | +0.0026 / 1.002 / 0.997 | +0.0004 / 0.988 / 0.994 |
+| stuff | batters faced | +0.0002 / 0.997 / 0.984 | +0.0012 / 0.998 / 1.005 | +0.0004 / 1.008 / 0.988 |
+| control | batters faced | +0.0031 / 1.006 / 1.010 | +0.0015 / 1.009 / 0.969 | -0.0045 / 0.989 / 1.006 |
+| movement | batters faced | +0.0014 / 0.999 / 1.009 | +0.0070 / 0.997 / 1.003 | -0.0112 / 0.975 / 1.003 |
+| stamina | appearances | -0.0101 † / 1.001 / 0.998 | -0.0058 † / 1.002 / 1.004 | +0.0042 / 1.001 / 0.986 |
 
 Box-score version (informational): the same regression with opponents adjusted only from the league's team-by-team results. A box score shows which team a player faced, not which pitcher (or hitter): an ace or a midweek starter. That adds variance the team-level baseline cannot attribute, so its dispersion runs above 1.
 
 | Rating | Slope | Dispersion |
 |---|---|---|
-| contact | 1.000 | 1.010 |
-| gap | 0.998 | 1.013 |
-| power | 1.002 | 1.028 |
-| eye | 1.015 | 1.028 |
-| avoid_k | 0.993 | 1.028 |
-| stuff | 0.993 | 1.043 |
-| control | 1.001 | 1.029 |
-| movement | 0.998 | 1.008 |
+| contact | 0.968 | 1.044 |
+| gap | 0.990 | 1.029 |
+| power | 0.949 | 1.241 |
+| eye | 1.014 | 1.070 |
+| avoid_k | 0.983 | 1.131 |
+| stuff | 1.015 | 1.212 |
+| control | 1.004 | 1.045 |
+| movement | 1.016 | 1.146 |
 
 ## True rating distributions (mean of 20 seasons)
 
@@ -58,30 +58,30 @@ Everyday players: regulars for batting ratings, weekend starters for pitching ra
 
 | Rating | D1 weighted mean | D1 weighted SD | P4 everyday | Mid everyday | Low everyday | Status |
 |---|---|---|---|---|---|---|
-| contact | 50.1 | 9.9 | 57.3 | 51.4 | 46.2 | pass |
-| gap | 50.1 | 9.9 | 55.7 | 50.8 | 46.6 | pass |
-| power | 50.2 | 10.0 | 57.2 | 49.7 | 44.4 | pass |
-| eye | 50.2 | 9.9 | 54.8 | 50.0 | 46.0 | pass |
-| avoid_k | 50.2 | 10.0 | 56.4 | 51.1 | 46.8 | pass |
-| stuff | 49.8 | 10.0 | 59.8 | 51.1 | 44.5 | pass |
-| control | 49.9 | 10.1 | 59.3 | 53.5 | 49.1 | pass |
-| movement | 50.0 | 10.0 | 53.0 | 49.4 | 46.1 | pass |
-| stamina | 52.0 | 10.0 | 50.4 | 49.9 | 50.2 | — |
+| contact | 49.8 | 9.8 | 57.6 | 51.3 | 46.1 | pass |
+| gap | 49.8 | 9.9 | 55.6 | 50.7 | 46.4 | pass |
+| power | 49.8 | 9.7 | 57.0 | 49.5 | 44.1 | pass |
+| eye | 50.1 | 9.9 | 54.9 | 49.9 | 45.9 | pass |
+| avoid_k | 50.0 | 9.7 | 56.1 | 51.0 | 46.5 | pass |
+| stuff | 50.1 | 9.4 | 58.9 | 51.2 | 45.0 | pass |
+| control | 50.8 | 9.5 | 58.6 | 53.4 | 49.5 | pass |
+| movement | 50.2 | 9.4 | 52.4 | 49.2 | 46.7 | pass |
+| stamina | 51.7 | 10.0 | 50.0 | 49.9 | 50.0 | — |
 
 ## Example player cards (first simulated season)
 
 | Player | Team (tier) | Role | Ratings | Season |
 |---|---|---|---|---|
-| Best P4 hitter (OPS, qualified): D. Gon | Joufaiwood Miners (p4) | regular | Contact 63, Gap 64, Power 65, Eye 64, Avoid K 69, Speed — | 55 G, 266 PA, 0.389/0.515/0.808, 22 HR, 13.5% BB, 12.0% K |
-| Median mid-major regular: SH. Braim | Faiberg Monarchs (mid) | regular | Contact 47, Gap 53, Power 52, Eye 38, Avoid K 48, Speed — | 52 G, 228 PA, 0.277/0.345/0.475, 7 HR, 6.1% BB, 20.6% K |
-| Median low-tier regular: GR. Duton | Brouwood Coyotes (low) | regular | Contact 47, Gap 64, Power 56, Eye 38, Avoid K 41, Speed — | 55 G, 261 PA, 0.285/0.354/0.430, 5 HR, 6.1% BB, 18.8% K |
-| Home-run leader: GR. Mour | Heanaison Bluejays (p4) | regular | Contact 67, Gap 80, Power 74, Eye 40, Avoid K 56, Speed — | 56 G, 287 PA, 0.378/0.434/0.815, 28 HR, 5.6% BB, 16.4% K |
-| Highest true Contact, qualified: K. Zuns | Huthoux Cardinals (p4) | regular | Contact 80, Gap 57, Power 77, Eye 52, Avoid K 39, Speed — | 55 G, 273 PA, 0.304/0.353/0.577, 18 HR, 5.5% BB, 33.3% K |
-| Bench player with most PA: R. Thilins | Staweafield Ospreys (low) | bench | Contact 41, Gap 44, Power 45, Eye 63, Avoid K 60, Speed — | 31 G, 143 PA, 0.255/0.426/0.377, 2 HR, 22.4% BB, 10.5% K |
-| Best P4 weekend starter (ERA, qualified): L. Dewell | Cealex Ospreys (p4) | sp_weekend | Stuff 70, Control 72, Movement 46, Stamina 53 | 12 G, 12 GS, 71.1 IP, 2.27 ERA, 11.0 K/9, 1.6 BB/9, 0.6 HR/9 |
-| Median mid-major weekend starter: H. Zeberg | Gakouton Monarchs (mid) | sp_weekend | Stuff 65, Control 61, Movement 36, Stamina 47 | 14 G, 14 GS, 71.0 IP, 4.94 ERA, 12.0 K/9, 1.6 BB/9, 1.8 HR/9 |
-| Low-tier reliever with most innings: K. Claishuns | Keley Kestrels (low) | rp | Stuff 38, Control 43, Movement 37, Stamina 73 | 48 G, 1 GS, 109.2 IP, 12.39 ERA, 6.0 K/9, 5.8 BB/9, 1.4 HR/9 |
-| Starter with the highest true Stamina: S. Zaisaiton | Kuton Sailors (low) | sp_weekend | Stuff 40, Control 44, Movement 37, Stamina 78 | 8 G, 8 GS, 45.0 IP, 5.60 ERA, 7.0 K/9, 3.4 BB/9, 0.8 HR/9 |
+| Best P4 hitter (OPS, qualified): TH. Sathaiwell | Sovum Bobcats (p4) | regular | Contact 60, Gap 57, Power 64, Eye 63, Avoid K 57, Speed 55 | 54 G, 251 PA, 0.430/0.514/0.903, 24 HR, 12.0% BB, 14.3% K |
+| Median mid-major regular: S. Thaigran | Shouwell Clippers (mid) | regular | Contact 56, Gap 60, Power 52, Eye 53, Avoid K 47, Speed 53 | 56 G, 276 PA, 0.263/0.361/0.475, 9 HR, 9.1% BB, 19.2% K |
+| Median low-tier regular: L. Seazult | Kan Cardinals (low) | regular | Contact 50, Gap 65, Power 53, Eye 46, Avoid K 29, Speed 53 | 56 G, 268 PA, 0.274/0.382/0.429, 6 HR, 13.4% BB, 22.4% K |
+| Home-run leader: M. Veamyt | Shaberg Rams (mid) | regular | Contact 55, Gap 66, Power 76, Eye 41, Avoid K 50, Speed 59 | 55 G, 255 PA, 0.344/0.417/0.902, 36 HR, 8.6% BB, 22.4% K |
+| Highest true Contact, qualified: D. Tron | Traiveng Badgers (p4) | regular | Contact 80, Gap 51, Power 74, Eye 61, Avoid K 46, Speed 55 | 53 G, 239 PA, 0.348/0.416/0.628, 15 HR, 8.4% BB, 32.6% K |
+| Bench player with most PA: GR. Grodouley | Claiford Cardinals (mid) | bench | Contact 38, Gap 43, Power 45, Eye 53, Avoid K 44, Speed 60 | 43 G, 147 PA, 0.227/0.367/0.336, 3 HR, 10.9% BB, 22.4% K |
+| Best P4 weekend starter (ERA, qualified): K. Tritouson | Stoukouberg Coyotes (p4) | sp_weekend | Stuff 63, Control 48, Movement 58, Stamina 54 | 12 G, 10 GS, 66.1 IP, 1.63 ERA, 11.1 K/9, 2.6 BB/9, 0.3 HR/9 |
+| Median mid-major weekend starter: D. Neajom | Bres Falcons (mid) | sp_weekend | Stuff 46, Control 59, Movement 40, Stamina 51 | 19 G, 14 GS, 67.0 IP, 5.64 ERA, 6.9 K/9, 2.7 BB/9, 1.6 HR/9 |
+| Low-tier reliever with most innings: T. Jeck | Nawell Thunder (low) | rp | Stuff 33, Control 52, Movement 41, Stamina 65 | 25 G, 1 GS, 64.0 IP, 7.73 ERA, 5.1 K/9, 3.5 BB/9, 1.4 HR/9 |
+| Starter with the highest true Stamina: ST. Theatem | Zytheawell Miners (low) | sp_weekend | Stuff 52, Control 68, Movement 45, Stamina 79 | 11 G, 11 GS, 84.0 IP, 4.50 ERA, 6.6 K/9, 1.1 BB/9, 1.5 HR/9 |
 
 ## Future scouting estimator (Phase 9, informational; not gated)
 
@@ -89,15 +89,15 @@ Recruiting (Phase 9) will show coaches noisy ratings, estimated from what they c
 
 | Rating | Players per season | Slope | Bias | Resid SD / predicted | SD ratio | Reliability |
 |---|---|---|---|---|---|---|
-| contact | 2314 | 1.004 ± 0.036 | 0.12 ± 0.12 | 7.14 / 7.05 | 1.013 ± 0.032 | 0.40 |
-| gap | 2155 | 1.005 ± 0.038 | -0.22 ± 0.13 | 7.72 / 7.52 | 1.027 ± 0.024 | 0.41 |
-| power | 2450 | 1.038 ± 0.016 | 0.42 ± 0.13 | 5.83 / 5.20 | 1.123 ± 0.031 | 0.64 |
-| eye | 2450 | 0.978 ± 0.023 | 0.09 ± 0.07 | 5.74 / 5.78 | 0.993 ± 0.021 | 0.66 |
-| avoid_k | 2450 | 1.009 ± 0.013 | 0.01 ± 0.02 | 4.32 / 4.30 | 1.007 ± 0.016 | 0.80 |
-| stuff | 2257 | 1.004 ± 0.011 | 0.11 ± 0.09 | 3.76 / 3.71 | 1.013 ± 0.026 | 0.86 |
-| control | 2257 | 0.988 ± 0.015 | 0.27 ± 0.06 | 4.94 / 4.90 | 1.009 ± 0.008 | 0.76 |
-| movement | 2257 | 0.942 ± 0.035 | 0.35 ± 0.07 | 7.88 / 8.13 | 0.969 ± 0.022 | 0.39 |
-| stamina | 3878 | 1.000 ± 0.011 | 0.00 ± 0.05 | 4.26 / 4.26 | 1.001 ± 0.014 | 0.82 |
+| contact | 2229 | 1.003 ± 0.055 | 0.14 ± 0.08 | 7.10 / 7.08 | 1.003 ± 0.039 | 0.39 |
+| gap | 2090 | 1.012 ± 0.065 | -0.22 ± 0.10 | 7.72 / 7.60 | 1.017 ± 0.039 | 0.41 |
+| power | 2364 | 1.004 ± 0.032 | 0.28 ± 0.07 | 6.07 / 5.30 | 1.146 ± 0.032 | 0.62 |
+| eye | 2364 | 0.954 ± 0.028 | 0.14 ± 0.06 | 5.83 / 5.83 | 0.999 ± 0.018 | 0.66 |
+| avoid_k | 2364 | 0.991 ± 0.012 | 0.05 ± 0.06 | 4.48 / 4.31 | 1.039 ± 0.019 | 0.79 |
+| stuff | 1811 | 0.961 ± 0.012 | 0.30 ± 0.06 | 3.85 / 3.63 | 1.060 ± 0.028 | 0.87 |
+| control | 1811 | 0.969 ± 0.019 | 0.46 ± 0.03 | 4.86 / 4.80 | 1.014 ± 0.011 | 0.72 |
+| movement | 1811 | 0.785 ± 0.031 | 0.88 ± 0.09 | 7.87 / 8.43 | 0.934 ± 0.027 | 0.47 |
+| stamina | 4170 | 1.000 ± 0.009 | -0.02 ± 0.04 | 4.44 / 4.46 | 0.997 ± 0.009 | 0.80 |
 
 Workload selection: the estimator's prior ignores that playing time depends on talent. Managers start, bat high and work their best players most, so within a role group true rating and workload correlate (+.10 to +.28 for pitchers, +.50 for regulars' Power). A prior per role × tier pulls a team's busiest players toward too low a mean and its least-used toward too high a one. On players with at least half a regular's workload, the pitcher ratings are estimated slightly low: a third of a point for Movement, where shrinkage is strongest (reliability .39). Within a role, bias rises with workload (Movement for weekend starters −1.2 / +.2 / +1.3 by workload tercile; Power for regulars −2.9 / −.7 / +1.6). Weighted by trials over all players it is .00. Two variants were tried (PHASE0_NOTES.md, Phase 4): a prior mean linear in log trials (fixes the pitchers, but Power's relation is convex) and a prior per workload rank on the team (fixes the means, but given a rank one rating is not normal, so the spread is misstated). For Phase 9 that bias may be the right behaviour: coaches see stats and playing time, not true talent. Revisit it there.
 
