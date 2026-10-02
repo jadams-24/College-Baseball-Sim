@@ -79,6 +79,10 @@ uncertainty. Values derived from this sample are conf B in `benchmarks.json`.
 - `phase2_game_scale_2025.json` (`scripts/solve_phase2_game_scale.py`): the map from a team's scoreboard rating x (log runs per game) to engine units, k x + q x² per side and the same for every team, and the home edge. They are solved so the scoreboard decomposition fitted on simulated seasons recovers each team's true (o, d) with slope 1 and no curvature, and reproduces the scoreboard's home effect (8 calibration seasons per iteration).
 - `pbp/parsed/runs_charged_2025.csv.gz`: one row per run with the charged pitcher and an unearned flag (29,118 runs; earned 25,695 vs box 25,713).
 
+## data/ncaa_2025/derived/ — true-talent shapes (Phase 2 generation)
+
+- `talent_shapes_2025.json` from `scripts/build_talent_shapes.py`: per side and rate, the deconvolved individual true-talent distribution of the 2025 WMT play-by-play (Gaussian, sinh-arcsinh and NPMLE fits, the likelihood-ratio test, standardized quantile tables, fitted location and scale). Read by `config.phase2.load_talent_shapes` for the rates whose shape differs from Gaussian (batter HR). Report: `reports/talent_shapes.md`.
+
 ## data/ncaa_2025/derived/ — Phase 4 inputs
 
 - `phase4_inputs_2025.json` (`scripts/build_phase4_inputs.py`): the individual pitcher leash (Stamina). Each decision after a batter in the 2025 play-by-play gets the Phase 2 baseline pull hazard; a pitcher's log hazard multiplier is fitted by empirical Bayes per role (starters 271 pitchers, log SD .54; relievers 847, log SD .62), with a method-of-moments check.

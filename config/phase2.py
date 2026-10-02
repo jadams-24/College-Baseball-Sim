@@ -78,7 +78,7 @@ DEFERRED_TO_PHASE6 = {
 # (2 degrees of freedom) exceeds the chi-square(2) critical value at p = .001 (13.82; strict, as
 # 17 side-rate shapes are tested); otherwise Gaussian. Grids are numerical settings.
 TALENT_SHAPES = ROOT / "data/ncaa_2025/derived/talent_shapes_2025.json"
-SHAPE_LRT_CRIT = 13.82
+SHAPE_LRT_CRIT = 13.82  # GUESS (statistical threshold)
 TALENT_SHAPES_OVERRIDE = None              # set by scripts that compare shapes (e.g. {} for all-Gaussian)
 SHAPE_NPMLE_GRID = (-8.0, 8.0, 321)        # NPMLE support: standardized offsets, 0.05 apart
 SHAPE_NPMLE_ITERS = 20000                  # EM steps (stops earlier when the log-likelihood gains < 1e-8)
