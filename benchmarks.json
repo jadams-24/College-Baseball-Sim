@@ -843,9 +843,9 @@
       "rates": ["K", "BB", "HBP", "HR", "BABIP", "XBH"],
       "linearity_quadratic_coef": {"bat": 0.0096, "pit": -0.0328},
       "game_map": {
-        "offense": {"k": 0.9718, "q": -0.1022},
-        "run_prevention": {"k": 1.1045, "q": -0.1319},
-        "home_edge_engine": 0.105,
+        "offense": {"k": 0.9559, "q": -0.1013},
+        "run_prevention": {"k": 1.125, "q": -0.1748},
+        "home_edge_engine": 0.0979,
         "note": "engine units = k x + q x^2 of the scoreboard rating x, one map for every team; solved by scripts/solve_phase2_game_scale.py"
       }
     }
