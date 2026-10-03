@@ -48,6 +48,9 @@ _CONF_WORDS = ["Coastal", "Prairie", "Summit", "Great Lakes", "Bluegrass", "Gulf
                "Pine", "Lakeshore", "River", "Desert", "Highland"]
 
 
+ABL = {"park_scale": "rating", "tier_errors": True}   # ablation switches (diagnostics only)
+
+
 def _word(rng: np.random.Generator, parts: int) -> str:
     w = "".join(rng.choice(_ON) + rng.choice(_NU) for _ in range(parts)) + rng.choice(_CO)
     return w.capitalize()
@@ -191,13 +194,17 @@ def build_league(cfg: Phase2Config, rng: np.random.Generator) -> League:
             dev = pk6["tier_run_sd"][tier] * rng_park.standard_normal()
             t.park = np.array(pk6["tier_mean"][tier]) + run_dir * pk6["k_o"] * dev + rng_park.multivariate_normal(np.zeros(len(RATES)), park_resid, method="eigh")
             run_level = pk6["tier_run_mean"][tier] + dev
-            t.o, t.d = t.o - run_level / 2, t.d + run_level / 2
+            if ABL["park_scale"] == "rating":
+                t.o, t.d = t.o - run_level / 2, t.d + run_level / 2
         elif pk6:
             t.park = np.array(pk6["tier_mean"][tier]) + rng_park.multivariate_normal(np.zeros(len(RATES)), park_cov, method="eigh")
         else:
             t.park = np.zeros(len(RATES))
         g_o = cfg.map_o[0] * t.o + cfg.map_o[1] * t.o ** 2
         g_d = cfg.map_d[0] * t.d + cfg.map_d[1] * t.d ** 2
+        if pk6 and "tier_run_sd" in pk6 and ABL["park_scale"] == "engine":
+            g_o, g_d = g_o - pk6["k_o"] * run_level / 2, g_d + pk6["k_o"] * run_level / 2
+        t.d_tier = td["mean"][1]
         tb = g_o * v_bat + rng.multivariate_normal(np.zeros(6), cfg.style_cov["bat"], method="eigh")
         tp = -g_d * v_pit + rng.multivariate_normal(np.zeros(6), cfg.style_cov["pit"], method="eigh")
 
@@ -302,7 +309,7 @@ def _fielding(fl6: dict, t, regs: list, bench: list, rng) -> None:
             p.arm = (fl6["arm_c"] if p.pos == "c" else fl6["arm_of"])["sd_logit"] * za
             p.ratings["arm"] = 50 + 10 * za
     te = fl6["team_error"]
-    t.err_team = te["slope_d"] * float(t.d) + te["team_sd"] * float(rng.standard_normal())
+    t.err_team = te["slope_d"] * float(t.d - (0.0 if ABL["tier_errors"] else t.d_tier)) + te["team_sd"] * float(rng.standard_normal())
 
 
 FIELD_POSITIONS = ("c", "1b", "2b", "3b", "ss", "lf", "cf", "rf")
