@@ -1,6 +1,6 @@
 {
  "_note": "Solve the engine's game-level run scale and home edge.\n\nTeam strength (o, d) and the home effect h come from a quasi-Poisson fit of runs per\nteam-game on the 2025 scoreboard (build_phase2_teams.py). Runs per game include the\nrun rule and the skipped or walk-off bottom of the ninth, which compress lopsided games,\nwhile the half-inning scale (build_phase2_run_scale.py) has no truncation. So the same\nfit is run on simulated seasons and three numbers are found by fixed-point iteration:\n  map_o, map_d  one monotone map per side from the scoreboard rating x to engine units,\n             g(x) = k x + q x^2, the same for every team. The fitted o (d) of simulated\n             teams is regressed on their true rating, pooled over seasons:\n             fitted = a + b x + c x^2. The target is b = 1, c = 0 (the fit recovers the\n             rating). Composition update g <- g o (b x + c x^2)^-1:\n             k <- k / b,  q <- q / b^2 - k c / b^3.\n             (A single linear k left the response convex: within-P4 slope 1.10, low 0.99,\n             because run-rule truncation compresses lopsided games, not close ones.)\n  eta        home talent edge, so the simulated fitted home effect equals the\n             scoreboard's: eta <- eta + (h_scoreboard - h_sim)\nNothing else is matched: runs, spreads and gate rows are not used. Calibration seeds\n(910000+) are disjoint from the location solve and the report.\nOutput: data/ncaa_2025/derived/phase2_game_scale_2025.json\n",
- "built": "2026-10-02",
+ "built": "2026-10-03",
  "seeds": [
   910001,
   910002,
@@ -13,11 +13,11 @@
  ],
  "h_scoreboard": 0.0438,
  "scale": {
-  "k_o": 0.9559328293367645,
-  "q_o": -0.101349447203879,
-  "k_d": 1.1250370335598767,
-  "q_d": -0.17480242681342864,
-  "eta": 0.09785732012364201
+  "k_o": 0.9729306265230199,
+  "q_o": -0.091652411028453,
+  "k_d": 1.1655686538188714,
+  "q_d": -0.13982125261922665,
+  "eta": 0.10587215024035274
  },
  "history": [
   {
@@ -30,66 +30,66 @@
     "eta": 0.1032
    },
    "fitted": {
-    "h": 0.041069586333635374,
-    "phi": 2.1541594950176446,
-    "b_o": 1.0487116090280435,
-    "c_o": 0.05263619274089986,
-    "b_d": 0.9097479743990797,
-    "c_d": 0.08408276216291162
+    "h": 0.04243087805681188,
+    "phi": 2.147025196775844,
+    "b_o": 1.0298540676938848,
+    "c_o": 0.06991511832058533,
+    "b_d": 0.8551558870594758,
+    "c_d": 0.06410178539442637
    }
   },
   {
    "iteration": 1,
    "scale": {
-    "k_o": 0.9535509966622855,
-    "q_o": -0.04563691109337771,
-    "k_d": 1.099205525201125,
-    "q_d": -0.11167184159790713,
-    "eta": 0.10593041366636463
+    "k_o": 0.9710113610943578,
+    "q_o": -0.06400944046717036,
+    "k_d": 1.1693774376489212,
+    "q_d": -0.10250245245275336,
+    "eta": 0.10456912194318813
    },
    "fitted": {
-    "h": 0.049039185789245515,
-    "phi": 2.147265627869248,
-    "b_o": 0.9936452895775715,
-    "c_o": 0.01791129005472095,
-    "b_d": 0.9921072765673404,
-    "c_d": 0.030708640509150557
+    "h": 0.039191542718398,
+    "phi": 2.1447902836047703,
+    "b_o": 0.9869220386271995,
+    "c_o": 0.0035875776700303114,
+    "b_d": 1.0081303351652258,
+    "c_d": 0.004966803019436809
    }
   },
   {
    "iteration": 2,
    "scale": {
-    "k_o": 0.9596492900073714,
-    "q_o": -0.06363161931241242,
-    "k_d": 1.107950270261439,
-    "q_d": -0.14802287426873706,
-    "eta": 0.10069122787711912
+    "k_o": 0.983878485928865,
+    "q_o": -0.06934099916639225,
+    "k_d": 1.1599466823476432,
+    "q_d": -0.10652447819661427,
+    "eta": 0.10917757922479013
    },
    "fitted": {
-    "h": 0.046521387519860555,
-    "phi": 2.159624957977427,
-    "b_o": 0.9972991234453418,
-    "c_o": 0.01768152959980733,
-    "b_d": 0.9825029233995124,
-    "c_d": -0.02053686276952057
+    "h": 0.04554732346400116,
+    "phi": 2.1458608695128114,
+    "b_o": 1.0171842571518768,
+    "c_o": 0.03401263329070045,
+    "b_d": 0.9996672532320469,
+    "c_d": 0.006299467374262183
    }
   },
   {
    "iteration": 3,
    "scale": {
-    "k_o": 0.9622482036202915,
-    "q_o": -0.08108303848311411,
-    "k_d": 1.1276813980643152,
-    "q_d": -0.12935075588188524,
-    "eta": 0.09796984035725856
+    "k_o": 0.9672568947181033,
+    "q_o": -0.09881466031766628,
+    "k_d": 1.1603327793297153,
+    "q_d": -0.11390975027363814,
+    "eta": 0.10743025576078896
    },
    "fitted": {
-    "h": 0.04391252023361654,
-    "phi": 2.157354164480875,
-    "b_o": 1.0066065042330523,
-    "c_o": 0.02260615249227434,
-    "b_d": 1.0023504688517417,
-    "c_d": 0.04113142110142273
+    "h": 0.04535810552043623,
+    "phi": 2.1544428461454945,
+    "b_o": 0.9941684107270907,
+    "c_o": -0.008457017011921347,
+    "b_d": 0.9955078798044188,
+    "c_d": 0.02115545574483672
    }
   }
  ]

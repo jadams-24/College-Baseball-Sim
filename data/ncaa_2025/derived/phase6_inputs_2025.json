@@ -1358,7 +1358,7 @@
  },
  "parks6": {
   "_note": "Phase 6 park effects.\n\nMagnitude, from the full 2025 scoreboard (every D1-vs-D1 final; scripts/build_phase2_teams.py fits\nit with a park term, the home team's park, alongside team offense and run prevention): the true SD\nand tier means of park effects in log runs per game, estimation noise removed by method of\nmoments. Composition, from the box scores of the play-by-play sample (data/ncaa_2025/pbp/parsed/\nschedule_games_2025.csv, neutral sites dropped), for the full-season teams: per rate (K, BB,\nHBP, HR per PA; BABIP; XBH share of hits) the classic park factor on the logit scale, both teams'\nrate in the team's home games minus both teams' rate in its road games, then the covariance of the\npark factors across rates with binomial noise removed (method of moments). The engine draws each team's park as\na vector of logit offsets from that covariance, scaled so its run variance (through the engine's\nrun-value gradient) equals the scoreboard's, with the tier mean placed along the run direction.\nThe run level is drawn with its tier's SD, and the engine nets half of it out of the team's total\n(o, d) from the fit without parks, so team totals match the scoreboard and the net ratings the park fit.\nEvery plate appearance in the park carries the offsets, for both teams.\nWrites the \"parks6\" block of data/ncaa_2025/derived/phase6_inputs_2025.json.\n\n    python3 scripts/build_phase6_parks.py      (after scripts/build_phase2_teams.py)\n",
-  "built": "2026-10-02",
+  "built": "2026-10-03",
   "rates": [
    "K",
    "BB",
@@ -1428,82 +1428,82 @@
   ],
   "run_sd_box": 0.1178,
   "run_sd_scoreboard": 0.1232,
-  "k_o": 0.9559,
-  "scale": 1.0003,
+  "k_o": 0.9729,
+  "scale": 1.0362,
   "cov": [
    [
-    0.012932,
-    0.001056,
-    -0.003655,
-    -0.002465,
-    -0.002803,
-    -0.001897
+    0.013396,
+    0.001094,
+    -0.003786,
+    -0.002553,
+    -0.002903,
+    -0.001965
    ],
    [
-    0.001056,
-    0.006203,
-    0.002362,
-    0.003838,
-    -0.001933,
-    -0.002166
+    0.001094,
+    0.006425,
+    0.002446,
+    0.003976,
+    -0.002002,
+    -0.002244
    ],
    [
-    -0.003655,
-    0.002362,
-    0.02328,
-    0.009365,
-    0.00014,
-    -0.000582
+    -0.003786,
+    0.002446,
+    0.024115,
+    0.009701,
+    0.000145,
+    -0.000603
    ],
    [
-    -0.002465,
-    0.003838,
-    0.009365,
-    0.071299,
-    0.005183,
-    0.00932
+    -0.002553,
+    0.003976,
+    0.009701,
+    0.073857,
+    0.005369,
+    0.009655
    ],
    [
-    -0.002803,
-    -0.001933,
-    0.00014,
-    0.005183,
-    0.003505,
-    0.00356
+    -0.002903,
+    -0.002002,
+    0.000145,
+    0.005369,
+    0.003631,
+    0.003688
    ],
    [
-    -0.001897,
-    -0.002166,
-    -0.000582,
-    0.00932,
-    0.00356,
-    0.004053
+    -0.001965,
+    -0.002244,
+    -0.000603,
+    0.009655,
+    0.003688,
+    0.004198
    ]
   ],
   "tier_mean": {
    "p4": [
-    0.04088,
-    -0.00192,
-    -0.03072,
-    -0.12221,
-    -0.02614,
-    -0.02898
+    0.04161,
+    -0.00195,
+    -0.03126,
+    -0.12439,
+    -0.02661,
+    -0.0295
    ],
    "mid": [
-    -0.00408,
+    -0.00415,
     0.00019,
-    0.00306,
-    0.01219,
-    0.00261,
-    0.00289
+    0.00312,
+    0.01241,
+    0.00265,
+    0.00294
    ],
    "low": [
-    -0.02237,
-    0.00105,
-    0.01681,
-    0.06687,
-    0.0143,
-    0.01586
+    -0.02277,
+    0.00107,
+    0.01711,
+    0.06806,
+    0.01456,
+    0.01614
    ]
   },
   "w": [
