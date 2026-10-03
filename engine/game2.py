@@ -37,8 +37,8 @@ from engine.rng import Categorical
 from engine.tables import AdvancementTable, OutcomeTable, PrePaEventTable
 
 # batter stat columns and pitcher stat columns
-B_G, B_PA, B_AB, B_H, B_2B, B_3B, B_HR, B_BB, B_HBP, B_K, B_SF, B_SH, B_ROE = range(13)
-B_NCOL = 13
+B_G, B_PA, B_AB, B_H, B_2B, B_3B, B_HR, B_BB, B_HBP, B_K, B_SF, B_SH, B_ROE, B_GPA = range(14)   # B_GPA: games with a plate appearance
+B_NCOL = 14
 P_G, P_GS, P_BF, P_OUTS, P_H, P_HR, P_BB, P_HBP, P_K, P_R, P_ER, P_PITCH, P_WGS = range(13)  # P_WGS: weekend starts
 P_NCOL = 13
 _OUTING_COLS = (P_BF, P_K, P_BB, P_HBP, P_H, P_HR, P_R)
@@ -596,6 +596,8 @@ class PlayerGameEngine:
                 st.inning += 1
         for side in ("away", "home"):
             self._end_outing(st, side)
+            for pid in st.batted[side]:
+                self.bstats[pid][B_GPA] += 1
         if hasattr(dec, "record_game"):
             dec.record_game(st)
         return st

@@ -323,5 +323,5 @@ class Manager(LeagueAverageDecider):
         avail = [p for p in state.team_obj[team].relievers if p.pid not in state.used[team]]
         if not avail:
             return None
-        w = np.array([self.relw[p.order] for p in avail])
+        w = np.array([self.relw[min(p.order, len(self.relw) - 1)] for p in avail])   # ranks past the table share its last rank
         return avail[int(state.rng.choice(len(avail), p=w / w.sum()))]

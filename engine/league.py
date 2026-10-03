@@ -162,6 +162,7 @@ def build_league(cfg: Phase2Config, rng: np.random.Generator) -> League:
     rng_pt = np.random.Generator(np.random.PCG64(rng.bit_generator.seed_seq.spawn(1)[0]))
     pt_rho = phase6.load().get("subs6", {}).get("bench_pick_weight", {}).get("playing_time_rho", {}).get("value") if phase6.on("subs") else None
     fl6 = phase6.load().get("fielding6") if phase6.on("fielding") else None
+    phi_field = phase6.load().get("fielding_scale", {}).get("phi_engine") if fl6 else None
     if pk6:
         vals, vecs = np.linalg.eigh(np.array(pk6["cov"]))
         park_cov = vecs @ np.diag(np.clip(vals, 0, None)) @ vecs.T     # positive semi-definite after rounding
@@ -227,6 +228,13 @@ def build_league(cfg: Phase2Config, rng: np.random.Generator) -> League:
         bench = make("bat", "bench", N_BENCH)
         if fl6:
             _fielding(fl6, t, regs, bench, rng_field)
+            # the scoreboard's run prevention includes fielding: the staff gets the rest. A team's expected error
+            # log-odds (team term plus its regular fielders) costs phi log runs per unit (the engine's response,
+            # scripts/solve_phase6_fielding_scale.py), so pitching = g(d) + phi * e and the total stays g(d)
+            if phi_field:
+                share = fl6["team_error"]["error_share"]
+                e_exp = t.err_team + sum(share.get(p.pos, 0.0) * p.err for p in regs)
+                tp = tp - phi_field * e_exp * v_pit
         # lineup rank by expected on-base plus slugging against a league-average pitcher
         def bat_value(p):
             pr = matchup_probs(cfg, p.z, np.zeros(6), {r: 0.0 for r in RATES})

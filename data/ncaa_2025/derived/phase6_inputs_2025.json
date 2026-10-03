@@ -1863,5 +1863,25 @@
    },
    "total_sd": 0.2377
   }
+ },
+ "fielding_scale": {
+  "_note": "The engine's run response to a team's error log-odds, for the fielding / pitching split of run\nprevention (Phase 6).\n\nA team's scoreboard run prevention d already includes its fielding. The engine draws the team's\nerror log-odds e from the play-by-play error model (team term tied to d, plus its fielders), so the\npitching staff gets d minus the fielding part: pitching = g(d) + phi * e in engine log runs, with phi\nthe engine's log-runs response to e. phi is measured by shifting every team's error log-odds by\n-STEP and +STEP on the same calibration seeds: phi = (log R/G at +STEP - log R/G at -STEP) / (2 STEP).\nFor comparison the play-by-play gives 0.80 runs per error play (state-matched run expectancy: a\nreached-on-error against a batted-ball out, an error on any other play against the same result\nwithout one) and 1.07 errors per team-game per unit of e, so phi_data = 0.80 x 1.07 / R/G.\nOutput: the \"fielding_scale\" block of data/ncaa_2025/derived/phase6_inputs_2025.json.\n\n    python3 scripts/solve_phase6_fielding_scale.py\n",
+  "built": "2026-10-03",
+  "seeds": [
+   930001,
+   930002
+  ],
+  "step": 0.5,
+  "phi_engine": 0.1035,
+  "phi_by_seed": [
+   0.1047,
+   0.1024
+  ],
+  "errors_per_unit_engine": 0.911,
+  "data": {
+   "runs_per_error_play": 0.803,
+   "errors_per_unit": 1.068,
+   "phi_data": 0.1271
+  }
  }
 }

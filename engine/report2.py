@@ -11,7 +11,7 @@ import numpy as np
 
 from config.phase2 import (DEFERRED_TO_PHASE6, GATE_SE_MULTIPLE, LEADERBOARD_MIN_IP, LEADERBOARD_PI, QUAL_GAMES_SHARE, QUAL_IP_PER_TEAM_GAME,
                            QUAL_PA_PER_TEAM_GAME)
-from engine.game2 import (B_2B, B_3B, B_AB, B_BB, B_G, B_H, B_HBP, B_HR, B_K, B_PA, B_SF, P_BF, P_ER, P_K, P_OUTS, P_WGS)
+from engine.game2 import (B_2B, B_3B, B_AB, B_BB, B_G, B_GPA, B_H, B_HBP, B_HR, B_K, B_PA, B_SF, P_BF, P_ER, P_K, P_OUTS, P_WGS)
 
 ROOT = Path(__file__).resolve().parents[1]
 TIERS = ("p4", "mid", "low")
@@ -62,7 +62,9 @@ def season_metrics(res: dict) -> dict:
     team_g = res["team_games"]
     pl = lg.players
     bt = np.array([team_g[x.team] for x in pl])
-    q = (b[:, B_PA] >= QUAL_PA_PER_TEAM_GAME * bt) & (b[:, B_G] >= QUAL_GAMES_SHARE * bt)
+    # games counted as the benchmark counts them (scripts/build_phase2_gate.py): games with a plate appearance,
+    # not substitute appearances without one (pinch runners, defensive substitutes; Phase 6)
+    q = (b[:, B_PA] >= QUAL_PA_PER_TEAM_GAME * bt) & (b[:, B_GPA] >= QUAL_GAMES_SHARE * bt)
     qb = b[q]
     with np.errstate(divide="ignore", invalid="ignore"):
         BA = qb[:, B_H] / qb[:, B_AB]
