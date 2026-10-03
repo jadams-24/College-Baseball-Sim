@@ -794,5 +794,27 @@
    "note_56g": "Gated value: the raw count x the ratio of 56-game-equivalent to raw 50+ IP counts on the 50 WMT full-season teams (each pitcher's IP x 56 / his team's games; scripts/build_phase6_usage.py). The sim plays 56 games with no postseason."
   },
   "date": "2026-10-03"
+ },
+ {
+  "path": "leaderboards_2025.pitchers_50ip",
+  "old": {
+   "value": 882,
+   "conf": "A",
+   "gate": "phase6"
+  },
+  "new": {
+   "value": 882,
+   "conf": "A",
+   "gate": "phase6",
+   "value_56g": 821.1,
+   "ratio_56g": {
+    "value": 0.931,
+    "se": 0.0342,
+    "raw_per_team": 2.9,
+    "eq_per_team": 2.7
+   },
+   "note_56g": "Gated value: the raw count x the ratio of 56-game-equivalent to raw 50+ IP counts on the 50 WMT full-season teams (each pitcher's IP x 56 / his team's games; scripts/build_phase6_usage.py). The sim plays 56 games with no postseason."
+  },
+  "date": "2026-10-03"
  }
 ]
