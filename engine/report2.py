@@ -9,7 +9,7 @@ from pathlib import Path
 
 import numpy as np
 
-from config.phase2 import (DEFERRED_TO_PHASE6, GATE_SE_MULTIPLE, LEADERBOARD_MIN_IP, LEADERBOARD_PI, QUAL_GAMES_SHARE, QUAL_IP_PER_TEAM_GAME,
+from config.phase2 import (DEFERRED_TO_PHASE6, WATCH_ITEMS, GATE_SE_MULTIPLE, LEADERBOARD_MIN_IP, LEADERBOARD_PI, QUAL_GAMES_SHARE, QUAL_IP_PER_TEAM_GAME,
                            QUAL_PA_PER_TEAM_GAME)
 from engine.game2 import (B_2B, B_3B, B_AB, B_BB, B_G, B_GPA, B_H, B_HBP, B_HR, B_K, B_PA, B_SF, P_BF, P_ER, P_K, P_OUTS, P_WGS)
 
@@ -168,9 +168,10 @@ def build_report(agg: dict, seeds: list, bench: dict | None = None) -> tuple[str
         tol_c = comb(tol, se["/".join(path)])
         ok = None if (val is None or tol_c is None) else bool(abs(got - val) <= tol_c)
         deferred = key in DEFERRED_TO_PHASE6
-        if gate and not deferred:
+        watch = key in WATCH_ITEMS
+        if gate and not deferred and not watch:
             st[key] = ok
-        gcol = "Phase 6" if deferred else ("yes" if gate else "")
+        gcol = "Phase 6" if deferred else ("watch item: " + WATCH_ITEMS[key] if watch else ("yes" if gate else ""))
         status = "pass" if ok else ("FAIL" if ok is False else "n/a")
         rows.append((section, f"| {label} | {got:.{nd}f} | {'—' if val is None else f'{val:.{nd}f}'} | {'—' if tol_c is None else f'±{tol_c:.{max(nd, 3)}f}'} | {conf} | {gcol} | {status} |"))
     lt = b["league_totals_2025"]

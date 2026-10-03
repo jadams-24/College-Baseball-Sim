@@ -33,7 +33,7 @@ from dataclasses import dataclass, field
 
 import numpy as np
 
-from config.phase2 import N_BENCH, N_MIDWEEK_SP, N_REGULARS, N_RELIEVERS, N_WEEKEND_SP, RATES, Phase2Config
+from config.phase2 import GAMES_PER_WEEKEND, N_BENCH, N_MIDWEEK_SP, N_REGULARS, N_RELIEVERS, N_WEEKEND_SP, RATES, WEEKS, Phase2Config
 from engine.matchup import matchup_probs
 from engine.ratings import RatingScale
 
@@ -46,9 +46,6 @@ _MASCOTS = ["Hawks", "Owls", "Rams", "Foxes", "Bison", "Herons", "Otters", "Come
 _CONF_WORDS = ["Coastal", "Prairie", "Summit", "Great Lakes", "Bluegrass", "Gulf", "Pacific", "Atlantic", "Heartland", "Piedmont", "Frontier", "Canyon",
                "Delta", "Ridge", "Tidewater", "Northern", "Southern", "Valley", "Plains", "Cascade", "Bayou", "Keystone", "Granite", "Mesa", "Harbor",
                "Pine", "Lakeshore", "River", "Desert", "Highland"]
-
-
-ABL = {"park_scale": "rating", "tier_errors": True}   # ablation switches (diagnostics only)
 
 
 def _word(rng: np.random.Generator, parts: int) -> str:
@@ -175,6 +172,35 @@ def build_league(cfg: Phase2Config, rng: np.random.Generator) -> League:
             park_resid = park_cov - np.outer(cw, cw) / float(w_ @ cw)
             vals, vecs = np.linalg.eigh(park_resid)
             park_resid = vecs @ np.diag(np.clip(vals, 0, None)) @ vecs.T
+    # Phase 6 parks, drawn for every team first (own stream, team order) so each team's expected road parks are
+    # known when its net ratings are set: its run level by tier (scoreboard log runs), the rate vector along the
+    # run direction plus the orthogonal rest
+    pre = {}
+    expo = phase6.load().get("park_exposure") if pk6 else None
+    if pk6 and "tier_run_sd" in pk6:
+        for tid, (_, conf, tier) in enumerate(cfg.teams):
+            dev = pk6["tier_run_sd"][tier] * rng_park.standard_normal()
+            vec = np.array(pk6["tier_mean"][tier]) + run_dir * pk6["k_o"] * dev + rng_park.multivariate_normal(np.zeros(len(RATES)), park_resid, method="eigh")
+            pre[tid] = (vec, pk6["tier_run_mean"][tier] + dev)
+        if expo:
+            # expected road park: conference road games at the conference mates' parks, nonconference road games at
+            # the schedule mix's opponent tiers (weekend and midweek), in the schedule's numbers of road games
+            m_t = pk6["tier_run_mean"]
+            n_conf = cfg.conference_weekends * GAMES_PER_WEEKEND / 2
+            n_wk, n_mw = (WEEKS - cfg.conference_weekends) * GAMES_PER_WEEKEND / 2, WEEKS / 2
+            mix = cfg.schedule_mix
+            nc = {tr: (n_wk * sum(s * m_t[o] for o, s in mix["weekend"][tr].items()) + n_mw * sum(s * m_t[o] for o, s in mix["midweek"][tr].items()))
+                  / (n_wk + n_mw) for tr in mix["weekend"]}
+            members = {}
+            for tid, (_, conf, _tier) in enumerate(cfg.teams):
+                members.setdefault(conf, []).append(tid)
+            road = {}
+            for tid, (_, conf, tier) in enumerate(cfg.teams):
+                mates = [x for x in members[conf] if x != tid] if conf != "DI Independent" else []
+                if mates:
+                    road[tid] = (n_conf * np.mean([pre[x][1] for x in mates]) + (n_wk + n_mw) * nc[tier]) / (n_conf + n_wk + n_mw)
+                else:
+                    road[tid] = nc[tier]
     teams, players = [], []
     team_names = set()
     for tid, (_, conf, tier) in enumerate(cfg.teams):
@@ -189,12 +215,13 @@ def build_league(cfg: Phase2Config, rng: np.random.Generator) -> League:
         c = conf_fx[t.conference] if not confs[t.conference][3] else rng.multivariate_normal(np.zeros(2), td["conf_cov"], method="eigh")
         t.o, t.d = np.array(td["mean"]) + c + rng.multivariate_normal(np.zeros(2), td["team_cov"], method="eigh")
         if pk6 and "tier_run_sd" in pk6:
-            # the park's run level from its tier (scoreboard log runs), its rate vector along the run direction plus the
-            # orthogonal rest; (o, d) above are totals with the home park in half the games, so the net ratings drop half of it
-            dev = pk6["tier_run_sd"][tier] * rng_park.standard_normal()
-            t.park = np.array(pk6["tier_mean"][tier]) + run_dir * pk6["k_o"] * dev + rng_park.multivariate_normal(np.zeros(len(RATES)), park_resid, method="eigh")
-            run_level = pk6["tier_run_mean"][tier] + dev
-            if ABL["park_scale"] == "rating":
+            t.park, run_level = pre[tid]
+            # (o, d) above are totals as the fit without parks sees them: they absorb the home park and the parks of the
+            # road games (scripts/solve_phase6_park_exposure.py); the net ratings take that out
+            if expo:
+                t.o = t.o - expo["o_home"] * run_level - expo["o_road"] * road[tid]
+                t.d = t.d - expo["d_home"] * run_level - expo["d_road"] * road[tid]
+            else:
                 t.o, t.d = t.o - run_level / 2, t.d + run_level / 2
         elif pk6:
             t.park = np.array(pk6["tier_mean"][tier]) + rng_park.multivariate_normal(np.zeros(len(RATES)), park_cov, method="eigh")
@@ -202,9 +229,6 @@ def build_league(cfg: Phase2Config, rng: np.random.Generator) -> League:
             t.park = np.zeros(len(RATES))
         g_o = cfg.map_o[0] * t.o + cfg.map_o[1] * t.o ** 2
         g_d = cfg.map_d[0] * t.d + cfg.map_d[1] * t.d ** 2
-        if pk6 and "tier_run_sd" in pk6 and ABL["park_scale"] == "engine":
-            g_o, g_d = g_o - pk6["k_o"] * run_level / 2, g_d + pk6["k_o"] * run_level / 2
-        t.d_tier = td["mean"][1]
         tb = g_o * v_bat + rng.multivariate_normal(np.zeros(6), cfg.style_cov["bat"], method="eigh")
         tp = -g_d * v_pit + rng.multivariate_normal(np.zeros(6), cfg.style_cov["pit"], method="eigh")
 
@@ -309,7 +333,7 @@ def _fielding(fl6: dict, t, regs: list, bench: list, rng) -> None:
             p.arm = (fl6["arm_c"] if p.pos == "c" else fl6["arm_of"])["sd_logit"] * za
             p.ratings["arm"] = 50 + 10 * za
     te = fl6["team_error"]
-    t.err_team = te["slope_d"] * float(t.d - (0.0 if ABL["tier_errors"] else t.d_tier)) + te["team_sd"] * float(rng.standard_normal())
+    t.err_team = te["slope_d"] * float(t.d) + te["team_sd"] * float(rng.standard_normal())
 
 
 FIELD_POSITIONS = ("c", "1b", "2b", "3b", "ss", "lf", "cf", "rf")

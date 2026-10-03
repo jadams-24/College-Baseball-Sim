@@ -26,6 +26,10 @@ from pathlib import Path
 import numpy as np
 
 from config.phase2 import GATE_SE_MULTIPLE, LEADERBOARD_PI, TIERS
+
+# owner decision (2026-10-03): named watch items, reported with their diagnosis and not gated (PHASE0_NOTES, Phase 6)
+WATCH6 = {"p6_run_rule": "game-to-game variance not closed (everything tested and ruled out in PHASE0_NOTES)",
+          "p6_run_histogram_15plus": "game-to-game variance not closed (everything tested and ruled out in PHASE0_NOTES)"}
 from engine.game2 import P_ER, P_G, P_GS, P_K, P_OUTS
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -70,6 +74,17 @@ def season_extract6(res: dict) -> dict:
     nm = sorted(set(gd.home) | set(gd.away))
     f0, f1 = fit(gd, nm, parks=False), fit(gd, nm)
     out.update({"resid_corr": f0["residual_corr"], "dispersion": f0["phi"], "resid_corr_parks": f1["residual_corr"], "dispersion_parks": f1["phi"]})
+    # tier-mean recovery: the park fit's tier means of (o, d) against the drawn net ratings (both centred over teams),
+    # and the fit without parks against the real scoreboard's (diagnostic)
+    T = {t.tid: t for t in lg.teams}
+    tn = np.array([T[x].tier for x in nm])
+    xo, xd = np.array([T[x].o for x in nm]), np.array([T[x].d for x in nm])
+    xo, xd = xo - xo.mean(), xd - xd.mean()
+    for tr in TIERS:
+        k = tn == tr
+        out[f"rec_o_minus_drawn_{tr}"] = float(f1["o"][k].mean() - xo[k].mean())
+        out[f"rec_d_minus_drawn_{tr}"] = float(f1["d"][k].mean() - xd[k].mean())
+        out[f"nopark_o_{tr}"], out[f"nopark_d_{tr}"] = float(f0["o"][k].mean()), float(f0["d"][k].mean())
     team_g = res["team_games"]
     ipp = p[:, P_OUTS] / 3
     qual = [x.pid for x in lg.players if x.side == "pit" and p[x.pid, P_OUTS] >= 3 * team_g[x.team]]
@@ -114,7 +129,9 @@ def build_report6(agg: dict, agg2: dict, agg5: dict, seeds: list, st2: dict, st4
     def row(section, key, label, got, s_, val, tol, nd=3, note=""):
         t = comb(tol, s_)
         ok = bool(abs(got - val) <= t)
-        st[key] = ok
+        watch = key in WATCH6
+        st[key] = None if watch else ok
+        note = (f"watch item: {WATCH6[key]}. " if watch else "") + note
         rows.append((section, f"| {label} | {got:.{nd}f} | {val:.{nd}f} | ±{t:.{nd}f} | {'pass' if ok else 'FAIL'} | {note} |"))
     lt = b["league_totals_2025"]
     row("field", "p6_errors_per_team_game", "Errors per team-game", m["errors_per_team_game"], se["errors_per_team_game"],
@@ -153,6 +170,10 @@ def build_report6(agg: dict, agg2: dict, agg5: dict, seeds: list, st2: dict, st4
     st["p6_pitchers_50ip"] = ok
     rows.append(("deferred", f"| Pitchers with 50+ IP | {lb['mean']:.1f} (seasons {lb['min']:.0f}–{lb['max']:.0f}) | {real} | ±{half:.1f} (95% PI) | {'pass' if ok else 'FAIL'} | "
                              f"56-game equivalent of the raw {pb['value']} (ratio {pb['ratio_56g']['value']} ± {pb['ratio_56g']['se']}, WMT full-season teams) |"))
+    for tr in TIERS:
+        for s_k, lab in (("o", "offense"), ("d", "run prevention")):
+            key = f"rec_{s_k}_minus_drawn_{tr}"
+            row("recovery", f"p6_{key}", f"{tr.upper() if tr == 'p4' else tr} {lab}: recovered minus drawn (park fit, tier mean)", m[key], se[key], 0.0, 0.0, 3)
     for name, s_ in (("phase2_gate", st2), ("phase4_gate", st4), ("phase5_gate", st5)):
         st[name] = bool(all(v for kk, v in s_.items() if v is not None))
     gate_ok = all(v for v in st.values() if v is not None)
@@ -176,6 +197,12 @@ def build_report6(agg: dict, agg2: dict, agg5: dict, seeds: list, st2: dict, st4
               f"other starts {m[f'ip_rank{r}_other_starts']:.1f} / {u6[f'ip_rank{r}_other_starts']['value']:.1f}, "
               f"relief {m[f'ip_rank{r}_relief']:.1f} / {u6[f'ip_rank{r}_relief']['value']:.1f}" for r in (1, 2, 3)) + ".", "",
           "## Rows deferred from Phases 2 and 5", "", hdr, sec("deferred"), "",
+          "## Team-strength recovery by tier", "",
+          "The scoreboard fit with parks, run on the simulated seasons, recovers each tier's mean offense and run prevention as drawn "
+          "(tolerance 3 SE of the season-to-season mean). Team quality comes from player talent; there are no per-tier offsets.", "", hdr, sec("recovery"), "",
+          "Fit without parks, simulated against real tier means (diagnostic; the gap is the mismatch-interaction watch item): " + "; ".join(
+              f"{tr} offense {m[f'nopark_o_{tr}']:+.3f} / {tt['tiers_total'][tr]['mean_o']:+.3f}, run prevention {m[f'nopark_d_{tr}']:+.3f} / {tt['tiers_total'][tr]['mean_d']:+.3f}"
+              for tr in TIERS) + ".", "",
           "## Diagnostics (CLAUDE.md watch items)", "",
           f"- Runs around the team-strength fit (scoreboard model without parks, as in team_talent_2025): within-game residual correlation "
           f"{m['resid_corr']:.4f} (real {tt['residual_corr_within_game']}), dispersion {m['dispersion']:.3f} (real {tt.get('dispersion_without_parks', '—')}); "

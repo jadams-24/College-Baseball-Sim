@@ -1883,5 +1883,25 @@
    "errors_per_unit": 1.068,
    "phi_data": 0.1271
   }
+ },
+ "park_exposure": {
+  "_note": "How the scoreboard fit without parks absorbs parks into team ratings (Phase 6).\n\nTeam totals (o, d) come from the fit without parks; the engine draws them and nets out the parks.\nA team's total absorbs its home park and the parks it visits. On simulated seasons, where the net\nratings and every park are known, the same fit without parks is run and the recovered ratings minus the\ndrawn net ones are regressed on the team's home park and the mean of the parks of its road games\n(scoreboard log runs, centred): o_total - o_net = b_oh p_home + b_or p_road, likewise for d. The\ncoefficients are a property of the fit on this schedule design, not of the netting (calibration seeds\n940001-940004). The engine nets each team by them, with p_road its expected road park.\n\n    python3 scripts/solve_phase6_park_exposure.py\n",
+  "built": "2026-10-03",
+  "seeds": [
+   940001,
+   940002,
+   940003,
+   940004
+  ],
+  "o_home": 0.5673,
+  "o_road": 0.3674,
+  "d_home": -0.3975,
+  "d_road": -0.268,
+  "se": {
+   "o_home": 0.0287,
+   "o_road": 0.0649,
+   "d_home": 0.0071,
+   "d_road": 0.0482
+  }
  }
 }

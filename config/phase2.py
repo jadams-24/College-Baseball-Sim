@@ -75,6 +75,15 @@ DEFERRED_TO_PHASE6 = {
     "tier_p4_low": "reserves in mismatches and blowouts (manager AI)",
 }
 
+# Named watch items (owner decisions, PHASE0_NOTES Phase 6): reported with their diagnosis, not gated. P4 RA/G mean and
+# qualified OBP p10 sit under the mismatch interaction (Phase 6b: scoring between unequal teams falls below the additive
+# prediction; the sim's tier-vs-tier pattern runs the other way); run rule and the 15+ bin under the missing game-to-game
+# variance (everything tested and ruled out in PHASE0_NOTES).
+WATCH_ITEMS = {
+    "team_p4_ra_per_game_mean": "mismatch interaction (Phase 6b)",
+    "q_OBP_p10": "mismatch interaction (Phase 6b)",
+}
+
 # Shape of the individual true-talent distributions (scripts/build_talent_shapes.py). A rate is drawn
 # from its fitted sinh-arcsinh shape when the likelihood-ratio statistic against the Gaussian
 # (2 degrees of freedom) exceeds the chi-square(2) critical value at p = .001 (13.82; strict, as
