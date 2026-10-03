@@ -85,6 +85,22 @@ def season_extract6(res: dict) -> dict:
         out[f"rec_o_minus_drawn_{tr}"] = float(f1["o"][k].mean() - xo[k].mean())
         out[f"rec_d_minus_drawn_{tr}"] = float(f1["d"][k].mean() - xd[k].mean())
         out[f"nopark_o_{tr}"], out[f"nopark_d_{tr}"] = float(f0["o"][k].mean()), float(f0["d"][k].mean())
+    # schedule selection (scripts/build_phase6_schedule.py), measured as on the real scoreboard: the mean within-tier
+    # deviation of fitted strength (fit without parks) of the teams in each directed nonconference tier pairing, and
+    # the covariance of opponents' deviations in cross-tier games
+    s0 = f0["o"] + f0["d"]
+    dv = {x: float(s0[i] - s0[tn == T[x].tier].mean()) for i, x in enumerate(nm)}
+    ind = {cid for cid, c in lg.conferences.items() if c[3]}
+    sel, xs = {}, []
+    for h, a in zip(gd.home, gd.away):
+        if T[h].conference != T[a].conference or T[h].conference in ind:
+            for p_, q_ in ((h, a), (a, h)):
+                sel.setdefault(f"{T[p_].tier}|{T[q_].tier}", []).append(dv[p_])
+                if T[p_].tier != T[q_].tier:
+                    xs.append((dv[p_], dv[q_]))
+    out.update({f"sel_{k_}": float(np.mean(v_)) for k_, v_ in sel.items()})
+    xs = np.array(xs)
+    out["sel_cross_cov"] = float(np.cov(xs[:, 0], xs[:, 1])[0, 1])
     team_g = res["team_games"]
     ipp = p[:, P_OUTS] / 3
     qual = [x.pid for x in lg.players if x.side == "pit" and p[x.pid, P_OUTS] >= 3 * team_g[x.team]]
@@ -178,6 +194,8 @@ def build_report6(agg: dict, agg2: dict, agg5: dict, seeds: list, st2: dict, st4
         st[name] = bool(all(v for kk, v in s_.items() if v is not None))
     gate_ok = all(v for v in st.values() if v is not None)
     tt = b["team_talent_2025"]
+    from config import phase6
+    sel6 = phase6.load().get("schedule6", {}).get("targets", {"mean_dev": {}, "cross_cov_fitted": float("nan")})
     hdr = "| Metric | Sim | Benchmark | Tol | Status | Note |\n|---|---|---|---|---|---|"
     sec = lambda name: "\n".join(r for s_, r in rows if s_ == name)  # noqa: E731
     lbs = agg2["leaderboards"]
@@ -203,6 +221,12 @@ def build_report6(agg: dict, agg2: dict, agg5: dict, seeds: list, st2: dict, st4
           "Fit without parks, simulated against real tier means (diagnostic; the gap is the mismatch-interaction watch item): " + "; ".join(
               f"{tr} offense {m[f'nopark_o_{tr}']:+.3f} / {tt['tiers_total'][tr]['mean_o']:+.3f}, run prevention {m[f'nopark_d_{tr}']:+.3f} / {tt['tiers_total'][tr]['mean_d']:+.3f}"
               for tr in TIERS) + ".", "",
+          "## Schedule selection (diagnostic)", "",
+          "Nonconference opponents are matched by strength within tier (scripts/build_phase6_schedule.py). Mean within-tier deviation of the "
+          "fitted strength (fit without parks) of the teams in each pairing, sim / real 2025 regular season: " + "; ".join(
+              f"{k_} {m.get(f'sel_{k_}', float('nan')):+.3f} / {sel6['mean_dev'][k_]:+.3f}" for k_ in sorted(sel6["mean_dev"])) +
+          f". Cross-tier covariance of opponents' deviations {m['sel_cross_cov']:.4f} / {sel6['cross_cov_fitted']:.4f}. Same-tier pairings are not matched: "
+          "in the data the weakest low teams play part of their schedule outside D1, which the 56-game D1 schedule cannot.", "",
           "## Diagnostics (CLAUDE.md watch items)", "",
           f"- Runs around the team-strength fit (scoreboard model without parks, as in team_talent_2025): within-game residual correlation "
           f"{m['resid_corr']:.4f} (real {tt['residual_corr_within_game']}), dispersion {m['dispersion']:.3f} (real {tt.get('dispersion_without_parks', '—')}); "
