@@ -1903,5 +1903,90 @@
    "d_home": 0.0071,
    "d_road": 0.0482
   }
+ },
+ "schedule6": {
+  "_note": "Strength-matched nonconference scheduling (Phase 6).\n\nReal nonconference schedules are not random within tiers. On the 2025 scoreboard (regular season:\ngames before the NCAA tournament, May 26; the sim plays no postseason), the low-tier teams that play\nP4 teams are .15 log runs stronger than their tier's mean, and the mid-tier teams that play low-tier\nteams are .06 weaker. Opponents' strengths also covary within tier pairs. A schedule that draws teams\nat random within the tier mix puts the average low team against the average P4 team and widens every\ncross-tier gap. This moves the tier-vs-tier matrix, team RA/G spread and the elite run-prevention\nrows.\n\nMeasured (team strength = o + d of the additive scoreboard fit without parks, the totals the engine\ndraws; deviation = strength minus its tier's mean):\n  mean deviation of the teams in each directed cross-tier pairing (team-games); the fit's noise has\n  mean zero given the schedule, so these are the true means\n  covariance of the two teams' deviations in cross-tier games, less the fit's noise covariance\n  between opponents (from the fit's covariance matrix)\nSolved, on schedules of generated leagues (calibration seeds 950001-950012, no games played):\n  beta[t|u]  weight on deviation for a tier-t team filling a slot against tier u\n  sigma      matching noise in tier-SD units (rank matching on z + sigma N(0, 1))\nby fixed-point iteration on the six means and the covariance. Same-tier nonconference means are\nreported as a check, not matched (they follow from who is left).\n\n    python3 scripts/build_phase6_schedule.py\n",
+  "built": "2026-10-03",
+  "source": "NCAA scoreboard feed, every 2025 D1-vs-D1 final (data/ncaa_2025/scoreboard/games_2025.csv; fetched for PR #1); regular season (before 2025-05-26)",
+  "seeds": [
+   950001,
+   950002,
+   950003,
+   950004,
+   950005,
+   950006,
+   950007,
+   950008,
+   950009,
+   950010,
+   950011,
+   950012
+  ],
+  "targets": {
+   "mean_dev": {
+    "low|low": -0.0391,
+    "low|mid": 0.0877,
+    "low|p4": 0.1536,
+    "mid|low": -0.0596,
+    "mid|mid": 0.012,
+    "mid|p4": 0.0275,
+    "p4|low": -0.0054,
+    "p4|mid": 0.016,
+    "p4|p4": 0.0178
+   },
+   "mean_dev_se": {
+    "low|low": 0.0192,
+    "low|mid": 0.0144,
+    "low|p4": 0.0236,
+    "mid|low": 0.0108,
+    "mid|mid": 0.0077,
+    "mid|p4": 0.0116,
+    "p4|low": 0.0196,
+    "p4|mid": 0.0087,
+    "p4|p4": 0.0171
+   },
+   "n_team_games": {
+    "low|low": 562,
+    "low|mid": 897,
+    "low|p4": 248,
+    "mid|low": 897,
+    "mid|mid": 1930,
+    "mid|p4": 898,
+    "p4|low": 248,
+    "p4|mid": 898,
+    "p4|p4": 258
+   },
+   "cross_cov_fitted": 0.01751,
+   "cross_cov_noise": 0.00097,
+   "cross_cov": 0.01653,
+   "tier_sd_fitted": {
+    "low": 0.4774,
+    "mid": 0.3431,
+    "p4": 0.2738
+   }
+  },
+  "beta": {
+   "low|mid": 0.8849,
+   "low|p4": 1.3547,
+   "mid|low": -0.6474,
+   "mid|p4": 0.2269,
+   "p4|low": 0.1913,
+   "p4|mid": 0.6538
+  },
+  "sigma": 1.862,
+  "achieved": {
+   "mean_dev": {
+    "low|low": -0.1191,
+    "low|mid": 0.0896,
+    "low|p4": 0.1527,
+    "mid|low": -0.0582,
+    "mid|mid": 0.0155,
+    "mid|p4": 0.0266,
+    "p4|low": -0.0063,
+    "p4|mid": 0.0144,
+    "p4|p4": -0.0312
+   },
+   "cross_cov": 0.01581
+  }
  }
 }

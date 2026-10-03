@@ -64,7 +64,7 @@ MIN_RUNNER_OPP = 10                  # GUESS (statistical threshold)
 
 # Phase 6 mechanisms, switchable one by one so each one's effect on the gate rows can be measured
 # (scripts set FEATURES[...] = False for an ablation run; the engine reads it at season start).
-FEATURES = {"calendar": True, "bullpen": True, "leash": True, "subs": True, "parks": True, "fielding": True, "speed": True}
+FEATURES = {"calendar": True, "bullpen": True, "leash": True, "subs": True, "parks": True, "fielding": True, "speed": True, "schedule": True}
 
 _CACHE: dict = {}
 
