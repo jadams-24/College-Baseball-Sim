@@ -10,7 +10,7 @@ strength = o + d in log runs.
 
 Phase 6 (scripts/build_phase6_schedule.py): real nonconference schedules are matched by strength
 within tier. The teams in cross-tier games are not a random draw from their tier (low teams that
-play P4 teams are .15 log runs above their tier's mean), and opponents' strengths covary. Each week's
+play P4 teams sit well above their tier's mean; PHASE0_NOTES, Phase 6), and opponents' strengths covary. Each week's
 tier pairs are drawn as before; then the teams of each tier fill their cross-tier slots, picked with
 weight exp(beta[tier|opponent tier] * deviation) where deviation is the team's strength minus its
 tier's mean (scoreboard totals), and the same-tier slots take the rest. Within each tier pair the

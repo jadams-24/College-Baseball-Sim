@@ -66,6 +66,10 @@ MIN_RUNNER_OPP = 10                  # GUESS (statistical threshold)
 # (scripts set FEATURES[...] = False for an ablation run; the engine reads it at season start).
 FEATURES = {"calendar": True, "bullpen": True, "leash": True, "subs": True, "parks": True, "fielding": True, "speed": True, "schedule": True}
 
+# Bounds on the one-factor speed loadings (engine/league.py): the loadings come from three pairwise
+# correlations and are clipped so no component is all speed or none. Numerical guard.
+SPEED_LOADING_CLIP = (0.05, 0.95)    # GUESS
+
 _CACHE: dict = {}
 
 

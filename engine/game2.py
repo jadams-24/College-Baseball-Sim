@@ -323,7 +323,9 @@ class PlayerGameEngine:
         for slot, player in dec.defensive_subs(st, fld):
             self._sub(st, fld, player, slot)
         while st.outs < 3 and not st.over:
-            if any(b is not None for b in st.bases):
+            # pre-PA base running events: one draw per opportunity, again after each event until none
+            # occurs (scripts/build_engine_tables.py)
+            while any(b is not None for b in st.bases) and st.outs < 3 and not st.over:
                 steal = dec.steal_attempt(st)
                 runner = self._lead_stealer(st, bat)
                 ta = to_ = 0.0
@@ -334,22 +336,24 @@ class PlayerGameEngine:
                 ev = self.pre_pa.draw_event(st.outs, st.base_code, rng.random(), sb_or)
                 if steal == Decision.NO and ev == "SB_ATT":
                     ev = None
-                if ev is not None:
-                    ok_or = 1.0
-                    if ev == "SB_ATT" and runner is not None:
-                        ok_or = np.exp(runner.run[1] - st.catcher_arm[fld] + self.delta["ok"] + to_)
-                    out = self.pre_pa.draw_outcome(ev, st.outs, st.base_code, rng.random(), ok_or)
-                    if out is not None:
-                        dests, _, err = out
-                        if ev == "SB_ATT":
-                            self.sb[0] += 1
-                            self.sb[1] += "0" not in dests
-                            st.sb_att[bat] += 1
-                            st.sb_ok[bat] += "0" not in dests
-                        if self._apply(st, dests, None, None, err, event=ev) and st.half == "B":
-                            self._end_check(st, True)
-                        if st.outs >= 3 or st.over:
-                            break
+                if ev is None:
+                    break
+                ok_or = 1.0
+                if ev == "SB_ATT" and runner is not None:
+                    ok_or = np.exp(runner.run[1] - st.catcher_arm[fld] + self.delta["ok"] + to_)
+                out = self.pre_pa.draw_outcome(ev, st.outs, st.base_code, rng.random(), ok_or)
+                if out is None:
+                    break
+                dests, _, err = out
+                if ev == "SB_ATT":
+                    self.sb[0] += 1
+                    self.sb[1] += "0" not in dests
+                    st.sb_att[bat] += 1
+                    st.sb_ok[bat] += "0" not in dests
+                if self._apply(st, dests, None, None, err, event=ev) and st.half == "B":
+                    self._end_check(st, True)
+            if st.outs >= 3 or st.over:
+                break
             self._sub(st, bat, dec.pinch_hit(st, bat, st.slot[bat] % 9), st.slot[bat] % 9)
             batter = st.lineup[bat][st.slot[bat] % 9]
             st.slot[bat] += 1

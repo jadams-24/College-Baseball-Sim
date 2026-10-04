@@ -143,22 +143,23 @@ def _err_split(cell: Categorical):
 
 
 class PrePaEventTable:
-    """Non-PA base running events (steal attempts, WP, PB, pickoffs, balks, other)
-    sampled once before each plate appearance at the empirical per-PA rate."""
+    """Non-PA base running events (steal attempts, WP, PB, pickoffs, balks, other) at the
+    empirical rate per base-running opportunity (scripts/build_engine_tables.py): drawn before each
+    plate appearance and again after each event, until none occurs."""
 
     def __init__(self, pre_pa: dict, events: tuple, min_cell_n: int):
         self.events = events
         self.rate: dict[str, Categorical] = {}     # state -> categorical over events + "NONE"
         self.outcome: dict[tuple[str, str], Categorical] = {}
         for key, d in pre_pa.items():
-            n_pa = d["n_pa"]
-            if n_pa < min_cell_n:
+            n_opp = d.get("n_opp", d["n_pa"])
+            if n_opp < min_cell_n:
                 continue
             weights, labels = [], []
             for et in events:
                 c = d["events"].get(et)
                 if c:
-                    labels.append(et); weights.append(sum(c.values()) / n_pa)
+                    labels.append(et); weights.append(sum(c.values()) / n_opp)
                     self.outcome[(key, et)] = Categorical.from_counts(c)
             labels.append("NONE"); weights.append(max(0.0, 1.0 - sum(weights)))
             self.rate[key] = Categorical(labels, weights)

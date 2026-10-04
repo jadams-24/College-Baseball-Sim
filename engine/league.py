@@ -315,11 +315,11 @@ def _fielding(fl6: dict, t, regs: list, bench: list, rng) -> None:
     against). Team error log-odds beyond the fielders: slope x run prevention d + N(0, team sd)."""
     sp = fl6["speed"]
     c = sp["corr"]
-    # one-factor loadings from the three pairwise correlations (clipped to [0.05, 0.95])
+    # one-factor loadings from the three pairwise correlations (clipped to SPEED_LOADING_CLIP)
     ab, ax, sx = c["attempt|success"], c["attempt|extra_base"], c["success|extra_base"]
     lam = {"attempt": np.sqrt(max(ab * ax / max(sx, 1e-3), 0)), "success": np.sqrt(max(ab * sx / max(ax, 1e-3), 0)),
            "extra_base": np.sqrt(max(ax * sx / max(ab, 1e-3), 0))}
-    lam = {k: float(np.clip(v, 0.05, 0.95)) for k, v in lam.items()}
+    lam = {k: float(np.clip(v, *phase6.SPEED_LOADING_CLIP)) for k, v in lam.items()}
     pos_reg = list(rng.permutation(FIELD_POSITIONS + ("dh",)))
     shares = phase6.load()["subs6"]["def_position_shares"]
     bpos = list(rng.choice(list(shares), size=len(bench), p=np.array(list(shares.values())) / sum(shares.values())))
