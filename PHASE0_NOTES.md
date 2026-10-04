@@ -395,6 +395,12 @@ Everything that does not need handedness. Inputs come from the committed 2025 WM
   - Counting qualification by games with a plate appearance, as the benchmark does, fixed a .321 → .324 drop.
   - Unexplained so far; it misses its tolerance by .0009.
 
+**Pre-PA base running per opportunity** (`scripts/build_engine_tables.py`; found when CI checked the Phase 1 engine against the new SB benchmark).
+- The feed records a plate appearance at its base state after any events during it. After a steal from first, the next PA reads runner on second in 1,720 of 1,941 cases.
+- The Phase 1 table divided events in each state by the PAs recorded there. That left out the PAs in which a runner left the state, and inflated every pre-PA event rate in those states: Phase 1 steal attempts ran 15% high (1.22 SB per team-game against the sample's 1.06; the old 1.29 benchmark hid it).
+- Rates are now per base-running opportunity: every state a half-inning passes through between plate appearances (the state before each event, and the state the PA is recorded in). Both engines draw again after an event until none occurs.
+- Phase 1 now gives 1.048 SB, .269 CS and success .796 per team-game, against the sample's 1.059 / .277 / .793. R/G, BA, OBP, SLG and the half-inning rows are unchanged within their tolerances. Every later phase was recalibrated on the new table.
+
 **Result (20 seasons, seeds 20251000–20251019): every gated Phase 1, 2, 4, 5 and 6 row passes.**
 - The rows that had failed now pass. Team RA/G SD is 1.636 against 1.596 ± .220. Low batting vs mid pitching is 5.59 against 5.88 ± .66. The tier-mean recovery rows are all within 3 SE.
 - P4 batting vs low pitching is 9.55 against 9.82 ± 1.22. P4 RA/G mean is 5.54 against 5.77 ± .45 and is gated again.
