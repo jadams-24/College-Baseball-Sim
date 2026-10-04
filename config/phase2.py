@@ -75,13 +75,13 @@ DEFERRED_TO_PHASE6 = {
     "tier_p4_low": "reserves in mismatches and blowouts (manager AI)",
 }
 
-# Named watch items (owner decisions, PHASE0_NOTES Phase 6): reported with their diagnosis, not gated. P4 RA/G mean and
-# qualified OBP p10 sit under the mismatch interaction (Phase 6b: scoring between unequal teams falls below the additive
-# prediction; the sim's tier-vs-tier pattern runs the other way); run rule and the 15+ bin under the missing game-to-game
-# variance (everything tested and ruled out in PHASE0_NOTES).
+# Named watch item (owner decision 2026-10-04, PHASE0_NOTES Phase 6): "offense extremes compressed". Reported with its
+# diagnosis, not gated. Qualified OBP p10 here; the run rule and the 15+ bin in the Phase 6 report. Season and game
+# extremes are narrower than real because runs vary less from game to game around team strength (dispersion 2.2 against
+# 2.6; everything tested and ruled out in PHASE0_NOTES). The schedule, the park netting and the team draw were checked
+# and reproduce the data.
 WATCH_ITEMS = {
-    "team_p4_ra_per_game_mean": "mismatch interaction (Phase 6b)",
-    "q_OBP_p10": "mismatch interaction (Phase 6b)",
+    "q_OBP_p10": "offense extremes compressed",
 }
 
 # Shape of the individual true-talent distributions (scripts/build_talent_shapes.py). A rate is drawn

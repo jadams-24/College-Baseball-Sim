@@ -85,6 +85,10 @@ class Team:
     o: float = 0.0     # true offense, log runs above an average team (team level, before players)
     d: float = 0.0     # true run prevention, log runs
     s_total: float = 0.0  # Phase 6: o + d as the scoreboard fit without parks sees them (before park netting); schedule selection
+    o_total: float = 0.0  # Phase 6 diagnostics: the drawn totals before park netting, the home park's run level and the expected road park
+    d_total: float = 0.0
+    park_run: float = 0.0
+    road_park: float = 0.0
     park: np.ndarray = None   # Phase 6: logit offsets (RATES order) on every plate appearance in this team's home park
     err_team: float = 0.0     # Phase 6: team error log-odds beyond its fielders (run prevention slope + team residual)
     batters: list = field(default_factory=list)
@@ -216,8 +220,10 @@ def build_league(cfg: Phase2Config, rng: np.random.Generator) -> League:
         c = conf_fx[t.conference] if not confs[t.conference][3] else rng.multivariate_normal(np.zeros(2), td["conf_cov"], method="eigh")
         t.o, t.d = np.array(td["mean"]) + c + rng.multivariate_normal(np.zeros(2), td["team_cov"], method="eigh")
         t.s_total = float(t.o + t.d)
+        t.o_total, t.d_total = float(t.o), float(t.d)
         if pk6 and "tier_run_sd" in pk6:
             t.park, run_level = pre[tid]
+            t.park_run, t.road_park = float(run_level), float(road.get(tid, 0.0)) if expo else 0.0
             # (o, d) above are totals as the fit without parks sees them: they absorb the home park and the parks of the
             # road games (scripts/solve_phase6_park_exposure.py); the net ratings take that out
             if expo:

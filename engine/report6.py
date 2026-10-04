@@ -28,8 +28,8 @@ import numpy as np
 from config.phase2 import GATE_SE_MULTIPLE, LEADERBOARD_PI, TIERS
 
 # owner decision (2026-10-03): named watch items, reported with their diagnosis and not gated (PHASE0_NOTES, Phase 6)
-WATCH6 = {"p6_run_rule": "game-to-game variance not closed (everything tested and ruled out in PHASE0_NOTES)",
-          "p6_run_histogram_15plus": "game-to-game variance not closed (everything tested and ruled out in PHASE0_NOTES)"}
+WATCH6 = {"p6_run_rule": "offense extremes compressed (game-to-game variance; everything tested and ruled out in PHASE0_NOTES)",
+          "p6_run_histogram_15plus": "offense extremes compressed (game-to-game variance; everything tested and ruled out in PHASE0_NOTES)"}
 from engine.game2 import P_ER, P_G, P_GS, P_K, P_OUTS
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -218,7 +218,7 @@ def build_report6(agg: dict, agg2: dict, agg5: dict, seeds: list, st2: dict, st4
           "## Team-strength recovery by tier", "",
           "The scoreboard fit with parks, run on the simulated seasons, recovers each tier's mean offense and run prevention as drawn "
           "(tolerance 3 SE of the season-to-season mean). Team quality comes from player talent; there are no per-tier offsets.", "", hdr, sec("recovery"), "",
-          "Fit without parks, simulated against real tier means (diagnostic; the gap is the mismatch-interaction watch item): " + "; ".join(
+          "Fit without parks, simulated against real tier means (diagnostic): " + "; ".join(
               f"{tr} offense {m[f'nopark_o_{tr}']:+.3f} / {tt['tiers_total'][tr]['mean_o']:+.3f}, run prevention {m[f'nopark_d_{tr}']:+.3f} / {tt['tiers_total'][tr]['mean_d']:+.3f}"
               for tr in TIERS) + ".", "",
           "## Schedule selection (diagnostic)", "",
