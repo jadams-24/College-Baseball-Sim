@@ -198,7 +198,7 @@
     "fip_under_3_00": {"count": 6, "pct": 0.0068, "conf": "A"},
     "teams_with_era_under_4_00": {"count": 12, "of": 303, "conf": "A"},
     "teams_with_era_under_3_00": {"count": 0, "of": 303, "conf": "A"},
-    "best_team_era_2025": {"value": 3.2, "team": "Coastal Carolina", "conf": "A"}
+    "best_team_era_2025": {"value": 3.06, "team": "Northeastern", "conf": "A", "src": "https://www.ncaa.com/stats/baseball/d1/2024/team/{210,211,323} (2025 season; fetched 2026-10-04)"}
   },
   "batting_distribution_2025": {
     "_note": "For Phase 2 leaderboard gate. Qualified = 1 PA per team game (B-Ref standard). Fill in from stats.ncaa.org individual leaders in Phase 1 data pull.",
@@ -208,8 +208,8 @@
     "p10_ba_qualified": {"value": 0.23, "conf": "D"},
     "top_hr_season": {"value": 34, "conf": "A", "src": "Tague Davis, Louisville, 2026; 2020s leaders 30-35"},
     "hr_30plus_seasons_alltime": {"value": 27, "conf": "A"},
-    "team_ba_range_2025": {"max": 0.356, "max_team": "Georgia Tech", "conf": "A"},
-    "team_hr_max_2025": {"value": 179, "team": "Georgia", "games": 67, "conf": "A"}
+    "team_ba_range_2025": {"max": 0.337, "max_team": "New Mexico", "conf": "A", "src": "https://www.ncaa.com/stats/baseball/d1/2024/team/{210,211,323} (2025 season; fetched 2026-10-04)"},
+    "team_hr_max_2025": {"value": 144, "team": "Georgia", "games": 60, "conf": "A", "src": "https://www.ncaa.com/stats/baseball/d1/2024/team/{210,211,323} (2025 season; fetched 2026-10-04)"}
   },
   "game_structure": {
     "innings": 9,
@@ -719,11 +719,7 @@
       "note_56g": "Gated value: the raw count x the ratio of 56-game-equivalent to raw 50+ IP counts on the 50 WMT full-season teams (each pitcher's IP x 56 / his team's games; scripts/build_phase6_usage.py). The sim plays 56 games with no postseason."
     },
     "pitchers_50ip_era_under_2": {"value": 5, "conf": "A"},
-    "pitchers_50ip_era_under_3": {"value": 57, "conf": "A"},
-    "teams_era_under_4": {"value": 12, "conf": "A"},
-    "best_team_era": {"value": 3.2, "conf": "A"},
-    "team_ba_max": {"value": 0.356, "conf": "A"},
-    "team_hr_per_game_max": {"value": 2.672, "conf": "A", "note": "Georgia 179 HR in 67 games"}
+    "pitchers_50ip_era_under_3": {"value": 57, "conf": "A"}
   },
   "team_talent_2025": {
     "_note": "Team strength on one talent scale. Quasi-Poisson fit of runs per team-game on team offense o, run prevention d (log runs, centred over teams), the listed home slot and (Phase 6) the listed home team's park; (o, d) = tier mean + conference effect + team effect. Estimation noise removed by method of moments using each team's covariance from the fit; conference covariance = spread of conference means minus (team + noise)/n, per tier, projected to PSD. Hosting of nonconference games: logistic in tier pair and strength gap, slope disattenuated for noise. Engine mapping (phase2_run_scale_2025.json): o and d become logit offsets along the batting and pitching quality directions scaled so one unit is one log run in the engine; the home talent edge is home_log_ratio minus the engine's batting-last effect h0. NCAA scoreboard feed, every 2025 D1-vs-D1 final (data/ncaa_2025/scoreboard/games_2025.csv; fetched for PR #1)",
@@ -1159,5 +1155,33 @@
     "ip_rank3_relief": {"value": 18.741, "tol": 7.131, "gate": "report"},
     "batters_per_team_game": {"value": 10.4203, "tol": 0.078},
     "earned_run_share": {"value": 0.8824, "tol": 0.0082, "src": "runs charged by inning reconstruction of the WMT play-by-play (data/ncaa_2025/pbp/parsed/runs_charged_2025.csv.gz)"}
+  },
+  "team_leaders_2024_2026": {
+    "_note": "Phase 2 gate. National team leaders, 2024-2026 seasons: NCAA.com team pages (top 50; data/ncaa_leaders/). Rates and counts of teams, not normalized to 56 games. Real seasons include the postseason and games against non-D1 opponents. A row passes if the simulated mean over the seasons run lies in the band from the lowest to the highest real season, widened by 3 SE of the simulated mean (as individual_leaders_2023_2026).",
+    "conf": "A",
+    "src": "https://www.ncaa.com/stats/baseball/d1/{2023,2024,2025}/team/{210,211,323} (fetched 2026-10-04)",
+    "team_ba_max": {
+      "by_season": {"2024": 0.359, "2025": 0.337, "2026": 0.356},
+      "lo": 0.337,
+      "hi": 0.359,
+      "teams": {"2024": "Austin Peay", "2025": "New Mexico", "2026": "Georgia Tech"}
+    },
+    "best_team_era": {
+      "by_season": {"2024": 3.78, "2025": 3.06, "2026": 3.22},
+      "lo": 3.06,
+      "hi": 3.78,
+      "teams": {"2024": "Hawaii", "2025": "Northeastern", "2026": "Oregon St."}
+    },
+    "team_hr_per_game_max": {
+      "by_season": {"2024": 2.607, "2025": 2.4, "2026": 2.672},
+      "lo": 2.4,
+      "hi": 2.672,
+      "teams": {"2024": "Austin Peay", "2025": "Georgia", "2026": "Georgia"}
+    },
+    "teams_era_under_4": {
+      "by_season": {"2024": 6, "2025": 12, "2026": 12},
+      "lo": 6,
+      "hi": 12
+    }
   }
 }

@@ -222,9 +222,7 @@ def build_report(agg: dict, seeds: list, bench: dict | None = None) -> tuple[str
                 row("qualified", f"{c} {pq}", agg["qualified"][side][c][pq], qp[side][c][pq], qp[side][c]["tol"][pq], qp["conf"], f"q_{c}_{pq}", ["qualified", side, c, pq], nd=nd)
     lbb = b["leaderboards_2025"]
     tq = _t_quantile((1 + LEADERBOARD_PI) / 2, n - 1) if n > 1 else float("inf")
-    for k, lab in (("pitchers_50ip", "Pitchers with 50+ IP"), ("pitchers_50ip_era_under_2", "50+ IP pitchers with ERA < 2.00"), ("pitchers_50ip_era_under_3", "50+ IP pitchers with ERA < 3.00"),
-                   ("teams_era_under_4", "Teams with ERA < 4.00"), ("best_team_era", "Best team ERA"), ("team_ba_max", "Best team BA"),
-                   ("team_hr_per_game_max", "Most team HR per game")):
+    for k, lab in (("pitchers_50ip", "Pitchers with 50+ IP"), ("pitchers_50ip_era_under_2", "50+ IP pitchers with ERA < 2.00"), ("pitchers_50ip_era_under_3", "50+ IP pitchers with ERA < 3.00")):
         # counts of 50+ IP pitchers at a 56-game equivalent where the benchmark carries one (the sim plays 56 games)
         s, real = agg["leaderboards"][k], lbb[k].get("value_56g", lbb[k]["value"])
         half = tq * s["sd"] * np.sqrt(1 + 1 / n)
@@ -236,6 +234,17 @@ def build_report(agg: dict, seeds: list, bench: dict | None = None) -> tuple[str
         gcol = "Phase 6" if deferred else ("yes" if real is not None else "")
         rows.append(("leaders", f"| {lab} | {s['mean']:.{nd}f} (season range {s['min']:.{nd}f}–{s['max']:.{nd}f}) | {'—' if real is None else real}{' (56-game eq. of ' + str(lbb[k]['value']) + ')' if 'value_56g' in lbb[k] else ''} | ±{half:.{nd}f} | {lbb[k]['conf']} | {gcol} | "
                                 f"{'pass' if ok else ('FAIL' if ok is False else 'n/a (no full-population source)')} |"))
+    # team leaders: the 2024-2026 band (team_leaders_2024_2026), as the individual leaders
+    tl = b["team_leaders_2024_2026"]
+    for k, lab, nd in (("teams_era_under_4", "Teams with ERA < 4.00", 1), ("best_team_era", "Best team ERA", 3), ("team_ba_max", "Best team BA", 3),
+                       ("team_hr_per_game_max", "Most team HR per game", 3)):
+        s, real = agg["leaderboards"][k], tl[k]
+        pad = k_se * s["sd"] / np.sqrt(n)
+        ok = bool(real["lo"] - pad <= s["mean"] <= real["hi"] + pad)
+        st[f"lb_{k}"] = ok
+        seasons = ", ".join(f"{y} {v:.{nd}f}" for y, v in real["by_season"].items())
+        rows.append(("teamleaders", f"| {lab} | {s['mean']:.{nd}f} (season range {s['min']:.{nd}f}–{s['max']:.{nd}f}) | {real['lo']:.{nd}f}–{real['hi']:.{nd}f} ({seasons}) | "
+                                    f"±{pad:.{nd}f} | {tl['conf']} | yes | {'pass' if ok else 'FAIL'} |"))
     il = b["individual_leaders_2023_2026"]
     for k, lab, nd in (("hr_leader_56g", "HR leader (56-game equivalent)", 1), ("hr_30plus_56g", "Hitters with 30+ HR (56-game equivalent)", 2),
                        ("ba_leader", "BA leader (qualified)", 3), ("hr_top5_per_game", "Top-5 HR hitters, HR per game", 3)):
@@ -273,6 +282,10 @@ def build_report(agg: dict, seeds: list, bench: dict | None = None) -> tuple[str
            "## Qualified players (NCAA qualification; WMT full-season + Sidearm, tier-reweighted)", "",
            f"Qualified per team: batters sim {agg['qualified']['batters']['per_team']:.2f} vs data {qp['batters']['per_team']}; pitchers sim {agg['qualified']['pitchers']['per_team']:.2f} vs data {qp['pitchers']['per_team']}.", "",
            hdr, sec("qualified"), "", "## Leaderboards (full-population extremes)", "", hdr, sec("leaders"), "",
+           "## National team leaders (NCAA.com team pages, 2024–2026)", "",
+           "Rates and counts of teams (real seasons include the postseason and non-D1 games). A row passes if the simulated mean lies in the band from the "
+           f"lowest to the highest real season, widened by {k_se} SE of the simulated mean. Benchmark column: the band, then each season.", "",
+           "| Metric | Sim | Real band (seasons) | Sim SE pad | Conf | Gate | Status |\n|---|---|---|---|---|---|---|", sec("teamleaders"), "",
            "## Individual leaders (NCAA.com national leaders 2024–2026, record book 2023)", "",
            f"Counting stats at a {il['season_games']}-game equivalent (each real player's HR × {il['season_games']} / his games; real leaders' teams played 57–72 games, "
            "the sim plays 56); rates as they are. A row passes if the simulated mean lies in the band from the lowest to the highest real season, widened by "

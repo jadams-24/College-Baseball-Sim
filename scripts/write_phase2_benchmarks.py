@@ -113,7 +113,9 @@ def main() -> None:
     })
     setv(["qualified_players_2025"], gate["qualified_players_2025"])
     # the individual BA / HR placeholders are superseded by individual_leaders_2023_2026 (scripts/write_leader_benchmarks.py)
-    setv(["leaderboards_2025"], {k: v for k, v in gate["leaderboards_2025"].items() if k not in ("individual_ba_top", "individual_hr_top")})
+    # the team-leader rows by team_leaders_2024_2026 (same script)
+    setv(["leaderboards_2025"], {k: v for k, v in gate["leaderboards_2025"].items()
+                                 if k not in ("individual_ba_top", "individual_hr_top", "team_ba_max", "best_team_era", "team_hr_per_game_max", "teams_era_under_4")})
     rr = b["game_structure"]["run_rule_freq"]
     if "tol" not in rr:
         pb, pe = rr["p_margin_10plus_season"], rr["p_ended_early_given_margin_10plus_wmt"]

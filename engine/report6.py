@@ -239,7 +239,7 @@ def build_report6(agg: dict, agg2: dict, agg5: dict, seeds: list, st2: dict, st4
           f"appearances {m['top50_app_with_60ip']:.1f} have 60+ IP (6 / 5 / 12); most IP with 3 or fewer starts {m['relief_ip_max']:.1f} "
           f"(the top-50 appearance leaders' maximum: 102.2 / 74.0 / 92.0); relievers with 60+ IP {m['relievers_60ip']:.1f}; the IP leader is a reliever "
           f"in {m['ip_leader_is_reliever'] * n:.0f} of {n} seasons.",
-          f"- Elite run prevention (Phase 2 rows): best team ERA {lbs['best_team_era']['mean']:.2f} (real 3.20), 50+ IP pitchers with ERA < 2.00 "
+          f"- Elite run prevention (Phase 2 rows): best team ERA {lbs['best_team_era']['mean']:.2f} (real 2024-2026 {b['team_leaders_2024_2026']['best_team_era']['lo']:.2f}–{b['team_leaders_2024_2026']['best_team_era']['hi']:.2f}), 50+ IP pitchers with ERA < 2.00 "
           f"{lbs['pitchers_50ip_era_under_2']['mean']:.1f} (5), < 3.00 {lbs['pitchers_50ip_era_under_3']['mean']:.1f} (57), teams with ERA < 4.00 "
-          f"{lbs['teams_era_under_4']['mean']:.1f} (12).", ""]
+          f"{lbs['teams_era_under_4']['mean']:.1f} (2024-2026: 6 / 12 / 12).", ""]
     return "\n".join(md), st
