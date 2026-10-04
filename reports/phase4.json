@@ -1799,6 +1799,6 @@
   "dist_control": true,
   "dist_movement": true,
   "dist_stamina": null,
-  "phase2_gate": false
+  "phase2_gate": true
  }
 }

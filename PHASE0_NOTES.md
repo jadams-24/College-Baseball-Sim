@@ -261,6 +261,146 @@ Rows that moved but still pass:
 - Power forward test: slope 1.004, dispersion 1.008.
 - League rates within .001 of their old values.
 
+### Phase 6: fielding, parks, fatigue, bullpen and manager AI (2026-10-02 to 2026-10-04, project owner request after PR #10)
+
+Everything that does not need handedness. Inputs come from the committed 2025 WMT play-by-play: new event tables (`scripts/build_phase6_events.py`) and `data/ncaa_2025/derived/phase6_inputs_2025.json`. No new fetch. Every mechanism can be switched off on its own (`config.phase6.FEATURES`) for ablation.
+
+**Calendar and bullpen** (`scripts/build_phase6_usage.py`).
+- Each team-week follows a real weekly pattern: a midweek game on Mon/Tue/Wed and a three-game series starting Thu or Fri (patterns and shares from the 50 full-season teams).
+- Staffs have 18 pitchers (the data median; `N_RELIEVERS` 8 → 13).
+- Relief choice and the midweek starter use conditional logits fitted on the 2025 entries. Alternatives are every unused pitcher on the staff. Terms:
+  - role × leverage (late and close, blowout, other);
+  - rest cells (days since the last outing, split by that outing's pitches);
+  - back to back.
+- A pitcher's rest and fatigue carry across games (`Manager.record_game`).
+- A between-innings pitching change takes effect only when the side next takes the field. Before, the replacement was credited with an appearance even when the game ended first, which inflated pitchers per team-game (4.55 against 4.30 real).
+
+**Leash** (`scripts/build_phase6_pull.py`).
+- The pull hazard gets a proportional-hazards multiplier: log θ = tier (relievers and midweek starters) + season week (starters) + the midweek starter's staff role class (weekend arm −.46, reliever +.28). It is fitted by maximum likelihood on the engine's split: Thu–Sun series games against Mon–Wed midweek games.
+- Midweek starts use a pull table rebuilt on Mon–Wed starts only. The Phase 2 table pools Thursday series openers, whose aces carry long leashes into the 70–100 pitch cells.
+- Each pitcher's Stamina deviation is scaled to the midweek leash spread (.31, by empirical Bayes on 29 pitchers with 5+ midweek starts, against Phase 4's .54 for all starts).
+- Weekend starters get no tier term. The per-decision fit gives mid- and low-tier weekend starters θ .78, but realized pitch counts by tier are flat in the data (p90 101 / 103 / 101), and with the term the engine's mid and low tiers overshoot (108 / 107).
+
+**Substitutions** (`scripts/build_phase6_subs.py`).
+- Hazards by inning × margin with tier multipliers: pinch hitters per plate appearance, pinch runners per batter reaching base, defensive or blowout substitutions per half-inning in the field.
+- The lineup spot replaced follows its real share.
+- Who comes in: entries per game not started, by start rank (flat at about .33 for ranks 1–10, falling to .14 for the deepest).
+- A pinch runner must be faster than the runner.
+- Rosters carry 17 position players (the data median; `N_BENCH` 5 → 8).
+- Playing time follows hitting at ρ = .47 among regulars: the within-team correlation of start share with OBP (.49) and OPS (.45), disattenuated for sampling noise. Start ranks are ordered by ρ × hitting value plus noise, and the batting order stays by hitting value.
+- Starts are persistent by rank: P(start | started the team's last game) against P(start | sat it). The lag-one difference is .33–.45 for ranks 4–14.
+- Before these changes, substitutes crowded onto resting regulars and 9.0 batters per team qualified.
+- Qualification counts games with a plate appearance, as the benchmark does (`scripts/build_phase2_gate.py`). The sim had counted every appearance, including pinch runners and defensive substitutes without one, which Phase 6 added. That let marginal regulars pass the 75% games line, and OBP p10 fell to .321.
+
+**Parks** (`scripts/build_phase2_teams.py`, `scripts/build_phase6_parks.py`).
+- The scoreboard fit gains a park term. Park SD by tier (noise removed): P4 .111, mid .095, low .167 log runs.
+- The rate mix (K, BB, HBP, HR, BABIP, XBH) comes from home/road box-score park factors of 50 full-season teams.
+- The engine draws each team's (o, d) as totals from the fit without parks; those are what the scoreboard sees and were validated in Phase 2. It then draws a park run level from the tier and nets the park out of the totals by the team's scheduled exposure (`scripts/solve_phase6_park_exposure.py`):
+  - A team's no-park total absorbs its home park and the parks it visits, in proportions set by the fit on this schedule design. On simulated seasons, where net ratings and every park are known, the no-park fit's recovered minus drawn ratings are regressed on the team's home park and the mean park of its road games: o absorbs .567 of the home park and .367 of the road parks, d −.398 and −.268 (SE ≤ .065; seeds 940001–4).
+  - The engine nets o_net = o − .567·p_home − .367·E[p_road] and d_net = d + .398·p_home + .268·E[p_road]. E[p_road] is the schedule's expectation: conference road games at the mean of the conference mates' drawn parks, nonconference road games at the tier means of the opponents in the schedule mix.
+  - The earlier ±park/2 netting assumed a team's total holds its home park only. It left visited parks in the net ratings, which shifted tier means: low-tier teams' expected road parks average .07 log runs above P4 teams' (−.053, −.007 and +.016 by tier on generated schedules).
+- Two earlier versions failed on simulated seasons fitted the same way:
+  - Drawing net ratings and parks independently, from the park fit's own decomposition, overstated P4 team R/G spread (1.03 against .79). The park fit's noise removal misses part of the sampling covariance between a team's o and its park, which inflates the "true" o spread (P4 .106 against .072 implied by the no-park fit).
+  - Drawing the park conditional on (o, d), at the "true" correlation of about −.4, double-counted. On simulated seasons fitted the same way, independent parks already reproduce the real recovered o–park and d–park correlations (−.4 to −.6 and about 0); that correlation is sampling noise, and conditioning on it overshoots.
+- An asymmetric version (offense net of the park, run prevention independent of it) put half the park variance into season RA/G spreads (1.81 against 1.60 overall) and was dropped. The recovered correlations are reported as diagnostics only.
+
+**Run prevention split into pitching and fielding** (`scripts/solve_phase6_fielding_scale.py`).
+- The scoreboard's run prevention d already includes fielding, but the Phase 6 error model ties each team's error log-odds to d (slope −.72) on top of a pitching staff that carried all of d.
+- Because the two parts are correlated, the double count added linearly to RA/G spread: about .13 runs, 1.86 against 1.73 with fielding off.
+- The staff now gets g(d) + φ·e, where e is the team's expected error log-odds (team term plus its regular fielders). Total run prevention stays g(d).
+- φ is the engine's run response, .1035 log runs per unit of e, measured by shifting every team's errors ±.5 on calibration seeds. The play-by-play gives .127: 0.80 runs per error play by state-matched run expectancy (reached-on-error against a batted-ball out .905; an error on any other play against the same result without one .597), times 1.07 errors per unit.
+- The engine applies error odds only to reached-on-error and advancement errors, hence the smaller response.
+- Fielding's share of run-prevention variance is small, about 1% D1-wide and 4% within P4, but it is correlated with pitching quality.
+
+**Fielding and speed** (`scripts/build_phase6_fielding.py`).
+- Errors per chance by position, with true SDs by the method of moments, plus a team error term tied to run prevention.
+- Outfield arms (extra bases allowed) and catcher arms (steal success against).
+- One speed factor loads attempt, success and extra bases.
+- Steal attempt and success by offense tier × defense tier cell. Attempts rise in mismatches: P4 running on mid or low defenses .117–.132 per opportunity, against .081 for P4 on P4 and .087 for mid on mid. Main effects spread that onto every game and overshot attempts (1.53 against 1.44).
+- Range is not identifiable from the play-by-play: the scorer's hit location is where the ball was fielded, not where it was hit. It is not modelled.
+
+**Benchmark changes** (logged in `benchmark_changes_phase6.json`).
+- `league_totals_2025.sb_per_team_game`: 1.29 → 1.098. The old value was the FanGraphs unweighted mean of conference tables (Phase 0). The new value is the WMT box totals reweighted to the full-season matchup mix, the source of the attempt and success rows it is the product of. Full-season Sidearm team totals agree (1.047 on 13 teams).
+- `leaderboards_2025.pitchers_50ip` gains `value_56g` = 821: the raw 882 × .931 ± .034, the ratio of 56-game-equivalent to raw 50+ IP counts on the WMT full-season teams (real teams play 57–72 games with the postseason). It is the same normalization as the individual-leader rows.
+- `pitch_level_2025` starts: midweek is now Mon–Wed (Thursday series openers are weekend starts).
+- New `usage_phase6_2025`: usage rows at a 56-game equivalent, batters per team-game and earned-run share.
+- Errors per team-game and earned share leave the Phase 5 "unchanged from Phase 4" rows, because Phase 6 fielding moves them on purpose. They are gated against real data instead.
+
+**Run rule and the 15+ runs bin: part of the "offense extremes compressed" watch item (below), not closed** (owner decision, 2026-10-03: no noise term).
+- Runs vary less from game to game around team strength in the sim than in reality. Scoreboard dispersion is about 2.2 against 2.6 real (without parks), and within-game residual correlation .05 against .073.
+- The missing variance is about two-thirds one team's game, which drives margins and so the run rule, and one-third shared by both teams, which feeds the 15+ bin. Tested and ruled out, each against the play-by-play or the scoreboard:
+  - Shortened games: scheduled 7-inning doubleheader games and weather-shortened games are 1.2% of games.
+  - In-season drift in team strength: a team's scoreboard residuals are not positively autocorrelated across its games at lags 1–20 (all about −.02, the fitting bias).
+  - Pitcher day form: starters' per-start dispersion is 1.02 for walks and 1.01 for hits on balls in play, both at the sim's level. Strikeouts run 1.37 against 1.12, but that is worth under 1% of run variance.
+  - Defensive days: team errors per game are only mildly overdispersed (1.11).
+  - Seasonal run environment (temperature proxy): week effects have true variance .0008 in log runs, about 7% of the shared gap.
+  - Team-strength tails: sim and real RA/G and R/G quantiles agree.
+  - Persistence within a game: runs in innings 1–3 and 4–6 correlate .068 real against .041 sim, a gap of 1.7 SE.
+  - Mechanisms that are in and help: parks (residual correlation .032 → .05), bullpen rest and fatigue, lineup persistence and blowout substitutions.
+- Remaining candidates need data not in the repository:
+  - Wind relative to each park's orientation. NOAA hourly weather is reachable and allowed by its robots.txt; park orientations are not available.
+  - Umpire strike zones and field conditions.
+
+**Mismatch interaction investigated; the cause was the schedule** (`scripts/build_phase6_schedule.py`; project owner request: build the mismatch interaction from data on the continuous strength gap, not tier labels; then rescoped to remove an invented underdog penalty, no offsetting term).
+- The 20-season run after the park-exposure netting failed four rows that pointed the same way: low batting vs mid pitching (5.20 against 5.88), team RA/G spread (1.88 against 1.60), and the low and mid offense recovery rows. Watch items P4 RA/G mean and qualified OBP p10, and the elite run-prevention lean, leaned the same way.
+- Gap curve. Runs per team-game were fitted on the two teams' scoreboard ratings plus a term in the squared strength gap g (o + d of the batting team minus the fielding team's), separately for the favored (g > 0) and underdog side, on the real scoreboard and on simulated seasons measured the same way.
+  - Fitted jointly with the ratings, real games show a favored-side shortfall only (−.088 ± .019 per g², about 9% at g = 1; underdog +.022 ± .026), while the sim showed an underdog penalty (−.109 ± .019). The joint fit is poorly identified, though: adding the terms widens the real fitted strength spread by 18% and the sim's by 1%, and the two g² terms trade off against that spread.
+  - Two-step (ratings from the additive fit, then the g² terms on its residuals): favored −.036 ± .011 real against −.035 ± .003 sim; underdog −.044 ± .020 real against −.084 ± .007 sim (1.9 SE; −.063 ± .010 with every Phase 6 mechanism off).
+  - The real favored-side shortfall is late: innings lost to the run rule and the skipped bottom ninth (−.23 per g²) and fewer runs per late inning batted (−.10 ± .03); innings 1–6 carry −.037 ± .013. The sim already loses more late innings than real (−.31), so the run rule and blowout substitutions cover it.
+- PA level (owner request: find the layer). The same g² terms in a logit for each rate (K, BB, HBP, HR per PA; hits per ball in play; extra-base hits per hit; reached on error), and runs given the PA outcomes against a BaseRuns yardstick, on (batting team, pitching team, home) cells:
+  - Real: mismatches walk more on both sides (+.12 ± .03 favored, +.09 ± .03 underdog); underdogs strike out more (+.11 ± .03); favored sides hit fewer extra-base hits (−.11 ± .04). Runs given the PA outcomes are flat in g (+.002 ± .012 favored, −.011 ± .021 underdog), so nothing enters at the compounding layer.
+  - Sim: the same signs at smaller size (BB +.03 both sides, K +.02 underdog) and runs given the outcomes flat as well (−.014 ± .003, +.003 ± .005). The odds-ratio combination and run compounding do not penalize weak offenses beyond the data; runs per game against the additive prediction agree (underdog −.086 ± .043 real, −.091 ± .011 sim, on these cells).
+- Parks (owner hypothesis: park rate shifts produce runs that depend on hitter quality). Tested on the scoreboard with the park fit: the interaction of the fitted park with the matchup (o_bat − d_pit) is +.004 ± .018 per season in the sim and +.058 ± .077 real. Rejected; the park model is unchanged.
+- The cause: the tier cells' fitted predictions, not their residuals. In low batting vs mid pitching the residual is 1.008 real against .981 sim, but the additive prediction is 5.83 real against 5.36 sim, because the mean strength gap in those games is −.34 real and −.46 sim with the same tier means. Real nonconference schedules are matched by strength within tier. On the 2025 regular season (games before May 26; the NCAA tournament adds selection of its own and the sim has no postseason), the teams in each nonconference pairing sit this far from their tier's mean strength (log runs, fit without parks):
+
+  | Team's tier → opponent's tier | Real (SE) | Sim before | Sim after |
+  |---|---|---|---|
+  | low → mid | +.088 (.014) | +.018 | +.063 |
+  | low → P4 | +.154 (.024) | +.007 | +.153 |
+  | mid → low | −.060 (.011) | −.009 | −.053 |
+  | mid → P4 | +.027 (.012) | −.004 | +.016 |
+  | P4 → low | −.005 (.020) | +.009 | −.029 |
+  | P4 → mid | +.016 (.009) | −.007 | +.018 |
+
+  Opponents' deviations covary too (.0175 in cross-tier games, .0010 of it the fit's own noise covariance). For low teams most of the selection is the conference (+.133 of the +.154 against P4): strong low conferences play up. The same estimator on simulated seasons returned about zero before the change, so it is not a fitting artifact.
+  - Model: each week's tier pairs are drawn from the real mix as before; the teams of each tier then fill their cross-tier slots with weight exp(β[tier|opponent tier] × deviation), same-tier slots take the rest, and opponents are matched by rank on z + σ N(0, 1) (z in tier SD units). Six β and σ are solved on generated schedules against the six means and the covariance (β low|mid .88, low|P4 1.35, mid|low −.65, mid|P4 .23, P4|low .19, P4|mid .65; σ 1.86).
+  - Same-tier pairings are not matched and come out weaker than real (low vs low −.12 against −.04): the weakest low teams play part of their real schedule outside D1, which the D1-only scoreboard omits; the sim plays 56 D1 games.
+  - The gap curve after the change (4 seasons, two-step): favored −.041 ± .007 sim against −.036 ± .011 real; underdog −.084 ± .012 against −.044 ± .020, a difference of −.040 ± .023 (1.7 SE). By gap bin the favored side matches within 1% beyond g = .75; the underdog side runs 4–8% low beyond |g| = .75, within 1–1.5 SE per bin. Not significant, so no gap interaction is added (owner rule). It stays a named watch item, with the joint-fit caveat above: the joint fit puts the difference at −.12 ± .03 because it trades the g² terms against the strength spread differently on real and simulated seasons.
+
+**Team-leader rows rebuilt from three seasons** (owner decision 2026-10-04; `scripts/parse_ncaa_leaders.py`, `scripts/write_leader_benchmarks.py`, logged in `benchmark_changes_leaders.json`).
+- After the schedule change, best team BA failed: .339 against .356 ± .013. Its tolerance is a prediction interval from the sim's own seasons, which tightened from ±.026.
+- The four single-season team-leader rows (best team BA, best team ERA, most team HR per game, teams with ERA under 4.00) are now gated like the individual leaders. The band runs from the lowest to the highest real season, widened by 3 SE of the sim mean. Source: NCAA.com team pages 210, 211 and 323, top 50, for 2024–2026 (`data/ncaa_leaders/raw_team/`). The year mapping is checked against the 2025 scoreboard: the /2024/ table's games match each listed team's 2025 games (Coastal Carolina 69, Georgia 60, Northeastern 60).
+- These are rates and counts of teams, so none is normalized to 56 games. Real seasons include the postseason and non-D1 games.
+
+  | Row | 2024 | 2025 | 2026 |
+  |---|---|---|---|
+  | Best team BA | .359 Austin Peay | .337 New Mexico | .356 Georgia Tech |
+  | Best team ERA | 3.78 Hawaii | 3.06 Northeastern | 3.22 Oregon St. |
+  | Most team HR per game | 2.607 Austin Peay | 2.400 Georgia | 2.672 Georgia |
+  | Teams with ERA under 4.00 | 6 | 12 | 12 |
+
+- Three Phase 0 entries were wrong and are corrected. Best team BA (.356, Georgia Tech) and most team HR (Georgia, 179 HR in 67 games) were the 2026 season's values. Best team ERA (3.20, Coastal Carolina) was 2025's second-best; Northeastern's 3.06 was first.
+
+**Offense extremes compressed: named watch item** (owner decision 2026-10-04: diagnose time-boxed; if no structural cause, one watch item). Covers qualified OBP p10, the run rule and the 15+ runs bin.
+- Season and game extremes run narrower than real. In the final run: OBP p10 .3249 against .3366; run rule .121 against .152; 15+ bin .053 against .066. Team R/G SD across teams is 1.032 against 1.162, passing.
+- Checked and ruled out:
+  - Schedule. The strongest offenses face the same pitching as in reality: within-tier correlation of offense with opponents' run prevention .425 sim against .434 real; top-10 offenses' opponents .235 against .241. Matching on total strength already reproduces this.
+  - Selection on offense and on run prevention separately. Real low teams that play P4 teams are +.073 in offense and +.081 in run prevention, against the sim's +.055 and +.098. That is within noise, so no separate weights.
+  - Park netting. Recovered offense regressed on drawn total offense and the home park gives slopes .93 low, .97 mid and .81 P4, and home-park coefficients −.12, +.02 and +.05.
+  - Team draw. Low-tier total offense SD averages .188 over 12 generated leagues (SD .025) against .199 configured, short because only 10 low conferences are drawn. The real season's realization is .207, inside that spread.
+- The cause that remains: fit noise in team offense is .081 sim against .098 real, because runs vary less from game to game around team strength (scoreboard dispersion 2.2 against 2.6). Season team stats, single-game margins and the run distribution's tail all carry that variance. It is the cause already named for the run rule and the 15+ bin. Everything tested for it is listed above; no noise term is added.
+- OBP p10 does not fit that cause cleanly, so it is listed with its own evidence. The sim's qualified OBP sits about .01 low across the distribution in P4 and mid: a level shift, not a narrower tail. League OBP matches (.380 against .3805).
+  - The benchmark audit found no fault: unpooled p10 .3363 against pooled .3366; the sample teams are representative (the low-tier sample teams are weaker, 5.85 against 6.55 R/G).
+  - Ablations that did not move it: ρ = 1, a 14-man bench, Gaussian HR talent.
+  - Counting qualification by games with a plate appearance, as the benchmark does, fixed a .321 → .324 drop.
+  - Unexplained so far; it misses its tolerance by .0009.
+
+**Result (20 seasons, seeds 20251000–20251019): every gated Phase 1, 2, 4, 5 and 6 row passes.**
+- The rows that had failed now pass. Team RA/G SD is 1.636 against 1.596 ± .220. Low batting vs mid pitching is 5.59 against 5.88 ± .66. The tier-mean recovery rows are all within 3 SE.
+- P4 batting vs low pitching is 9.55 against 9.82 ± 1.22. P4 RA/G mean is 5.54 against 5.77 ± .45 and is gated again.
+- The new team-leader rows sit inside their 2024–2026 bands: best team BA .339, best team ERA 3.08, most team HR per game 2.53, teams under 4.00 ERA 13.6 (band 6–12 plus a pad of 2.8).
+- Watch item "offense extremes compressed", reported and not gated: run rule .121 against .152 ± .017; 15+ bin .053 against .066 ± .011; OBP p10 .3249 against .3366 ± .0108.
+
 ## Bibliography
 
 - Jones, M. C. and Pewsey, A. (2009). Sinh-arcsinh distributions. *Biometrika* 96(4), 761–780.

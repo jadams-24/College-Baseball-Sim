@@ -1,11 +1,11 @@
 # Phase 4 realism report: 20–80 ratings
 
-20 simulated seasons, seeds 20251000–20251019, players generated from ratings. Generated 2026-10-03.
+20 simulated seasons, seeds 20251000–20251019, players generated from ratings. Generated 2026-10-04.
 Ratings re-express the true rates the engine uses, on percentiles of each rate's D1 distribution (PA- or BF-weighted, all of D1 on one scale): 50 is the D1 median, 60/70/80 the 84.1st/97.7th/99.87th percentiles; for a Gaussian rate this is 10 points per true-talent SD. Batters: Contact (BABIP), Gap (extra-base share of hits), Power (HR/PA), Eye (BB/PA), Avoid K (K/PA). Pitchers: Stuff (K/BF), Control (BB/BF), Movement (HR/BF), Stamina (individual leash on the pull hazard). Speed is reserved for Phase 6: the engine has no speed-linked rate yet.
 
-## Gate: **FAIL**
+## Gate: **PASS**
 
-Phase 1 and Phase 2 gate rows on the same run: **FAIL** (reports/phase2.md).
+Phase 1 and Phase 2 gate rows on the same run: **pass** (reports/phase2.md).
 
 ## Round trip, forward: true rates → 20 seasons → observed rates
 

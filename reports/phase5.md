@@ -1,11 +1,11 @@
 # Phase 5 realism report: pitch-by-pitch
 
-20 simulated seasons, seeds 20251000–20251019 (the Phase 4 report's league and seeds). Generated 2026-10-03.
+20 simulated seasons, seeds 20251000–20251019 (the Phase 4 report's league and seeds). Generated 2026-10-04.
 Each plate appearance's outcome comes from the unchanged Phase 4 matchup model. Its pitch sequence comes from a count-state pitch chain conditioned on that outcome (engine/pitch.py), so PA-level rates cannot move. Pitch events by count, batted-ball results by count of contact and every benchmark below come from the 2025 WMT play-by-play pitch sequences, reweighted to the D1 tier mix. Tolerances combine 3 SE of the benchmark (bootstrap over games) with 3 SE of the simulated mean at the number of seasons run. The starter's pull hazard now reads these simulated pitch counts.
 
-## Gate: **FAIL**
+## Gate: **PASS**
 
-Phase 1 and Phase 2 gate rows on the same run: **FAIL** (reports/phase2.md). Phase 4 forward ratings test on the same run: **FAIL** (reports/phase4.md).
+Phase 1 and Phase 2 gate rows on the same run: **pass** (reports/phase2.md). Phase 4 forward ratings test on the same run: **pass** (reports/phase4.md).
 
 ## What the play-by-play supports
 

@@ -309,7 +309,7 @@
   "pa_unchanged_errors_per_team_game": null,
   "pa_unchanged_era": true,
   "pa_unchanged_earned_share": null,
-  "phase2_gate": false,
-  "phase4_gate": false
+  "phase2_gate": true,
+  "phase4_gate": true
  }
 }
