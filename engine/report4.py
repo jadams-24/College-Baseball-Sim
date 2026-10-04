@@ -3,7 +3,9 @@
 Gate (forward): for each rated rate, every qualifying player-season's opponent-adjusted
 observed rate is regressed on his true rate, logit scale. The engine records, per player and
 rate, the sum over his own trials of the true probability p and of p (1 - p) against the
-opponents he actually faced (E, V); the opponent-adjusted observed offset is z + (x - E) / V.
+opponents he actually faced (E, V): their pitcher, their park and, for BABIP, their defense (the
+fielding team's reached-on-error odds move outs to errors and back, engine.game2._babip_vs); the
+opponent-adjusted observed offset is z + (x - E) / V.
 Slope 1, intercept 0 (at the group's own mean talent) and dispersion sum (x - E)^2 / sum V = 1,
 within sampling error across folds; also by workload tercile. Stamina: pull decisions against
 the manager's own baseline hazard, log leash regressed on the true log leash by maximum

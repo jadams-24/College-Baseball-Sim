@@ -48,7 +48,8 @@ CELL_RESULTS = ("K", "BB", "HBP", "HR", "1B", "2B", "3B", "ROE", "OUT")
 _CELL_IDX = {r: i for i, r in enumerate(CELL_RESULTS)}
 TRIAL_KINDS = ("PA", "BIP", "HITS")       # BIP: balls in play other than reached on error
 # per player and rate: sum over his trials of the true probability p and of p (1 - p), the expected
-# count and its binomial variance given the opponents he actually faced (Phase 4 round trip)
+# count and its binomial variance given the opponents he actually faced (Phase 4 round trip): their
+# pitcher, park and, for BABIP, their defense (the reached-on-error tilt moves the hit share; _babip_vs)
 EXP_RATES = ("K", "BB", "HR", "BABIP", "XBH")
 _HITS = frozenset(_CELL_IDX[r] for r in ("1B", "2B", "3B"))
 _OUT = _CELL_IDX["OUT"]
@@ -413,6 +414,21 @@ class PlayerGameEngine:
             return "ROE" if rng.random() < (r2 - r) / (1 - r) else res
         return res
 
+    def _babip_vs(self, batter, pitcher, home_batting, eo):
+        """P(hit | hit or in-play out) against a defense with error odds eo. The reached-on-error tilt
+        (_roe_tilt) moves in-play outs to reached on error and back, so the hit share among hits and outs
+        depends on the fielding team: an error-prone defense leaves fewer outs. Exact under the tilt."""
+        key = (batter.pid, pitcher.pid, home_batting)
+        b = self.rate_cache[key][3]
+        if eo == 1.0:
+            return b
+        p_roe, p_out = self.roe_cache[key]
+        hits = p_out * b / (1 - b)
+        r = p_roe / (p_roe + p_out)
+        r2 = r * eo / (1 - r + r * eo)
+        out = p_out * (1 - (r2 - r) / (1 - r)) if r2 > r else p_out + p_roe * (1 - r2 / r)
+        return hits / (hits + out)
+
     def _extra_bases(self, st, bat, fld, res, dests, bases0, rng):
         """Runners' extra bases on a single (first to third/home, second to home) or double (first to
         home): the league probability of the cell, tilted on the logit scale by the runner's speed
@@ -536,15 +552,18 @@ class PlayerGameEngine:
             ex = self.exp_trials
             ex[batter.pid, :3, 0] += rp[:3]; ex[batter.pid, :3, 1] += rp[:3] * (1 - rp[:3])
             ex[pitcher.pid, :3, 0] += rp[:3]; ex[pitcher.pid, :3, 1] += rp[:3] * (1 - rp[:3])
+        if ci in _HITS or ci == _OUT:
+            b = self._babip_vs(batter, pitcher, bool(h), st.err_or[st.fielding_side]) if rp is not None else None
         if ci in _HITS:
             ot[batter.pid, ptid, h, 1] += 1
             ot[batter.pid, ptid, h, 2] += 1
             if rp is not None:
-                ex[batter.pid, 3:, 0] += rp[3:]; ex[batter.pid, 3:, 1] += rp[3:] * (1 - rp[3:])
+                ex[batter.pid, 3, 0] += b; ex[batter.pid, 3, 1] += b * (1 - b)
+                ex[batter.pid, 4, 0] += rp[4]; ex[batter.pid, 4, 1] += rp[4] * (1 - rp[4])
         elif ci == _OUT:             # in-play out (incl. SF, SH, FC)
             ot[batter.pid, ptid, h, 1] += 1
             if rp is not None:
-                ex[batter.pid, 3, 0] += rp[3]; ex[batter.pid, 3, 1] += rp[3] * (1 - rp[3])
+                ex[batter.pid, 3, 0] += b; ex[batter.pid, 3, 1] += b * (1 - b)
         n = self._pitches(batter, pitcher, bool(h), res, rng)
         ps[P_PITCH] += n
         st.outing[st.fielding_side]["pitches"] += n
