@@ -440,11 +440,15 @@ Everything that does not need handedness. Inputs come from the committed 2025 WM
 - **Top starters' innings: watch item, re-checked in Phase 7.** The 2nd pitcher's IP (60.71 against 65.25 ± 4.46) and pitchers with 50+ IP (785 against 821 ± 32). The shortfall is in weekend starts (#2: 46.3 against 50.3) and relief (6.9 against 9.3). Phase 7's conference tournaments and postseason change how rotations are used, so the rows are re-checked there.
 - **Closing a watch item** needs a 40-season run from now on (owner decision 2026-10-04).
 
-**Result (20 seasons, seeds 20251000–20251019): every gated Phase 1, 2, 4, 5 and 6 row passes.**
-- The rows that had failed now pass. Team RA/G SD is 1.636 against 1.596 ± .220. Low batting vs mid pitching is 5.59 against 5.88 ± .66. The tier-mean recovery rows are all within 3 SE.
-- P4 batting vs low pitching is 9.55 against 9.82 ± 1.22. P4 RA/G mean is 5.54 against 5.77 ± .45 and is gated again.
-- The new team-leader rows sit inside their 2024–2026 bands: best team BA .339, best team ERA 3.08, most team HR per game 2.53, teams under 4.00 ERA 13.6 (band 6–12 plus a pad of 2.8).
-- Watch item "offense extremes compressed", reported and not gated: run rule .121 against .152 ± .017; 15+ bin .053 against .066 ± .011; OBP p10 .3249 against .3366 ± .0108.
+**Result (40 seasons, seeds 20251000–20251039): every gated Phase 1, 2, 4, 5 and 6 row passes.**
+- Phase 4 Contact slope .994 ± .014 (was .977 with the untilted expectation; every other number is identical, since the fix changes no draw).
+- PA per team-game 40.66 against 40.31 ± 1.00. Team RA/G SD 1.680 against 1.596 ± .203. P4 batting vs low pitching 9.58 against 9.82 ± 1.11. The tier-mean recovery rows are all within 3 SE.
+- Team-leader bands: best team BA .338 (.337–.359), best team ERA 2.98 (3.06–3.78, pad .13), most team HR per game 2.51 (2.40–2.67).
+- Watch items, reported and not gated:
+  - "offense extremes compressed": run rule .121 against .152 ± .016; 15+ bin .054 against .066 ± .010; OBP p10 .3257 against .3366 ± .0107; team R/G SD (all) 1.015 against 1.162 ± .143.
+  - "top starters' innings": 2nd pitcher's IP 60.72 against 65.25 ± 4.46; pitchers with 50+ IP 785 against 821 ± 32.
+  - "teams under 4.00 ERA": 15.5 against 6–12 ± 2.2.
+- CI's own 40-season run of the fixed engine (commit 9627c38) passed every gated row; only the agreement check failed there, against the stale committed reports this run replaces.
 
 ## Bibliography
 
