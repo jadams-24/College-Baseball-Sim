@@ -417,6 +417,29 @@ Everything that does not need handedness. Inputs come from the committed 2025 WM
   - Making the simulation deterministic across machines is a watch item to close before Phase 12 (shared leagues and saves).
 - **Team R/G SD (all)** joins the "offense extremes compressed" watch item. It fails on both machines (1.009 against 1.162 ± .145), and it is the same narrowing of season team stats the watch item describes.
 
+**Contact slope, teams under 4.00 ERA, top starters' innings** (owner decision 2026-10-04, after the first 40-season run failed four rows).
+- **Phase 4 Contact slope: fixed.** It ran .976–.991 in every run since Phase 6 (.99–1.007 before), and .977 ± .013 at 40 seasons.
+  - Ablations, 20 seasons each (seeds 20251000–20251019; each switch redraws the seasons, so levels differ by noise of SE ≈ .005–.007). The slope is shown two ways: with the engine's recorded expectation, and with the expectation recomputed under the fielding team's reached-on-error tilt:
+
+    | Run | Recorded | With the defense's tilt |
+    |---|---|---|
+    | All mechanisms on | .976 | .993 |
+    | Fielding off | .991 | .991 (no tilt) |
+    | Parks off | .992 | 1.007 |
+    | Substitutions off | .988 | 1.005 |
+    | Speed off | .985 | 1.002 |
+    | Schedule matching off | .981 | .995 |
+
+  - Cause: Phase 6 fielding tilts each in-play out toward reached on error by the fielding team's error odds (`_roe_tilt`). Contact is BABIP without reached on error, so a batter's hit share among hits and outs depends on the defense he faces: an error-prone defense leaves fewer outs. The engine recorded the untilted expectation. Strong hitters face P4 defenses, which make fewer errors, so they read as underperforming (residual per unit variance −.0046 for P4 batters, +.0073 low; −.0012 and +.0018 with the tilt).
+  - The tilt term is −.014 to −.017 in every run with fielding on and zero with it off. With it, the slope averages 1.000 over the five fielding-on runs. Parks, substitutions, speed and schedule matching add nothing beyond noise.
+  - Fix: the engine records the BABIP expectation against the defense actually faced, exact under the tilt (`engine.game2._babip_vs`), as it already did for the opposing pitcher and park. The fielding model is unchanged: reached-on-error does replace outs in real box scores, and the ratings test adjusts for the defense the way it adjusts for the pitcher. No draw changes, so no other row moves.
+- **Teams with ERA under 4.00: watch item "teams under 4.00 ERA".** 15.5 at 40 seasons against the 2024–2026 band 6–12 ± 2.1.
+  - The cheap check: the engine's team draw (tier mean, conference and team effects on the real conference structure) plus the scoreboard fit's own estimation noise, 4,000 replications, against the fitted run prevention of the 2025 scoreboard (fit without parks, the totals the engine draws).
+  - The tail matches. Ranks 1, 2, 3, 5, 10, 12, 15, 20 and 25 of fitted run prevention sit at −.67 to +.66 SD of the model's: real .713 / .694 / .688 / .657 / .550 / .525 / .486 / .459 / .446, model medians .766 / .705 / .668 / .618 / .545 / .525 / .497 / .460 / .429. The top-12 mean is .623 real against .612 ± .050. Teams above .5: 12 real, 14.5 model (90% range 7–23).
+  - So the draw is not the cause. The count is set downstream of the draw (how run prevention converts to earned runs per nine for the best staffs), and it is reported, not gated.
+- **Top starters' innings: watch item, re-checked in Phase 7.** The 2nd pitcher's IP (60.71 against 65.25 ± 4.46) and pitchers with 50+ IP (785 against 821 ± 32). The shortfall is in weekend starts (#2: 46.3 against 50.3) and relief (6.9 against 9.3). Phase 7's conference tournaments and postseason change how rotations are used, so the rows are re-checked there.
+- **Closing a watch item** needs a 40-season run from now on (owner decision 2026-10-04).
+
 **Result (20 seasons, seeds 20251000–20251019): every gated Phase 1, 2, 4, 5 and 6 row passes.**
 - The rows that had failed now pass. Team RA/G SD is 1.636 against 1.596 ± .220. Low batting vs mid pitching is 5.59 against 5.88 ± .66. The tier-mean recovery rows are all within 3 SE.
 - P4 batting vs low pitching is 9.55 against 9.82 ± 1.22. P4 RA/G mean is 5.54 against 5.77 ± .45 and is gated again.
