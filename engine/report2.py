@@ -9,6 +9,7 @@ from pathlib import Path
 
 import numpy as np
 
+from engine.status import Status
 from config.phase2 import (DEFERRED_TO_PHASE6, WATCH_ITEMS, GATE_SE_MULTIPLE, LEADERBOARD_MIN_IP, LEADERBOARD_PI, QUAL_GAMES_SHARE, QUAL_IP_PER_TEAM_GAME,
                            QUAL_PA_PER_TEAM_GAME)
 from engine.game2 import (B_2B, B_3B, B_AB, B_BB, B_G, B_GPA, B_H, B_HBP, B_HR, B_K, B_PA, B_SF, P_BF, P_ER, P_K, P_OUTS, P_WGS)
@@ -156,7 +157,7 @@ def _t_quantile(p: float, df: int) -> float:
 
 def build_report(agg: dict, seeds: list, bench: dict | None = None) -> tuple[str, dict]:
     b = bench or json.loads((ROOT / "benchmarks.json").read_text())
-    st, rows = {}, []
+    st, rows = Status(), []
     se = agg["se"]
     n = agg["n_seasons"]
     k_se = GATE_SE_MULTIPLE
@@ -171,6 +172,7 @@ def build_report(agg: dict, seeds: list, bench: dict | None = None) -> tuple[str
         watch = key in WATCH_ITEMS
         if gate and not deferred and not watch:
             st[key] = ok
+            st.record(key, got, se["/".join(path)])
         gcol = "Phase 6" if deferred else ("watch item: " + WATCH_ITEMS[key] if watch else ("yes" if gate else ""))
         status = "pass" if ok else ("FAIL" if ok is False else "n/a")
         rows.append((section, f"| {label} | {got:.{nd}f} | {'—' if val is None else f'{val:.{nd}f}'} | {'—' if tol_c is None else f'±{tol_c:.{max(nd, 3)}f}'} | {conf} | {gcol} | {status} |"))
@@ -187,6 +189,8 @@ def build_report(agg: dict, seeds: list, bench: dict | None = None) -> tuple[str
     half_tol = [comb(t, s_) for t, s_ in zip(hb["bin_tol"], se["half_inning_run_dist"])]
     half_ok = bool(all(abs(g - v) <= t for g, v, t in zip(agg["half_inning_run_dist"], hb["bins"], half_tol)))
     st["half_inning_run_dist"] = half_ok
+    for i, (g, s_) in enumerate(zip(agg["half_inning_run_dist"], se["half_inning_run_dist"])):
+        st.record(f"half_inning_run_dist_{i}", g, s_)
     gs = b["game_structure"]
     row("game", "Extra-innings frequency", agg["extra_innings_freq"], gs["extra_innings_freq"]["value"], gs["extra_innings_freq"]["tol"], gs["extra_innings_freq"]["conf"], "extra_innings", ["extra_innings_freq"])
     row("game", "Run-rule frequency", agg["run_rule_freq"], gs["run_rule_freq"]["value"], gs["run_rule_freq"].get("tol"), gs["run_rule_freq"]["conf"], "run_rule", ["run_rule_freq"])
@@ -200,6 +204,8 @@ def build_report(agg: dict, seeds: list, bench: dict | None = None) -> tuple[str
     last = len(rb["bins"]) - 1  # the 15+ bin is gated in Phase 6
     bins_ok = [abs(g - v) <= t for g, v, t in zip(agg["run_histogram"], rb["bins"], bin_tol)]
     st["run_histogram"] = bool(all(bins_ok[:last]) and tvd <= tvd_tol)
+    for i in range(last):
+        st.record(f"run_histogram_{i}", agg["run_histogram"][i], hist_se[i])
     hm = b["home_2025"]
     row("game", "Home win pct", agg["home_win_pct"], hm["home_win_pct"]["value"], hm["home_win_pct"]["tol"], hm["conf"], "home_win_pct", ["home_win_pct"])
     row("game", "Home run differential per game", agg["home_run_diff"], hm["home_run_diff"]["value"], hm["home_run_diff"]["tol"], hm["conf"], "home_run_diff", ["home_run_diff"], nd=3)
@@ -230,6 +236,7 @@ def build_report(agg: dict, seeds: list, bench: dict | None = None) -> tuple[str
         deferred = f"lb_{k}" in DEFERRED_TO_PHASE6
         if real is not None and not deferred:
             st[f"lb_{k}"] = ok
+            st.record(f"lb_{k}", s["mean"], s["sd"] / np.sqrt(n))
         nd = 3 if s["mean"] < 10 else 1
         gcol = "Phase 6" if deferred else ("yes" if real is not None else "")
         rows.append(("leaders", f"| {lab} | {s['mean']:.{nd}f} (season range {s['min']:.{nd}f}–{s['max']:.{nd}f}) | {'—' if real is None else real}{' (56-game eq. of ' + str(lbb[k]['value']) + ')' if 'value_56g' in lbb[k] else ''} | ±{half:.{nd}f} | {lbb[k]['conf']} | {gcol} | "
@@ -242,6 +249,7 @@ def build_report(agg: dict, seeds: list, bench: dict | None = None) -> tuple[str
         pad = k_se * s["sd"] / np.sqrt(n)
         ok = bool(real["lo"] - pad <= s["mean"] <= real["hi"] + pad)
         st[f"lb_{k}"] = ok
+        st.record(f"lb_{k}", s["mean"], s["sd"] / np.sqrt(n))
         seasons = ", ".join(f"{y} {v:.{nd}f}" for y, v in real["by_season"].items())
         rows.append(("teamleaders", f"| {lab} | {s['mean']:.{nd}f} (season range {s['min']:.{nd}f}–{s['max']:.{nd}f}) | {real['lo']:.{nd}f}–{real['hi']:.{nd}f} ({seasons}) | "
                                     f"±{pad:.{nd}f} | {tl['conf']} | yes | {'pass' if ok else 'FAIL'} |"))
@@ -252,6 +260,7 @@ def build_report(agg: dict, seeds: list, bench: dict | None = None) -> tuple[str
         pad = k_se * se[f"leaders/{k}"]
         ok = bool(real["lo"] - pad <= s["mean"] <= real["hi"] + pad)
         st[f"lb_ind_{k}"] = ok
+        st.record(f"lb_ind_{k}", s["mean"], se[f"leaders/{k}"])
         seasons = ", ".join(f"{y} {v:.{nd}f}" for y, v in real["by_season"].items())
         rows.append(("individual", f"| {lab} | {s['mean']:.{nd}f} (season range {s['min']:.{nd}f}–{s['max']:.{nd}f}) | {real['lo']:.{nd}f}–{real['hi']:.{nd}f} ({seasons}) | "
                                    f"±{pad:.{nd}f} | {il['conf']} | yes | {'pass' if ok else 'FAIL'} |"))

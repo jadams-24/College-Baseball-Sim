@@ -30,6 +30,7 @@ from config.phase2 import GATE_SE_MULTIPLE, LEADERBOARD_PI, TIERS
 # owner decision (2026-10-03): named watch items, reported with their diagnosis and not gated (PHASE0_NOTES, Phase 6)
 WATCH6 = {"p6_run_rule": "offense extremes compressed (game-to-game variance; everything tested and ruled out in PHASE0_NOTES)",
           "p6_run_histogram_15plus": "offense extremes compressed (game-to-game variance; everything tested and ruled out in PHASE0_NOTES)"}
+from engine.status import Status
 from engine.game2 import P_ER, P_G, P_GS, P_K, P_OUTS
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -137,7 +138,7 @@ def build_report6(agg: dict, agg2: dict, agg5: dict, seeds: list, st2: dict, st4
     m, se = agg["mean"], agg["se"]
     n = agg["n_seasons"]
     k = GATE_SE_MULTIPLE
-    st, rows = {}, []
+    st, rows = Status(), []
 
     def comb(tol, s):
         return float(math.sqrt(tol ** 2 + (k * s) ** 2))
@@ -147,6 +148,8 @@ def build_report6(agg: dict, agg2: dict, agg5: dict, seeds: list, st2: dict, st4
         ok = bool(abs(got - val) <= t)
         watch = key in WATCH6
         st[key] = None if watch else ok
+        if not watch:
+            st.record(key, got, s_)
         note = (f"watch item: {WATCH6[key]}. " if watch else "") + note
         rows.append((section, f"| {label} | {got:.{nd}f} | {val:.{nd}f} | ±{t:.{nd}f} | {'pass' if ok else 'FAIL'} | {note} |"))
     lt = b["league_totals_2025"]
@@ -155,6 +158,10 @@ def build_report6(agg: dict, agg2: dict, agg5: dict, seeds: list, st2: dict, st4
     row("field", "p6_sb_per_team_game", "Stolen bases per team-game", m["sb_per_team_game"], se["sb_per_team_game"], lt["sb_per_team_game"]["value"], lt["sb_per_team_game"]["tol"])
     row("field", "p6_sb_success_rate", "Steal success rate", m["sb_success_rate"], se["sb_success_rate"], lt["sb_success_rate"]["value"], lt["sb_success_rate"]["tol"])
     u6 = b["usage_phase6_2025"]
+    # PA per team-game: the per-opportunity base running (scripts/build_engine_tables.py) moves it on purpose,
+    # so it is gated against real data here, not against the Phase 4 run (reports/phase5.md)
+    row("field", "p6_pa_per_team_game", "PA per team-game", agg2["league"]["pa_per_team_game"], agg2["se"]["league/pa_per_team_game"],
+        lt["pa_per_team_game"]["value"], lt["pa_per_team_game"]["tol"], 2, "gated here, not against the Phase 4 run (base running per opportunity moves it)")
     row("field", "p6_earned_share", "Earned share of runs", agg2["league"]["earned_share"], agg2["se"]["league/earned_share"], u6["earned_run_share"]["value"],
         u6["earned_run_share"]["tol"], 4, "gated here, not against the Phase 4 run (Phase 6 fielding moves it)")
     for key, label in (("app_max", "Appearances, team's busiest pitcher"), ("app_5th", "Appearances, 5th busiest"), ("app_10th", "Appearances, 10th busiest"),
@@ -184,6 +191,7 @@ def build_report6(agg: dict, agg2: dict, agg5: dict, seeds: list, st2: dict, st4
     real = pb["value_56g"]
     ok = bool(abs(real - lb["mean"]) <= half)
     st["p6_pitchers_50ip"] = ok
+    st.record("p6_pitchers_50ip", lb["mean"], lb["sd"] / math.sqrt(n))
     rows.append(("deferred", f"| Pitchers with 50+ IP | {lb['mean']:.1f} (seasons {lb['min']:.0f}–{lb['max']:.0f}) | {real} | ±{half:.1f} (95% PI) | {'pass' if ok else 'FAIL'} | "
                              f"56-game equivalent of the raw {pb['value']} (ratio {pb['ratio_56g']['value']} ± {pb['ratio_56g']['se']}, WMT full-season teams) |"))
     for tr in TIERS:

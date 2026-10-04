@@ -11,13 +11,14 @@ Never xfail or widen these.
 """
 from __future__ import annotations
 
-import json
-from pathlib import Path
 
 import pytest
 
+from agreement import assert_agrees
+
 GROUPS = {
-    "fielding_and_base_running": lambda k: k in ("p6_errors_per_team_game", "p6_sb_per_team_game", "p6_sb_success_rate", "p6_earned_share"),
+    "fielding_and_base_running": lambda k: k in ("p6_errors_per_team_game", "p6_sb_per_team_game", "p6_sb_success_rate", "p6_earned_share",
+                                                    "p6_pa_per_team_game"),
     "pitcher_usage": lambda k: k.startswith("p6_app_") or k.startswith("p6_relief_only") or k.startswith("p6_ip_rank") or k == "p6_batters_per_team_game",
     "deferred_rows": lambda k: k in ("p6_run_rule", "p6_run_histogram_15plus", "p6_q_K9_p50", "p6_q_K9_p90", "p6_tier_p4_low", "p6_midweek_p10",
                                      "p6_pitchers_50ip"),
@@ -31,9 +32,11 @@ def status(gate_run) -> dict:
     return gate_run["phase6"]
 
 
-def test_committed_report_matches(status: dict) -> None:
-    committed = json.loads((Path(__file__).resolve().parents[1] / "reports/phase6.json").read_text())["status"]
-    assert committed == status, "reports/phase6.md is stale: re-run scripts/run_phase5.py"
+def test_committed_report_agrees(status) -> None:
+    """reports/phase6.json is the committed run of the same seeds on another machine: each gated row's
+    value agrees with this run's within sampling error (tests/agreement.py). This run's own verdicts are
+    the gate tests below."""
+    assert_agrees("phase6", status)
 
 
 @pytest.mark.parametrize("group", list(GROUPS))

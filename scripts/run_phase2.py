@@ -16,7 +16,7 @@ from engine.report2 import aggregate, build_report, season_metrics  # noqa: E402
 from engine.season import simulate_season  # noqa: E402
 
 
-REPORT_SEASONS = 20     # the report's run; the CI gate test runs exactly this (tests/test_phase2_gate.py)
+REPORT_SEASONS = 40     # the report's run, and CI's own gate run (tests/conftest.py); 40 since 2026-10-04 (owner decision)
 REPORT_SEED = 20251000
 
 

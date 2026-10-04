@@ -56,6 +56,7 @@ from config.phase2 import GAMES_PER_WEEKEND, N_BENCH, N_REGULARS, SEASON_GAMES, 
 from config.phase4 import (BATTER_RATINGS, CENTER, EB_QUAD_NODES, FOLD_SEASONS, FOLD_WORKERS, GATE_COVERAGE, MIN_TRIALS, PITCHER_RATINGS, POINTS_PER_SD,
                            SHARED_TAU_ROLES, STAMINA_ROLE)
 from engine import eb
+from engine.status import Status
 from engine.game2 import (EXP_RATES, B_2B, B_3B, B_AB, B_BB, B_G, B_H, B_HBP, B_HR, B_K, B_PA, B_ROE, B_SF, B_SH, CELL_RESULTS, P_BB, P_BF, P_ER, P_G,
                           P_GS, P_HR, P_K, P_OUTS)
 from engine.ratings import IDX, RatingScale, display, rating_names
@@ -486,7 +487,7 @@ WORK_LABEL = {"stamina": "appearances"}
 
 
 def build_report4(agg: dict, seeds: list, phase2_status: dict) -> tuple[str, dict]:
-    st, rows, trows, brows, erows = {}, [], [], [], []
+    st, rows, trows, brows, erows = Status(), [], [], [], []
     from engine.report2 import _t_quantile
     nf = agg["n_folds"]
     k = _t_quantile((1 + GATE_COVERAGE) / 2, nf - 1) if nf > 1 else float("inf")
@@ -497,6 +498,8 @@ def build_report4(agg: dict, seeds: list, phase2_status: dict) -> tuple[str, dic
         ok = {"intercept": within(a, 0), "slope": within(b, 1), "dispersion": within(d, 1)}
         for kk, v in ok.items():
             st[f"fw_{name}_{kk}"] = bool(v)
+            x = {"intercept": a, "slope": b, "dispersion": d}[kk]
+            st.record(f"fw_{name}_{kk}", x["mean"], x["se"])
         pts = f"{10 * a['mean'] / r['s']:+.2f}" if r.get("s") else "—"
         rows.append(f"| {name} | {RATE_LABEL[name]} | {int(round(r['all']['n']))} | {pm(a, 4)} | {pts} | {'pass' if ok['intercept'] else 'FAIL'} | "
                     f"{b['mean']:.3f} ± {k * b['se']:.3f} | {'pass' if ok['slope'] else 'FAIL'} | {d['mean']:.3f} ± {k * d['se']:.3f} | {'pass' if ok['dispersion'] else 'FAIL'} |")
@@ -531,7 +534,7 @@ def build_report4(agg: dict, seeds: list, phase2_status: dict) -> tuple[str, dic
           "Movement (HR/BF), Stamina (individual leash on the pull hazard). Speed is reserved for Phase 6: the engine has no speed-linked rate yet.", "",
           f"## Gate: **{'PASS' if gate_ok else 'FAIL'}**", "",
           f"Phase 1 and Phase 2 gate rows on the same run: **{'pass' if p2_ok else 'FAIL'}** (reports/phase2.md).", "",
-          "## Round trip, forward: true rates → 20 seasons → observed rates", "",
+          f"## Round trip, forward: true rates → {agg['n_seasons']} seasons → observed rates", "",
           "For each rated rate, every qualifying player-season's opponent-adjusted observed rate is regressed on the player's true rate, on the logit scale. "
           "The opponent-adjusted observed offset is o = z + (x − E) / V. Here z is the true offset, and x the count. E and V are the sums of p and of p(1 − p) over "
           "the player's own trials, at his true rates against the opponents he actually faced (recorded by the engine). The regression is weighted by V. "
@@ -557,7 +560,7 @@ def build_report4(agg: dict, seeds: list, phase2_status: dict) -> tuple[str, dic
           "team a player faced, not which pitcher (or hitter): an ace or a midweek starter. That adds variance the team-level baseline cannot attribute, so its "
           "dispersion runs above 1.", "",
           "| Rating | Slope | Dispersion |", "|---|---|---|", *brows, "",
-          "## True rating distributions (mean of 20 seasons)", "",
+          f"## True rating distributions (mean of {agg['n_seasons']} seasons)", "",
           "Everyday players: regulars for batting ratings, weekend starters for pitching ratings. A P4 everyday player should average above 50 and a low-tier one below.", "",
           "| Rating | D1 weighted mean | D1 weighted SD | P4 everyday | Mid everyday | Low everyday | Status |", "|---|---|---|---|---|---|---|", *sane, "",
           "## Example player cards (first simulated season)", "",

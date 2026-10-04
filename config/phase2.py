@@ -63,6 +63,12 @@ SPOT_STARTER_RANK = 4
 # prediction interval at the central 95% stated in leaderboards_2025.
 GATE_SE_MULTIPLE = 3
 LEADERBOARD_PI = 0.95
+# CI reruns the report's seeds on its own machine. The simulation is deterministic per machine but
+# not across machines (CPU-dependent floating point changes the draws), so CI's run and the committed
+# report are two independent samples: each gated row's values must agree within this many combined
+# standard errors, sqrt(se_ci^2 + se_committed^2). 4.5 keeps the chance of a false alarm over the
+# ~300 recorded rows near 1 in 500 (two-sided normal, Bonferroni).
+CI_AGREEMENT_Z = 4.5                 # GUESS (statistical threshold)
 
 # Gate rows moved to the Phase 6 gate by the project owner (PR #4 review): their causes are
 # built in Phase 6. Reported every run, not gated here. See CLAUDE.md, Phase 6 deferred rows.
@@ -76,12 +82,13 @@ DEFERRED_TO_PHASE6 = {
 }
 
 # Named watch item (owner decision 2026-10-04, PHASE0_NOTES Phase 6): "offense extremes compressed". Reported with its
-# diagnosis, not gated. Qualified OBP p10 here; the run rule and the 15+ bin in the Phase 6 report. Season and game
+# diagnosis, not gated. Qualified OBP p10 and team R/G SD (all) here; the run rule and the 15+ bin in the Phase 6 report. Season and game
 # extremes are narrower than real because runs vary less from game to game around team strength (dispersion 2.2 against
 # 2.6; everything tested and ruled out in PHASE0_NOTES). The schedule, the park netting and the team draw were checked
 # and reproduce the data.
 WATCH_ITEMS = {
     "q_OBP_p10": "offense extremes compressed",
+    "team_all_r_per_game_sd": "offense extremes compressed",
 }
 
 # Shape of the individual true-talent distributions (scripts/build_talent_shapes.py). A rate is drawn

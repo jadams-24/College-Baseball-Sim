@@ -1,6 +1,7 @@
-"""One simulated run shared by the Phase 2, Phase 4, Phase 5 and Phase 6 gate tests: the reports' own run
-(scripts/run_phase5.py: 20 seasons, seed 20251000), so CI and reports/phase2.md, phase4.md,
-phase5.md and phase6.md always agree."""
+"""One simulated run shared by the Phase 2, Phase 4, Phase 5 and Phase 6 gate tests: the reports' own
+seeds (scripts/run_phase5.py: 40 seasons, seed 20251000). This run must pass every gate on its own, and
+its numbers must agree with the committed reports within sampling error (tests/agreement.py): the
+simulation is deterministic per machine but not across machines."""
 from __future__ import annotations
 
 import os

@@ -1,7 +1,7 @@
 """Simulate seasons once and write every report: Phase 2 (every Phase 1 and Phase 2 gate row),
 Phase 4 (the forward ratings test), Phase 5 (pitch-by-pitch) and Phase 6 (fielding, parks, fatigue,
 bullpen, manager AI), all on the same run.
-    python3 scripts/run_phase5.py            # the report's run: 20 seasons, seed 20251000
+    python3 scripts/run_phase5.py            # the report's run: 40 seasons, seed 20251000
 """
 from __future__ import annotations
 
@@ -69,7 +69,7 @@ def write(agg2, agg4, agg5, agg6, seeds) -> tuple:
     out = reports(agg2, agg4, agg5, agg6, seeds)
     for (md, st), agg, name in zip(out, (agg2, agg4, agg5, agg6), ("phase2", "phase4", "phase5", "phase6")):
         (ROOT / f"reports/{name}.md").write_text(md)
-        (ROOT / f"reports/{name}.json").write_text(json.dumps({"aggregate": agg, "status": st}, indent=1, default=float) + "\n")
+        (ROOT / f"reports/{name}.json").write_text(json.dumps({"aggregate": agg, "status": st, "values": getattr(st, "vals", {})}, indent=1, default=float) + "\n")
     return tuple(st for _, st in out)
 
 

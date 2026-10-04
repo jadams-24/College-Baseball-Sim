@@ -401,6 +401,22 @@ Everything that does not need handedness. Inputs come from the committed 2025 WM
 - Rates are now per base-running opportunity: every state a half-inning passes through between plate appearances (the state before each event, and the state the PA is recorded in). Both engines draw again after an event until none occurs.
 - Phase 1 now gives 1.048 SB, .269 CS and success .796 per team-game, against the sample's 1.059 / .277 / .793. R/G, BA, OBP, SLG and the half-inning rows are unchanged within their tolerances. Every later phase was recalibrated on the new table.
 
+**Gate changes after the base-running fix** (owner decision 2026-10-04).
+- **PA per team-game.** It is gated against real data in the Phase 6 report (`league_totals_2025.pa_per_team_game`, 40.31 ± 1.0). The Phase 5 "unchanged from Phase 4" row compared it with the run frozen at the Phase 4 merge (40.53 ± .12). The per-opportunity base running moves it on purpose: fewer caught-stealing and pickoff outs, so more plate appearances (40.67 in the 20-season run). Errors and earned share were handled the same way, because Phase 6 fielding moves them.
+- **40 seasons for every gate**, this phase and later (`scripts/run_phase2.REPORT_SEASONS`).
+  - The fix changes the random-number sequence, so the 20-season run redrew every season. Rows at their tolerance edge moved by noise-sized amounts:
+    - team R/G SD 1.032 → 1.009 (1.5 SE);
+    - Contact slope .990 → .976 (1.7 SE);
+    - IP of a team's 2nd pitcher 60.79 → 60.71 (0.4 SE);
+    - the 50+ IP prediction interval narrowed as the sample season SD fell from 19.5 to 15.8.
+  - None of these points to a systematic shift.
+- **Determinism is per machine, not across machines.**
+  - CI's run of the same 20 seeds disagreed with the committed report on six edge rows: Contact slope, PA per team-game, IP rank 2 and 50+ IP passed on CI and failed locally; mid-tier R/G SD failed on CI and passed locally; team R/G SD (all) failed in both.
+  - Locally a season hashes identically under three `PYTHONHASHSEED`s, and package versions match the pins. CPU-dependent floating point in the linear algebra and vector math changes the draws, and the seasons diverge.
+  - CI now checks two things: its own 40-season run passes every gate, and each gated row's value agrees with the committed report within `CI_AGREEMENT_Z` = 4.5 combined standard errors (`tests/agreement.py`; the report JSON records each gated row's value and SE). It no longer compares verdicts.
+  - Making the simulation deterministic across machines is a watch item to close before Phase 12 (shared leagues and saves).
+- **Team R/G SD (all)** joins the "offense extremes compressed" watch item. It fails on both machines (1.009 against 1.162 ± .145), and it is the same narrowing of season team stats the watch item describes.
+
 **Result (20 seasons, seeds 20251000–20251019): every gated Phase 1, 2, 4, 5 and 6 row passes.**
 - The rows that had failed now pass. Team RA/G SD is 1.636 against 1.596 ± .220. Low batting vs mid pitching is 5.59 against 5.88 ± .66. The tier-mean recovery rows are all within 3 SE.
 - P4 batting vs low pitching is 9.55 against 9.82 ± 1.22. P4 RA/G mean is 5.54 against 5.77 ± .45 and is gated again.
