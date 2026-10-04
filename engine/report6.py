@@ -29,7 +29,10 @@ from config.phase2 import GATE_SE_MULTIPLE, LEADERBOARD_PI, TIERS
 
 # owner decision (2026-10-03): named watch items, reported with their diagnosis and not gated (PHASE0_NOTES, Phase 6)
 WATCH6 = {"p6_run_rule": "offense extremes compressed (game-to-game variance; everything tested and ruled out in PHASE0_NOTES)",
-          "p6_run_histogram_15plus": "offense extremes compressed (game-to-game variance; everything tested and ruled out in PHASE0_NOTES)"}
+          "p6_run_histogram_15plus": "offense extremes compressed (game-to-game variance; everything tested and ruled out in PHASE0_NOTES)",
+          # owner decision 2026-10-04: re-checked in Phase 7, once conference tournaments and the postseason change rotation usage
+          "p6_ip_rank2": "top starters' innings (re-check in Phase 7)",
+          "p6_pitchers_50ip": "top starters' innings (re-check in Phase 7)"}
 from engine.status import Status
 from engine.game2 import P_ER, P_G, P_GS, P_K, P_OUTS
 
@@ -190,10 +193,12 @@ def build_report6(agg: dict, agg2: dict, agg5: dict, seeds: list, st2: dict, st4
     pb = b["leaderboards_2025"]["pitchers_50ip"]
     real = pb["value_56g"]
     ok = bool(abs(real - lb["mean"]) <= half)
-    st["p6_pitchers_50ip"] = ok
-    st.record("p6_pitchers_50ip", lb["mean"], lb["sd"] / math.sqrt(n))
+    watch = "p6_pitchers_50ip" in WATCH6
+    st["p6_pitchers_50ip"] = None if watch else ok
+    if not watch:
+        st.record("p6_pitchers_50ip", lb["mean"], lb["sd"] / math.sqrt(n))
     rows.append(("deferred", f"| Pitchers with 50+ IP | {lb['mean']:.1f} (seasons {lb['min']:.0f}–{lb['max']:.0f}) | {real} | ±{half:.1f} (95% PI) | {'pass' if ok else 'FAIL'} | "
-                             f"56-game equivalent of the raw {pb['value']} (ratio {pb['ratio_56g']['value']} ± {pb['ratio_56g']['se']}, WMT full-season teams) |"))
+                             f"{'watch item: ' + WATCH6['p6_pitchers_50ip'] + '. ' if watch else ''}56-game equivalent of the raw {pb['value']} (ratio {pb['ratio_56g']['value']} ± {pb['ratio_56g']['se']}, WMT full-season teams) |"))
     for tr in TIERS:
         for s_k, lab in (("o", "offense"), ("d", "run prevention")):
             key = f"rec_{s_k}_minus_drawn_{tr}"

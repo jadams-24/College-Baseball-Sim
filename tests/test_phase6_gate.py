@@ -3,11 +3,12 @@
 On the reports' own run (tests/conftest.py): errors per team-game, stolen bases and steal success;
 pitcher usage at a 56-game equivalent (appearances of the busiest, 5th and 10th busiest pitchers,
 relief-only pitchers with 40+ and 60+ IP, the top three pitchers' innings) and distinct batters per
-team-game; earned share of runs; the rows deferred from Phases 2 and 5 (pitchers with 50+ IP,
-qualified K/9 p50 and p90, midweek starter p10, P4 batting vs low pitching; run-rule frequency and
-the 15+ runs bin are named watch items, reported but not gated); each tier's recovered mean offense
+team-game; earned share of runs; the rows deferred from Phases 2 and 5 (qualified K/9 p50 and p90,
+midweek starter p10, P4 batting vs low pitching); each tier's recovered mean offense
 and run prevention against the drawn ratings; every Phase 1, 2, 4 and 5 gate on the same run.
-Never xfail or widen these.
+Named watch items, reported but not gated (engine/report6.WATCH6): the run rule and the 15+ runs bin
+("offense extremes compressed"), the 2nd pitcher's IP and pitchers with 50+ IP ("top starters'
+innings", re-checked in Phase 7). Never xfail or widen these.
 """
 from __future__ import annotations
 

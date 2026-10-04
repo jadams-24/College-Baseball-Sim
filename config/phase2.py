@@ -89,6 +89,8 @@ DEFERRED_TO_PHASE6 = {
 WATCH_ITEMS = {
     "q_OBP_p10": "offense extremes compressed",
     "team_all_r_per_game_sd": "offense extremes compressed",
+    # owner decision 2026-10-04: the drawn run-prevention tail reproduces the scoreboard fit's (PHASE0_NOTES, Phase 6)
+    "lb_teams_era_under_4": "teams under 4.00 ERA",
 }
 
 # Shape of the individual true-talent distributions (scripts/build_talent_shapes.py). A rate is drawn

@@ -248,11 +248,14 @@ def build_report(agg: dict, seeds: list, bench: dict | None = None) -> tuple[str
         s, real = agg["leaderboards"][k], tl[k]
         pad = k_se * s["sd"] / np.sqrt(n)
         ok = bool(real["lo"] - pad <= s["mean"] <= real["hi"] + pad)
-        st[f"lb_{k}"] = ok
-        st.record(f"lb_{k}", s["mean"], s["sd"] / np.sqrt(n))
+        watch = f"lb_{k}" in WATCH_ITEMS
+        st[f"lb_{k}"] = None if watch else ok
+        if not watch:
+            st.record(f"lb_{k}", s["mean"], s["sd"] / np.sqrt(n))
         seasons = ", ".join(f"{y} {v:.{nd}f}" for y, v in real["by_season"].items())
+        gcol = "watch item: " + WATCH_ITEMS[f"lb_{k}"] if watch else "yes"
         rows.append(("teamleaders", f"| {lab} | {s['mean']:.{nd}f} (season range {s['min']:.{nd}f}–{s['max']:.{nd}f}) | {real['lo']:.{nd}f}–{real['hi']:.{nd}f} ({seasons}) | "
-                                    f"±{pad:.{nd}f} | {tl['conf']} | yes | {'pass' if ok else 'FAIL'} |"))
+                                    f"±{pad:.{nd}f} | {tl['conf']} | {gcol} | {'pass' if ok else 'FAIL'} |"))
     il = b["individual_leaders_2023_2026"]
     for k, lab, nd in (("hr_leader_56g", "HR leader (56-game equivalent)", 1), ("hr_30plus_56g", "Hitters with 30+ HR (56-game equivalent)", 2),
                        ("ba_leader", "BA leader (qualified)", 3), ("hr_top5_per_game", "Top-5 HR hitters, HR per game", 3)):
