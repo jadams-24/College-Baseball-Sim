@@ -17,6 +17,11 @@ Gaussian copula, given each rate's fitted true-talent shape (scripts/build_talen
 the normal score of each component is mapped to the rate's standardized shape and rescaled by
 its method-of-moments SD, so variances and rank correlations are kept and only the shape changes.
 
+Phase 6: each team has a home park, a vector of logit offsets on the six rates drawn from the
+park covariance and tier means of scripts/build_phase6_parks.py, its run level by tier; the team's
+(o, d) are drawn as totals (home park included in half the games) and the park's half is netted
+out; every plate appearance in the park carries it, for both teams.
+
 Tiers and conferences are only distributions of (o, d); nothing in a matchup knows a
 team's tier. L is the league outcome table, mu_group and e come from the play-by-play
 talent estimates, and c_rate is the location solved by scripts/solve_phase2_location.py
@@ -28,7 +33,7 @@ from dataclasses import dataclass, field
 
 import numpy as np
 
-from config.phase2 import N_BENCH, N_MIDWEEK_SP, N_REGULARS, N_RELIEVERS, N_WEEKEND_SP, RATES, Phase2Config
+from config.phase2 import GAMES_PER_WEEKEND, N_BENCH, N_MIDWEEK_SP, N_REGULARS, N_RELIEVERS, N_WEEKEND_SP, RATES, WEEKS, Phase2Config
 from engine.matchup import matchup_probs
 from engine.ratings import RatingScale
 
@@ -56,10 +61,19 @@ class Player:
     side: str          # "bat" or "pit"
     group: str         # regular / bench / sp_weekend / sp_midweek / rp
     z: np.ndarray      # logit offsets for RATES (relative to league, before location), built from ratings
-    order: int = 0     # role order on the team (lineup rank, rotation slot, bullpen rank)
+    order: int = 0     # role order on the team (start rank, rotation slot, bullpen rank)
+    bat_order: int = 0  # batters: rank by hitting value (the batting order)
     ratings: dict = field(default_factory=dict)   # 20-80 true ratings (continuous; engine.ratings)
     hidden: dict = field(default_factory=dict)    # true components without a rating (HBP; pitcher BABIP/XBH)
     log_theta: float = 0.0                        # pitcher leash multiplier on the pull hazard (Stamina)
+    # Phase 6 (batters): position, and logit offsets for base running and fielding: steal attempts per
+    # opportunity, steal success, extra bases taken on hits (Speed drives the shared part); error per
+    # chance at his position (Glove); extra bases allowed on hits to him (outfield arm) or steal
+    # success against (catcher arm)
+    pos: str = ""
+    run: tuple = (0.0, 0.0, 0.0)
+    err: float = 0.0
+    arm: float = 0.0
 
 
 @dataclass
@@ -70,6 +84,13 @@ class Team:
     tier: str
     o: float = 0.0     # true offense, log runs above an average team (team level, before players)
     d: float = 0.0     # true run prevention, log runs
+    s_total: float = 0.0  # Phase 6: o + d as the scoreboard fit without parks sees them (before park netting); schedule selection
+    o_total: float = 0.0  # Phase 6 diagnostics: the drawn totals before park netting, the home park's run level and the expected road park
+    d_total: float = 0.0
+    park_run: float = 0.0
+    road_park: float = 0.0
+    park: np.ndarray = None   # Phase 6: logit offsets (RATES order) on every plate appearance in this team's home park
+    err_team: float = 0.0     # Phase 6: team error log-odds beyond its fielders (run prevention slope + team residual)
     batters: list = field(default_factory=list)
     weekend_sp: list = field(default_factory=list)
     midweek_sp: list = field(default_factory=list)
@@ -137,6 +158,54 @@ def build_league(cfg: Phase2Config, rng: np.random.Generator) -> League:
     shapes_pit = [cfg.talent_shape.get(f"pit_{r}") for r in RATES[:5]]
     # stamina draws use their own stream so the Phase 2 talent draws are unchanged for a given seed
     rng_stamina = np.random.Generator(np.random.PCG64(rng.bit_generator.seed_seq.spawn(1)[0]))
+    # Phase 6 parks: own stream too, and drawn for every team whether parks are on or not, so
+    # switching them does not move any other draw
+    rng_park = np.random.Generator(np.random.PCG64(rng.bit_generator.seed_seq.spawn(1)[0]))
+    from config import phase6
+    pk6 = phase6.load().get("parks6") if phase6.on("parks") else None
+    rng_field = np.random.Generator(np.random.PCG64(rng.bit_generator.seed_seq.spawn(1)[0]))
+    rng_pt = np.random.Generator(np.random.PCG64(rng.bit_generator.seed_seq.spawn(1)[0]))
+    pt_rho = phase6.load().get("subs6", {}).get("bench_pick_weight", {}).get("playing_time_rho", {}).get("value") if phase6.on("subs") else None
+    fl6 = phase6.load().get("fielding6") if phase6.on("fielding") else None
+    phi_field = phase6.load().get("fielding_scale", {}).get("phi_engine") if fl6 else None
+    if pk6:
+        vals, vecs = np.linalg.eigh(np.array(pk6["cov"]))
+        park_cov = vecs @ np.diag(np.clip(vals, 0, None)) @ vecs.T     # positive semi-definite after rounding
+        if "w" in pk6:
+            w_ = np.array(pk6["w"]); cw = park_cov @ w_
+            run_dir = cw / float(w_ @ cw)
+            park_resid = park_cov - np.outer(cw, cw) / float(w_ @ cw)
+            vals, vecs = np.linalg.eigh(park_resid)
+            park_resid = vecs @ np.diag(np.clip(vals, 0, None)) @ vecs.T
+    # Phase 6 parks, drawn for every team first (own stream, team order) so each team's expected road parks are
+    # known when its net ratings are set: its run level by tier (scoreboard log runs), the rate vector along the
+    # run direction plus the orthogonal rest
+    pre = {}
+    expo = phase6.load().get("park_exposure") if pk6 else None
+    if pk6 and "tier_run_sd" in pk6:
+        for tid, (_, conf, tier) in enumerate(cfg.teams):
+            dev = pk6["tier_run_sd"][tier] * rng_park.standard_normal()
+            vec = np.array(pk6["tier_mean"][tier]) + run_dir * pk6["k_o"] * dev + rng_park.multivariate_normal(np.zeros(len(RATES)), park_resid, method="eigh")
+            pre[tid] = (vec, pk6["tier_run_mean"][tier] + dev)
+        if expo:
+            # expected road park: conference road games at the conference mates' parks, nonconference road games at
+            # the schedule mix's opponent tiers (weekend and midweek), in the schedule's numbers of road games
+            m_t = pk6["tier_run_mean"]
+            n_conf = cfg.conference_weekends * GAMES_PER_WEEKEND / 2
+            n_wk, n_mw = (WEEKS - cfg.conference_weekends) * GAMES_PER_WEEKEND / 2, WEEKS / 2
+            mix = cfg.schedule_mix
+            nc = {tr: (n_wk * sum(s * m_t[o] for o, s in mix["weekend"][tr].items()) + n_mw * sum(s * m_t[o] for o, s in mix["midweek"][tr].items()))
+                  / (n_wk + n_mw) for tr in mix["weekend"]}
+            members = {}
+            for tid, (_, conf, _tier) in enumerate(cfg.teams):
+                members.setdefault(conf, []).append(tid)
+            road = {}
+            for tid, (_, conf, tier) in enumerate(cfg.teams):
+                mates = [x for x in members[conf] if x != tid] if conf != "DI Independent" else []
+                if mates:
+                    road[tid] = (n_conf * np.mean([pre[x][1] for x in mates]) + (n_wk + n_mw) * nc[tier]) / (n_conf + n_wk + n_mw)
+                else:
+                    road[tid] = nc[tier]
     teams, players = [], []
     team_names = set()
     for tid, (_, conf, tier) in enumerate(cfg.teams):
@@ -150,6 +219,22 @@ def build_league(cfg: Phase2Config, rng: np.random.Generator) -> League:
         # an independent has no conference: it draws its own effect from its tier's conference distribution
         c = conf_fx[t.conference] if not confs[t.conference][3] else rng.multivariate_normal(np.zeros(2), td["conf_cov"], method="eigh")
         t.o, t.d = np.array(td["mean"]) + c + rng.multivariate_normal(np.zeros(2), td["team_cov"], method="eigh")
+        t.s_total = float(t.o + t.d)
+        t.o_total, t.d_total = float(t.o), float(t.d)
+        if pk6 and "tier_run_sd" in pk6:
+            t.park, run_level = pre[tid]
+            t.park_run, t.road_park = float(run_level), float(road.get(tid, 0.0)) if expo else 0.0
+            # (o, d) above are totals as the fit without parks sees them: they absorb the home park and the parks of the
+            # road games (scripts/solve_phase6_park_exposure.py); the net ratings take that out
+            if expo:
+                t.o = t.o - expo["o_home"] * run_level - expo["o_road"] * road[tid]
+                t.d = t.d - expo["d_home"] * run_level - expo["d_road"] * road[tid]
+            else:
+                t.o, t.d = t.o - run_level / 2, t.d + run_level / 2
+        elif pk6:
+            t.park = np.array(pk6["tier_mean"][tier]) + rng_park.multivariate_normal(np.zeros(len(RATES)), park_cov, method="eigh")
+        else:
+            t.park = np.zeros(len(RATES))
         g_o = cfg.map_o[0] * t.o + cfg.map_o[1] * t.o ** 2
         g_d = cfg.map_d[0] * t.d + cfg.map_d[1] * t.d ** 2
         tb = g_o * v_bat + rng.multivariate_normal(np.zeros(6), cfg.style_cov["bat"], method="eigh")
@@ -180,14 +265,33 @@ def build_league(cfg: Phase2Config, rng: np.random.Generator) -> League:
             return out
         regs = make("bat", "regular", N_REGULARS)
         bench = make("bat", "bench", N_BENCH)
+        if fl6:
+            _fielding(fl6, t, regs, bench, rng_field)
+            # the scoreboard's run prevention includes fielding: the staff gets the rest. A team's expected error
+            # log-odds (team term plus its regular fielders) costs phi log runs per unit (the engine's response,
+            # scripts/solve_phase6_fielding_scale.py), so pitching = g(d) + phi * e and the total stays g(d)
+            if phi_field:
+                share = fl6["team_error"]["error_share"]
+                e_exp = t.err_team + sum(share.get(p.pos, 0.0) * p.err for p in regs)
+                tp = tp - phi_field * e_exp * v_pit
         # lineup rank by expected on-base plus slugging against a league-average pitcher
         def bat_value(p):
             pr = matchup_probs(cfg, p.z, np.zeros(6), {r: 0.0 for r in RATES})
             ob = pr["BB"] + pr["HBP"] + pr["1B"] + pr["2B"] + pr["3B"] + pr["HR"]
             return ob + (pr["1B"] + 2 * pr["2B"] + 3 * pr["3B"] + 4 * pr["HR"])
+        # start rank (playing time): Phase 6 orders by rho x standardized hitting value + independent noise,
+        # since real playing time among regulars follows hitting at about .46 (defense, position, the rest);
+        # the batting order stays by hitting value
         for grp, base in ((regs, 0), (bench, N_REGULARS)):
-            for k, p in enumerate(sorted(grp, key=bat_value, reverse=True)):
-                p.order = base + k
+            v = np.array([bat_value(p) for p in grp])
+            for k, i in enumerate(np.argsort(-v)):
+                grp[i].bat_order = base + k
+            key = v
+            if pt_rho is not None:
+                z = (v - v.mean()) / (v.std() if v.std() > 0 else 1.0)
+                key = pt_rho * z + np.sqrt(1 - pt_rho ** 2) * rng_pt.standard_normal(len(v))
+            for k, i in enumerate(np.argsort(-key)):
+                grp[i].order = base + k
         t.batters = sorted(regs + bench, key=lambda p: p.order)
         # pitchers ordered by K - BB - HR (logit offsets): best gets Friday / most relief work
         quality = lambda p: p.z[0] - p.z[1] - p.z[3]
@@ -199,6 +303,48 @@ def build_league(cfg: Phase2Config, rng: np.random.Generator) -> League:
     league.location = dict(FIXED_LOCATION) if FIXED_LOCATION is not None else load_location()
     return league
 
+
+def _fielding(fl6: dict, t, regs: list, bench: list, rng) -> None:
+    from config import phase6
+    """Phase 6 positions, base running and fielding (scripts/build_phase6_fielding.py).
+    Regulars cover the eight fielding positions and DH in random order; bench players get positions
+    at the real shares of defensive substitutes (scripts/build_phase6_subs.py). Speed: one standard-normal factor per batter; each
+    base-running component is sd * (loading * speed + sqrt(1 - loading^2) * own), the loadings from the
+    one-factor fit of the components' noise-free correlations. Glove: error log-odds at his position,
+    N(0, sd of the position). Arm: outfielders (extra bases allowed) and catchers (steal success
+    against). Team error log-odds beyond the fielders: slope x run prevention d + N(0, team sd)."""
+    sp = fl6["speed"]
+    c = sp["corr"]
+    # one-factor loadings from the three pairwise correlations (clipped to SPEED_LOADING_CLIP)
+    ab, ax, sx = c["attempt|success"], c["attempt|extra_base"], c["success|extra_base"]
+    lam = {"attempt": np.sqrt(max(ab * ax / max(sx, 1e-3), 0)), "success": np.sqrt(max(ab * sx / max(ax, 1e-3), 0)),
+           "extra_base": np.sqrt(max(ax * sx / max(ab, 1e-3), 0))}
+    lam = {k: float(np.clip(v, *phase6.SPEED_LOADING_CLIP)) for k, v in lam.items()}
+    pos_reg = list(rng.permutation(FIELD_POSITIONS + ("dh",)))
+    shares = phase6.load()["subs6"]["def_position_shares"]
+    bpos = list(rng.choice(list(shares), size=len(bench), p=np.array(list(shares.values())) / sum(shares.values())))
+    for p, pos in zip(regs + bench, pos_reg + bpos):
+        p.pos = str(pos)
+        z = float(rng.standard_normal())
+        own = rng.standard_normal(3)
+        # within-tier spreads where the tier effects are applied in the engine (steal attempt and success)
+        p.run = tuple(sp[k].get("sd_logit_within_tier", sp[k]["sd_logit"]) * (lam[k] * z + np.sqrt(1 - lam[k] ** 2) * own[i])
+                      for i, k in enumerate(("attempt", "success", "extra_base")))
+        p.ratings["speed"] = 50 + 10 * z
+        sd_e = fl6["error"]["by_position"].get(p.pos, {}).get("sd_logit", 0.0)
+        sd_e = sd_e if sd_e == sd_e else 0.0
+        ze = float(rng.standard_normal())
+        p.err = sd_e * ze
+        p.ratings["glove"] = 50 - 10 * ze
+        if p.pos in ("lf", "cf", "rf", "c"):
+            za = float(rng.standard_normal())
+            p.arm = (fl6["arm_c"] if p.pos == "c" else fl6["arm_of"])["sd_logit"] * za
+            p.ratings["arm"] = 50 + 10 * za
+    te = fl6["team_error"]
+    t.err_team = te["slope_d"] * float(t.d) + te["team_sd"] * float(rng.standard_normal())
+
+
+FIELD_POSITIONS = ("c", "1b", "2b", "3b", "ss", "lf", "cf", "rf")
 
 FIXED_LOCATION = None  # set by scripts/solve_phase2_location.py while it iterates
 

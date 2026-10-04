@@ -243,7 +243,7 @@ def main() -> None:
         "teams_era_under_4": {"value": pd25["teams_with_era_under_4_00"]["count"], "conf": "A"},
         "best_team_era": {"value": pd25["best_team_era_2025"]["value"], "conf": "A"},
         "team_ba_max": {"value": bd25["team_ba_range_2025"]["max"], "conf": "A"},
-        "team_hr_per_game_max": {"value": round(bd25["team_hr_max_2025"]["value"] / bd25["team_hr_max_2025"]["games"], 3), "conf": "A", "note": "Georgia 179 HR in 67 games"},
+        "team_hr_per_game_max": {"value": round(bd25["team_hr_max_2025"]["value"] / bd25["team_hr_max_2025"]["games"], 3), "conf": "A", "note": f"{bd25['team_hr_max_2025']['team']} {bd25['team_hr_max_2025']['value']} HR in {bd25['team_hr_max_2025']['games']} games; gated through team_leaders_2024_2026"},
         "individual_ba_top": {"value": None, "conf": "D", "sample_max": qual["sample_tops"]["BA_max"], "note": "needs stats.ncaa.org individual table"},
         "individual_hr_top": {"value": None, "conf": "D", "sample_max": qual["sample_tops"]["HR_max"], "note": "needs stats.ncaa.org individual table"},
     }

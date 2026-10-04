@@ -67,8 +67,13 @@ class AdvancementTable:
                 else:
                     self.marg[(res, key)] = Categorical.from_counts(counts)
 
-    def draw(self, res: str, outs: int, base_code: str, u: float, u_more: list[float]) -> tuple[list, str, int]:
-        """Return (runner destinations [r1, r2, r3] as str or '', batter destination, errors)."""
+    def _cell(self, res: str, outs: int, base_code: str):
+        return self.cells.get((res, f"{outs}|{base_code}")) or self.cells.get((res, f"*|{base_code}"))
+
+    def draw(self, res: str, outs: int, base_code: str, u: float, u_more: list[float], err_or: float = 1.0) -> tuple[list, str, int]:
+        """Return (runner destinations [r1, r2, r3] as str or '', batter destination, errors).
+        err_or: odds ratio on an error on the play (Phase 6 fielding); the error / no-error split of
+        the cell is tilted, each part keeps its own league shares; 1 leaves the draw unchanged."""
         cell = self.cells.get((res, f"{outs}|{base_code}"))
         if cell is not None:
             self.fallbacks["exact"] += 1
@@ -77,6 +82,12 @@ class AdvancementTable:
             if cell is not None:
                 self.fallbacks["pooled_outs"] += 1
         if cell is not None:
+            if err_or != 1.0:
+                sp = _err_split(cell)
+                if sp is not None:
+                    pe, ce, cn = sp
+                    q = pe * err_or / (1 - pe + pe * err_or)
+                    cell, u = (ce, u / q) if u < q else (cn, (u - q) / (1 - q))
             r1, r2, r3, b, _outs, err = cell.draw(u).split(",")
             return [r1, r2, r3], b, int(err)
         # independent per-runner marginals (sparse cells only)
@@ -93,37 +104,110 @@ class AdvancementTable:
         return dests, b, 0
 
 
+    def extra_prob(self, res: str, outs: int, base_code: str, origin: int, extra: tuple, std: str) -> float | None:
+        """League probability that the runner from `origin` takes the extra base (destination in
+        `extra`) rather than the standard one (`std`), among those two, in this cell; None if the cell
+        has neither."""
+        key = (res, outs, base_code, origin)
+        if key not in _EXTRA:
+            cell = self._cell(res, outs, base_code)
+            pe = ps = 0.0
+            if cell is not None:
+                prev = 0.0
+                for lab, c in zip(cell.labels, cell.cum):
+                    w, prev = c - prev, c
+                    d = lab.split(",")[origin - 1]
+                    if d in extra:
+                        pe += w
+                    elif d == std:
+                        ps += w
+            _EXTRA[key] = pe / (pe + ps) if pe + ps > 0 and 0 < pe else None
+        return _EXTRA[key]
+
+
+_EXTRA: dict = {}
+_SPLITS: dict = {}
+
+
+def _err_split(cell: Categorical):
+    """(P(error on the play), error-conditional and no-error-conditional categoricals) of a cell."""
+    k = id(cell)
+    if k not in _SPLITS:
+        prev, e, n = 0.0, {}, {}
+        for lab, c in zip(cell.labels, cell.cum):
+            w, prev = c - prev, c
+            (e if lab.rsplit(",", 1)[1] != "0" else n)[lab] = w
+        pe = sum(e.values())
+        _SPLITS[k] = (pe, Categorical(list(e), list(e.values())), Categorical(list(n), list(n.values()))) if 0 < pe < 1 else None
+    return _SPLITS[k]
+
+
 class PrePaEventTable:
-    """Non-PA base running events (steal attempts, WP, PB, pickoffs, balks, other)
-    sampled once before each plate appearance at the empirical per-PA rate."""
+    """Non-PA base running events (steal attempts, WP, PB, pickoffs, balks, other) at the
+    empirical rate per base-running opportunity (scripts/build_engine_tables.py): drawn before each
+    plate appearance and again after each event, until none occurs."""
 
     def __init__(self, pre_pa: dict, events: tuple, min_cell_n: int):
         self.events = events
         self.rate: dict[str, Categorical] = {}     # state -> categorical over events + "NONE"
         self.outcome: dict[tuple[str, str], Categorical] = {}
         for key, d in pre_pa.items():
-            n_pa = d["n_pa"]
-            if n_pa < min_cell_n:
+            n_opp = d.get("n_opp", d["n_pa"])
+            if n_opp < min_cell_n:
                 continue
             weights, labels = [], []
             for et in events:
                 c = d["events"].get(et)
                 if c:
-                    labels.append(et); weights.append(sum(c.values()) / n_pa)
+                    labels.append(et); weights.append(sum(c.values()) / n_opp)
                     self.outcome[(key, et)] = Categorical.from_counts(c)
             labels.append("NONE"); weights.append(max(0.0, 1.0 - sum(weights)))
             self.rate[key] = Categorical(labels, weights)
 
-    def draw_event(self, outs: int, base_code: str, u: float) -> str | None:
+    def draw_event(self, outs: int, base_code: str, u: float, sb_or: float = 1.0) -> str | None:
+        """sb_or: odds ratio on a steal attempt (Phase 6: the runner's speed); the other events keep
+        their league probabilities, the no-event share absorbs the change."""
         cat = self.rate.get(f"{outs}|{base_code}") or self.rate.get(f"*|{base_code}")
         if cat is None:
             return None
+        if sb_or != 1.0 and "SB_ATT" in cat.labels:
+            prev, w = 0.0, {}
+            for lab, c in zip(cat.labels, cat.cum):
+                w[lab], prev = c - prev, c
+            p = w["SB_ATT"]
+            q = p * sb_or / (1 - p + p * sb_or)
+            w["NONE"] = max(w.get("NONE", 0.0) - (q - p), 0.0)
+            w["SB_ATT"] = q
+            cat = Categorical(list(w), list(w.values()))
         ev = cat.draw(u)
         return None if ev == "NONE" else ev
 
-    def draw_outcome(self, event: str, outs: int, base_code: str, u: float) -> tuple[list, int, int] | None:
+    def draw_outcome(self, event: str, outs: int, base_code: str, u: float, ok_or: float = 1.0) -> tuple[list, int, int] | None:
+        """ok_or: odds ratio on no runner being put out (Phase 6: a steal's success, runner speed
+        against the catcher's arm); each part keeps its league shares."""
         cat = self.outcome.get((f"{outs}|{base_code}", event)) or self.outcome.get((f"*|{base_code}", event))
         if cat is None:
             return None
+        if ok_or != 1.0:
+            sp = _ok_split(cat)
+            if sp is not None:
+                po, co, cx = sp
+                q = po * ok_or / (1 - po + po * ok_or)
+                cat, u = (co, u / q) if u < q else (cx, (u - q) / (1 - q))
         r1, r2, r3, _outs, err = cat.draw(u).split(",")
         return [r1, r2, r3], 0, int(err)
+
+
+_OK: dict = {}
+
+
+def _ok_split(cat: Categorical):
+    k = id(cat)
+    if k not in _OK:
+        prev, ok, out = 0.0, {}, {}
+        for lab, c in zip(cat.labels, cat.cum):
+            w, prev = c - prev, c
+            (out if "0" in lab.split(",")[:3] else ok)[lab] = w
+        po = sum(ok.values())
+        _OK[k] = (po, Categorical(list(ok), list(ok.values())), Categorical(list(out), list(out.values()))) if 0 < po < 1 else None
+    return _OK[k]

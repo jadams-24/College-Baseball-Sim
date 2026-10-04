@@ -1,6 +1,6 @@
 """Simulate seasons once and write both reports: Phase 2 (every Phase 1 and Phase 2 gate
 row, on the Phase 4 engine) and Phase 4 (the ratings round trip).
-    python3 scripts/run_phase4.py            # the report's run: 20 seasons, seed 20251000
+    python3 scripts/run_phase4.py            # the report's run: 40 seasons, seed 20251000
 """
 from __future__ import annotations
 

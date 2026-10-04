@@ -466,12 +466,216 @@
   "src": "NCAA scoreboard feed, every 2025 D1-vs-D1 final (data/ncaa_2025/scoreboard/games_2025.csv; fetched for PR #1)",
   "n_games": 7938,
   "n_teams": 306,
-  "dispersion": 2.6185,
+  "dispersion": 2.5674,
   "residual_corr_within_game": 0.0734,
-  "log_runs_league": 1.8683,
-  "home_log_ratio": 0.0305,
-  "home_log_ratio_se": 0.0106,
+  "residual_corr_within_game_with_parks": 0.0377,
+  "dispersion_without_parks": 2.6185,
+  "parks": {
+   "_note": "Park effect of the listed home team's park, log runs per game, from the scoreboard fit with a park term; tier means relative to the D1 average park, SDs within tier with estimation noise removed (method of moments).",
+   "tiers": {
+    "p4": {
+     "n": 64,
+     "mean": -0.0742,
+     "sd": 0.111,
+     "raw_sd": 0.1724,
+     "noise_sd": 0.1319
+    },
+    "mid": {
+     "n": 153,
+     "mean": 0.0074,
+     "sd": 0.0945,
+     "raw_sd": 0.1633,
+     "noise_sd": 0.1332
+    },
+    "low": {
+     "n": 89,
+     "mean": 0.0406,
+     "sd": 0.1674,
+     "raw_sd": 0.2203,
+     "noise_sd": 0.1432
+    }
+   },
+   "sd_pooled": 0.1232
+  },
+  "log_runs_league": 1.8555,
+  "home_log_ratio": 0.0438,
+  "home_log_ratio_se": 0.0108,
   "tiers": {
+   "p4": {
+    "n_teams": 64,
+    "n_conferences": 4,
+    "mean_o": 0.3306,
+    "mean_d": 0.3009,
+    "mean_o_se": 0.0182,
+    "mean_d_se": 0.0164,
+    "team_cov": [
+     [
+      0.00544,
+      0.01026
+     ],
+     [
+      0.01026,
+      0.01933
+     ]
+    ],
+    "team_sd": {
+     "o": 0.0738,
+     "d": 0.139,
+     "corr": 1.0
+    },
+    "conf_cov": [
+     [
+      0.00572,
+      0.00504
+     ],
+     [
+      0.00504,
+      0.00599
+     ]
+    ],
+    "conf_sd": {
+     "o": 0.0756,
+     "d": 0.0774
+    },
+    "observed_sd": {
+     "o": 0.1536,
+     "d": 0.1938
+    },
+    "noise_sd": {
+     "o": 0.1164,
+     "d": 0.1181
+    }
+   },
+   "mid": {
+    "n_teams": 153,
+    "n_conferences": 15,
+    "mean_o": 0.0055,
+    "mean_d": 0.0088,
+    "mean_o_se": 0.0091,
+    "mean_d_se": 0.0081,
+    "team_cov": [
+     [
+      0.02465,
+      0.01639
+     ],
+     [
+      0.01639,
+      0.02493
+     ]
+    ],
+    "team_sd": {
+     "o": 0.157,
+     "d": 0.1579,
+     "corr": 0.661
+    },
+    "conf_cov": [
+     [
+      0.00278,
+      0.00503
+     ],
+     [
+      0.00503,
+      0.0091
+     ]
+    ],
+    "conf_sd": {
+     "o": 0.0528,
+     "d": 0.0954
+    },
+    "observed_sd": {
+     "o": 0.2032,
+     "d": 0.2148
+    },
+    "noise_sd": {
+     "o": 0.1169,
+     "d": 0.1113
+    }
+   },
+   "low": {
+    "n_teams": 89,
+    "n_conferences": 10,
+    "mean_o": -0.2472,
+    "mean_d": -0.2315,
+    "mean_o_se": 0.0168,
+    "mean_d_se": 0.0143,
+    "team_cov": [
+     [
+      0.02812,
+      0.02152
+     ],
+     [
+      0.02152,
+      0.02787
+     ]
+    ],
+    "team_sd": {
+     "o": 0.1677,
+     "d": 0.1669,
+     "corr": 0.769
+    },
+    "conf_cov": [
+     [
+      0.03118,
+      0.02698
+     ],
+     [
+      0.02698,
+      0.0294
+     ]
+    ],
+    "conf_sd": {
+     "o": 0.1766,
+     "d": 0.1715
+    },
+    "observed_sd": {
+     "o": 0.2731,
+     "d": 0.2675
+    },
+    "noise_sd": {
+     "o": 0.1201,
+     "d": 0.1094
+    }
+   }
+  },
+  "conf_cov_pooled": [
+   [
+    0.01278,
+    0.01273
+   ],
+   [
+    0.01273,
+    0.01571
+   ]
+  ],
+  "conf_sd_pooled": {
+   "o": 0.113,
+   "d": 0.1254,
+   "corr": 0.899
+  },
+  "conf_df": 26,
+  "hosting": {
+   "n_games": 3550,
+   "tier_pair_logit": {
+    "p4_vs_mid": -0.0025,
+    "p4_vs_low": 0.8979,
+    "mid_vs_low": 0.6345
+   },
+   "tier_pair_se": {
+    "p4_vs_mid": 0.0821,
+    "p4_vs_low": 0.1899,
+    "mid_vs_low": 0.0782
+   },
+   "strength_slope_observed": 1.0101,
+   "strength_slope_se": 0.0828,
+   "reliability": 0.8456,
+   "strength_slope": 1.1945,
+   "raw_higher_tier_hosts": {
+    "p4_hosts_vs_mid": 0.638,
+    "p4_hosts_vs_low": 0.8577,
+    "mid_hosts_vs_low": 0.7171
+   }
+  },
+  "tiers_total": {
    "p4": {
     "n_teams": 64,
     "n_conferences": 4,
@@ -606,44 +810,6 @@
      "o": 0.0975,
      "d": 0.0918
     }
-   }
-  },
-  "conf_cov_pooled": [
-   [
-    0.00825,
-    0.01162
-   ],
-   [
-    0.01162,
-    0.01875
-   ]
-  ],
-  "conf_sd_pooled": {
-   "o": 0.0908,
-   "d": 0.1369,
-   "corr": 0.934
-  },
-  "conf_df": 26,
-  "hosting": {
-   "n_games": 3550,
-   "tier_pair_logit": {
-    "p4_vs_mid": 0.0112,
-    "p4_vs_low": 0.9172,
-    "mid_vs_low": 0.6385
-   },
-   "tier_pair_se": {
-    "p4_vs_mid": 0.0817,
-    "p4_vs_low": 0.1897,
-    "mid_vs_low": 0.0781
-   },
-   "strength_slope_observed": 1.0113,
-   "strength_slope_se": 0.084,
-   "reliability": 0.8389,
-   "strength_slope": 1.2054,
-   "raw_higher_tier_hosts": {
-    "p4_hosts_vs_mid": 0.638,
-    "p4_hosts_vs_low": 0.8577,
-    "mid_hosts_vs_low": 0.7171
    }
   }
  }

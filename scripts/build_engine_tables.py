@@ -14,10 +14,19 @@ Tables (all counts, the engine normalizes):
                              not hits or errors, by feasibility class: "on3_lt2" (runner on
                              3rd, <2 outs), "on_lt2" (runners on, <2 outs, nobody on 3rd),
                              "on_2out" (runners on, 2 outs), "empty".
-  pre_pa_events[state]       per plate appearance with that pre-state: count of PAs, and for
-                             each non-PA event type (SB_ATT = stolen base attempt incl.
-                             caught stealing, WP, PB, PO, BK, OTHER) the count and the joint
-                             outcome distribution "r1,r2,r3,outs_on_play,errors".
+  pre_pa_events[state]       per base-running opportunity in that state: the count of
+                             opportunities (n_opp), and for each non-PA event type (SB_ATT =
+                             stolen base attempt incl. caught stealing, WP, PB, PO, BK, OTHER)
+                             the count and the joint outcome distribution
+                             "r1,r2,r3,outs_on_play,errors". An opportunity is every state a
+                             half-inning passes through between plate appearances: the state
+                             before each event, and the state the plate appearance is recorded
+                             in. The feed records a plate appearance at its state after any
+                             events during it (after a steal from first, the next PA reads
+                             runner on second in 1,720 of 1,941 cases), so dividing by recorded
+                             PAs alone left out the PAs in which a runner left the state and
+                             inflated every event rate there (Phase 1 attempts 15% high). The
+                             engine draws again after each event, so a PA can hold several.
 Result classes: K, BB (incl. IBB), HBP (incl. CI), 1B, 2B, 3B, HR, SF, SH, IP_OUT
 (FO/GO/GIDP/DP), ROE, FC.
 """
@@ -100,7 +109,8 @@ def main() -> None:
     pre_pa = {}
     for st in set(list(pa_by_state) + ["*|" + b for b in pa_by_bases]):
         n_pa = pa_by_state[st] if "*" not in st else pa_by_bases[st[2:]]
-        pre_pa[st] = {"n_pa": n_pa, "events": {et: dict(c) for et, c in events.get(st, {}).items()}}
+        n_ev = sum(sum(c.values()) for c in events.get(st, {}).values())
+        pre_pa[st] = {"n_pa": n_pa, "n_opp": n_pa + n_ev, "events": {et: dict(c) for et, c in events.get(st, {}).items()}}
 
     out = {"_meta": {"built": dt.date.today().isoformat(), "n_pa": len(pa), "n_games": int(pa.game_id.nunique()),
                      "src": "WMT play-by-play, data/ncaa_2025/pbp/parsed; see scripts/build_engine_tables.py"},
@@ -108,7 +118,7 @@ def main() -> None:
     OUT.write_text(json.dumps(out, separators=(",", ":")) + "\n")
     thin = sum(1 for res in pa_joint for st, c in pa_joint[res].items() if "|" in st and "*" not in st and sum(c.values()) < 30)
     print(f"wrote {OUT} ({OUT.stat().st_size//1024} KB); joint cells <30 PA: {thin}; subtype: {subtype}")
-    print("pre-PA event rates per PA, bases 100:", {et: round(sum(c.values()) / pre_pa['*|100']['n_pa'], 4) for et, c in pre_pa["*|100"]["events"].items()})
+    print("pre-PA event rates per PA, bases 100:", {et: round(sum(c.values()) / pre_pa['*|100']['n_opp'], 4) for et, c in pre_pa["*|100"]["events"].items()})
 
 
 if __name__ == "__main__":

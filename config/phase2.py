@@ -25,10 +25,12 @@ PA_RATES = ("K", "BB", "HBP", "HR")
 # Roster shape: owner's Phase 2 spec ("about 9 regulars plus bench, a weekend rotation
 # of 3 starters, midweek starters, about 8 relievers").
 N_REGULARS = 9
-N_BENCH = 5
+N_BENCH = 8        # Phase 6: 2025 full-season teams give a plate appearance to 17.5 position players (median 17;
+                   # scripts/build_phase6_subs.py, subs6 bench_pick_weight.position_players_with_pa), so 9 + 8. With 5,
+                   # substitutes crowded onto too few players and marginal regulars passed the qualifying games share.
 N_WEEKEND_SP = 3
 N_MIDWEEK_SP = 2
-N_RELIEVERS = 8
+N_RELIEVERS = 13   # Phase 6: 2025 full-season teams use 18.3 pitchers (median 18; scripts/build_phase6_usage.py), so 3 + 2 + 13
 
 # Season: 56 games (benchmarks game_structure.regular_season_game_limit) as 14 weeks of a
 # Fri-Sun series plus one midweek game; conference weekends from the scoreboard share of
@@ -61,6 +63,12 @@ SPOT_STARTER_RANK = 4
 # prediction interval at the central 95% stated in leaderboards_2025.
 GATE_SE_MULTIPLE = 3
 LEADERBOARD_PI = 0.95
+# CI reruns the report's seeds on its own machine. The simulation is deterministic per machine but
+# not across machines (CPU-dependent floating point changes the draws), so CI's run and the committed
+# report are two independent samples: each gated row's values must agree within this many combined
+# standard errors, sqrt(se_ci^2 + se_committed^2). 4.5 keeps the chance of a false alarm over the
+# ~300 recorded rows near 1 in 500 (two-sided normal, Bonferroni).
+CI_AGREEMENT_Z = 4.5                 # GUESS (statistical threshold)
 
 # Gate rows moved to the Phase 6 gate by the project owner (PR #4 review): their causes are
 # built in Phase 6. Reported every run, not gated here. See CLAUDE.md, Phase 6 deferred rows.
@@ -71,6 +79,18 @@ DEFERRED_TO_PHASE6 = {
     "q_K9_p50": "swingman relief and Thursday openers (need rest days and fatigue)",
     "q_K9_p90": "swingman relief and Thursday openers (need rest days and fatigue)",
     "tier_p4_low": "reserves in mismatches and blowouts (manager AI)",
+}
+
+# Named watch item (owner decision 2026-10-04, PHASE0_NOTES Phase 6): "offense extremes compressed". Reported with its
+# diagnosis, not gated. Qualified OBP p10 and team R/G SD (all) here; the run rule and the 15+ bin in the Phase 6 report. Season and game
+# extremes are narrower than real because runs vary less from game to game around team strength (dispersion 2.2 against
+# 2.6; everything tested and ruled out in PHASE0_NOTES). The schedule, the park netting and the team draw were checked
+# and reproduce the data.
+WATCH_ITEMS = {
+    "q_OBP_p10": "offense extremes compressed",
+    "team_all_r_per_game_sd": "offense extremes compressed",
+    # owner decision 2026-10-04: the drawn run-prevention tail reproduces the scoreboard fit's (PHASE0_NOTES, Phase 6)
+    "lb_teams_era_under_4": "teams under 4.00 ERA",
 }
 
 # Shape of the individual true-talent distributions (scripts/build_talent_shapes.py). A rate is drawn
@@ -201,12 +221,24 @@ def _team_draws(inp: dict, rs: dict) -> tuple[dict, dict]:
         vals, vecs = np.linalg.eigh((m + m.T) / 2)
         return vecs @ np.diag(np.clip(vals, 0, None)) @ vecs.T
     draw = {}
-    for t, e in inp["team_talent"]["tiers"].items():
+    from config import phase6
+    # Phase 6 with parks: team totals (fit without parks); the league nets the drawn park out of them
+    tiers = inp["team_talent"].get("tiers_total") if phase6.on("parks") and "tiers_total" in inp["team_talent"] else inp["team_talent"]["tiers"]
+    for t, e in tiers.items():
         draw[t] = {"mean": (e["mean_o"], e["mean_d"]), "team_cov": psd(np.array(e["team_cov"]) - np.diag([ind_o, ind_d])),
-                   "conf_cov": np.array(e["conf_cov"]), "individual_var": (ind_o, ind_d)}
+                   "conf_cov": psd(np.array(e["conf_cov"])), "individual_var": (ind_o, ind_d)}
+    # Phase 6 parks: a team's observed rates include its home park in about half its games, so the
+    # team-level spreads measured in Phase 2 carry a quarter of the park variance; with parks drawn
+    # on their own (engine/league.py), the team spread is net of it
+    park_var = np.zeros(6)
+    if phase6.on("parks"):
+        park_var = np.diag(np.array(phase6.load()["parks6"]["cov"]))
+
+    def net(sd, r):
+        return float(np.sqrt(max(sd ** 2 - 0.25 * park_var[RATES.index(r)], 0.0)))
     style = {}
-    for side, v, sds, c in (("bat", rs["v_bat_unit"], [tal["batter"][r]["sd_team_logit"] for r in RATES], cb),
-                            ("pit", rs["v_pit_unit"], [tal["pitcher"][r]["sd_team_logit"] for r in RATES[:5]] + [0.0], cp)):
+    for side, v, sds, c in (("bat", rs["v_bat_unit"], [net(tal["batter"][r]["sd_team_logit"], r) for r in RATES], cb),
+                            ("pit", rs["v_pit_unit"], [net(tal["pitcher"][r]["sd_team_logit"], r) for r in RATES[:5]] + [0.0], cp)):
         v = np.array(v)
         P = np.eye(6) - np.outer(v, w) / float(w @ v)
         style[side] = psd(P @ cov(sds, c) @ P.T)

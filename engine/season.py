@@ -27,15 +27,18 @@ def simulate_season(cfg: Phase2Config, seed: int) -> dict:
     for g, gss in zip(schedule, s_games.spawn(len(schedule))):
         rng = np.random.Generator(np.random.PCG64(gss))
         home, away = league.teams[g.home], league.teams[g.away]
-        st = eng.play(rng, home, away, g.weekend, mgr, week=g.week, day=g.day)
+        st = eng.play(rng, home, away, g.weekend, mgr, week=g.week, day=g.day, date=g.date)
         team_games[g.home] += 1; team_games[g.away] += 1
         game_rows.append((g.home, g.away, st.score["home"], st.score["away"], st.inning, st.ended_by_run_rule, g.weekend))
         for side, tm, opp in (("home", home, "away"), ("away", away, "home")):
+            # runs in innings 1-3 and 4-6 (game-level persistence diagnostics, reports/phase6.md)
+            seg = [sum(r for inn, h, r, _ in st.half_innings if (h == "T") == (side == "away") and lo <= inn <= hi) for lo, hi in ((1, 3), (4, 6))]
             tg_rows.append((tm.tid, st.score[side], st.score[opp], st.hits[side], st.ab[side], st.hr[side],
-                            st.er_allowed[side], st.outs_pitched[side], st.errors[side], st.pa[side]))
+                            st.er_allowed[side], st.outs_pitched[side], st.errors[side], st.pa[side], len(st.batted[side]),
+                            st.sb_att[side], st.sb_ok[side], *seg))
         halves.extend(st.half_innings)
     return {"league": league, "roe": eng.roe_count, "bstats": np.array(bstats), "pstats": np.array(pstats), "team_games": team_games,
             "team_game_rows": np.array(tg_rows, dtype=float), "games": game_rows, "half_innings": halves,
             "team_cell": eng.team_cell, "opp_trials": eng.opp_trials, "exp_trials": eng.exp_trials, "leash_survive": mgr.leash_survive, "leash_pulls": mgr.leash_pulls,
             "leash_expected": mgr.leash_expected, "leash_var": mgr.leash_var,
-            "pitch_rec": eng.pitch_rec, "player_pitch": eng.player_pitch, "starts": np.array(eng.starts, dtype=float)}
+            "pitch_rec": eng.pitch_rec, "sb": list(eng.sb), "outings": np.array(eng.outings, dtype=np.int32), "outing_lines": np.array(eng.outing_lines, dtype=np.int32), "player_pitch": eng.player_pitch, "starts": np.array(eng.starts, dtype=float)}

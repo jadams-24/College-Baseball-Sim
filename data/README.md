@@ -83,6 +83,26 @@ uncertainty. Values derived from this sample are conf B in `benchmarks.json`.
 
 - `talent_shapes_2025.json` from `scripts/build_talent_shapes.py`: per side and rate, the deconvolved individual true-talent distribution of the 2025 WMT play-by-play (Gaussian, sinh-arcsinh and NPMLE fits, the likelihood-ratio test, standardized quantile tables, fitted location and scale). Read by `config.phase2.load_talent_shapes` for the rates whose shape differs from Gaussian (batter HR). Report: `reports/talent_shapes.md`.
 
+## data/ncaa_2025/pbp/parsed/ — Phase 6 event tables
+
+From the same raw WMT payloads (`raw/`), by `scripts/build_phase6_events.py` (no new fetch):
+`games_meta_2025.csv` (local date and start hour, venue with latitude and longitude, neutral site,
+doubleheader number), `subs_2025.csv.gz` (every substitution action), `fielding_2025.csv.gz`
+(every fielder credit: putouts, assists, errors, passed balls, by position) and
+`runners_2025.csv.gz` (every runner action: on base, advances, steals, caught stealing, pickoffs).
+
+## data/ncaa_2025/derived/ — Phase 6 inputs
+
+`phase6_inputs_2025.json`, blocks written by `scripts/build_phase6_usage.py` (weekly calendar,
+relief and midweek-start choice logits, usage benchmarks), `build_phase6_pull.py` (pull multipliers
+by tier and season week, on the engine's split: Thu-Sun series games, Mon-Wed midweek),
+`build_phase6_subs.py` (substitution hazards; who comes in, by start rank; start shares and start
+persistence by rank; roster depth), `build_phase6_parks.py` (park covariance and tier means) and
+`build_phase6_fielding.py` (errors, arms, speed, steal attempt and success by offense x defense tier
+cell). The usage block also carries the 56-game conversion of the 50+ IP count. The park
+magnitude comes from the scoreboard fit with a park term (`scripts/build_phase2_teams.py`, the
+`parks` entry of `team_talent` in `phase2_inputs_2025.json`).
+
 ## data/ncaa_2025/derived/ — Phase 4 inputs
 
 - `phase4_inputs_2025.json` (`scripts/build_phase4_inputs.py`): the individual pitcher leash (Stamina). Each decision after a batter in the 2025 play-by-play gets the Phase 2 baseline pull hazard; a pitcher's log hazard multiplier is fitted by empirical Bayes per role (starters 271 pitchers, log SD .54; relievers 847, log SD .62), with a method-of-moments check.
@@ -118,7 +138,7 @@ uncertainty. Values derived from this sample are conf B in `benchmarks.json`.
   bulk play-by-play. PrestoSports sites (e.g. Tennessee Tech) serve full
   play-by-play at a 10-second crawl delay and were not needed.
 
-## data/ncaa_leaders/ — national individual leaders, 2023–2026 seasons (audit only)
+## data/ncaa_leaders/ — national individual and team leaders, 2023–2026 seasons
 
 - **Source:** NCAA.com D1 baseball national leader pages,
   `https://www.ncaa.com/stats/baseball/d1/{year}/individual/{stat}`, page 1 (top 50
@@ -128,11 +148,17 @@ uncertainty. Values derived from this sample are conf B in `benchmarks.json`.
   robots.txt allows /stats/. Fetched 2026-10-01, one page per request. The 2023 season
   is transcribed from the NCAA record book's 2023 leaders
   (`http://fs.ncaa.org/Docs/stats/baseball_RB/2024/D1.pdf`).
-- **Files:** `raw/s<stat>_<url year>.html.gz` untouched pages; `ncaa_leaders.json`
-  the parsed tables plus top-five values and HR threshold counts
-  (`scripts/parse_ncaa_leaders.py`).
-- **Used by:** `scripts/audit_leaders.py` (`reports/leaders_audit.md`). This is
-  informational, not a benchmark: nothing in `benchmarks.json` reads it.
+- **Team pages:** `https://www.ncaa.com/stats/baseball/d1/{year}/team/{stat}`, page 1 (top 50)
+  for stats 210 (batting average), 211 (ERA) and 323 (home runs per game), URL years 2023–2025
+  (/2022/ has no tables). Fetched 2026-10-04, one page per request (robots.txt allows /stats/).
+  The year mapping is checked against the 2025 scoreboard: the /2024/ table's games match each
+  listed team's 2025 games (Coastal Carolina 69, Georgia 60, Northeastern 60).
+- **Files:** `raw/s<stat>_<url year>.html.gz` and `raw_team/s<stat>_<url year>.html.gz` untouched
+  pages; `ncaa_leaders.json` the parsed tables plus top-five values, HR threshold counts and each
+  season's team leaders (`scripts/parse_ncaa_leaders.py`).
+- **Used by:** `scripts/write_leader_benchmarks.py` (benchmark blocks `individual_leaders_2023_2026`
+  and `team_leaders_2024_2026`, Phase 2 gate rows) and `scripts/audit_leaders.py`
+  (`reports/leaders_audit.md`).
 
 ## Not pulled
 

@@ -40,7 +40,7 @@
     },
     "runs_per_team_game": {"value": 6.75, "tol": 0.15, "conf": "B"},
     "hr_per_team_game": {"value": 1.05, "tol": 0.05, "conf": "B", "cross_check": "FanGraphs cites 1.07 for 2025 D1 overall"},
-    "sb_per_team_game": {"value": 1.29, "tol": 0.1, "conf": "B"},
+    "sb_per_team_game": {"value": 1.0979, "tol": 0.1, "conf": "B", "src": "WMT stats API box totals, 2259 2025 D1-vs-D1 games, reweighted by tier x opponent-tier cell to the full-season matchup mix (league_totals_2025_team_weighted_wmt; raw sample 1.058), the source of sb_attempts_per_team_game and sb_success_rate. Full-season Sidearm team totals agree: 13 teams, 1.047 per team-game (data/ncaa_2025/sidearm/team_totals_2025.csv). Replaces 1.29, the FanGraphs unweighted mean of conference tables (Phase 0).", "phase0_value": 1.29},
     "sh_per_team_game": {"value": 0.43, "tol": 0.05, "conf": "B"},
     "sf_per_team_game": {
       "value": 0.368,
@@ -198,7 +198,7 @@
     "fip_under_3_00": {"count": 6, "pct": 0.0068, "conf": "A"},
     "teams_with_era_under_4_00": {"count": 12, "of": 303, "conf": "A"},
     "teams_with_era_under_3_00": {"count": 0, "of": 303, "conf": "A"},
-    "best_team_era_2025": {"value": 3.2, "team": "Coastal Carolina", "conf": "A"}
+    "best_team_era_2025": {"value": 3.06, "team": "Northeastern", "conf": "A", "src": "https://www.ncaa.com/stats/baseball/d1/2024/team/{210,211,323} (2025 season; fetched 2026-10-04)"}
   },
   "batting_distribution_2025": {
     "_note": "For Phase 2 leaderboard gate. Qualified = 1 PA per team game (B-Ref standard). Fill in from stats.ncaa.org individual leaders in Phase 1 data pull.",
@@ -208,8 +208,8 @@
     "p10_ba_qualified": {"value": 0.23, "conf": "D"},
     "top_hr_season": {"value": 34, "conf": "A", "src": "Tague Davis, Louisville, 2026; 2020s leaders 30-35"},
     "hr_30plus_seasons_alltime": {"value": 27, "conf": "A"},
-    "team_ba_range_2025": {"max": 0.356, "max_team": "Georgia Tech", "conf": "A"},
-    "team_hr_max_2025": {"value": 179, "team": "Georgia", "games": 67, "conf": "A"}
+    "team_ba_range_2025": {"max": 0.337, "max_team": "New Mexico", "conf": "A", "src": "https://www.ncaa.com/stats/baseball/d1/2024/team/{210,211,323} (2025 season; fetched 2026-10-04)"},
+    "team_hr_max_2025": {"value": 144, "team": "Georgia", "games": 60, "conf": "A", "src": "https://www.ncaa.com/stats/baseball/d1/2024/team/{210,211,323} (2025 season; fetched 2026-10-04)"}
   },
   "game_structure": {
     "innings": 9,
@@ -710,25 +710,101 @@
   },
   "leaderboards_2025": {
     "_note": "Full-population extremes for the Phase 2 gate. The sim passes a row if the real value falls inside the central 95% of the simulated seasons. FanGraphs rows are conf A (all D1 pitchers and teams); individual BA and HR tops have no full-population source here (stats.ncaa.org not available), so they are informational.",
-    "pitchers_50ip": {"value": 882, "conf": "A", "gate": "phase6"},
+    "pitchers_50ip": {
+      "value": 882,
+      "conf": "A",
+      "gate": "phase6",
+      "value_56g": 821.1,
+      "ratio_56g": {"value": 0.931, "se": 0.0342, "raw_per_team": 2.9, "eq_per_team": 2.7},
+      "note_56g": "Gated value: the raw count x the ratio of 56-game-equivalent to raw 50+ IP counts on the 50 WMT full-season teams (each pitcher's IP x 56 / his team's games; scripts/build_phase6_usage.py). The sim plays 56 games with no postseason."
+    },
     "pitchers_50ip_era_under_2": {"value": 5, "conf": "A"},
-    "pitchers_50ip_era_under_3": {"value": 57, "conf": "A"},
-    "teams_era_under_4": {"value": 12, "conf": "A"},
-    "best_team_era": {"value": 3.2, "conf": "A"},
-    "team_ba_max": {"value": 0.356, "conf": "A"},
-    "team_hr_per_game_max": {"value": 2.672, "conf": "A", "note": "Georgia 179 HR in 67 games"}
+    "pitchers_50ip_era_under_3": {"value": 57, "conf": "A"}
   },
   "team_talent_2025": {
-    "_note": "Team strength on one talent scale. Quasi-Poisson fit of runs per team-game on team offense o, run prevention d (log runs, centred over teams) and the listed home slot; (o, d) = tier mean + conference effect + team effect. Estimation noise removed by method of moments using each team's covariance from the fit; conference covariance = spread of conference means minus (team + noise)/n, per tier, projected to PSD. Hosting of nonconference games: logistic in tier pair and strength gap, slope disattenuated for noise. Engine mapping (phase2_run_scale_2025.json): o and d become logit offsets along the batting and pitching quality directions scaled so one unit is one log run in the engine; the home talent edge is home_log_ratio minus the engine's batting-last effect h0. NCAA scoreboard feed, every 2025 D1-vs-D1 final (data/ncaa_2025/scoreboard/games_2025.csv; fetched for PR #1)",
+    "_note": "Team strength on one talent scale. Quasi-Poisson fit of runs per team-game on team offense o, run prevention d (log runs, centred over teams), the listed home slot and (Phase 6) the listed home team's park; (o, d) = tier mean + conference effect + team effect. Estimation noise removed by method of moments using each team's covariance from the fit; conference covariance = spread of conference means minus (team + noise)/n, per tier, projected to PSD. Hosting of nonconference games: logistic in tier pair and strength gap, slope disattenuated for noise. Engine mapping (phase2_run_scale_2025.json): o and d become logit offsets along the batting and pitching quality directions scaled so one unit is one log run in the engine; the home talent edge is home_log_ratio minus the engine's batting-last effect h0. NCAA scoreboard feed, every 2025 D1-vs-D1 final (data/ncaa_2025/scoreboard/games_2025.csv; fetched for PR #1)",
     "conf": "A",
     "conf_note": "Tier means, team covariances and the home effect rest on all 306 D1 teams (conf A). Conference covariances rest on 4 (P4), 15 (mid) and 10 (low) conferences and the hosting model on 3,550 nonconference games (conf B).",
     "n_games": 7938,
     "n_teams": 306,
-    "dispersion": 2.6185,
+    "dispersion": 2.5674,
     "residual_corr_within_game": 0.0734,
-    "home_log_ratio": {"value": 0.0305, "se": 0.0106, "conf": "A"},
+    "dispersion_without_parks": 2.6185,
+    "residual_corr_within_game_with_parks": 0.0377,
+    "parks": {
+      "_note": "Park effect of the listed home team's park, log runs per game, from the scoreboard fit with a park term; tier means relative to the D1 average park, SDs within tier with estimation noise removed (method of moments).",
+      "tiers": {
+        "p4": {"n": 64, "mean": -0.0742, "sd": 0.111, "raw_sd": 0.1724, "noise_sd": 0.1319},
+        "mid": {"n": 153, "mean": 0.0074, "sd": 0.0945, "raw_sd": 0.1633, "noise_sd": 0.1332},
+        "low": {"n": 89, "mean": 0.0406, "sd": 0.1674, "raw_sd": 0.2203, "noise_sd": 0.1432}
+      },
+      "sd_pooled": 0.1232
+    },
+    "home_log_ratio": {"value": 0.0438, "se": 0.0108, "conf": "A"},
     "engine_home_structural_h0": -0.0594,
     "tiers": {
+      "p4": {
+        "n_teams": 64,
+        "n_conferences": 4,
+        "mean_o": 0.3306,
+        "mean_d": 0.3009,
+        "mean_o_se": 0.0182,
+        "mean_d_se": 0.0164,
+        "team_cov": [
+          [0.00544, 0.01026],
+          [0.01026, 0.01933]
+        ],
+        "team_sd": {"o": 0.0738, "d": 0.139, "corr": 1.0},
+        "conf_cov": [
+          [0.00572, 0.00504],
+          [0.00504, 0.00599]
+        ],
+        "conf_sd": {"o": 0.0756, "d": 0.0774},
+        "observed_sd": {"o": 0.1536, "d": 0.1938},
+        "noise_sd": {"o": 0.1164, "d": 0.1181}
+      },
+      "mid": {
+        "n_teams": 153,
+        "n_conferences": 15,
+        "mean_o": 0.0055,
+        "mean_d": 0.0088,
+        "mean_o_se": 0.0091,
+        "mean_d_se": 0.0081,
+        "team_cov": [
+          [0.02465, 0.01639],
+          [0.01639, 0.02493]
+        ],
+        "team_sd": {"o": 0.157, "d": 0.1579, "corr": 0.661},
+        "conf_cov": [
+          [0.00278, 0.00503],
+          [0.00503, 0.0091]
+        ],
+        "conf_sd": {"o": 0.0528, "d": 0.0954},
+        "observed_sd": {"o": 0.2032, "d": 0.2148},
+        "noise_sd": {"o": 0.1169, "d": 0.1113}
+      },
+      "low": {
+        "n_teams": 89,
+        "n_conferences": 10,
+        "mean_o": -0.2472,
+        "mean_d": -0.2315,
+        "mean_o_se": 0.0168,
+        "mean_d_se": 0.0143,
+        "team_cov": [
+          [0.02812, 0.02152],
+          [0.02152, 0.02787]
+        ],
+        "team_sd": {"o": 0.1677, "d": 0.1669, "corr": 0.769},
+        "conf_cov": [
+          [0.03118, 0.02698],
+          [0.02698, 0.0294]
+        ],
+        "conf_sd": {"o": 0.1766, "d": 0.1715},
+        "observed_sd": {"o": 0.2731, "d": 0.2675},
+        "noise_sd": {"o": 0.1201, "d": 0.1094}
+      }
+    },
+    "tiers_total": {
       "p4": {
         "n_teams": 64,
         "n_conferences": 4,
@@ -791,18 +867,18 @@
       }
     },
     "conf_cov_pooled": [
-      [0.00825, 0.01162],
-      [0.01162, 0.01875]
+      [0.01278, 0.01273],
+      [0.01273, 0.01571]
     ],
-    "conf_sd_pooled": {"o": 0.0908, "d": 0.1369, "corr": 0.934},
+    "conf_sd_pooled": {"o": 0.113, "d": 0.1254, "corr": 0.899},
     "hosting": {
       "n_games": 3550,
-      "tier_pair_logit": {"p4_vs_mid": 0.0112, "p4_vs_low": 0.9172, "mid_vs_low": 0.6385},
-      "tier_pair_se": {"p4_vs_mid": 0.0817, "p4_vs_low": 0.1897, "mid_vs_low": 0.0781},
-      "strength_slope_observed": 1.0113,
-      "strength_slope_se": 0.084,
-      "reliability": 0.8389,
-      "strength_slope": 1.2054,
+      "tier_pair_logit": {"p4_vs_mid": -0.0025, "p4_vs_low": 0.8979, "mid_vs_low": 0.6345},
+      "tier_pair_se": {"p4_vs_mid": 0.0821, "p4_vs_low": 0.1899, "mid_vs_low": 0.0782},
+      "strength_slope_observed": 1.0101,
+      "strength_slope_se": 0.0828,
+      "reliability": 0.8456,
+      "strength_slope": 1.1945,
       "raw_higher_tier_hosts": {"p4_hosts_vs_mid": 0.638, "p4_hosts_vs_low": 0.8577, "mid_hosts_vs_low": 0.7171},
       "conf": "B"
     },
@@ -813,9 +889,9 @@
       "rates": ["K", "BB", "HBP", "HR", "BABIP", "XBH"],
       "linearity_quadratic_coef": {"bat": 0.0096, "pit": -0.0328},
       "game_map": {
-        "offense": {"k": 1.1368, "q": -0.0678},
-        "run_prevention": {"k": 1.1046, "q": -0.087},
-        "home_edge_engine": 0.1073,
+        "offense": {"k": 0.9696, "q": -0.1139},
+        "run_prevention": {"k": 1.1644, "q": -0.0459},
+        "home_edge_engine": 0.1112,
         "note": "engine units = k x + q x^2 of the scoreboard rating x, one map for every team; solved by scripts/solve_phase2_game_scale.py"
       }
     }
@@ -935,7 +1011,7 @@
     "src": "WMT stats API play-by-play 2025, data/ncaa_2025/pbp (fetched 2026-10-01)",
     "n_games": 2175,
     "n_pa": 171592,
-    "n_starts": {"weekend": 2866, "midweek": 1206},
+    "n_starts": {"weekend": 3052, "midweek": 1020},
     "pitches_per_pa": {"value": 3.80545, "tol": 0.03252},
     "pitches_dist_1": {"value": 0.13115, "tol": 0.0048},
     "pitches_dist_2": {"value": 0.15071, "tol": 0.00609},
@@ -996,31 +1072,31 @@
     "ba_after_3-2": {"value": 0.22255, "tol": 0.01908},
     "k_after_3-2": {"value": 0.25257, "tol": 0.01842},
     "bb_after_3-2": {"value": 0.35836, "tol": 0.01869},
-    "pitches_per_start_weekend": {"value": 78.50433, "tol": 2.95626},
-    "ip_per_start_weekend": {"value": 4.46465, "tol": 0.24396},
-    "pitches_per_start_weekend_p10": {"value": 47.0, "tol": 7.27422},
-    "pitches_per_start_weekend_p50": {"value": 82.0, "tol": 2.70075},
-    "pitches_per_start_weekend_p90": {"value": 103.0, "tol": 1.84809},
-    "pitches_per_start_midweek": {"value": 57.60716, "tol": 5.07168},
-    "ip_per_start_midweek": {"value": 3.24412, "tol": 0.35253},
-    "pitches_per_start_midweek_p10": {"value": 26.0, "tol": 3.91206, "gate": "phase6"},
-    "pitches_per_start_midweek_p50": {"value": 52.0, "tol": 5.26185},
-    "pitches_per_start_midweek_p90": {"value": 94.0, "tol": 5.79273},
+    "pitches_per_start_weekend": {"value": 78.02287, "tol": 2.94897},
+    "ip_per_start_weekend": {"value": 4.4325, "tol": 0.23748},
+    "pitches_per_start_weekend_p10": {"value": 46.0, "tol": 6.48384},
+    "pitches_per_start_weekend_p50": {"value": 81.0, "tol": 2.74311},
+    "pitches_per_start_weekend_p90": {"value": 103.0, "tol": 1.80897},
+    "pitches_per_start_midweek": {"value": 53.8498, "tol": 5.54211},
+    "ip_per_start_midweek": {"value": 3.02052, "tol": 0.37326},
+    "pitches_per_start_midweek_p10": {"value": 23.0, "tol": 2.88018, "gate": "phase6"},
+    "pitches_per_start_midweek_p50": {"value": 47.0, "tol": 4.78293},
+    "pitches_per_start_midweek_p90": {"value": 80.0, "tol": 6.43203},
     "percentile_pooling": {
       "floor": 50,
       "pooled_groups": {
         "weekend": [
           {
             "cells": ["low_vs_low", "mid_vs_low", "low_vs_mid"],
-            "n": 125,
+            "n": 131,
             "weight": 0.3103
           }
         ],
         "midweek": [
           {
-            "cells": ["mid_vs_low", "low_vs_low", "low_vs_mid"],
-            "n": 50,
-            "weight": 0.3103
+            "cells": ["p4_vs_low", "mid_vs_low", "low_vs_low", "low_vs_mid"],
+            "n": 120,
+            "weight": 0.3271
           }
         ]
       },
@@ -1053,5 +1129,59 @@
       "hi": 0.5392
     },
     "hr_season_record": {"value": 48, "note": "Pete Incaviglia, Oklahoma State, 1985 (NCAA record book)"}
+  },
+  "usage_phase6_2025": {
+    "_note": "Phase 6 gate: pitcher usage of the 2025 full-season teams (WMT play-by-play, data/ncaa_2025/pbp; 50 teams, 57.2 games on average) at a 56-game equivalent (each team's counts x 56 / its games), mean over teams; tolerance 3 SE (bootstrap over teams). The top three pitchers' innings split (Fri-Sun starts, other starts, relief) is reported, not gated. Batters per team-game: distinct batters with a plate appearance, tolerance 3 SE (bootstrap over games).",
+    "conf": "B",
+    "src": "WMT stats API play-by-play 2025, data/ncaa_2025/pbp (fetched 2026-09-30 to 2026-10-01)",
+    "n_teams": 50,
+    "team_games_mean": 57.2,
+    "app_max": {"value": 24.487, "tol": 1.215},
+    "app_5th": {"value": 17.577, "tol": 0.771},
+    "app_10th": {"value": 13.169, "tol": 0.72},
+    "relief_only_40ip": {"value": 0.76, "tol": 0.33},
+    "relief_only_60ip": {"value": 0.06, "tol": 0.099},
+    "ip_rank1": {"value": 75.351, "tol": 4.236},
+    "ip_rank2": {"value": 65.25, "tol": 4.455},
+    "ip_rank3": {"value": 53.288, "tol": 3.828},
+    "ip_rank1_fri_sun_starts": {"value": 61.226, "tol": 6.576, "gate": "report"},
+    "ip_rank1_other_starts": {"value": 9.77, "tol": 3.495, "gate": "report"},
+    "ip_rank1_relief": {"value": 4.355, "tol": 3.186, "gate": "report"},
+    "ip_rank2_fri_sun_starts": {"value": 50.347, "tol": 8.568, "gate": "report"},
+    "ip_rank2_other_starts": {"value": 5.623, "tol": 3.081, "gate": "report"},
+    "ip_rank2_relief": {"value": 9.28, "tol": 6.177, "gate": "report"},
+    "ip_rank3_fri_sun_starts": {"value": 29.159, "tol": 8.925, "gate": "report"},
+    "ip_rank3_other_starts": {"value": 5.387, "tol": 3.684, "gate": "report"},
+    "ip_rank3_relief": {"value": 18.741, "tol": 7.131, "gate": "report"},
+    "batters_per_team_game": {"value": 10.4203, "tol": 0.078},
+    "earned_run_share": {"value": 0.8824, "tol": 0.0082, "src": "runs charged by inning reconstruction of the WMT play-by-play (data/ncaa_2025/pbp/parsed/runs_charged_2025.csv.gz)"}
+  },
+  "team_leaders_2024_2026": {
+    "_note": "Phase 2 gate. National team leaders, 2024-2026 seasons: NCAA.com team pages (top 50; data/ncaa_leaders/). Rates and counts of teams, not normalized to 56 games. Real seasons include the postseason and games against non-D1 opponents. A row passes if the simulated mean over the seasons run lies in the band from the lowest to the highest real season, widened by 3 SE of the simulated mean (as individual_leaders_2023_2026).",
+    "conf": "A",
+    "src": "https://www.ncaa.com/stats/baseball/d1/{2023,2024,2025}/team/{210,211,323} (fetched 2026-10-04)",
+    "team_ba_max": {
+      "by_season": {"2024": 0.359, "2025": 0.337, "2026": 0.356},
+      "lo": 0.337,
+      "hi": 0.359,
+      "teams": {"2024": "Austin Peay", "2025": "New Mexico", "2026": "Georgia Tech"}
+    },
+    "best_team_era": {
+      "by_season": {"2024": 3.78, "2025": 3.06, "2026": 3.22},
+      "lo": 3.06,
+      "hi": 3.78,
+      "teams": {"2024": "Hawaii", "2025": "Northeastern", "2026": "Oregon St."}
+    },
+    "team_hr_per_game_max": {
+      "by_season": {"2024": 2.607, "2025": 2.4, "2026": 2.672},
+      "lo": 2.4,
+      "hi": 2.672,
+      "teams": {"2024": "Austin Peay", "2025": "Georgia", "2026": "Georgia"}
+    },
+    "teams_era_under_4": {
+      "by_season": {"2024": 6, "2025": 12, "2026": 12},
+      "lo": 6,
+      "hi": 12
+    }
   }
 }
