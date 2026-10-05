@@ -26,6 +26,10 @@ RPI_SITE_WEIGHT = {"home_win": 0.7, "road_win": 1.3, "home_loss": 1.3, "road_los
 # its regular-season entries lacks a result (2015, 2016 and 2021 fail it).
 MAX_UNRESOLVED = 0.05                # GUESS (data-coverage threshold)
 
+# Tournament pitching (scripts/build_phase7_usage.py): starts on or after this date in the 2025 play-by-play are
+# conference tournament or NCAA tournament starts (the Tuesday of conference tournament week).
+TOURNAMENT_START = "2025-05-20"
+
 _CACHE: dict = {}
 
 
