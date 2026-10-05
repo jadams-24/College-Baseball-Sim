@@ -1,0 +1,285 @@
+{
+  "fetched_on": "2026-10-05",
+  "documents": [
+    {
+      "title": "2025 NCAA Division I Baseball Prechampionship Manual (2024-25)",
+      "season": 2025,
+      "url": "https://ncaaorg.s3.amazonaws.com/championships/sports/baseball/d1/2024-25D1MBA_PreChampsManual.pdf",
+      "raw_file": "data/ncaa_brackets/raw/2024-25D1MBA_PreChampsManual.pdf",
+      "text_file": "data/ncaa_brackets/raw/2024-25D1MBA_PreChampsManual.txt",
+      "pages": 34
+    },
+    {
+      "title": "2025-26 NCAA Division I Baseball Prechampionship Manual",
+      "season": 2026,
+      "url": "https://ncaaorg.s3.amazonaws.com/championships/sports/baseball/d1/2025-26D1MBA_PreChampsManual.pdf",
+      "raw_file": "data/ncaa_brackets/raw/2025-26D1MBA_PreChampsManual.pdf",
+      "text_file": "data/ncaa_brackets/raw/2025-26D1MBA_PreChampsManual.txt",
+      "pages": 36,
+      "note": "Kept for comparison. The 2026 manual adds published 1-8 seed groupings (32 seeds); the same-conference rule is unchanged."
+    }
+  ],
+  "text_extraction": "pypdf 5.1.0 installed only in the session scratchpad (pip --target, not added to requirements.txt), with a stub for the system's broken 'cryptography' package; pdftotext was not installed. Quotes are verbatim with whitespace collapsed and the running page headers/footers removed.",
+  "quotes": [
+    {
+      "id": "structure",
+      "season": 2025,
+      "source_url": "https://ncaaorg.s3.amazonaws.com/championships/sports/baseball/d1/2024-25D1MBA_PreChampsManual.pdf",
+      "section": "Section 2•1 Championship Format — Championship Structure",
+      "pdf_page": 17,
+      "printed_page": 16,
+      "text": "The championship provides for a field of 64 teams. There are 29 conference champions that qualify automatically; the balance of the field is selected at-large by the NCAA Division I Baseball Committee. Sixteen four-team regionals will be conducted with the winners advancing to eight two-team super regionals. Winners of the eight super regional tournaments will qualify for the Men’s College World Series in Omaha, Nebraska. All regional tournaments will be double-elimination. The super regionals will be best-of-three series. The brackets used for the regional competitions as well as the Men’s College World Series may be found in Appendix A."
+    },
+    {
+      "id": "regional_format",
+      "season": 2025,
+      "source_url": "https://ncaaorg.s3.amazonaws.com/championships/sports/baseball/d1/2024-25D1MBA_PreChampsManual.pdf",
+      "section": "Section 2•1 Championship Format — Regional Format",
+      "pdf_page": 17,
+      "printed_page": 16,
+      "text": "For regional competitions, the following procedure will be observed: Day 1 Game 1 No. 1 vs. No. 4 Game 2 No. 2 vs. No. 3 Day 2 Game 3 Loser Game 1 vs. Loser Game 2 Game 4 Winner Game 1 vs. Winner Game 2 Day 3 Game 5 Winner Game 3 vs. Loser Game 4 Game 6 Winner Game 4 vs. Winner Game 5 Day 4 Game 7 If necessary, same teams as in Game 6. It should be noted that the pairings in the bracket may not be altered and the game orders during the remainder of the tournament may not be adjusted."
+    },
+    {
+      "id": "super_regional_format",
+      "season": 2025,
+      "source_url": "https://ncaaorg.s3.amazonaws.com/championships/sports/baseball/d1/2024-25D1MBA_PreChampsManual.pdf",
+      "section": "Section 2•1 Championship Format — Super Regional Format",
+      "pdf_page": 18,
+      "printed_page": 17,
+      "text": "The super regionals will start either the Friday or Saturday after regional competition (four super regionals will begin Friday and the other four super regionals will begin Saturday) and will be conducted over a three-day period (if necessary). Super regional competition should be completed not later than the Monday before the start of the Men’s College World Series. The inclement weather guidelines for super regional competition are also listed in the preliminary-rounds host operations manual. Prospective host institutions must submit preferred starting times for all games with the hosting proposal material. Please note that the NCAA, in consultation with its broadcast partner, will determine the dates and times of super regional games. For all super regional competitions, the following procedure will be observed: Day 1 Game 1 Team A vs. Team B Day 2 Game 2 Team A vs. Team B Day 3 Game 3 If necessary, Team A vs. Team B."
+    },
+    {
+      "id": "mcws_format",
+      "season": 2025,
+      "source_url": "https://ncaaorg.s3.amazonaws.com/championships/sports/baseball/d1/2024-25D1MBA_PreChampsManual.pdf",
+      "section": "Section 2•1 Championship Format — Men’s College World Series",
+      "pdf_page": 18,
+      "printed_page": 17,
+      "text": "The eight winners of the super regional competitions will advance to the Men’s College World Series. The NCAA and its broadcast partner will determine the order in which the games will be played during a tentative June 9 teleconference. Each four-team bracket then will play a double-elimination tournament to determine the bracket champions. The two bracket champions will play a best two-of-three championship series (MCWS Finals) to determine the national champion. The MCWS Finals format consists of single games Saturday, Sunday and Monday (if necessary), June 21-22/23."
+    },
+    {
+      "id": "automatic_qualification",
+      "season": 2025,
+      "source_url": "https://ncaaorg.s3.amazonaws.com/championships/sports/baseball/d1/2024-25D1MBA_PreChampsManual.pdf",
+      "section": "Section 2•3 Selection Information — Automatic Qualification",
+      "pdf_page": 21,
+      "printed_page": 20,
+      "text": "Conference champions that have been certified as automatic qualifiers for the Division I championship are listed in Appendix B. Conference champions must be determined not later than midnight Eastern time (by 11:59 p.m. Eastern time) on Sunday, May 25."
+    },
+    {
+      "id": "at_large_eligibility",
+      "season": 2025,
+      "source_url": "https://ncaaorg.s3.amazonaws.com/championships/sports/baseball/d1/2024-25D1MBA_PreChampsManual.pdf",
+      "section": "Section 2•3 Selection Information — At-Large Selection",
+      "pdf_page": 21,
+      "printed_page": 20,
+      "text": "The Division I Baseball Committee will follow Bylaw 31.3.3 in selecting at-large participants. To be eligible for selection, a team must have a better than .500 record against Division I competition."
+    },
+    {
+      "id": "in_region_competition",
+      "season": 2025,
+      "source_url": "https://ncaaorg.s3.amazonaws.com/championships/sports/baseball/d1/2024-25D1MBA_PreChampsManual.pdf",
+      "section": "Section 2•3 Selection Information — In-Region Competition",
+      "pdf_page": 21,
+      "printed_page": 20,
+      "text": "The pairings for the regionals, whenever possible, will be based on closest geographical location of the teams to the tournament sites. Teams may be moved outside their regions, if necessary, to balance the bracket, or if the proximity to an opponent outside the region would be comparable and a better competitive matchup would occur. Teams from the same conference will be placed in different regionals. The committee will be responsible for determining the regional first-round pairings and bracket."
+    },
+    {
+      "id": "super_regional_pairings",
+      "season": 2025,
+      "source_url": "https://ncaaorg.s3.amazonaws.com/championships/sports/baseball/d1/2024-25D1MBA_PreChampsManual.pdf",
+      "section": "Section 2•3 Selection Information (continued)",
+      "pdf_page": 22,
+      "printed_page": 21,
+      "text": "Super regional pairings are determined by the initial placement of teams on the bracket. Two winners of regional competitions will meet in one of eight super regional tournaments. The bracket will be developed such that if all 16 seeded teams (No. 1 seeds) were to advance from the regional to the super regional round, the matchups would be 1 vs. 16, 2 vs. 15, 3 vs. 14, 4 vs. 13, 5 vs. 12, 6 vs. 11, 7 vs. 10, and 8 vs. 9. The committee will not alter the bracket or seeds due to a state or institutional decision to restrict travel to another state or locale."
+    },
+    {
+      "id": "seeding_and_assignment",
+      "season": 2025,
+      "source_url": "https://ncaaorg.s3.amazonaws.com/championships/sports/baseball/d1/2024-25D1MBA_PreChampsManual.pdf",
+      "section": "Section 2•4 Selection Criteria",
+      "pdf_page": 22,
+      "printed_page": 21,
+      "text": "At-large teams will be assigned to the various regionals by the Division I Baseball Committee. The committee will seed the top 16 national seeds. The 16 No. 1 teams will not be assigned to the same regional. Whenever possible, other teams will be assigned to regionals using the closest possible geographical consideration. However, teams may be moved outside their regions, if necessary, to balance the bracket numerically, or if the proximity to an opponent outside the region would be comparable and a better competitive matchup would occur. Teams from the same conference will be placed in different regionals. The Division I Baseball Committee will not reseed the teams once the initial bracket is determined."
+    },
+    {
+      "id": "regional_host_criteria",
+      "season": 2025,
+      "source_url": "https://ncaaorg.s3.amazonaws.com/championships/sports/baseball/d1/2024-25D1MBA_PreChampsManual.pdf",
+      "section": "Section 2•5 Site Selection — Prospective Hosts (regionals)",
+      "pdf_page": 23,
+      "printed_page": 22,
+      "text": "Regarding the regional tournaments, with the criteria listed in Bylaw 31.1.3, the Division I Baseball Committee also follows the additional criteria below: 1. Regional competition shall take place at on-campus sites or alternative sites approved by the Division I Baseball Committee. 2. The committee shall attempt to place regional tournaments so that maximum national balance can be obtained, preferably at least one regional in each of the five Division I baseball regions. 3. New for 2025: Prospective host institutions must submit a minimum financial guarantee of $75,000, which shall be 75% of the estimated net receipts as submitted on the hosting proposal (online proposed budget). 4. Once that guarantee is met, the committee shall consider the additional criteria as listed in Bylaw 31.1.3.2.1. 5. Lights are highly recommended at all prospective regional sites. These lights should meet the NCAA standards found by clicking on the “NCAA Broadcast Manual and Policies” link at ncaa.com/media. 6. New for 2025: Host sites will now be required to have permanent restrooms for fans to be considered to host. 7. The committee will consider previous crowd control and behavior of the prospective host institution."
+    },
+    {
+      "id": "super_regional_host_criteria",
+      "season": 2025,
+      "source_url": "https://ncaaorg.s3.amazonaws.com/championships/sports/baseball/d1/2024-25D1MBA_PreChampsManual.pdf",
+      "section": "Section 2•5 Site Selection — Prospective Hosts (super regionals)",
+      "pdf_page": 24,
+      "printed_page": 23,
+      "text": "Regarding the super regional tournaments, with the criteria listed in Bylaw 31.1.3, the Division I Baseball Committee also follows the additional criteria below: 1. Super regional competition shall take place at on-campus sites or alternate sites approved by the Division I Baseball Committee. 2. New for 2025: Prospective host institutions must submit a minimum financial guarantee of $50,000, which shall be 75% of the estimated net receipts as submitted on the hosting proposal (online proposed budget). The $50,000 minimum applies to both two-day and three-day super regional competitions. 3. Consideration for hosting shall be given to the higher seed if a suitable hosting proposal has been received (e.g., meets financial guarantee and quality of facility criteria). If the higher seed has not submitted a proposal, the lower-seeded team will host if its proposal is acceptable. 4. If the super regional matchup is between equally seeded teams, the committee shall review the hosting proposals according to the site selection criteria (e.g., quality and availability of the facility, revenue potential and other available accommodations) to determine the host. If only one of the teams has submitted a proposal, that team shall host if the proposal is acceptable."
+    },
+    {
+      "id": "pairings_2026",
+      "season": 2026,
+      "source_url": "https://ncaaorg.s3.amazonaws.com/championships/sports/baseball/d1/2025-26D1MBA_PreChampsManual.pdf",
+      "section": "Selection Information — Pairings (2025-26 manual, for the 2026 championship)",
+      "pdf_page": 23,
+      "printed_page": 22,
+      "text": "Fifty percent of the bracket will be seeded in four groupings of 1-8. Published seeding will be in four sets of 1-8 and the pairings will honor a 1-8 assignment. The committee will identify the top 32 teams. The top 16 teams will be identified in rank order and assigned a seed grouping from 1 to 4. The top 16 will also be identified with its overall rank on the published bracket. The balance of the ranked teams, in turn, are assigned to one of the remaining seed groupings (i.e., 5 to 8). Once the seed assignment is finalized, it remains unchanged while placing the teams into the championship bracket. Except for the 32 seeds, the pairings for the regionals, whenever possible, will be based on closest geographical location of the teams to the tournament sites. Teams may be moved outside their regions, if necessary, to balance the bracket or if the proximity to an opponent outside the region would be comparable and a better competitive matchup would occur. Teams from the same conference will be placed in different regionals. The committee will not reseed the teams once the initial bracket is determined. The committee will be responsible for determining the regional first-round pairings and bracket."
+    },
+    {
+      "id": "super_regional_pairings_2026",
+      "season": 2026,
+      "source_url": "https://ncaaorg.s3.amazonaws.com/championships/sports/baseball/d1/2025-26D1MBA_PreChampsManual.pdf",
+      "section": "Selection Information (continued), 2025-26 manual",
+      "pdf_page": 24,
+      "printed_page": 23,
+      "text": "Super regional pairings are determined by the initial placement of teams on the bracket. Two winners of regional competitions will meet in one of eight super regional tournaments. The bracket will be developed such that if all of the top 16 seeded teams (No. 1 seeds) were to advance from the regional to the super regional round, the matchups would be 1 vs. 16, 2 vs. 15, 3 vs. 14, 4 vs. 13, 5 vs. 12, 6 vs. 11, 7 vs. 10, and 8 vs. 9. Per Bylaw 31.1.3.2.5, seeded teams will have an opportunity to host regional competition provided they meet all hosting requirements and have submitted a bid to host by the May 18 deadline. Selection of teams shall be completed Monday, May 25."
+    }
+  ],
+  "summary": {
+    "field": {
+      "teams": 64,
+      "automatic_qualifiers": 29,
+      "at_large": 35,
+      "at_large_min_record": "better than .500 vs Division I"
+    },
+    "national_seeds": {
+      "count": 16,
+      "rule": "The committee seeds the top 16 national seeds; the 16 No. 1 teams go to 16 different regionals."
+    },
+    "super_regional_pairing": {
+      "rule": "fixed bracket, no reseeding",
+      "pairs_if_all_national_seeds_advance": [
+        [
+          1,
+          16
+        ],
+        [
+          2,
+          15
+        ],
+        [
+          3,
+          14
+        ],
+        [
+          4,
+          13
+        ],
+        [
+          5,
+          12
+        ],
+        [
+          6,
+          11
+        ],
+        [
+          7,
+          10
+        ],
+        [
+          8,
+          9
+        ]
+      ]
+    },
+    "super_regional_host": "The higher seed hosts if its bid is acceptable, otherwise the lower seed if its bid is acceptable. Between equal seeds (e.g. two regional winners that were not national seeds), the committee decides on site criteria; if only one team bid, that team hosts if its bid is acceptable.",
+    "regional_format": {
+      "teams": 4,
+      "type": "double_elimination",
+      "day1": [
+        [
+          1,
+          4
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "games": [
+        "G1 1v4",
+        "G2 2v3",
+        "G3 L1vL2",
+        "G4 W1vW2",
+        "G5 W3vL4",
+        "G6 W4vW5",
+        "G7 if necessary, same teams as G6"
+      ],
+      "games_min": 6,
+      "games_max": 7,
+      "pairings_fixed": true
+    },
+    "super_regional_format": {
+      "type": "best_of_three",
+      "games_min": 2,
+      "games_max": 3
+    },
+    "mcws_format": {
+      "teams": 8,
+      "structure": "two 4-team double-elimination brackets, then best two-of-three finals"
+    },
+    "regional_seeds_2_to_4": "Not specified in the 2025 manual: it names No. 1-4 within a regional only through the Day 1 pairings. The 2026 manual adds published seed groupings (top 16 as 1-4, next 16 as 5-8; 'Fifty percent of the bracket will be seeded in four groupings of 1-8').",
+    "same_conference": {
+      "rule": "Teams from the same conference will be placed in different regionals.",
+      "stated_exceptions": "none",
+      "note": "The manual states no exception: none for a host's conference, none for national seeds, and none for a conference with more teams than regionals. The last cannot happen with 16 regionals unless a conference sends 17 or more. The rule covers regional placement only. Super regional and MCWS meetings between conference mates follow from the fixed bracket and are allowed (the manual says no reseeding)."
+    },
+    "geography": {
+      "rule": "Regional pairings use the closest geographical location to the tournament sites whenever possible. In the 2025 manual the geography sentence covers 'other teams' after the 16 national seeds are placed; the 2026 manual says 'Except for the 32 seeds'. Teams may be moved outside their region to balance the bracket numerically, or when proximity to an out-of-region opponent is comparable and gives a better competitive matchup.",
+      "regions_appendix_b": {
+        "East": [
+          "America East",
+          "Atlantic 10",
+          "ACC",
+          "CAA",
+          "Ivy League",
+          "MAAC",
+          "NEC",
+          "Patriot"
+        ],
+        "Midwest": [
+          "Big East",
+          "Big Ten",
+          "Horizon",
+          "MAC",
+          "MVC",
+          "Summit League"
+        ],
+        "South": [
+          "Big 12",
+          "CUSA",
+          "OVC",
+          "Southland",
+          "SWAC",
+          "Sun Belt"
+        ],
+        "Southeast": [
+          "The American",
+          "ASUN",
+          "Big South",
+          "SEC",
+          "SoCon"
+        ],
+        "West": [
+          "Big West",
+          "Mountain West",
+          "WCC",
+          "WAC",
+          "Pac-12 (Oregon State only, independent schedule)"
+        ]
+      },
+      "regional_host_balance": "Regionals are placed for maximum national balance, preferably at least one in each of the five Division I baseball regions."
+    },
+    "hosting": {
+      "regional": "On-campus sites (or alternative sites the committee approves). Minimum financial guarantee $75,000 (new for 2025), permanent fan restrooms required, lights highly recommended. The 2025 manual does not tie regional hosting to national seeds; the 2026 manual (Bylaw 31.1.3.2.5) says seeded teams may host if they meet the requirements and bid.",
+      "super_regional": "On campus; minimum guarantee $50,000; the higher seed has first right if its bid is acceptable."
+    },
+    "no_reseed": "The committee will not reseed once the initial bracket is set, and will not alter the bracket or seeds for state or institutional travel restrictions."
+  },
+  "confidence": "A for the published rule text (official NCAA prechampionship manual for the 2025 championship). The 2025 manual does not cover how regional seeds 2-4 are chosen, so that row is incomplete."
+}

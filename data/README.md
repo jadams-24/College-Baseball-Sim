@@ -177,6 +177,32 @@ magnitude comes from the scoreboard fit with a park term (`scripts/build_phase2_
   some super regional hosts (marked `inferred` in `host_source`). The 2021 Columbia super
   regional was played at a neutral site (host `null`).
 
+## data/ncaa_brackets/ — NCAA bracketing principles (prechampionship manuals)
+
+- **Source:** NCAA Division I Baseball Prechampionship Manuals, official NCAA PDFs:
+  `https://ncaaorg.s3.amazonaws.com/championships/sports/baseball/d1/2024-25D1MBA_PreChampsManual.pdf`
+  (2025 championship) and `.../2025-26D1MBA_PreChampsManual.pdf` (2026, kept for comparison).
+  The host has no robots.txt (404). Fetched 2026-10-05.
+- **Files:** `raw/*.pdf` untouched; `raw/*.txt` text extracted with pypdf 5.1.0. pypdf was
+  installed only in the session scratchpad, not in `requirements.txt`, and pdftotext was not
+  available. `bracketing_principles.json` has the verbatim rule quotes with PDF and printed
+  page numbers, plus a machine-readable summary: 16 national seeds, super regional pairings
+  1v16 to 8v9, regional 1v4/2v3, hosting, the same-conference rule, geography and regions.
+
+## data/conf_tournaments/ — 2025 conference tournament formats
+
+- **Source:** English Wikipedia, `https://en.wikipedia.org/wiki/2025_<Conference>_baseball_tournament`,
+  one page per conference in `teams_2025.csv` (DI Independent skipped). SoCon has no
+  standalone page and redirects to `2025_Southern_Conference_baseball_season#Tournament`.
+  A secondary source. Two official conference pages confirm details: necsports.com (NEC) and
+  bigeast.com (Big East). Most other conference sites (Sidearm) answered robots.txt with 403
+  bot protection and were not fetched. Fetched 2026-10-05, one request per second.
+- **Files:** `raw/<conf>__<source>.html.gz` untouched pages; `formats_2025.json`, one record
+  per conference: teams, qualification, format code, bracket description, site, auto bid,
+  games_min/games_max and games played in 2025.
+- **Inferred, not stated by the page:** games_min/games_max (derived from the format), and
+  the OVC bracket shape (taken from the schedule table, which contradicts the page's prose).
+
 ## Not pulled
 
 - **stats.ncaa.org team, individual and contest pages.** The team list is
