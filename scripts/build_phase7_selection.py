@@ -117,6 +117,22 @@ def main() -> None:
         Ds = T[T.season == y_]
         worst_atl[y_] = int(Ds[Ds.at_large]["rank"].max())
         best_out[y_] = int(Ds[~Ds.field]["rank"].min())
+    # RPI distribution: RPI at ranks 1, 16, 32, 64 and mean RPI by tier (2025 tiers of the feed names)
+    tier_all = tiers()
+    at = {k: [] for k in (1, 16, 32, 64)}
+    by_tier = {t: [] for t in ("p4", "mid", "low")}
+    for y_ in FIT_SEASONS:
+        Ds = T[T.season == y_].sort_values("rpi", ascending=False)
+        for k in at:
+            at[k].append(float(Ds.rpi.iloc[k - 1]))
+        tt = Ds.team.map(tier_all)
+        for t in by_tier:
+            by_tier[t].append(float(Ds.rpi[tt == t].mean()))
+    rpi_bench = {"_note": "RPI from the feed (engine.rpi), Division I games before selection Monday, seasons " + ", ".join(FIT_SEASONS)
+                          + "; tiers by the 2025 conference of the feed name (teams not in the 2025 list left out of the tier means)",
+                 "conf": "B",
+                 "rpi_at_rank": {str(k): {"mean": round(float(np.mean(v)), 4), "sd": round(float(np.std(v, ddof=1)), 4)} for k, v in at.items()},
+                 "mean_rpi_by_tier": {t: {"mean": round(float(np.mean(v)), 4), "sd": round(float(np.std(v, ddof=1)), 4)} for t, v in by_tier.items()}}
     out["conf"] = "B"
     out["conf_note"] = ("RPI recomputed from the scoreboard feed (formula checked on 2026: rank correlation .99994 with the published RPI), "
                         "but without neutral-site flags and, in 2025, without most conference tournament results; 8 seasons, 270 at-large bids")
@@ -129,6 +145,7 @@ def main() -> None:
                                                  "median": float(np.median(wa)), "range": [int(wa.min()), int(wa.max())], "by_season": worst_atl}
     bench["field"]["best_rpi_rank_left_out"] = {"mean": round(float(bo.mean()), 2), "sd": round(float(bo.std(ddof=1)), 2),
                                                 "median": float(np.median(bo)), "range": [int(bo.min()), int(bo.max())], "by_season": best_out}
+    bench["rpi"] = rpi_bench
     bench["field"]["rpi_note"] = "RPI from the feed (engine.rpi), Division I games before selection Monday; seasons " + ", ".join(FIT_SEASONS)
     BENCH.write_text(json.dumps(bench, indent=1) + "\n")
     print(json.dumps({k: v for k, v in out.items() if k in ("at_large", "national_seed")}, indent=1))

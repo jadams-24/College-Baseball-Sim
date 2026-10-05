@@ -10,7 +10,7 @@ from pathlib import Path
 import numpy as np
 
 from engine.status import Status
-from config.phase2 import (DEFERRED_TO_PHASE6, WATCH_ITEMS, GATE_SE_MULTIPLE, LEADERBOARD_MIN_IP, LEADERBOARD_PI, QUAL_GAMES_SHARE, QUAL_IP_PER_TEAM_GAME,
+from config.phase2 import (SEASON_GAMES, DEFERRED_TO_PHASE6, WATCH_ITEMS, GATE_SE_MULTIPLE, LEADERBOARD_MIN_IP, LEADERBOARD_PI, QUAL_GAMES_SHARE, QUAL_IP_PER_TEAM_GAME,
                            QUAL_PA_PER_TEAM_GAME)
 from engine.game2 import (B_2B, B_3B, B_AB, B_BB, B_G, B_GPA, B_H, B_HBP, B_HR, B_K, B_PA, B_SF, P_BF, P_ER, P_K, P_OUTS, P_WGS)
 
@@ -78,7 +78,10 @@ def season_metrics(res: dict) -> dict:
     pct = lambda v: {f"p{qq}": float(np.percentile(v, qq)) for qq in QS}
     m["qualified"] = {"batters": {"n": int(q.sum()), "per_team": q.sum() / len(lg.teams), "BA": pct(BA), "OBP": pct(OBP), "ISO": pct(ISO), "K_pct": pct(Kp), "BB_pct": pct(BBp)},
                       "pitchers": {"n": int(qp.sum()), "per_team": qp.sum() / len(lg.teams), "ERA": pct(ERA), "K9": pct(K9)}}
-    p50 = ip >= LEADERBOARD_MIN_IP
+    # 56-game equivalents, as the benchmarks scale real seasons: a player's totals x 56 / his team's games
+    # (Phase 7 cancels games, so teams play fewer than 56)
+    s56 = SEASON_GAMES / bt
+    p50 = ip * s56 >= LEADERBOARD_MIN_IP
     era50 = 9 * p[p50, P_ER] / ip[p50]
     tv = list(team.values())
     m["leaderboards"] = {"pitchers_50ip": int(p50.sum()), "pitchers_50ip_era_under_2": int((era50 < 2).sum()), "pitchers_50ip_era_under_3": int((era50 < 3).sum()),
@@ -87,7 +90,8 @@ def season_metrics(res: dict) -> dict:
                          "individual_ba_top": float(np.nanmax(BA)), "individual_hr_top": int(b[:, B_HR].max())}
     # individual leaders (gate block individual_leaders_2023_2026): the five home-run leaders' HR per game played
     top = np.argsort(-b[:, B_HR], kind="stable")[:LEADER_TOP]
-    m["leaders"] = {"hr_leader_56g": int(b[:, B_HR].max()), "hr_30plus_56g": int((b[:, B_HR] >= 30).sum()), "ba_leader": float(np.nanmax(BA)),
+    hr56 = b[:, B_HR] * s56
+    m["leaders"] = {"hr_leader_56g": float(hr56.max()), "hr_30plus_56g": int((hr56 >= 30).sum()), "ba_leader": float(np.nanmax(BA)),
                     "hr_top5_per_game": float(np.mean(b[top, B_HR] / np.maximum(b[top, B_G], 1))), "hr_max": int(b[:, B_HR].max())}
     # rotation: share of a team's weekend starts made by its three most frequent weekend starters
     tid_p = np.array([x.team for x in pl]); wgs = p[:, P_WGS]

@@ -105,7 +105,10 @@ class World:
                 hr, ar = play_game(h, a, start + day, neutral, "conf")
                 return h if hr > ar else a
             champ, rec = conference_tournament(f["format"], teams, play, host)
-            out[conf] = {"champion": champ, "champion_seed": teams.index(champ) + 1, "teams": teams, "games": len(rec.games), "days": rec.day}
+            cr = self.records(reg_games, self.real_conf)
+            pct = {t: cr.get(t, [0, 0])[0] / max(sum(cr.get(t, [0, 0])), 1) for t in order}
+            out[conf] = {"champion": champ, "champion_seed": teams.index(champ) + 1, "teams": teams, "games": len(rec.games), "days": rec.day,
+                         "champion_is_regular_season_champion": bool(pct[champ] >= max(pct.values()) - 1e-12)}
         return out
 
     # ---- selection and seeding --------------------------------------------------------------------

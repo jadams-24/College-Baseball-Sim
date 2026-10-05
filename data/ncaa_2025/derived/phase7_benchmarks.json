@@ -417,6 +417,41 @@
    }
   }
  },
+ "conference_tournaments": {
+  "won_by_regular_season_champion": {
+   "value": 0.4254,
+   "se": 0.0367,
+   "n": 181,
+   "_note": "automatic bids (published brackets) won by a regular-season conference (co-)champion: conference games in the feed before the Tuesday of tournament week; 2019, 2021-2025 (earlier feeds lack conference names)",
+   "conf": "B",
+   "by_season": {
+    "2019": [
+     13,
+     31
+    ],
+    "2021": [
+     15,
+     30
+    ],
+    "2022": [
+     13,
+     31
+    ],
+    "2023": [
+     14,
+     30
+    ],
+    "2024": [
+     10,
+     30
+    ],
+    "2025": [
+     12,
+     29
+    ]
+   }
+  }
+ },
  "games": {
   "_note": "regular season per team (all opponents, WarrenNolan schedules): scheduled, canceled and played; the sim schedules 56 for every team (the NCAA maximum), so only the cancellation rate is modeled (owner decision: no shortened schedules)",
   "conf": "B",
@@ -445,6 +480,42 @@
   },
   "share_scheduling_56": {
    "2026": 0.299
+  }
+ },
+ "rpi": {
+  "_note": "RPI from the feed (engine.rpi), Division I games before selection Monday, seasons 2017, 2018, 2019, 2021, 2022, 2023, 2024, 2025; tiers by the 2025 conference of the feed name (teams not in the 2025 list left out of the tier means)",
+  "conf": "B",
+  "rpi_at_rank": {
+   "1": {
+    "mean": 0.6257,
+    "sd": 0.007
+   },
+   "16": {
+    "mean": 0.584,
+    "sd": 0.0059
+   },
+   "32": {
+    "mean": 0.5668,
+    "sd": 0.0038
+   },
+   "64": {
+    "mean": 0.5426,
+    "sd": 0.0041
+   }
+  },
+  "mean_rpi_by_tier": {
+   "p4": {
+    "mean": 0.5521,
+    "sd": 0.0072
+   },
+   "mid": {
+    "mean": 0.4966,
+    "sd": 0.0023
+   },
+   "low": {
+    "mean": 0.4579,
+    "sd": 0.0043
+   }
   }
  }
 }

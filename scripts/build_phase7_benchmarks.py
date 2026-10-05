@@ -154,12 +154,51 @@ def standings(tier: dict) -> dict:
             "best_win_pct": {"value": round(float(bp.mean()), 4), "range": [round(float(bp.min()), 4), round(float(bp.max()), 4)], "by_season": best}}
 
 
+def conference_champions(b, m) -> dict:
+    """Share of conference automatic bids won by a team tied for the best conference record in the regular
+    season (games before the Tuesday of tournament week); seasons whose feed names conferences."""
+    hit = n = 0
+    by = {}
+    for y in ("2019", "2021", "2022", "2023", "2024", "2025"):
+        d = feed_games(y)
+        fc = {k: v for k, v in pd.concat([d.home, d.away]).value_counts().items()}
+        end = pd.Timestamp(SELECTION[y]) - pd.Timedelta(days=6)
+        g = d[(d.state == "final") & d.home_score.notna() & (d.home_score != d.away_score) & (d.date < end)
+              & (d.home_conf == d.away_conf) & d.home_conf.notna()].drop_duplicates("url")
+        rec = {}
+        for h, a, hs, as_, c in zip(g.home, g.away, g.home_score, g.away_score, g.home_conf):
+            w, l = (h, a) if hs > as_ else (a, h)
+            rec.setdefault(w, [0, 0, c])[0] += 1
+            rec.setdefault(l, [0, 0, c])[1] += 1
+        best = {}
+        for t, (w, l, c) in rec.items():
+            best[c] = max(best.get(c, 0.0), w / (w + l))
+        h_ = n_ = 0
+        for t in b[y]["teams"]:
+            if t["bid"] != "auto":
+                continue
+            fn = feed_name(t["team"], fc, m)
+            if fn not in rec:
+                continue
+            w, l, c = rec[fn]
+            n_ += 1
+            h_ += w / (w + l) >= best[c] - 1e-12
+        by[y] = [h_, n_]
+        hit += h_; n += n_
+    out = binom(hit, n)
+    out.update({"_note": "automatic bids (published brackets) won by a regular-season conference (co-)champion: conference games in "
+                         "the feed before the Tuesday of tournament week; 2019, 2021-2025 (earlier feeds lack conference names)",
+                "conf": "B", "by_season": by})
+    return out
+
+
 def main() -> None:
     b, m, tier = brackets(), name_map(), tiers()
     out = {"built": dt.date.today().isoformat()}
     out.update(seeds_and_field(b, tier, m))
     out["home_field"] = home_field(b, m)
     out["standings"] = standings(tier)
+    out["conference_tournaments"] = {"won_by_regular_season_champion": conference_champions(b, m)}
     OUT.write_text(json.dumps(out, indent=1) + "\n")
     print(json.dumps(out, indent=1)[:6000])
 
