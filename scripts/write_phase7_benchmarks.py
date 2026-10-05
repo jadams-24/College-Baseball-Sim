@@ -36,7 +36,7 @@ def main() -> None:
                                         "spearman_unweighted": round(chk["unweighted"]["spearman"], 5), "conf": "A",
                                         "src": "engine.rpi on WarrenNolan 2026 results through May 24 against https://www.ncaa.com/rankings/baseball/d1/rpi "
                                                "('Through Games May. 24 2026', the final RPI before the field was selected)"}}
-    for k in ("games", "standings", "rpi", "field", "seeds", "home_field", "conference_tournaments", "current"):
+    for k in ("games", "standings", "rpi", "field", "seeds", "home_field", "conference_tournaments", "current", "era_fielding"):
         block[k] = p7[k]
     old = b.get("season_world_2015_2026")
     b["season_world_2015_2026"] = block

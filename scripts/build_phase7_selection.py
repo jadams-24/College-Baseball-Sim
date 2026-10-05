@@ -12,6 +12,16 @@ Models (logistic, a separate intercept per season, Newton-Raphson):
 With a per-season intercept the engine's draw is the same model: the k teams with the largest score +
 standard logistic noise (k = the season's open slots).
 
+Measurement-error correction (owner decision 2026-10-05): the feed's RPI is the true RPI plus error (no neutral flags;
+2025 without most conference tournament results), which flattens a logistic slope. sigma_m is the SD of the difference
+between the feed's 2025 RPI z and the exact one (WarrenNolan games, neutral sites flagged); under the probit approximation
+of the logistic (variance pi^2/3), observed slope^2 = true^2 / (1 + true^2 sigma_m^2 / (pi^2/3)), so every coefficient is
+multiplied by sqrt((pi^2/3) / (pi^2/3 - b_rpi^2 sigma_m^2)) (b_rpi the fitted RPI z slope). The 2025 sigma_m is applied to
+every season (GUESS: the other seasons' feed has conference tournaments but no neutral flags and a game or two fewer per
+team; neutral flags alone give sigma .028-.030 on 2025-2026). Check: the same model refitted on the exact RPI of 2025 and
+2026 (WarrenNolan games, scripts/build_phase7_current.py); a corrected coefficient within one SE of the refit's is recorded
+as validated, otherwise it stays a GUESS (GUESSES.md).
+
 Also the field benchmarks that the models must reproduce in the sim: the worst RPI rank given an at-large
 bid and the best RPI rank left out, per season.
 Writes the "selection7" block of data/ncaa_2025/derived/phase7_inputs.json and the rank rows into
@@ -83,11 +93,45 @@ def logit_fit(X: np.ndarray, y: np.ndarray, groups: np.ndarray) -> tuple[np.ndar
     return beta[k:], np.sqrt(np.diag(cov))[k:], float((y * np.log(p) + (1 - y) * np.log(1 - p)).sum())
 
 
+def exact_tables() -> tuple[pd.DataFrame, dict]:
+    """2025 and 2026 team tables on the exact RPI (WarrenNolan games), and the measurement error of the feed's RPI z."""
+    from build_phase7_current import conf_tier, norm, wn_setup
+    ct, team25 = conf_tier(); b, m, tier = brackets(), name_map(), tiers()
+    nm = pd.read_csv(ROOT / "data/ncaa_2026/team_name_map.csv")
+    to_ncaa = dict(zip(nm.warrennolan_name, nm.ncaa_name))
+    zs = lambda d: (pd.Series(d) - pd.Series(d).mean()) / pd.Series(d).std()
+    tabs, err = [], {}
+    for y in ("2025", "2026"):
+        _, rp, tr, _, _, missing, entry = wn_setup(y, ct, team25, b)
+        _, rpn, *_ = wn_setup(y, ct, team25, b, neutral=False)
+        ze = zs(rp)
+        err[f"neutral_flags_only_{y}"] = round(float((zs(rpn) - ze).std()), 4)
+        t = pd.DataFrame({"team": ze.index, "z": ze.values})
+        t["auto"] = t.team.map(lambda x: x in entry and entry[x]["bid"] == "auto")
+        t["at_large"] = t.team.map(lambda x: x in entry and entry[x]["bid"] != "auto")
+        t["field"] = t.team.isin(entry)
+        t["seed"] = t.team.map(lambda x: entry[x].get("national_seed") if x in entry else None)
+        t["p4"] = t.team.map(lambda x: tr.get(x) == "p4")
+        t["season"] = y
+        tabs.append(t)
+        if y == "2025":
+            f = season_table("2025", b, m, tier)
+            ex = {norm(to_ncaa.get(x, x)): v for x, v in ze.items()}
+            f["ze"] = f.team.map(lambda x: ex.get(norm(x)))
+            j = f.dropna(subset=["ze"])
+            err.update({"matched_2025": int(len(j)), "feed_teams_2025": int(len(f)), "corr_feed_exact_2025": round(float(j.z.corr(j.ze)), 5),
+                        "sigma_m": round(float((j.z - j.ze).std()), 4)})
+    return pd.concat(tabs, ignore_index=True), err
+
+
 def main() -> None:
     b, m, tier = brackets(), name_map(), tiers()
     T = pd.concat([season_table(y, b, m, tier) for y in FIT_SEASONS], ignore_index=True)
     out = {"built": dt.date.today().isoformat(), "seasons": list(FIT_SEASONS), "_note": __doc__}
     checks = {}
+    X_, me = exact_tables()
+    sig = me["sigma_m"]
+    out["measurement_error"] = me
     for name, rows, ycol in (("at_large", ~T.auto, "at_large"), ("national_seed", T.field & (T.season != "2017"), "seed")):
         D = T[rows]
         yv = (D[ycol].notna() & (D[ycol] != False)).astype(float).values if ycol == "seed" else D[ycol].astype(float).values  # noqa: E712
@@ -96,9 +140,22 @@ def main() -> None:
         c2, s2, ll2 = logit_fit(D[["z", "p4"]].astype(float).values, yv, g)
         lr = 2 * (ll2 - ll1)
         keep_p4 = lr > 3.84                     # likelihood-ratio test at 5% (one degree of freedom)
-        coef, se = (c2, s2) if keep_p4 else (c1, s1)
+        coef_f, se_f = (c2, s2) if keep_p4 else (c1, s1)
+        v = np.pi ** 2 / 3
+        factor = float(np.sqrt(v / (v - coef_f[0] ** 2 * sig ** 2)))
+        coef, se = coef_f * factor, se_f * factor
+        # refit on the exact RPI of 2025-2026, same predictors
+        E = X_[~X_.auto] if name == "at_large" else X_[X_.field]
+        ye = E[ycol].astype(float).values if name == "at_large" else E[ycol].notna().astype(float).values
+        ce, se_e, _ = logit_fit(E[["z", "p4"] if keep_p4 else ["z"]].astype(float).values, ye, E.season.values)
         out[name] = {"predictors": ["rpi_z", "p4"] if keep_p4 else ["rpi_z"], "coef": [round(float(x), 4) for x in coef],
-                     "se": [round(float(x), 4) for x in se], "loglik_rpi_only": round(ll1, 2), "loglik_with_p4": round(ll2, 2),
+                     "se": [round(float(x), 4) for x in se], "coef_feed": [round(float(x), 4) for x in coef_f], "se_feed": [round(float(x), 4) for x in se_f],
+                     "correction_factor": round(factor, 4),
+                     "exact_refit_2025_2026": {"coef": [round(float(x), 4) for x in ce], "se": [round(float(x), 4) for x in se_e],
+                                               "n": int(len(E)), "events": int(ye.sum()),
+                                               "z_vs_corrected": [round(float((a - c) / s_), 2) for a, c, s_ in zip(ce, coef, se_e)],
+                                               "validated": [bool(abs(a - c) <= s_) for a, c, s_ in zip(ce, coef, se_e)]},
+                     "loglik_rpi_only": round(ll1, 2), "loglik_with_p4": round(ll2, 2),
                      "lr_p4": round(lr, 2), "n": int(len(D)), "events": int(yv.sum())}
         # in-sample check: the model's top-k per season (no noise) against the real selection
         hit = []

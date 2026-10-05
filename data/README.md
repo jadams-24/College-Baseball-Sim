@@ -153,6 +153,12 @@ magnitude comes from the scoreboard fit with a park term (`scripts/build_phase2_
   (/2022/ has no tables). Fetched 2026-10-04, one page per request (robots.txt allows /stats/).
   The year mapping is checked against the 2025 scoreboard: the /2024/ table's games match each
   listed team's 2025 games (Coastal Carolina 69, Georgia 60, Northeastern 60).
+- **Team pages, every team (2025 season):** `https://www.ncaa.com/stats/baseball/d1/2024/team/211`
+  (ERA: G, IP, R, ER, ERA) and `.../team/212` (fielding percentage: G, PO, A, E, PCT), pages 1-6
+  (`/pN`, 50 teams a page; page 7 is empty), 299 teams each. Full seasons, every game. Fetched
+  2026-10-05, one request every 2 seconds (robots.txt allows /stats/). Files
+  `raw_team_all/s<stat>_2024_p<N>.html.gz`; used by `scripts/build_phase7_era_fielding.py`
+  (pitching against fielding, the "teams under 4.00 ERA" watch item).
 - **Files:** `raw/s<stat>_<url year>.html.gz` and `raw_team/s<stat>_<url year>.html.gz` untouched
   pages; `ncaa_leaders.json` the parsed tables plus top-five values, HR threshold counts and each
   season's team leaders (`scripts/parse_ncaa_leaders.py`).

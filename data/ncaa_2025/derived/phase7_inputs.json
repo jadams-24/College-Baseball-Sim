@@ -11,20 +11,57 @@
    "2024",
    "2025"
   ],
-  "_note": "NCAA tournament selection and seeding models, fitted on every season the scoreboard feed covers\nwith complete results (2017-2019, 2021-2025; 2015-2016 leave results missing, 2020 had no tournament).\n\nRPI: engine.rpi (the NCAA's formula, checked against the published 2026 ranks; scripts/check_rpi_2026.py)\non the feed's Division I games before selection Monday. The feed has no neutral-site flag, so every game is\nweighted as home/road; 2025's conference tournament games are mostly placeholders without results.\n\nModels (logistic, a separate intercept per season, Newton-Raphson):\n  at_large       among Division I teams without an automatic bid: P(at-large) from the RPI z-score within the\n                 season (and, compared by likelihood ratio, a P4 indicator)\n  national_seed  among the 64-team field: P(national seed) from the same predictors (2018 on: 16 seeds)\nWith a per-season intercept the engine's draw is the same model: the k teams with the largest score +\nstandard logistic noise (k = the season's open slots).\n\nAlso the field benchmarks that the models must reproduce in the sim: the worst RPI rank given an at-large\nbid and the best RPI rank left out, per season.\nWrites the \"selection7\" block of data/ncaa_2025/derived/phase7_inputs.json and the rank rows into\ndata/ncaa_2025/derived/phase7_benchmarks.json.\n\n    python3 scripts/build_phase7_selection.py\n",
+  "_note": "NCAA tournament selection and seeding models, fitted on every season the scoreboard feed covers\nwith complete results (2017-2019, 2021-2025; 2015-2016 leave results missing, 2020 had no tournament).\n\nRPI: engine.rpi (the NCAA's formula, checked against the published 2026 ranks; scripts/check_rpi_2026.py)\non the feed's Division I games before selection Monday. The feed has no neutral-site flag, so every game is\nweighted as home/road; 2025's conference tournament games are mostly placeholders without results.\n\nModels (logistic, a separate intercept per season, Newton-Raphson):\n  at_large       among Division I teams without an automatic bid: P(at-large) from the RPI z-score within the\n                 season (and, compared by likelihood ratio, a P4 indicator)\n  national_seed  among the 64-team field: P(national seed) from the same predictors (2018 on: 16 seeds)\nWith a per-season intercept the engine's draw is the same model: the k teams with the largest score +\nstandard logistic noise (k = the season's open slots).\n\nMeasurement-error correction (owner decision 2026-10-05): the feed's RPI is the true RPI plus error (no neutral flags;\n2025 without most conference tournament results), which flattens a logistic slope. sigma_m is the SD of the difference\nbetween the feed's 2025 RPI z and the exact one (WarrenNolan games, neutral sites flagged); under the probit approximation\nof the logistic (variance pi^2/3), observed slope^2 = true^2 / (1 + true^2 sigma_m^2 / (pi^2/3)), so every coefficient is\nmultiplied by sqrt((pi^2/3) / (pi^2/3 - b_rpi^2 sigma_m^2)) (b_rpi the fitted RPI z slope). The 2025 sigma_m is applied to\nevery season (GUESS: the other seasons' feed has conference tournaments but no neutral flags and a game or two fewer per\nteam; neutral flags alone give sigma .028-.030 on 2025-2026). Check: the same model refitted on the exact RPI of 2025 and\n2026 (WarrenNolan games, scripts/build_phase7_current.py); a corrected coefficient within one SE of the refit's is recorded\nas validated, otherwise it stays a GUESS (GUESSES.md).\n\nAlso the field benchmarks that the models must reproduce in the sim: the worst RPI rank given an at-large\nbid and the best RPI rank left out, per season.\nWrites the \"selection7\" block of data/ncaa_2025/derived/phase7_inputs.json and the rank rows into\ndata/ncaa_2025/derived/phase7_benchmarks.json.\n\n    python3 scripts/build_phase7_selection.py\n",
+  "measurement_error": {
+   "neutral_flags_only_2025": 0.0299,
+   "matched_2025": 307,
+   "feed_teams_2025": 307,
+   "corr_feed_exact_2025": 0.9957,
+   "sigma_m": 0.0927,
+   "neutral_flags_only_2026": 0.0282
+  },
   "at_large": {
    "predictors": [
     "rpi_z",
     "p4"
    ],
    "coef": [
+    13.7115,
+    1.5574
+   ],
+   "se": [
+    1.2623,
+    0.4334
+   ],
+   "coef_feed": [
     11.2288,
     1.2754
    ],
-   "se": [
+   "se_feed": [
     1.0338,
     0.3549
    ],
+   "correction_factor": 1.2211,
+   "exact_refit_2025_2026": {
+    "coef": [
+     18.5546,
+     2.6369
+    ],
+    "se": [
+     4.412,
+     1.0045
+    ],
+    "n": 557,
+    "events": 70,
+    "z_vs_corrected": [
+     1.1,
+     1.07
+    ],
+    "validated": [
+     false,
+     false
+    ]
+   },
    "loglik_rpi_only": -133.31,
    "loglik_with_p4": -126.44,
    "lr_p4": 13.73,
@@ -37,11 +74,34 @@
     "rpi_z"
    ],
    "coef": [
-    9.8246
+    11.3605
    ],
    "se": [
+    1.3526
+   ],
+   "coef_feed": [
+    9.8246
+   ],
+   "se_feed": [
     1.1697
    ],
+   "correction_factor": 1.1563,
+   "exact_refit_2025_2026": {
+    "coef": [
+     14.5154
+    ],
+    "se": [
+     3.8188
+    ],
+    "n": 128,
+    "events": 32,
+    "z_vs_corrected": [
+     0.83
+    ],
+    "validated": [
+     true
+    ]
+   },
    "loglik_rpi_only": -88.58,
    "loglik_with_p4": -87.93,
    "lr_p4": 1.28,

@@ -79,7 +79,9 @@ def season_rows(y: str, rpis: dict, tier: dict, conf: dict, field: dict, games_r
     return out
 
 
-def wn_season(y: str, ct: dict, team25: dict, b: dict) -> dict:
+def wn_setup(y: str, ct: dict, team25: dict, b: dict, neutral: bool = True) -> tuple:
+    """WarrenNolan games before selection, exact RPI (neutral sites flagged unless neutral=False), each team's conference and
+    tier, and the field in WarrenNolan names (with each team's bracket entry)."""
     g = pd.read_csv(ROOT / f"data/ncaa_{y}/warrennolan/games_{y}.csv")
     g = g[(g.status == "final") & g.home_d1.astype(bool) & g.away_d1.astype(bool) & (g.date < SEL[y])].copy()
     nm = pd.read_csv(ROOT / "data/ncaa_2026/team_name_map.csv")
@@ -95,7 +97,7 @@ def wn_season(y: str, ct: dict, team25: dict, b: dict) -> dict:
             c = team25.get(norm(n), (None, None))[0] or conf26.get(n)
         conf[x], tier[x] = c, ct.get(c)
     dec = g[g.home_score != g.away_score]
-    r = rpi(zip(dec.home, dec.away, dec.home_score > dec.away_score, dec.neutral.astype(bool)))
+    r = rpi(zip(dec.home, dec.away, dec.home_score > dec.away_score, dec.neutral.astype(bool) if neutral else [False] * len(dec)))
     rp = {x: v["rpi"] for x, v in r.items()}
     # field: bracket names -> WarrenNolan names
     by_norm = {norm(x): x for x in names} | {norm(to_ncaa.get(x, x)): x for x in names}
@@ -108,6 +110,12 @@ def wn_season(y: str, ct: dict, team25: dict, b: dict) -> dict:
              "at_large": [pick(t["team"]) for t in s["teams"] if t["bid"] != "auto"],
              "conference": [t["conference"] for t in s["teams"] if t["conference"] not in ("Independent",)]}
     missing = [t["team"] for t in s["teams"] if pick(t["team"]) is None]
+    entry = {pick(t["team"]): t for t in s["teams"] if pick(t["team"]) is not None}
+    return g, rp, tier, conf, field, missing, entry
+
+
+def wn_season(y: str, ct: dict, team25: dict, b: dict) -> dict:
+    g, rp, tier, conf, field, missing, _ = wn_setup(y, ct, team25, b)
     post = g.event.astype(str).str.contains("Tournament|Championship|Regional|Super|World Series", case=False, na=False) & (pd.to_datetime(g.date).dt.month >= 5)
     out = season_rows(y, rp, tier, conf, field, g[~post])
     out["unmatched_field_teams"] = missing

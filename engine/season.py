@@ -84,7 +84,9 @@ def _postseason(cfg, league, eng, mgr, reg_games, last_date, s_post, team_games,
         games.append((date, h, a, st.score["home"], st.score["away"], neutral, stage))
         post_games[h] += 1; post_games[a] += 1
         for side, tid in (("home", h), ("away", a)):
-            lines.append((tid, st.er_allowed[side], st.outs_pitched[side], st.score["away" if side == "home" else "home"]))
+            # columns: team, ER allowed, outs pitched, runs allowed, hits, at bats, home runs, errors made, runs scored
+            lines.append((tid, st.er_allowed[side], st.outs_pitched[side], st.score["away" if side == "home" else "home"],
+                          st.hits[side], st.ab[side], st.hr[side], st.errors[side], st.score[side]))
         return st.score["home"], st.score["away"]
     off = phase7.POST_OFFSETS
     conf = w.conference_tournaments(reg_games, last_date + off["conf"], play_game)

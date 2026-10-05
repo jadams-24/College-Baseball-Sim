@@ -8,7 +8,7 @@ left out); seed rates (hosts winning regionals, top-8 national seeds reaching Om
 postseason home field; conference tournaments won by the regular-season champion; the NCAA's same-
 conference bracketing rule; every Phase 1, 2, 4, 5 and 6 row on the same run. Reported, not gated: games
 per team (the sim schedules 56; real teams schedule fewer), the champion's tier, and the watch-item re-checks
-on full seasons (top starters' innings, pitchers with 50+ IP, teams under 4.00 ERA).
+on full seasons (top starters' innings, pitchers with 50+ IP, teams with an ERA under four).
 
 Tolerance: GATE_SE_MULTIPLE x the combined standard error of the benchmark (as stored: binomial for pooled
 rates, season-to-season SD / sqrt(seasons) for per-season means) and of the simulated mean at the number of
@@ -133,8 +133,27 @@ def season_extract7(res: dict) -> dict:
     out["earned_share_top50"] = float(erx[top50].sum() / ra[top50].sum())
     out["unearned_per_game_top50"] = float(((ra - erx)[top50] / gms[top50]).mean())
     out["ra_per_game_top50"] = float((ra[top50] / gms[top50]).mean())
+    # pitching against fielding (ERA watch item, owner request 2026-10-05): the rows of scripts/build_phase7_era_fielding.py
+    # on the same full-season basis (fielding percentage is not computed: the engine does not count assists)
+    err = np.bincount(tg[:, 0].astype(int), tg[:, 8], T) + np.bincount(pl_[:, 0].astype(int), pl_[:, 7], T)
+    for k, v in era_fielding_measures(27 * erx / ipo, ra / gms, err / gms, np.full(T, np.nan), erx / ra).items():
+        if k != "corr_era_fpct":
+            out[f"ef_{k}"] = v
     out["postseason_games"] = len(post["games"])
     return out
+
+
+def era_fielding_measures(era, ra_g, e_g, fpct, es) -> dict:
+    """Team pitching against fielding, the same rows for real teams (scripts/build_phase7_era_fielding.py) and sim teams."""
+    era, ra_g, e_g, fpct, es = map(np.asarray, (era, ra_g, e_g, fpct, es))
+    import pandas as pd
+    _S = pd.Series
+    rc = lambda a, b: float(_S(a).corr(_S(b)))
+    by_ra, by_era = np.argsort(ra_g)[:50], np.argsort(era)[:50]
+    return {"corr_era_errors_pg": rc(era, e_g), "corr_era_fpct": rc(era, fpct), "corr_ra_errors_pg": rc(ra_g, e_g),
+            "rank_corr_era_errors_pg": rc(_S(era).rank(), _S(e_g).rank()),
+            "errors_pg_all": float(e_g.mean()), "errors_pg_top50_ra": float(e_g[by_ra].mean()), "errors_pg_top50_era": float(e_g[by_era].mean()),
+            "earned_share_top50_ra": float(np.mean(es[by_ra])), "earned_share_top50_era": float(np.mean(es[by_era])), "earned_share_all": float(np.mean(es))}
 
 
 _CFG = {}
@@ -221,7 +240,10 @@ def build_report7(agg: dict, seeds: list, statuses: dict) -> tuple[str, Status]:
     rows.append(("season", f"| Best regular-season win% | {m['best_win_pct']:.3f} (seasons {agg['min']['best_win_pct']:.3f}–{agg['max']['best_win_pct']:.3f}) | "
                            f"{lo:.3f}–{hi:.3f} | ±{pad:.3f} | {s['conf']} | yes | {'pass' if ok else 'FAIL'} | band of real seasons 2017-2025 |"))
     for kk in ("1", "16", "32", "64"):
-        crow("rpi", f"p7_rpi_at_{kk}", f"RPI of the team ranked {kk}", f"rpi_at_{kk}", f"rpi_at_rank/{kk}", 4)
+        # rank 64: watch item "offense extremes compressed" (owner decision 2026-10-05): the RPI of the field's
+        # bubble is high because the sim's records spread less from game to game (rank 1-32 pass)
+        crow("rpi", f"p7_rpi_at_{kk}", f"RPI of the team ranked {kk}", f"rpi_at_{kk}", f"rpi_at_rank/{kk}", 4, gate=kk != "64",
+             note="watch item 'offense extremes compressed'" if kk == "64" else "")
     for tr in TIERS:
         crow("rpi", f"p7_mean_rpi_{tr}", f"Mean RPI, {tr}", f"mean_rpi_{tr}", f"mean_rpi_by_tier/{tr}", 4)
     for tr in TIERS:
@@ -290,6 +312,17 @@ def build_report7(agg: dict, seeds: list, statuses: dict) -> tuple[str, Status]:
              f"teams {m['earned_share_top50']:.3f} (real .869 / .866 / .867 in 2024 / 2025 / 2026, NCAA.com team ERA page), unearned runs per game for "
              f"them {m['unearned_per_game_top50']:.2f} (real .67 / .65 / .65), runs allowed per game {m['ra_per_game_top50']:.2f} (real 5.05 / 4.80 / 4.81).",
              upset]
+    ef = b.get("era_fielding")
+    if ef:
+        watch.append(
+            f"- Pitching against fielding, full seasons (lead from the unearned-run check, owner request 2026-10-05): correlation across teams of "
+            f"ERA with errors per game {m['ef_corr_era_errors_pg']:.3f} (real 2025 {ef['corr_era_errors_pg']:.3f}; with fielding % {ef['corr_era_fpct']:.3f}), "
+            f"of runs allowed per game with errors per game {m['ef_corr_ra_errors_pg']:.3f} (real {ef['corr_ra_errors_pg']:.3f}). Errors per game: all teams "
+            f"{m['ef_errors_pg_all']:.3f} (real {ef['errors_pg_all']:.3f}), the 50 best by runs allowed per game {m['ef_errors_pg_top50_ra']:.3f} (real "
+            f"{ef['errors_pg_top50_ra']:.3f}), the 50 best by ERA {m['ef_errors_pg_top50_era']:.3f} (real {ef['errors_pg_top50_era']:.3f}). Earned share "
+            f"(mean of team ER/R): all {m['ef_earned_share_all']:.3f} (real {ef['earned_share_all']:.3f}), the 50 best by ERA "
+            f"{m['ef_earned_share_top50_era']:.3f} (real {ef['earned_share_top50_era']:.3f}). Real: NCAA.com team pages, 2025, every game; "
+            f"scripts/build_phase7_era_fielding.py.")
     hdr = "| Metric | Sim | Benchmark | Tol | Conf | Gated | Status | Note |\n|---|---|---|---|---|---|---|---|"
     sec = lambda name: "\n".join(r for s_, r in rows if s_ == name)
     gate_ok = all(v for v in st.values() if v is not None)
