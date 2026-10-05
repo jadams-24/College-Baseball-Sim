@@ -155,12 +155,13 @@ def _parallel(rec: Played, runs: list) -> list:
 def conference_tournament(code: str, teams: list, play, host=None) -> tuple[object, Played]:
     """One conference tournament in a published format (data/conf_tournaments/formats_2025.json codes).
     teams: qualifiers in seed order. host: the team whose park holds the tournament, or None (neutral
-    site; campus formats host at the better seed's park). Returns (champion, games)."""
+    site; campus formats host at the better seed's park). Games at a single site that do not involve the host
+    are neutral. Returns (champion, games)."""
     rec = Played()
     seed = {t: i for i, t in enumerate(teams)}
     n = len(teams)
     s = lambda *k: [teams[i - 1] for i in k]              # seeds, 1-based
-    nt = host is None
+    nt = True        # one site: games without the host are neutral for both teams (_game makes the host's games home games)
     if code in ("de4", "de8", "de8_divisions_crossover"):
         return double_elim(rec, play, teams, seed, neutral=nt, host=host)[0], rec
     if code in ("de6", "de6_reseeded"):                   # seeds 1-2 enter in round two
@@ -193,8 +194,8 @@ def conference_tournament(code: str, teams: list, play, host=None) -> tuple[obje
             eight = teams[:6] + _playin_round(rec, play, teams[6:], seed, nt, host)
         e = lambda *k: [eight[i - 1] for i in k]
         campus = code == "de8_two_brackets_campus_bo3_final"
-        a, b = _parallel(rec, [lambda: double_elim(rec, play, e(1, 8, 4, 5), seed, None, nt and not campus, e(1)[0] if campus else host)[0],
-                               lambda: double_elim(rec, play, e(2, 7, 3, 6), seed, None, nt and not campus, e(2)[0] if campus else host)[0]])
+        a, b = _parallel(rec, [lambda: double_elim(rec, play, e(1, 8, 4, 5), seed, None, nt, e(1)[0] if campus else host)[0],
+                               lambda: double_elim(rec, play, e(2, 7, 3, 6), seed, None, nt, e(2)[0] if campus else host)[0]])
         if campus:
             return series(rec, play, a, b, seed)[0], rec
         return single_elim(rec, play, [a, b], seed, None, nt, host)[0], rec

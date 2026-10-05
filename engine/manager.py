@@ -34,7 +34,7 @@ from __future__ import annotations
 import numpy as np
 
 from config.phase2 import GAMES_PER_WEEKEND, MIN_HAZARD_N, N_BENCH, N_REGULARS, ROTATION_STAFF, SPOT_STARTER_RANK, Phase2Config
-from config import phase6
+from config import phase6, phase7
 from config.phase6 import LEVERAGE_BLOWOUT, LEVERAGE_CLOSE, LEVERAGE_LATE_INNING, N_ROLE_RELIEVERS, PITCH_BINS, REST_SPLIT_DAYS
 from engine.decider import Decision, LeagueAverageDecider
 
@@ -72,6 +72,8 @@ class Manager(LeagueAverageDecider):
         u6 = phase6.load().get("usage6", {}) if phase6.on("bullpen") else {}
         self.relief_coef = u6.get("relief", {}).get("coef", {})
         self.midweek_coef = u6.get("midweek", {}).get("coef", {})
+        # Phase 7: who starts a conference tournament or NCAA tournament game (scripts/build_phase7_usage.py)
+        self.tourney_coef = phase7.load().get("usage7", {}).get("start", {}).get("coef", {}) if phase7.on("world") else {}
         self.pull6 = phase6.load().get("pull6", {}) if phase6.on("leash") else {}
         # Phase 6: midweek starts (Mon-Wed on the engine's calendar) use a table built on Mon-Wed starts only;
         # the Phase 2 table pools Thursday series openers, whose aces carry long leashes into its high cells
@@ -176,6 +178,12 @@ class Manager(LeagueAverageDecider):
 
     def starting_pitcher(self, state, team: str):
         tm = state.team_obj[team]
+        if getattr(state, "tournament", False) and self.tourney_coef:
+            staff = self._staff(tm)
+            p = self._choose(state, staff, self.tourney_coef, "start")
+            role = dict((x.pid, r) for x, r in staff)[p.pid]
+            self.rank_now[tm.tid] = int(role[2]) if role.startswith("wk") else SPOT_STARTER_RANK
+            return p
         if not state.weekend and self.midweek_coef:
             return self._choose(state, self._staff(tm), self.midweek_coef, "start")
         if not state.weekend:

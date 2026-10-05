@@ -416,5 +416,35 @@
     }
    }
   }
+ },
+ "games": {
+  "_note": "regular season per team (all opponents, WarrenNolan schedules): scheduled, canceled and played; the sim schedules 56 for every team (the NCAA maximum), so only the cancellation rate is modeled (owner decision: no shortened schedules)",
+  "conf": "B",
+  "seasons": [
+   2026
+  ],
+  "cancel_rate": {
+   "value": 0.0286,
+   "se": 0.0013,
+   "by_month": {
+    "2": 0.0319,
+    "3": 0.0295,
+    "4": 0.0246,
+    "5": 0.0302,
+    "all": 0.0286
+   }
+  },
+  "scheduled_per_team": {
+   "2026": 53.68
+  },
+  "canceled_per_team": {
+   "2026": 1.54
+  },
+  "played_per_team": {
+   "2026": 52.14
+  },
+  "share_scheduling_56": {
+   "2026": 0.299
+  }
  }
 }

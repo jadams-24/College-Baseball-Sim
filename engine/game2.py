@@ -82,7 +82,7 @@ class GameState2:
                  "team_obj", "lineup", "slot", "pitcher", "outing", "used", "weekend", "inning_end",
                  "half_innings", "pa", "errors", "hits", "hr", "ab", "outs_pitched", "er_allowed",
                  "week", "day", "phantom", "p_phantom", "date", "pitch_log", "in_game", "subs", "batted",
-                 "err_or", "catcher_arm", "of_arm", "pending_change", "sb_att", "sb_ok")
+                 "err_or", "catcher_arm", "of_arm", "pending_change", "sb_att", "sb_ok", "tournament")
 
     def __init__(self, rng, home, away, weekend):
         self.rng = rng
@@ -114,6 +114,7 @@ class GameState2:
         self.of_arm = {"away": {}, "home": {}}
         self.sb_att = {"away": 0, "home": 0}     # steal attempts and stolen bases by the batting side
         self.sb_ok = {"away": 0, "home": 0}
+        self.tournament = False                          # Phase 7: conference tournament or NCAA tournament game
         self.pending_change = {"away": False, "home": False}   # pulled at an inning's end: the reliever enters when the side next takes the field
         self.phantom = 0      # phantom outs this half-inning (errors that prevented an out)
         self.p_phantom = 0    # phantom outs since the current pitcher entered this half-inning
@@ -599,8 +600,9 @@ class PlayerGameEngine:
                 elif res == "HR":
                     bs[B_HR] += 1; ps[P_HR] += 1; st.hr[bat] += 1
 
-    def play(self, rng, home, away, weekend, dec, week=0, day=0, date=0, neutral=False) -> GameState2:
+    def play(self, rng, home, away, weekend, dec, week=0, day=0, date=0, neutral=False, tournament=False) -> GameState2:
         st = GameState2(rng, home, away, weekend)
+        st.tournament = tournament
         self.neutral = neutral
         self.q_cache.clear()          # chains are rebuilt per game (memory); the tilts stay cached
         st.run_rule_in_effect = rng.random() < self.rules.p_run_rule_in_effect

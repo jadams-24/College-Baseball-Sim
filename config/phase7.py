@@ -30,6 +30,16 @@ MAX_UNRESOLVED = 0.05                # GUESS (data-coverage threshold)
 # conference tournament or NCAA tournament starts (the Tuesday of conference tournament week).
 TOURNAMENT_START = "2025-05-20"
 
+# Season calendar: day 0 is opening day (config.phase6.SEASON_START, the 2025 opening day). After the last
+# regular-season game (day D) the 2025 calendar puts conference tournaments from D + 3 (Tue May 20 after the
+# final series ended Sat May 17), regionals from D + 13 (Fri May 30), super regionals from D + 20 (Fri Jun 6)
+# and the College World Series from D + 27 (Fri Jun 13). Selection Monday was May 26.
+SEASON_START = "2025-02-14"
+POST_OFFSETS = {"conf": 3, "regional": 13, "super": 20, "cws": 27}
+FIELD_SIZE = 64                      # NCAA Division I baseball championship field (bracketing principles)
+N_NATIONAL_SEEDS = 16                # national seeds since 2018 (bracketing principles, 2025 manual)
+FEATURES = {"world": True}           # scripts set FEATURES["world"] = False for a regular season only
+
 _CACHE: dict = {}
 
 
@@ -37,3 +47,7 @@ def load() -> dict:
     if "inputs" not in _CACHE:
         _CACHE["inputs"] = json.loads(INPUTS7.read_text()) if INPUTS7.exists() else {}
     return _CACHE["inputs"]
+
+
+def on(feature: str) -> bool:
+    return bool(FEATURES.get(feature)) and bool(load())
