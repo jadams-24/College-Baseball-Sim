@@ -1,0 +1,35 @@
+{
+  "source": "https://data.ncaa.com/casablanca/scoreboard/baseball/d1/{y}/{m:02d}/{d:02d}/scoreboard.json",
+  "season": 2017,
+  "date_range": [
+    "2017-02-10",
+    "2017-06-30"
+  ],
+  "fetched_on": "2026-10-05",
+  "days_with_games": 122,
+  "days_without_games_404": [
+    "2017-02-10",
+    "2017-02-11",
+    "2017-02-12",
+    "2017-02-13",
+    "2017-02-14",
+    "2017-05-29",
+    "2017-05-30",
+    "2017-05-31",
+    "2017-06-06",
+    "2017-06-07",
+    "2017-06-08",
+    "2017-06-13",
+    "2017-06-14",
+    "2017-06-15",
+    "2017-06-16",
+    "2017-06-25",
+    "2017-06-28",
+    "2017-06-29",
+    "2017-06-30"
+  ],
+  "errors": [],
+  "game_entries": 8321,
+  "unique_game_urls": 8007,
+  "note": "gameID is the NCAA contest id; url is the ncaa.com game page id. Per-game box score / play-by-play JSON is not served by this host for these games."
+}

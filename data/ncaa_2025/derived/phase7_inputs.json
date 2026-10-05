@@ -1,0 +1,233 @@
+{
+ "selection7": {
+  "built": "2026-10-05",
+  "seasons": [
+   "2017",
+   "2018",
+   "2019",
+   "2021",
+   "2022",
+   "2023",
+   "2024",
+   "2025"
+  ],
+  "_note": "NCAA tournament selection and seeding models, fitted on every season the scoreboard feed covers\nwith complete results (2017-2019, 2021-2025; 2015-2016 leave results missing, 2020 had no tournament).\n\nRPI: engine.rpi (the NCAA's formula, checked against the published 2026 ranks; scripts/check_rpi_2026.py)\non the feed's Division I games before selection Monday. The feed has no neutral-site flag, so every game is\nweighted as home/road; 2025's conference tournament games are mostly placeholders without results.\n\nModels (logistic, a separate intercept per season, Newton-Raphson):\n  at_large       among Division I teams without an automatic bid: P(at-large) from the RPI z-score within the\n                 season (and, compared by likelihood ratio, a P4 indicator)\n  national_seed  among the 64-team field: P(national seed) from the same predictors (2018 on: 16 seeds)\nWith a per-season intercept the engine's draw is the same model: the k teams with the largest score +\nstandard logistic noise (k = the season's open slots).\n\nMeasurement-error correction (owner decision 2026-10-05): the feed's RPI is the true RPI plus error (no neutral flags;\n2025 without most conference tournament results), which flattens a logistic slope. sigma_m is the SD of the difference\nbetween the feed's 2025 RPI z and the exact one (WarrenNolan games, neutral sites flagged); under the probit approximation\nof the logistic (variance pi^2/3), observed slope^2 = true^2 / (1 + true^2 sigma_m^2 / (pi^2/3)), so every coefficient is\nmultiplied by sqrt((pi^2/3) / (pi^2/3 - b_rpi^2 sigma_m^2)) (b_rpi the fitted RPI z slope). The 2025 sigma_m is applied to\nevery season (GUESS: the other seasons' feed has conference tournaments but no neutral flags and a game or two fewer per\nteam; neutral flags alone give sigma .028-.030 on 2025-2026). Check: the same model refitted on the exact RPI of 2025 and\n2026 (WarrenNolan games, scripts/build_phase7_current.py); a corrected coefficient within one SE of the refit's is recorded\nas validated, otherwise it stays a GUESS (GUESSES.md).\n\nAlso the field benchmarks that the models must reproduce in the sim: the worst RPI rank given an at-large\nbid and the best RPI rank left out, per season.\nWrites the \"selection7\" block of data/ncaa_2025/derived/phase7_inputs.json and the rank rows into\ndata/ncaa_2025/derived/phase7_benchmarks.json.\n\n    python3 scripts/build_phase7_selection.py\n",
+  "measurement_error": {
+   "neutral_flags_only_2025": 0.0299,
+   "matched_2025": 307,
+   "feed_teams_2025": 307,
+   "corr_feed_exact_2025": 0.9957,
+   "sigma_m": 0.0927,
+   "neutral_flags_only_2026": 0.0282
+  },
+  "at_large": {
+   "predictors": [
+    "rpi_z",
+    "p4"
+   ],
+   "coef": [
+    13.7115,
+    1.5574
+   ],
+   "se": [
+    1.2623,
+    0.4334
+   ],
+   "coef_feed": [
+    11.2288,
+    1.2754
+   ],
+   "se_feed": [
+    1.0338,
+    0.3549
+   ],
+   "correction_factor": 1.2211,
+   "exact_refit_2025_2026": {
+    "coef": [
+     18.5546,
+     2.6369
+    ],
+    "se": [
+     4.412,
+     1.0045
+    ],
+    "n": 557,
+    "events": 70,
+    "z_vs_corrected": [
+     1.1,
+     1.07
+    ],
+    "validated": [
+     false,
+     false
+    ]
+   },
+   "loglik_rpi_only": -133.31,
+   "loglik_with_p4": -126.44,
+   "lr_p4": 13.73,
+   "n": 2165,
+   "events": 269,
+   "in_sample_top_k_agreement": 0.896
+  },
+  "national_seed": {
+   "predictors": [
+    "rpi_z"
+   ],
+   "coef": [
+    11.3605
+   ],
+   "se": [
+    1.3526
+   ],
+   "coef_feed": [
+    9.8246
+   ],
+   "se_feed": [
+    1.1697
+   ],
+   "correction_factor": 1.1563,
+   "exact_refit_2025_2026": {
+    "coef": [
+     14.5154
+    ],
+    "se": [
+     3.8188
+    ],
+    "n": 128,
+    "events": 32,
+    "z_vs_corrected": [
+     0.83
+    ],
+    "validated": [
+     true
+    ]
+   },
+   "loglik_rpi_only": -88.58,
+   "loglik_with_p4": -87.93,
+   "lr_p4": 1.28,
+   "n": 448,
+   "events": 112,
+   "in_sample_top_k_agreement": 0.821
+  },
+  "conf": "B",
+  "conf_note": "RPI recomputed from the scoreboard feed (formula checked on 2026: rank correlation .99994 with the published RPI), but without neutral-site flags and, in 2025, without most conference tournament results; 8 seasons, 270 at-large bids"
+ },
+ "usage7": {
+  "_note": "Phase 7 tournament pitching: who starts a conference tournament or NCAA tournament game.\n\nThe same conditional logit as the Phase 6 midweek start (scripts/build_phase6_usage.py): at each start\nthe choice set is the team's whole staff in the engine's roles (weekend rotation wk1-wk3, midweek starters\nmid1-mid2, relievers r1-r8), utility = role + rest state (days since the last appearance, split by that\nouting's pitches for 1-3 days; pitched on both previous days). Roles come from the regular season\n(games before TOURNAMENT_START), so tournament usage does not define them. Choices: every start on or\nafter TOURNAMENT_START (2025-05-20, the first day of conference tournament week) by the full-season\nteams of the 2025 play-by-play.\n\nWrites the \"usage7\" block of data/ncaa_2025/derived/phase7_inputs.json.\n\n    python3 scripts/build_phase7_usage.py\n",
+  "built": "2026-10-05",
+  "tournament_start": "2025-05-20",
+  "teams": 42,
+  "start": {
+   "n_choices": 205,
+   "loglik": -348.21,
+   "coef": {
+    "mid1|start": 2.3841,
+    "mid2|start": 2.0273,
+    "r1|start": 1.6187,
+    "r2|start": 2.4514,
+    "r3|start": 1.7872,
+    "r4|start": 1.2834,
+    "r5|start": 1.5023,
+    "r6|start": 1.7299,
+    "r7|start": 0.8259,
+    "wk1|start": 4.9813,
+    "wk2|start": 4.3991,
+    "wk3|start": 3.3883,
+    "rest|d0": -5.3519,
+    "rest|d1p0": -1.3252,
+    "rest|d1p1": -5.2957,
+    "rest|d1p2": -6.1425,
+    "rest|d1p3": -7.2706,
+    "rest|d2p0": -1.2303,
+    "rest|d2p1": -1.2686,
+    "rest|d2p2": -2.5306,
+    "rest|d2p3": -3.5374,
+    "rest|d3p0": 0.3508,
+    "rest|d3p1": -4.0552,
+    "rest|d3p2": -0.9152,
+    "rest|d3p3": -3.6372,
+    "rest|d4": -1.475,
+    "rest|d5": -1.6724,
+    "b2b": 2.1099
+   },
+   "se": {
+    "mid1|start": 0.4447,
+    "mid2|start": 0.4608,
+    "r1|start": 0.6196,
+    "r2|start": 0.4661,
+    "r3|start": 0.574,
+    "r4|start": 0.6042,
+    "r5|start": 0.558,
+    "r6|start": 0.5076,
+    "r7|start": 0.6672,
+    "wk1|start": 0.3805,
+    "wk2|start": 0.3775,
+    "wk3|start": 0.4006,
+    "rest|d0": 3.9998,
+    "rest|d1p0": 0.7471,
+    "rest|d1p1": 3.9985,
+    "rest|d1p2": 3.753,
+    "rest|d1p3": 3.4852,
+    "rest|d2p0": 0.8169,
+    "rest|d2p1": 1.0417,
+    "rest|d2p2": 1.0852,
+    "rest|d2p3": 0.748,
+    "rest|d3p0": 0.7005,
+    "rest|d3p1": 4.4566,
+    "rest|d3p2": 1.1248,
+    "rest|d3p3": 1.033,
+    "rest|d4": 0.4243,
+    "rest|d5": 0.3934,
+    "b2b": 1.3629
+   }
+  }
+ },
+ "cancel7": {
+  "built": "2026-10-05",
+  "seasons": [
+   2025,
+   2026
+  ],
+  "rate_by_month": {
+   "2": 0.0333,
+   "3": 0.0217,
+   "4": 0.0239,
+   "5": 0.0371,
+   "all": 0.0272
+  },
+  "scheduled": {
+   "distribution": {
+    "37": 0.0016,
+    "38": 0.0049,
+    "39": 0.0049,
+    "40": 0.0049,
+    "41": 0.0016,
+    "42": 0.0016,
+    "43": 0.0081,
+    "45": 0.0033,
+    "47": 0.0081,
+    "48": 0.0065,
+    "49": 0.0212,
+    "50": 0.0326,
+    "51": 0.0521,
+    "52": 0.0782,
+    "53": 0.1124,
+    "54": 0.1466,
+    "55": 0.202,
+    "56": 0.2671,
+    "57": 0.0326,
+    "58": 0.0081,
+    "59": 0.0016
+   },
+   "mean": 53.71,
+   "share_56": 0.2671,
+   "share_above_56": 0.0423,
+   "share_below_42": 0.0179,
+   "_note": "regular-season games each team scheduled (played or canceled; all opponents), WarrenNolan 2025-2026. Teams below 56 lose midweek games: Thu-Sun games stay near 42 from 51 scheduled games up, Mon-Wed games fall from 13.4 at 56 to about 10 at 50-52"
+  },
+  "n_team_games": 32978,
+  "_note": "Cancellation rates of regular-season games, by month, from the WarrenNolan team schedules (the feed\ndoes not list most canceled games). A scheduled game is canceled when the schedule shows it canceled and\nit was never played; postponed games that were made up count as played. Regular season: games before\nMay 25 that are not conference tournament, NCAA tournament or other May/June tournament games.\nSeasons: every data/ncaa_<season>/warrennolan/team_games_<season>.csv present (2025, 2026).\nRates are per team-game (each game counts once per team; the rate is the same per game).\n\nWrites the \"cancel7\" block of data/ncaa_2025/derived/phase7_inputs.json and the games-per-team rows into\ndata/ncaa_2025/derived/phase7_benchmarks.json.\n\n    python3 scripts/build_phase7_cancel.py\n",
+  "conf": "B",
+  "conf_note": "WarrenNolan lists canceled games it was given; games dropped from schedules long before may be missing (rates are a floor)"
+ }
+}

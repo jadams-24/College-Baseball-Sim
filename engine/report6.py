@@ -25,7 +25,7 @@ from pathlib import Path
 
 import numpy as np
 
-from config.phase2 import GATE_SE_MULTIPLE, LEADERBOARD_PI, TIERS
+from config.phase2 import GATE_SE_MULTIPLE, LEADERBOARD_PI, SEASON_GAMES, TIERS
 
 # owner decision (2026-10-03): named watch items, reported with their diagnosis and not gated (PHASE0_NOTES, Phase 6)
 WATCH6 = {"p6_run_rule": "offense extremes compressed (game-to-game variance; everything tested and ruled out in PHASE0_NOTES)",
@@ -59,15 +59,17 @@ def season_extract6(res: dict) -> dict:
         d[pid] = d.get(pid, 0) + outs
     usage = []
     for tm in lg.teams:
+        # 56-game equivalent, as the benchmark scales real teams: x 56 / the team's games (Phase 7 cancellations)
+        s56 = SEASON_GAMES / res["team_games"][tm.tid]
         ids = [x.pid for x in tm.weekend_sp + tm.midweek_sp + tm.relievers]
-        g = np.sort(p[ids, P_G])[::-1]
-        ipx = p[ids, P_OUTS] / 3
+        g = np.sort(p[ids, P_G])[::-1] * s56
+        ipx = p[ids, P_OUTS] / 3 * s56
         rel = p[ids, P_GS] <= 3
         top = [ids[i] for i in np.argsort(-ipx)[:3]]
         row = [g[0], g[4], g[9], float((rel & (ipx >= 40)).sum()), float((rel & (ipx >= 60)).sum())]
-        row += [p[i, P_OUTS] / 3 for i in top]
+        row += [p[i, P_OUTS] / 3 * s56 for i in top]
         for i in top:
-            row += [fs_outs.get(i, 0) / 3, os_outs.get(i, 0) / 3, rl_outs.get(i, 0) / 3]
+            row += [fs_outs.get(i, 0) / 3 * s56, os_outs.get(i, 0) / 3 * s56, rl_outs.get(i, 0) / 3 * s56]
         usage.append(row)
     u = np.mean(usage, axis=0)
     names = ["app_max", "app_5th", "app_10th", "relief_only_40ip", "relief_only_60ip", "ip_rank1", "ip_rank2", "ip_rank3"]

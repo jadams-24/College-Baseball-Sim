@@ -153,12 +153,84 @@ magnitude comes from the scoreboard fit with a park term (`scripts/build_phase2_
   (/2022/ has no tables). Fetched 2026-10-04, one page per request (robots.txt allows /stats/).
   The year mapping is checked against the 2025 scoreboard: the /2024/ table's games match each
   listed team's 2025 games (Coastal Carolina 69, Georgia 60, Northeastern 60).
+- **Team pages, every team (2025 season):** `https://www.ncaa.com/stats/baseball/d1/2024/team/211`
+  (ERA: G, IP, R, ER, ERA) and `.../team/212` (fielding percentage: G, PO, A, E, PCT), pages 1-6
+  (`/pN`, 50 teams a page; page 7 is empty), 299 teams each. Full seasons, every game. Fetched
+  2026-10-05, one request every 2 seconds (robots.txt allows /stats/). Files
+  `raw_team_all/s<stat>_2024_p<N>.html.gz`; used by `scripts/build_phase7_era_fielding.py`
+  (pitching against fielding, the "teams under 4.00 ERA" watch item).
 - **Files:** `raw/s<stat>_<url year>.html.gz` and `raw_team/s<stat>_<url year>.html.gz` untouched
   pages; `ncaa_leaders.json` the parsed tables plus top-five values, HR threshold counts and each
   season's team leaders (`scripts/parse_ncaa_leaders.py`).
 - **Used by:** `scripts/write_leader_benchmarks.py` (benchmark blocks `individual_leaders_2023_2026`
   and `team_leaders_2024_2026`, Phase 2 gate rows) and `scripts/audit_leaders.py`
   (`reports/leaders_audit.md`).
+
+## data/ncaa_brackets/ — NCAA tournament fields and brackets, 2015–2025 (no 2020)
+
+- **Source:** English Wikipedia, `https://en.wikipedia.org/wiki/<YEAR>_NCAA_Division_I_baseball_tournament`
+  for 2015–2019 and 2021–2025 (robots.txt allows these pages). A secondary source, not
+  the NCAA's own bracket. Fetched 2026-10-05, one request per second, one page per season.
+- **Files:** `raw/wikipedia_<YEAR>.html.gz` untouched pages; `brackets_2015_2025.json`,
+  rebuilt from the raw pages by `scripts/parse_brackets.py` (`--check` compares a rebuild
+  with the committed file). Per season: the 64 teams (conference, automatic or at-large
+  bid, national seed, regional host), the 16 regionals (site, host, seeds 1–4, winner), the
+  8 super regionals (teams, host, winner), the 8 CWS teams, champion and runner-up. Each
+  season carries its own validation result and notes.
+- **Inferred, not stated by the page:** regional hosts for 2015–2018 (the regional 1 seed;
+  the 2018 page says the 16 national seeds hosted); at-large bids in seasons whose page has
+  only the automatic-bid table (2015–2018, 2022, 2023: the field is automatic plus at-large);
+  some super regional hosts (marked `inferred` in `host_source`). The 2021 Columbia super
+  regional was played at a neutral site (host `null`).
+
+## data/ncaa_brackets/ — NCAA bracketing principles (prechampionship manuals)
+
+- **Source:** NCAA Division I Baseball Prechampionship Manuals, official NCAA PDFs:
+  `https://ncaaorg.s3.amazonaws.com/championships/sports/baseball/d1/2024-25D1MBA_PreChampsManual.pdf`
+  (2025 championship) and `.../2025-26D1MBA_PreChampsManual.pdf` (2026, kept for comparison).
+  The host has no robots.txt (404). Fetched 2026-10-05.
+- **Files:** `raw/*.pdf` untouched; `raw/*.txt` text extracted with pypdf 5.1.0. pypdf was
+  installed only in the session scratchpad, not in `requirements.txt`, and pdftotext was not
+  available. `bracketing_principles.json` has the verbatim rule quotes with PDF and printed
+  page numbers, plus a machine-readable summary: 16 national seeds, super regional pairings
+  1v16 to 8v9, regional 1v4/2v3, hosting, the same-conference rule, geography and regions.
+
+## data/conf_tournaments/ — 2025 conference tournament formats
+
+- **Source:** English Wikipedia, `https://en.wikipedia.org/wiki/2025_<Conference>_baseball_tournament`,
+  one page per conference in `teams_2025.csv` (DI Independent skipped). SoCon has no
+  standalone page and redirects to `2025_Southern_Conference_baseball_season#Tournament`.
+  A secondary source. Two official conference pages confirm details: necsports.com (NEC) and
+  bigeast.com (Big East). Most other conference sites (Sidearm) answered robots.txt with 403
+  bot protection and were not fetched. Fetched 2026-10-05, one request per second.
+- **Files:** `raw/<conf>__<source>.html.gz` untouched pages; `formats_2025.json`, one record
+  per conference: teams, qualification, format code, bracket description, site, auto bid,
+  games_min/games_max and games played in 2025.
+- **Inferred, not stated by the page:** games_min/games_max (derived from the format), and
+  the OVC bracket shape (taken from the schedule table, which contradicts the page's prose).
+
+## data/ncaa_<season>/scoreboard/ — scoreboard feed 2015-2019, 2021-2024 (Phase 7)
+
+- **Source:** the same feed as 2025, `https://data.ncaa.com/casablanca/scoreboard/baseball/d1/YYYY/MM/DD/scoreboard.json`,
+  every day from Feb 10 to Jun 30 of each season (`scripts/pull_scoreboard.py --season Y --start Y-02-10 --end Y-06-30
+  --out data/ncaa_Y/scoreboard`). Fetched 2026-10-05, 0.3 s between requests. 2020 (season stopped in March) and
+  2026 (not served: HTTP 404) are not pulled.
+- **Coverage varies by season:** 2015 and 2016 leave many games without results (1,109 and 949 entries still `pre`);
+  2017 and 2018 have no conference names; from 2019 on, results and conferences are nearly complete. Conference
+  tournament games are often placeholders against `TBA` with no score (most of them in 2025, some in 2021).
+  `manifest.json` per season lists days without games and errors (none).
+
+- **2025 (Phase 7, conference tournament format check and cancellations):** the same team schedule pages for 2025
+  (`https://www.warrennolan.com/baseball/2025/schedule/<slug>`), fetched 2026-10-05 with
+  `scripts/fetch_warrennolan_2026.py 2025` and parsed with `scripts/parse_warrennolan_2026.py 2025` into
+  `data/ncaa_2025/warrennolan/`. WarrenNolan has no 2025 sitemap (HTTP 404), so the 2026 sitemap's 308 slugs were used;
+  56 opponents have no 2025 page under those slugs (they appear as opponents only). Conference tournament games carry
+  an event label ("SEC Tournament - Game 7"); all of them are labelled neutral, even at a member's park.
+
+- **WarrenNolan access** (rechecked 2026-10-05): `https://www.warrennolan.com/robots.txt` reads
+  `User-agent: * / Allow: /`, so the schedule pages and the sitemap fetched are allowed. `scripts/fetch_warrennolan_2026.py`
+  waits 1.5 s between requests, retries a reset connection at most 3 times (after 5, 10, 20 s), sends a descriptive
+  User-Agent, and stops on a 403/407/429 or a bot-protection page. Each page was fetched once per season and is committed.
 
 ## Not pulled
 
@@ -174,3 +246,35 @@ magnitude comes from the scoreboard fit with a park term (`scripts/build_phase2_
 - data.ncaa.com serves only the scoreboard feed for 2025 (no per-game JSON);
   www.ncaa.com and sdataprod.ncaa.com were denied by the network policy at the
   time of the pull.
+
+## data/ncaa_2026/ — 2026 D1 game results for the RPI formula check
+
+- `rpi/ncaa_rpi_through_2026-05-24.html.gz`: https://www.ncaa.com/rankings/baseball/d1/rpi,
+  fetched 2026-10-05; the page reads "Through Games May. 24 2026". Parsed to
+  `rpi/ncaa_rpi_through_2026-05-24.csv` (rank, school, record, conference, road,
+  neutral, home, non_d1, prev; W-L strings as published, 308 schools; `record` is
+  the D1 record, road + neutral + home).
+- `warrennolan/raw/<slug>.html.gz`: every team's 2026 schedule page,
+  `https://www.warrennolan.com/baseball/2026/schedule/<slug>` (robots.txt: Allow /),
+  fetched 2026-10-05 by `scripts/fetch_warrennolan_2026.py` (1.5 s delay, up to 3
+  retries); slugs from the site's sitemap, saved as
+  `warrennolan/sitemap_college-baseball-2026.xml.gz`. 308 pages, 0 failures
+  (`warrennolan/fetch_log.json`).
+- `warrennolan/games_2026.csv` (`scripts/parse_warrennolan_2026.py`): one row per
+  game, 2026-02-13 to 2026-06-22, deduplicated across both teams' pages; site as
+  WarrenNolan marks it (home / "AT" / "VS" = neutral; for neutral games `home` is
+  the team batting last in the box score), both pages' labels kept;
+  `neutral_at_home_venue_of` names a participant whose main home park hosted a
+  game WarrenNolan calls neutral. `team_games_2026.csv` has every page entry,
+  `parse_report.json` the counts and anomalies.
+- `team_name_map.csv`: NCAA.com name to WarrenNolan slug (244 by normalised
+  name, 64 by hand).
+- `warrennolan/record_check_through_2026-05-24.csv`
+  (`scripts/check_warrennolan_vs_ncaa_2026.py`): per school, the NCAA's road /
+  neutral / home / non-D1 W-L against the same splits from `games_2026.csv`
+  (final games through 2026-05-24). The D1 W-L total matches for all 308
+  schools (8,297 decided D1 games plus 7 ties WarrenNolan shows and the NCAA
+  page does not print). Site splits differ for 48 schools (106 team-games):
+  WarrenNolan calls conference-tournament games at a participant's park and
+  some alternate-site "home" games neutral where the NCAA counts home/road.
+  Non-D1 records differ for 11 schools (WarrenNolan omits some non-D1 games).

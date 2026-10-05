@@ -1,0 +1,656 @@
+{
+  "fetched_on": "2026-10-05",
+  "season": 2025,
+  "conference_key_source": "data/ncaa_2025/pbp/teams_2025.csv column 'conference' (DI Independent skipped)",
+  "format_codes": {
+    "deN": "N-team double elimination, single bracket; games 2N-2 to 2N-1",
+    "de6_reseeded": "6-team double elimination, reseeded each round (top remaining seed vs lowest)",
+    "de7": "7-team double elimination, top seed bye",
+    "de8_divisions_crossover": "8-team single-bracket double elimination, division seeds cross over",
+    "de8_two_brackets_final": "two 4-team double-elimination brackets (6-7 games each), one-game final",
+    "de8_two_brackets_campus_bo3_final": "two 4-team double-elimination brackets on campus, best-of-three final series",
+    "playin2_de8_two_brackets_final": "2 single-elimination play-in games (7v10, 8v9), then de8_two_brackets_final",
+    "se_playin_then_de4": "one single-elimination game (4v5), then 4-team double elimination",
+    "se_playin4_then_de4": "single-elimination round among seeds 3-6, then 4-team double elimination with seeds 1-2",
+    "se_playin4_then_de6": "single-elimination round among seeds 5-8, then 6-team double elimination with seeds 1-4",
+    "se2rounds_then_de4": "SE round 1 (5-8), SE round 2 (winners vs 3-4), then 4-team double elimination with seeds 1-2",
+    "se16_byes": "16-team single elimination, seeds 1-4 double bye, 5-8 single bye; 15 games",
+    "se12_byes": "12-team single elimination, seeds 1-4 bye; 11 games",
+    "pool4x3_then_se4": "4 pools of 3 (round robin), pool winners to single-elimination semifinals and final; 15 games",
+    "bo3_series_4": "4 teams, best-of-three semifinal and final series; 6-9 games"
+  },
+  "games_note": "games_min/games_max follow from the format: each double-elimination bracket of n teams plays 2n-2 games, or 2n-1 when the if-necessary game is needed; best-of-three series play 2-3 games. games_played_2025 is counted from the Wikipedia schedule table (null where the page has no itemized schedule).",
+  "site_codes": {
+    "single": "one site for the whole event",
+    "campus": "games at more than one member campus"
+  },
+  "auto_bid_note": "Every conference listed awarded its automatic bid to the tournament champion in 2025. None used the regular-season champion and none skipped the tournament. Exception in practice: ASUN declared co-champions and gave the bid to Stetson by conference policy. NCAA 2025 manual: 29 automatic qualifiers; conference champions had to be determined by 11:59 p.m. ET Sunday, May 25.",
+  "confidence": "B: every row comes from English Wikipedia (secondary). Official confirmation was read only for NEC and Big East; most conference sites (Sidearm) answered robots.txt with 403 bot protection and were not fetched.",
+  "conferences": {
+    "Big Ten": {
+      "teams": 12,
+      "qualify": "top 12 of 17 by conference winning percentage",
+      "format": "pool4x3_then_se4",
+      "description": "Four pools of three (round robin, 3 games per pool; pools 1/8/12, 2/7/11, 3/6/10, 4/5/9). Pool winners advance to single-elimination semifinals and a one-game final. 10-run rule after 7 innings.",
+      "site": "single",
+      "site_detail": "neutral",
+      "venue": "Charles Schwab Field Omaha, Omaha, NE",
+      "dates": "2025-05-20/2025-05-25",
+      "auto_bid": "tournament",
+      "champion_2025": "Nebraska",
+      "games_min": 15,
+      "games_max": 15,
+      "games_played_2025": 15,
+      "source_url": "https://en.wikipedia.org/wiki/2025_Big_Ten_baseball_tournament",
+      "source_type": "wikipedia",
+      "raw_files": [
+        "data/conf_tournaments/raw/big_ten__wikipedia.html.gz"
+      ],
+      "notes": "Pool tiebreak rules not given on the page. 15 games is fixed (12 pool + 2 semifinals + 1 final)."
+    },
+    "SEC": {
+      "teams": 16,
+      "qualify": "all 16 teams, seeded by conference record",
+      "format": "se16_byes",
+      "description": "Single elimination, all 16 teams. Seeds 1-4 get a double bye to the quarterfinals, seeds 5-8 a bye to the second round; seeds 9-16 play the first round. First year of this format.",
+      "site": "single",
+      "site_detail": "neutral",
+      "venue": "Hoover Metropolitan Stadium, Hoover, AL",
+      "dates": "2025-05-20/2025-05-25",
+      "auto_bid": "tournament",
+      "champion_2025": "Vanderbilt",
+      "games_min": 15,
+      "games_max": 15,
+      "games_played_2025": 15,
+      "source_url": "https://en.wikipedia.org/wiki/2025_Southeastern_Conference_baseball_tournament",
+      "source_type": "wikipedia",
+      "raw_files": [
+        "data/conf_tournaments/raw/sec__wikipedia.html.gz"
+      ],
+      "notes": ""
+    },
+    "ACC": {
+      "teams": 16,
+      "qualify": "all 16 teams",
+      "format": "se16_byes",
+      "description": "Single elimination, all 16 teams. Seeds 1-4 get a bye into the quarterfinals, seeds 5-8 a bye into the second round. Replaced the 12-team pool-play format used since 2007.",
+      "site": "single",
+      "site_detail": "neutral",
+      "venue": "Durham Bulls Athletic Park, Durham, NC",
+      "dates": "2025-05-20/2025-05-25",
+      "auto_bid": "tournament",
+      "champion_2025": "North Carolina",
+      "games_min": 15,
+      "games_max": 15,
+      "games_played_2025": 15,
+      "source_url": "https://en.wikipedia.org/wiki/2025_Atlantic_Coast_Conference_baseball_tournament",
+      "source_type": "wikipedia",
+      "raw_files": [
+        "data/conf_tournaments/raw/acc__wikipedia.html.gz"
+      ],
+      "notes": ""
+    },
+    "Big 12": {
+      "teams": 12,
+      "qualify": "top 12 of 14 (UCF and Utah did not qualify)",
+      "format": "se12_byes",
+      "description": "Single elimination, 12 teams; seeds 1-4 get a first-round bye (first round 5-12, quarterfinals, semifinals, final). Changed from double elimination in 2024.",
+      "site": "single",
+      "site_detail": "neutral",
+      "venue": "Globe Life Field, Arlington, TX",
+      "dates": "2025-05-21/2025-05-24",
+      "auto_bid": "tournament",
+      "champion_2025": "Arizona",
+      "games_min": 11,
+      "games_max": 11,
+      "games_played_2025": 11,
+      "source_url": "https://en.wikipedia.org/wiki/2025_Big_12_Conference_baseball_tournament",
+      "source_type": "wikipedia",
+      "raw_files": [
+        "data/conf_tournaments/raw/big_12__wikipedia.html.gz"
+      ],
+      "notes": ""
+    },
+    "Sun Belt": {
+      "teams": 10,
+      "qualify": "top 10 of 14 by conference winning percentage",
+      "format": "playin2_de8_two_brackets_final",
+      "description": "Bottom four seeds (7-10) play a single-elimination play-in round (7v10, 8v9). The remaining eight play two 4-team double-elimination brackets; bracket winners meet in a one-game final.",
+      "site": "single",
+      "site_detail": "neutral",
+      "venue": "Riverwalk Stadium, Montgomery, AL",
+      "dates": "2025-05-20/2025-05-25",
+      "auto_bid": "tournament",
+      "champion_2025": "Coastal Carolina",
+      "games_min": 15,
+      "games_max": 17,
+      "games_played_2025": 16,
+      "source_url": "https://en.wikipedia.org/wiki/2025_Sun_Belt_Conference_baseball_tournament",
+      "source_type": "wikipedia",
+      "raw_files": [
+        "data/conf_tournaments/raw/sun_belt__wikipedia.html.gz"
+      ],
+      "notes": "Game numbering on the page runs to 17 (2 play-in + 2 x 7 bracket incl. if-necessary + final)."
+    },
+    "MAAC": {
+      "teams": 8,
+      "qualify": "top 8 of 13 by conference winning percentage (head-to-head first tiebreaker)",
+      "format": "se_playin4_then_de6",
+      "description": "Seeds 5-8 play a single-elimination first round (5v8, 6v7). Winners join seeds 3-4 in round two; seeds 1-2 enter in round three. All rounds after the first are double elimination (6-team double elimination).",
+      "site": "single",
+      "site_detail": "neutral",
+      "venue": "Clover Stadium, Pomona, NY",
+      "dates": "2025-05-20/2025-05-25",
+      "auto_bid": "tournament",
+      "champion_2025": "Fairfield",
+      "games_min": 12,
+      "games_max": 13,
+      "games_played_2025": 12,
+      "source_url": "https://en.wikipedia.org/wiki/2025_Metro_Atlantic_Athletic_Conference_baseball_tournament",
+      "source_type": "wikipedia",
+      "raw_files": [
+        "data/conf_tournaments/raw/maac__wikipedia.html.gz"
+      ],
+      "notes": "Expanded from 6 to 8 teams in 2025 (Merrimack and Sacred Heart joined). Wikipedia lede says May 20-24; the schedule table has the final on Sunday May 25."
+    },
+    "CAA": {
+      "teams": 6,
+      "qualify": "top 6 of 12",
+      "format": "de6_reseeded",
+      "description": "Modified double elimination, 6 teams, used since 2012. Each round is reseeded so the top remaining seed plays the lowest remaining seed; seeds 1-2 enter in round two.",
+      "site": "single",
+      "site_detail": "campus_predetermined",
+      "venue": "CofC Baseball Stadium at Patriots Point, Mount Pleasant, SC (College of Charleston, seed 4)",
+      "dates": "2025-05-21/2025-05-25",
+      "auto_bid": "tournament",
+      "champion_2025": "Northeastern",
+      "games_min": 10,
+      "games_max": 11,
+      "games_played_2025": 10,
+      "source_url": "https://en.wikipedia.org/wiki/2025_Coastal_Athletic_Association_baseball_tournament",
+      "source_type": "wikipedia",
+      "raw_files": [
+        "data/conf_tournaments/raw/caa__wikipedia.html.gz"
+      ],
+      "notes": ""
+    },
+    "Atlantic 10": {
+      "teams": 7,
+      "qualify": "top 7 of 12",
+      "format": "de7",
+      "description": "Double elimination, 7 teams (format since 2014). The top seed gets a first-round bye; the other six play on day one.",
+      "site": "single",
+      "site_detail": "neutral",
+      "venue": "Capital One Park, Tysons, VA",
+      "dates": "2025-05-20/2025-05-24",
+      "auto_bid": "tournament",
+      "champion_2025": "Rhode Island",
+      "games_min": 12,
+      "games_max": 13,
+      "games_played_2025": 12,
+      "source_url": "https://en.wikipedia.org/wiki/2025_Atlantic_10_Conference_baseball_tournament",
+      "source_type": "wikipedia",
+      "raw_files": [
+        "data/conf_tournaments/raw/atlantic_10__wikipedia.html.gz"
+      ],
+      "notes": ""
+    },
+    "ASUN": {
+      "teams": 8,
+      "qualify": "top 4 of each 6-team division (Graphite, Gold), 8 of 12",
+      "format": "de8_divisions_crossover",
+      "description": "Single 8-team double-elimination bracket; division seeds cross over in round one (e.g. Gold 1 v Graphite 4). Championship game plus if-necessary game. Same format since 2023.",
+      "site": "single",
+      "site_detail": "campus_predetermined",
+      "venue": "Melching Field at Conrad Park, DeLand, FL (Stetson, Graphite No. 1)",
+      "dates": "2025-05-20/2025-05-25",
+      "auto_bid": "tournament (2025: co-champions; berth by conference policy)",
+      "champion_2025": "Stetson and Florida Gulf Coast (co-champions)",
+      "games_min": 14,
+      "games_max": 15,
+      "games_played_2025": 14,
+      "source_url": "https://en.wikipedia.org/wiki/2025_ASUN_Conference_baseball_tournament",
+      "source_type": "wikipedia",
+      "raw_files": [
+        "data/conf_tournaments/raw/asun__wikipedia.html.gz"
+      ],
+      "notes": "FGCU beat Stetson 6-5 (6 innings, weather) in the first final game. The deciding game was cancelled and the two were declared co-champions. 'Per conference policy' Stetson received the NCAA berth (the ASUN statement on asunsports.org is behind bot protection, so the policy text was not read)."
+    },
+    "SWAC": {
+      "teams": 8,
+      "qualify": "top 8 of 12 by conference winning percentage",
+      "format": "de8_two_brackets_final",
+      "description": "Two 4-team double-elimination brackets (1/8/3/6 and 2/7/4/5); bracket winners play a single-game championship.",
+      "site": "single",
+      "site_detail": "neutral",
+      "venue": "Rickwood Field, Birmingham, AL",
+      "dates": "2025-05-21/2025-05-25",
+      "auto_bid": "tournament",
+      "champion_2025": "Bethune-Cookman",
+      "games_min": 13,
+      "games_max": 15,
+      "games_played_2025": 14,
+      "source_url": "https://en.wikipedia.org/wiki/2025_Southwestern_Athletic_Conference_baseball_tournament",
+      "source_type": "wikipedia",
+      "raw_files": [
+        "data/conf_tournaments/raw/swac__wikipedia.html.gz"
+      ],
+      "notes": ""
+    },
+    "Southland": {
+      "teams": 8,
+      "qualify": "top 8 of 11",
+      "format": "de8_two_brackets_campus_bo3_final",
+      "description": "Two 4-team double-elimination brackets at the home fields of seeds 1 and 2. Bracket winners play a best-of-three championship series at the field of the highest remaining seed. Same format as 2022.",
+      "site": "campus",
+      "site_detail": "campus_top2_seeds_then_highest_remaining_seed",
+      "venue": "Brackets: Southeastern Louisiana and UTRGV home fields; final series: Husky Field (Houston Christian)",
+      "dates": "2025-05-15/2025-05-18 (brackets); 2025-05-22/2025-05-23 (final series)",
+      "auto_bid": "tournament",
+      "champion_2025": "Houston Christian",
+      "games_min": 14,
+      "games_max": 17,
+      "games_played_2025": null,
+      "source_url": "https://en.wikipedia.org/wiki/2025_Southland_Conference_baseball_tournament",
+      "source_type": "wikipedia",
+      "raw_files": [
+        "data/conf_tournaments/raw/southland__wikipedia.html.gz"
+      ],
+      "notes": "Houston Christian swept New Orleans 2-0 in the final series. Nicholls, Stephen F. Austin and Incarnate Word did not qualify."
+    },
+    "MAC": {
+      "teams": 6,
+      "qualify": "top 6 of 11 by conference winning percentage",
+      "format": "de6",
+      "description": "Double elimination, 6 teams; seeds 1-2 enter in round two.",
+      "site": "single",
+      "site_detail": "neutral",
+      "venue": "Crushers Stadium, Avon, OH",
+      "dates": "2025-05-21/2025-05-25",
+      "auto_bid": "tournament",
+      "champion_2025": "Miami (OH)",
+      "games_min": 10,
+      "games_max": 11,
+      "games_played_2025": 10,
+      "source_url": "https://en.wikipedia.org/wiki/2025_Mid-American_Conference_baseball_tournament",
+      "source_type": "wikipedia",
+      "raw_files": [
+        "data/conf_tournaments/raw/mac__wikipedia.html.gz"
+      ],
+      "notes": ""
+    },
+    "NEC": {
+      "teams": 4,
+      "qualify": "top 4 of 11 by conference winning percentage",
+      "format": "de4",
+      "description": "Double elimination, 4 teams.",
+      "site": "single",
+      "site_detail": "neutral",
+      "venue": "Heritage Financial Park, Wappingers Falls, NY",
+      "dates": "2025-05-23/2025-05-25",
+      "auto_bid": "tournament",
+      "champion_2025": "Central Connecticut",
+      "games_min": 6,
+      "games_max": 7,
+      "games_played_2025": 7,
+      "source_url": "https://en.wikipedia.org/wiki/2025_Northeast_Conference_baseball_tournament",
+      "source_type": "wikipedia",
+      "raw_files": [
+        "data/conf_tournaments/raw/nec__wikipedia.html.gz",
+        "data/conf_tournaments/raw/nec__necsports_day3.html.gz"
+      ],
+      "notes": "Stonehill (4th seed) was not NCAA-eligible in 2025 (NCAA manual Appendix B) but played in the tournament.",
+      "official_sources": [
+        {
+          "url": "https://necsports.com/news/2025/5/25/BASE_NEC_Day3Recap_25.aspx",
+          "raw_file": "data/conf_tournaments/raw/nec__necsports_day3.html.gz",
+          "confirms": "CCSU won game seven and 'earned the league's automatic bid to the NCAA Tournament'"
+        }
+      ]
+    },
+    "Big West": {
+      "teams": 5,
+      "qualify": "top 5 of 11 by conference winning percentage",
+      "format": "se_playin_then_de4",
+      "description": "Seeds 4 and 5 play a single-elimination game; the winner joins seeds 1-3 in a 4-team double-elimination bracket. First Big West postseason tournament since 1998.",
+      "site": "single",
+      "site_detail": "campus_predetermined",
+      "venue": "Goodwin Field, Fullerton, CA (Cal State Fullerton, seed 3)",
+      "dates": "2025-05-21/2025-05-25",
+      "auto_bid": "tournament",
+      "champion_2025": "Cal Poly",
+      "games_min": 7,
+      "games_max": 8,
+      "games_played_2025": 8,
+      "source_url": "https://en.wikipedia.org/wiki/2025_Big_West_Conference_baseball_tournament",
+      "source_type": "wikipedia",
+      "raw_files": [
+        "data/conf_tournaments/raw/big_west__wikipedia.html.gz"
+      ],
+      "notes": "Wikipedia lede says May 21-24; the if-necessary final game was played Sunday May 25."
+    },
+    "OVC": {
+      "teams": 8,
+      "qualify": "top 8 of 10 by conference winning percentage",
+      "format": "se2rounds_then_de4",
+      "description": "Two single-elimination rounds, then a 4-team double elimination. Round 1: seeds 5-8 (8v5, 7v6). Round 2: winners vs seeds 4 and 3 (single elimination). Round 3+: the two survivors and seeds 1-2 play a 4-team double elimination.",
+      "site": "single",
+      "site_detail": "neutral",
+      "venue": "Mtn Dew Park, Marion, IL",
+      "dates": "2025-05-21/2025-05-24",
+      "auto_bid": "tournament",
+      "champion_2025": "Little Rock",
+      "games_min": 10,
+      "games_max": 11,
+      "games_played_2025": 10,
+      "source_url": "https://en.wikipedia.org/wiki/2025_Ohio_Valley_Conference_baseball_tournament",
+      "source_type": "wikipedia",
+      "raw_files": [
+        "data/conf_tournaments/raw/ovc__wikipedia.html.gz"
+      ],
+      "notes": "The Wikipedia prose says 'top 4 teams receiving byes to the double elimination rounds', but its schedule shows seeds 3 and 4 eliminated after one loss in round two. Format inferred from the schedule. Lindenwood (6th seed) was not NCAA-eligible in 2025. Game 11 (if necessary) is listed without a result on the page."
+    },
+    "MVC": {
+      "teams": 8,
+      "qualify": "top 8 of 10 by conference winning percentage",
+      "format": "se_playin4_then_de6",
+      "description": "Four lowest seeds (5-8) play a single-elimination play-in round (8v5, 7v6). Winners join seeds 1-4 in a 6-team double-elimination bracket.",
+      "site": "single",
+      "site_detail": "campus_predetermined",
+      "venue": "Duffy Bass Field, Normal, IL (Illinois State, seed 5)",
+      "dates": "2025-05-20/2025-05-24",
+      "auto_bid": "tournament",
+      "champion_2025": "Murray State",
+      "games_min": 12,
+      "games_max": 13,
+      "games_played_2025": 12,
+      "source_url": "https://en.wikipedia.org/wiki/2025_Missouri_Valley_Conference_baseball_tournament",
+      "source_type": "wikipedia",
+      "raw_files": [
+        "data/conf_tournaments/raw/mvc__wikipedia.html.gz"
+      ],
+      "notes": ""
+    },
+    "CUSA": {
+      "teams": 8,
+      "qualify": "top 8 of 10 by conference winning percentage",
+      "format": "de8_two_brackets_final",
+      "description": "Two 4-team double-elimination brackets, then a single-game championship. Same as 2024.",
+      "site": "single",
+      "site_detail": "campus_predetermined",
+      "venue": "Liberty Baseball Stadium, Lynchburg, VA (Liberty, seed 8)",
+      "dates": "2025-05-21/2025-05-25",
+      "auto_bid": "tournament",
+      "champion_2025": "Western Kentucky",
+      "games_min": 13,
+      "games_max": 15,
+      "games_played_2025": 14,
+      "source_url": "https://en.wikipedia.org/wiki/2025_Conference_USA_baseball_tournament",
+      "source_type": "wikipedia",
+      "raw_files": [
+        "data/conf_tournaments/raw/cusa__wikipedia.html.gz"
+      ],
+      "notes": ""
+    },
+    "The American": {
+      "teams": 8,
+      "qualify": "top 8 of 10 by conference record",
+      "format": "de8_two_brackets_final",
+      "description": "Two 4-team double-elimination brackets (1/8/4/5 and 2/7/3/6) leading to a single championship game.",
+      "site": "single",
+      "site_detail": "neutral",
+      "venue": "BayCare Ballpark, Clearwater, FL",
+      "dates": "2025-05-20/2025-05-25",
+      "auto_bid": "tournament",
+      "champion_2025": "East Carolina",
+      "games_min": 13,
+      "games_max": 15,
+      "games_played_2025": 13,
+      "source_url": "https://en.wikipedia.org/wiki/2025_American_Athletic_Conference_baseball_tournament",
+      "source_type": "wikipedia",
+      "raw_files": [
+        "data/conf_tournaments/raw/american__wikipedia.html.gz"
+      ],
+      "notes": "The bracket table shows an empty second-game slot in each bracket final, an if-necessary game, so games_max counts it. The official bracket PDF (theamerican.org) is behind bot protection."
+    },
+    "WAC": {
+      "teams": 8,
+      "qualify": "top 8 of 9 by conference winning percentage",
+      "format": "se_playin4_then_de6",
+      "description": "Seeds 5-8 play a single-elimination first round (8v5, 7v6). Winners join seeds 3-4 in round two and seeds 1-2 in round three of a 6-team double elimination.",
+      "site": "single",
+      "site_detail": "neutral",
+      "venue": "Hohokam Stadium, Mesa, AZ",
+      "dates": "2025-05-20/2025-05-24",
+      "auto_bid": "tournament",
+      "champion_2025": "Utah Valley",
+      "games_min": 12,
+      "games_max": 13,
+      "games_played_2025": 12,
+      "source_url": "https://en.wikipedia.org/wiki/2025_Western_Athletic_Conference_baseball_tournament",
+      "source_type": "wikipedia",
+      "raw_files": [
+        "data/conf_tournaments/raw/wac__wikipedia.html.gz"
+      ],
+      "notes": "Wikipedia lede says May 21-24; the schedule table starts Tuesday May 20."
+    },
+    "Big South": {
+      "teams": 6,
+      "qualify": "top 6 of 9 by conference winning percentage",
+      "format": "de6",
+      "description": "Double elimination, 6 teams; seeds 1-2 enter in round two. Expanded from 4 teams in 2024.",
+      "site": "single",
+      "site_detail": "neutral",
+      "venue": "Truist Point, High Point, NC",
+      "dates": "2025-05-21/2025-05-24",
+      "auto_bid": "tournament",
+      "champion_2025": "USC Upstate",
+      "games_min": 10,
+      "games_max": 11,
+      "games_played_2025": 10,
+      "source_url": "https://en.wikipedia.org/wiki/2025_Big_South_Conference_baseball_tournament",
+      "source_type": "wikipedia",
+      "raw_files": [
+        "data/conf_tournaments/raw/big_south__wikipedia.html.gz"
+      ],
+      "notes": "Truist Point is the High Point Rockers' minor-league park; High Point (seed 2) is a member."
+    },
+    "WCC": {
+      "teams": 6,
+      "qualify": "top 6 of 9 by conference winning percentage",
+      "format": "se_playin4_then_de4",
+      "description": "Seeds 3-6 play a single-elimination first round (3v6, 4v5). The two winners join seeds 1-2 in a 4-team double elimination.",
+      "site": "single",
+      "site_detail": "neutral",
+      "venue": "Las Vegas Ballpark, Las Vegas, NV",
+      "dates": "2025-05-21/2025-05-24",
+      "auto_bid": "tournament",
+      "champion_2025": "Saint Mary's",
+      "games_min": 8,
+      "games_max": 9,
+      "games_played_2025": 9,
+      "source_url": "https://en.wikipedia.org/wiki/2025_West_Coast_Conference_baseball_tournament",
+      "source_type": "wikipedia",
+      "raw_files": [
+        "data/conf_tournaments/raw/wcc__wikipedia.html.gz"
+      ],
+      "notes": ""
+    },
+    "Mountain West": {
+      "teams": 6,
+      "qualify": "top 6 of 8 by conference winning percentage",
+      "format": "se_playin4_then_de4",
+      "description": "Seeds 3-6 play a single-elimination first round (3v6, 4v5). The two winners join seeds 1-2 in a 4-team double elimination.",
+      "site": "single",
+      "site_detail": "neutral",
+      "venue": "Sloan Park, Mesa, AZ",
+      "dates": "2025-05-21/2025-05-24",
+      "auto_bid": "tournament",
+      "champion_2025": "Fresno State",
+      "games_min": 8,
+      "games_max": 9,
+      "games_played_2025": 8,
+      "source_url": "https://en.wikipedia.org/wiki/2025_Mountain_West_Conference_baseball_tournament",
+      "source_type": "wikipedia",
+      "raw_files": [
+        "data/conf_tournaments/raw/mountain_west__wikipedia.html.gz"
+      ],
+      "notes": ""
+    },
+    "SoCon": {
+      "teams": 8,
+      "qualify": "all 8 teams, seeded by conference record",
+      "format": "se_playin4_then_de6",
+      "description": "Bottom four seeds play a single-elimination play-in round. Winners join the top four in a 6-team double elimination: seeds 3-4 play the play-in winners in round two, seeds 1-2 get byes into round three.",
+      "site": "single",
+      "site_detail": "neutral",
+      "venue": "Fluor Field at the West End, Greenville, SC",
+      "dates": "2025-05-21/2025-05-25",
+      "auto_bid": "tournament",
+      "champion_2025": "East Tennessee State",
+      "games_min": 12,
+      "games_max": 13,
+      "games_played_2025": 12,
+      "source_url": "https://en.wikipedia.org/wiki/2025_Southern_Conference_baseball_season#Tournament",
+      "source_type": "wikipedia",
+      "raw_files": [
+        "data/conf_tournaments/raw/socon__wikipedia.html.gz"
+      ],
+      "notes": "No standalone 2025 tournament article: '2025 Southern Conference baseball tournament' redirects to the season article's Tournament section, which is saved."
+    },
+    "Big East": {
+      "teams": 4,
+      "qualify": "top 4 of 8 by conference winning percentage",
+      "format": "de4",
+      "description": "Double elimination, 4 teams.",
+      "site": "single",
+      "site_detail": "neutral",
+      "venue": "Prasco Park, Mason, OH",
+      "dates": "2025-05-21/2025-05-24",
+      "auto_bid": "tournament",
+      "champion_2025": "Creighton",
+      "games_min": 6,
+      "games_max": 7,
+      "games_played_2025": 6,
+      "source_url": "https://en.wikipedia.org/wiki/2025_Big_East_Conference_baseball_tournament",
+      "source_type": "wikipedia",
+      "raw_files": [
+        "data/conf_tournaments/raw/big_east__wikipedia.html.gz",
+        "data/conf_tournaments/raw/big_east__bigeast_champ.html.gz"
+      ],
+      "notes": "",
+      "official_sources": [
+        {
+          "url": "https://www.bigeast.com/news/2025/5/25/baseball-creighton-captures-second-bigeastbase-championship.aspx",
+          "raw_file": "data/conf_tournaments/raw/big_east__bigeast_champ.html.gz",
+          "confirms": "'Creighton locks up the BIG EAST's automatic bid'; game list 1-6 with seeds matches 4-team double elimination"
+        }
+      ]
+    },
+    "Ivy League": {
+      "teams": 4,
+      "qualify": "top 4 of 8 by league record (head-to-head tiebreak)",
+      "format": "de4",
+      "description": "Double elimination, 4 teams, at the regular-season champion's site.",
+      "site": "single",
+      "site_detail": "campus_regular_season_champion",
+      "venue": "George H. W. Bush Field, New Haven, CT (Yale)",
+      "dates": "2025-05-16/2025-05-18",
+      "auto_bid": "tournament",
+      "champion_2025": "Columbia",
+      "games_min": 6,
+      "games_max": 7,
+      "games_played_2025": 6,
+      "source_url": "https://en.wikipedia.org/wiki/2025_Ivy_League_baseball_tournament",
+      "source_type": "wikipedia",
+      "raw_files": [
+        "data/conf_tournaments/raw/ivy__wikipedia.html.gz"
+      ],
+      "notes": ""
+    },
+    "America East": {
+      "teams": 6,
+      "qualify": "top 6 of 7 by conference winning percentage",
+      "format": "se_playin4_then_de4",
+      "description": "Seeds 3-6 play a single-elimination first round. The two winners join seeds 1-2 in a 4-team double elimination. Same format since 2023.",
+      "site": "single",
+      "site_detail": "campus_predetermined",
+      "venue": "Mahaney Diamond, Orono, ME (Maine, seed 4)",
+      "dates": "2025-05-21/2025-05-25",
+      "auto_bid": "tournament",
+      "champion_2025": "Binghamton",
+      "games_min": 8,
+      "games_max": 9,
+      "games_played_2025": 9,
+      "source_url": "https://en.wikipedia.org/wiki/2025_America_East_Conference_baseball_tournament",
+      "source_type": "wikipedia",
+      "raw_files": [
+        "data/conf_tournaments/raw/america_east__wikipedia.html.gz"
+      ],
+      "notes": "Wikipedia lede says May 21-24; the schedule table has the final games on Sunday May 25."
+    },
+    "Patriot": {
+      "teams": 4,
+      "qualify": "top 4 of 6",
+      "format": "bo3_series_4",
+      "description": "Best-of-three semifinal series (1v4, 2v3) hosted by the higher seed, then a best-of-three final series hosted by the higher seed, on consecutive weekends. The higher seed is the home team for every game.",
+      "site": "campus",
+      "site_detail": "campus_higher_seed",
+      "venue": "Higher seed's home field (final: Fitton Field, Worcester, MA, Holy Cross)",
+      "dates": "2025-05-10/2025-05-11 (semifinals); 2025-05-18/2025-05-19 (final)",
+      "auto_bid": "tournament",
+      "champion_2025": "Holy Cross",
+      "games_min": 6,
+      "games_max": 9,
+      "games_played_2025": null,
+      "source_url": "https://en.wikipedia.org/wiki/2025_Patriot_League_baseball_tournament",
+      "source_type": "wikipedia",
+      "raw_files": [
+        "data/conf_tournaments/raw/patriot__wikipedia.html.gz"
+      ],
+      "notes": "Semifinal series results are not itemized on the page. The final went Holy Cross over Army."
+    },
+    "Horizon": {
+      "teams": 6,
+      "qualify": "all 6 teams",
+      "format": "de6",
+      "description": "Double elimination, all six teams; seeds 1-2 get a single bye.",
+      "site": "single",
+      "site_detail": "campus",
+      "venue": "Nischwitz Stadium, Fairborn, OH (Wright State, seed 1)",
+      "dates": "2025-05-21/2025-05-24",
+      "auto_bid": "tournament",
+      "champion_2025": "Wright State",
+      "games_min": 10,
+      "games_max": 11,
+      "games_played_2025": 11,
+      "source_url": "https://en.wikipedia.org/wiki/2025_Horizon_League_baseball_tournament",
+      "source_type": "wikipedia",
+      "raw_files": [
+        "data/conf_tournaments/raw/horizon__wikipedia.html.gz"
+      ],
+      "notes": "Wikipedia cites a Xenia Gazette article, 'Wright State set to host league tournament'. Whether hosting goes to the top seed or is predetermined is not stated."
+    },
+    "Summit League": {
+      "teams": 4,
+      "qualify": "top 4 of the 5 eligible teams (St. Thomas ineligible until 2026)",
+      "format": "de4",
+      "description": "Double elimination, 4 teams, after a double round-robin regular season.",
+      "site": "single",
+      "site_detail": "campus_predetermined",
+      "venue": "Tal Anderson Field, Omaha, NE (Omaha, seed 3)",
+      "dates": "2025-05-21/2025-05-24",
+      "auto_bid": "tournament",
+      "champion_2025": "North Dakota State",
+      "games_min": 6,
+      "games_max": 7,
+      "games_played_2025": 7,
+      "source_url": "https://en.wikipedia.org/wiki/2025_Summit_League_baseball_tournament",
+      "source_type": "wikipedia",
+      "raw_files": [
+        "data/conf_tournaments/raw/summit__wikipedia.html.gz"
+      ],
+      "notes": "St. Thomas (ineligible) and Northern Colorado did not take part. The official bracket news page returned 403 and the bracket PDF is disallowed by robots.txt."
+    }
+  }
+}

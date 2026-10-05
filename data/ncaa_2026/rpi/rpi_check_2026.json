@@ -1,0 +1,89 @@
+{
+ "teams_published": 308,
+ "teams_records_match": 260,
+ "games": 8297,
+ "weighted": {
+  "teams": 308,
+  "spearman": 0.9999414740289675,
+  "exact_rank": 206,
+  "within_1": 277,
+  "within_3": 303,
+  "top64_exact": 54,
+  "largest_gaps": {
+   "FDU": [
+    223,
+    218
+   ],
+   "Columbia": [
+    190,
+    195
+   ],
+   "New Mexico": [
+    219,
+    215
+   ],
+   "Bowling Green": [
+    209,
+    205
+   ],
+   "Penn": [
+    176,
+    172
+   ],
+   "Utah Valley": [
+    283,
+    280
+   ],
+   "Iowa": [
+    71,
+    68
+   ],
+   "Michigan St.": [
+    109,
+    106
+   ]
+  }
+ },
+ "unweighted": {
+  "teams": 308,
+  "spearman": 0.9929526516680214,
+  "exact_rank": 20,
+  "within_1": 56,
+  "within_3": 107,
+  "top64_exact": 12,
+  "largest_gaps": {
+   "Maine": [
+    141,
+    173
+   ],
+   "Col. of Charleston": [
+    175,
+    143
+   ],
+   "Rider": [
+    119,
+    150
+   ],
+   "South Carolina": [
+    138,
+    107
+   ],
+   "Murray St.": [
+    165,
+    195
+   ],
+   "Hofstra": [
+    135,
+    162
+   ],
+   "Illinois St.": [
+    158,
+    184
+   ],
+   "New Mexico": [
+    219,
+    193
+   ]
+  }
+ }
+}

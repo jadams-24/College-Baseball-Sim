@@ -115,8 +115,9 @@ def leverage(inning: int, margin: int) -> str:
     return "other"
 
 
-def choice_data(a: pd.DataFrame, role: pd.DataFrame, kind: str) -> list:
-    """Choice events: (alternatives' feature keys, index chosen). kind 'relief' or 'midweek'."""
+def choice_data(a: pd.DataFrame, role: pd.DataFrame, kind: str, since=None) -> list:
+    """Choice events: (alternatives' feature keys, index chosen). kind 'relief', 'midweek', or (Phase 7)
+    'tournament': every start in a game on or after the date `since`."""
     a = a.merge(role, on=["pit_team_id", "pkey"])
     events = []
     for t, g in a.groupby("pit_team_id"):
@@ -129,7 +130,8 @@ def choice_data(a: pd.DataFrame, role: pd.DataFrame, kind: str) -> list:
             used = set()
             starter = gg[gg.start].pkey.iloc[0] if gg.start.any() else None
             for _, r in gg.sort_values("first").iterrows():
-                is_choice = (kind == "relief" and not r.start) or (kind == "midweek" and r.start and r.wd in MIDWEEK_DAYS)
+                is_choice = ((kind == "relief" and not r.start) or (kind == "midweek" and r.start and r.wd in MIDWEEK_DAYS)
+                             or (kind == "tournament" and r.start and r.d >= since))
                 if is_choice:
                     alts, chosen = [], None
                     lev = leverage(int(r.inning), int(r.margin)) if kind == "relief" else "start"

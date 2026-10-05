@@ -10,7 +10,7 @@ from pathlib import Path
 import numpy as np
 
 from engine.status import Status
-from config.phase2 import (DEFERRED_TO_PHASE6, WATCH_ITEMS, GATE_SE_MULTIPLE, LEADERBOARD_MIN_IP, LEADERBOARD_PI, QUAL_GAMES_SHARE, QUAL_IP_PER_TEAM_GAME,
+from config.phase2 import (SEASON_GAMES, DEFERRED_TO_PHASE6, WATCH_ITEMS, GATE_SE_MULTIPLE, LEADERBOARD_MIN_IP, LEADERBOARD_PI, QUAL_GAMES_SHARE, QUAL_IP_PER_TEAM_GAME,
                            QUAL_PA_PER_TEAM_GAME)
 from engine.game2 import (B_2B, B_3B, B_AB, B_BB, B_G, B_GPA, B_H, B_HBP, B_HR, B_K, B_PA, B_SF, P_BF, P_ER, P_K, P_OUTS, P_WGS)
 
@@ -78,16 +78,29 @@ def season_metrics(res: dict) -> dict:
     pct = lambda v: {f"p{qq}": float(np.percentile(v, qq)) for qq in QS}
     m["qualified"] = {"batters": {"n": int(q.sum()), "per_team": q.sum() / len(lg.teams), "BA": pct(BA), "OBP": pct(OBP), "ISO": pct(ISO), "K_pct": pct(Kp), "BB_pct": pct(BBp)},
                       "pitchers": {"n": int(qp.sum()), "per_team": qp.sum() / len(lg.teams), "ERA": pct(ERA), "K9": pct(K9)}}
-    p50 = ip >= LEADERBOARD_MIN_IP
+    # 56-game equivalents, as the benchmarks scale real seasons: a player's totals x 56 / his team's games
+    # (Phase 7 cancels games, so teams play fewer than 56)
+    s56 = SEASON_GAMES / bt
+    p50 = ip * s56 >= LEADERBOARD_MIN_IP
     era50 = 9 * p[p50, P_ER] / ip[p50]
+    # team leaders on full seasons, postseason included, as the NCAA.com team pages count them (Phase 7 world):
+    # regular-season team rows plus the postseason lines (engine.season._postseason)
     tv = list(team.values())
+    if "post" in res:
+        pl_ = res["post"]["post_lines"]
+        T = len(lg.teams)
+        sm = lambda col_r, col_p: np.bincount(tids, tg[:, col_r], T) + np.bincount(pl_[:, 0].astype(int), pl_[:, col_p], T)
+        gf = np.bincount(tids, minlength=T) + np.bincount(pl_[:, 0].astype(int), minlength=T)
+        hf, abf, hrf, erf, outf = sm(3, 4), sm(4, 5), sm(5, 6), sm(6, 1), sm(7, 2)
+        tv = [{"ba": hf[t] / abf[t], "hr_g": hrf[t] / gf[t], "era": 27 * erf[t] / outf[t]} for t in range(T) if gf[t] > 0]
     m["leaderboards"] = {"pitchers_50ip": int(p50.sum()), "pitchers_50ip_era_under_2": int((era50 < 2).sum()), "pitchers_50ip_era_under_3": int((era50 < 3).sum()),
                          "teams_era_under_4": int(sum(x["era"] < 4 for x in tv)), "best_team_era": min(x["era"] for x in tv),
                          "team_ba_max": max(x["ba"] for x in tv), "team_hr_per_game_max": max(x["hr_g"] for x in tv),
                          "individual_ba_top": float(np.nanmax(BA)), "individual_hr_top": int(b[:, B_HR].max())}
     # individual leaders (gate block individual_leaders_2023_2026): the five home-run leaders' HR per game played
     top = np.argsort(-b[:, B_HR], kind="stable")[:LEADER_TOP]
-    m["leaders"] = {"hr_leader_56g": int(b[:, B_HR].max()), "hr_30plus_56g": int((b[:, B_HR] >= 30).sum()), "ba_leader": float(np.nanmax(BA)),
+    hr56 = b[:, B_HR] * s56
+    m["leaders"] = {"hr_leader_56g": float(hr56.max()), "hr_30plus_56g": int((hr56 >= 30).sum()), "ba_leader": float(np.nanmax(BA)),
                     "hr_top5_per_game": float(np.mean(b[top, B_HR] / np.maximum(b[top, B_G], 1))), "hr_max": int(b[:, B_HR].max())}
     # rotation: share of a team's weekend starts made by its three most frequent weekend starters
     tid_p = np.array([x.team for x in pl]); wgs = p[:, P_WGS]
@@ -295,7 +308,8 @@ def build_report(agg: dict, seeds: list, bench: dict | None = None) -> tuple[str
            f"Qualified per team: batters sim {agg['qualified']['batters']['per_team']:.2f} vs data {qp['batters']['per_team']}; pitchers sim {agg['qualified']['pitchers']['per_team']:.2f} vs data {qp['pitchers']['per_team']}.", "",
            hdr, sec("qualified"), "", "## Leaderboards (full-population extremes)", "", hdr, sec("leaders"), "",
            "## National team leaders (NCAA.com team pages, 2024–2026)", "",
-           "Rates and counts of teams (real seasons include the postseason and non-D1 games). A row passes if the simulated mean lies in the band from the "
+           "Rates and counts of teams on full seasons: real seasons include conference tournaments, the NCAA tournament and non-D1 games; the sim's "
+           "its regular season plus its postseason when the Phase 7 world is on (the rest of this report is the regular season). A row passes if the simulated mean lies in the band from the "
            f"lowest to the highest real season, widened by {k_se} SE of the simulated mean. Benchmark column: the band, then each season.", "",
            "| Metric | Sim | Real band (seasons) | Sim SE pad | Conf | Gate | Status |\n|---|---|---|---|---|---|---|", sec("teamleaders"), "",
            "## Individual leaders (NCAA.com national leaders 2024–2026, record book 2023)", "",

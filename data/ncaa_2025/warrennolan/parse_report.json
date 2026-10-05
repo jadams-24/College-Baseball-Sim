@@ -1,0 +1,551 @@
+{
+ "pages": 308,
+ "team_entries": 17355,
+ "status_counts_entries": {
+  "final": 16869,
+  "canceled": 425,
+  "postponed": 61
+ },
+ "issues": {
+  "box_order_vs_site_label": [
+   {
+    "date": "2025-05-31",
+    "team": "Arizona-State",
+    "site": "away",
+    "box_second": "Arizona State"
+   },
+   {
+    "date": "2025-06-07",
+    "team": "Arizona",
+    "site": "away",
+    "box_second": "Arizona"
+   },
+   {
+    "date": "2025-05-31",
+    "team": "Arkansas",
+    "site": "home",
+    "box_second": "Creighton"
+   },
+   {
+    "date": "2025-06-08",
+    "team": "Arkansas",
+    "site": "home",
+    "box_second": "Tennessee"
+   },
+   {
+    "date": "2025-05-31",
+    "team": "Auburn",
+    "site": "home",
+    "box_second": "Stetson"
+   },
+   {
+    "date": "2025-06-01",
+    "team": "Auburn",
+    "site": "home",
+    "box_second": "North Carolina State"
+   },
+   {
+    "date": "2025-06-07",
+    "team": "Auburn",
+    "site": "home",
+    "box_second": "Coastal Carolina"
+   },
+   {
+    "date": "2025-04-18",
+    "team": "Bradley",
+    "site": "away",
+    "box_second": "Bradley"
+   },
+   {
+    "date": "2025-04-19",
+    "team": "Bradley",
+    "site": "away",
+    "box_second": "Bradley"
+   },
+   {
+    "date": "2025-04-19",
+    "team": "Bradley",
+    "site": "away",
+    "box_second": "Bradley"
+   },
+   {
+    "date": "2025-05-31",
+    "team": "Cal-Poly",
+    "site": "away",
+    "box_second": "Cal Poly"
+   },
+   {
+    "date": "2025-05-31",
+    "team": "Cincinnati",
+    "site": "away",
+    "box_second": "Cincinnati"
+   },
+   {
+    "date": "2025-06-01",
+    "team": "Clemson",
+    "site": "home",
+    "box_second": "Kentucky"
+   },
+   {
+    "date": "2025-05-31",
+    "team": "Coastal-Carolina",
+    "site": "home",
+    "box_second": "East Carolina"
+   },
+   {
+    "date": "2025-06-01",
+    "team": "Columbia",
+    "site": "away",
+    "box_second": "Columbia"
+   },
+   {
+    "date": "2025-03-25",
+    "team": "Delaware-State",
+    "site": "away",
+    "box_second": "Delaware State"
+   },
+   {
+    "date": "2025-06-08",
+    "team": "Duke",
+    "site": "home",
+    "box_second": "Murray State"
+   },
+   {
+    "date": "2025-05-31",
+    "team": "Florida-State",
+    "site": "home",
+    "box_second": "Mississippi State"
+   },
+   {
+    "date": "2025-06-07",
+    "team": "Florida-State",
+    "site": "away",
+    "box_second": "Florida State"
+   },
+   {
+    "date": "2025-06-01",
+    "team": "Georgia",
+    "site": "home",
+    "box_second": "Oklahoma State"
+   },
+   {
+    "date": "2025-06-01",
+    "team": "Kansas-State",
+    "site": "away",
+    "box_second": "Kansas State"
+   },
+   {
+    "date": "2025-06-01",
+    "team": "LSU",
+    "site": "home",
+    "box_second": "Little Rock"
+   },
+   {
+    "date": "2025-06-02",
+    "team": "LSU",
+    "site": "home",
+    "box_second": "Little Rock"
+   },
+   {
+    "date": "2025-06-08",
+    "team": "LSU",
+    "site": "home",
+    "box_second": "West Virginia"
+   },
+   {
+    "date": "2025-06-07",
+    "team": "Louisville",
+    "site": "home",
+    "box_second": "Miami (FL)"
+   },
+   {
+    "date": "2025-06-01",
+    "team": "Miami-FL",
+    "site": "away",
+    "box_second": "Miami (FL)"
+   },
+   {
+    "date": "2025-06-01",
+    "team": "Murray-State",
+    "site": "away",
+    "box_second": "Murray State"
+   },
+   {
+    "date": "2025-06-01",
+    "team": "North-Carolina",
+    "site": "home",
+    "box_second": "Oklahoma"
+   },
+   {
+    "date": "2025-06-02",
+    "team": "North-Carolina",
+    "site": "home",
+    "box_second": "Oklahoma"
+   },
+   {
+    "date": "2025-04-26",
+    "team": "North-Dakota-State",
+    "site": "away",
+    "box_second": "North Dakota State"
+   },
+   {
+    "date": "2025-05-31",
+    "team": "Ole-Miss",
+    "site": "home",
+    "box_second": "Western Kentucky"
+   },
+   {
+    "date": "2025-04-25",
+    "team": "Oral-Roberts",
+    "site": "home",
+    "box_second": "Saint Thomas"
+   },
+   {
+    "date": "2025-05-15",
+    "team": "Oral-Roberts",
+    "site": "away",
+    "box_second": "Oral Roberts"
+   },
+   {
+    "date": "2025-06-01",
+    "team": "Oregon-State",
+    "site": "home",
+    "box_second": "Saint Mary's College"
+   },
+   {
+    "date": "2025-06-01",
+    "team": "Oregon-State",
+    "site": "home",
+    "box_second": "USC"
+   },
+   {
+    "date": "2025-06-01",
+    "team": "Tennessee",
+    "site": "home",
+    "box_second": "Wake Forest"
+   },
+   {
+    "date": "2025-06-01",
+    "team": "Texas",
+    "site": "home",
+    "box_second": "UTSA"
+   },
+   {
+    "date": "2025-06-01",
+    "team": "UC-Irvine",
+    "site": "away",
+    "box_second": "UC Irvine"
+   },
+   {
+    "date": "2025-06-08",
+    "team": "UCLA",
+    "site": "home",
+    "box_second": "UTSA"
+   },
+   {
+    "date": "2025-06-01",
+    "team": "Vanderbilt",
+    "site": "home",
+    "box_second": "Wright State"
+   }
+  ],
+  "opponent_page_missing": [
+   {
+    "team": "Austin-Peay",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-02-22"
+   },
+   {
+    "team": "Austin-Peay",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-02-23"
+   },
+   {
+    "team": "Austin-Peay",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-02-23"
+   },
+   {
+    "team": "Austin-Peay",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-02-24"
+   },
+   {
+    "team": "Ball-State",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-03-11"
+   },
+   {
+    "team": "Bowling-Green",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-03-18"
+   },
+   {
+    "team": "Bowling-Green",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-04-15"
+   },
+   {
+    "team": "Central-Michigan",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-04-01"
+   },
+   {
+    "team": "Indiana",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-02-19"
+   },
+   {
+    "team": "LSU",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-02-14"
+   },
+   {
+    "team": "LSU",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-02-15"
+   },
+   {
+    "team": "LSU",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-02-16"
+   },
+   {
+    "team": "Michigan-State",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-04-22"
+   },
+   {
+    "team": "Milwaukee",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-04-04"
+   },
+   {
+    "team": "Milwaukee",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-04-04"
+   },
+   {
+    "team": "Milwaukee",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-04-05"
+   },
+   {
+    "team": "Milwaukee",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-05-09"
+   },
+   {
+    "team": "Milwaukee",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-05-10"
+   },
+   {
+    "team": "Milwaukee",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-05-11"
+   },
+   {
+    "team": "Milwaukee",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-05-21"
+   },
+   {
+    "team": "Northern-Kentucky",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-03-14"
+   },
+   {
+    "team": "Northern-Kentucky",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-03-15"
+   },
+   {
+    "team": "Northern-Kentucky",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-03-16"
+   },
+   {
+    "team": "Northern-Kentucky",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-04-17"
+   },
+   {
+    "team": "Northern-Kentucky",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-04-18"
+   },
+   {
+    "team": "Northern-Kentucky",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-04-19"
+   },
+   {
+    "team": "Northwestern",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-04-30"
+   },
+   {
+    "team": "Notre-Dame",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-04-23"
+   },
+   {
+    "team": "Oakland",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-03-28"
+   },
+   {
+    "team": "Oakland",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-03-29"
+   },
+   {
+    "team": "Oakland",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-03-29"
+   },
+   {
+    "team": "Oakland",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-05-02"
+   },
+   {
+    "team": "Oakland",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-05-03"
+   },
+   {
+    "team": "Oakland",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-05-04"
+   },
+   {
+    "team": "Southeast-Missouri",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-02-28"
+   },
+   {
+    "team": "Southeast-Missouri",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-03-01"
+   },
+   {
+    "team": "Southeast-Missouri",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-03-01"
+   },
+   {
+    "team": "Southeast-Missouri",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-03-02"
+   },
+   {
+    "team": "Tennessee-Tech",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-03-07"
+   },
+   {
+    "team": "Tennessee-Tech",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-03-08"
+   },
+   {
+    "team": "Tennessee-Tech",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-03-09"
+   },
+   {
+    "team": "Toledo",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-03-25"
+   },
+   {
+    "team": "Toledo",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-04-09"
+   },
+   {
+    "team": "Wright-State",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-04-11"
+   },
+   {
+    "team": "Wright-State",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-04-12"
+   },
+   {
+    "team": "Wright-State",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-04-13"
+   },
+   {
+    "team": "Wright-State",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-05-15"
+   },
+   {
+    "team": "Wright-State",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-05-16"
+   },
+   {
+    "team": "Wright-State",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-05-17"
+   },
+   {
+    "team": "Youngstown-State",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-03-21"
+   },
+   {
+    "team": "Youngstown-State",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-03-23"
+   },
+   {
+    "team": "Youngstown-State",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-03-23"
+   },
+   {
+    "team": "Youngstown-State",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-04-26"
+   },
+   {
+    "team": "Youngstown-State",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-04-26"
+   },
+   {
+    "team": "Youngstown-State",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-04-27"
+   },
+   {
+    "team": "Youngstown-State",
+    "opp": "Purdue-Fort-Wayne",
+    "date": "2025-05-21"
+   }
+  ]
+ },
+ "games": 8757,
+ "games_by_status": {
+  "final": 8504,
+  "canceled": 220,
+  "postponed": 33
+ },
+ "games_final_through_2026_05_24": 8504,
+ "games_by_pages": {
+  "2": 8598,
+  "1": 159
+ },
+ "site_disagreements": 0,
+ "issue_counts": {
+  "box_order_vs_site_label": 40,
+  "opponent_page_missing": 56
+ }
+}

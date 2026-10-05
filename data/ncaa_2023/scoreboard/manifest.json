@@ -1,0 +1,34 @@
+{
+  "source": "https://data.ncaa.com/casablanca/scoreboard/baseball/d1/{y}/{m:02d}/{d:02d}/scoreboard.json",
+  "season": 2023,
+  "date_range": [
+    "2023-02-10",
+    "2023-06-30"
+  ],
+  "fetched_on": "2026-10-05",
+  "days_with_games": 123,
+  "days_without_games_404": [
+    "2023-02-10",
+    "2023-02-11",
+    "2023-02-12",
+    "2023-02-13",
+    "2023-02-14",
+    "2023-02-15",
+    "2023-05-31",
+    "2023-06-01",
+    "2023-06-06",
+    "2023-06-07",
+    "2023-06-08",
+    "2023-06-13",
+    "2023-06-14",
+    "2023-06-23",
+    "2023-06-27",
+    "2023-06-28",
+    "2023-06-29",
+    "2023-06-30"
+  ],
+  "errors": [],
+  "game_entries": 8529,
+  "unique_game_urls": 8510,
+  "note": "gameID is the NCAA contest id; url is the ncaa.com game page id. Per-game box score / play-by-play JSON is not served by this host for these games."
+}

@@ -1,0 +1,195 @@
+{
+ "pages": 308,
+ "team_entries": 17417,
+ "status_counts_entries": {
+  "final": 16944,
+  "canceled": 473
+ },
+ "issues": {
+  "self_opponent_entry": [
+   {
+    "page": "Fairfield",
+    "date": "2026-05-23",
+    "result": "L 7 - 12",
+    "dropped": "0 candidate opponents"
+   }
+  ],
+  "box_order_vs_site_label": [
+   {
+    "date": "2026-06-08",
+    "team": "Alabama",
+    "site": "home",
+    "box_second": "Saint John's"
+   },
+   {
+    "date": "2026-04-02",
+    "team": "Albany",
+    "site": "away",
+    "box_second": "Albany"
+   },
+   {
+    "date": "2026-04-03",
+    "team": "Albany",
+    "site": "away",
+    "box_second": "Albany"
+   },
+   {
+    "date": "2026-04-04",
+    "team": "Albany",
+    "site": "away",
+    "box_second": "Albany"
+   },
+   {
+    "date": "2026-05-31",
+    "team": "Arizona-State",
+    "site": "away",
+    "box_second": "Arizona State"
+   },
+   {
+    "date": "2026-05-31",
+    "team": "Auburn",
+    "site": "home",
+    "box_second": "Milwaukee"
+   },
+   {
+    "date": "2026-06-01",
+    "team": "Auburn",
+    "site": "away",
+    "box_second": "Auburn"
+   },
+   {
+    "date": "2026-06-06",
+    "team": "Auburn",
+    "site": "home",
+    "box_second": "Ole Miss"
+   },
+   {
+    "date": "2026-06-06",
+    "team": "Cal-Poly",
+    "site": "away",
+    "box_second": "Cal Poly"
+   },
+   {
+    "date": "2026-03-06",
+    "team": "Charleston",
+    "site": "home",
+    "box_second": "Hofstra"
+   },
+   {
+    "date": "2026-03-07",
+    "team": "Charleston",
+    "site": "home",
+    "box_second": "Hofstra"
+   },
+   {
+    "date": "2026-03-08",
+    "team": "Charleston",
+    "site": "home",
+    "box_second": "Hofstra"
+   },
+   {
+    "date": "2026-03-08",
+    "team": "Delaware-State",
+    "site": "away",
+    "box_second": "Delaware State"
+   },
+   {
+    "date": "2026-03-08",
+    "team": "Delaware-State",
+    "site": "away",
+    "box_second": "Delaware State"
+   },
+   {
+    "date": "2026-03-09",
+    "team": "Delaware-State",
+    "site": "away",
+    "box_second": "Delaware State"
+   },
+   {
+    "date": "2026-06-01",
+    "team": "Florida-State",
+    "site": "home",
+    "box_second": "Saint John's"
+   },
+   {
+    "date": "2026-06-07",
+    "team": "Georgia",
+    "site": "home",
+    "box_second": "Mississippi State"
+   },
+   {
+    "date": "2026-04-19",
+    "team": "Iona",
+    "site": "home",
+    "box_second": "Saint Peter's"
+   },
+   {
+    "date": "2026-06-08",
+    "team": "Kansas",
+    "site": "home",
+    "box_second": "Oklahoma"
+   },
+   {
+    "date": "2026-05-31",
+    "team": "Kentucky",
+    "site": "away",
+    "box_second": "Kentucky"
+   },
+   {
+    "date": "2026-06-01",
+    "team": "Kentucky",
+    "site": "home",
+    "box_second": "West Virginia"
+   },
+   {
+    "date": "2026-06-06",
+    "team": "Little-Rock",
+    "site": "away",
+    "box_second": "Little Rock"
+   },
+   {
+    "date": "2026-06-06",
+    "team": "North-Carolina",
+    "site": "home",
+    "box_second": "USC"
+   },
+   {
+    "date": "2026-04-24",
+    "team": "North-Dakota-State",
+    "site": "away",
+    "box_second": "North Dakota State"
+   },
+   {
+    "date": "2026-06-07",
+    "team": "Oregon",
+    "site": "away",
+    "box_second": "Oregon"
+   }
+  ],
+  "one_sided_d1_game": [
+   {
+    "date": "2026-05-23",
+    "team": "Rider",
+    "opp": "Fairfield",
+    "status": "final",
+    "result": "L 7 - 12"
+   }
+  ]
+ },
+ "games": 8752,
+ "games_by_status": {
+  "final": 8507,
+  "canceled": 245
+ },
+ "games_final_through_2026_05_24": 8374,
+ "games_by_pages": {
+  "2": 8664,
+  "1": 88
+ },
+ "site_disagreements": 0,
+ "issue_counts": {
+  "self_opponent_entry": 1,
+  "box_order_vs_site_label": 25,
+  "one_sided_d1_game": 1
+ }
+}
