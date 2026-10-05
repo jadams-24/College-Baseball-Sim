@@ -40,6 +40,11 @@ FIELD_SIZE = 64                      # NCAA Division I baseball championship fie
 N_NATIONAL_SEEDS = 16                # national seeds since 2018 (bracketing principles, 2025 manual)
 FEATURES = {"world": True}           # scripts set FEATURES["world"] = False for a regular season only
 
+# RPI gate row (reports/phase7.md): the computed RPI ranks must agree with the NCAA's published pre-selection ranks
+# (2026) at least this well (rank correlation). The check gives .99994; site labels of a few dozen games (conference
+# tournaments at a member's park) and 7 tie games account for the rest.
+RPI_MIN_SPEARMAN = 0.999             # GUESS (acceptance threshold)
+
 _CACHE: dict = {}
 
 

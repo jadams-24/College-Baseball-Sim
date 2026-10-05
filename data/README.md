@@ -214,6 +214,13 @@ magnitude comes from the scoreboard fit with a park term (`scripts/build_phase2_
   tournament games are often placeholders against `TBA` with no score (most of them in 2025, some in 2021).
   `manifest.json` per season lists days without games and errors (none).
 
+- **2025 (Phase 7, conference tournament format check and cancellations):** the same team schedule pages for 2025
+  (`https://www.warrennolan.com/baseball/2025/schedule/<slug>`), fetched 2026-10-05 with
+  `scripts/fetch_warrennolan_2026.py 2025` and parsed with `scripts/parse_warrennolan_2026.py 2025` into
+  `data/ncaa_2025/warrennolan/`. WarrenNolan has no 2025 sitemap (HTTP 404), so the 2026 sitemap's 308 slugs were used;
+  56 opponents have no 2025 page under those slugs (they appear as opponents only). Conference tournament games carry
+  an event label ("SEC Tournament - Game 7"); all of them are labelled neutral, even at a member's park.
+
 ## Not pulled
 
 - **stats.ncaa.org team, individual and contest pages.** The team list is

@@ -125,16 +125,17 @@
  "cancel7": {
   "built": "2026-10-05",
   "seasons": [
+   2025,
    2026
   ],
   "rate_by_month": {
-   "2": 0.0319,
-   "3": 0.0295,
-   "4": 0.0246,
-   "5": 0.0302,
-   "all": 0.0286
+   "2": 0.0333,
+   "3": 0.0217,
+   "4": 0.0239,
+   "5": 0.0371,
+   "all": 0.0272
   },
-  "n_team_games": 16533,
+  "n_team_games": 32978,
   "_note": "Cancellation rates of regular-season games, by month, from the WarrenNolan team schedules (the feed\ndoes not list most canceled games). A scheduled game is canceled when the schedule shows it canceled and\nit was never played; postponed games that were made up count as played. Regular season: games before\nMay 25 that are not conference tournament, NCAA tournament or other May/June tournament games.\nSeasons: every data/ncaa_<season>/warrennolan/team_games_<season>.csv present (2025, 2026).\nRates are per team-game (each game counts once per team; the rate is the same per game).\n\nWrites the \"cancel7\" block of data/ncaa_2025/derived/phase7_inputs.json and the games-per-team rows into\ndata/ncaa_2025/derived/phase7_benchmarks.json.\n\n    python3 scripts/build_phase7_cancel.py\n",
   "conf": "B",
   "conf_note": "WarrenNolan lists canceled games it was given; games dropped from schedules long before may be missing (rates are a floor)"

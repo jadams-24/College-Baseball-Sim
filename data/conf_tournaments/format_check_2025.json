@@ -1,0 +1,807 @@
+{
+ "source": "WarrenNolan 2025 schedules (event labels)",
+ "summary": {
+  "teams_match": 29,
+  "games_in_published_range": 29,
+  "champion_is_auto_bid": 28
+ },
+ "conferences": {
+  "ACC": {
+   "event": "ACC Tournament",
+   "inferred": {
+    "teams": 16,
+    "games": 15,
+    "kind": "single elimination",
+    "champion": "North Carolina",
+    "losses_of_eliminated": {
+     "1": 15
+    },
+    "site_labels": {
+     "neutral": 30
+    },
+    "teams_playing_at_home": {}
+   },
+   "published": {
+    "teams": 16,
+    "format": "se16_byes",
+    "site_detail": "neutral",
+    "games_min": 15,
+    "games_max": 15
+   },
+   "teams_match": true,
+   "games_in_published_range": true,
+   "champion_is_auto_bid": true,
+   "auto_bid": "North Carolina"
+  },
+  "ASUN": {
+   "event": "ASUN Tournament",
+   "inferred": {
+    "teams": 8,
+    "games": 14,
+    "kind": "mixed",
+    "champion": "FGCU",
+    "losses_of_eliminated": {
+     "1": 1,
+     "2": 6
+    },
+    "site_labels": {
+     "neutral": 28
+    },
+    "teams_playing_at_home": {}
+   },
+   "published": {
+    "teams": 8,
+    "format": "de8_divisions_crossover",
+    "site_detail": "campus_predetermined",
+    "games_min": 14,
+    "games_max": 15
+   },
+   "teams_match": true,
+   "games_in_published_range": true,
+   "champion_is_auto_bid": false,
+   "auto_bid": "Stetson"
+  },
+  "America East": {
+   "event": "America East Tournament",
+   "inferred": {
+    "teams": 6,
+    "games": 9,
+    "kind": "mixed",
+    "champion": "Binghamton",
+    "losses_of_eliminated": {
+     "1": 2,
+     "2": 3
+    },
+    "site_labels": {
+     "neutral": 18
+    },
+    "teams_playing_at_home": {}
+   },
+   "published": {
+    "teams": 6,
+    "format": "se_playin4_then_de4",
+    "site_detail": "campus_predetermined",
+    "games_min": 8,
+    "games_max": 9
+   },
+   "teams_match": true,
+   "games_in_published_range": true,
+   "champion_is_auto_bid": true,
+   "auto_bid": "Binghamton"
+  },
+  "The American": {
+   "event": "American Athletic Tournament",
+   "inferred": {
+    "teams": 8,
+    "games": 13,
+    "kind": "mixed",
+    "champion": "East Carolina",
+    "losses_of_eliminated": {
+     "1": 1,
+     "2": 6
+    },
+    "site_labels": {
+     "neutral": 26
+    },
+    "teams_playing_at_home": {}
+   },
+   "published": {
+    "teams": 8,
+    "format": "de8_two_brackets_final",
+    "site_detail": "neutral",
+    "games_min": 13,
+    "games_max": 15
+   },
+   "teams_match": true,
+   "games_in_published_range": true,
+   "champion_is_auto_bid": true,
+   "auto_bid": "East Carolina"
+  },
+  "Atlantic 10": {
+   "event": "Atlantic 10 Tournament",
+   "inferred": {
+    "teams": 7,
+    "games": 12,
+    "kind": "double elimination",
+    "champion": "Rhode Island",
+    "losses_of_eliminated": {
+     "2": 6
+    },
+    "site_labels": {
+     "neutral": 24
+    },
+    "teams_playing_at_home": {}
+   },
+   "published": {
+    "teams": 7,
+    "format": "de7",
+    "site_detail": "neutral",
+    "games_min": 12,
+    "games_max": 13
+   },
+   "teams_match": true,
+   "games_in_published_range": true,
+   "champion_is_auto_bid": true,
+   "auto_bid": "Rhode Island"
+  },
+  "Big 12": {
+   "event": "Big 12 Tournament",
+   "inferred": {
+    "teams": 12,
+    "games": 11,
+    "kind": "single elimination",
+    "champion": "Arizona",
+    "losses_of_eliminated": {
+     "1": 11
+    },
+    "site_labels": {
+     "neutral": 22
+    },
+    "teams_playing_at_home": {}
+   },
+   "published": {
+    "teams": 12,
+    "format": "se12_byes",
+    "site_detail": "neutral",
+    "games_min": 11,
+    "games_max": 11
+   },
+   "teams_match": true,
+   "games_in_published_range": true,
+   "champion_is_auto_bid": true,
+   "auto_bid": "Arizona"
+  },
+  "Big East": {
+   "event": "Big East Tournament",
+   "inferred": {
+    "teams": 4,
+    "games": 6,
+    "kind": "double elimination",
+    "champion": "Creighton",
+    "losses_of_eliminated": {
+     "2": 3
+    },
+    "site_labels": {
+     "neutral": 12
+    },
+    "teams_playing_at_home": {}
+   },
+   "published": {
+    "teams": 4,
+    "format": "de4",
+    "site_detail": "neutral",
+    "games_min": 6,
+    "games_max": 7
+   },
+   "teams_match": true,
+   "games_in_published_range": true,
+   "champion_is_auto_bid": true,
+   "auto_bid": "Creighton"
+  },
+  "Big South": {
+   "event": "Big South Tournament",
+   "inferred": {
+    "teams": 6,
+    "games": 10,
+    "kind": "double elimination",
+    "champion": "South Carolina Upstate",
+    "losses_of_eliminated": {
+     "2": 5
+    },
+    "site_labels": {
+     "neutral": 20
+    },
+    "teams_playing_at_home": {}
+   },
+   "published": {
+    "teams": 6,
+    "format": "de6",
+    "site_detail": "neutral",
+    "games_min": 10,
+    "games_max": 11
+   },
+   "teams_match": true,
+   "games_in_published_range": true,
+   "champion_is_auto_bid": true,
+   "auto_bid": "USC Upstate"
+  },
+  "Big Ten": {
+   "event": "Big Ten Tournament",
+   "inferred": {
+    "teams": 12,
+    "games": 15,
+    "kind": "mixed",
+    "champion": "Nebraska",
+    "losses_of_eliminated": {
+     "1": 7,
+     "2": 4
+    },
+    "site_labels": {
+     "neutral": 30
+    },
+    "teams_playing_at_home": {}
+   },
+   "published": {
+    "teams": 12,
+    "format": "pool4x3_then_se4",
+    "site_detail": "neutral",
+    "games_min": 15,
+    "games_max": 15
+   },
+   "teams_match": true,
+   "games_in_published_range": true,
+   "champion_is_auto_bid": true,
+   "auto_bid": "Nebraska"
+  },
+  "Big West": {
+   "event": "Big West Tournament",
+   "inferred": {
+    "teams": 5,
+    "games": 8,
+    "kind": "mixed",
+    "champion": "Cal Poly",
+    "losses_of_eliminated": {
+     "1": 1,
+     "2": 3
+    },
+    "site_labels": {
+     "neutral": 16
+    },
+    "teams_playing_at_home": {}
+   },
+   "published": {
+    "teams": 5,
+    "format": "se_playin_then_de4",
+    "site_detail": "campus_predetermined",
+    "games_min": 7,
+    "games_max": 8
+   },
+   "teams_match": true,
+   "games_in_published_range": true,
+   "champion_is_auto_bid": true,
+   "auto_bid": "Cal Poly"
+  },
+  "CAA": {
+   "event": "Coastal Athletic Tournament",
+   "inferred": {
+    "teams": 6,
+    "games": 10,
+    "kind": "double elimination",
+    "champion": "Northeastern",
+    "losses_of_eliminated": {
+     "2": 5
+    },
+    "site_labels": {
+     "neutral": 20
+    },
+    "teams_playing_at_home": {}
+   },
+   "published": {
+    "teams": 6,
+    "format": "de6_reseeded",
+    "site_detail": "campus_predetermined",
+    "games_min": 10,
+    "games_max": 11
+   },
+   "teams_match": true,
+   "games_in_published_range": true,
+   "champion_is_auto_bid": true,
+   "auto_bid": "Northeastern"
+  },
+  "CUSA": {
+   "event": "Conference USA Tournament",
+   "inferred": {
+    "teams": 8,
+    "games": 14,
+    "kind": "double elimination",
+    "champion": "Western Kentucky",
+    "losses_of_eliminated": {
+     "2": 7
+    },
+    "site_labels": {
+     "neutral": 28
+    },
+    "teams_playing_at_home": {}
+   },
+   "published": {
+    "teams": 8,
+    "format": "de8_two_brackets_final",
+    "site_detail": "campus_predetermined",
+    "games_min": 13,
+    "games_max": 15
+   },
+   "teams_match": true,
+   "games_in_published_range": true,
+   "champion_is_auto_bid": true,
+   "auto_bid": "Western Kentucky"
+  },
+  "Horizon": {
+   "event": "Horizon League Tournament",
+   "inferred": {
+    "teams": 6,
+    "games": 11,
+    "kind": "double elimination",
+    "champion": "Wright State",
+    "losses_of_eliminated": {
+     "2": 5
+    },
+    "site_labels": {
+     "neutral": 20
+    },
+    "teams_playing_at_home": {}
+   },
+   "published": {
+    "teams": 6,
+    "format": "de6",
+    "site_detail": "campus",
+    "games_min": 10,
+    "games_max": 11
+   },
+   "teams_match": true,
+   "games_in_published_range": true,
+   "champion_is_auto_bid": true,
+   "auto_bid": "Wright State"
+  },
+  "Ivy League": {
+   "event": "Ivy League Tournament",
+   "inferred": {
+    "teams": 4,
+    "games": 6,
+    "kind": "double elimination",
+    "champion": "Columbia",
+    "losses_of_eliminated": {
+     "2": 3
+    },
+    "site_labels": {
+     "neutral": 12
+    },
+    "teams_playing_at_home": {}
+   },
+   "published": {
+    "teams": 4,
+    "format": "de4",
+    "site_detail": "campus_regular_season_champion",
+    "games_min": 6,
+    "games_max": 7
+   },
+   "teams_match": true,
+   "games_in_published_range": true,
+   "champion_is_auto_bid": true,
+   "auto_bid": "Columbia"
+  },
+  "MAAC": {
+   "event": "MAAC Tournament",
+   "inferred": {
+    "teams": 8,
+    "games": 12,
+    "kind": "mixed",
+    "champion": "Fairfield",
+    "losses_of_eliminated": {
+     "1": 2,
+     "2": 5
+    },
+    "site_labels": {
+     "neutral": 24
+    },
+    "teams_playing_at_home": {}
+   },
+   "published": {
+    "teams": 8,
+    "format": "se_playin4_then_de6",
+    "site_detail": "neutral",
+    "games_min": 12,
+    "games_max": 13
+   },
+   "teams_match": true,
+   "games_in_published_range": true,
+   "champion_is_auto_bid": true,
+   "auto_bid": "Fairfield"
+  },
+  "MAC": {
+   "event": "Mid-American Tournament",
+   "inferred": {
+    "teams": 6,
+    "games": 10,
+    "kind": "double elimination",
+    "champion": "Miami (OH)",
+    "losses_of_eliminated": {
+     "2": 5
+    },
+    "site_labels": {
+     "neutral": 20
+    },
+    "teams_playing_at_home": {}
+   },
+   "published": {
+    "teams": 6,
+    "format": "de6",
+    "site_detail": "neutral",
+    "games_min": 10,
+    "games_max": 11
+   },
+   "teams_match": true,
+   "games_in_published_range": true,
+   "champion_is_auto_bid": true,
+   "auto_bid": "Miami (OH)"
+  },
+  "MVC": {
+   "event": "Missouri Valley Tournament",
+   "inferred": {
+    "teams": 8,
+    "games": 12,
+    "kind": "mixed",
+    "champion": "Murray State",
+    "losses_of_eliminated": {
+     "1": 2,
+     "2": 5
+    },
+    "site_labels": {
+     "neutral": 24
+    },
+    "teams_playing_at_home": {}
+   },
+   "published": {
+    "teams": 8,
+    "format": "se_playin4_then_de6",
+    "site_detail": "campus_predetermined",
+    "games_min": 12,
+    "games_max": 13
+   },
+   "teams_match": true,
+   "games_in_published_range": true,
+   "champion_is_auto_bid": true,
+   "auto_bid": "Murray State"
+  },
+  "Mountain West": {
+   "event": "Mountain West Tournament",
+   "inferred": {
+    "teams": 6,
+    "games": 8,
+    "kind": "mixed",
+    "champion": "Fresno State",
+    "losses_of_eliminated": {
+     "1": 2,
+     "2": 3
+    },
+    "site_labels": {
+     "neutral": 16
+    },
+    "teams_playing_at_home": {}
+   },
+   "published": {
+    "teams": 6,
+    "format": "se_playin4_then_de4",
+    "site_detail": "neutral",
+    "games_min": 8,
+    "games_max": 9
+   },
+   "teams_match": true,
+   "games_in_published_range": true,
+   "champion_is_auto_bid": true,
+   "auto_bid": "Fresno State"
+  },
+  "NEC": {
+   "event": "Northeast Tournament",
+   "inferred": {
+    "teams": 4,
+    "games": 7,
+    "kind": "double elimination",
+    "champion": "Central Connecticut",
+    "losses_of_eliminated": {
+     "2": 3
+    },
+    "site_labels": {
+     "neutral": 14
+    },
+    "teams_playing_at_home": {}
+   },
+   "published": {
+    "teams": 4,
+    "format": "de4",
+    "site_detail": "neutral",
+    "games_min": 6,
+    "games_max": 7
+   },
+   "teams_match": true,
+   "games_in_published_range": true,
+   "champion_is_auto_bid": true,
+   "auto_bid": "Central Connecticut"
+  },
+  "OVC": {
+   "event": "Ohio Valley Tournament",
+   "inferred": {
+    "teams": 8,
+    "games": 10,
+    "kind": "mixed",
+    "champion": "Little Rock",
+    "losses_of_eliminated": {
+     "1": 4,
+     "2": 3
+    },
+    "site_labels": {
+     "neutral": 20
+    },
+    "teams_playing_at_home": {}
+   },
+   "published": {
+    "teams": 8,
+    "format": "se2rounds_then_de4",
+    "site_detail": "neutral",
+    "games_min": 10,
+    "games_max": 11
+   },
+   "teams_match": true,
+   "games_in_published_range": true,
+   "champion_is_auto_bid": true,
+   "auto_bid": "Little Rock"
+  },
+  "Patriot": {
+   "event": "Patriot League Tournament",
+   "inferred": {
+    "teams": 4,
+    "games": 8,
+    "kind": "double elimination",
+    "champion": "Holy Cross",
+    "losses_of_eliminated": {
+     "2": 2,
+     "3": 1
+    },
+    "site_labels": {
+     "neutral": 16
+    },
+    "teams_playing_at_home": {}
+   },
+   "published": {
+    "teams": 4,
+    "format": "bo3_series_4",
+    "site_detail": "campus_higher_seed",
+    "games_min": 6,
+    "games_max": 9
+   },
+   "teams_match": true,
+   "games_in_published_range": true,
+   "champion_is_auto_bid": true,
+   "auto_bid": "Holy Cross"
+  },
+  "SEC": {
+   "event": "SEC Tournament",
+   "inferred": {
+    "teams": 16,
+    "games": 15,
+    "kind": "single elimination",
+    "champion": "Vanderbilt",
+    "losses_of_eliminated": {
+     "1": 15
+    },
+    "site_labels": {
+     "neutral": 30
+    },
+    "teams_playing_at_home": {}
+   },
+   "published": {
+    "teams": 16,
+    "format": "se16_byes",
+    "site_detail": "neutral",
+    "games_min": 15,
+    "games_max": 15
+   },
+   "teams_match": true,
+   "games_in_published_range": true,
+   "champion_is_auto_bid": true,
+   "auto_bid": "Vanderbilt"
+  },
+  "SWAC": {
+   "event": "SWAC Tournament",
+   "inferred": {
+    "teams": 8,
+    "games": 14,
+    "kind": "double elimination",
+    "champion": "Bethune-Cookman",
+    "losses_of_eliminated": {
+     "2": 7
+    },
+    "site_labels": {
+     "neutral": 28
+    },
+    "teams_playing_at_home": {}
+   },
+   "published": {
+    "teams": 8,
+    "format": "de8_two_brackets_final",
+    "site_detail": "neutral",
+    "games_min": 13,
+    "games_max": 15
+   },
+   "teams_match": true,
+   "games_in_published_range": true,
+   "champion_is_auto_bid": true,
+   "auto_bid": "Bethune\u2013Cookman"
+  },
+  "SoCon": {
+   "event": "Southern Tournament",
+   "inferred": {
+    "teams": 8,
+    "games": 12,
+    "kind": "mixed",
+    "champion": "East Tennessee State",
+    "losses_of_eliminated": {
+     "1": 2,
+     "2": 5
+    },
+    "site_labels": {
+     "neutral": 24
+    },
+    "teams_playing_at_home": {}
+   },
+   "published": {
+    "teams": 8,
+    "format": "se_playin4_then_de6",
+    "site_detail": "neutral",
+    "games_min": 12,
+    "games_max": 13
+   },
+   "teams_match": true,
+   "games_in_published_range": true,
+   "champion_is_auto_bid": true,
+   "auto_bid": "East Tennessee State"
+  },
+  "Southland": {
+   "event": "Southland Tournament",
+   "inferred": {
+    "teams": 8,
+    "games": 14,
+    "kind": "double elimination",
+    "champion": "Houston Christian",
+    "losses_of_eliminated": {
+     "2": 7
+    },
+    "site_labels": {
+     "neutral": 28
+    },
+    "teams_playing_at_home": {}
+   },
+   "published": {
+    "teams": 8,
+    "format": "de8_two_brackets_campus_bo3_final",
+    "site_detail": "campus_top2_seeds_then_highest_remaining_seed",
+    "games_min": 14,
+    "games_max": 17
+   },
+   "teams_match": true,
+   "games_in_published_range": true,
+   "champion_is_auto_bid": true,
+   "auto_bid": "Houston Christian"
+  },
+  "Sun Belt": {
+   "event": "Sun Belt Tournament",
+   "inferred": {
+    "teams": 10,
+    "games": 15,
+    "kind": "mixed",
+    "champion": "Coastal Carolina",
+    "losses_of_eliminated": {
+     "1": 3,
+     "2": 6
+    },
+    "site_labels": {
+     "neutral": 30
+    },
+    "teams_playing_at_home": {}
+   },
+   "published": {
+    "teams": 10,
+    "format": "playin2_de8_two_brackets_final",
+    "site_detail": "neutral",
+    "games_min": 15,
+    "games_max": 17
+   },
+   "teams_match": true,
+   "games_in_published_range": true,
+   "champion_is_auto_bid": true,
+   "auto_bid": "Coastal Carolina"
+  },
+  "Summit League": {
+   "event": "The Summit League Tournament",
+   "inferred": {
+    "teams": 4,
+    "games": 7,
+    "kind": "double elimination",
+    "champion": "North Dakota State",
+    "losses_of_eliminated": {
+     "2": 3
+    },
+    "site_labels": {
+     "neutral": 14
+    },
+    "teams_playing_at_home": {}
+   },
+   "published": {
+    "teams": 4,
+    "format": "de4",
+    "site_detail": "campus_predetermined",
+    "games_min": 6,
+    "games_max": 7
+   },
+   "teams_match": true,
+   "games_in_published_range": true,
+   "champion_is_auto_bid": true,
+   "auto_bid": "North Dakota State"
+  },
+  "WCC": {
+   "event": "West Coast Tournament",
+   "inferred": {
+    "teams": 6,
+    "games": 9,
+    "kind": "mixed",
+    "champion": "Saint Mary's College",
+    "losses_of_eliminated": {
+     "1": 2,
+     "2": 3
+    },
+    "site_labels": {
+     "neutral": 18
+    },
+    "teams_playing_at_home": {}
+   },
+   "published": {
+    "teams": 6,
+    "format": "se_playin4_then_de4",
+    "site_detail": "neutral",
+    "games_min": 8,
+    "games_max": 9
+   },
+   "teams_match": true,
+   "games_in_published_range": true,
+   "champion_is_auto_bid": true,
+   "auto_bid": "Saint Mary's (CA)"
+  },
+  "WAC": {
+   "event": "Western Athletic Tournament",
+   "inferred": {
+    "teams": 8,
+    "games": 12,
+    "kind": "mixed",
+    "champion": "Utah Valley",
+    "losses_of_eliminated": {
+     "1": 2,
+     "2": 5
+    },
+    "site_labels": {
+     "neutral": 24
+    },
+    "teams_playing_at_home": {}
+   },
+   "published": {
+    "teams": 8,
+    "format": "se_playin4_then_de6",
+    "site_detail": "neutral",
+    "games_min": 12,
+    "games_max": 13
+   },
+   "teams_match": true,
+   "games_in_published_range": true,
+   "champion_is_auto_bid": true,
+   "auto_bid": "Utah Valley"
+  }
+ }
+}
