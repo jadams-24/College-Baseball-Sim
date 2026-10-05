@@ -160,6 +160,23 @@ magnitude comes from the scoreboard fit with a park term (`scripts/build_phase2_
   and `team_leaders_2024_2026`, Phase 2 gate rows) and `scripts/audit_leaders.py`
   (`reports/leaders_audit.md`).
 
+## data/ncaa_brackets/ — NCAA tournament fields and brackets, 2015–2025 (no 2020)
+
+- **Source:** English Wikipedia, `https://en.wikipedia.org/wiki/<YEAR>_NCAA_Division_I_baseball_tournament`
+  for 2015–2019 and 2021–2025 (robots.txt allows these pages). A secondary source, not
+  the NCAA's own bracket. Fetched 2026-10-05, one request per second, one page per season.
+- **Files:** `raw/wikipedia_<YEAR>.html.gz` untouched pages; `brackets_2015_2025.json`,
+  rebuilt from the raw pages by `scripts/parse_brackets.py` (`--check` compares a rebuild
+  with the committed file). Per season: the 64 teams (conference, automatic or at-large
+  bid, national seed, regional host), the 16 regionals (site, host, seeds 1–4, winner), the
+  8 super regionals (teams, host, winner), the 8 CWS teams, champion and runner-up. Each
+  season carries its own validation result and notes.
+- **Inferred, not stated by the page:** regional hosts for 2015–2018 (the regional 1 seed;
+  the 2018 page says the 16 national seeds hosted); at-large bids in seasons whose page has
+  only the automatic-bid table (2015–2018, 2022, 2023: the field is automatic plus at-large);
+  some super regional hosts (marked `inferred` in `host_source`). The 2021 Columbia super
+  regional was played at a neutral site (host `null`).
+
 ## Not pulled
 
 - **stats.ncaa.org team, individual and contest pages.** The team list is
