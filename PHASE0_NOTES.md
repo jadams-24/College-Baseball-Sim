@@ -437,6 +437,16 @@ Everything that does not need handedness. Inputs come from the committed 2025 WM
   - The cheap check: the engine's team draw (tier mean, conference and team effects on the real conference structure) plus the scoreboard fit's own estimation noise, 4,000 replications, against the fitted run prevention of the 2025 scoreboard (fit without parks, the totals the engine draws).
   - The tail matches. Ranks 1, 2, 3, 5, 10, 12, 15, 20 and 25 of fitted run prevention sit at −.67 to +.66 SD of the model's: real .713 / .694 / .688 / .657 / .550 / .525 / .486 / .459 / .446, model medians .766 / .705 / .668 / .618 / .545 / .525 / .497 / .460 / .429. The top-12 mean is .623 real against .612 ± .050. Teams above .5: 12 real, 14.5 model (90% range 7–23).
   - So the draw is not the cause. The count is set downstream of the draw (how run prevention converts to earned runs per nine for the best staffs), and it is reported, not gated.
+  - Unearned runs checked and ruled out (owner request 2026-10-05). Real: NCAA.com team ERA page, top 50 by ERA, R and ER allowed (`data/ncaa_leaders/raw_team/s211_*`). Sim: the same top-50-by-ERA selection, 8 seasons:
+
+    | Top 50 by ERA | Real 2024 / 2025 / 2026 | Sim |
+    |---|---|---|
+    | Earned share of runs allowed | .869 / .866 / .867 | .900 ± .002 |
+    | Unearned runs per game | .67 / .65 / .65 | .46 ± .01 |
+    | Runs allowed per game | 5.05 / 4.80 / 4.81 | 4.61 ± .04 |
+
+    Overall the earned share matches (.880 sim against .882). The sim's best teams allow too few unearned runs, not too many: with the real top-50 earned share the count under 4.00 would rise from 12.4 to 17.9 on these seasons. What is low is their total runs allowed. Real top teams' season totals include conference tournaments and the NCAA tournament (5–10 games against strong opponents), which the sim does not play before Phase 7. Re-checked once Phase 7's postseason is in.
+  - Separate finding, not the cause of this row: the best teams' unearned runs (.46 against .65 per game). In the sim errors fall with team run prevention (`fielding6.team_error.slope_d`), so selecting the best staffs selects fewer errors; real top-ERA teams have a lower earned share than average (.867 against .882). Reported with the watch item.
 - **Top starters' innings: watch item, re-checked in Phase 7.** The 2nd pitcher's IP (60.71 against 65.25 ± 4.46) and pitchers with 50+ IP (785 against 821 ± 32). The shortfall is in weekend starts (#2: 46.3 against 50.3) and relief (6.9 against 9.3). Phase 7's conference tournaments and postseason change how rotations are used, so the rows are re-checked there.
 - **Closing a watch item** needs a 40-season run from now on (owner decision 2026-10-04).
 
