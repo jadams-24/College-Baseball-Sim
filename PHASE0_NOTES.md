@@ -460,6 +460,41 @@ Everything that does not need handedness. Inputs come from the committed 2025 WM
   - "teams under 4.00 ERA": 15.5 against 6–12 ± 2.2.
 - CI's own 40-season run of the fixed engine (commit 9627c38) passed every gated row; only the agreement check failed there, against the stale committed reports this run replaces.
 
+### Phase 7: season and world (2026-10-05, owner decisions after the Phase 6 merge)
+
+**Sources and confidence grades.**
+
+| Data | Source | Grade |
+|---|---|---|
+| Scoreboard feed 2015-2019, 2021-2025 | data.ncaa.com casablanca scoreboard (`data/ncaa_<season>/scoreboard`) | B: 2015-2016 leave many results empty; 2017-2018 lack conference names; 2025 conference tournament games are mostly `TBA` placeholders |
+| Brackets 2015-2025 (no 2020) | English Wikipedia tournament pages (`data/ncaa_brackets`) | B: secondary source; 2015-2018 regional hosts inferred (the 1 seeds); every season validated (64 teams, 16 regionals, winners consistent through the CWS); spot-checked against the known 2025 field |
+| Bracketing principles | NCAA 2024-25 and 2025-26 prechampionship manuals (official PDFs) | A |
+| Conference tournament formats 2025 | Wikipedia per conference, NEC and Big East confirmed on official pages (`data/conf_tournaments`) | B |
+| 2025 and 2026 results with sites, canceled games | WarrenNolan team schedules (`data/ncaa_2025/warrennolan`, `data/ncaa_2026/warrennolan`) | B: every 2026 D1 record matches the NCAA's published one; about 106 team-games carry a different site label (conference tournaments at a member's park, alternate-site home series) |
+| Pre-selection RPI 2026 | https://www.ncaa.com/rankings/baseball/d1/rpi, "Through Games May. 24 2026" (the page froze before selection) | A |
+
+Not reachable: web.archive.org (egress policy), d1baseball.com and most Sidearm conference sites (bot protection). Not used.
+
+**RPI.** `engine.rpi` implements the NCAA formula (0.25 WP + 0.50 OWP + 0.25 OOWP, Division I games only, WP weighted 0.7 for a home win and 1.3 for a road win, 1.3 for a home loss and 0.7 for a road loss, neutral 1.0; OWP leaves out the games against the team). On the 2026 results through May 24 its ranks agree with the NCAA's published pre-selection ranks at Spearman .99994 (206 of 308 exact, 303 within 3, 54 of the top 64 exact). Without the site weighting the agreement drops to .9930 (20 exact), so the weighting is in the published RPI. The remaining gaps are 7 tie games (left out) and the site labels above.
+
+**Cancellations, not shorter schedules** (owner decision). WarrenNolan lists canceled games: 2.72% of regular-season team-games in 2025-2026 (by month 3.3% Feb, 2.2% Mar, 2.4% Apr, 3.7% May). Each scheduled sim game is canceled at its month's rate and never made up. Real teams schedule 53.7 games (32% and 30% of teams schedule the maximum 56), so they play 52.3; the sim schedules 56 and plays 54.4. The rest of the gap is scheduling, which is not modeled; games per team is reported, not gated. Season totals in the Phase 2 and 6 rows that are 56-game equivalents are now scaled per team by 56 / games played, as the benchmarks scale real teams.
+
+**Conference tournaments.** All 29 published 2025 formats are implemented from building blocks (single and double elimination with byes, play-ins, pools of three, best-of-three series, two four-team brackets). Each reproduces its published game range and qualifier count. The formats inferred from the 2025 game sequences (WarrenNolan event labels; the feed's tournament games are placeholders) agree with the published ones: teams 29/29, games 29/29, champion = automatic bid 28/29 (ASUN: weather ended the final, Stetson got the bid by conference policy, as published). Elimination patterns agree (one loss in single elimination, two in double elimination, mixed with play-ins and pools). Seeds come from conference win%; the site from the published 2025 site: neutral, the top seed's park (Horizon, Ivy), the higher seed's campus (Patriot, Southland brackets), or a predetermined member's park, drawn at random in the fictional league (GUESS, GUESSES.md).
+
+**Selection and seeding** (`scripts/build_phase7_selection.py`, few predictors, every season with complete results: 2017-2019, 2021-2025). Logistic regressions with a season intercept; in the engine the open slots go to the largest score + logistic noise, the same model.
+- At-large among non-automatic teams: RPI z-score 11.2 ± 1.0, P4 1.28 ± .35 (likelihood ratio 13.7 keeps it). In-sample, the model's top picks match 90% of the real at-large teams.
+- National seeds among the field: RPI z-score 9.8 ± 1.2; P4 adds nothing (LR 1.3). 82% in-sample agreement.
+- Grade B: RPI recomputed without neutral-site flags (the feed has none) and, in 2025, without most conference tournament results.
+
+**Bracket and postseason.** National seed k hosts regional k; the other 48 teams fill the 2, 3 and 4 lines in the order of the seed score and are placed at random with no two conference mates in one regional (the published principle; the sim has no geography). Super regionals pair 1-16 ... 8-9 at the better national seed's park; the CWS is two four-team double-elimination brackets and a best-of-three final at a neutral site. Neutral-site games have no home edge and a league-average park. Tournament starters come from a conditional logit on role and rest fitted on 205 starts from May 20, 2025 (wk1 +5.0, wk2 +4.4, wk3 +3.4 against deep relievers; 4-5 days' rest about -1.5 against 6+).
+
+**Benchmarks** (benchmarks.json `season_world_2015_2026`, built by `scripts/build_phase7_*.py`, `scripts/write_phase7_benchmarks.py`):
+- Seeds (160 regionals, 10 seasons): hosts win their regional .625 ± .038; top-8 national seeds reaching Omaha 4.10 ± .33 of 8; national seeds among the CWS teams (2018 on) 5.43; CWS slots P4 73, mid 6, low 1 of 80; champion P4 in 9 of 10.
+- Field: at-large P4 26.0, mid 7.1, low 0.4 per season; 10.6 conferences with more than one bid; worst RPI rank given an at-large bid 56.9 (47-80), best rank left out 30.2 (24-34).
+- Postseason: the host at its park wins .734 of regional games and .601 of super regional games; in regional games without the host the better seed wins .630.
+- Conference tournaments: a regular-season (co-)champion takes the automatic bid in .425 (181 tournaments, 2019 and 2021-2025).
+- Standings (D1 games before conference tournament week, 2017-2019 and 2022-2025): win% SD P4 .121, mid .136, low .147; best record .821-.917.
+
 ## Bibliography
 
 - Jones, M. C. and Pewsey, A. (2009). Sinh-arcsinh distributions. *Biometrika* 96(4), 761–780.
