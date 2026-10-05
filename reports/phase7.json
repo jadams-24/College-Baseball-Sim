@@ -1,0 +1,381 @@
+{
+ "aggregate": {
+  "n_seasons": 40,
+  "mean": {
+   "cancel_rate": 0.027909080298786183,
+   "games_per_team": 54.25977198697069,
+   "win_pct_sd_p4": 0.11076849624107032,
+   "win_pct_sd_mid": 0.1332066137800187,
+   "win_pct_sd_low": 0.13860114767780835,
+   "best_win_pct": 0.8512609016289293,
+   "rpi_at_1": 0.6386980944895104,
+   "rpi_at_16": 0.5916363187533539,
+   "rpi_at_32": 0.5739094310958286,
+   "rpi_at_64": 0.5488967294774584,
+   "mean_rpi_p4": 0.564047751817038,
+   "mean_rpi_mid": 0.4969173186651008,
+   "mean_rpi_low": 0.4570970851511803,
+   "at_large_p4": 30.175,
+   "field_p4": 34.175,
+   "at_large_mid": 4.2,
+   "field_mid": 19.2,
+   "at_large_low": 0.625,
+   "field_low": 10.625,
+   "conferences_multi_bid": 7.45,
+   "worst_rpi_rank_at_large": 60.85,
+   "best_rpi_rank_left_out": 31.35,
+   "host_wins_regional": 9.475,
+   "top8_in_cws": 3.45,
+   "top16_in_cws": 5.3,
+   "cws_p4": 7.15,
+   "champion_p4": 0.975,
+   "cws_mid": 0.8,
+   "champion_mid": 0.025,
+   "cws_low": 0.05,
+   "champion_low": 0.0,
+   "hf_regional_host_w": 40.675,
+   "hf_regional_host_n": 57.675,
+   "hf_regional_no_host_better_seed_w": 30.075,
+   "hf_regional_no_host_better_seed_n": 45.65,
+   "hf_super_host_w": 11.875,
+   "hf_super_host_n": 19.95,
+   "hf_cws_listed_home_w": 8.875,
+   "hf_cws_listed_home_n": 15.3,
+   "conf_champ_rs_w": 11.375,
+   "conf_champ_rs_n": 29.0,
+   "same_conf_in_regional": 0.0,
+   "full_pitchers_50ip": 780.8,
+   "full_ip_rank1": 72.57078198997422,
+   "full_ip_rank2": 61.13774301657992,
+   "full_ip_rank3": 50.77554920130906,
+   "full_teams_era_under_4": 13.5,
+   "reg_teams_era_under_4": 15.975,
+   "postseason_games": 462.45
+  },
+  "se": {
+   "cancel_rate": 0.00030498709712372584,
+   "games_per_team": 0.017023644613394603,
+   "win_pct_sd_p4": 0.0013234823366944683,
+   "win_pct_sd_mid": 0.001004396085344727,
+   "win_pct_sd_low": 0.0013995763470370118,
+   "best_win_pct": 0.004596456249156493,
+   "rpi_at_1": 0.0019541644129541067,
+   "rpi_at_16": 0.0010568858081658665,
+   "rpi_at_32": 0.0008078192900592107,
+   "rpi_at_64": 0.0005921560929399167,
+   "mean_rpi_p4": 0.0011583641073312603,
+   "mean_rpi_mid": 0.0007551341183194825,
+   "mean_rpi_low": 0.001479927166077316,
+   "at_large_p4": 0.43247572927304995,
+   "field_p4": 0.43247572927304995,
+   "at_large_mid": 0.4054121043567574,
+   "field_mid": 0.4054121043567574,
+   "at_large_low": 0.1779062703381784,
+   "field_low": 0.1779062703381784,
+   "conferences_multi_bid": 0.3099834569614056,
+   "worst_rpi_rank_at_large": 2.109669435765975,
+   "best_rpi_rank_left_out": 0.8454630046948786,
+   "host_wins_regional": 0.32618128513026423,
+   "top8_in_cws": 0.23190957565838305,
+   "top16_in_cws": 0.20939473213563384,
+   "cws_p4": 0.13657908388126694,
+   "champion_p4": 0.024999999999999998,
+   "cws_mid": 0.13008872711759817,
+   "champion_mid": 0.024999999999999998,
+   "cws_low": 0.03489912202260563,
+   "champion_low": 0.0,
+   "hf_regional_host_w": 0.6368869601428498,
+   "hf_regional_host_n": 0.5551478204623544,
+   "hf_regional_no_host_better_seed_w": 0.4888336458687488,
+   "hf_regional_no_host_better_seed_n": 0.49166123421596825,
+   "hf_super_host_w": 0.32853111315017386,
+   "hf_super_host_n": 0.1823985492519904,
+   "hf_cws_listed_home_w": 0.29349245392824075,
+   "hf_cws_listed_home_n": 0.15275252316519466,
+   "conf_champ_rs_w": 0.4366062299143245,
+   "conf_champ_rs_n": 0.0,
+   "same_conf_in_regional": 0.0,
+   "full_pitchers_50ip": 3.048160437260816,
+   "full_ip_rank1": 0.11484049420694083,
+   "full_ip_rank2": 0.10536199654203926,
+   "full_ip_rank3": 0.07740190155528134,
+   "full_teams_era_under_4": 0.6961432213383856,
+   "reg_teams_era_under_4": 0.7075485849042452,
+   "postseason_games": 0.702513801306167
+  },
+  "pooled": {
+   "hf_regional_host": {
+    "value": 0.705244906805375,
+    "n": 2307,
+    "se": 0.008985305140852365
+   },
+   "hf_regional_no_host_better_seed": {
+    "value": 0.6588170865279299,
+    "n": 1826,
+    "se": 0.010648582445949293
+   },
+   "hf_super_host": {
+    "value": 0.5952380952380952,
+    "n": 798,
+    "se": 0.017898858981948203
+   },
+   "hf_cws_listed_home": {
+    "value": 0.5800653594771242,
+    "n": 612,
+    "se": 0.021650108281203895
+   },
+   "conf_champ_rs": {
+    "value": 0.3922413793103448,
+    "n": 1160,
+    "se": 0.015055387238424983
+   }
+  },
+  "min": {
+   "cancel_rate": 0.024859943977591035,
+   "games_per_team": 53.986970684039086,
+   "win_pct_sd_p4": 0.0850254927916138,
+   "win_pct_sd_mid": 0.11824260036228418,
+   "win_pct_sd_low": 0.12361092165947841,
+   "best_win_pct": 0.7857142857142857,
+   "rpi_at_1": 0.6061019437753543,
+   "rpi_at_16": 0.5784908715970632,
+   "rpi_at_32": 0.56436372027451,
+   "rpi_at_64": 0.5383748289871243,
+   "mean_rpi_p4": 0.5478909953959867,
+   "mean_rpi_mid": 0.48198088459513044,
+   "mean_rpi_low": 0.4392155723068642,
+   "at_large_p4": 24.0,
+   "field_p4": 28.0,
+   "at_large_mid": 0.0,
+   "field_mid": 15.0,
+   "at_large_low": 0.0,
+   "field_low": 10.0,
+   "conferences_multi_bid": 4.0,
+   "worst_rpi_rank_at_large": 42.0,
+   "best_rpi_rank_left_out": 19.0,
+   "host_wins_regional": 5.0,
+   "top8_in_cws": 1.0,
+   "top16_in_cws": 2.0,
+   "cws_p4": 5.0,
+   "champion_p4": 0.0,
+   "cws_mid": 0.0,
+   "champion_mid": 0.0,
+   "cws_low": 0.0,
+   "champion_low": 0.0,
+   "hf_regional_host_w": 30.0,
+   "hf_regional_host_n": 51.0,
+   "hf_regional_no_host_better_seed_w": 24.0,
+   "hf_regional_no_host_better_seed_n": 39.0,
+   "hf_super_host_w": 6.0,
+   "hf_super_host_n": 18.0,
+   "hf_cws_listed_home_w": 4.0,
+   "hf_cws_listed_home_n": 14.0,
+   "conf_champ_rs_w": 6.0,
+   "conf_champ_rs_n": 29.0,
+   "same_conf_in_regional": 0.0,
+   "full_pitchers_50ip": 741.0,
+   "full_ip_rank1": 71.31054327789427,
+   "full_ip_rank2": 59.66312158007144,
+   "full_ip_rank3": 49.76827602273879,
+   "full_teams_era_under_4": 5.0,
+   "reg_teams_era_under_4": 6.0,
+   "postseason_games": 450.0
+  },
+  "max": {
+   "cancel_rate": 0.032796451914098974,
+   "games_per_team": 54.4299674267101,
+   "win_pct_sd_p4": 0.12604550850831148,
+   "win_pct_sd_mid": 0.14938713152482738,
+   "win_pct_sd_low": 0.15737401997161315,
+   "best_win_pct": 0.9230769230769231,
+   "rpi_at_1": 0.6658147949812161,
+   "rpi_at_16": 0.6073277810758887,
+   "rpi_at_32": 0.5874969425271666,
+   "rpi_at_64": 0.5565794866752862,
+   "mean_rpi_p4": 0.5799105048472666,
+   "mean_rpi_mid": 0.5053417335096217,
+   "mean_rpi_low": 0.4763409328244145,
+   "at_large_p4": 35.0,
+   "field_p4": 39.0,
+   "at_large_mid": 10.0,
+   "field_mid": 25.0,
+   "at_large_low": 5.0,
+   "field_low": 15.0,
+   "conferences_multi_bid": 11.0,
+   "worst_rpi_rank_at_large": 115.0,
+   "best_rpi_rank_left_out": 41.0,
+   "host_wins_regional": 13.0,
+   "top8_in_cws": 6.0,
+   "top16_in_cws": 7.0,
+   "cws_p4": 8.0,
+   "champion_p4": 1.0,
+   "cws_mid": 3.0,
+   "champion_mid": 1.0,
+   "cws_low": 1.0,
+   "champion_low": 0.0,
+   "hf_regional_host_w": 49.0,
+   "hf_regional_host_n": 69.0,
+   "hf_regional_no_host_better_seed_w": 36.0,
+   "hf_regional_no_host_better_seed_n": 53.0,
+   "hf_super_host_w": 16.0,
+   "hf_super_host_n": 23.0,
+   "hf_cws_listed_home_w": 12.0,
+   "hf_cws_listed_home_n": 17.0,
+   "conf_champ_rs_w": 18.0,
+   "conf_champ_rs_n": 29.0,
+   "same_conf_in_regional": 0.0,
+   "full_pitchers_50ip": 827.0,
+   "full_ip_rank1": 74.25560307943333,
+   "full_ip_rank2": 62.59436050342158,
+   "full_ip_rank3": 51.96075538571236,
+   "full_teams_era_under_4": 24.0,
+   "reg_teams_era_under_4": 24.0,
+   "postseason_games": 474.0
+  }
+ },
+ "status": {
+  "p7_rpi_formula": true,
+  "p7_cancel_rate": true,
+  "p7_win_pct_sd_p4": false,
+  "p7_win_pct_sd_mid": true,
+  "p7_win_pct_sd_low": true,
+  "p7_best_win_pct": true,
+  "p7_rpi_at_1": false,
+  "p7_rpi_at_16": false,
+  "p7_rpi_at_32": false,
+  "p7_rpi_at_64": false,
+  "p7_mean_rpi_p4": false,
+  "p7_mean_rpi_mid": true,
+  "p7_mean_rpi_low": true,
+  "p7_at_large_p4": false,
+  "p7_at_large_mid": false,
+  "p7_at_large_low": true,
+  "p7_conferences_multi_bid": false,
+  "p7_worst_rpi_rank_at_large": true,
+  "p7_best_rpi_rank_left_out": true,
+  "p7_host_wins_regional": true,
+  "p7_top8_in_cws": true,
+  "p7_top16_in_cws": true,
+  "p7_cws_p4": true,
+  "p7_cws_mid": true,
+  "p7_hf_regional_host": true,
+  "p7_hf_regional_no_host_better_seed": true,
+  "p7_hf_super_host": true,
+  "p7_conf_champ_rs": true,
+  "p7_same_conf_rule": true,
+  "phase2_gate": true,
+  "phase4_gate": true,
+  "phase5_gate": true,
+  "phase6_gate": true
+ },
+ "values": {
+  "p7_cancel_rate": [
+   0.027909080298786183,
+   0.00030498709712372584
+  ],
+  "p7_win_pct_sd_p4": [
+   0.11076849624107032,
+   0.0013234823366944683
+  ],
+  "p7_win_pct_sd_mid": [
+   0.1332066137800187,
+   0.001004396085344727
+  ],
+  "p7_win_pct_sd_low": [
+   0.13860114767780835,
+   0.0013995763470370118
+  ],
+  "p7_best_win_pct": [
+   0.8512609016289293,
+   0.004596456249156493
+  ],
+  "p7_rpi_at_1": [
+   0.6386980944895104,
+   0.0019541644129541067
+  ],
+  "p7_rpi_at_16": [
+   0.5916363187533539,
+   0.0010568858081658665
+  ],
+  "p7_rpi_at_32": [
+   0.5739094310958286,
+   0.0008078192900592107
+  ],
+  "p7_rpi_at_64": [
+   0.5488967294774584,
+   0.0005921560929399167
+  ],
+  "p7_mean_rpi_p4": [
+   0.564047751817038,
+   0.0011583641073312603
+  ],
+  "p7_mean_rpi_mid": [
+   0.4969173186651008,
+   0.0007551341183194825
+  ],
+  "p7_mean_rpi_low": [
+   0.4570970851511803,
+   0.001479927166077316
+  ],
+  "p7_at_large_p4": [
+   30.175,
+   0.43247572927304995
+  ],
+  "p7_at_large_mid": [
+   4.2,
+   0.4054121043567574
+  ],
+  "p7_at_large_low": [
+   0.625,
+   0.1779062703381784
+  ],
+  "p7_conferences_multi_bid": [
+   7.45,
+   0.3099834569614056
+  ],
+  "p7_worst_rpi_rank_at_large": [
+   60.85,
+   2.109669435765975
+  ],
+  "p7_best_rpi_rank_left_out": [
+   31.35,
+   0.8454630046948786
+  ],
+  "p7_host_wins_regional": [
+   0.5921875,
+   0.020386330320641514
+  ],
+  "p7_top8_in_cws": [
+   3.45,
+   0.23190957565838305
+  ],
+  "p7_top16_in_cws": [
+   5.3,
+   0.20939473213563384
+  ],
+  "p7_cws_p4": [
+   0.89375,
+   0.017072385485158367
+  ],
+  "p7_cws_mid": [
+   0.1,
+   0.01626109088969977
+  ],
+  "p7_hf_regional_host": [
+   0.705244906805375,
+   0.008985305140852365
+  ],
+  "p7_hf_regional_no_host_better_seed": [
+   0.6588170865279299,
+   0.010648582445949293
+  ],
+  "p7_hf_super_host": [
+   0.5952380952380952,
+   0.017898858981948203
+  ],
+  "p7_conf_champ_rs": [
+   0.3922413793103448,
+   0.015055387238424983
+  ]
+ }
+}
