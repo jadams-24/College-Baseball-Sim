@@ -3,9 +3,9 @@
 40 simulated seasons, seeds 20251000–20251039, players generated from ratings. Generated 2026-10-05.
 Ratings re-express the true rates the engine uses, on percentiles of each rate's D1 distribution (PA- or BF-weighted, all of D1 on one scale): 50 is the D1 median, 60/70/80 the 84.1st/97.7th/99.87th percentiles; for a Gaussian rate this is 10 points per true-talent SD. Batters: Contact (BABIP), Gap (extra-base share of hits), Power (HR/PA), Eye (BB/PA), Avoid K (K/PA). Pitchers: Stuff (K/BF), Control (BB/BF), Movement (HR/BF), Stamina (individual leash on the pull hazard). Speed is reserved for Phase 6: the engine has no speed-linked rate yet.
 
-## Gate: **FAIL**
+## Gate: **PASS**
 
-Phase 1 and Phase 2 gate rows on the same run: **FAIL** (reports/phase2.md).
+Phase 1 and Phase 2 gate rows on the same run: **pass** (reports/phase2.md).
 
 ## Round trip, forward: true rates → 40 seasons → observed rates
 
@@ -13,15 +13,15 @@ For each rated rate, every qualifying player-season's opponent-adjusted observed
 
 | Rating | Rate | Player-seasons per season | Intercept (logit) | Intercept (rating pts) | Status | Slope | Status | Dispersion | Status |
 |---|---|---|---|---|---|---|---|---|---|
-| contact | BABIP | 2156 | +0.0007 ± 0.0019 | +0.05 | pass | 1.001 ± 0.020 | pass | 0.998 ± 0.017 | pass |
-| gap | XBH share of hits | 1989 | +0.0002 ± 0.0032 | +0.01 | pass | 1.005 ± 0.014 | pass | 0.999 ± 0.016 | pass |
-| power | HR/PA | 2329 | +0.0017 ± 0.0055 | +0.03 | pass | 0.998 ± 0.011 | pass | 1.007 ± 0.023 | pass |
-| eye | BB/PA | 2329 | -0.0003 ± 0.0026 | -0.01 | pass | 1.000 ± 0.009 | pass | 0.994 ± 0.018 | pass |
-| avoid_k | K/PA | 2329 | +0.0001 ± 0.0030 | +0.00 | pass | 1.000 ± 0.007 | pass | 0.998 ± 0.018 | pass |
-| stuff | K/BF | 1621 | -0.0010 ± 0.0036 | -0.02 | pass | 0.998 ± 0.005 | pass | 1.000 ± 0.019 | pass |
-| control | BB/BF | 1621 | -0.0008 ± 0.0026 | -0.02 | pass | 1.002 ± 0.009 | pass | 1.006 ± 0.020 | pass |
-| movement | HR/BF | 1621 | -0.0018 ± 0.0064 | -0.06 | pass | 1.005 ± 0.013 | pass | 0.993 ± 0.021 | pass |
-| stamina | pull hazard (log leash) | 4073 | +0.0008 ± 0.0025 | — | pass | 1.000 ± 0.004 | pass | 0.993 ± 0.011 | pass |
+| contact | BABIP | 2156 | +0.0007 ± 0.0019 | +0.05 | pass | 1.002 ± 0.021 | pass | 0.998 ± 0.017 | pass |
+| gap | XBH share of hits | 1989 | +0.0005 ± 0.0034 | +0.02 | pass | 1.004 ± 0.013 | pass | 0.999 ± 0.015 | pass |
+| power | HR/PA | 2329 | +0.0017 ± 0.0057 | +0.03 | pass | 0.998 ± 0.010 | pass | 1.007 ± 0.023 | pass |
+| eye | BB/PA | 2329 | -0.0002 ± 0.0025 | -0.01 | pass | 1.000 ± 0.009 | pass | 0.993 ± 0.018 | pass |
+| avoid_k | K/PA | 2329 | +0.0002 ± 0.0030 | +0.01 | pass | 1.000 ± 0.006 | pass | 0.999 ± 0.018 | pass |
+| stuff | K/BF | 1620 | -0.0008 ± 0.0037 | -0.02 | pass | 0.998 ± 0.005 | pass | 0.999 ± 0.019 | pass |
+| control | BB/BF | 1620 | -0.0008 ± 0.0026 | -0.02 | pass | 1.001 ± 0.009 | pass | 1.006 ± 0.019 | pass |
+| movement | HR/BF | 1620 | -0.0019 ± 0.0067 | -0.06 | pass | 1.006 ± 0.015 | pass | 0.993 ± 0.021 | pass |
+| stamina | pull hazard (log leash) | 4072 | +0.0005 ± 0.0025 | — | pass | 1.000 ± 0.004 | pass | 0.995 ± 0.011 | pass |
 
 ### By workload tercile (informational)
 
@@ -29,28 +29,28 @@ Qualifying player-seasons split into thirds by workload. Each cell: intercept (l
 
 | Rating | Workload | Light | Middle | Heavy |
 |---|---|---|---|---|
-| contact | plate appearances | -0.0012 / 0.990 / 1.003 | -0.0014 / 1.005 / 1.003 | +0.0039 † / 0.993 / 0.990 |
-| gap | plate appearances | +0.0007 / 1.015 / 1.001 | +0.0015 / 0.995 / 1.003 | -0.0013 / 1.009 / 0.993 |
-| power | plate appearances | -0.0025 / 0.998 / 1.006 | +0.0014 / 1.000 / 1.009 | +0.0039 / 0.993 / 1.007 |
-| eye | plate appearances | -0.0009 / 0.995 / 0.985 | -0.0011 / 1.002 / 0.991 | +0.0008 / 1.002 / 1.002 |
-| avoid_k | plate appearances | +0.0010 / 1.003 / 1.008 | +0.0004 / 1.002 / 0.989 | -0.0007 / 0.993 / 0.999 |
-| stuff | batters faced | -0.0019 / 0.999 / 0.991 | -0.0007 / 0.997 / 1.026 | -0.0007 / 0.998 / 0.986 |
-| control | batters faced | +0.0026 / 1.004 / 0.982 | +0.0023 / 0.996 / 1.024 | -0.0055 † / 0.999 / 1.005 |
-| movement | batters faced | -0.0024 / 1.000 / 0.989 | +0.0063 / 1.004 / 0.998 | -0.0074 / 1.008 / 0.991 |
-| stamina | appearances | -0.0061 † / 1.003 / 1.011 | -0.0057 † / 1.001 / 0.995 | +0.0086 † / 0.997 / 0.985 |
+| contact | plate appearances | -0.0016 / 0.993 / 1.003 | -0.0013 / 1.004 / 1.003 | +0.0040 † / 0.993 / 0.989 |
+| gap | plate appearances | +0.0010 / 1.015 / 1.002 | +0.0016 / 0.992 / 1.004 | -0.0009 / 1.009 / 0.993 |
+| power | plate appearances | -0.0022 / 0.997 / 1.002 | +0.0010 / 1.000 / 1.011 | +0.0040 / 0.993 / 1.007 |
+| eye | plate appearances | -0.0009 / 0.994 / 0.984 | -0.0010 / 1.002 / 0.991 | +0.0010 / 1.002 / 1.002 |
+| avoid_k | plate appearances | +0.0011 / 1.002 / 1.010 | +0.0004 / 1.002 / 0.989 | -0.0007 / 0.994 / 1.000 |
+| stuff | batters faced | -0.0012 / 0.999 / 0.992 | -0.0009 / 0.997 / 1.024 | -0.0006 / 0.998 / 0.986 |
+| control | batters faced | +0.0024 / 1.003 / 0.982 | +0.0025 / 0.997 / 1.024 | -0.0055 † / 0.999 / 1.006 |
+| movement | batters faced | -0.0013 / 0.999 / 0.989 | +0.0051 / 1.010 / 0.996 | -0.0073 / 1.006 / 0.992 |
+| stamina | appearances | -0.0070 † / 1.002 / 1.015 | -0.0061 † / 1.002 / 0.995 | +0.0087 † / 0.996 / 0.987 |
 
 Box-score version (informational): the same regression with opponents adjusted only from the league's team-by-team results. A box score shows which team a player faced, not which pitcher (or hitter): an ace or a midweek starter. That adds variance the team-level baseline cannot attribute, so its dispersion runs above 1.
 
 | Rating | Slope | Dispersion |
 |---|---|---|
-| contact | 0.944 | 1.039 |
+| contact | 0.946 | 1.039 |
 | gap | 0.979 | 1.021 |
-| power | 0.923 | 1.204 |
-| eye | 1.009 | 1.059 |
+| power | 0.923 | 1.203 |
+| eye | 1.009 | 1.058 |
 | avoid_k | 0.974 | 1.125 |
 | stuff | 0.998 | 1.194 |
 | control | 1.002 | 1.059 |
-| movement | 1.009 | 1.133 |
+| movement | 1.010 | 1.133 |
 
 ## True rating distributions (mean of 40 seasons)
 
@@ -89,15 +89,15 @@ Recruiting (Phase 9) will show coaches noisy ratings, estimated from what they c
 
 | Rating | Players per season | Slope | Bias | Resid SD / predicted | SD ratio | Reliability |
 |---|---|---|---|---|---|---|
-| contact | 2155 | 1.054 ± 0.050 | 0.13 ± 0.08 | 7.27 / 7.01 | 1.038 ± 0.030 | 0.36 |
-| gap | 1989 | 1.043 ± 0.034 | -0.45 ± 0.07 | 7.81 / 7.55 | 1.034 ± 0.022 | 0.38 |
-| power | 2329 | 1.046 ± 0.026 | 0.26 ± 0.08 | 6.26 / 5.32 | 1.176 ± 0.016 | 0.59 |
-| eye | 2329 | 0.962 ± 0.011 | 0.16 ± 0.04 | 5.92 / 5.92 | 1.000 ± 0.011 | 0.65 |
-| avoid_k | 2329 | 1.002 ± 0.009 | 0.03 ± 0.02 | 4.60 / 4.41 | 1.044 ± 0.011 | 0.77 |
-| stuff | 1620 | 0.977 ± 0.006 | 0.30 ± 0.04 | 3.94 / 3.68 | 1.071 ± 0.017 | 0.86 |
-| control | 1620 | 0.968 ± 0.011 | 0.46 ± 0.04 | 4.97 / 4.88 | 1.018 ± 0.008 | 0.72 |
-| movement | 1620 | 0.780 ± 0.021 | 0.92 ± 0.09 | 7.78 / 8.37 | 0.929 ± 0.013 | 0.44 |
-| stamina | 4073 | 1.002 ± 0.006 | 0.01 ± 0.06 | 4.66 / 4.66 | 0.999 ± 0.008 | 0.78 |
+| contact | 2155 | 1.053 ± 0.051 | 0.12 ± 0.08 | 7.27 / 7.01 | 1.037 ± 0.031 | 0.36 |
+| gap | 1988 | 1.044 ± 0.034 | -0.44 ± 0.07 | 7.81 / 7.55 | 1.034 ± 0.022 | 0.38 |
+| power | 2328 | 1.046 ± 0.026 | 0.26 ± 0.08 | 6.26 / 5.32 | 1.176 ± 0.016 | 0.59 |
+| eye | 2328 | 0.962 ± 0.011 | 0.15 ± 0.04 | 5.92 / 5.92 | 0.999 ± 0.011 | 0.65 |
+| avoid_k | 2328 | 1.002 ± 0.008 | 0.03 ± 0.02 | 4.61 / 4.41 | 1.044 ± 0.011 | 0.77 |
+| stuff | 1619 | 0.977 ± 0.006 | 0.30 ± 0.04 | 3.94 / 3.68 | 1.071 ± 0.017 | 0.86 |
+| control | 1619 | 0.968 ± 0.011 | 0.45 ± 0.04 | 4.97 / 4.88 | 1.018 ± 0.008 | 0.72 |
+| movement | 1619 | 0.781 ± 0.020 | 0.92 ± 0.09 | 7.77 / 8.37 | 0.929 ± 0.013 | 0.44 |
+| stamina | 4072 | 1.002 ± 0.006 | -0.00 ± 0.05 | 4.66 / 4.66 | 1.000 ± 0.007 | 0.78 |
 
 Workload selection: the estimator's prior ignores that playing time depends on talent. Managers start, bat high and work their best players most, so within a role group true rating and workload correlate (+.10 to +.28 for pitchers, +.50 for regulars' Power). A prior per role × tier pulls a team's busiest players toward too low a mean and its least-used toward too high a one. On players with at least half a regular's workload, the pitcher ratings are estimated slightly low: a third of a point for Movement, where shrinkage is strongest (reliability .39). Within a role, bias rises with workload (Movement for weekend starters −1.2 / +.2 / +1.3 by workload tercile; Power for regulars −2.9 / −.7 / +1.6). Weighted by trials over all players it is .00. Two variants were tried (PHASE0_NOTES.md, Phase 4): a prior mean linear in log trials (fixes the pitchers, but Power's relation is convex) and a prior per workload rank on the team (fixes the means, but given a rank one rating is not normal, so the spread is misstated). For Phase 9 that bias may be the right behaviour: coaches see stats and playing time, not true talent. Revisit it there.
 

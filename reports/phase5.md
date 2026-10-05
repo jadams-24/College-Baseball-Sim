@@ -3,9 +3,9 @@
 40 simulated seasons, seeds 20251000–20251039 (the Phase 4 report's league and seeds). Generated 2026-10-05.
 Each plate appearance's outcome comes from the unchanged Phase 4 matchup model. Its pitch sequence comes from a count-state pitch chain conditioned on that outcome (engine/pitch.py), so PA-level rates cannot move. Pitch events by count, batted-ball results by count of contact and every benchmark below come from the 2025 WMT play-by-play pitch sequences, reweighted to the D1 tier mix. Tolerances combine 3 SE of the benchmark (bootstrap over games) with 3 SE of the simulated mean at the number of seasons run. The starter's pull hazard now reads these simulated pitch counts.
 
-## Gate: **FAIL**
+## Gate: **PASS**
 
-Phase 1 and Phase 2 gate rows on the same run: **FAIL** (reports/phase2.md). Phase 4 forward ratings test on the same run: **FAIL** (reports/phase4.md).
+Phase 1 and Phase 2 gate rows on the same run: **pass** (reports/phase2.md). Phase 4 forward ratings test on the same run: **pass** (reports/phase4.md).
 
 ## What the play-by-play supports
 
@@ -18,7 +18,7 @@ Every action of the 2,264 WMT games was checked. Per plate appearance the data h
 | Pitches per PA | 3.816 | 3.805 | ±0.033 | pass |
 | PAs with 1 pitch | 0.1303 | 0.1311 | ±0.0048 | pass |
 | PAs with 2 pitches | 0.1501 | 0.1507 | ±0.0061 | pass |
-| PAs with 3 pitches | 0.1713 | 0.1720 | ±0.0055 | pass |
+| PAs with 3 pitches | 0.1712 | 0.1720 | ±0.0055 | pass |
 | PAs with 4 pitches | 0.1827 | 0.1827 | ±0.0055 | pass |
 | PAs with 5 pitches | 0.1698 | 0.1721 | ±0.0052 | pass |
 | PAs with 6 pitches | 0.1192 | 0.1159 | ±0.0052 | pass |
@@ -43,7 +43,7 @@ Every action of the 2,264 WMT games was checked. Per plate appearance the data h
 | Reach 2-2 | 0.2220 | 0.2192 | ±0.0064 | pass |
 | Reach 3-0 | 0.0534 | 0.0536 | ±0.0030 | pass |
 | Reach 3-1 | 0.1038 | 0.1031 | ±0.0047 | pass |
-| Reach 3-2 | 0.1388 | 0.1366 | ±0.0055 | pass |
+| Reach 3-2 | 0.1389 | 0.1366 | ±0.0055 | pass |
 
 ## Outcome of the PAs that pass through each count
 
@@ -56,37 +56,37 @@ BA is hits per at-bat, K% and BB% per PA, among the PAs that reach the count at 
 | BB% after 0-0 | 0.1050 | 0.1045 | ±0.0051 | pass |
 | BA after 0-1 | 0.2457 | 0.2449 | ±0.0106 | pass |
 | K% after 0-1 | 0.2824 | 0.2845 | ±0.0119 | pass |
-| BB% after 0-1 | 0.0645 | 0.0627 | ±0.0055 | pass |
+| BB% after 0-1 | 0.0644 | 0.0627 | ±0.0055 | pass |
 | BA after 0-2 | 0.1833 | 0.1837 | ±0.0147 | pass |
 | K% after 0-2 | 0.4442 | 0.4458 | ±0.0165 | pass |
 | BB% after 0-2 | 0.0398 | 0.0397 | ±0.0075 | pass |
 | BA after 1-0 | 0.2965 | 0.2967 | ±0.0122 | pass |
 | K% after 1-0 | 0.1588 | 0.1590 | ±0.0111 | pass |
 | BB% after 1-0 | 0.1835 | 0.1845 | ±0.0096 | pass |
-| BA after 1-1 | 0.2587 | 0.2565 | ±0.0116 | pass |
+| BA after 1-1 | 0.2586 | 0.2565 | ±0.0116 | pass |
 | K% after 1-1 | 0.2477 | 0.2495 | ±0.0109 | pass |
 | BB% after 1-1 | 0.1173 | 0.1159 | ±0.0082 | pass |
 | BA after 1-2 | 0.1947 | 0.1945 | ±0.0129 | pass |
-| K% after 1-2 | 0.4139 | 0.4153 | ±0.0147 | pass |
+| K% after 1-2 | 0.4140 | 0.4153 | ±0.0147 | pass |
 | BB% after 1-2 | 0.0725 | 0.0698 | ±0.0078 | pass |
 | BA after 2-0 | 0.3139 | 0.3151 | ±0.0255 | pass |
-| K% after 2-0 | 0.1163 | 0.1151 | ±0.0151 | pass |
+| K% after 2-0 | 0.1164 | 0.1151 | ±0.0151 | pass |
 | BB% after 2-0 | 0.3496 | 0.3510 | ±0.0168 | pass |
 | BA after 2-1 | 0.2751 | 0.2714 | ±0.0192 | pass |
 | K% after 2-1 | 0.1926 | 0.1929 | ±0.0138 | pass |
-| BB% after 2-1 | 0.2327 | 0.2363 | ±0.0133 | pass |
+| BB% after 2-1 | 0.2328 | 0.2363 | ±0.0133 | pass |
 | BA after 2-2 | 0.2054 | 0.2051 | ±0.0140 | pass |
-| K% after 2-2 | 0.3538 | 0.3537 | ±0.0145 | pass |
+| K% after 2-2 | 0.3539 | 0.3537 | ±0.0145 | pass |
 | BB% after 2-2 | 0.1498 | 0.1480 | ±0.0108 | pass |
 | BA after 3-0 | 0.3009 | 0.3152 | ±0.0565 | pass |
 | K% after 3-0 | 0.0656 | 0.0635 | ±0.0174 | pass |
-| BB% after 3-0 | 0.6734 | 0.6673 | ±0.0316 | pass |
+| BB% after 3-0 | 0.6735 | 0.6673 | ±0.0316 | pass |
 | BA after 3-1 | 0.2973 | 0.2937 | ±0.0325 | pass |
 | K% after 3-1 | 0.1121 | 0.1129 | ±0.0183 | pass |
 | BB% after 3-1 | 0.4939 | 0.4963 | ±0.0262 | pass |
 | BA after 3-2 | 0.2229 | 0.2225 | ±0.0191 | pass |
 | K% after 3-2 | 0.2536 | 0.2526 | ±0.0185 | pass |
-| BB% after 3-2 | 0.3588 | 0.3584 | ±0.0187 | pass |
+| BB% after 3-2 | 0.3587 | 0.3584 | ±0.0187 | pass |
 
 ## Starts
 
@@ -103,7 +103,7 @@ Pitches are the starter's pitches on completed plate appearances; innings are th
 | Pitches per start, midweek, p10 | 21.5 | 23.0 | ±2.9 | pass (Phase 6) |
 | Pitches per start, midweek, p50 | 46.2 | 47.0 | ±4.8 | pass |
 | Pitches per start, midweek, p90 | 83.1 | 80.0 | ±6.4 | pass |
-| Innings per start, midweek | 2.712 | 3.021 | ±0.374 | pass |
+| Innings per start, midweek | 2.711 | 3.021 | ±0.374 | pass |
 
 ## PA-level outcomes unchanged from Phase 4
 
@@ -111,24 +111,24 @@ League rates of this run against the merged Phase 4 run (reports/phase4_baseline
 
 | Metric | Phase 5 | Phase 4 | Tol | Status |
 |---|---|---|---|---|
-| Runs per team-game | 6.7187 | 6.7423 | ±0.0837 | pass |
+| Runs per team-game | 6.7189 | 6.7423 | ±0.0841 | pass |
 | Batting average | 0.2818 | 0.2819 | ±0.0018 | pass |
 | On-base pct | 0.3795 | 0.3802 | ±0.0022 | pass |
-| Slugging pct | 0.4409 | 0.4424 | ±0.0024 | pass |
+| Slugging pct | 0.4409 | 0.4424 | ±0.0025 | pass |
 | HR per team-game | 1.0579 | 1.0684 | ±0.0180 | pass |
 | BB per PA | 0.1050 | 0.1059 | ±0.0013 | pass |
 | K per PA | 0.1945 | 0.1949 | ±0.0030 | pass |
 | HBP per PA | 0.0340 | 0.0337 | ±0.0005 | pass |
-| PA per team-game | 40.6602 | 40.5317 | ±0.1056 | differs (moved on purpose in Phase 6: fielding or base running; gated against data in reports/phase6.md) |
+| PA per team-game | 40.6596 | 40.5317 | ±0.1057 | differs (moved on purpose in Phase 6: fielding or base running; gated against data in reports/phase6.md) |
 | Errors per team-game | 1.0869 | 1.0820 | ±0.0170 | pass (moved on purpose in Phase 6: fielding or base running; gated against data in reports/phase6.md) |
-| ERA | 6.1499 | 6.2210 | ±0.0821 | pass |
+| ERA | 6.1505 | 6.2210 | ±0.0827 | pass |
 | Earned share of runs | 0.8788 | 0.8830 | ±0.0017 | differs (moved on purpose in Phase 6: fielding or base running; gated against data in reports/phase6.md) |
 
 ## Informational
 
 - Correction Jacobian (rows d logit P(K), P(BB), P(HBP) at the league chain; columns the average batter-pitcher K direction, BB direction and the HBP event): [[1.029, -0.038, -0.053], [-0.013, 1.364, -0.051], [0.134, 0.13, 1.006]]. League chain without conditioning: K 0.1877, BB 0.0994, HBP 0.0317, in play 0.6812; PA model at league average: K 0.1802, BB 0.1080, HBP 0.0280, in play 0.6838.
 - Response of the chain's K and BB logits to one unit of each measured player direction (1, 0 for a K direction and 0, 1 for a BB direction if the event-level directions add up to the rate they were measured on): batter_K [0.97, 0.01]; batter_BB [0.01, 1.36]; pitcher_K [1.09, -0.04]; pitcher_BB [-0.08, 1.37].
-- Pitchers with 50+ IP (Phase 6 deferred row, currently passing): 803.6 (real 882; Phase 4 run 870.6).
+- Pitchers with 50+ IP (Phase 6 deferred row, currently passing): 804.0 (real 882; Phase 4 run 870.6).
 
 ### Player pitch profiles (informational)
 
