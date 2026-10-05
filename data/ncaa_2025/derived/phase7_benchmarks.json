@@ -247,7 +247,46 @@
     "2024": 11,
     "2025": 8
    }
-  }
+  },
+  "worst_rpi_rank_at_large": {
+   "mean": 56.88,
+   "sd": 10.37,
+   "median": 53.5,
+   "range": [
+    47,
+    80
+   ],
+   "by_season": {
+    "2017": 57,
+    "2018": 62,
+    "2019": 53,
+    "2021": 80,
+    "2022": 50,
+    "2023": 52,
+    "2024": 54,
+    "2025": 47
+   }
+  },
+  "best_rpi_rank_left_out": {
+   "mean": 30.25,
+   "sd": 4.2,
+   "median": 32.0,
+   "range": [
+    24,
+    34
+   ],
+   "by_season": {
+    "2017": 29,
+    "2018": 31,
+    "2019": 34,
+    "2021": 33,
+    "2022": 24,
+    "2023": 34,
+    "2024": 24,
+    "2025": 33
+   }
+  },
+  "rpi_note": "RPI from the feed (engine.rpi), Division I games before selection Monday; seasons 2017, 2018, 2019, 2021, 2022, 2023, 2024, 2025"
  },
  "home_field": {
   "regional_host": {

@@ -1,4 +1,6 @@
-"""Fetch every 2026 D1 team schedule page from WarrenNolan.com.
+"""Fetch every D1 team schedule page of a season (default 2026) from WarrenNolan.com.
+
+    python3 scripts/fetch_warrennolan_2026.py [season]
 
 Team slugs come from the site's sitemap
 (https://www.warrennolan.com/sitemap/college-baseball-2026.xml, saved gzipped
@@ -23,12 +25,14 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "data" / "ncaa_2026" / "warrennolan"
+SEASON = int(sys.argv[1]) if len(sys.argv) > 1 else 2026
+OUT = ROOT / "data" / f"ncaa_{SEASON}" / "warrennolan"
 RAW = OUT / "raw"
 UA = "college-baseball-sim research (github.com/jadams-24/College-Baseball-Sim)"
 DELAY = 1.5
 RETRY_PAUSES = (5, 10, 20)
-BASE = "https://www.warrennolan.com/baseball/2026/schedule/"
+BASE = f"https://www.warrennolan.com/baseball/{SEASON}/schedule/"
+SITEMAP = f"https://www.warrennolan.com/sitemap/college-baseball-{SEASON}.xml"
 
 
 def get(url: str) -> bytes:
@@ -38,8 +42,18 @@ def get(url: str) -> bytes:
 
 
 def slugs() -> list[str]:
-    xml = gzip.open(OUT / "sitemap_college-baseball-2026.xml.gz", "rt").read()
-    return sorted(set(re.findall(r"college-baseball/team/schedule/_/2026/([^<\s]+)</loc>", xml)))
+    """Team slugs from the season's sitemap; seasons without one (2025: HTTP 404) use the 2026 sitemap's
+    slugs (the same programs; a slug without a page for the season is logged as failed)."""
+    sm = OUT / f"sitemap_college-baseball-{SEASON}.xml.gz"
+    if not sm.exists():
+        OUT.mkdir(parents=True, exist_ok=True)
+        try:
+            sm.write_bytes(gzip.compress(get(SITEMAP), 9))
+        except urllib.error.HTTPError:
+            xml = gzip.open(ROOT / "data/ncaa_2026/warrennolan/sitemap_college-baseball-2026.xml.gz", "rt").read()
+            return sorted(set(re.findall(r"college-baseball/team/schedule/_/2026/([^<\s]+)</loc>", xml)))
+    xml = gzip.open(sm, "rt").read()
+    return sorted(set(re.findall(rf"college-baseball/team/schedule/_/{SEASON}/([^<\s]+)</loc>", xml)))
 
 
 def main() -> int:

@@ -27,7 +27,7 @@ Outputs:
   team_games_2026.csv    one row per page entry (team side), before dedup.
   parse_report.json      counts and every inconsistency found.
 
-Run: python scripts/parse_warrennolan_2026.py
+Run: python scripts/parse_warrennolan_2026.py [season]   (default 2026)
 """
 from __future__ import annotations
 
@@ -36,13 +36,14 @@ import gzip
 import html
 import json
 import re
+import sys
 from collections import Counter, defaultdict
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-WN = ROOT / "data" / "ncaa_2026" / "warrennolan"
+YEAR = int(sys.argv[1]) if len(sys.argv) > 1 else 2026
+WN = ROOT / "data" / f"ncaa_{YEAR}" / "warrennolan"
 RAW = WN / "raw"
-YEAR = 2026
 MONTHS = {m: i + 1 for i, m in enumerate(
     ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"])}
 SITE_LABEL = {"": "home", "AT": "away", "VS": "neutral"}
@@ -81,7 +82,7 @@ def parse_page(slug: str, h: str) -> tuple[str, list[dict]]:
         if loc not in SITE_LABEL:
             raise ValueError(f"{slug}: unknown location label {loc!r}")
         opp_html = re.search(r'team-schedule__opp-line">(.*?)</span>', li, re.S).group(1)
-        link = re.search(r'href="/baseball/2026/schedule/([^"]+)"', opp_html)
+        link = re.search(rf'href="/baseball/{YEAR}/schedule/([^"]+)"', opp_html)
         opp_slug = link.group(1) if link else ""
         opp = text(opp_html)
         nd_html = re.search(r'opp-nond1-line">(.*?)</span>', li, re.S).group(1)
@@ -168,12 +169,12 @@ def main() -> None:
     cols = ["date", "home", "away", "neutral", "home_score", "away_score", "home_d1", "away_d1",
             "status", "home_slug", "away_slug", "home_page_site", "away_page_site", "pages",
             "site_agree", "innings", "event", "venue_city", "venue", "neutral_at_home_venue_of"]
-    with open(WN / "games_2026.csv", "w", newline="") as f:
+    with open(WN / f"games_{YEAR}.csv", "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=cols)
         w.writeheader()
         w.writerows(games)
     tcols = list(team_rows[0].keys())
-    with open(WN / "team_games_2026.csv", "w", newline="") as f:
+    with open(WN / f"team_games_{YEAR}.csv", "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=tcols)
         w.writeheader()
         w.writerows(team_rows)
