@@ -1,0 +1,309 @@
+ncaa_name,ncaa_conference,warrennolan_slug,warrennolan_name,match
+UCLA,Big Ten,UCLA,UCLA,normalised name
+Georgia Tech,ACC,Georgia-Tech,Georgia Tech,normalised name
+Auburn,SEC,Auburn,Auburn,normalised name
+North Carolina,ACC,North-Carolina,North Carolina,normalised name
+Texas,SEC,Texas,Texas,normalised name
+Alabama,SEC,Alabama,Alabama,normalised name
+Georgia,SEC,Georgia,Georgia,normalised name
+Florida St.,ACC,Florida-State,Florida State,normalised name
+Southern California,Big Ten,USC,USC,manual
+Nebraska,Big Ten,Nebraska,Nebraska,normalised name
+Florida,SEC,Florida,Florida,normalised name
+Southern Miss.,Sun Belt,Southern-Miss,Southern Miss,normalised name
+Mississippi St.,SEC,Mississippi-State,Mississippi State,normalised name
+Texas A&M,SEC,Texas-AM,Texas A&M,normalised name
+Oregon,Big Ten,Oregon,Oregon,normalised name
+Ole Miss,SEC,Ole-Miss,Ole Miss,normalised name
+West Virginia,Big 12,West-Virginia,West Virginia,normalised name
+Oregon St.,DI Independent,Oregon-State,Oregon State,normalised name
+Kansas,Big 12,Kansas,Kansas,normalised name
+Wake Forest,ACC,Wake-Forest,Wake Forest,normalised name
+Arkansas,SEC,Arkansas,Arkansas,normalised name
+Cincinnati,Big 12,Cincinnati,Cincinnati,normalised name
+Missouri St.,CUSA,Missouri-State,Missouri State,normalised name
+Oklahoma,SEC,Oklahoma,Oklahoma,normalised name
+Jacksonville St.,CUSA,Jacksonville-State,Jacksonville State,normalised name
+Virginia,ACC,Virginia,Virginia,normalised name
+Coastal Carolina,Sun Belt,Coastal-Carolina,Coastal Carolina,normalised name
+Mercer,SoCon,Mercer,Mercer,normalised name
+Oklahoma St.,Big 12,Oklahoma-State,Oklahoma State,normalised name
+Miami (FL),ACC,Miami-FL,Miami (FL),normalised name
+Tennessee,SEC,Tennessee,Tennessee,normalised name
+Liberty,CUSA,Liberty,Liberty,normalised name
+Louisiana,Sun Belt,Louisiana,Louisiana,normalised name
+Boston College,ACC,Boston-College,Boston College,normalised name
+Troy,Sun Belt,Troy,Troy,normalised name
+UCF,Big 12,UCF,UCF,normalised name
+Kentucky,SEC,Kentucky,Kentucky,normalised name
+UC Santa Barbara,Big West,UC-Santa-Barbara,UC Santa Barbara,normalised name
+Pittsburgh,ACC,Pittsburgh,Pittsburgh,normalised name
+East Carolina,American,East-Carolina,East Carolina,normalised name
+The Citadel,SoCon,The-Citadel,The Citadel,normalised name
+Virginia Tech,ACC,Virginia-Tech,Virginia Tech,normalised name
+Texas St.,Sun Belt,Texas-State,Texas State,normalised name
+Arizona St.,Big 12,Arizona-State,Arizona State,normalised name
+Miami (OH),MAC,Miami-OH,Miami (OH),normalised name
+TCU,Big 12,TCU,TCU,normalised name
+Southeast Mo. St.,OVC,Southeast-Missouri,Southeast Missouri,manual
+High Point,Big South,High-Point,High Point,normalised name
+Clemson,ACC,Clemson,Clemson,normalised name
+Kent St.,MAC,Kent-State,Kent State,normalised name
+NC State,ACC,North-Carolina-State,North Carolina State,manual
+UTSA,American,UTSA,UTSA,normalised name
+Purdue,Big Ten,Purdue,Purdue,normalised name
+Michigan,Big Ten,Michigan,Michigan,normalised name
+Kansas St.,Big 12,Kansas-State,Kansas State,normalised name
+Tarleton St.,WAC,Tarleton-State,Tarleton State,normalised name
+Gonzaga,WCC,Gonzaga,Gonzaga,normalised name
+Arkansas St.,Sun Belt,Arkansas-State,Arkansas State,normalised name
+California,ACC,California,California,normalised name
+Campbell,CAA,Campbell,Campbell,normalised name
+Baylor,Big 12,Baylor,Baylor,normalised name
+California Baptist,WAC,California-Baptist,California Baptist,normalised name
+LSU,SEC,LSU,LSU,normalised name
+South Alabama,Sun Belt,South-Alabama,South Alabama,normalised name
+Western Caro.,SoCon,Western-Carolina,Western Carolina,manual
+UAB,American,UAB,UAB,normalised name
+Saint Joseph's,Atlantic 10,Saint-Josephs,Saint Joseph's,normalised name
+Notre Dame,ACC,Notre-Dame,Notre Dame,normalised name
+Xavier,Big East,Xavier,Xavier,normalised name
+DBU,CUSA,Dallas-Baptist,Dallas Baptist,manual
+Iowa,Big Ten,Iowa,Iowa,normalised name
+Vanderbilt,SEC,Vanderbilt,Vanderbilt,normalised name
+Cal Poly,Big West,Cal-Poly,Cal Poly,normalised name
+Southeastern La.,Southland,Southeastern-Louisiana,Southeastern Louisiana,manual
+Eastern Ill.,OVC,Eastern-Illinois,Eastern Illinois,manual
+Rice,American,Rice,Rice,normalised name
+BYU,Big 12,BYU,BYU,normalised name
+NIU,MAC,Northern-Illinois,Northern Illinois,manual
+South Fla.,American,South-Florida,South Florida,manual
+Louisiana Tech,CUSA,Louisiana-Tech,Louisiana Tech,normalised name
+Samford,SoCon,Samford,Samford,normalised name
+Washington St.,Mountain West,Washington-State,Washington State,normalised name
+USC Upstate,Big South,South-Carolina-Upstate,South Carolina Upstate,manual
+VCU,Atlantic 10,VCU,VCU,normalised name
+Maryland,Big Ten,Maryland,Maryland,normalised name
+Duke,ACC,Duke,Duke,normalised name
+Ohio St.,Big Ten,Ohio-State,Ohio State,normalised name
+Northeastern,CAA,Northeastern,Northeastern,normalised name
+Little Rock,OVC,Little-Rock,Little Rock,normalised name
+Lamar University,Southland,Lamar,Lamar,manual
+Louisville,ACC,Louisville,Louisville,normalised name
+Kennesaw St.,CUSA,Kennesaw-State,Kennesaw State,normalised name
+Minnesota,Big Ten,Minnesota,Minnesota,normalised name
+UC San Diego,Big West,UC-San-Diego,UC San Diego,normalised name
+San Diego St.,Mountain West,San-Diego-State,San Diego State,normalised name
+Creighton,Big East,Creighton,Creighton,normalised name
+UTRGV,Southland,UTRGV,UTRGV,normalised name
+Charlotte,American,Charlotte,Charlotte,normalised name
+Sacramento St.,WAC,Sacramento-State,Sacramento State,normalised name
+UConn,Big East,Connecticut,Connecticut,manual
+Illinois,Big Ten,Illinois,Illinois,normalised name
+St. John's (NY),Big East,Saint-Johns,Saint John's,manual
+Utah,Big 12,Utah,Utah,normalised name
+Stanford,ACC,Stanford,Stanford,normalised name
+ETSU,SoCon,East-Tennessee-State,East Tennessee State,manual
+Longwood,Big South,Longwood,Longwood,normalised name
+Houston,Big 12,Houston,Houston,normalised name
+Missouri,SEC,Missouri,Missouri,normalised name
+Michigan St.,Big Ten,Michigan-State,Michigan State,normalised name
+SIUE,OVC,SIUE,SIUE,normalised name
+Memphis,American,Memphis,Memphis,normalised name
+Winthrop,Big South,Winthrop,Winthrop,normalised name
+App State,Sun Belt,Appalachian-State,Appalachian State,manual
+Morehead St.,OVC,Morehead-State,Morehead State,normalised name
+Old Dominion,Sun Belt,Old-Dominion,Old Dominion,normalised name
+Wofford,SoCon,Wofford,Wofford,normalised name
+Cal St. Fullerton,Big West,Cal-State-Fullerton,Cal State Fullerton,normalised name
+Binghamton,America East,Binghamton,Binghamton,normalised name
+Rider,MAAC,Rider,Rider,normalised name
+UNCW,CAA,UNCW,UNCW,normalised name
+Portland,WCC,Portland,Portland,normalised name
+Rutgers,Big Ten,Rutgers,Rutgers,normalised name
+FGCU,ASUN,FGCU,FGCU,normalised name
+Indiana,Big Ten,Indiana,Indiana,normalised name
+UC Irvine,Big West,UC-Irvine,UC Irvine,normalised name
+Texas Tech,Big 12,Texas-Tech,Texas Tech,normalised name
+Fla. Atlantic,American,FAU,FAU,manual
+Richmond,Atlantic 10,Richmond,Richmond,normalised name
+Jacksonville,ASUN,Jacksonville,Jacksonville,normalised name
+Georgia St.,Sun Belt,Georgia-State,Georgia State,normalised name
+Hawaii,Big West,Hawaii,Hawaii,normalised name
+Charleston So.,Big South,Charleston-Southern,Charleston Southern,manual
+McNeese,Southland,McNeese,McNeese,normalised name
+UNC Greensboro,SoCon,UNCG,UNCG,manual
+Hofstra,CAA,Hofstra,Hofstra,normalised name
+Toledo,MAC,Toledo,Toledo,normalised name
+Air Force,Mountain West,Air-Force,Air Force,normalised name
+South Carolina,SEC,South-Carolina,South Carolina,normalised name
+Western Ky.,CUSA,Western-Kentucky,Western Kentucky,manual
+Saint Mary's (CA),WCC,Saint-Marys-College,Saint Mary's College,manual
+Maine,America East,Maine,Maine,normalised name
+Wichita St.,American,Wichita-State,Wichita State,normalised name
+Utah Tech,WAC,Utah-Tech,Utah Tech,normalised name
+Yale,Ivy League,Yale,Yale,normalised name
+Monmouth,CAA,Monmouth,Monmouth,normalised name
+UC Davis,Big West,UC-Davis,UC Davis,normalised name
+Tulane,American,Tulane,Tulane,normalised name
+George Mason,Atlantic 10,George-Mason,George Mason,normalised name
+Western Mich.,MAC,Western-Michigan,Western Michigan,manual
+Northwestern,Big Ten,Northwestern,Northwestern,normalised name
+Rhode Island,Atlantic 10,Rhode-Island,Rhode Island,normalised name
+Central Ark.,ASUN,Central-Arkansas,Central Arkansas,manual
+Bucknell,Patriot,Bucknell,Bucknell,normalised name
+Nicholls,Southland,Nicholls,Nicholls,normalised name
+Lipscomb,ASUN,Lipscomb,Lipscomb,normalised name
+Washington,Big Ten,Washington,Washington,normalised name
+North Ala.,ASUN,North-Alabama,North Alabama,manual
+Illinois St.,MVC,Illinois-State,Illinois State,normalised name
+Northwestern St.,Southland,Northwestern-State,Northwestern State,normalised name
+Fairfield,MAAC,Fairfield,Fairfield,normalised name
+Radford,Big South,Radford,Radford,normalised name
+North Florida,ASUN,North-Florida,North Florida,normalised name
+Indiana St.,MVC,Indiana-State,Indiana State,normalised name
+Army West Point,Patriot,Army,Army,manual
+Murray St.,MVC,Murray-State,Murray State,normalised name
+Florida A&M,SWAC,Florida-AM,Florida A&M,normalised name
+Houston Christian,Southland,Houston-Christian,Houston Christian,normalised name
+Oral Roberts,Summit League,Oral-Roberts,Oral Roberts,normalised name
+Nevada,Mountain West,Nevada,Nevada,normalised name
+Sam Houston,CUSA,Sam-Houston-State,Sam Houston State,manual
+ULM,Sun Belt,ULM,ULM,normalised name
+Stony Brook,CAA,Stony-Brook,Stony Brook,normalised name
+Lindenwood,OVC,Lindenwood,Lindenwood,normalised name
+Wright St.,Horizon,Wright-State,Wright State,normalised name
+Col. of Charleston,CAA,Charleston,Charleston,manual
+Penn,Ivy League,Penn,Penn,normalised name
+Alabama St.,SWAC,Alabama-State,Alabama State,normalised name
+Bethune-Cookman,SWAC,Bethune-Cookman,Bethune-Cookman,normalised name
+Niagara,MAAC,Niagara,Niagara,normalised name
+UT Arlington,WAC,UTA,UTA,manual
+James Madison,Sun Belt,James-Madison,James Madison,normalised name
+Dayton,Atlantic 10,Dayton,Dayton,normalised name
+SFA,Southland,Stephen-F-Austin,Stephen F. Austin,manual
+San Jose St.,Mountain West,San-Jose-State,San Jose State,normalised name
+Bryant,America East,Bryant,Bryant,normalised name
+Brown,Ivy League,Brown,Brown,normalised name
+CSUN,Big West,Cal-State-Northridge,Cal State Northridge,manual
+Marshall,Sun Belt,Marshall,Marshall,normalised name
+Arizona,Big 12,Arizona,Arizona,normalised name
+Columbia,Ivy League,Columbia,Columbia,normalised name
+Santa Clara,WCC,Santa-Clara,Santa Clara,normalised name
+Austin Peay,UAC,Austin-Peay,Austin Peay,normalised name
+New Orleans,Southland,New-Orleans,New Orleans,normalised name
+Southern Ind.,OVC,Southern-Indiana,Southern Indiana,manual
+Abilene Christian,WAC,Abilene-Christian,Abilene Christian,normalised name
+Southern U.,SWAC,Southern,Southern,manual
+Penn St.,Big Ten,Penn-State,Penn State,normalised name
+UNLV,Mountain West,UNLV,UNLV,normalised name
+LIU,NEC,Long-Island,Long Island,manual
+Grand Canyon,Mountain West,Grand-Canyon,Grand Canyon,normalised name
+Holy Cross,Patriot,Holy-Cross,Holy Cross,normalised name
+A&M-Corpus Christi,Southland,Texas-AM-Corpus-Christi,Texas A&M-Corpus Christi,manual
+Stetson,ASUN,Stetson,Stetson,normalised name
+Ga. Southern,Sun Belt,Georgia-Southern,Georgia Southern,manual
+Quinnipiac,MAAC,Quinnipiac,Quinnipiac,normalised name
+Merrimack,MAAC,Merrimack,Merrimack,normalised name
+Fordham,Atlantic 10,Fordham,Fordham,normalised name
+VMI,SoCon,VMI,VMI,normalised name
+Bowling Green,MAC,Bowling-Green,Bowling Green,normalised name
+San Diego,WCC,San-Diego,San Diego,normalised name
+Marist,MAAC,Marist,Marist,normalised name
+UMBC,America East,UMBC,UMBC,normalised name
+Gardner-Webb,Big South,Gardner-Webb,Gardner-Webb,normalised name
+Ball St.,MAC,Ball-State,Ball State,normalised name
+Navy,Patriot,Navy,Navy,normalised name
+Evansville,MVC,Evansville,Evansville,normalised name
+Davidson,Atlantic 10,Davidson,Davidson,normalised name
+San Francisco,WCC,San-Francisco,San Francisco,normalised name
+New Mexico,Mountain West,New-Mexico,New Mexico,normalised name
+UIW,Southland,Incarnate-Word,Incarnate Word,manual
+Pepperdine,WCC,Pepperdine,Pepperdine,normalised name
+Middle Tenn.,CUSA,Middle-Tennessee,Middle Tennessee,manual
+FDU,NEC,Fairleigh-Dickinson,Fairleigh Dickinson,manual
+New Mexico St.,CUSA,New-Mexico-State,New Mexico State,normalised name
+FIU,CUSA,FIU,FIU,normalised name
+UMass Lowell,America East,UMass-Lowell,UMass-Lowell,normalised name
+UIC,MVC,UIC,UIC,normalised name
+William & Mary,CAA,William-Mary,William & Mary,normalised name
+Wagner,NEC,Wagner,Wagner,normalised name
+Towson,CAA,Towson,Towson,normalised name
+Harvard,Ivy League,Harvard,Harvard,normalised name
+Butler,Big East,Butler,Butler,normalised name
+Southern Ill.,MVC,Southern-Illinois,Southern Illinois,manual
+Elon,CAA,Elon,Elon,normalised name
+UT Martin,OVC,Tennessee-Martin,Tennessee-Martin,manual
+Villanova,Big East,Villanova,Villanova,normalised name
+CSU Bakersfield,Big West,Cal-State-Bakersfield,Cal State Bakersfield,manual
+Milwaukee,Horizon,Milwaukee,Milwaukee,normalised name
+South Dakota St.,Summit League,South-Dakota-State,South Dakota State,normalised name
+Central Mich.,MAC,Central-Michigan,Central Michigan,manual
+Delaware,CUSA,Delaware,Delaware,normalised name
+Ark.-Pine Bluff,SWAC,Arkansas-Pine-Bluff,Arkansas-Pine Bluff,manual
+Princeton,Ivy League,Princeton,Princeton,normalised name
+Pacific,WCC,Pacific,Pacific,normalised name
+Eastern Mich.,MAC,Eastern-Michigan,Eastern Michigan,manual
+Eastern Ky.,ASUN,Eastern-Kentucky,Eastern Kentucky,manual
+Sacred Heart,MAAC,Sacred-Heart,Sacred Heart,normalised name
+Bellarmine,ASUN,Bellarmine,Bellarmine,normalised name
+Long Beach St.,Big West,Long-Beach-State,Long Beach State,normalised name
+Tennessee Tech,OVC,Tennessee-Tech,Tennessee Tech,normalised name
+Belmont,MVC,Belmont,Belmont,normalised name
+Omaha,Summit League,Omaha,Omaha,normalised name
+Seattle U,WCC,Seattle-University,Seattle University,manual
+Saint Louis,Atlantic 10,Saint-Louis,Saint Louis,normalised name
+Le Moyne,NEC,Le-Moyne,Le Moyne,normalised name
+Georgetown,Big East,Georgetown,Georgetown,normalised name
+Grambling,SWAC,Grambling-State,Grambling State,manual
+Canisius,MAAC,Canisius,Canisius,normalised name
+Massachusetts,MAC,UMass,UMass,manual
+Iona,MAAC,Iona,Iona,normalised name
+UNC Asheville,Big South,UNC-Asheville,UNC Asheville,normalised name
+Dartmouth,Ivy League,Dartmouth,Dartmouth,normalised name
+Queens (NC),ASUN,Queens,Queens,manual
+Stonehill,NEC,Stonehill,Stonehill,normalised name
+Western Ill.,OVC,Western-Illinois,Western Illinois,manual
+Mount St. Mary's,MAAC,Mount-Saint-Marys,Mount Saint Mary's,manual
+Manhattan,MAAC,Manhattan,Manhattan,normalised name
+Siena,MAAC,Siena,Siena,normalised name
+West Ga.,ASUN,West-Georgia,West Georgia,manual
+Akron,MAC,Akron,Akron,normalised name
+La Salle,Atlantic 10,La-Salle,La Salle,normalised name
+UC Riverside,Big West,UC-Riverside,UC Riverside,normalised name
+Presbyterian,Big South,Presbyterian-College,Presbyterian College,manual
+Seton Hall,Big East,Seton-Hall,Seton Hall,normalised name
+Cornell,Ivy League,Cornell,Cornell,normalised name
+Valparaiso,MVC,Valparaiso,Valparaiso,normalised name
+UAlbany,America East,Albany,Albany,manual
+Northern Ky.,Horizon,Northern-Kentucky,Northern Kentucky,manual
+N.C. A&T,CAA,North-Carolina-AT,North Carolina A&T,manual
+George Washington,Atlantic 10,George-Washington,George Washington,normalised name
+Lehigh,Patriot,Lehigh,Lehigh,normalised name
+Youngstown St.,Horizon,Youngstown-State,Youngstown State,normalised name
+Utah Valley,WAC,Utah-Valley,Utah Valley,normalised name
+North Dakota St.,Summit League,North-Dakota-State,North Dakota State,normalised name
+Lafayette,Patriot,Lafayette,Lafayette,normalised name
+St. Bonaventure,Atlantic 10,Saint-Bonaventure,Saint Bonaventure,manual
+LMU (CA),WCC,Loyola-Marymount,Loyola-Marymount,manual
+Fresno St.,Mountain West,Fresno-State,Fresno State,normalised name
+Texas Southern,SWAC,Texas-Southern,Texas Southern,normalised name
+NJIT,America East,NJIT,NJIT,normalised name
+Bradley,MVC,Bradley,Bradley,normalised name
+Jackson St.,SWAC,Jackson-State,Jackson State,normalised name
+Ohio,MAC,Ohio,Ohio,normalised name
+Oakland,Horizon,Oakland,Oakland,normalised name
+St. Thomas (MN),Summit League,Saint-Thomas,Saint Thomas,manual
+Northern Colo.,Summit League,Northern-Colorado,Northern Colorado,manual
+Central Conn. St.,NEC,Central-Connecticut,Central Connecticut,manual
+Mercyhurst,NEC,Mercyhurst,Mercyhurst,normalised name
+Mississippi Val.,SWAC,Mississippi-Valley-State,Mississippi Valley State,manual
+Norfolk St.,NEC,Norfolk-State,Norfolk State,normalised name
+New Haven,NEC,New-Haven,New Haven,normalised name
+Prairie View,SWAC,Prairie-View-AM,Prairie View A&M,manual
+Coppin St.,NEC,Coppin-State,Coppin State,normalised name
+Delaware St.,NEC,Delaware-State,Delaware State,normalised name
+Alabama A&M,SWAC,Alabama-AM,Alabama A&M,normalised name
+Saint Peter's,MAAC,Saint-Peters,Saint Peter's,normalised name
+Alcorn,SWAC,Alcorn-State,Alcorn State,manual
+UMES,NEC,Maryland-Eastern-Shore,Maryland Eastern Shore,manual

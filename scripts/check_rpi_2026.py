@@ -39,8 +39,7 @@ def main() -> None:
     pub = pd.read_csv(ROOT / "data/ncaa_2026/rpi/ncaa_rpi_through_2026-05-24.csv")
     g = pd.read_csv(ROOT / "data/ncaa_2026/warrennolan/games_2026.csv")
     nm = pd.read_csv(ROOT / "data/ncaa_2026/team_name_map.csv")
-    cols = list(nm.columns)
-    to_ncaa = dict(zip(nm[cols[1]], nm[cols[0]])) if "ncaa" in cols[0].lower() else dict(zip(nm[cols[0]], nm[cols[1]]))
+    to_ncaa = dict(zip(nm.warrennolan_name, nm.ncaa_name))
     g = g[(g.date <= THROUGH) & (g.status.astype(str).str.lower() == "final")]
     g = g[g.home_d1.astype(bool) & g.away_d1.astype(bool)].copy()
     g["home"] = g.home.map(lambda x: to_ncaa.get(x, x)); g["away"] = g.away.map(lambda x: to_ncaa.get(x, x))
@@ -64,7 +63,7 @@ def main() -> None:
         p = pub.set_index("school")["rank"]
         common = p.index.intersection(calc.index)
         d = (calc[common] - p[common]).abs()
-        out[label] = {"teams": int(len(common)), "spearman": float(pd.Series(calc[common]).corr(p[common], method="spearman")),
+        out[label] = {"teams": int(len(common)), "spearman": float(calc[common].rank().corr(p[common].rank())),
                       "exact_rank": int((d == 0).sum()), "within_1": int((d <= 1).sum()), "within_3": int((d <= 3).sum()),
                       "top64_exact": int(((d == 0) & (p[common] <= 64)).sum()),
                       "largest_gaps": {t: [int(p[t]), int(calc[t])] for t in d.sort_values(ascending=False).index[:8]}}

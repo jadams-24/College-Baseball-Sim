@@ -1,0 +1,309 @@
+rank,school,warrennolan_slug,ncaa_road,wn_road,road_ok,ncaa_neutral,wn_neutral,neutral_ok,ncaa_home,wn_home,home_ok,ncaa_non_d1,wn_non_d1,non_d1_ok,ncaa_record,wn_record,wn_ties,site_moves,non_d1_diff,all_match,all_match_host_venue_rule,wn_road_host_venue_rule,wn_neutral_host_venue_rule,wn_home_host_venue_rule
+1,UCLA,UCLA,18-1,18-1,True,6-0,6-0,True,27-5,27-5,True,0-0,0-0,True,51-6,51-6,0,0,0,True,True,18-1,6-0,27-5
+2,Georgia Tech,Georgia-Tech,14-5,14-5,True,4-0,4-0,True,30-4,30-4,True,0-0,0-0,True,48-9,48-9,0,0,0,True,True,14-5,4-0,30-4
+3,Auburn,Auburn,10-8,10-8,True,7-1,7-1,True,21-10,21-10,True,0-0,0-0,True,38-19,38-19,0,0,0,True,True,10-8,7-1,21-10
+4,North Carolina,North-Carolina,14-3,14-3,True,3-2,3-2,True,28-6,28-6-1,True,0-0,0-0,True,45-11,45-11-1,1,0,0,True,True,14-3,3-2,28-6-1
+5,Texas,Texas,8-8,8-8,True,3-1,3-1,True,29-4,29-4,True,0-0,0-0,True,40-13,40-13,0,0,0,True,True,8-8,3-1,29-4
+6,Alabama,Alabama,11-11,11-11,True,3-2,3-2,True,23-6,23-6,True,0-0,0-0,True,37-19,37-19,0,0,0,True,True,11-11,3-2,23-6
+7,Georgia,Georgia,12-4,12-4,True,3-1,3-1,True,31-7,31-7,True,0-0,0-0,True,46-12,46-12,0,0,0,True,True,12-4,3-1,31-7
+8,Florida St.,Florida-State,10-9,10-9,True,1-4,1-4,True,27-4,27-4,True,0-0,0-0,True,38-17,38-17,0,0,0,True,True,10-9,1-4,27-4
+9,Southern California,USC,10-13,10-13,True,1-1,1-1,True,32-1,32-1,True,0-0,0-0,True,43-15,43-15,0,0,0,True,True,10-13,1-1,32-1
+10,Nebraska,Nebraska,14-10,14-10,True,5-4,5-4,True,23-1,23-1,True,0-0,0-0,True,42-15,42-15,0,0,0,True,True,14-10,5-4,23-1
+11,Florida,Florida,14-5,14-5,True,3-1,3-1,True,22-13,22-13,True,0-0,0-0,True,39-19,39-19,0,0,0,True,True,14-5,3-1,22-13
+12,Southern Miss.,Southern-Miss,13-8,13-8,True,8-2,8-2,True,23-5,23-5,True,0-0,0-0,True,44-15,44-15,0,0,0,True,True,13-8,8-2,23-5
+13,Mississippi St.,Mississippi-State,10-7,10-7,True,5-2,5-2,True,25-8,25-8,True,0-0,0-0,True,40-17,40-17,0,0,0,True,True,10-7,5-2,25-8
+14,Texas A&M,Texas-AM,10-6,10-6,True,2-2,2-2,True,27-6,27-6,True,0-0,0-0,True,39-14,39-14,0,0,0,True,True,10-6,2-2,27-6
+15,Oregon,Oregon,13-9,13-9,True,4-2,4-2,True,23-5,23-5,True,0-0,0-0,True,40-16,40-16,0,0,0,True,True,13-9,4-2,23-5
+16,Ole Miss,Ole-Miss,7-10,7-10,True,2-4,2-4,True,27-7,27-7,True,0-0,0-0,True,36-21,36-21,0,0,0,True,True,7-10,2-4,27-7
+17,West Virginia,West-Virginia,19-7,19-7,True,4-1,4-1,True,16-6,16-6,True,0-0,0-0,True,39-14,39-14,0,0,0,True,True,19-7,4-1,16-6
+18,Oregon St.,Oregon-State,15-2,15-2,True,7-4,7-4,True,21-6,21-6,True,0-0,0-0,True,43-12,43-12,0,0,0,True,True,15-2,7-4,21-6
+19,Kansas,Kansas,20-11,20-11,True,4-0,4-0,True,18-5,18-5,True,0-0,0-0,True,42-16,42-16,0,0,0,True,True,20-11,4-0,18-5
+20,Wake Forest,Wake-Forest,9-11,9-11,True,4-3,4-3,True,25-5,25-5,True,0-0,0-0,True,38-19,38-19,0,0,0,True,True,9-11,4-3,25-5
+21,Arkansas,Arkansas,10-6,10-6,True,7-2,7-2,True,22-12,22-12,True,0-0,0-0,True,39-20,39-20,0,0,0,True,True,10-6,7-2,22-12
+22,Cincinnati,Cincinnati,17-12,17-12,True,1-1,1-1,True,19-7,19-7,True,0-0,0-0,True,37-20,37-20,0,0,0,True,True,17-12,1-1,19-7
+23,Missouri St.,Missouri-State,12-15,11-15,False,1-1,2-1,False,21-3,21-3,True,0-0,0-0,True,34-19,34-19,0,1,0,False,True,12-15,1-1,21-3
+24,Oklahoma,Oklahoma,8-10,8-10,True,4-2,4-2,True,20-9,20-9,True,0-0,0-0,True,32-21,32-21,0,0,0,True,True,8-10,4-2,20-9
+25,Jacksonville St.,Jacksonville-State,16-7,16-7,True,5-0,5-0,True,25-6,25-6,True,0-0,0-0,True,46-13,46-13,0,0,0,True,True,16-7,5-0,25-6
+26,Virginia,Virginia,8-12,8-12,True,5-1,5-1,True,23-8,23-8,True,0-0,0-0,True,36-21,36-21,0,0,0,True,True,8-12,5-1,23-8
+27,Coastal Carolina,Coastal-Carolina,14-8,14-8,True,3-4,3-4,True,20-9,20-9,True,0-0,0-0,True,37-21,37-21,0,0,0,True,True,14-8,3-4,20-9
+28,Mercer,Mercer,14-11,14-11,True,1-2,1-2,True,29-2,29-2,True,0-0,0-0,True,44-15,44-15,0,0,0,True,True,14-11,1-2,29-2
+29,Oklahoma St.,Oklahoma-State,12-11,12-11,True,3-3,3-3,True,22-6,22-6,True,0-0,0-0,True,37-20,37-20,0,0,0,True,True,12-11,3-3,22-6
+30,Miami (FL),Miami-FL,11-8,11-8,True,2-1,2-1,True,25-9,25-9,True,0-0,0-0,True,38-18,38-18,0,0,0,True,True,11-8,2-1,25-9
+31,Tennessee,Tennessee,7-8,7-8,True,3-2,3-2,True,28-10,28-10,True,0-0,0-0,True,38-20,38-20,0,0,0,True,True,7-8,3-2,28-10
+32,Liberty,Liberty,19-6,19-6,True,3-1,3-1,True,19-12,19-12,True,0-0,0-0,True,41-19,41-19,0,0,0,True,True,19-6,3-1,19-12
+33,Louisiana,Louisiana,10-12,10-12,True,5-2,5-2,True,24-9,24-9,True,0-0,0-0,True,39-23,39-23,0,0,0,True,True,10-12,5-2,24-9
+34,Boston College,Boston-College,13-10,13-10,True,4-4,4-4,True,19-7,19-7,True,0-0,0-0,True,36-21,36-21,0,0,0,True,True,13-10,4-4,19-7
+35,Troy,Troy,13-15,13-15,True,4-3,4-3,True,15-11,15-11,True,0-0,0-0,True,32-29,32-29,0,0,0,True,True,13-15,4-3,15-11
+36,UCF,UCF,10-9,10-9,True,2-3,2-3,True,19-9,19-9,True,0-0,0-0,True,31-21,31-21,0,0,0,True,True,10-9,2-3,19-9
+37,Kentucky,Kentucky,11-12,11-12,True,0-1,0-1,True,20-8,20-8,True,0-0,0-0,True,31-21,31-21,0,0,0,True,True,11-12,0-1,20-8
+38,UC Santa Barbara,UC-Santa-Barbara,16-7,16-7,True,1-2,1-2,True,21-9,21-9,True,0-0,0-0,True,38-18,38-18,0,0,0,True,True,16-7,1-2,21-9
+39,Pittsburgh,Pittsburgh,10-12,10-12,True,7-2,7-2,True,16-10,16-10,True,0-0,0-0,True,33-24,33-24,0,0,0,True,True,10-12,7-2,16-10
+40,East Carolina,East-Carolina,10-11,10-11-1,True,5-1,5-1,True,21-10,21-10,True,0-0,0-0,True,36-22,36-22-1,1,0,0,True,True,10-11-1,5-1,21-10
+41,The Citadel,The-Citadel,14-16,14-16,True,5-0,5-0,True,16-8,16-8,True,0-0,0-0,True,35-24,35-24,0,0,0,True,True,14-16,5-0,16-8
+42,Virginia Tech,Virginia-Tech,10-10,10-10,True,1-4,1-4,True,19-10,19-10,True,0-0,0-0,True,30-24,30-24,0,0,0,True,True,10-10,1-4,19-10
+43,Texas St.,Texas-State,7-12,7-12,True,5-2,5-2,True,24-10,24-10,True,0-0,0-0,True,36-24,36-24,0,0,0,True,True,7-12,5-2,24-10
+44,Arizona St.,Arizona-State,13-6,13-6,True,1-4,1-4,True,23-9,23-9,True,0-0,0-0,True,37-19,37-19,0,0,0,True,True,13-6,1-4,23-9
+45,Miami (OH),Miami-OH,17-10,17-10,True,3-4,3-4,True,18-3,18-3,True,0-0,0-0,True,38-17,38-17,0,0,0,True,True,17-10,3-4,18-3
+46,TCU,TCU,8-13,8-13,True,2-3,2-3,True,23-5,23-5,True,0-0,0-0,True,33-21,33-21,0,0,0,True,True,8-13,2-3,23-5
+47,Southeast Mo. St.,Southeast-Missouri,15-11,15-11,True,1-2,1-2,True,23-5,23-5,True,0-0,0-0,True,39-18,39-18,0,0,0,True,True,15-11,1-2,23-5
+48,High Point,High-Point,14-10,14-10,True,2-3,2-3,True,21-7,21-7,True,0-0,0-0,True,37-20,37-20,0,0,0,True,True,14-10,2-3,21-7
+49,Clemson,Clemson,9-13,9-13,True,2-3,2-3,True,20-10,20-10,True,0-0,0-0,True,31-26,31-26,0,0,0,True,True,9-13,2-3,20-10
+50,Kent St.,Kent-State,22-7,22-7,True,2-2,2-2,True,17-6,17-6,True,1-0,1-0,True,41-15,41-15,0,0,0,True,True,22-7,2-2,17-6
+51,NC State,North-Carolina-State,6-11,6-11,True,2-1,2-1,True,24-10,24-10,True,0-0,0-0,True,32-22,32-22,0,0,0,True,True,6-11,2-1,24-10
+52,UTSA,UTSA,12-12,12-12,True,5-1,5-1,True,21-7,21-7,True,0-0,0-0,True,38-20,38-20,0,0,0,True,True,12-12,5-1,21-7
+53,Purdue,Purdue,7-10,7-7,False,10-4,10-7,False,19-6,19-6,True,1-0,0-0,False,36-20,36-20,0,3,1,False,False,7-7,10-7,19-6
+54,Michigan,Michigan,15-11,15-11,True,6-5,6-5,True,13-8,13-8,True,0-0,0-0,True,34-24,34-24,0,0,0,True,True,15-11,6-5,13-8
+55,Kansas St.,Kansas-State,10-12,10-12,True,8-2,8-2,True,12-13,12-13,True,0-0,0-0,True,30-27,30-27,0,0,0,True,True,10-12,8-2,12-13
+56,Tarleton St.,Tarleton-State,14-8,14-8,True,4-3,4-3,True,19-8,19-8,True,0-0,0-0,True,37-19,37-19,0,0,0,True,True,14-8,4-3,19-8
+57,Gonzaga,Gonzaga,20-14,20-14,True,0-2,0-2,True,15-3,15-3,True,0-0,0-0,True,35-19,35-19,0,0,0,True,True,20-14,0-2,15-3
+58,Arkansas St.,Arkansas-State,13-14,13-14,True,0-0,0-0,True,16-10,16-10,True,0-0,0-0,True,29-24,29-24,0,0,0,True,True,13-14,0-0,16-10
+59,California,California,14-11,14-11,True,0-1,0-1,True,15-14,15-14,True,0-0,0-0,True,29-26,29-26,0,0,0,True,True,14-11,0-1,15-14
+60,Campbell,Campbell,21-5,20-5,False,2-3,3-3,False,18-9,18-9,True,0-0,0-0,True,41-17,41-17,0,1,0,False,True,21-5,2-3,18-9
+61,Baylor,Baylor,8-11,8-11,True,2-6,2-6,True,19-10,19-10,True,0-0,0-0,True,29-27,29-27,0,0,0,True,True,8-11,2-6,19-10
+62,California Baptist,California-Baptist,24-6,24-6,True,1-2,1-2,True,19-7,19-7,True,0-0,0-0,True,44-15,44-15,0,0,0,True,True,24-6,1-2,19-7
+63,LSU,LSU,3-13,3-13,True,4-1,4-1,True,23-14,23-14,True,0-0,0-0,True,30-28,30-28,0,0,0,True,True,3-13,4-1,23-14
+64,South Alabama,South-Alabama,13-9,13-9,True,2-3,2-3,True,19-11,19-11,True,0-0,0-0,True,34-23,34-23,0,0,0,True,True,13-9,2-3,19-11
+65,Western Caro.,Western-Carolina,12-12,12-12,True,3-4,3-4,True,21-7,21-7,True,0-0,0-0,True,36-23,36-23,0,0,0,True,True,12-12,3-4,21-7
+66,UAB,UAB,11-11,11-11,True,1-3,1-3,True,20-12,20-12,True,0-0,0-0,True,32-26,32-26,0,0,0,True,True,11-11,1-3,20-12
+67,Saint Joseph's,Saint-Josephs,18-13,18-12,False,1-1,2-2,False,17-5,16-5,False,0-1,0-1,True,36-19,36-19,0,2,0,False,False,18-12,2-2,16-5
+68,Notre Dame,Notre-Dame,10-11,10-11,True,4-3,5-3,False,17-8,16-8,False,0-0,0-0,True,31-22,31-22,0,1,0,False,False,10-11,5-3,16-8
+69,Xavier,Xavier,17-19,17-19,True,2-2,2-2,True,9-9,9-9,True,0-0,0-0,True,28-30,28-30,0,0,0,True,True,17-19,2-2,9-9
+70,DBU,Dallas-Baptist,13-12,12-12,False,0-2,1-2,False,19-12,19-12,True,0-0,0-0,True,32-26,32-26,0,1,0,False,True,13-12,0-2,19-12
+71,Iowa,Iowa,10-10,10-10,True,4-5,7-5,False,16-8,13-8,False,3-0,3-0,True,30-23,30-23,0,3,0,False,False,10-10,7-5,13-8
+72,Vanderbilt,Vanderbilt,5-11,5-11,True,2-6,2-6,True,26-8,26-8,True,0-0,0-0,True,33-25,33-25,0,0,0,True,True,5-11,2-6,26-8
+73,Cal Poly,Cal-Poly,15-11,15-11,True,3-1,3-1,True,18-10,18-10,True,0-0,0-0,True,36-22,36-22,0,0,0,True,True,15-11,3-1,18-10
+74,Southeastern La.,Southeastern-Louisiana,11-11,11-11,True,0-0,3-2,False,22-10,19-8,False,1-0,1-0,True,33-21,33-21,0,5,0,False,True,11-11,0-0,22-10
+75,Eastern Ill.,Eastern-Illinois,20-13,20-13,True,4-3,4-3,True,9-5,9-5,True,0-0,0-0,True,33-21,33-21,0,0,0,True,True,20-13,4-3,9-5
+76,Rice,Rice,13-11,13-11,True,2-3,2-3,True,20-10,20-10,True,0-0,0-0,True,35-24,35-24,0,0,0,True,True,13-11,2-3,20-10
+77,BYU,BYU,16-14,16-14,True,3-1,3-1,True,9-13,9-13,True,0-0,0-0,True,28-28,28-28,0,0,0,True,True,16-14,3-1,9-13
+78,NIU,Northern-Illinois,19-12,19-12,True,4-0,4-0,True,12-5,12-5,True,0-0,0-0,True,35-17,35-17,0,0,0,True,True,19-12,4-0,12-5
+79,South Fla.,South-Florida,9-12,9-12,True,0-0,0-0,True,23-9,23-9,True,0-0,0-0,True,32-21,32-21,0,0,0,True,True,9-12,0-0,23-9
+80,Louisiana Tech,Louisiana-Tech,12-11,12-11,True,2-2,2-2,True,19-12,19-12,True,0-0,0-0,True,33-25,33-25,0,0,0,True,True,12-11,2-2,19-12
+81,Samford,Samford,9-11,9-11,True,3-2,3-2,True,19-12,19-12,True,0-0,0-0,True,31-25,31-25,0,0,0,True,True,9-11,3-2,19-12
+82,Washington St.,Washington-State,14-16,14-16,True,3-3,3-3,True,13-7,13-7,True,0-0,0-0,True,30-26,30-26,0,0,0,True,True,14-16,3-3,13-7
+83,USC Upstate,South-Carolina-Upstate,11-23,11-23,True,6-1,6-1,True,16-4,16-4,True,0-0,0-0,True,33-28,33-28,0,0,0,True,True,11-23,6-1,16-4
+84,VCU,VCU,11-14,10-14,False,3-2,6-2,False,23-7,21-7,False,0-0,0-0,True,37-23,37-23,0,3,0,False,False,10-14,6-2,21-7
+85,Maryland,Maryland,13-19,13-19,True,0-1,0-1,True,14-9,14-9,True,0-0,0-0,True,27-29,27-29,0,0,0,True,True,13-19,0-1,14-9
+86,Duke,Duke,4-17,4-17,True,1-1,1-1,True,21-13,21-13,True,0-0,0-0,True,26-31,26-31,0,0,0,True,True,4-17,1-1,21-13
+87,Ohio St.,Ohio-State,12-8,11-8,False,4-7,5-7,False,14-10,14-10,True,0-0,0-0,True,30-25,30-25,0,1,0,False,False,11-8,5-7,14-10
+88,Northeastern,Northeastern,18-8,17-8,False,5-5,6-5,False,15-7,15-7,True,0-0,0-0,True,38-20,38-20,0,1,0,False,True,18-8,5-5,15-7
+89,Little Rock,Little-Rock,13-15,13-15,True,6-1,6-1,True,17-10,17-10,True,0-0,0-0,True,36-26,36-26,0,0,0,True,True,13-15,6-1,17-10
+90,Lamar University,Lamar,16-13,12-13,False,0-0,6-1,False,18-12,16-11,False,0-0,0-0,True,34-25,34-25,0,7,0,False,False,12-13,0-0,22-12
+91,Louisville,Louisville,4-14,4-14,True,2-3,2-3,True,24-10,24-10,True,0-0,0-0,True,30-27,30-27,0,0,0,True,True,4-14,2-3,24-10
+92,Kennesaw St.,Kennesaw-State,9-14,9-14,True,0-0,0-2,False,16-14,16-12,False,0-0,0-0,True,25-28,25-28,0,2,0,False,True,9-14,0-0,16-14
+93,Minnesota,Minnesota,7-11,7-11,True,4-0,4-0,True,19-12,19-12,True,0-0,0-0,True,30-23,30-23,0,0,0,True,True,7-11,4-0,19-12
+94,UC San Diego,UC-San-Diego,11-16,11-16,True,3-2,3-2,True,13-10,13-10,True,0-0,0-0,True,27-28,27-28,0,0,0,True,True,11-16,3-2,13-10
+95,San Diego St.,San-Diego-State,11-15,11-15,True,4-3,4-3,True,21-6,21-6,True,0-0,0-0,True,36-24,36-24,0,0,0,True,True,11-15,4-3,21-6
+96,Creighton,Creighton,12-14,12-14,True,3-5,3-5,True,16-7,16-7,True,0-0,0-0,True,31-26,31-26,0,0,0,True,True,12-14,3-5,16-7
+97,UTRGV,UTRGV,15-18,15-17,False,0-1,0-2,False,11-10,11-10,True,0-0,0-0,True,26-29,26-29,0,1,0,False,True,15-18,0-1,11-10
+98,Charlotte,Charlotte,9-13,9-13,True,0-2,0-2,True,19-13,19-13,True,0-0,0-0,True,28-28,28-28,0,0,0,True,True,9-13,0-2,19-13
+99,Sacramento St.,Sacramento-State,14-16,14-16,True,3-2,3-2,True,12-14,12-14,True,0-0,0-0,True,29-32,29-32,0,0,0,True,True,14-16,3-2,12-14
+100,UConn,Connecticut,21-10,21-10,True,2-6,2-6,True,9-10,9-10,True,0-0,0-0,True,32-26,32-26,0,0,0,True,True,21-10,2-6,9-10
+101,Illinois,Illinois,7-14,7-14,True,4-4,4-4,True,16-9,16-9,True,1-0,0-0,False,27-27,27-27,0,0,1,False,False,7-14,4-4,16-9
+102,St. John's (NY),Saint-Johns,18-12,18-12,True,3-3,3-3,True,12-9,12-9,True,0-0,0-0,True,33-24,33-24,0,0,0,True,True,18-12,3-3,12-9
+103,Utah,Utah,9-16,9-16,True,1-1,1-1,True,16-8,16-8,True,0-0,0-0,True,26-25,26-25,0,0,0,True,True,9-16,1-1,16-8
+104,Stanford,Stanford,6-10,6-10,True,3-3,3-3,True,19-13,19-13,True,0-0,0-0,True,28-26,28-26,0,0,0,True,True,6-10,3-3,19-13
+105,ETSU,East-Tennessee-State,11-15,11-15,True,0-1,0-1,True,19-7,19-7,True,0-0,0-0,True,30-23,30-23,0,0,0,True,True,11-15,0-1,19-7
+106,Longwood,Longwood,11-17,11-17,True,5-2,5-2,True,18-8,18-8,True,0-0,0-0,True,34-27,34-27,0,0,0,True,True,11-17,5-2,18-8
+107,Houston,Houston,8-12,8-12,True,5-2,5-2,True,11-17,11-17,True,0-0,0-0,True,24-31,24-31,0,0,0,True,True,8-12,5-2,11-17
+108,Missouri,Missouri,3-15,3-15,True,7-2,7-2,True,14-14,14-14,True,0-0,0-0,True,24-31,24-31,0,0,0,True,True,3-15,7-2,14-14
+109,Michigan St.,Michigan-State,10-14,10-14,True,3-5,3-6,False,11-13,11-12,False,0-0,0-0,True,24-32,24-32,0,1,0,False,False,10-14,3-6,11-12
+110,SIUE,SIUE,16-15,16-15,True,1-2,1-2,True,16-7,16-7,True,0-0,0-0,True,33-24,33-24,0,0,0,True,True,16-15,1-2,16-7
+111,Memphis,Memphis,8-16,8-16,True,2-2,2-2,True,14-16,14-16,True,0-0,0-0,True,24-34,24-34,0,0,0,True,True,8-16,2-2,14-16
+112,Winthrop,Winthrop,9-13,9-13,True,1-2,1-2,True,23-9,23-9,True,0-0,0-0,True,33-24,33-24,0,0,0,True,True,9-13,1-2,23-9
+113,App State,Appalachian-State,12-11,12-11,True,0-3,0-3,True,18-10,18-10,True,0-0,0-0,True,30-24,30-24,0,0,0,True,True,12-11,0-3,18-10
+113,Morehead St.,Morehead-State,17-16,17-16,True,0-1,0-1,True,14-7,14-7,True,0-0,0-0,True,31-24,31-24,0,0,0,True,True,17-16,0-1,14-7
+115,Old Dominion,Old-Dominion,10-11,10-11,True,0-1,0-1,True,19-14,19-14,True,0-0,0-0,True,29-26,29-26,0,0,0,True,True,10-11,0-1,19-14
+116,Wofford,Wofford,10-10,10-10,True,0-3,0-3,True,24-9,24-9,True,0-0,0-0,True,34-22,34-22,0,0,0,True,True,10-10,0-3,24-9
+117,Cal St. Fullerton,Cal-State-Fullerton,12-17,12-17,True,1-2,1-2,True,11-13,11-13,True,0-0,0-0,True,24-32,24-32,0,0,0,True,True,12-17,1-2,11-13
+118,Binghamton,Binghamton,14-13,14-13,True,0-0,3-0,False,17-7,14-7,False,0-0,0-0,True,31-20,31-20,0,3,0,False,True,14-13,0-0,17-7
+119,Rider,Rider,17-14,17-14,True,3-1,3-1,True,13-3,13-3,True,0-0,0-0,True,33-18,33-18,0,0,0,True,True,17-14,3-1,13-3
+120,UNCW,UNCW,13-9,13-9,True,0-0,2-2,False,17-19,15-17,False,0-0,0-0,True,30-28,30-28,0,4,0,False,True,13-9,0-0,17-19
+121,Portland,Portland,7-15,7-15,True,1-4,1-4,True,19-6,19-6,True,0-0,0-0,True,27-25,27-25,0,0,0,True,True,7-15,1-4,19-6
+122,Rutgers,Rutgers,12-13,12-13,True,1-3,1-3,True,13-14,13-14,True,0-0,0-0,True,26-30,26-30,0,0,0,True,True,12-13,1-3,13-14
+123,FGCU,FGCU,12-12,12-12,True,2-2,2-2,True,22-8,22-8,True,0-0,0-0,True,36-22,36-22,0,0,0,True,True,12-12,2-2,22-8
+124,Indiana,Indiana,9-19,9-19,True,1-2,1-2,True,13-10,13-10,True,0-0,0-0,True,23-31,23-31,0,0,0,True,True,9-19,1-2,13-10
+125,UC Irvine,UC-Irvine,10-12,10-12,True,2-1,2-1,True,13-14,13-14,True,0-0,0-0,True,25-27,25-27,0,0,0,True,True,10-12,2-1,13-14
+126,Texas Tech,Texas-Tech,7-12,7-12,True,0-4,0-4,True,20-12,20-12,True,0-0,0-0,True,27-28,27-28,0,0,0,True,True,7-12,0-4,20-12
+127,Fla. Atlantic,FAU,10-8,10-8,True,0-1,0-1,True,18-19,18-19,True,0-0,0-0,True,28-28,28-28,0,0,0,True,True,10-8,0-1,18-19
+128,Richmond,Richmond,12-10,12-10,True,0-2,0-2,True,21-12,21-12,True,0-0,0-0,True,33-24,33-24,0,0,0,True,True,12-10,0-2,21-12
+129,Jacksonville,Jacksonville,10-14,10-14,True,1-1,1-1,True,19-10,19-10,True,0-0,0-0,True,30-25,30-25,0,0,0,True,True,10-14,1-1,19-10
+130,Georgia St.,Georgia-State,9-16,9-16,True,1-2,1-2,True,17-12,17-12,True,0-0,0-0,True,27-30,27-30,0,0,0,True,True,9-16,1-2,17-12
+131,Hawaii,Hawaii,7-12,7-12,True,0-1,0-1,True,17-10,17-10,True,3-0,3-0,True,24-23,24-23,0,0,0,True,True,7-12,0-1,17-10
+132,Charleston So.,Charleston-Southern,9-12,9-12,True,1-2,1-2,True,20-9,20-9,True,0-0,0-0,True,30-23,30-23,0,0,0,True,True,9-12,1-2,20-9
+133,McNeese,McNeese,13-11,11-9,False,1-0,3-3,False,15-15,15-14,False,2-0,2-0,True,29-26,29-26,0,5,0,False,False,13-12,1-0,15-14
+134,UNC Greensboro,UNCG,10-16,10-16,True,2-2,2-2,True,11-15,11-15,True,0-0,0-0,True,23-33,23-33,0,0,0,True,True,10-16,2-2,11-15
+135,Hofstra,Hofstra,12-20,12-20,True,2-2,2-2,True,8-7,8-7,True,0-0,0-0,True,22-29,22-29,0,0,0,True,True,12-20,2-2,8-7
+136,Toledo,Toledo,13-19,13-19,True,4-2,4-2,True,15-8,15-8,True,0-0,0-0,True,32-29,32-29,0,0,0,True,True,13-19,4-2,15-8
+137,Air Force,Air-Force,7-19,7-19,True,5-7,5-7,True,15-2,15-2,True,0-0,0-0,True,27-28,27-28,0,0,0,True,True,7-19,5-7,15-2
+138,South Carolina,South-Carolina,4-14,4-14,True,0-3,0-3,True,18-18,18-18,True,0-0,0-0,True,22-35,22-35,0,0,0,True,True,4-14,0-3,18-18
+139,Western Ky.,Western-Kentucky,6-12,6-12,True,2-1,2-1,True,22-14,22-14,True,0-0,0-0,True,30-27,30-27,0,0,0,True,False,7-12,1-1,22-14
+140,Saint Mary's (CA),Saint-Marys-College,14-10,14-10,True,5-2,5-2,True,15-13,15-13,True,0-0,0-0,True,34-25,34-25,0,0,0,True,True,14-10,5-2,15-13
+141,Maine,Maine,11-26,11-24,False,4-0,4-2,False,8-6,8-6,True,1-0,1-0,True,23-32,23-32,0,2,0,False,True,11-26,4-0,8-6
+142,Wichita St.,Wichita-State,8-14,8-14,True,3-2,3-2,True,19-13,19-13,True,1-0,1-0,True,30-29,30-29,0,0,0,True,True,8-14,3-2,19-13
+143,Utah Tech,Utah-Tech,16-13,16-13,True,2-2,2-2,True,15-8,15-8,True,2-1,2-1,True,33-23,33-23,0,0,0,True,True,16-13,2-2,15-8
+144,Yale,Yale,12-8,12-8-1,True,0-1,3-1,False,18-4,15-4,False,0-0,0-0,True,30-13,30-13-1,1,3,0,False,True,12-8-1,0-1,18-4
+145,Monmouth,Monmouth,15-13,15-11,False,1-2,1-4,False,14-8,14-8,True,0-0,0-0,True,30-23,30-23,0,2,0,False,True,15-13,1-2,14-8
+146,UC Davis,UC-Davis,14-14,14-14,True,0-0,0-0,True,12-14,12-14,True,0-0,0-0,True,26-28,26-28,0,0,0,True,True,14-14,0-0,12-14
+147,Tulane,Tulane,7-21,7-21,True,0-1,0-1,True,18-9,18-9,True,0-0,0-0,True,25-31,25-31,0,0,0,True,True,7-21,0-1,18-9
+148,George Mason,George-Mason,12-15,12-14,False,4-2,4-3,False,14-9,14-9,True,0-0,0-0,True,30-26,30-26,0,1,0,False,False,12-14,4-3,14-9
+149,Western Mich.,Western-Michigan,13-12,13-12,True,3-6,3-6,True,11-7,11-7,True,0-0,0-0,True,27-25,27-25,0,0,0,True,True,13-12,3-6,11-7
+150,Northwestern,Northwestern,4-19,4-19,True,5-2,5-2,True,12-9,12-9-1,True,0-0,0-0,True,21-30,21-30-1,1,0,0,True,True,4-19,5-2,12-9-1
+151,Rhode Island,Rhode-Island,10-22,10-21,False,3-1,3-3,False,13-8,13-7,False,0-0,0-0,True,26-31,26-31,0,2,0,False,False,10-21,3-3,13-7
+152,Central Ark.,Central-Arkansas,13-16,12-16,False,0-1,1-1,False,18-9,18-9,True,0-0,0-0,True,31-26,31-26,0,1,0,False,True,13-16,0-1,18-9
+153,Bucknell,Bucknell,11-15,11-15,True,0-0,3-2,False,16-9,13-7,False,0-0,0-0,True,27-24,27-24,0,5,0,False,True,11-15,0-0,16-9
+154,Nicholls,Nicholls,11-11,11-11,True,0-3,0-3,True,10-12,10-12,True,4-0,4-0,True,21-26,21-26,0,0,0,True,True,11-11,0-3,10-12
+155,Lipscomb,Lipscomb,10-13,10-13,True,3-0,3-0,True,16-11,16-11,True,0-0,0-0,True,29-24,29-24,0,0,0,True,True,10-13,3-0,16-11
+156,Washington,Washington,9-13,9-13,True,3-5,3-5,True,12-14,12-14,True,1-0,1-0,True,24-32,24-32,0,0,0,True,True,9-13,3-5,12-14
+157,North Ala.,North-Alabama,11-13,11-13,True,3-2,3-2,True,17-13,17-13,True,0-0,0-0,True,31-28,31-28,0,0,0,True,True,11-13,3-2,17-13
+158,Illinois St.,Illinois-State,15-18,15-18,True,2-3,2-3,True,16-3,16-3,True,0-0,0-0,True,33-24,33-24,0,0,0,True,False,15-19,2-2,16-3
+159,Northwestern St.,Northwestern-State,9-16,9-16,True,1-0,1-2,False,16-10,16-8,False,0-0,0-0,True,26-26,26-26,0,2,0,False,False,9-17,1-1,16-8
+160,Fairfield,Fairfield,13-14,13-14,True,4-2,4-2,True,14-7,14-7,True,0-0,0-0,True,31-23,31-23,0,0,0,True,False,14-14,3-2,14-7
+161,Radford,Radford,9-12,9-12,True,1-3,1-3,True,15-11,15-11,True,0-0,0-0,True,25-26,25-26,0,0,0,True,True,9-12,1-3,15-11
+162,North Florida,North-Florida,11-11,11-11,True,0-2,0-2,True,20-11,20-11,True,0-0,0-0,True,31-24,31-24,0,0,0,True,True,11-11,0-2,20-11
+163,Indiana St.,Indiana-State,15-10,15-10,True,5-5,5-6,False,10-12,10-11,False,0-0,0-0,True,30-27,30-27,0,1,0,False,False,15-11,5-5,10-11
+164,Army West Point,Army,12-12,12-12,True,1-0,1-2,False,15-8,15-6,False,0-0,0-0,True,28-20,28-20,0,2,0,False,True,12-12,1-0,15-8
+165,Murray St.,Murray-State,12-19,11-18,False,13-1,14-3,False,7-7,7-6,False,1-0,1-0,True,32-27,32-27,0,3,0,False,False,11-18,12-1,9-8
+166,Florida A&M,Florida-AM,10-10,10-10,True,3-3,3-3,True,17-10,17-10,True,0-0,0-0,True,30-23,30-23,0,0,0,True,True,10-10,3-3,17-10
+167,Houston Christian,Houston-Christian,12-18,12-16,False,1-0,1-2,False,11-11,11-11,True,0-0,0-0,True,24-29,24-29,0,2,0,False,True,12-18,1-0,11-11
+168,Oral Roberts,Oral-Roberts,15-10,14-10,False,3-3,4-3,False,17-11,17-11,True,0-0,0-0,True,35-24,35-24,0,1,0,False,False,14-10,4-3,17-11
+169,Nevada,Nevada,9-17,9-17,True,0-1,0-1,True,13-9,13-9,True,2-0,2-0,True,22-27,22-27,0,0,0,True,True,9-17,0-1,13-9
+170,Sam Houston,Sam-Houston-State,11-17,11-17,True,1-1,1-1,True,13-15,13-15,True,0-0,0-0,True,25-33,25-33,0,0,0,True,True,11-17,1-1,13-15
+171,ULM,ULM,9-13,9-13,True,0-2,0-2,True,18-13,18-13,True,0-0,0-0,True,27-28,27-28,0,0,0,True,True,9-13,0-2,18-13
+172,Stony Brook,Stony-Brook,10-21,10-21,True,0-0,0-0,True,11-9,11-9,True,0-0,0-0,True,21-30,21-30,0,0,0,True,True,10-21,0-0,11-9
+173,Lindenwood,Lindenwood,9-15,9-15,True,1-2,1-2,True,19-11,19-11,True,1-0,1-0,True,29-28,29-28,0,0,0,True,True,9-15,1-2,19-11
+174,Wright St.,Wright-State,14-14,14-14,True,0-1,2-3,False,13-13,11-11,False,0-0,0-0,True,27-28,27-28,0,4,0,False,True,14-14,0-1,13-13
+175,Col. of Charleston,Charleston,10-8,10-8,True,1-4,1-4,True,17-16,17-16,True,0-0,0-0,True,28-28,28-28,0,0,0,True,True,10-8,1-4,17-16
+176,Penn,Penn,8-15,8-15,True,0-2,0-3,False,12-5,12-4,False,0-0,0-0,True,20-22,20-22,0,1,0,False,False,8-15,0-3,12-4
+177,Alabama St.,Alabama-State,12-9,12-9,True,7-0,7-0,True,15-12,15-12,True,0-0,0-0,True,34-21,34-21,0,0,0,True,True,12-9,7-0,15-12
+178,Bethune-Cookman,Bethune-Cookman,15-9,15-9,True,2-2,2-2,True,21-9,21-9,True,0-0,0-0,True,38-20,38-20,0,0,0,True,True,15-9,2-2,21-9
+179,Niagara,Niagara,15-14,15-14,True,1-2,1-2,True,11-5,11-5-1,True,0-0,0-0,True,27-21,27-21-1,1,0,0,True,False,16-14,0-2,11-5-1
+180,UT Arlington,UTA,6-17,6-17,True,1-2,1-2,True,12-13,12-13,True,0-0,0-0,True,19-32,19-32,0,0,0,True,True,6-17,1-2,12-13
+181,James Madison,James-Madison,6-18,6-18,True,2-1,2-1,True,13-13,13-13,True,0-0,0-0,True,21-32,21-32,0,0,0,True,True,6-18,2-1,13-13
+182,Dayton,Dayton,15-10,15-9,False,0-0,0-1,False,16-13,16-13,True,0-0,0-0,True,31-23,31-23,0,1,0,False,False,15-9,0-1,16-13
+183,SFA,Stephen-F-Austin,14-13,12-13,False,0-0,2-2,False,14-14,14-12,False,1-0,1-0,True,28-27,28-27,0,4,0,False,False,13-15,1-0,14-12
+184,San Jose St.,San-Jose-State,10-16,10-16,True,0-0,0-0,True,14-11,14-11,True,0-0,0-0,True,24-27,24-27,0,0,0,True,True,10-16,0-0,14-11
+185,Bryant,Bryant,13-17,13-17,True,0-1,0-1,True,14-7,14-7,True,0-0,0-0,True,27-25,27-25,0,0,0,True,True,13-17,0-1,14-7
+186,Brown,Brown,9-12,8-10,False,2-2,3-4,False,12-6,12-6,True,0-0,0-0,True,23-20,23-20,0,3,0,False,False,8-12,3-2,12-6
+187,CSUN,Cal-State-Northridge,11-13,11-13,True,0-0,0-0,True,14-15,14-15,True,0-0,0-0,True,25-28,25-28,0,0,0,True,True,11-13,0-0,14-15
+188,Marshall,Marshall,8-18,8-18,True,2-3,2-3,True,13-11,13-11,True,0-0,0-0,True,23-32,23-32,0,0,0,True,True,8-18,2-3,13-11
+189,Arizona,Arizona,5-13,5-13,True,2-4,2-4,True,12-17,12-17,True,0-0,0-0,True,19-34,19-34,0,0,0,True,True,5-13,2-4,12-17
+190,Columbia,Columbia,7-18,7-17,False,1-1,1-2,False,8-6,8-6-1,True,0-0,0-0,True,16-25,16-25-1,1,1,0,False,True,7-18,1-1,8-6-1
+191,Santa Clara,Santa-Clara,7-16,7-16,True,0-1,0-1,True,18-12,18-12,True,0-0,0-0,True,25-29,25-29,0,0,0,True,True,7-16,0-1,18-12
+192,Austin Peay,Austin-Peay,12-20,12-20,True,0-2,0-2,True,12-9,12-9,True,0-0,0-0,True,24-31,24-31,0,0,0,True,True,12-20,0-2,12-9
+193,New Orleans,New-Orleans,10-19,10-19,True,0-0,0-0,True,14-11,14-11,True,0-0,0-0,True,24-30,24-30,0,0,0,True,True,10-19,0-0,14-11
+194,Southern Ind.,Southern-Indiana,7-21,7-21,True,2-2,2-2,True,20-6,20-6,True,0-0,0-0,True,29-29,29-29,0,0,0,True,True,7-21,2-2,20-6
+195,Abilene Christian,Abilene-Christian,9-14,9-14,True,2-4,2-4,True,15-13,15-13,True,0-0,0-0,True,26-31,26-31,0,0,0,True,True,9-14,2-4,15-13
+196,Southern U.,Southern,12-11,12-11,True,3-3,3-3,True,11-9,11-9,True,2-0,3-0,False,26-23,26-23,0,0,1,False,False,12-11,3-3,11-9
+197,Penn St.,Penn-State,4-20,4-20,True,2-5,2-5,True,10-10,10-10,True,0-0,0-0,True,16-35,16-35,0,0,0,True,True,4-20,2-5,10-10
+198,UNLV,UNLV,9-10,9-10,True,2-1,2-1,True,19-14,19-14,True,0-0,0-0,True,30-25,30-25,0,0,0,True,True,9-10,2-1,19-14
+199,LIU,Long-Island,15-13,15-13,True,3-0,3-0,True,12-7,12-7,True,0-0,0-0,True,30-20,30-20,0,0,0,True,True,15-13,3-0,12-7
+200,Grand Canyon,Grand-Canyon,7-14,7-14,True,0-2,0-2,True,14-14,14-14,True,0-0,0-0,True,21-30,21-30,0,0,0,True,True,7-14,0-2,14-14
+201,Holy Cross,Holy-Cross,17-20,13-19,False,0-0,4-1,False,8-8,8-8,True,0-0,0-0,True,25-28,25-28,0,5,0,False,True,17-20,0-0,8-8
+202,A&M-Corpus Christi,Texas-AM-Corpus-Christi,8-14,8-14,True,0-0,0-0,True,15-14,15-14,True,0-0,0-0,True,23-28,23-28,0,0,0,True,True,8-14,0-0,15-14
+203,Stetson,Stetson,9-13,9-13,True,0-1,0-2,False,14-18,14-17,False,0-0,0-0,True,23-32,23-32,0,1,0,False,True,9-13,0-1,14-18
+204,Ga. Southern,Georgia-Southern,3-22,3-22,True,1-0,1-0,True,12-18,12-18,True,0-0,0-0,True,16-40,16-40,0,0,0,True,True,3-22,1-0,12-18
+205,Quinnipiac,Quinnipiac,14-19,14-19,True,0-0,0-0,True,9-9,9-9,True,0-0,0-0,True,23-28,23-28,0,0,0,True,True,14-19,0-0,9-9
+206,Merrimack,Merrimack,14-16,14-16,True,2-5,2-5,True,11-8,11-8,True,0-0,0-0,True,27-29,27-29,0,0,0,True,False,14-17,2-4,11-8
+207,Fordham,Fordham,14-15,14-15,True,0-0,0-0,True,11-15,11-15,True,0-0,0-0,True,25-30,25-30,0,0,0,True,True,14-15,0-0,11-15
+208,VMI,VMI,6-17,6-17,True,0-1,0-1,True,22-9,22-9,True,0-0,0-0,True,28-27,28-27,0,0,0,True,True,6-17,0-1,22-9
+209,Bowling Green,Bowling-Green,9-25,9-25,True,0-1,0-1,True,8-8,8-8,True,2-1,1-1,False,17-34,17-34,0,0,1,False,False,9-25,0-1,8-8
+210,San Diego,San-Diego,7-17,7-17-1,True,0-0,0-0,True,13-13,13-13,True,0-0,0-0,True,20-30,20-30-1,1,0,0,True,True,7-17-1,0-0,13-13
+211,Marist,Marist,8-19,8-19,True,2-6,2-6,True,15-5,15-5,True,0-0,0-0,True,25-30,25-30,0,0,0,True,False,8-19,0-4,17-7
+212,UMBC,UMBC,10-15,10-15,True,1-2,1-2,True,18-7,18-7,True,0-0,0-0,True,29-24,29-24,0,0,0,True,True,10-15,1-2,18-7
+213,Gardner-Webb,Gardner-Webb,6-19,6-19,True,0-0,0-0,True,19-11,19-11,True,0-0,0-0,True,25-30,25-30,0,0,0,True,True,6-19,0-0,19-11
+214,Ball St.,Ball-State,6-17,6-17,True,3-6,3-6,True,14-7,14-7,True,2-0,0-0,False,23-30,23-30,0,0,2,False,False,6-17,3-6,14-7
+215,Navy,Navy,11-10,11-8,False,2-0,2-2,False,17-9,17-9,True,0-0,0-0,True,30-19,30-19,0,2,0,False,True,11-10,2-0,17-9
+216,Evansville,Evansville,9-18,9-18,True,1-4,1-4,True,11-11,11-11,True,0-0,0-0,True,21-33,21-33,0,0,0,True,True,9-18,1-4,11-11
+217,Davidson,Davidson,9-14,9-14,True,0-4,0-4,True,16-10,16-10,True,0-0,0-0,True,25-28,25-28,0,0,0,True,True,9-14,0-4,16-10
+218,San Francisco,San-Francisco,8-13,8-13,True,4-2,4-2,True,16-15,16-15,True,0-0,0-0,True,28-30,28-30,0,0,0,True,True,8-13,4-2,16-15
+219,New Mexico,New-Mexico,6-10,6-10,True,1-2,1-2,True,21-12,21-12-1,True,1-0,1-0,True,28-24,28-24-1,1,0,0,True,True,6-10,1-2,21-12-1
+220,UIW,Incarnate-Word,7-16,7-16,True,0-0,0-0,True,12-13,12-13,True,0-0,0-0,True,19-29,19-29,0,0,0,True,True,7-16,0-0,12-13
+221,Pepperdine,Pepperdine,9-19,9-19,True,0-1,0-1,True,12-13,12-13,True,0-0,0-0,True,21-33,21-33,0,0,0,True,True,9-19,0-1,12-13
+222,Middle Tenn.,Middle-Tennessee,4-18,4-18,True,0-2,0-2,True,22-11,22-11,True,0-0,0-0,True,26-31,26-31,0,0,0,True,True,4-18,0-2,22-11
+223,FDU,Fairleigh-Dickinson,13-12,13-12-1,True,2-3,2-3,True,19-5,19-5,True,0-0,0-0,True,34-20,34-20-1,1,0,0,True,True,13-12-1,2-3,19-5
+224,New Mexico St.,New-Mexico-State,5-20,5-20,True,0-1,0-1,True,13-13,13-13,True,2-0,2-0,True,18-34,18-34,0,0,0,True,True,5-20,0-1,13-13
+225,FIU,FIU,3-19,3-19,True,0-0,0-0,True,16-16,16-16,True,0-0,0-0,True,19-35,19-35,0,0,0,True,True,3-19,0-0,16-16
+226,UMass Lowell,UMass-Lowell,12-15,12-14,False,1-4,1-5,False,8-12,8-12,True,0-0,0-0,True,21-31,21-31,0,1,0,False,True,12-15,1-4,8-12
+227,UIC,UIC,10-17,10-17-1,True,2-2,3-2,False,15-8,14-8,False,0-0,0-0,True,27-27,27-27-1,1,1,0,False,False,11-17-1,2-2,14-8
+228,William & Mary,William-Mary,9-18,9-18,True,0-0,0-0,True,12-14,12-14,True,0-0,0-0,True,21-32,21-32,0,0,0,True,True,9-18,0-0,12-14
+229,Wagner,Wagner,16-18,16-18,True,1-2,1-2,True,12-4,12-4,True,0-0,0-0,True,29-24,29-24,0,0,0,True,True,16-18,1-2,12-4
+230,Towson,Towson,13-18,13-18,True,0-0,0-0,True,9-14,9-14,True,0-0,0-0,True,22-32,22-32,0,0,0,True,True,13-18,0-0,9-14
+231,Harvard,Harvard,8-18,8-18,True,1-0,1-0,True,2-8,2-8,True,0-0,0-0,True,11-26,11-26,0,0,0,True,True,8-18,1-0,2-8
+232,Butler,Butler,10-20,10-20,True,0-3,0-3,True,10-11,10-11,True,0-0,0-0,True,20-34,20-34,0,0,0,True,True,10-20,0-3,10-11
+233,Southern Ill.,Southern-Illinois,10-13,9-13,False,5-3,6-3,False,12-16,12-16,True,0-0,0-0,True,27-32,27-32,0,1,0,False,True,10-13,5-3,12-16
+234,Elon,Elon,10-16,10-16,True,0-2,0-2,True,10-15,10-15,True,0-0,0-0,True,20-33,20-33,0,0,0,True,True,10-16,0-2,10-15
+235,UT Martin,Tennessee-Martin,8-15,8-15,True,0-1,0-1,True,17-13,17-13,True,1-0,1-0,True,25-29,25-29,0,0,0,True,True,8-15,0-1,17-13
+236,Villanova,Villanova,11-20,11-20,True,0-0,0-0,True,8-10,8-10,True,0-0,0-0,True,19-30,19-30,0,0,0,True,True,11-20,0-0,8-10
+237,CSU Bakersfield,Cal-State-Bakersfield,10-15,10-15,True,1-1,1-1,True,10-16,10-16,True,2-0,2-0,True,21-32,21-32,0,0,0,True,True,10-15,1-1,10-16
+238,Milwaukee,Milwaukee,12-26,10-26,False,1-0,3-0,False,12-5,12-5,True,0-0,0-0,True,25-31,25-31,0,2,0,False,True,12-26,1-0,12-5
+239,South Dakota St.,South-Dakota-State,11-23,10-23,False,4-1,4-2,False,5-7,6-6,False,4-0,3-0,False,20-31,20-31,0,2,1,False,False,10-23,4-2,6-6
+240,Central Mich.,Central-Michigan,12-20,12-20,True,0-0,0-0,True,10-9,10-9,True,2-0,1-0,False,22-29,22-29,0,0,1,False,False,12-20,0-0,10-9
+241,Delaware,Delaware,4-23,4-23,True,0-0,0-0,True,15-12,15-12,True,0-0,0-0,True,19-35,19-35,0,0,0,True,True,4-23,0-0,15-12
+242,Ark.-Pine Bluff,Arkansas-Pine-Bluff,5-21,5-21,True,2-3,2-3,True,17-10,17-10,True,1-0,0-0,False,24-34,24-34,0,0,1,False,False,5-21,2-3,17-10
+243,Princeton,Princeton,9-17,9-17,True,0-0,0-0,True,6-10,6-10,True,0-0,0-0,True,15-27,15-27,0,0,0,True,True,9-17,0-0,6-10
+244,Pacific,Pacific,8-15,8-15,True,1-2,1-2,True,15-13,15-13-1,True,0-0,0-0,True,24-30,24-30-1,1,0,0,True,True,8-15,1-2,15-13-1
+245,Eastern Mich.,Eastern-Michigan,8-23,8-23,True,0-0,0-0,True,11-11,11-11,True,0-0,0-0,True,19-34,19-34,0,0,0,True,True,8-23,0-0,11-11
+246,Eastern Ky.,Eastern-Kentucky,10-21,10-21,True,0-1,0-1,True,7-15,7-15,True,1-0,1-0,True,17-37,17-37,0,0,0,True,True,10-21,0-1,7-15
+247,Sacred Heart,Sacred-Heart,9-21,9-21,True,0-0,0-0,True,8-11,8-11,True,0-0,0-0,True,17-32,17-32,0,0,0,True,True,9-21,0-0,8-11
+248,Bellarmine,Bellarmine,10-21,10-21,True,1-2,1-2,True,8-11,8-11,True,0-0,0-0,True,19-34,19-34,0,0,0,True,True,10-21,1-2,8-11
+249,Long Beach St.,Long-Beach-State,5-14,5-14,True,0-2,0-2,True,12-19,12-19,True,0-0,0-0,True,17-35,17-35,0,0,0,True,True,5-14,0-2,12-19
+250,Tennessee Tech,Tennessee-Tech,6-19,6-19,True,0-0,0-0,True,12-18,12-18,True,0-0,0-0,True,18-37,18-37,0,0,0,True,True,6-19,0-0,12-18
+251,Belmont,Belmont,10-15,10-15,True,0-1,0-1,True,11-18,11-18,True,0-0,0-0,True,21-34,21-34,0,0,0,True,False,10-15,0-0,11-19
+252,Omaha,Omaha,10-14,10-15,False,2-4,2-4,True,9-8,9-7,False,0-0,0-0,True,21-26,21-26,0,1,0,False,False,10-15,2-4,9-7
+252,Seattle U,Seattle-University,8-18,8-18,True,0-0,0-0,True,8-13,8-13,True,2-0,2-0,True,16-31,16-31,0,0,0,True,True,8-18,0-0,8-13
+254,Saint Louis,Saint-Louis,7-17,7-17,True,0-3,0-3,True,13-14,13-14,True,0-0,0-0,True,20-34,20-34,0,0,0,True,True,7-17,0-3,13-14
+255,Le Moyne,Le-Moyne,9-17,9-17,True,0-2,0-2,True,13-7,13-7,True,0-0,0-0,True,22-26,22-26,0,0,0,True,True,9-17,0-2,13-7
+256,Georgetown,Georgetown,10-12,10-12,True,0-0,0-0,True,18-16,18-16,True,0-0,0-0,True,28-28,28-28,0,0,0,True,True,10-12,0-0,18-16
+257,Grambling,Grambling-State,7-18,7-18,True,3-8,3-8,True,11-5,11-5,True,0-1,0-1,True,21-31,21-31,0,0,0,True,True,7-18,3-8,11-5
+258,Canisius,Canisius,10-19,10-19,True,0-2,0-2,True,11-5,11-5,True,0-1,0-1,True,21-26,21-26,0,0,0,True,False,10-20,0-1,11-5
+259,Massachusetts,UMass,9-15,9-15,True,1-3,1-3,True,8-11,8-11,True,0-0,0-0,True,18-29,18-29,0,0,0,True,True,9-15,1-3,8-11
+260,Iona,Iona,9-16,9-16,True,0-2,0-2,True,10-10,10-10,True,0-0,0-0,True,19-28,19-28,0,0,0,True,True,9-16,0-2,10-10
+261,UNC Asheville,UNC-Asheville,7-18,7-18,True,2-0,2-0,True,12-16,12-16,True,0-0,0-0,True,21-34,21-34,0,0,0,True,True,7-18,2-0,12-16
+262,Dartmouth,Dartmouth,4-19,4-19,True,2-0,2-0,True,9-6,9-6,True,0-0,0-0,True,15-25,15-25,0,0,0,True,True,4-19,2-0,9-6
+263,Queens (NC),Queens,6-20,6-20,True,0-0,0-0,True,10-18,10-18,True,0-0,0-0,True,16-38,16-38,0,0,0,True,True,6-20,0-0,10-18
+264,Stonehill,Stonehill,11-23,11-23,True,0-0,0-0,True,10-5,10-5,True,0-0,0-0,True,21-28,21-28,0,0,0,True,True,11-23,0-0,10-5
+265,Western Ill.,Western-Illinois,6-23,6-23,True,2-1,2-1,True,7-12,7-12,True,2-0,2-0,True,15-36,15-36,0,0,0,True,True,6-23,2-1,7-12
+266,Mount St. Mary's,Mount-Saint-Marys,12-10,12-10,True,1-2,1-2,True,9-14,9-14,True,0-0,0-0,True,22-26,22-26,0,0,0,True,True,12-10,1-2,9-14
+267,Manhattan,Manhattan,14-19,14-19,True,0-3,0-3,True,6-9,6-9,True,0-0,0-0,True,20-31,20-31,0,0,0,True,True,14-19,0-3,6-9
+268,Siena,Siena,7-22,7-22,True,2-1,2-1,True,11-7,11-7,True,0-0,0-0,True,20-30,20-30,0,0,0,True,True,7-22,2-1,11-7
+269,West Ga.,West-Georgia,5-26,5-26,True,0-0,0-0,True,8-15,8-15,True,0-0,0-0,True,13-41,13-41,0,0,0,True,True,5-26,0-0,8-15
+270,Akron,Akron,12-18,12-18,True,1-2,1-2,True,7-14,7-14,True,1-0,0-0,False,20-34,20-34,0,0,1,False,False,12-18,1-2,7-14
+271,La Salle,La-Salle,9-20,9-20,True,0-0,0-0,True,15-11,15-11,True,0-0,0-0,True,24-31,24-31,0,0,0,True,True,9-20,0-0,15-11
+272,UC Riverside,UC-Riverside,5-19,5-19,True,0-0,0-0,True,10-18,10-18,True,0-0,0-0,True,15-37,15-37,0,0,0,True,True,5-19,0-0,10-18
+273,Presbyterian,Presbyterian-College,4-27,4-27,True,0-0,0-0,True,8-17,8-17,True,0-0,0-0,True,12-44,12-44,0,0,0,True,True,4-27,0-0,8-17
+274,Seton Hall,Seton-Hall,3-14,3-14,True,3-2,3-2,True,10-14,10-14,True,0-0,0-0,True,16-30,16-30,0,0,0,True,True,3-14,3-2,10-14
+275,Cornell,Cornell,6-14,6-14,True,0-4,0-4,True,5-8,5-8,True,0-0,0-0,True,11-26,11-26,0,0,0,True,True,6-14,0-4,5-8
+276,Valparaiso,Valparaiso,8-26,8-26,True,0-3,0-3,True,4-9,4-9,True,0-0,0-0,True,12-38,12-38,0,0,0,True,True,8-26,0-3,4-9
+277,UAlbany,Albany,8-21,8-21,True,0-4,0-4,True,7-9,7-9,True,0-0,0-0,True,15-34,15-34,0,0,0,True,True,8-21,0-4,7-9
+278,Northern Ky.,Northern-Kentucky,6-20,6-20,True,3-2,3-2,True,15-8,15-8,True,1-0,1-0,True,24-30,24-30,0,0,0,True,True,6-20,3-2,15-8
+279,N.C. A&T,North-Carolina-AT,5-17,5-17,True,1-2,1-2,True,8-19,8-19,True,0-0,0-0,True,14-38,14-38,0,0,0,True,True,5-17,1-2,8-19
+280,George Washington,George-Washington,5-19,5-19,True,0-0,0-0,True,13-16,13-16,True,0-0,0-0,True,18-35,18-35,0,0,0,True,True,5-19,0-0,13-16
+281,Lehigh,Lehigh,8-20,8-20,True,0-0,0-0,True,6-11,6-11,True,1-0,1-0,True,14-31,14-31,0,0,0,True,True,8-20,0-0,6-11
+282,Youngstown St.,Youngstown-State,11-28,11-28,True,0-0,0-1,False,4-11,4-10,False,0-0,0-0,True,15-39,15-39,0,1,0,False,False,11-28,0-1,4-10
+283,Utah Valley,Utah-Valley,6-22,6-22,True,0-0,0-0,True,9-13,9-13,True,3-1,3-1,True,15-35,15-35,0,0,0,True,True,6-22,0-0,9-13
+284,North Dakota St.,North-Dakota-State,8-26,8-26,True,1-1,1-1,True,4-5,4-5,True,0-0,0-0,True,13-32,13-32,0,0,0,True,True,8-26,1-1,4-5
+285,Lafayette,Lafayette,6-23,6-23,True,0-0,0-0,True,6-10,6-10,True,0-0,0-0,True,12-33,12-33,0,0,0,True,True,6-23,0-0,6-10
+286,St. Bonaventure,Saint-Bonaventure,4-27,4-27-1,True,0-0,0-0,True,9-9,9-9,True,0-0,0-0,True,13-36,13-36-1,1,0,0,True,True,4-27-1,0-0,9-9
+287,LMU (CA),Loyola-Marymount,1-28,1-28,True,2-0,2-0,True,9-16,9-16,True,0-0,0-0,True,12-44,12-44,0,0,0,True,True,1-28,2-0,9-16
+288,Fresno St.,Fresno-State,5-19,5-19-1,True,0-0,0-0,True,9-19,9-19,True,0-0,0-0,True,14-38,14-38-1,1,0,0,True,True,5-19-1,0-0,9-19
+289,Texas Southern,Texas-Southern,7-13,7-13,True,4-4,4-4,True,9-6,9-6,True,1-1,1-1,True,20-23,20-23,0,0,0,True,True,7-13,4-4,9-6
+290,NJIT,NJIT,7-15,7-15,True,2-0,2-0,True,7-16,7-16-1,True,0-0,0-0,True,16-31,16-31-1,1,0,0,True,True,7-15,2-0,7-16-1
+291,Bradley,Bradley,8-31,8-31,True,1-1,1-1,True,2-13,2-13,True,0-0,0-0,True,11-45,11-45,0,0,0,True,True,8-31,1-1,2-13
+292,Jackson St.,Jackson-State,9-13,9-13,True,3-5,3-5,True,11-9,11-9,True,3-0,0-0,False,23-27,23-27,0,0,3,False,False,9-13,3-4,11-10
+293,Ohio,Ohio,8-23,8-23,True,1-2,1-2,True,2-18,2-18,True,0-0,0-0,True,11-43,11-43,0,0,0,True,True,8-23,1-2,2-18
+294,Oakland,Oakland,7-30,6-28,False,1-0,2-2,False,4-12,4-12,True,1-0,0-0,False,12-42,12-42,0,3,1,False,False,6-30,2-0,4-12
+295,St. Thomas (MN),Saint-Thomas,7-27,7-27,True,0-1,0-1,True,5-10,5-10,True,0-0,0-0,True,12-38,12-38,0,0,0,True,True,7-27,0-1,5-10
+296,Northern Colo.,Northern-Colorado,8-28,8-28,True,1-2,1-2,True,8-8,8-8,True,0-0,0-0,True,17-38,17-38,0,0,0,True,True,8-28,1-2,8-8
+297,Central Conn. St.,Central-Connecticut,8-15,8-15,True,0-0,0-0,True,9-12,9-12,True,0-0,0-0,True,17-27,17-27,0,0,0,True,True,8-15,0-0,9-12
+298,Mercyhurst,Mercyhurst,6-15,6-15,True,0-4,0-4,True,9-13,9-13,True,0-0,0-0,True,15-32,15-32,0,0,0,True,True,6-15,0-4,9-13
+299,Mississippi Val.,Mississippi-Valley-State,6-28,6-28,True,1-1,1-1,True,5-7,5-7,True,0-1,0-1,True,12-36,12-36,0,0,0,True,True,6-28,1-1,5-7
+300,Norfolk St.,Norfolk-State,6-12,6-12,True,0-0,0-0,True,13-19,13-19,True,1-0,1-0,True,19-31,19-31,0,0,0,True,True,6-12,0-0,13-19
+301,New Haven,New-Haven,5-19,5-19,True,0-3,0-3,True,7-11,7-11,True,1-0,1-0,True,12-33,12-33,0,0,0,True,True,5-19,0-3,7-11
+302,Prairie View,Prairie-View-AM,3-24,3-24,True,4-1,4-1,True,5-10,5-10,True,2-1,2-1,True,12-35,12-35,0,0,0,True,True,3-24,4-1,5-10
+303,Coppin St.,Coppin-State,4-19,4-19,True,0-0,0-0,True,7-18,7-18,True,0-0,0-0,True,11-37,11-37,0,0,0,True,True,4-19,0-0,7-18
+304,Delaware St.,Delaware-State,5-30,5-30,True,0-0,0-0,True,3-12,3-12,True,0-0,0-0,True,8-42,8-42,0,0,0,True,True,5-30,0-0,3-12
+305,Alabama A&M,Alabama-AM,1-22,1-22,True,3-8,3-8,True,3-14,3-14,True,3-0,3-0,True,7-44,7-44,0,0,0,True,True,1-22,3-8,3-14
+306,Saint Peter's,Saint-Peters,4-31,4-31,True,0-0,0-0,True,1-16,1-16,True,0-0,0-0,True,5-47,5-47,0,0,0,True,True,4-31,0-0,1-16
+307,Alcorn,Alcorn-State,2-23,2-23,True,1-4,1-4,True,1-15,1-15,True,5-0,5-0,True,4-42,4-42,0,0,0,True,False,3-23,0-4,1-15
+308,UMES,Maryland-Eastern-Shore,5-23,5-23,True,0-0,0-0,True,4-16,4-16,True,0-0,0-0,True,9-39,9-39,0,0,0,True,True,5-23,0-0,4-16

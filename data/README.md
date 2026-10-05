@@ -228,3 +228,35 @@ magnitude comes from the scoreboard fit with a park term (`scripts/build_phase2_
 - data.ncaa.com serves only the scoreboard feed for 2025 (no per-game JSON);
   www.ncaa.com and sdataprod.ncaa.com were denied by the network policy at the
   time of the pull.
+
+## data/ncaa_2026/ — 2026 D1 game results for the RPI formula check
+
+- `rpi/ncaa_rpi_through_2026-05-24.html.gz`: https://www.ncaa.com/rankings/baseball/d1/rpi,
+  fetched 2026-10-05; the page reads "Through Games May. 24 2026". Parsed to
+  `rpi/ncaa_rpi_through_2026-05-24.csv` (rank, school, record, conference, road,
+  neutral, home, non_d1, prev; W-L strings as published, 308 schools; `record` is
+  the D1 record, road + neutral + home).
+- `warrennolan/raw/<slug>.html.gz`: every team's 2026 schedule page,
+  `https://www.warrennolan.com/baseball/2026/schedule/<slug>` (robots.txt: Allow /),
+  fetched 2026-10-05 by `scripts/fetch_warrennolan_2026.py` (1.5 s delay, up to 3
+  retries); slugs from the site's sitemap, saved as
+  `warrennolan/sitemap_college-baseball-2026.xml.gz`. 308 pages, 0 failures
+  (`warrennolan/fetch_log.json`).
+- `warrennolan/games_2026.csv` (`scripts/parse_warrennolan_2026.py`): one row per
+  game, 2026-02-13 to 2026-06-22, deduplicated across both teams' pages; site as
+  WarrenNolan marks it (home / "AT" / "VS" = neutral; for neutral games `home` is
+  the team batting last in the box score), both pages' labels kept;
+  `neutral_at_home_venue_of` names a participant whose main home park hosted a
+  game WarrenNolan calls neutral. `team_games_2026.csv` has every page entry,
+  `parse_report.json` the counts and anomalies.
+- `team_name_map.csv`: NCAA.com name to WarrenNolan slug (244 by normalised
+  name, 64 by hand).
+- `warrennolan/record_check_through_2026-05-24.csv`
+  (`scripts/check_warrennolan_vs_ncaa_2026.py`): per school, the NCAA's road /
+  neutral / home / non-D1 W-L against the same splits from `games_2026.csv`
+  (final games through 2026-05-24). The D1 W-L total matches for all 308
+  schools (8,297 decided D1 games plus 7 ties WarrenNolan shows and the NCAA
+  page does not print). Site splits differ for 48 schools (106 team-games):
+  WarrenNolan calls conference-tournament games at a participant's park and
+  some alternate-site "home" games neutral where the NCAA counts home/road.
+  Non-D1 records differ for 11 schools (WarrenNolan omits some non-D1 games).
