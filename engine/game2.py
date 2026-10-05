@@ -152,6 +152,7 @@ class PlayerGameEngine:
         self.opp_trials = np.zeros((n_players, n_teams, 2, len(TRIAL_KINDS)), dtype=np.int32)
         self.exp_trials = np.zeros((n_players, len(EXP_RATES), 2))
         self.rate_cache: dict = {}
+        self.neutral = False          # Phase 7: the current game is at a neutral site
         eta = cfg.home_eta / 2
         self.home_bat = eta * np.array(cfg.v_bat)
         self.home_pit = eta * np.array(cfg.v_pit)
@@ -191,12 +192,20 @@ class PlayerGameEngine:
         self.of_zone = list(zs)
         self.of_zone_cum = np.cumsum([zs[k] for k in self.of_zone]) / sum(zs.values())
 
+    def _key(self, batter, pitcher, home_batting: bool) -> tuple:
+        """Cache key of a matchup: the listed home side and whether the game is at a neutral site (Phase 7:
+        no home edge for either side, a league-average park)."""
+        return (batter.pid, pitcher.pid, home_batting, self.neutral)
+
     def _probs(self, batter, pitcher, home_batting: bool) -> Categorical:
-        key = (batter.pid, pitcher.pid, home_batting)
+        key = self._key(batter, pitcher, home_batting)
         cat = self.cache.get(key)
         if cat is None:
-            zb, zp = (batter.z + self.home_bat, pitcher.z) if home_batting else (batter.z, pitcher.z - self.home_pit)
-            park = self.league.teams[(batter if home_batting else pitcher).team].park if hasattr(self.league, "teams") else None
+            if self.neutral:
+                zb, zp, park = batter.z, pitcher.z, None
+            else:
+                zb, zp = (batter.z + self.home_bat, pitcher.z) if home_batting else (batter.z, pitcher.z - self.home_pit)
+                park = self.league.teams[(batter if home_batting else pitcher).team].park if hasattr(self.league, "teams") else None
             if park is not None:
                 zb = zb + park          # the home team's park, for both teams' plate appearances
             p = matchup_probs(self.cfg, zb, zp, self.league.location)
@@ -405,7 +414,7 @@ class PlayerGameEngine:
     def _roe_tilt(self, batter, pitcher, home_batting, res, eo, rng):
         """Reached on error against an in-play out, tilted by the fielding team's error odds; each
         keeps its probability otherwise (exact marginal: P(ROE | ROE or out) -> odds x eo)."""
-        p_roe, p_out = self.roe_cache[(batter.pid, pitcher.pid, home_batting)]
+        p_roe, p_out = self.roe_cache[self._key(batter, pitcher, home_batting)]
         r = p_roe / (p_roe + p_out)
         r2 = r * eo / (1 - r + r * eo)
         if res == "ROE" and r2 < r:
@@ -418,7 +427,7 @@ class PlayerGameEngine:
         """P(hit | hit or in-play out) against a defense with error odds eo. The reached-on-error tilt
         (_roe_tilt) moves in-play outs to reached on error and back, so the hit share among hits and outs
         depends on the fielding team: an error-prone defense leaves fewer outs. Exact under the tilt."""
-        key = (batter.pid, pitcher.pid, home_batting)
+        key = self._key(batter, pitcher, home_batting)
         b = self.rate_cache[key][3]
         if eo == 1.0:
             return b
@@ -497,7 +506,7 @@ class PlayerGameEngine:
 
     def _pitches(self, batter, pitcher, home_batting: bool, res: str, rng) -> int:
         """Draw the PA's pitch sequence given its outcome; record the pitch-level statistics."""
-        key = (batter.pid, pitcher.pid, home_batting)
+        key = self._key(batter, pitcher, home_batting)
         q = self.q_cache.get(key)
         if q is None:
             q = self.q_cache[key] = self.pitch.chain(self.tilt_cache[key])
@@ -547,7 +556,7 @@ class PlayerGameEngine:
         ot = self.opp_trials
         ot[batter.pid, ptid, h, 0] += 1
         ot[pitcher.pid, btid, h, 0] += 1
-        rp = self.rate_cache.get((batter.pid, pitcher.pid, bool(h)))
+        rp = self.rate_cache.get(self._key(batter, pitcher, bool(h)))
         if rp is not None:
             ex = self.exp_trials
             ex[batter.pid, :3, 0] += rp[:3]; ex[batter.pid, :3, 1] += rp[:3] * (1 - rp[:3])
@@ -590,8 +599,9 @@ class PlayerGameEngine:
                 elif res == "HR":
                     bs[B_HR] += 1; ps[P_HR] += 1; st.hr[bat] += 1
 
-    def play(self, rng, home, away, weekend, dec, week=0, day=0, date=0) -> GameState2:
+    def play(self, rng, home, away, weekend, dec, week=0, day=0, date=0, neutral=False) -> GameState2:
         st = GameState2(rng, home, away, weekend)
+        self.neutral = neutral
         self.q_cache.clear()          # chains are rebuilt per game (memory); the tilts stay cached
         st.run_rule_in_effect = rng.random() < self.rules.p_run_rule_in_effect
         st.week, st.day, st.date = week, day, date

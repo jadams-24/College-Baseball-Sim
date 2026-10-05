@@ -203,6 +203,17 @@ magnitude comes from the scoreboard fit with a park term (`scripts/build_phase2_
 - **Inferred, not stated by the page:** games_min/games_max (derived from the format), and
   the OVC bracket shape (taken from the schedule table, which contradicts the page's prose).
 
+## data/ncaa_<season>/scoreboard/ — scoreboard feed 2015-2019, 2021-2024 (Phase 7)
+
+- **Source:** the same feed as 2025, `https://data.ncaa.com/casablanca/scoreboard/baseball/d1/YYYY/MM/DD/scoreboard.json`,
+  every day from Feb 10 to Jun 30 of each season (`scripts/pull_scoreboard.py --season Y --start Y-02-10 --end Y-06-30
+  --out data/ncaa_Y/scoreboard`). Fetched 2026-10-05, 0.3 s between requests. 2020 (season stopped in March) and
+  2026 (not served: HTTP 404) are not pulled.
+- **Coverage varies by season:** 2015 and 2016 leave many games without results (1,109 and 949 entries still `pre`);
+  2017 and 2018 have no conference names; from 2019 on, results and conferences are nearly complete. Conference
+  tournament games are often placeholders against `TBA` with no score (most of them in 2025, some in 2021).
+  `manifest.json` per season lists days without games and errors (none).
+
 ## Not pulled
 
 - **stats.ncaa.org team, individual and contest pages.** The team list is
