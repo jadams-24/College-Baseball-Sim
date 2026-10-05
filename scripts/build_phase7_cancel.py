@@ -49,7 +49,13 @@ def main() -> None:
     per = T.groupby(["season", "team"]).agg(sched=("cx", "size"), canceled=("cx", "sum"))
     per["played"] = per.sched - per.canceled
     seasons = sorted(T.season.unique().tolist())
-    out = {"built": dt.date.today().isoformat(), "seasons": seasons, "rate_by_month": rates,
+    dist = per.sched.value_counts(normalize=True).sort_index()
+    sched = {"distribution": {str(int(k)): round(float(v), 4) for k, v in dist.items()}, "mean": round(float(per.sched.mean()), 3),
+             "share_56": round(float((per.sched == 56).mean()), 4), "share_above_56": round(float((per.sched > 56).mean()), 4),
+             "share_below_42": round(float((per.sched < 42).mean()), 4),
+             "_note": "regular-season games each team scheduled (played or canceled; all opponents), WarrenNolan 2025-2026. Teams below 56 "
+                      "lose midweek games: Thu-Sun games stay near 42 from 51 scheduled games up, Mon-Wed games fall from 13.4 at 56 to about 10 at 50-52"}
+    out = {"built": dt.date.today().isoformat(), "seasons": seasons, "rate_by_month": rates, "scheduled": sched,
            "n_team_games": int(len(T)), "_note": __doc__, "conf": "B",
            "conf_note": "WarrenNolan lists canceled games it was given; games dropped from schedules long before may be missing (rates are a floor)"}
     cur = json.loads(INPUTS7.read_text()) if INPUTS7.exists() else {}
@@ -57,8 +63,12 @@ def main() -> None:
     INPUTS7.write_text(json.dumps(cur, indent=1) + "\n")
     bench = json.loads(BENCH.read_text())
     g = per.groupby("season")
-    bench["games"] = {"_note": "regular season per team (all opponents, WarrenNolan schedules): scheduled, canceled and played; the sim schedules "
-                               "56 for every team (the NCAA maximum), so only the cancellation rate is modeled (owner decision: no shortened schedules)",
+    pl = per.groupby("season").played.mean()
+    bench["games"] = {"_note": "regular season per team (all opponents, WarrenNolan schedules): scheduled, canceled and played. The sim draws each "
+                               "team's scheduled games from the 2025-2026 distribution (midweek games dropped) and cancels on top (owner decision "
+                               "2026-10-05); season-to-season SD of the league mean from the two seasons (|2025 - 2026| / sqrt 2)",
+                      "played_mean": {"value": round(float(pl.mean()), 3), "season_sd": round(float(abs(pl.iloc[0] - pl.iloc[-1]) / np.sqrt(2)), 3) if len(pl) > 1 else None},
+                      "scheduled_distribution": sched,
                       "conf": "B", "seasons": seasons,
                       "cancel_rate": {"value": rates["all"], "se": round(float(np.sqrt(rates["all"] * (1 - rates["all"]) / len(T))), 4), "by_month": rates},
                       "scheduled_per_team": {str(s): round(float(x.sched.mean()), 2) for s, x in g},

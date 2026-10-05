@@ -1,7 +1,7 @@
 """Simulate full seasons of the fictional league and collect player and team lines.
 
-Phase 7 (config.phase7.FEATURES["world"]): scheduled regular-season games are canceled at the real rate
-by month, and after the regular season come the conference tournaments, selection and the NCAA tournament
+Phase 7 (config.phase7.FEATURES["world"]): each team schedules the real number of games (midweek games
+dropped to its drawn target), scheduled regular-season games are canceled at the real rate by month, and after the regular season come the conference tournaments, selection and the NCAA tournament
 (engine.world). The returned lines (bstats, pstats, team rows, Phase 4-6 records) are the regular season's,
 copied before the postseason, so every Phase 1-6 report reads the regular season; res["post"] carries the
 postseason and full-season lines for the Phase 7 report.
@@ -28,11 +28,12 @@ def simulate_season(cfg: Phase2Config, seed: int) -> dict:
     schedule = make_schedule(cfg, league, np.random.Generator(np.random.PCG64(s_sched)))
     world = phase7.on("world")
     if world:
-        from engine.world import cancel_mask
-        s_cancel, s_post = ss.spawn(2)          # after the first three: league, schedule and game draws are unchanged
-        canceled = cancel_mask(schedule, np.random.Generator(np.random.PCG64(s_cancel)))
+        from engine.world import cancel_mask, schedule_mask
+        s_cancel, s_post, s_len = ss.spawn(3)    # after the first three: league, schedule and game draws are unchanged
+        dropped = schedule_mask(schedule, len(league.teams), np.random.Generator(np.random.PCG64(s_len)))
+        canceled = cancel_mask(schedule, np.random.Generator(np.random.PCG64(s_cancel))) & ~dropped
     else:
-        canceled = np.zeros(len(schedule), bool)
+        dropped = canceled = np.zeros(len(schedule), bool)
     n = len(league.players)
     bstats = [[0] * B_NCOL for _ in range(n)]
     pstats = [[0] * P_NCOL for _ in range(n)]
@@ -40,7 +41,7 @@ def simulate_season(cfg: Phase2Config, seed: int) -> dict:
     mgr = Manager(cfg)
     team_games = Counter()
     tg_rows, game_rows, halves, reg_games = [], [], [], []
-    for g, gss, cx in zip(schedule, s_games.spawn(len(schedule)), canceled):
+    for g, gss, cx in zip(schedule, s_games.spawn(len(schedule)), canceled | dropped):
         if cx:
             continue
         rng = np.random.Generator(np.random.PCG64(gss))
@@ -63,7 +64,8 @@ def simulate_season(cfg: Phase2Config, seed: int) -> dict:
            "leash_expected": copy.deepcopy(mgr.leash_expected), "leash_var": copy.deepcopy(mgr.leash_var),
            "pitch_rec": copy.deepcopy(eng.pitch_rec), "sb": list(eng.sb), "outings": np.array(eng.outings, dtype=np.int32),
            "outing_lines": np.array(eng.outing_lines, dtype=np.int32), "player_pitch": eng.player_pitch.copy(), "starts": np.array(eng.starts, dtype=float),
-           "scheduled_games": Counter([g.home for g in schedule] + [g.away for g in schedule]), "canceled": int(canceled.sum())}
+           "scheduled_games": Counter([g.home for i, g in enumerate(schedule) if not dropped[i]] + [g.away for i, g in enumerate(schedule) if not dropped[i]]),
+           "canceled": int(canceled.sum())}
     if world:
         res["post"] = _postseason(cfg, league, eng, mgr, reg_games, max(g.date for g in schedule), s_post, team_games, bstats, pstats)
     return res

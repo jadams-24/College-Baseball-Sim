@@ -28,14 +28,15 @@ def main() -> None:
     p7 = json.loads((ROOT / "data/ncaa_2025/derived/phase7_benchmarks.json").read_text())
     chk = json.loads((ROOT / "data/ncaa_2026/rpi/rpi_check_2026.json").read_text())
     block = {"_note": "Phase 7 (season and world): scoreboard feed 2015-2025, published brackets 2015-2025 (no 2020), WarrenNolan "
-                      "schedules 2025-2026, the NCAA's published RPI through May 24, 2026. See PHASE0_NOTES, Phase 7.",
+                      "schedules 2025-2026, the NCAA's published RPI through May 24, 2026. Rows that depend on the conference map are gated "
+                      "on 'current' (2025-2026); the multi-season 'rpi', 'field' and 'standings' blocks are kept for reference. See PHASE0_NOTES, Phase 7.",
              "built": p7["built"],
              "rpi_formula_check_2026": {"spearman": round(chk["weighted"]["spearman"], 5), "exact_rank": chk["weighted"]["exact_rank"],
                                         "within_3": chk["weighted"]["within_3"], "teams": chk["weighted"]["teams"],
                                         "spearman_unweighted": round(chk["unweighted"]["spearman"], 5), "conf": "A",
                                         "src": "engine.rpi on WarrenNolan 2026 results through May 24 against https://www.ncaa.com/rankings/baseball/d1/rpi "
                                                "('Through Games May. 24 2026', the final RPI before the field was selected)"}}
-    for k in ("games", "standings", "rpi", "field", "seeds", "home_field", "conference_tournaments"):
+    for k in ("games", "standings", "rpi", "field", "seeds", "home_field", "conference_tournaments", "current"):
         block[k] = p7[k]
     old = b.get("season_world_2015_2026")
     b["season_world_2015_2026"] = block

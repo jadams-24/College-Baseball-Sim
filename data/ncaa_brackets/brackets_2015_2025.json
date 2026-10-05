@@ -10848,6 +10848,1093 @@
     "errors": [],
     "notes": []
    }
+  },
+  "2026": {
+   "url": "https://en.wikipedia.org/wiki/2026_NCAA_Division_I_baseball_tournament",
+   "raw_file": "data/ncaa_brackets/raw/wikipedia_2026.html.gz",
+   "national_seeds_published": 16,
+   "national_seeds": [
+    "UCLA",
+    "Georgia Tech",
+    "Georgia",
+    "Auburn",
+    "North Carolina",
+    "Texas",
+    "Alabama",
+    "Florida",
+    "Southern Miss",
+    "Florida State",
+    "Oregon",
+    "Texas A&M",
+    "Nebraska",
+    "Mississippi State",
+    "Kansas",
+    "West Virginia"
+   ],
+   "bid_source": "Automatic bids and At-large tables",
+   "teams": [
+    {
+     "team": "UCLA",
+     "conference": "Big Ten",
+     "conference_bids_table": "Big Ten",
+     "bid": "auto",
+     "national_seed": 1,
+     "host": true
+    },
+    {
+     "team": "Virginia Tech",
+     "conference": "ACC",
+     "conference_bids_table": "ACC",
+     "bid": "at-large",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "Cal Poly",
+     "conference": "Big West",
+     "conference_bids_table": "Big West",
+     "bid": "auto",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "Saint Mary's",
+     "conference": "WCC",
+     "conference_bids_table": "West Coast",
+     "bid": "auto",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "West Virginia",
+     "conference": "Big 12",
+     "conference_bids_table": "Big 12",
+     "bid": "at-large",
+     "national_seed": 16,
+     "host": true
+    },
+    {
+     "team": "Wake Forest",
+     "conference": "ACC",
+     "conference_bids_table": "ACC",
+     "bid": "at-large",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "Kentucky",
+     "conference": "SEC",
+     "conference_bids_table": "SEC",
+     "bid": "at-large",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "Binghamton",
+     "conference": "America East",
+     "conference_bids_table": "America East",
+     "bid": "auto",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "Florida",
+     "conference": "SEC",
+     "conference_bids_table": "SEC",
+     "bid": "at-large",
+     "national_seed": 8,
+     "host": true
+    },
+    {
+     "team": "Miami (FL)",
+     "conference": "ACC",
+     "conference_bids_table": "ACC",
+     "bid": "at-large",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "Troy",
+     "conference": "Sun Belt",
+     "conference_bids_table": "Sun Belt",
+     "bid": "at-large",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "Rider",
+     "conference": "Metro Atlantic",
+     "conference_bids_table": "MAAC",
+     "bid": "auto",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "Southern Miss",
+     "conference": "Sun Belt",
+     "conference_bids_table": "Sun Belt",
+     "bid": "auto",
+     "national_seed": 9,
+     "host": true
+    },
+    {
+     "team": "Virginia",
+     "conference": "ACC",
+     "conference_bids_table": "ACC",
+     "bid": "at-large",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "Jacksonville State",
+     "conference": "CUSA",
+     "conference_bids_table": "CUSA",
+     "bid": "auto",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "Little Rock",
+     "conference": "Ohio Valley",
+     "conference_bids_table": "Ohio Valley",
+     "bid": "auto",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "North Carolina",
+     "conference": "ACC",
+     "conference_bids_table": "ACC",
+     "bid": "at-large",
+     "national_seed": 5,
+     "host": true
+    },
+    {
+     "team": "Tennessee",
+     "conference": "SEC",
+     "conference_bids_table": "SEC",
+     "bid": "at-large",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "East Carolina",
+     "conference": "American",
+     "conference_bids_table": "American",
+     "bid": "auto",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "VCU",
+     "conference": "Atlantic 10",
+     "conference_bids_table": "Atlantic 10",
+     "bid": "auto",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "Texas A&M",
+     "conference": "SEC",
+     "conference_bids_table": "SEC",
+     "bid": "at-large",
+     "national_seed": 12,
+     "host": true
+    },
+    {
+     "team": "USC",
+     "conference": "Big Ten",
+     "conference_bids_table": "Big 10",
+     "bid": "at-large",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "Texas State",
+     "conference": "Sun Belt",
+     "conference_bids_table": "Sun Belt",
+     "bid": "at-large",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "Lamar",
+     "conference": "Southland",
+     "conference_bids_table": "Southland",
+     "bid": "auto",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "Auburn",
+     "conference": "SEC",
+     "conference_bids_table": "SEC",
+     "bid": "at-large",
+     "national_seed": 4,
+     "host": true
+    },
+    {
+     "team": "UCF",
+     "conference": "Big 12",
+     "conference_bids_table": "Big 12",
+     "bid": "at-large",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "NC State",
+     "conference": "ACC",
+     "conference_bids_table": "ACC",
+     "bid": "at-large",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "Milwaukee",
+     "conference": "Horizon",
+     "conference_bids_table": "Horizon",
+     "bid": "auto",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "Nebraska",
+     "conference": "Big Ten",
+     "conference_bids_table": "Big 10",
+     "bid": "at-large",
+     "national_seed": 13,
+     "host": true
+    },
+    {
+     "team": "Ole Miss",
+     "conference": "SEC",
+     "conference_bids_table": "SEC",
+     "bid": "at-large",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "Arizona State",
+     "conference": "Big 12",
+     "conference_bids_table": "Big 12",
+     "bid": "at-large",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "South Dakota State",
+     "conference": "Summit",
+     "conference_bids_table": "Summit",
+     "bid": "auto",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "Georgia Tech",
+     "conference": "ACC",
+     "conference_bids_table": "ACC",
+     "bid": "auto",
+     "national_seed": 2,
+     "host": true
+    },
+    {
+     "team": "Oklahoma",
+     "conference": "SEC",
+     "conference_bids_table": "SEC",
+     "bid": "at-large",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "The Citadel",
+     "conference": "Southern",
+     "conference_bids_table": "SoCon",
+     "bid": "auto",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "UIC",
+     "conference": "Missouri Valley",
+     "conference_bids_table": "Missouri Valley",
+     "bid": "auto",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "Kansas",
+     "conference": "Big 12",
+     "conference_bids_table": "Big 12",
+     "bid": "auto",
+     "national_seed": 15,
+     "host": true
+    },
+    {
+     "team": "Arkansas",
+     "conference": "SEC",
+     "conference_bids_table": "SEC",
+     "bid": "at-large",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "Missouri State",
+     "conference": "CUSA",
+     "conference_bids_table": "CUSA",
+     "bid": "at-large",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "Northeastern",
+     "conference": "Coastal",
+     "conference_bids_table": "CAA",
+     "bid": "auto",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "Alabama",
+     "conference": "SEC",
+     "conference_bids_table": "SEC",
+     "bid": "at-large",
+     "national_seed": 7,
+     "host": true
+    },
+    {
+     "team": "Oklahoma State",
+     "conference": "Big 12",
+     "conference_bids_table": "Big 12",
+     "bid": "at-large",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "USC Upstate",
+     "conference": "Big South",
+     "conference_bids_table": "Big South",
+     "bid": "auto",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "Alabama State",
+     "conference": "SWAC",
+     "conference_bids_table": "SWAC",
+     "bid": "auto",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "Florida State",
+     "conference": "ACC",
+     "conference_bids_table": "ACC",
+     "bid": "at-large",
+     "national_seed": 10,
+     "host": true
+    },
+    {
+     "team": "Coastal Carolina",
+     "conference": "Sun Belt",
+     "conference_bids_table": "Sun Belt",
+     "bid": "at-large",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "Northern Illinois",
+     "conference": "Mid-American",
+     "conference_bids_table": "MAC",
+     "bid": "auto",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "St. John's",
+     "conference": "Big East",
+     "conference_bids_table": "Big East",
+     "bid": "auto",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "Texas",
+     "conference": "SEC",
+     "conference_bids_table": "SEC",
+     "bid": "at-large",
+     "national_seed": 6,
+     "host": true
+    },
+    {
+     "team": "UC Santa Barbara",
+     "conference": "Big West",
+     "conference_bids_table": "Big West",
+     "bid": "at-large",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "Tarleton State",
+     "conference": "WAC",
+     "conference_bids_table": "WAC",
+     "bid": "auto",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "Holy Cross",
+     "conference": "Patriot",
+     "conference_bids_table": "Patriot",
+     "bid": "auto",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "Oregon",
+     "conference": "Big Ten",
+     "conference_bids_table": "Big 10",
+     "bid": "at-large",
+     "national_seed": 11,
+     "host": true
+    },
+    {
+     "team": "Oregon State",
+     "conference": "Independent",
+     "conference_bids_table": "Independent",
+     "bid": "at-large",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "Washington State",
+     "conference": "Mountain West",
+     "conference_bids_table": "Mountain West",
+     "bid": "auto",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "Yale",
+     "conference": "Ivy League",
+     "conference_bids_table": "Ivy League",
+     "bid": "auto",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "Mississippi State",
+     "conference": "SEC",
+     "conference_bids_table": "SEC",
+     "bid": "at-large",
+     "national_seed": 14,
+     "host": true
+    },
+    {
+     "team": "Cincinnati",
+     "conference": "Big 12",
+     "conference_bids_table": "Big 12",
+     "bid": "at-large",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "Louisiana",
+     "conference": "Sun Belt",
+     "conference_bids_table": "Sun Belt",
+     "bid": "at-large",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "Lipscomb",
+     "conference": "ASUN",
+     "conference_bids_table": "ASUN",
+     "bid": "auto",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "Georgia",
+     "conference": "SEC",
+     "conference_bids_table": "SEC",
+     "bid": "auto",
+     "national_seed": 3,
+     "host": true
+    },
+    {
+     "team": "Boston College",
+     "conference": "ACC",
+     "conference_bids_table": "ACC",
+     "bid": "at-large",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "Liberty",
+     "conference": "CUSA",
+     "conference_bids_table": "CUSA",
+     "bid": "at-large",
+     "national_seed": null,
+     "host": false
+    },
+    {
+     "team": "Long Island",
+     "conference": "Northeast",
+     "conference_bids_table": "Northeast",
+     "bid": "auto",
+     "national_seed": null,
+     "host": false
+    }
+   ],
+   "regionals": [
+    {
+     "name": "Los Angeles Regional",
+     "site": "Jackie Robinson Stadium",
+     "city": "Los Angeles",
+     "host": "UCLA",
+     "host_source": "Schedule and venues: Jackie Robinson Stadium, Los Angeles (Host: UCLA)",
+     "teams": [
+      {
+       "team": "UCLA",
+       "seed": 1
+      },
+      {
+       "team": "Virginia Tech",
+       "seed": 2
+      },
+      {
+       "team": "Cal Poly",
+       "seed": 3
+      },
+      {
+       "team": "Saint Mary's",
+       "seed": 4
+      }
+     ],
+     "winner": "Cal Poly"
+    },
+    {
+     "name": "Morgantown Regional",
+     "site": "Kendrick Family Ballpark",
+     "city": "Morgantown",
+     "host": "West Virginia",
+     "host_source": "Schedule and venues: Kendrick Family Ballpark, Granville (Host: West Virginia)",
+     "teams": [
+      {
+       "team": "West Virginia",
+       "seed": 1
+      },
+      {
+       "team": "Wake Forest",
+       "seed": 2
+      },
+      {
+       "team": "Kentucky",
+       "seed": 3
+      },
+      {
+       "team": "Binghamton",
+       "seed": 4
+      }
+     ],
+     "winner": "West Virginia"
+    },
+    {
+     "name": "Gainesville Regional",
+     "site": "Condron Ballpark",
+     "city": "Gainesville",
+     "host": "Florida",
+     "host_source": "Schedule and venues: Condron Ballpark, Gainesville (Host: Florida)",
+     "teams": [
+      {
+       "team": "Florida",
+       "seed": 1
+      },
+      {
+       "team": "Miami (FL)",
+       "seed": 2
+      },
+      {
+       "team": "Troy",
+       "seed": 3
+      },
+      {
+       "team": "Rider",
+       "seed": 4
+      }
+     ],
+     "winner": "Troy"
+    },
+    {
+     "name": "Hattiesburg Regional",
+     "site": "Pete Taylor Park",
+     "city": "Hattiesburg",
+     "host": "Southern Miss",
+     "host_source": "Schedule and venues: Pete Taylor Park, Hattiesburg (Host: Southern Mississippi)",
+     "teams": [
+      {
+       "team": "Southern Miss",
+       "seed": 1
+      },
+      {
+       "team": "Virginia",
+       "seed": 2
+      },
+      {
+       "team": "Jacksonville State",
+       "seed": 3
+      },
+      {
+       "team": "Little Rock",
+       "seed": 4
+      }
+     ],
+     "winner": "Little Rock"
+    },
+    {
+     "name": "Chapel Hill Regional",
+     "site": "Boshamer Stadium",
+     "city": "Chapel Hill",
+     "host": "North Carolina",
+     "host_source": "Schedule and venues: Boshamer Stadium, Chapel Hill (Host: North Carolina)",
+     "teams": [
+      {
+       "team": "North Carolina",
+       "seed": 1
+      },
+      {
+       "team": "Tennessee",
+       "seed": 2
+      },
+      {
+       "team": "East Carolina",
+       "seed": 3
+      },
+      {
+       "team": "VCU",
+       "seed": 4
+      }
+     ],
+     "winner": "North Carolina"
+    },
+    {
+     "name": "College Station Regional",
+     "site": "Olsen Field at Blue Bell Park",
+     "city": "College Station",
+     "host": "Texas A&M",
+     "host_source": "Schedule and venues: Olsen Field at Blue Bell Park, College Station (Host: Texas A&M)",
+     "teams": [
+      {
+       "team": "Texas A&M",
+       "seed": 1
+      },
+      {
+       "team": "USC",
+       "seed": 2
+      },
+      {
+       "team": "Texas State",
+       "seed": 3
+      },
+      {
+       "team": "Lamar",
+       "seed": 4
+      }
+     ],
+     "winner": "USC"
+    },
+    {
+     "name": "Auburn Regional",
+     "site": "Plainsman Park",
+     "city": "Auburn",
+     "host": "Auburn",
+     "host_source": "Schedule and venues: Plainsman Park, Auburn (Host: Auburn)",
+     "teams": [
+      {
+       "team": "Auburn",
+       "seed": 1
+      },
+      {
+       "team": "UCF",
+       "seed": 2
+      },
+      {
+       "team": "NC State",
+       "seed": 3
+      },
+      {
+       "team": "Milwaukee",
+       "seed": 4
+      }
+     ],
+     "winner": "Auburn"
+    },
+    {
+     "name": "Lincoln Regional",
+     "site": "Haymarket Park",
+     "city": "Lincoln",
+     "host": "Nebraska",
+     "host_source": "Schedule and venues: Haymarket Park, Lincoln (Host: Nebraska)",
+     "teams": [
+      {
+       "team": "Nebraska",
+       "seed": 1
+      },
+      {
+       "team": "Ole Miss",
+       "seed": 2
+      },
+      {
+       "team": "Arizona State",
+       "seed": 3
+      },
+      {
+       "team": "South Dakota State",
+       "seed": 4
+      }
+     ],
+     "winner": "Ole Miss"
+    },
+    {
+     "name": "Atlanta Regional",
+     "site": "Russ Chandler Stadium",
+     "city": "Atlanta",
+     "host": "Georgia Tech",
+     "host_source": "Schedule and venues: Russ Chandler Stadium, Atlanta (Host: Georgia Tech)",
+     "teams": [
+      {
+       "team": "Georgia Tech",
+       "seed": 1
+      },
+      {
+       "team": "Oklahoma",
+       "seed": 2
+      },
+      {
+       "team": "The Citadel",
+       "seed": 3
+      },
+      {
+       "team": "UIC",
+       "seed": 4
+      }
+     ],
+     "winner": "Oklahoma"
+    },
+    {
+     "name": "Lawrence Regional",
+     "site": "Hoglund Ballpark",
+     "city": "Lawrence",
+     "host": "Kansas",
+     "host_source": "Schedule and venues: Hoglund Ballpark, Lawrence (Host: Kansas)",
+     "teams": [
+      {
+       "team": "Kansas",
+       "seed": 1
+      },
+      {
+       "team": "Arkansas",
+       "seed": 2
+      },
+      {
+       "team": "Missouri State",
+       "seed": 3
+      },
+      {
+       "team": "Northeastern",
+       "seed": 4
+      }
+     ],
+     "winner": "Kansas"
+    },
+    {
+     "name": "Tuscaloosa Regional",
+     "site": "Sewell–Thomas Stadium",
+     "city": "Tuscaloosa",
+     "host": "Alabama",
+     "host_source": "Schedule and venues: Sewell–Thomas Stadium, Tuscaloosa (Host: Alabama)",
+     "teams": [
+      {
+       "team": "Alabama",
+       "seed": 1
+      },
+      {
+       "team": "Oklahoma State",
+       "seed": 2
+      },
+      {
+       "team": "USC Upstate",
+       "seed": 3
+      },
+      {
+       "team": "Alabama State",
+       "seed": 4
+      }
+     ],
+     "winner": "Alabama"
+    },
+    {
+     "name": "Tallahassee Regional",
+     "site": "Mike Martin Field at Dick Howser Stadium",
+     "city": "Tallahassee",
+     "host": "Florida State",
+     "host_source": "Schedule and venues: Mike Martin Field at Dick Howser Stadium, Tallahassee (Host: Florida State)",
+     "teams": [
+      {
+       "team": "Florida State",
+       "seed": 1
+      },
+      {
+       "team": "Coastal Carolina",
+       "seed": 2
+      },
+      {
+       "team": "Northern Illinois",
+       "seed": 3
+      },
+      {
+       "team": "St. John's",
+       "seed": 4
+      }
+     ],
+     "winner": "St. John's"
+    },
+    {
+     "name": "Austin Regional",
+     "site": "UFCU Disch–Falk Field",
+     "city": "Austin",
+     "host": "Texas",
+     "host_source": "Schedule and venues: UFCU Disch–Falk Field, Austin (Host: Texas)",
+     "teams": [
+      {
+       "team": "Texas",
+       "seed": 1
+      },
+      {
+       "team": "UC Santa Barbara",
+       "seed": 2
+      },
+      {
+       "team": "Tarleton State",
+       "seed": 3
+      },
+      {
+       "team": "Holy Cross",
+       "seed": 4
+      }
+     ],
+     "winner": "Texas"
+    },
+    {
+     "name": "Eugene Regional",
+     "site": "PK Park",
+     "city": "Eugene",
+     "host": "Oregon",
+     "host_source": "Schedule and venues: PK Park, Eugene (Host: Oregon)",
+     "teams": [
+      {
+       "team": "Oregon",
+       "seed": 1
+      },
+      {
+       "team": "Oregon State",
+       "seed": 2
+      },
+      {
+       "team": "Washington State",
+       "seed": 3
+      },
+      {
+       "team": "Yale",
+       "seed": 4
+      }
+     ],
+     "winner": "Oregon"
+    },
+    {
+     "name": "Starkville Regional",
+     "site": "Dudy Noble Field",
+     "city": "Starkville",
+     "host": "Mississippi State",
+     "host_source": "Schedule and venues: Dudy Noble Field, Mississippi State (Host: Mississippi State)",
+     "teams": [
+      {
+       "team": "Mississippi State",
+       "seed": 1
+      },
+      {
+       "team": "Cincinnati",
+       "seed": 2
+      },
+      {
+       "team": "Louisiana",
+       "seed": 3
+      },
+      {
+       "team": "Lipscomb",
+       "seed": 4
+      }
+     ],
+     "winner": "Mississippi State"
+    },
+    {
+     "name": "Athens Regional",
+     "site": "Foley Field",
+     "city": "Athens",
+     "host": "Georgia",
+     "host_source": "Schedule and venues: Foley Field, Athens (Host: Georgia)",
+     "teams": [
+      {
+       "team": "Georgia",
+       "seed": 1
+      },
+      {
+       "team": "Boston College",
+       "seed": 2
+      },
+      {
+       "team": "Liberty",
+       "seed": 3
+      },
+      {
+       "team": "Long Island",
+       "seed": 4
+      }
+     ],
+     "winner": "Georgia"
+    }
+   ],
+   "supers": [
+    {
+     "name": "Morgantown Super Regional",
+     "teams": [
+      "Cal Poly",
+      "West Virginia"
+     ],
+     "national_seeds_shown": {
+      "West Virginia": 16
+     },
+     "host": "West Virginia",
+     "host_source": "page: 'Hosted by West Virginia'",
+     "page_note": "Hosted by West Virginia at Kendrick Family Ballpark.",
+     "winner": "West Virginia"
+    },
+    {
+     "name": "Troy Super Regional",
+     "teams": [
+      "Troy",
+      "Little Rock"
+     ],
+     "national_seeds_shown": {},
+     "host": "Troy",
+     "host_source": "page: 'Hosted by Troy'",
+     "page_note": "Hosted by Troy at Riddle–Pace Field.",
+     "winner": "Troy"
+    },
+    {
+     "name": "Chapel Hill Super Regional",
+     "teams": [
+      "North Carolina",
+      "USC"
+     ],
+     "national_seeds_shown": {
+      "North Carolina": 5
+     },
+     "host": "North Carolina",
+     "host_source": "page: 'Hosted by North Carolina'",
+     "page_note": "Hosted by North Carolina at Boshamer Stadium",
+     "winner": "North Carolina"
+    },
+    {
+     "name": "Auburn Super Regional",
+     "teams": [
+      "Auburn",
+      "Ole Miss"
+     ],
+     "national_seeds_shown": {
+      "Auburn": 4
+     },
+     "host": "Auburn",
+     "host_source": "page: 'Hosted by Auburn'",
+     "page_note": "Hosted by Auburn at Plainsman Park.",
+     "winner": "Ole Miss"
+    },
+    {
+     "name": "Lawrence Super Regional",
+     "teams": [
+      "Oklahoma",
+      "Kansas"
+     ],
+     "national_seeds_shown": {
+      "Kansas": 15
+     },
+     "host": "Kansas",
+     "host_source": "page: 'Hosted by Kansas'",
+     "page_note": "Hosted by Kansas at Hoglund Ballpark",
+     "winner": "Oklahoma"
+    },
+    {
+     "name": "Tuscaloosa Super Regional",
+     "teams": [
+      "Alabama",
+      "St. John's"
+     ],
+     "national_seeds_shown": {
+      "Alabama": 7
+     },
+     "host": "Alabama",
+     "host_source": "page: 'Hosted by Alabama'",
+     "page_note": "Hosted by Alabama at Sewell–Thomas Stadium",
+     "winner": "Alabama"
+    },
+    {
+     "name": "Austin Super Regional",
+     "teams": [
+      "Texas",
+      "Oregon"
+     ],
+     "national_seeds_shown": {
+      "Texas": 6,
+      "Oregon": 11
+     },
+     "host": "Texas",
+     "host_source": "page: 'Hosted by Texas'",
+     "page_note": "Hosted by Texas at UFCU Disch–Falk Field",
+     "winner": "Texas"
+    },
+    {
+     "name": "Athens Super Regional",
+     "teams": [
+      "Mississippi State",
+      "Georgia"
+     ],
+     "national_seeds_shown": {
+      "Mississippi State": 14,
+      "Georgia": 3
+     },
+     "host": "Georgia",
+     "host_source": "page: 'Hosted by Georgia'",
+     "page_note": "Hosted by Georgia at Foley Field",
+     "winner": "Georgia"
+    }
+   ],
+   "cws": [
+    "West Virginia",
+    "Troy",
+    "North Carolina",
+    "Ole Miss",
+    "Georgia",
+    "Texas",
+    "Alabama",
+    "Oklahoma"
+   ],
+   "champion": "Oklahoma",
+   "runner_up": "North Carolina",
+   "validation": {
+    "passed": true,
+    "errors": [],
+    "notes": []
+   }
   }
  }
 }

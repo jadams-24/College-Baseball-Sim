@@ -39,6 +39,14 @@ def season_extract7(res: dict) -> dict:
     sched = sum(res["scheduled_games"].values()) / 2
     out["cancel_rate"] = res["canceled"] / sched
     out["games_per_team"] = sum(res["team_games"].values()) / len(lg.teams)
+    sg = np.array([res["scheduled_games"].get(t.tid, 0) for t in lg.teams])
+    out["scheduled_mean"], out["scheduled_share_56"], out["scheduled_p10"] = float(sg.mean()), float((sg >= 56).mean()), float(np.percentile(sg, 10))
+    # P4 against mid-tier, nonconference regular season: P4 win%, run margin and its SD
+    conf_of = {tid: c for tid, (_, c, _) in enumerate(_cfg().teams)}
+    marg = [(hs - as_) if tier[h] == "p4" else (as_ - hs) for h, a, hs, as_, *_ in res["games"]
+            if {tier[h], tier[a]} == {"p4", "mid"} and conf_of[h] != conf_of[a]]
+    marg = np.array(marg, float)
+    out["p4mid_p4_win"], out["p4mid_margin"], out["p4mid_margin_sd"] = float((marg > 0).mean()), float(marg.mean()), float(marg.std(ddof=1))
     # standings: regular season, teams with 30+ decided games
     pct = {t: w / (w + l) for t, (w, l) in post["standings"].items() if w + l >= 30}
     for tr in TIERS:
@@ -112,6 +120,19 @@ def season_extract7(res: dict) -> dict:
         rr = tg[tg[:, 0] == t]
         reg_era.append(27 * rr[:, 6].sum() / rr[:, 7].sum())
     out["reg_teams_era_under_4"] = int((np.array(reg_era) < 4).sum())
+    # unearned runs, full seasons (the NCAA.com team ERA page counts every game of the season, postseason included):
+    # earned share overall and for the 50 teams with the lowest ERA, unearned runs per game for those 50
+    T = len(lg.teams)
+    pl_ = post["post_lines"]
+    ra = np.bincount(tg[:, 0].astype(int), tg[:, 2], T) + np.bincount(pl_[:, 0].astype(int), pl_[:, 3], T)
+    erx = np.bincount(tg[:, 0].astype(int), tg[:, 6], T) + np.bincount(pl_[:, 0].astype(int), pl_[:, 1], T)
+    ipo = np.bincount(tg[:, 0].astype(int), tg[:, 7], T) + np.bincount(pl_[:, 0].astype(int), pl_[:, 2], T)
+    gms = np.array([tgf[t] for t in range(T)], float)
+    top50 = np.argsort(27 * erx / ipo)[:50]
+    out["earned_share_all"] = float(erx.sum() / ra.sum())
+    out["earned_share_top50"] = float(erx[top50].sum() / ra[top50].sum())
+    out["unearned_per_game_top50"] = float(((ra - erx)[top50] / gms[top50]).mean())
+    out["ra_per_game_top50"] = float((ra[top50] / gms[top50]).mean())
     out["postseason_games"] = len(post["games"])
     return out
 
@@ -169,17 +190,28 @@ def build_report7(agg: dict, seeds: list, statuses: dict) -> tuple[str, Status]:
     st["p7_rpi_formula"] = ok
     rows.append(("rpi", f"| RPI formula vs NCAA published (2026, rank correlation) | {rc['spearman']:.5f} | ≥ {RPI_MIN_SPEARMAN} | — | {rc['conf']} | yes | "
                         f"{'pass' if ok else 'FAIL'} | {rc['exact_rank']}/{rc['teams']} ranks exact, {rc['within_3']} within 3; without site weighting {rc['spearman_unweighted']:.4f} |"))
+    cur = b["current"]["rows"]
+    cconf = b["current"]["conf"]
+
+    def crow(section, key, label, sim_key, bkey, nd=3, gate=True, note=""):
+        """Current-map row (2025-2026): tolerance from the sim's SE and the season-to-season SD of a two-season mean."""
+        x = cur[bkey]
+        s_real = (x["season_sd"] or 0.0) / math.sqrt(len(x["by_season"]))
+        bs = " / ".join(f"{v:.{nd}f}" for v in x["by_season"].values())
+        row(section, key, label, m[sim_key], se[sim_key], x["value"], s_real, nd, f"2025 / 2026: {bs}; season SD {x['season_sd']}. {note}", cconf, gate)
     g = b["games"]
     row("season", "p7_cancel_rate", "Regular-season games canceled (share)", m["cancel_rate"], se["cancel_rate"], g["cancel_rate"]["value"], g["cancel_rate"]["se"], 4,
         "", g["conf"])
-    played = np.mean(list(g["played_per_team"].values()))
-    rows.append(("season", f"| Regular-season games per team | {m['games_per_team']:.2f} | {played:.2f} | — | {g['conf']} | report | — | "
-                           f"real teams schedule {np.mean(list(g['scheduled_per_team'].values())):.1f} (the sim 56, the NCAA maximum; no shortened schedules by owner decision) "
-                           f"and lose {np.mean(list(g['canceled_per_team'].values())):.2f} to cancellations |"))
+    pm = g["played_mean"]
+    row("season", "p7_games_per_team", "Regular-season games played per team", m["games_per_team"], se["games_per_team"], pm["value"], pm["season_sd"] / math.sqrt(2), 2,
+        f"2025 / 2026: {g['played_per_team']['2025']:.2f} / {g['played_per_team']['2026']:.2f}", g["conf"])
+    sdist = g["scheduled_distribution"]
+    rows.append(("season", f"| Scheduled games per team: mean / share at 56 / 10th percentile | {m['scheduled_mean']:.2f} / {m['scheduled_share_56']:.3f} / {m['scheduled_p10']:.1f} | "
+                           f"{sdist['mean']:.2f} / {sdist['share_56']:.3f} / 50 | — | {g['conf']} | report | — | real targets above 56 ({sdist['share_above_56']:.3f}) are capped at the 56-game frame and "
+                           f"below 42 ({sdist['share_below_42']:.3f}) at its 42 weekend games |"))
     s = b["standings"]
     for tr in TIERS:
-        x = s["win_pct_sd_by_tier"][tr]
-        row("season", f"p7_win_pct_sd_{tr}", f"Win% SD across teams, {tr}", m[f"win_pct_sd_{tr}"], se[f"win_pct_sd_{tr}"], x["value"], x["se"], 4, "", s["conf"])
+        crow("season", f"p7_win_pct_sd_{tr}", f"Win% SD across teams, {tr}", f"win_pct_sd_{tr}", f"win_pct_sd_by_tier/{tr}", 4)
     bw = s["best_win_pct"]
     lo, hi = bw["range"]
     pad = k * se["best_win_pct"]
@@ -187,25 +219,22 @@ def build_report7(agg: dict, seeds: list, statuses: dict) -> tuple[str, Status]:
     st["p7_best_win_pct"] = ok
     st.record("p7_best_win_pct", m["best_win_pct"], se["best_win_pct"])
     rows.append(("season", f"| Best regular-season win% | {m['best_win_pct']:.3f} (seasons {agg['min']['best_win_pct']:.3f}–{agg['max']['best_win_pct']:.3f}) | "
-                           f"{lo:.3f}–{hi:.3f} | ±{pad:.3f} | {s['conf']} | yes | {'pass' if ok else 'FAIL'} | band of real seasons |"))
-    rp = b["rpi"]
-    nr = len(b["field"]["worst_rpi_rank_at_large"]["by_season"])
+                           f"{lo:.3f}–{hi:.3f} | ±{pad:.3f} | {s['conf']} | yes | {'pass' if ok else 'FAIL'} | band of real seasons 2017-2025 |"))
     for kk in ("1", "16", "32", "64"):
-        x = rp["rpi_at_rank"][kk]
-        row("rpi", f"p7_rpi_at_{kk}", f"RPI of the team ranked {kk}", m[f"rpi_at_{kk}"], se[f"rpi_at_{kk}"], x["mean"], x["sd"] / math.sqrt(nr), 4, "", rp["conf"])
+        crow("rpi", f"p7_rpi_at_{kk}", f"RPI of the team ranked {kk}", f"rpi_at_{kk}", f"rpi_at_rank/{kk}", 4)
     for tr in TIERS:
-        x = rp["mean_rpi_by_tier"][tr]
-        row("rpi", f"p7_mean_rpi_{tr}", f"Mean RPI, {tr}", m[f"mean_rpi_{tr}"], se[f"mean_rpi_{tr}"], x["mean"], x["sd"] / math.sqrt(nr), 4, "", rp["conf"])
-    fb = b["field"]
-    ns = len(fb["by_season"]["at_large"])
+        crow("rpi", f"p7_mean_rpi_{tr}", f"Mean RPI, {tr}", f"mean_rpi_{tr}", f"mean_rpi_by_tier/{tr}", 4)
     for tr in TIERS:
-        x = fb["at_large_by_tier"][tr]
-        row("field", f"p7_at_large_{tr}", f"At-large bids, {tr}", m[f"at_large_{tr}"], se[f"at_large_{tr}"], x["mean"], x["sd"] / math.sqrt(ns), 2, "", fb["conf"])
-    x = fb["conferences_multi_bid"]
-    row("field", "p7_conferences_multi_bid", "Conferences with more than one bid", m["conferences_multi_bid"], se["conferences_multi_bid"], x["mean"], x["sd"] / math.sqrt(ns), 2, "", fb["conf"])
-    for key, lab in (("worst_rpi_rank_at_large", "Worst RPI rank given an at-large bid"), ("best_rpi_rank_left_out", "Best RPI rank left out")):
-        x = fb[key]
-        row("field", f"p7_{key}", lab, m[key], se[key], x["mean"], x["sd"] / math.sqrt(nr), 1, "", fb["conf"])
+        crow("field", f"p7_at_large_{tr}", f"At-large bids, {tr}", f"at_large_{tr}", f"at_large_by_tier/{tr}", 2, gate=tr != "low",
+             note="no low-tier at-large bid in 2022-2026: reported" if tr == "low" else "")
+    crow("field", "p7_conferences_multi_bid", "Conferences with more than one bid", "conferences_multi_bid", "conferences_multi_bid", 2)
+    crow("field", "p7_worst_rpi_rank_at_large", "Worst RPI rank given an at-large bid", "worst_rpi_rank_at_large", "worst_rpi_rank_at_large", 1)
+    crow("field", "p7_best_rpi_rank_left_out", "Best RPI rank left out", "best_rpi_rank_left_out", "best_rpi_rank_left_out", 1)
+    # P4 against mid-tier, nonconference regular season (the check behind the field rows; not gated)
+    for kk, lab, nd in (("p4_win", "P4 vs mid nonconference: P4 win%", 3), ("margin", "P4 vs mid nonconference: run margin", 2),
+                        ("margin_sd", "P4 vs mid nonconference: run margin SD", 2)):
+        crow("field", f"p7_p4mid_{kk}", lab, f"p4mid_{kk}", f"p4_vs_mid/{kk}", nd, gate=False,
+             note="watch item 'offense extremes compressed'" if kk == "margin_sd" else "")
     sd = b["seeds"]
     x = sd["host_wins_regional"]
     row("seeds", "p7_host_wins_regional", "Regional hosts winning their regional (share)", m["host_wins_regional"] / 16, se["host_wins_regional"] / 16, x["value"], x["se"], 3, "", sd["conf"])
@@ -236,6 +265,17 @@ def build_report7(agg: dict, seeds: list, statuses: dict) -> tuple[str, Status]:
         s_ = statuses[ph]
         st[f"{ph}_gate"] = all(v for v in s_.values() if v is not None)
     # watch-item re-checks (full seasons)
+    # upset rates: with the real game-to-game spread (P4 vs mid margin SD), a per-game win probability p becomes
+    # Phi(Phi^-1(p) * sd_sim / sd_real) (normal margin model)
+    ratio = m["p4mid_margin_sd"] / cur["p4_vs_mid/margin_sd"]["value"]
+    from statistics import NormalDist
+    nd_ = NormalDist()
+    adj = lambda q: nd_.cdf(nd_.inv_cdf(q) * ratio)
+    hb, hs_ = pooled["hf_regional_no_host_better_seed"]["value"], pooled["hf_regional_host"]["value"]
+    upset = (f"- Game-to-game spread and postseason upsets (watch item 'offense extremes compressed'): P4 vs mid nonconference margin SD "
+             f"{m['p4mid_margin_sd']:.2f} against {cur['p4_vs_mid/margin_sd']['value']:.2f} real (2025-2026), ratio {ratio:.3f}. With the real spread "
+             f"the better seed's win% in regional games without the host would be about {adj(hb):.3f} instead of {hb:.3f}, and the host's {adj(hs_):.3f} "
+             f"instead of {hs_:.3f} (normal margin model: an upset rate higher by {100 * (hb - adj(hb)):.1f} and {100 * (hs_ - adj(hs_)):.1f} points per game).")
     u6 = json.loads((ROOT / "benchmarks.json").read_text())["usage_phase6_2025"]
     lb = json.loads((ROOT / "benchmarks.json").read_text())["leaderboards_2025"]["pitchers_50ip"]
     tl = json.loads((ROOT / "benchmarks.json").read_text())["team_leaders_2024_2026"]["teams_era_under_4"]
@@ -243,7 +283,13 @@ def build_report7(agg: dict, seeds: list, statuses: dict) -> tuple[str, Status]:
              f"#3 {m['full_ip_rank3']:.1f} (real {u6['ip_rank1']['value']} / {u6['ip_rank2']['value']} ± {u6['ip_rank2']['tol']} / {u6['ip_rank3']['value']}); "
              f"pitchers with 50+ IP {m['full_pitchers_50ip']:.0f} (real {lb['value_56g']}; regular season only, Phase 6 report).",
              f"- Teams under 4.00 ERA, full seasons {m['full_teams_era_under_4']:.1f}, regular season {m['reg_teams_era_under_4']:.1f} "
-             f"(2024-2026: {tl['lo']:.0f}–{tl['hi']:.0f}, real seasons include the postseason)."]
+             f"(2024-2026: {tl['lo']:.0f}–{tl['hi']:.0f}). Same definition on both sides: the NCAA.com team ERA page counts every game of a "
+             f"season, conference tournaments and the NCAA tournament included (2025 data year: Northeastern 60 games, Coastal Carolina 69); the "
+             f"sim's full season is its regular season plus its postseason (it has no non-Division I games).",
+             f"- Unearned runs, full seasons: earned share of runs allowed {m['earned_share_all']:.3f} (real .882, WMT play-by-play 2025); the 50 lowest-ERA "
+             f"teams {m['earned_share_top50']:.3f} (real .869 / .866 / .867 in 2024 / 2025 / 2026, NCAA.com team ERA page), unearned runs per game for "
+             f"them {m['unearned_per_game_top50']:.2f} (real .67 / .65 / .65), runs allowed per game {m['ra_per_game_top50']:.2f} (real 5.05 / 4.80 / 4.81).",
+             upset]
     hdr = "| Metric | Sim | Benchmark | Tol | Conf | Gated | Status | Note |\n|---|---|---|---|---|---|---|---|"
     sec = lambda name: "\n".join(r for s_, r in rows if s_ == name)
     gate_ok = all(v for v in st.values() if v is not None)

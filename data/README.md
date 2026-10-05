@@ -221,6 +221,11 @@ magnitude comes from the scoreboard fit with a park term (`scripts/build_phase2_
   56 opponents have no 2025 page under those slugs (they appear as opponents only). Conference tournament games carry
   an event label ("SEC Tournament - Game 7"); all of them are labelled neutral, even at a member's park.
 
+- **WarrenNolan access** (rechecked 2026-10-05): `https://www.warrennolan.com/robots.txt` reads
+  `User-agent: * / Allow: /`, so the schedule pages and the sitemap fetched are allowed. `scripts/fetch_warrennolan_2026.py`
+  waits 1.5 s between requests, retries a reset connection at most 3 times (after 5, 10, 20 s), sends a descriptive
+  User-Agent, and stops on a 403/407/429 or a bot-protection page. Each page was fetched once per season and is committed.
+
 ## Not pulled
 
 - **stats.ncaa.org team, individual and contest pages.** The team list is

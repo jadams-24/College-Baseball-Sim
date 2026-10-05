@@ -453,7 +453,41 @@
   }
  },
  "games": {
-  "_note": "regular season per team (all opponents, WarrenNolan schedules): scheduled, canceled and played; the sim schedules 56 for every team (the NCAA maximum), so only the cancellation rate is modeled (owner decision: no shortened schedules)",
+  "_note": "regular season per team (all opponents, WarrenNolan schedules): scheduled, canceled and played. The sim draws each team's scheduled games from the 2025-2026 distribution (midweek games dropped) and cancels on top (owner decision 2026-10-05); season-to-season SD of the league mean from the two seasons (|2025 - 2026| / sqrt 2)",
+  "played_mean": {
+   "value": 52.251,
+   "season_sd": 0.153
+  },
+  "scheduled_distribution": {
+   "distribution": {
+    "37": 0.0016,
+    "38": 0.0049,
+    "39": 0.0049,
+    "40": 0.0049,
+    "41": 0.0016,
+    "42": 0.0016,
+    "43": 0.0081,
+    "45": 0.0033,
+    "47": 0.0081,
+    "48": 0.0065,
+    "49": 0.0212,
+    "50": 0.0326,
+    "51": 0.0521,
+    "52": 0.0782,
+    "53": 0.1124,
+    "54": 0.1466,
+    "55": 0.202,
+    "56": 0.2671,
+    "57": 0.0326,
+    "58": 0.0081,
+    "59": 0.0016
+   },
+   "mean": 53.71,
+   "share_56": 0.2671,
+   "share_above_56": 0.0423,
+   "share_below_42": 0.0179,
+   "_note": "regular-season games each team scheduled (played or canceled; all opponents), WarrenNolan 2025-2026. Teams below 56 lose midweek games: Thu-Sun games stay near 42 from 51 scheduled games up, Mon-Wed games fall from 13.4 at 56 to about 10 at 50-52"
+  },
   "conf": "B",
   "seasons": [
    2025,
@@ -520,6 +554,322 @@
    "low": {
     "mean": 0.4579,
     "sd": 0.0043
+   }
+  }
+ },
+ "current": {
+  "_note": "Phase 7 benchmarks that depend on the conference map, on the seasons played under the current one\n(owner decision 2026-10-05): 2025 and 2026, reported separately and together. The sim builds the 2025 map\nand was fitted to 2025 data, so 2026 is the independent check.\n\nResults: WarrenNolan team schedules (data/ncaa_<season>/warrennolan/games_<season>.csv: Division I flags,\nneutral sites, complete conference tournaments). Field: published brackets (data/ncaa_brackets). Tiers: the\n2025 tier of each conference (data/ncaa_2025/pbp/teams_2025.csv), applied to the team's conference of that\nseason (2026: the NCAA RPI page's conference column).\nRows per season:\n  rpi_at_rank      RPI of the teams ranked 1, 16, 32 and 64 (engine.rpi, Division I games before selection)\n  mean_rpi_by_tier mean RPI by tier\n  at_large_by_tier, conferences_multi_bid, worst_rpi_rank_at_large, best_rpi_rank_left_out\n  win_pct_sd_by_tier  win% SD across teams with 30+ decided Division I regular-season games (conference\n                   tournaments and later excluded)\n  p4_vs_mid        P4 against mid-tier nonconference regular-season games: P4 win%, run margin and its SD\nSeason-to-season variation: the year-to-year swings of the same rows in 2022-2025 (scoreboard feed, the\nseasons whose results are complete), as the successive-difference SD sqrt(mean(diff^2) / 2) (the von Neumann\nestimator: a level shift such as realignment moves it less than the plain SD). GUESS, config.phase7.\n\nWrites the \"current\" block of data/ncaa_2025/derived/phase7_benchmarks.json.\n\n    python3 scripts/build_phase7_current.py\n",
+  "built": "2026-10-05",
+  "seasons": [
+   "2025",
+   "2026"
+  ],
+  "conf": "B",
+  "conf_note": "WarrenNolan results match the NCAA's published 2026 records for every team; brackets from Wikipedia (validated); two seasons, so season-to-season variation dominates the tolerance",
+  "unmatched_field_teams": {
+   "2025": [],
+   "2026": []
+  },
+  "rows": {
+   "rpi_at_rank/1": {
+    "by_season": {
+     "2025": 0.6289,
+     "2026": 0.6363
+    },
+    "value": 0.6326,
+    "season_sd": 0.0071,
+    "se": 0.005,
+    "swing_2022_2025": {
+     "2022": 0.6211,
+     "2023": 0.6363,
+     "2024": 0.6278,
+     "2025": 0.627
+    }
+   },
+   "rpi_at_rank/16": {
+    "by_season": {
+     "2025": 0.5972,
+     "2026": 0.5925
+    },
+    "value": 0.5948,
+    "season_sd": 0.0034,
+    "se": 0.0024,
+    "swing_2022_2025": {
+     "2022": 0.5836,
+     "2023": 0.5903,
+     "2024": 0.5882,
+     "2025": 0.5927
+    }
+   },
+   "rpi_at_rank/32": {
+    "by_season": {
+     "2025": 0.5703,
+     "2026": 0.5682
+    },
+    "value": 0.5692,
+    "season_sd": 0.0014,
+    "se": 0.001,
+    "swing_2022_2025": {
+     "2022": 0.5714,
+     "2023": 0.5709,
+     "2024": 0.5724,
+     "2025": 0.5693
+    }
+   },
+   "rpi_at_rank/64": {
+    "by_season": {
+     "2025": 0.5444,
+     "2026": 0.5421
+    },
+    "value": 0.5433,
+    "season_sd": 0.0011,
+    "se": 0.0008,
+    "swing_2022_2025": {
+     "2022": 0.5466,
+     "2023": 0.5471,
+     "2024": 0.5467,
+     "2025": 0.5441
+    }
+   },
+   "mean_rpi_by_tier/p4": {
+    "by_season": {
+     "2025": 0.5616,
+     "2026": 0.5583
+    },
+    "value": 0.5599,
+    "season_sd": 0.0029,
+    "se": 0.0021,
+    "swing_2022_2025": {
+     "2022": 0.551,
+     "2023": 0.5575,
+     "2024": 0.5571,
+     "2025": 0.5602
+    }
+   },
+   "mean_rpi_by_tier/mid": {
+    "by_season": {
+     "2025": 0.4946,
+     "2026": 0.4936
+    },
+    "value": 0.4941,
+    "season_sd": 0.0021,
+    "se": 0.0015,
+    "swing_2022_2025": {
+     "2022": 0.496,
+     "2023": 0.4988,
+     "2024": 0.4996,
+     "2025": 0.4953
+    }
+   },
+   "mean_rpi_by_tier/low": {
+    "by_season": {
+     "2025": 0.457,
+     "2026": 0.4574
+    },
+    "value": 0.4572,
+    "season_sd": 0.0034,
+    "se": 0.0024,
+    "swing_2022_2025": {
+     "2022": 0.4572,
+     "2023": 0.4529,
+     "2024": 0.4521,
+     "2025": 0.4591
+    }
+   },
+   "at_large_by_tier/p4": {
+    "by_season": {
+     "2025": 31.0,
+     "2026": 28.0
+    },
+    "value": 29.5,
+    "season_sd": 2.2361,
+    "se": 1.5811,
+    "swing_2022_2025": {
+     "2022": 25.0,
+     "2023": 27.0,
+     "2024": 26.0,
+     "2025": 31.0
+    }
+   },
+   "at_large_by_tier/mid": {
+    "by_season": {
+     "2025": 4.0,
+     "2026": 7.0
+    },
+    "value": 5.5,
+    "season_sd": 1.7321,
+    "se": 1.2247,
+    "swing_2022_2025": {
+     "2022": 8.0,
+     "2023": 7.0,
+     "2024": 8.0,
+     "2025": 4.0
+    }
+   },
+   "at_large_by_tier/low": {
+    "by_season": {
+     "2025": 0.0,
+     "2026": 0.0
+    },
+    "value": 0.0,
+    "season_sd": 0.0,
+    "se": 0.0,
+    "swing_2022_2025": {
+     "2022": 0.0,
+     "2023": 0.0,
+     "2024": 0.0,
+     "2025": 0.0
+    }
+   },
+   "conferences_multi_bid": {
+    "by_season": {
+     "2025": 8.0,
+     "2026": 7.0
+    },
+    "value": 7.5,
+    "season_sd": 1.354,
+    "se": 0.9574,
+    "swing_2022_2025": {
+     "2022": 11.0,
+     "2023": 10.0,
+     "2024": 11.0,
+     "2025": 8.0
+    }
+   },
+   "worst_rpi_rank_at_large": {
+    "by_season": {
+     "2025": 49.0,
+     "2026": 51.0
+    },
+    "value": 50.0,
+    "season_sd": 3.7639,
+    "se": 2.6615,
+    "swing_2022_2025": {
+     "2022": 53.0,
+     "2023": 53.0,
+     "2024": 55.0,
+     "2025": 46.0
+    }
+   },
+   "best_rpi_rank_left_out": {
+    "by_season": {
+     "2025": 39.0,
+     "2026": 28.0
+    },
+    "value": 33.5,
+    "season_sd": 3.4157,
+    "se": 2.4152,
+    "swing_2022_2025": {
+     "2022": 30.0,
+     "2023": 33.0,
+     "2024": 27.0,
+     "2025": 32.0
+    }
+   },
+   "win_pct_sd_by_tier/p4": {
+    "by_season": {
+     "2025": 0.1173,
+     "2026": 0.1236
+    },
+    "value": 0.1205,
+    "season_sd": 0.0033,
+    "se": 0.0024,
+    "swing_2022_2025": {
+     "2022": 0.1178,
+     "2023": 0.1197,
+     "2024": 0.1128,
+     "2025": 0.1167
+    }
+   },
+   "win_pct_sd_by_tier/mid": {
+    "by_season": {
+     "2025": 0.1389,
+     "2026": 0.1272
+    },
+    "value": 0.1331,
+    "season_sd": 0.0032,
+    "se": 0.0023,
+    "swing_2022_2025": {
+     "2022": 0.1452,
+     "2023": 0.1384,
+     "2024": 0.136,
+     "2025": 0.1391
+    }
+   },
+   "win_pct_sd_by_tier/low": {
+    "by_season": {
+     "2025": 0.1542,
+     "2026": 0.1374
+    },
+    "value": 0.1458,
+    "season_sd": 0.0102,
+    "se": 0.0072,
+    "swing_2022_2025": {
+     "2022": 0.1453,
+     "2023": 0.1572,
+     "2024": 0.1406,
+     "2025": 0.1549
+    }
+   },
+   "p4_vs_mid/n": {
+    "by_season": {
+     "2025": 970.0,
+     "2026": 848.0
+    },
+    "value": 909.0,
+    "season_sd": 45.3615,
+    "se": 32.0754,
+    "swing_2022_2025": {
+     "2022": 1068.0,
+     "2023": 1017.0,
+     "2024": 994.0,
+     "2025": 898.0
+    }
+   },
+   "p4_vs_mid/p4_win": {
+    "by_season": {
+     "2025": 0.7619,
+     "2026": 0.7559
+    },
+    "value": 0.7589,
+    "season_sd": 0.0215,
+    "se": 0.0152,
+    "swing_2022_2025": {
+     "2022": 0.6798,
+     "2023": 0.6903,
+     "2024": 0.7093,
+     "2025": 0.7572
+    }
+   },
+   "p4_vs_mid/margin": {
+    "by_season": {
+     "2025": 4.0,
+     "2026": 3.9328
+    },
+    "value": 3.9664,
+    "season_sd": 0.3859,
+    "se": 0.2729,
+    "swing_2022_2025": {
+     "2022": 2.632,
+     "2023": 2.7463,
+     "2024": 3.169,
+     "2025": 4.0067
+    }
+   },
+   "p4_vs_mid/margin_sd": {
+    "by_season": {
+     "2025": 5.9921,
+     "2026": 5.9483
+    },
+    "value": 5.9702,
+    "season_sd": 0.1349,
+    "se": 0.0954,
+    "swing_2022_2025": {
+     "2022": 6.155,
+     "2023": 6.1251,
+     "2024": 6.2944,
+     "2025": 6.0121
+    }
    }
   }
  }

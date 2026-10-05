@@ -51,7 +51,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 RAW = ROOT / "data" / "ncaa_brackets" / "raw"
 OUT = ROOT / "data" / "ncaa_brackets" / "brackets_2015_2025.json"
-SEASONS = [2015, 2016, 2017, 2018, 2019, 2021, 2022, 2023, 2024, 2025]
+SEASONS = [2015, 2016, 2017, 2018, 2019, 2021, 2022, 2023, 2024, 2025, 2026]
 URL = "https://en.wikipedia.org/wiki/{y}_NCAA_Division_I_baseball_tournament"
 FETCHED_ON = "2026-10-05"
 

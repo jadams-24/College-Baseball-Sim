@@ -3,6 +3,7 @@ tournament (config.phase7; mechanisms and data in PHASE0_NOTES, Phase 7).
 
 The engine decides nothing here: every game goes through PlayerGameEngine.play with the season's
 Decider, and every committee or conference choice is a model fitted to the data:
+  schedule length each team schedules the real number of games (2025-2026 distribution; midweek games dropped)
   cancellations   each scheduled regular-season game is canceled (never made up) with the month's rate
   conference      standings from conference games; the published 2025 format of the conference
   tournaments     (data/conf_tournaments/formats_2025.json) with its qualifiers, seeds and site; the champion
@@ -36,6 +37,36 @@ FORMATS = phase7.ROOT / "data/conf_tournaments/formats_2025.json"
 
 def _month(date: int) -> int:
     return (dt.date.fromisoformat(phase7.SEASON_START) + dt.timedelta(days=int(date))).month
+
+
+def schedule_mask(schedule: list, n_teams: int, rng: np.random.Generator) -> np.ndarray:
+    """True for each game dropped from the schedule: every team draws the number of regular-season games it
+    schedules from the real 2025-2026 distribution (phase7_inputs cancel7.scheduled), clipped to the engine's
+    56-game frame (42 weekend games plus up to 14 midweek games). Real teams below 56 lose midweek games, so
+    midweek games are dropped, in random order, while both teams are above their targets."""
+    dist = phase7.load()["cancel7"]["scheduled"]["distribution"]
+    k = np.array([int(x) for x in dist]); w = np.array(list(dist.values()), float)
+    n_week = sum(1 for g in schedule if g.weekend) * 2 // n_teams
+    target = np.clip(rng.choice(k, size=n_teams, p=w / w.sum()), n_week, None)
+    count = np.zeros(n_teams, int)
+    for g in schedule:
+        count[g.home] += 1; count[g.away] += 1
+    drop = np.zeros(len(schedule), bool)
+    # pass 1: both teams above target; pass 2: one above, the other at target (it ends one below, balancing the
+    # excess pass 1 cannot reach when a team's remaining midweek opponents are already at their targets)
+    full = count.max()                                   # the frame's 56: a team that drew it is never cut in pass 2
+    for slack in (1, 0):
+        for i in rng.permutation(len(schedule)):
+            g = schedule[i]
+            if drop[i] or g.weekend or count.sum() <= target.sum():
+                continue
+            eh, ea = count[g.home] - target[g.home], count[g.away] - target[g.away]
+            if slack == 0 and (target[g.home] >= full and eh <= 0 or target[g.away] >= full and ea <= 0):
+                continue
+            if min(eh, ea) >= slack and max(eh, ea) >= 1:
+                drop[i] = True
+                count[g.home] -= 1; count[g.away] -= 1
+    return drop
 
 
 def cancel_mask(schedule: list, rng: np.random.Generator) -> np.ndarray:
