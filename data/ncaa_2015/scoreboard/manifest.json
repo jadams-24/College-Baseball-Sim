@@ -1,0 +1,37 @@
+{
+  "source": "https://data.ncaa.com/casablanca/scoreboard/baseball/d1/{y}/{m:02d}/{d:02d}/scoreboard.json",
+  "season": 2015,
+  "date_range": [
+    "2015-02-10",
+    "2015-06-30"
+  ],
+  "fetched_on": "2026-10-05",
+  "days_with_games": 120,
+  "days_without_games_404": [
+    "2015-02-10",
+    "2015-02-11",
+    "2015-05-24",
+    "2015-05-25",
+    "2015-05-26",
+    "2015-05-27",
+    "2015-05-28",
+    "2015-06-02",
+    "2015-06-03",
+    "2015-06-04",
+    "2015-06-09",
+    "2015-06-10",
+    "2015-06-11",
+    "2015-06-12",
+    "2015-06-21",
+    "2015-06-25",
+    "2015-06-26",
+    "2015-06-27",
+    "2015-06-28",
+    "2015-06-29",
+    "2015-06-30"
+  ],
+  "errors": [],
+  "game_entries": 7324,
+  "unique_game_urls": 7308,
+  "note": "gameID is the NCAA contest id; url is the ncaa.com game page id. Per-game box score / play-by-play JSON is not served by this host for these games."
+}
