@@ -1,0 +1,381 @@
+{
+ "built": "2026-10-05",
+ "seeds": {
+  "_note": "published brackets 2015-2025 without 2020 (Wikipedia, data/ncaa_brackets; confidence B: hosts 2015-2018 are the regional 1 seeds, as the 2018 page states for national seeds); tiers by the program's 2025 conference",
+  "conf": "B",
+  "host_wins_regional": {
+   "value": 0.625,
+   "se": 0.0383,
+   "n": 160
+  },
+  "top8_national_seeds_in_cws": {
+   "value": 4.1,
+   "se": 0.348,
+   "by_season": {
+    "2015": 4,
+    "2016": 3,
+    "2017": 5,
+    "2018": 4,
+    "2019": 5,
+    "2021": 5,
+    "2022": 2,
+    "2023": 5,
+    "2024": 5,
+    "2025": 3
+   }
+  },
+  "top16_national_seeds_in_cws": {
+   "value": 5.429,
+   "se": 0.369,
+   "by_season": {
+    "2018": 6,
+    "2019": 5,
+    "2021": 6,
+    "2022": 4,
+    "2023": 5,
+    "2024": 7,
+    "2025": 5
+   }
+  },
+  "cws_share_by_tier": {
+   "p4": {
+    "value": 0.9125,
+    "se": 0.0316,
+    "n": 80
+   },
+   "mid": {
+    "value": 0.075,
+    "se": 0.0294,
+    "n": 80
+   },
+   "low": {
+    "value": 0.0125,
+    "se": 0.0124,
+    "n": 80
+   }
+  },
+  "champion_tier_by_season": {
+   "2015": "p4",
+   "2016": "mid",
+   "2017": "p4",
+   "2018": "p4",
+   "2019": "p4",
+   "2021": "p4",
+   "2022": "p4",
+   "2023": "p4",
+   "2024": "p4",
+   "2025": "p4"
+  }
+ },
+ "field": {
+  "_note": "the 64-team field by the program's 2025 tier; at-large = not the conference's automatic bid (for 2015-2018, 2022 and 2023 the page lists only automatic bids, every other team is at-large)",
+  "conf": "B",
+  "field_by_tier": {
+   "p4": {
+    "mean": 31.2,
+    "sd": 2.53,
+    "range": [
+     27,
+     35
+    ]
+   },
+   "mid": {
+    "mean": 22.6,
+    "sd": 2.07,
+    "range": [
+     19,
+     26
+    ]
+   },
+   "low": {
+    "mean": 10.2,
+    "sd": 0.92,
+    "range": [
+     8,
+     11
+    ]
+   }
+  },
+  "at_large_by_tier": {
+   "p4": {
+    "mean": 26.0,
+    "sd": 2.45,
+    "range": [
+     22,
+     31
+    ]
+   },
+   "mid": {
+    "mean": 7.1,
+    "sd": 1.91,
+    "range": [
+     4,
+     10
+    ]
+   },
+   "low": {
+    "mean": 0.4,
+    "sd": 0.52,
+    "range": [
+     0,
+     1
+    ]
+   }
+  },
+  "conferences_multi_bid": {
+   "mean": 10.6,
+   "sd": 1.51,
+   "range": [
+    8,
+    12
+   ]
+  },
+  "by_season": {
+   "field": {
+    "2015": {
+     "p4": 29,
+     "mid": 25,
+     "low": 10
+    },
+    "2016": {
+     "p4": 27,
+     "mid": 26,
+     "low": 11
+    },
+    "2017": {
+     "p4": 34,
+     "mid": 20,
+     "low": 10
+    },
+    "2018": {
+     "p4": 30,
+     "mid": 23,
+     "low": 11
+    },
+    "2019": {
+     "p4": 34,
+     "mid": 22,
+     "low": 8
+    },
+    "2021": {
+     "p4": 30,
+     "mid": 23,
+     "low": 11
+    },
+    "2022": {
+     "p4": 30,
+     "mid": 23,
+     "low": 11
+    },
+    "2023": {
+     "p4": 32,
+     "mid": 22,
+     "low": 10
+    },
+    "2024": {
+     "p4": 31,
+     "mid": 23,
+     "low": 10
+    },
+    "2025": {
+     "p4": 35,
+     "mid": 19,
+     "low": 10
+    }
+   },
+   "at_large": {
+    "2015": {
+     "p4": 24,
+     "mid": 9,
+     "low": 0
+    },
+    "2016": {
+     "p4": 22,
+     "mid": 10,
+     "low": 1
+    },
+    "2017": {
+     "p4": 27,
+     "mid": 5,
+     "low": 1
+    },
+    "2018": {
+     "p4": 25,
+     "mid": 7,
+     "low": 1
+    },
+    "2019": {
+     "p4": 28,
+     "mid": 5,
+     "low": 0
+    },
+    "2021": {
+     "p4": 25,
+     "mid": 8,
+     "low": 1
+    },
+    "2022": {
+     "p4": 25,
+     "mid": 8,
+     "low": 0
+    },
+    "2023": {
+     "p4": 27,
+     "mid": 7,
+     "low": 0
+    },
+    "2024": {
+     "p4": 26,
+     "mid": 8,
+     "low": 0
+    },
+    "2025": {
+     "p4": 31,
+     "mid": 4,
+     "low": 0
+    }
+   },
+   "conferences_multi_bid": {
+    "2015": 11,
+    "2016": 12,
+    "2017": 11,
+    "2018": 12,
+    "2019": 8,
+    "2021": 12,
+    "2022": 11,
+    "2023": 10,
+    "2024": 11,
+    "2025": 8
+   }
+  }
+ },
+ "home_field": {
+  "regional_host": {
+   "value": 0.7335,
+   "se": 0.0192,
+   "n": 529
+  },
+  "regional_no_host_listed_home": {
+   "value": 0.4526,
+   "se": 0.0246,
+   "n": 411
+  },
+  "super_host": {
+   "value": 0.6011,
+   "se": 0.0357,
+   "n": 188
+  },
+  "cws_listed_home": {
+   "value": 0.4423,
+   "se": 0.0398,
+   "n": 156
+  },
+  "_note": "postseason games from the scoreboard feed 2015-2025 (no 2020), sites from the published brackets: a host's games at its own park are won by the host; at neutral sites the feed's listed home team. Regionals: Friday-Monday after selection Monday; super regionals: the next eight days; CWS: after that.",
+  "conf": "B"
+ },
+ "standings": {
+  "_note": "Division I games before the Tuesday of conference tournament week (selection Monday - 6 days), teams with 30+ decided games, tiers by the program's 2025 conference; seasons whose feed leaves more than 5% of regular-season entries without a result are left out (2015, 2016 and 2021, the last also a shortened season)",
+  "conf": "B",
+  "seasons": [
+   "2017",
+   "2018",
+   "2019",
+   "2022",
+   "2023",
+   "2024",
+   "2025"
+  ],
+  "win_pct_sd_by_tier": {
+   "p4": {
+    "value": 0.1214,
+    "se": 0.0026,
+    "by_season": {
+     "2017": 0.1323,
+     "2018": 0.1287,
+     "2019": 0.1219,
+     "2022": 0.1178,
+     "2023": 0.1197,
+     "2024": 0.1128,
+     "2025": 0.1167
+    }
+   },
+   "mid": {
+    "value": 0.1361,
+    "se": 0.0025,
+    "by_season": {
+     "2017": 0.1232,
+     "2018": 0.1361,
+     "2019": 0.135,
+     "2022": 0.1452,
+     "2023": 0.1384,
+     "2024": 0.136,
+     "2025": 0.1391
+    }
+   },
+   "low": {
+    "value": 0.1471,
+    "se": 0.004,
+    "by_season": {
+     "2017": 0.1549,
+     "2018": 0.1501,
+     "2019": 0.1269,
+     "2022": 0.1453,
+     "2023": 0.1572,
+     "2024": 0.1406,
+     "2025": 0.1549
+    }
+   }
+  },
+  "best_win_pct": {
+   "value": 0.8537,
+   "range": [
+    0.8214,
+    0.9167
+   ],
+   "by_season": {
+    "2017": {
+     "team": "Oregon St.",
+     "w": 44,
+     "l": 4,
+     "pct": 0.9167
+    },
+    "2018": {
+     "team": "Tennessee Tech",
+     "w": 42,
+     "l": 6,
+     "pct": 0.875
+    },
+    "2019": {
+     "team": "UCLA",
+     "w": 35,
+     "l": 7,
+     "pct": 0.8333
+    },
+    "2022": {
+     "team": "Tennessee",
+     "w": 49,
+     "l": 8,
+     "pct": 0.8596
+    },
+    "2023": {
+     "team": "Virginia",
+     "w": 42,
+     "l": 9,
+     "pct": 0.8235
+    },
+    "2024": {
+     "team": "Tennessee",
+     "w": 46,
+     "l": 10,
+     "pct": 0.8214
+    },
+    "2025": {
+     "team": "Northeastern",
+     "w": 44,
+     "l": 8,
+     "pct": 0.8462
+    }
+   }
+  }
+ }
+}

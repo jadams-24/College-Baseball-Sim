@@ -22,6 +22,10 @@ INPUTS7 = ROOT / "data/ncaa_2025/derived/phase7_inputs.json"
 RPI_WEIGHTS = (0.25, 0.50, 0.25)
 RPI_SITE_WEIGHT = {"home_win": 0.7, "road_win": 1.3, "home_loss": 1.3, "road_loss": 0.7, "neutral": 1.0}
 
+# Benchmarks (scripts/build_phase7_benchmarks.py): a season's feed is used for standings only when at most this share of
+# its regular-season entries lacks a result (2015, 2016 and 2021 fail it).
+MAX_UNRESOLVED = 0.05                # GUESS (data-coverage threshold)
+
 _CACHE: dict = {}
 
 
