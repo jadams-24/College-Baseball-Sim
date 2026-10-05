@@ -83,7 +83,7 @@ def seeds_and_field(b, tier, m) -> dict:
 
 
 def home_field(b, m) -> dict:
-    tot = {"regional_host": [0, 0], "regional_no_host_listed_home": [0, 0], "super_host": [0, 0], "cws_listed_home": [0, 0]}
+    tot = {"regional_host": [0, 0], "regional_no_host_better_seed": [0, 0], "super_host": [0, 0], "cws_listed_home": [0, 0]}
     for y in SEASONS:
         s = b[y]
         d = feed_games(y)
@@ -96,13 +96,15 @@ def home_field(b, m) -> dict:
         reg_end = pd.Timestamp(SELECTION[y]) + pd.Timedelta(days=8)          # regionals: Friday-Monday after selection
         for r in s["regionals"]:
             host, tm = fn(r["host"]), {fn(t["team"]) for t in r["teams"]}
+            rseed = {fn(t["team"]): t["seed"] for t in r["teams"]}
             g = pg[pg.home.isin(tm) & pg.away.isin(tm) & (pg.date <= reg_end)]
             for h, a, hs, as_ in zip(g.home, g.away, g.home_score, g.away_score):
                 hw = hs > as_
                 if host in (h, a):
                     tot["regional_host"][0] += (h == host) == hw; tot["regional_host"][1] += 1
-                else:
-                    tot["regional_no_host_listed_home"][0] += hw; tot["regional_no_host_listed_home"][1] += 1
+                else:                                   # no team at home: the better regional seed's record
+                    better_home = rseed[h] < rseed[a]
+                    tot["regional_no_host_better_seed"][0] += better_home == hw; tot["regional_no_host_better_seed"][1] += 1
         sup_end = reg_end + pd.Timedelta(days=8)
         for sp in s["supers"]:
             if not sp["host"]:
@@ -115,7 +117,8 @@ def home_field(b, m) -> dict:
         tot["cws_listed_home"][0] += int((g.home_score > g.away_score).sum()); tot["cws_listed_home"][1] += len(g)
     out = {k: binom(w, n) for k, (w, n) in tot.items()}
     out["_note"] = ("postseason games from the scoreboard feed 2015-2025 (no 2020), sites from the published brackets: a host's games "
-                    "at its own park are won by the host; at neutral sites the feed's listed home team. Regionals: Friday-Monday "
+                    "at its own park, won by the host; regional games without the host, won by the better regional seed (no team is at home); "
+                    "the CWS (neutral), won by the feed's listed home team (a listing convention: reported, not gated). Regionals: Friday-Monday "
                     "after selection Monday; super regionals: the next eight days; CWS: after that.")
     out["conf"] = "B"
     return out

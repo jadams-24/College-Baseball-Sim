@@ -69,8 +69,9 @@ def season_extract7(res: dict) -> dict:
         out[f"champion_{tr}"] = int(tier[n["champion"]] == tr)
     # postseason home field: hosts at their own park, listed home team at neutral sites
     hosts_reg = {x["host"] for x in n["regionals"]}
+    rseed = {t: i for x in n["regionals"] for i, t in enumerate(x["teams"])}      # regional seed - 1
     sup_host = {frozenset(s["teams"]): s["host"] for s in n["supers"]}
-    hf = {k: [0, 0] for k in ("regional_host", "regional_no_host_listed_home", "super_host", "cws_listed_home")}
+    hf = {k: [0, 0] for k in ("regional_host", "regional_no_host_better_seed", "super_host", "cws_listed_home")}
     for date, h, a, hr, ar, neutral, stage in post["games"]:
         hw = hr > ar
         if stage == "regional":
@@ -78,7 +79,8 @@ def season_extract7(res: dict) -> dict:
                 host = h if h in hosts_reg else a
                 hf["regional_host"][0] += (host == h) == hw; hf["regional_host"][1] += 1
             else:
-                hf["regional_no_host_listed_home"][0] += hw; hf["regional_no_host_listed_home"][1] += 1
+                better_home = rseed[h] < rseed[a]
+                hf["regional_no_host_better_seed"][0] += better_home == hw; hf["regional_no_host_better_seed"][1] += 1
         elif stage == "super":
             host = sup_host[frozenset((h, a))]
             hf["super_host"][0] += (host == h) == hw; hf["super_host"][1] += 1
@@ -218,9 +220,12 @@ def build_report7(agg: dict, seeds: list, statuses: dict) -> tuple[str, Status]:
     rows.append(("seeds", "| Champion's tier (P4 / mid / low) | " + " / ".join(f"{m[f'champion_{tr}']:.2f}" for tr in TIERS) + " | "
                           + " / ".join(f"{champ.get(tr, 0) / len(sd['champion_tier_by_season']):.2f}" for tr in TIERS) + f" | — | {sd['conf']} | report | — | 2015-2025 |"))
     hf = b["home_field"]
-    for kk, lab in (("regional_host", "Regional host at its park (win%)"), ("regional_no_host_listed_home", "Regional games without the host: listed home (win%)"),
-                    ("super_host", "Super regional host at its park (win%)"), ("cws_listed_home", "CWS (neutral): listed home (win%)")):
+    for kk, lab in (("regional_host", "Regional host at its park (win%)"), ("regional_no_host_better_seed", "Regional games without the host: better seed (win%)"),
+                    ("super_host", "Super regional host at its park (win%)")):
         rate(f"p7_hf_{kk}", lab, {**hf[kk], "conf": hf["conf"]}, f"hf_{kk}", "home")
+    x, pc = hf["cws_listed_home"], pooled["hf_cws_listed_home"]
+    row("home", "p7_hf_cws_listed_home", "CWS (neutral): listed home (win%)", pc["value"], pc["se"], x["value"], x["se"], 3,
+        "the sim lists the better seed as home; the feed's listing convention is not known", hf["conf"], gate=False)
     ct = b["conference_tournaments"]["won_by_regular_season_champion"]
     rate("p7_conf_champ_rs", "Conference tournaments won by a regular-season (co-)champion", ct, "conf_champ_rs", "conf")
     ok = m["same_conf_in_regional"] == 0

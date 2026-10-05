@@ -294,9 +294,9 @@
    "se": 0.0192,
    "n": 529
   },
-  "regional_no_host_listed_home": {
-   "value": 0.4528,
-   "se": 0.0245,
+  "regional_no_host_better_seed": {
+   "value": 0.6295,
+   "se": 0.0238,
    "n": 413
   },
   "super_host": {
@@ -309,7 +309,7 @@
    "se": 0.0398,
    "n": 156
   },
-  "_note": "postseason games from the scoreboard feed 2015-2025 (no 2020), sites from the published brackets: a host's games at its own park are won by the host; at neutral sites the feed's listed home team. Regionals: Friday-Monday after selection Monday; super regionals: the next eight days; CWS: after that.",
+  "_note": "postseason games from the scoreboard feed 2015-2025 (no 2020), sites from the published brackets: a host's games at its own park, won by the host; regional games without the host, won by the better regional seed (no team is at home); the CWS (neutral), won by the feed's listed home team (a listing convention: reported, not gated). Regionals: Friday-Monday after selection Monday; super regionals: the next eight days; CWS: after that.",
   "conf": "B"
  },
  "standings": {
