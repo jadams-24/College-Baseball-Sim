@@ -1,0 +1,744 @@
+{
+ "item1": {
+  "n_scoreboard_final_games": 8079,
+  "n_d1_vs_d1": 7989,
+  "n_with_non_d1": 90,
+  "n_non_d1_home": 6,
+  "n_non_d1_away": 84,
+  "non_d1_games": {
+   "share_margin_10plus": 0.477778,
+   "d1_side_runs_mean": 12.211111,
+   "non_d1_side_runs_mean": 4.266667,
+   "d1_side_share_15plus": 0.322222,
+   "d1_side_win_pct": 0.9
+  },
+  "n_games_not_both_in_teams_2025_names": 141,
+  "new_orleans_games": 52,
+  "new_orleans_d1_games": 51,
+  "warrennolan_check": {
+   "scoreboard_non_d1_games_found_in_wn": 78,
+   "of_which_wn_flags_opponent_non_d1": 78,
+   "wn_final_games_with_non_d1_flag": 86,
+   "wn_non_d1_names_that_are_d1_2025": []
+  },
+  "run_rule": {
+   "benchmark": 0.1524,
+   "tol": 0.0155,
+   "sim": 0.1201,
+   "old_reproduced": {
+    "value": 0.152349,
+    "se": 0.00513,
+    "p_margin_10plus": 0.195197,
+    "n_scoreboard_games": 8079,
+    "p_early_given_10plus_wmt": 0.780488,
+    "n_wmt_10plus": 451,
+    "n_wmt_games": 2273
+   },
+   "d1_vs_d1": {
+    "value": 0.150868,
+    "se": 0.005084,
+    "p_margin_10plus": 0.192014,
+    "n_scoreboard_games": 7989,
+    "p_early_given_10plus_wmt": 0.785714,
+    "n_wmt_10plus": 448,
+    "n_wmt_games": 2258
+   },
+   "direct_warrennolan_d1_vs_d1": {
+    "value": 0.141245,
+    "se": 0.003796,
+    "n_games": 8418,
+    "p_margin_10plus": 0.190782,
+    "p_early_given_10plus": 0.740349,
+    "n_10plus": 1606,
+    "matched_to_scoreboard": {
+     "value": 0.14398,
+     "se": 0.003952,
+     "n_games": 7890
+    },
+    "event_games_only": 0.078212,
+    "n_event_games": 716,
+    "p_early_given_10plus_by_tier_pair": {
+     "low|low": {
+      "wn_n": 319,
+      "wn_p_early": 0.733542,
+      "wmt_n": 4,
+      "wmt_p_early": 0.25
+     },
+     "low|mid": {
+      "wn_n": 223,
+      "wn_p_early": 0.7713,
+      "wmt_n": 19,
+      "wmt_p_early": 0.894737
+     },
+     "low|p4": {
+      "wn_n": 100,
+      "wn_p_early": 0.74,
+      "wmt_n": 70,
+      "wmt_p_early": 0.771429
+     },
+     "mid|mid": {
+      "wn_n": 544,
+      "wn_p_early": 0.727941,
+      "wmt_n": 69,
+      "wmt_p_early": 0.753623
+     },
+     "mid|p4": {
+      "wn_n": 232,
+      "wn_p_early": 0.74569,
+      "wmt_n": 145,
+      "wmt_p_early": 0.806897
+     },
+     "p4|p4": {
+      "wn_n": 188,
+      "wn_p_early": 0.744681,
+      "wmt_n": 141,
+      "wmt_p_early": 0.787234
+     }
+    },
+    "wmt_vs_rest": {
+     "p_early_not_in_wmt": 0.723605,
+     "n_not_in_wmt": 1165,
+     "p_early_in_wmt": 0.78458,
+     "n_in_wmt": 441,
+     "diff": 0.060975,
+     "diff_se": 0.023557
+    }
+   },
+   "wmt_non_d1_games_removed": 15,
+   "gap_closed_share": 0.045925
+  },
+  "bin15": {
+   "benchmark": 0.0664,
+   "tol": 0.0103,
+   "sim": 0.0533,
+   "old_reproduced": {
+    "value": 0.066405,
+    "se": 0.001998,
+    "n_team_games": 16068,
+    "n_games": 8079,
+    "count": 1067
+   },
+   "d1_vs_d1": {
+    "value": 0.064964,
+    "se": 0.001984,
+    "n_team_games": 15978,
+    "n_games": 7989,
+    "count": 1038
+   },
+   "gap_closed_share": 0.109952
+  },
+  "team_rg_sd": {
+   "benchmark": 1.162,
+   "sim": 1.032,
+   "reproduced_306_teams": 1.161538,
+   "with_new_orleans_307_teams": 1.158055,
+   "n_teams": 307,
+   "new_orleans_r_per_game": 6.862745,
+   "new_orleans_games": 51
+  },
+  "obp_p10": {
+   "committed": {
+    "p10": 0.3366,
+    "tol3se": 0.0106,
+    "unpooled_p10": 0.3363,
+    "n_batters": 461,
+    "teams_by_tier": {
+     "p4": 39,
+     "mid": 17,
+     "low": 5
+    }
+   },
+   "d1_vs_d1": {
+    "p10": 0.3354,
+    "tol3se": 0.0104,
+    "unpooled_p10": 0.3358,
+    "n_batters": 461,
+    "teams_by_tier": {
+     "p4": 39,
+     "mid": 17,
+     "low": 5
+    }
+   },
+   "n_pbp_games_removed": 7,
+   "removed_games": [
+    [
+     "2025-03-11",
+     "Hawaii",
+     "Chaminade"
+    ],
+    [
+     "2025-03-25",
+     "Hawaii",
+     "Hawaii Hilo"
+    ],
+    [
+     "2025-04-01",
+     "Hawaii",
+     "Hawaii Pacific"
+    ],
+    [
+     "2025-04-22",
+     "Hawaii",
+     "Chaminade"
+    ],
+    [
+     "2025-03-03",
+     "Iowa",
+     "Loras"
+    ],
+    [
+     "2025-03-11",
+     "Iowa",
+     "Augustana (IL)"
+    ],
+    [
+     "2025-04-08",
+     "Nevada",
+     "Simpson (CA)"
+    ]
+   ],
+   "benchmark": 0.3366,
+   "sim": 0.3242,
+   "gap_closed_share": 0.096774
+  }
+ },
+ "item2": {
+  "split_half_wmt": {
+   "n_teams": 50,
+   "games_per_team_mean": 57.78,
+   "values": {
+    "rel_half_era": 0.765908,
+    "rel_full_era": 0.867438,
+    "rel_half_rag": 0.804831,
+    "rel_full_rag": 0.891863,
+    "rel_half_eg": 0.635139,
+    "rel_full_eg": 0.776862,
+    "obs_corr_era_eg": 0.57912,
+    "cross_half_corr_era_eg": 0.494802,
+    "true_corr_era_eg": 0.709428,
+    "classic_disattenuated_era_eg": 0.705468,
+    "obs_corr_rag_eg": 0.673325,
+    "cross_half_corr_rag_eg": 0.548674,
+    "true_corr_rag_eg": 0.76741,
+    "classic_disattenuated_rag_eg": 0.808916
+   },
+   "se": {
+    "rel_half_era": 0.054155,
+    "rel_full_era": 0.03486,
+    "rel_half_rag": 0.048982,
+    "rel_full_rag": 0.030576,
+    "rel_half_eg": 0.093678,
+    "rel_full_eg": 0.076726,
+    "obs_corr_era_eg": 0.105251,
+    "cross_half_corr_era_eg": 0.091753,
+    "true_corr_era_eg": 0.120632,
+    "classic_disattenuated_era_eg": 0.122427,
+    "obs_corr_rag_eg": 0.088589,
+    "cross_half_corr_rag_eg": 0.088269,
+    "true_corr_rag_eg": 0.097,
+    "classic_disattenuated_rag_eg": 0.096285
+   }
+  },
+  "per_game_noise_wmt": {
+   "phi_er": 3.043493,
+   "phi_ra": 2.785096,
+   "phi_e": 1.122558,
+   "rho_er_e": 0.096106,
+   "rho_ra_e": 0.273309,
+   "n_teams": 108,
+   "n_team_games": 3784
+  },
+  "ncaa_com_all_d1": {
+   "n_teams": 299,
+   "model": {
+    "era": {
+     "obs_corr": 0.654587,
+     "reliability": 0.851134,
+     "reliability_eg": 0.739813,
+     "noise_cov_share": 0.028721,
+     "true_corr": 0.801219,
+     "true_var": 2.145493,
+     "true_var_eg": 0.067797,
+     "true_cov": 0.305577,
+     "nv": 0.375252,
+     "nv_eg": 0.023844,
+     "ncov": 0.009036
+    },
+    "rag": {
+     "obs_corr": 0.721416,
+     "reliability": 0.862057,
+     "reliability_eg": 0.739813,
+     "noise_cov_share": 0.071455,
+     "true_corr": 0.838803,
+     "true_var": 2.190428,
+     "true_var_eg": 0.067797,
+     "true_cov": 0.323244,
+     "nv": 0.350502,
+     "nv_eg": 0.023844,
+     "ncov": 0.024875
+    }
+   },
+   "se": {
+    "era_obs_corr": 0.042776,
+    "era_true_corr": 0.044465,
+    "era_reliability": 0.015347,
+    "era_reliability_eg": 0.024571,
+    "rag_obs_corr": 0.035509,
+    "rag_true_corr": 0.03681,
+    "rag_reliability": 0.01381,
+    "rag_reliability_eg": 0.024571
+   },
+   "counterfactual_obs_corr_with_sim_noise": {
+    "era": {
+     "runs_noise_x_sim_ratio": 0.660562,
+     "runs_and_errors_noise_x_sim_ratio": 0.672501
+    },
+    "rag": {
+     "runs_noise_x_sim_ratio": 0.724947,
+     "runs_and_errors_noise_x_sim_ratio": 0.735748
+    }
+   },
+   "sim_obs_corr": {
+    "era": 0.727,
+    "rag": 0.801
+   }
+  },
+  "noise_model_check_on_wmt_split_teams": {
+   "era": {
+    "reliability_model": 0.832922,
+    "reliability_eg_model": 0.696686,
+    "true_corr_model": 0.732022
+   },
+   "rag": {
+    "reliability_model": 0.843117,
+    "reliability_eg_model": 0.696686,
+    "true_corr_model": 0.801118
+   }
+  },
+  "error_residual": {
+   "ncaa_com": {
+    "rate_per_chance": 0.031944,
+    "slope_d_binomial": -0.684588,
+    "resid_sd_true_binomial": 0.12687,
+    "resid_sd_true_overdispersed": 0.12086,
+    "noise_var_d_mean": 0.012677,
+    "noise_var_y_binomial": 0.016452,
+    "cov_noise_y_d_shared_games": -0.003271,
+    "slope_d_noise_corrected": -0.809223,
+    "resid_sd_true_overdispersed_d_noise_corrected": 0.08709,
+    "slope_d_all_corrections": -0.762242,
+    "resid_var_true_all_corrections": 0.012725,
+    "resid_sd_true_all_corrections": 0.112806,
+    "true_corr_d_error_logodds_all_corrections": -0.872191,
+    "true_sd_error_logodds": 0.230609,
+    "true_sd_d": 0.263873,
+    "se": {
+     "rate_per_chance": 0.000468,
+     "slope_d_binomial": 0.033313,
+     "resid_sd_true_binomial": 0.010125,
+     "resid_sd_true_overdispersed": 0.010651,
+     "noise_var_d_mean": 0.00016,
+     "noise_var_y_binomial": 0.000213,
+     "cov_noise_y_d_shared_games": 3.5e-05,
+     "slope_d_noise_corrected": 0.040672,
+     "resid_sd_true_overdispersed_d_noise_corrected": 0.015935,
+     "slope_d_all_corrections": 0.039798,
+     "resid_var_true_all_corrections": 0.002549,
+     "resid_sd_true_all_corrections": 0.011455,
+     "true_corr_d_error_logodds_all_corrections": 0.027336,
+     "true_sd_error_logodds": 0.012349,
+     "true_sd_d": 0.013481
+    },
+    "n_teams": 298,
+    "unmatched": [
+     "LSU New Orleans"
+    ],
+    "phi_errors_vs_binomial_wmt": 1.090486
+   },
+   "engine_implied_true_corr_d_error_logodds": -0.819856,
+   "wmt_split_by_game_external_d": {
+    "min_games_per_half_8": {
+     "slope_d": -0.843581,
+     "var_y_true": 0.03519,
+     "var_d_true": 0.03153,
+     "resid_var_true": 0.012753,
+     "true_corr_d_y": -0.798506,
+     "slope_d_shared_noise_halves": -0.90118,
+     "se": {
+      "slope_d": 0.201703,
+      "var_y_true": 0.012356,
+      "var_d_true": 0.006529,
+      "resid_var_true": 0.010779,
+      "true_corr_d_y": 0.202748,
+      "slope_d_shared_noise_halves": 0.215625
+     },
+     "n_teams": 68,
+     "games_per_half_mean": 24.051471,
+     "resid_sd_true": 0.112927
+    },
+    "min_games_per_half_15": {
+     "slope_d": -0.996688,
+     "var_y_true": 0.039159,
+     "var_d_true": 0.03815,
+     "resid_var_true": 0.001261,
+     "true_corr_d_y": -0.983762,
+     "slope_d_shared_noise_halves": -1.031324,
+     "se": {
+      "slope_d": 0.178958,
+      "var_y_true": 0.014307,
+      "var_d_true": 0.00937,
+      "resid_var_true": 0.008809,
+      "true_corr_d_y": 0.132773,
+      "slope_d_shared_noise_halves": 0.209807
+     },
+     "n_teams": 50,
+     "games_per_half_mean": 28.89,
+     "resid_sd_true": 0.035516
+    }
+   },
+   "engine": {
+    "slope_d": -0.7202,
+    "resid_sd_true": 0.1361,
+    "fielders_sd": 0.1191,
+    "team_sd": 0.0657
+   }
+  },
+  "unearned": {
+   "top50_era": {
+    "n_teams": 50,
+    "unearned_share": 0.134098,
+    "se": 0.004274,
+    "mean_team_share": 0.133766,
+    "errors_per_game": 0.911921,
+    "unearned_per_error": 0.708065,
+    "ra_per_game": 4.79722,
+    "era": 4.293102
+   },
+   "era_under_4": {
+    "n_teams": 12,
+    "unearned_share": 0.135417,
+    "se": 0.008748,
+    "mean_team_share": 0.13618,
+    "errors_per_game": 0.818671,
+    "unearned_per_error": 0.677083,
+    "ra_per_game": 4.057339,
+    "era": 3.619764
+   },
+   "rest_after_top50": {
+    "n_teams": 249,
+    "unearned_share": 0.129501,
+    "se": 0.001949,
+    "mean_team_share": 0.129013,
+    "errors_per_game": 1.197676,
+    "unearned_per_error": 0.779306,
+    "ra_per_game": 7.209181,
+    "era": 6.670942
+   },
+   "all": {
+    "n_teams": 299,
+    "unearned_share": 0.130078,
+    "se": 0.00189,
+    "mean_team_share": 0.129808,
+    "errors_per_game": 1.149891,
+    "unearned_per_error": 0.769288,
+    "ra_per_game": 6.805843,
+    "era": 6.27331
+   },
+   "era_quintile_1": {
+    "n_teams": 60,
+    "unearned_share": 0.131235,
+    "se": 0.003787,
+    "mean_team_share": 0.131205,
+    "errors_per_game": 0.912341,
+    "unearned_per_error": 0.705273,
+    "ra_per_game": 4.886437,
+    "era": 4.3937
+   },
+   "era_quintile_2": {
+    "n_teams": 60,
+    "unearned_share": 0.137283,
+    "se": 0.004455,
+    "mean_team_share": 0.136537,
+    "errors_per_game": 1.066214,
+    "unearned_per_error": 0.758422,
+    "ra_per_game": 5.871038,
+    "era": 5.309713
+   },
+   "era_quintile_3": {
+    "n_teams": 59,
+    "unearned_share": 0.129289,
+    "se": 0.004444,
+    "mean_team_share": 0.128927,
+    "errors_per_game": 1.107827,
+    "unearned_per_error": 0.776519,
+    "ra_per_game": 6.637708,
+    "era": 6.062752
+   },
+   "era_quintile_4": {
+    "n_teams": 60,
+    "unearned_share": 0.127722,
+    "se": 0.003552,
+    "mean_team_share": 0.127051,
+    "errors_per_game": 1.234639,
+    "unearned_per_error": 0.774752,
+    "ra_per_game": 7.474545,
+    "era": 6.911349
+   },
+   "era_quintile_5": {
+    "n_teams": 60,
+    "unearned_share": 0.126821,
+    "se": 0.003851,
+    "mean_team_share": 0.125307,
+    "errors_per_game": 1.427733,
+    "unearned_per_error": 0.813879,
+    "ra_per_game": 9.156686,
+    "era": 8.685528
+   },
+   "partial_corr_era_eg_given_rag": -0.514504
+  }
+ },
+ "item3": {
+  "n_half_innings": 37970,
+  "n_games": 2224,
+  "components": {
+   "min_starts_5": {
+    "n_starters": 281,
+    "n_starts": 2694,
+    "values": {
+     "A_within_start": 0.07014,
+     "B_same_starter_other_games": 0.007261,
+     "C_same_game_starter_x_relief": 0.071519,
+     "Cb_same_starter_other_games_x_relief": -0.005987,
+     "talent_P": 0.007261,
+     "game_shared_G": 0.077506,
+     "form_F": -0.014628,
+     "A_minus_B": 0.062879
+    },
+    "se": {
+     "A_within_start": 0.015487,
+     "B_same_starter_other_games": 0.006208,
+     "C_same_game_starter_x_relief": 0.01978,
+     "Cb_same_starter_other_games_x_relief": 0.005066,
+     "talent_P": 0.006208,
+     "game_shared_G": 0.020975,
+     "form_F": 0.025288,
+     "A_minus_B": 0.016106
+    },
+    "mean_sq_starter_expected_over_mu": 2.170074,
+    "starter_share_of_expected_runs": 0.566506,
+    "dphi_form": -0.031743,
+    "dphi_form_se": 0.054876
+   },
+   "min_starts_10": {
+    "n_starters": 123,
+    "n_starts": 1677,
+    "values": {
+     "A_within_start": 0.082108,
+     "B_same_starter_other_games": 0.010808,
+     "C_same_game_starter_x_relief": 0.06766,
+     "Cb_same_starter_other_games_x_relief": -0.002525,
+     "talent_P": 0.010808,
+     "game_shared_G": 0.070185,
+     "form_F": 0.001115,
+     "A_minus_B": 0.0713
+    },
+    "se": {
+     "A_within_start": 0.017148,
+     "B_same_starter_other_games": 0.007097,
+     "C_same_game_starter_x_relief": 0.02331,
+     "Cb_same_starter_other_games_x_relief": 0.005513,
+     "talent_P": 0.007097,
+     "game_shared_G": 0.024924,
+     "form_F": 0.027588,
+     "A_minus_B": 0.017672
+    },
+    "mean_sq_starter_expected_over_mu": 2.362714,
+    "starter_share_of_expected_runs": 0.603972,
+    "dphi_form": 0.002634,
+    "dphi_form_se": 0.065182
+   }
+  },
+  "dispersion_half_inning_all": 2.308257,
+  "dispersion_per_start": 3.379482,
+  "dispersion_half_inning_starter": 2.191219,
+  "innings_begun_per_start_mean": 4.33116,
+  "dispersion_per_start_pitcher_term": 3.131997,
+  "n_starts_pitcher_term": 2694,
+  "innings_1_3_vs_4_6": {
+   "same_start": {
+    "r": 0.059905,
+    "se": 0.018247,
+    "n": 2985
+   },
+   "next_start_same_starter": {
+    "r": 0.015513,
+    "se": 0.02176,
+    "n": 2114
+   },
+   "same_game_relief_7_9": {
+    "r": 0.029247,
+    "se": 0.018703,
+    "n": 2857
+   }
+  },
+  "missing": {
+   "real_phi": 2.6185,
+   "sim_phi": 2.224,
+   "dphi_missing": 0.3945
+  },
+  "team_game_split": {
+   "values": {
+    "phi_team_game": 2.812374,
+    "within_half_inning": 2.395779,
+    "cross_half_inning": 0.416595,
+    "cross_starter_starter": 0.1337,
+    "cross_starter_relief": 0.195343,
+    "cross_relief_relief": 0.087552
+   },
+   "se": {
+    "phi_team_game": 0.079602,
+    "within_half_inning": 0.047163,
+    "cross_half_inning": 0.054621,
+    "cross_starter_starter": 0.019516,
+    "cross_starter_relief": 0.039979,
+    "cross_relief_relief": 0.026583
+   },
+   "n_team_games": 4448,
+   "mean_expected_runs": 6.523606
+  }
+ },
+ "item4": {
+  "n_half_innings": 38071,
+  "n_games": 2232,
+  "errors": 4509,
+  "error_plays": 4472,
+  "dist": {
+   "observed": [
+    0.892727,
+    0.097239,
+    0.009115,
+    0.000919
+   ],
+   "poisson_team_rate": [
+    0.88922,
+    0.103519,
+    0.006884,
+    0.000377
+   ],
+   "binomial_by_chances": [
+    0.887932,
+    0.105922,
+    0.005927,
+    0.000218
+   ]
+  },
+  "dist_error_plays": {
+   "observed": [
+    0.892727,
+    0.098027,
+    0.008458,
+    0.000788
+   ],
+   "binomial_by_chances": [
+    0.888793,
+    0.105167,
+    0.005829,
+    0.000212
+   ]
+  },
+  "share_2plus": {
+   "observed": 0.010034,
+   "poisson": 0.007261,
+   "binomial": 0.006145,
+   "observed_plays": 0.009246,
+   "binomial_plays": 0.00604
+  },
+  "runs_given_errors": {
+   "k": [
+    "0",
+    "1",
+    "2",
+    "3+"
+   ],
+   "mean_runs": [
+    0.633889,
+    1.727715,
+    2.809798,
+    4.257143
+   ],
+   "n": [
+    33987,
+    3702,
+    347,
+    35
+   ],
+   "p_3plus_runs": [
+    0.078677,
+    0.269854,
+    0.489914,
+    0.742857
+   ],
+   "unearned_per_half_inning": [
+    0.005943,
+    0.705835,
+    1.475504,
+    2.742857
+   ]
+  },
+  "p_3plus_given_any_error": 0.292605,
+  "p_3plus_given_no_error": 0.078677,
+  "unearned_per_error": 0.759148,
+  "unearned_per_error_by_k": {
+   "1": 0.705835,
+   "2": 0.737752,
+   "3": 0.849558
+  },
+  "half_innings_per_team_game": 8.52845,
+  "runs_per_team_game": 6.510753,
+  "var_runs_per_half_inning": {
+   "observed_mix": 1.892151,
+   "binomial_mix": 1.883333,
+   "poisson_mix": 1.885732
+  },
+  "mean_runs_per_half_inning": {
+   "observed_mix": 0.763416,
+   "binomial_mix": 0.763437,
+   "poisson_mix": 0.763465
+  },
+  "dvar_team_game_vs_binomial": 0.075207,
+  "dphi_vs_binomial": 0.011551,
+  "dvar_team_game_vs_poisson": 0.054748,
+  "dphi_vs_poisson": 0.008409,
+  "errors_per_team_game": {
+   "mean": 1.010081,
+   "var_around_binomial_expectation": 0.98386,
+   "binomial_variance": 0.976941
+  },
+  "se": {
+   "obs2": 0.000508,
+   "bin2": 8.3e-05,
+   "ratio2": 0.081893,
+   "p3_err": 0.007213,
+   "p3_noerr": 0.001485,
+   "ue_per_e": 0.015876,
+   "dphi": 0.009665
+  },
+  "ratio_2plus_obs_over_binomial": 1.632798
+ },
+ "scale": {
+  "real_phi": 2.6185,
+  "sim_phi": 2.224,
+  "dphi_missing": 0.3945,
+  "mean_runs_per_team_game_fit": 6.780864,
+  "missing_raw_variance_runs2": 2.675051,
+  "missing_log_variance": 0.058178,
+  "fit_dispersion_reproduced": 2.618469,
+  "fit_residual_corr_reproduced": 0.073441
+ },
+ "_meta": {
+  "script": "scripts/diag_sizes.py",
+  "date": "2026-10-06",
+  "bootstrap_reps": 400,
+  "note": "Real-data sizes only. Sim values are copied from reports/phase2.md, phase6.md, phase7.md (40 seasons, 2026-10-05)."
+ }
+}
