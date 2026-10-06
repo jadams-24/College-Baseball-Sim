@@ -515,6 +515,44 @@ Not reachable: web.archive.org (egress policy), d1baseball.com and most Sidearm 
 
 **40-season run, 2026-10-05.** Every gate passes (Phases 2, 4, 5, 6 and 7). Team leaders on full seasons: best team ERA 3.056 (band 3.06–3.78, pad .122), best team BA .338, most team HR per game 2.462; teams under 4.00 ERA 13.8 (watch item). Worst RPI rank given an at-large bid 56.9 against 50.0 ± 8.9 (60.0 before the measurement-error correction). RPI of the team ranked 64 .5487 against .5433 (reported, watch item).
 
+### Engine restructure (PR A, 2026-10-06, owner approval of the in-game management plan)
+
+**Why.** The engine drew each plate appearance's outcome first and then a pitch sequence to match. That is right for statistics, but nothing can happen between pitches: no steal on 2-0, no pitchout. One manager object answered for both teams and drew from the game's random stream, so a game could not change hands or be saved and resumed reproducibly. PR A changes the engine's structure only. No decision changes yet; that is PR B.
+
+**Forward play, exact.** With the matchup's outcome probabilities m (the reached-on-error tilt for the fielding team included) and the pitch chain's absorption probabilities h_o(c), the chain transformed by H(c) = sum_o w_o h_o(c), w_o = m(o) / h_o(0-0), is played one pitch at a time (`engine/pitch.py` `forward`). Its law of (outcome, sequence) is exactly the outcome-first method's: the sequence given the outcome is the conditioned chain (the Doob h-transform), and the outcome law is m. Check (`scripts/check_forward_chain.py`, `reports/forward_chain_check.md`):
+- 10,000 matchups from a generated league, 5,000,000 plate appearances by each method.
+- The forward chain's exact outcome law equals the matchup's to 4.4e-16.
+- Two-sample tests: PA outcome p .48, count the PA ended at .11, pitches per PA .16, pitch events by count .70, outcome x pitches .18, counts reached (Bonferroni over 12) .81.
+- Matchup by matchup against the exact law: p .58 (old), .90 (new).
+- Pitches per PA 3.8620 against 3.8623.
+
+**Session, controllers, streams.**
+- `GameSession` plays a game in phases, with a pause point before every pitch: `run(stop)`, `sim_ahead` (next pitch, plate appearance, half inning, inning, three innings, end of game, with the AI managing a side meanwhile) and `save` / `load` (pickle; complete with the engine, or light with a live engine reattached).
+- Each team has its own controller (`engine/control.py`): the batting side for pinch hitters, pinch runners, steals and bunts; the fielding side for relievers, defensive changes, intentional walks and pitching changes.
+- The engine's draws come from a Philox stream positioned per plate appearance. Each team's AI draws from its own stream positioned by (decision kind, plate appearance, call number), and is positioned only if the decision draws (`engine/rng.py`).
+- Tests (`tests/test_session_determinism.py`, 200 games each):
+  - pause at a random pitch, save, discard, restore and resume: identical pitch-by-pitch log; three games resumed in a fresh process from a complete save;
+  - a scripted human giving the AI's answers takes over random teams at random pitches, with sim-ahead stops: identical log;
+  - the same fixed policy given as a human controller and as an AI manager: identical log;
+  - a pause before a 2-0 pitch with a runner on first and second open, restored. The called steal there is PR B.
+
+**Cost.** One season takes 220 s against 152 s single-threaded: each matchup's chain needs its full absorption matrix (one 12 x 12 solve), and decisions go through the controllers. Changing the streams changed every seed's results; all reports were regenerated on the 40-season run below.
+
+### "Offense extremes compressed": real-data sizes (2026-10-06, owner: sizes only, no fixes)
+Measured on committed data, no simulation (`scripts/diag_sizes.py`, `reports/diagnosis_sizes.md`):
+- **Non-D1 games.**
+  - 90 of the 8,079 scoreboard games, not the ~141 estimated: 51 New Orleans D1 games are dropped by a name mismatch ("LSU New Orleans" in `teams_2025.csv`). Not changed.
+  - Removing the 90: run rule .1524 → .1509 (5% of the gap), 15+ bin .0664 → .0650 (11%), OBP p10 .3366 → .3354 (10%). Team R/G SD is already D1-vs-D1.
+- **Run-rule benchmark definition.** P(ended early | margin 10+) is .785 in WMT's games and .724 in the rest (difference .061 ± .024). A direct count on WarrenNolan's innings gives .141–.144, against the product estimator's .152. The engine's "rule in effect" probability uses the WMT figure (.7805). For owner decision.
+- **Fielding independent of pitching (candidate 10): not supported.**
+  - Corrected for noise in d and game noise shared with d, the real error residual SD is .113 ± .011 (slope −.762 ± .040). The engine's is .136 (slope −.720), already as independent as the data or more.
+  - The true real ERA–errors correlation is .80 ± .04 (observed .655). The sim's lower game noise can explain at most a quarter of its tighter observed correlation.
+  - Unearned share: .134 for the real 50 best by ERA, about .099 in the sim.
+- **Starter day-to-day form (candidate 11):** −8% ± 14% of the missing variance (95% upper bound 19%).
+- **Error clustering (candidate 12):** 2+ error half-innings are 1.63 times the binomial expectation; 2.9% ± 2.4% of the missing variance (upper bound 8%).
+- Running total for candidates 11 + 12: −5% (upper bound 23%).
+- Indication only: in WMT, team-game dispersion splits 2.40 within half-innings and .42 between them. The sim's 2.22 total is below the real within-half part alone, so the missing variance likely sits between innings.
+
 ## Bibliography
 
 - Jones, M. C. and Pewsey, A. (2009). Sinh-arcsinh distributions. *Biometrika* 96(4), 761–780.
