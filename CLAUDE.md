@@ -60,6 +60,13 @@ Phases advance only when the gate passes. Do not build ahead of the current phas
 - **The engine never makes a decision; it asks for one.** Every choice point (lineup, pitching change, steal, bunt, pinch hit, IBB) goes through a `Decider` interface. An AI manager answers it now; a human answers the same call later.
 - **Deterministic given a seed, per machine.** Every game and season takes an RNG seed and reproduces exactly on the same machine. Across machines it does not: CPU-dependent floating point (linear algebra and vector math) changes the draws, so CI's run of the report seeds differs from the committed report. CI therefore checks that its own 40-season run passes every gate, and that each gated row's value agrees with the committed report within sampling error (`tests/agreement.py`, `config.phase2.CI_AGREEMENT_Z`), not verdict for verdict.
   - Watch item, to fix before Phase 12 (shared leagues and saves need it): make the simulation deterministic across machines.
+- **In-game management and sim controls** (product requirement, owner decision 2026-10-06).
+  - The user can manage a game pitch by pitch. Before any pitch they can call a steal, hit-and-run, bunt, pitchout, intentional ball or pitching change, or make a mound visit, pinch runner or defensive change. Example that must work: stealing on a 2-0 count.
+  - The user can sim ahead at any moment: next at-bat, half inning, full inning, three innings or end of game. While simming, the AI manager makes the user's decisions, then hands control back at the stopping point.
+  - Human and AI decisions resolve with the same outcome probabilities. The human gets no better or worse odds than the AI.
+  - Steal success depends on count, runner speed, catcher arm and a pitcher hold/time-to-plate rating. There is no pitch-type model: the play-by-play has no pitch types, so one would be guesswork; fitting by count captures the real pitch mix in each count.
+  - Pitch types are a possible future display layer that never changes outcomes, unless real pitch-type data becomes available. Pitch calling by the user is out of scope.
+  - Steal attempts by the AI manager depend on game state (score, inning, outs, count), fitted from the play-by-play.
 - **Engine is headless.** No UI code in the engine package. Reports are markdown/HTML written to `reports/`.
 - **Data is committed.** Scraped NCAA tables and play-by-play go in `data/` and are committed, not re-fetched each session. Record the fetch date and source URL in `data/README.md`.
 
