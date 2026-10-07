@@ -240,10 +240,11 @@ def build_report7(agg: dict, seeds: list, statuses: dict) -> tuple[str, Status]:
     rows.append(("season", f"| Best regular-season win% | {m['best_win_pct']:.3f} (seasons {agg['min']['best_win_pct']:.3f}–{agg['max']['best_win_pct']:.3f}) | "
                            f"{lo:.3f}–{hi:.3f} | ±{pad:.3f} | {s['conf']} | yes | {'pass' if ok else 'FAIL'} | band of real seasons 2017-2025 |"))
     for kk in ("1", "16", "32", "64"):
-        # rank 64: watch item "offense extremes compressed" (owner decision 2026-10-05): the RPI of the field's
-        # bubble is high because the sim's records spread less from game to game (rank 1-32 pass)
-        crow("rpi", f"p7_rpi_at_{kk}", f"RPI of the team ranked {kk}", f"rpi_at_{kk}", f"rpi_at_rank/{kk}", 4, gate=kk != "64",
-             note="watch item 'offense extremes compressed'" if kk == "64" else "")
+        # ranks 32 and 64: watch item "offense extremes compressed" (owner decisions 2026-10-05 and 2026-10-07): the
+        # RPI of the middle of the table runs high because the sim's records spread less from game to game
+        watch = kk in ("32", "64")
+        crow("rpi", f"p7_rpi_at_{kk}", f"RPI of the team ranked {kk}", f"rpi_at_{kk}", f"rpi_at_rank/{kk}", 4, gate=not watch,
+             note="watch item 'offense extremes compressed'" if watch else "")
     for tr in TIERS:
         crow("rpi", f"p7_mean_rpi_{tr}", f"Mean RPI, {tr}", f"mean_rpi_{tr}", f"mean_rpi_by_tier/{tr}", 4)
     for tr in TIERS:

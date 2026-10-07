@@ -319,7 +319,6 @@
   "p7_best_win_pct": true,
   "p7_rpi_at_1": true,
   "p7_rpi_at_16": true,
-  "p7_rpi_at_32": false,
   "p7_mean_rpi_p4": true,
   "p7_mean_rpi_mid": true,
   "p7_mean_rpi_low": true,
@@ -375,10 +374,6 @@
   "p7_rpi_at_16": [
    0.5928451975951982,
    0.0010353556305228117
-  ],
-  "p7_rpi_at_32": [
-   0.5733764430291497,
-   0.0008264105474620749
   ],
   "p7_mean_rpi_p4": [
    0.5632336970031094,

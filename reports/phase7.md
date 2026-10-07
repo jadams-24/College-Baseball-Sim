@@ -1,8 +1,8 @@
 # Phase 7 realism report: season and world
 
-40 simulated seasons, seeds 20251000–20251039, with cancellations, conference tournaments, selection and the NCAA tournament (config.phase7.FEATURES). Generated 2026-10-06. Tolerances: 3 × the combined standard error of the benchmark and of the simulated mean at 40 seasons. Mean postseason games per season 462.
+40 simulated seasons, seeds 20251000–20251039, with cancellations, conference tournaments, selection and the NCAA tournament (config.phase7.FEATURES). Generated 2026-10-07. Tolerances: 3 × the combined standard error of the benchmark and of the simulated mean at 40 seasons. Mean postseason games per season 462.
 
-## Gate: **FAIL**
+## Gate: **PASS**
 
 Phase 1-6 rows on the same run (regular season): phase2 **pass**, phase4 **pass**, phase5 **pass**, phase6 **pass**.
 
@@ -13,7 +13,7 @@ Phase 1-6 rows on the same run (regular season): phase2 **pass**, phase4 **pass*
 | RPI formula vs NCAA published (2026, rank correlation) | 0.99994 | ≥ 0.999 | — | A | yes | pass | 206/308 ranks exact, 303 within 3; without site weighting 0.9929 |
 | RPI of the team ranked 1 | 0.6392 | 0.6326 | ±0.0165 | B | yes | pass | 2025 / 2026: 0.6289 / 0.6363; season SD 0.0071.  |
 | RPI of the team ranked 16 | 0.5928 | 0.5948 | ±0.0079 | B | yes | pass | 2025 / 2026: 0.5972 / 0.5925; season SD 0.0034.  |
-| RPI of the team ranked 32 | 0.5734 | 0.5692 | ±0.0039 | B | yes | FAIL | 2025 / 2026: 0.5703 / 0.5682; season SD 0.0014.  |
+| RPI of the team ranked 32 | 0.5734 | 0.5692 | ±0.0039 | B | report | outside | 2025 / 2026: 0.5703 / 0.5682; season SD 0.0014. watch item 'offense extremes compressed' |
 | RPI of the team ranked 64 | 0.5484 | 0.5433 | ±0.0028 | B | report | outside | 2025 / 2026: 0.5444 / 0.5421; season SD 0.0011. watch item 'offense extremes compressed' |
 | Mean RPI, p4 | 0.5632 | 0.5599 | ±0.0070 | B | yes | pass | 2025 / 2026: 0.5616 / 0.5583; season SD 0.0029.  |
 | Mean RPI, mid | 0.4970 | 0.4941 | ±0.0050 | B | yes | pass | 2025 / 2026: 0.4946 / 0.4936; season SD 0.0021.  |

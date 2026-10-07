@@ -8,8 +8,9 @@ rates (hosts winning regionals, national seeds reaching Omaha, CWS slots by tier
 conference tournaments won by the regular-season champion; the NCAA's same-conference bracketing rule; every
 Phase 1, 2, 4, 5 and 6 gate on the same run. The field, RPI distribution and tier win% spreads are benchmarked on
 2025-2026 (the current conference map) with season-to-season variation in the tolerance. Reported, not gated:
-the scheduled-games distribution, P4 vs mid margins, the RPI of the team ranked 64 (watch item "offense extremes
-compressed", 2026-10-05), the champion's tier and the watch-item re-checks. Never xfail or widen these.
+the scheduled-games distribution, P4 vs mid margins, the RPI of the teams ranked 32 and 64 (watch item "offense
+extremes compressed", 2026-10-05 and 2026-10-07), the champion's tier and the watch-item re-checks. Never xfail or widen
+these.
 """
 from __future__ import annotations
 

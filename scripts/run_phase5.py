@@ -81,9 +81,16 @@ def main() -> None:
     ap.add_argument("--seasons", type=int, default=REPORT_SEASONS)
     ap.add_argument("--seed", type=int, default=REPORT_SEED)
     ap.add_argument("--workers", type=int, default=4)
+    ap.add_argument("--from-reports", action="store_true",
+                    help="rebuild every report from the aggregates saved in reports/*.json (no simulation): a change to a "
+                         "report's rows or gating, on the committed run")
     a = ap.parse_args()
     t0 = time.time()
-    agg2, agg4, agg5, agg6, agg7, seeds = run(a.seasons, a.seed, a.workers)
+    if a.from_reports:
+        aggs = [json.loads((ROOT / f"reports/{n}.json").read_text())["aggregate"] for n in ("phase2", "phase4", "phase5", "phase6", "phase7")]
+        agg2, agg4, agg5, agg6, agg7, seeds = (*aggs, [a.seed + i for i in range(a.seasons)])
+    else:
+        agg2, agg4, agg5, agg6, agg7, seeds = run(a.seasons, a.seed, a.workers)
     sts = write(agg2, agg4, agg5, agg6, agg7, seeds)
     print((ROOT / "reports/phase7.md").read_text())
     ok = lambda st: all(v for v in st.values() if v is not None)

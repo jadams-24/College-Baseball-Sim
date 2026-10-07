@@ -536,6 +536,10 @@ Not reachable: web.archive.org (egress policy), d1baseball.com and most Sidearm 
   - the same fixed policy given as a human controller and as an AI manager: identical log;
   - a pause before a 2-0 pitch with a runner on first and second open, restored. The called steal there is PR B.
 
+**40-season run (2026-10-06).** Phases 2, 4, 5 and 6 pass; Phase 7 failed one row, the RPI of the team ranked 32, 0.5734 against 0.5692 ± 0.0039 (the old engine's run: 0.5723, passing by .0004). Across all 234 gated rows the new run agrees with the old engine's (mean shift −0.04 SE, none beyond 3 SE, largest 2.4), so the restructure moved nothing systematically. Owner decision 2026-10-07: rank 32 joins rank 64 in the watch item "offense extremes compressed" (the same cause: the middle of the RPI table runs high because records spread too little from game to game). The Phase 7 report was rebuilt from the run's saved aggregates (`scripts/run_phase5.py --from-reports`, which reproduces the reports exactly but for the date).
+
+**Run-rule benchmark (owner decision 2026-10-07).** At the start of the variance-fix stage, after PR B, the benchmark becomes the direct count from all games (about .141–.144; real-data sizes above) and the engine's early-ending rate is refitted from all games, not the play-by-play subsample, together, so engine and benchmark change once.
+
 **Cost.** One season takes 220 s against 152 s single-threaded: each matchup's chain needs its full absorption matrix (one 12 x 12 solve), and decisions go through the controllers. Changing the streams changed every seed's results; all reports were regenerated on the 40-season run below.
 
 ### "Offense extremes compressed": real-data sizes (2026-10-06, owner: sizes only, no fixes)
