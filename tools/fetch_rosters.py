@@ -21,6 +21,10 @@ Writes to data/ncaa_2025/rosters/ (change with --out):
     fetch_rosters.log    one line per request
     state.json           progress; rerunning skips teams already done (resumable)
 
+None of this is committed (owner decision 2026-10-07; the folder is git-ignored): it holds
+player names. tools/aggregate_rosters.py turns it into count and share tables in
+data/ncaa_2025/roster_aggregates/, the only roster data the repository keeps.
+
 Politeness: robots.txt is read for every domain and obeyed (including Crawl-delay);
 at least 3 seconds between requests to any site (--delay, never below 3); one
 request at a time; a descriptive User-Agent. Standard library plus requests only.

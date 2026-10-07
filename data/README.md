@@ -120,9 +120,108 @@ magnitude comes from the scoreboard fit with a park term (`scripts/build_phase2_
 - `phase5_chain_solved_2025.json` (`scripts/solve_phase5_chain.py`): the league base chain solved so simulated per-count event shares equal the data's (seeds 950001–950004).
 - Written into `benchmarks.json` as `pitch_level_2025` by `scripts/write_phase5_benchmarks.py`; change logged in `benchmark_changes_phase5.json`.
 
-## data/ncaa_2025/rosters/ — 2025 rosters with bats/throws (to be supplied)
+## data/ncaa_2025/roster_aggregates/ — 2025 roster aggregates (handedness, roles, platoon, hometowns, origins)
 
-- Produced by `tools/fetch_rosters.py`, run by the GitHub Actions workflow `fetch rosters` (`.github/workflows/fetch_rosters.yml`, started by hand from the Actions tab), which commits this folder to a new branch and opens a pull request; the fetch date is in the commit message and the run summary. One CSV: team_ncaa_id, team, name, jersey, position, class, bats, throws, source_url (see `tools/README.md`). Scope: the 283 teams in the WMT play-by-play sample (`tools/roster_teams.csv`). Phase 3 (handedness) starts once it is committed here.
+**Rule (owner decision 2026-10-07).** The game never uses real players. Rosters are used only for
+aggregate distributions: handedness shares by position and pitcher role, hometown regions by school
+(recruiting pipelines), JUCO / D2 / transfer origins, and the Phase 3 platoon tables. Only aggregated
+tables are committed (counts and shares by school, conference, tier, region, position, class and hand):
+no player names, jerseys, hometown cities, high-school or previous-school names, and no individual rows.
+Names are used only inside `tools/aggregate_rosters.py`, to join roster hands to the play-by-play.
+
+- **Source:** the 2025 baseball roster pages of the 283 teams in the WMT play-by-play sample
+  (`tools/roster_teams.csv`), fetched by `tools/fetch_rosters.py` (robots.txt obeyed, at least 3 s between
+  requests to a site, bot-protected sites logged and skipped) in the GitHub Actions workflow `fetch rosters`
+  (`.github/workflows/fetch_rosters.yml`, started by hand). The fetch dates are in `coverage.csv`
+  (`fetch_first_date`, `fetch_last_date`) and the commit message; the roster URLs are the fetcher's fixed
+  paths on each team's domain in `tools/roster_teams.csv`.
+- **Not committed:** the fetcher's output (`rosters_2025.csv` with one row per player, `raw/` pages,
+  `state.json`, the request log) stays in the job's temporary directory and is never committed, uploaded
+  as an artifact or cached. Local runs write it to `data/ncaa_2025/rosters/`, which is git-ignored. The
+  workflow runs `tools/aggregate_rosters.py` and commits only this folder (plus the script and the
+  workflow) to a branch `rosters/aggregates-<date>-<run id>` made from `main`; no pull request is opened.
+- **Leak check:** the script ends by scanning every file it wrote, cell by cell, for any roster full name
+  (also inside a cell, as a run of words), any last name of 6+ letters, and any hometown city, high school
+  or previous school, as whole cells (team, conference and place names and the tables' fixed labels are
+  exempt); on a hit it deletes its output and fails, naming only the files. `--selftest` builds synthetic
+  rosters from the play-by-play names (fake hands, hometowns, classes, origins), runs the whole aggregation
+  and checks that the leak check catches injected names (`tests/test_roster_aggregates.py`).
+
+| File | Content |
+|---|---|
+| `coverage.csv` | `scope, scope_value, metric, value`, scope all and tier (p4, mid, low, non_d1 for the 6 non-D1 teams; tiers from `pbp/teams_2025.csv`, joined on `team_ncaa_id` = `ncaa_team_id`). Teams listed, attempted, parsed, failed by reason class (`bot_protection`, `http_403`, `no_page`, `parse_failure`, `other`) and not attempted; players parsed; share of players with bats, throws, position, class, hometown, located hometown, high school, previous school, classified origin and WMT person id filled; teams whose page lists previous schools; play-by-play PA with both hands known (by batting tier); fetch dates |
+| `failures.csv` | `team_ncaa_id, team, tier, conference, reason_class, reason`; the fetcher's reason per URL path with URLs removed. No player data |
+| `handedness_by_position.csv` | `scope (all / tier / conference), scope_value, position_group, bats (R/L/S/unknown), throws (R/L/unknown), count, share` (share within scope x position group) |
+| `linkage.csv` | per scope (all / team tier) and side (batter / pitcher): play-by-play names on teams with a parsed roster, matched / ambiguous / no candidate, names on teams without a roster, PA (BF) and the share of PA (BF) matched, roster players (non-pitchers for batters; P and two-way for pitchers) and the share matched |
+| `pitcher_throws_by_role.csv` | `scope, scope_value, role (starter / reliever / unmatched), throws, pitchers, appearances, starts, batters_faced, share_pitchers, share_bf` (shares within scope x role) |
+| `batter_bats_matched.csv` | `scope, scope_value, status (matched / roster_unmatched), bats, batters, pa, share_batters, share_pa`: roster batters matched to the play-by-play, with their PA |
+| `platoon_league.csv` | `scope (all / bat_tier / pit_tier), scope_value, basis, bat_hand, pit_throws, pa`, then counts of the engine's result classes (`config.phase1.RESULTS`: K, BB incl. IBB, HBP incl. CI, 1B, 2B, 3B, HR, SF, SH, IP_OUT = FO/GO/GIDP/DP, ROE, FC; the map of `scripts/build_engine_tables.py`). Basis `side_used`: the side the batter hit from (a switch hitter bats opposite the pitcher); basis `listed`: L/R/S as listed. Only PA where both hands are known; their share of all PA is in `coverage.csv` |
+| `platoon_spread.csv` | per side (batters: split by pitcher's hand; pitchers: by batter's side used), rate (K, BB, HR per PA; OB = on-base events H+BB+IBB+HBP per PA; BABIP = hits / balls in play excluding ROE, as in `scripts/build_phase2_benchmarks.py`) and the player's listed hand (all, L, R, S): `min_pa_each_hand` (50), players, mean trials and pooled rate vs each hand, `mean_split` (logit vs L minus logit vs R, on (x+.5)/(n+1)), `obs_var` and its SE, binomial noise variance (`mean_noise_var`: exact variance of the smoothed logit at the player's own rate; `mean_noise_var_delta`: the delta-method value, which overstates rare rates such as HR), `true_sd` = sqrt(max(0, obs - noise)), `null_obs_var` (opponents' hands permuted among opponents, 20 draws: noise plus each player's mix of opponents) and `true_sd_net` = sqrt(max(0, obs - null)). Cells with fewer than 5 players print the count only. No individual rows |
+| `hometown_by_school.csv` | `team_ncaa_id, team, conference, tier, hometown_area, area_type, census_region, census_division, count` |
+| `hometown_by_conference.csv` | `conference, census_region, census_division, count, share` (share within conference) |
+| `origins_by_school.csv` | `team_ncaa_id, team, conference, tier, class, origin, count` |
+| `origins_rules.csv` | `scope (all / tier), scope_value, origin, origin_rule, count, share`: which rule classified each player, for grading the rules |
+
+**Rules.**
+- *Position group* (from the roster's position string, split on `/ - , & +`): RHP, LHP, P, SP, RP -> P;
+  C -> C; 1B -> 1B; 2B, SS, 3B, INF, IF, MIF -> IF; OF, LF, CF, RF -> OF; UT, UTL, DH -> UT/DH. A pitcher token
+  with any other token is `two-way` (1B/RHP, RHP/OF); otherwise the first listed group decides (C/OF -> C,
+  INF/OF -> IF, C/1B -> C). Blank or unrecognised -> `unknown`.
+- *Class:* Fr / So / Jr / Sr / Gr / unknown; redshirt markers (R-, RS-, Redshirt) are dropped, so R-Fr is Fr;
+  5th, 6th, Graduate, Grad, Super Senior -> Gr.
+- *Hometown area:* the state field read right to left: a US state (postal codes, full names, AP and other
+  abbreviations such as La., Calif., N.C., W.Va.) -> postal code with its Census region and division; Puerto
+  Rico, Guam and the other territories -> `us_territory`; a Canadian province, an Australian state or a
+  foreign country -> the country (`international`); "Texas, USA" -> TX. A blank state with a city field that
+  is itself a state or country uses it; anything else is `unrecognized`, blank is `unknown`. Only these
+  canonical labels are written.
+- *Failure reason class* (over every URL tried): bot challenge page (Incapsula, Cloudflare) > HTTP 403 > a
+  page with fewer than 10 players carrying bats/throws (parse failure) > HTTP 404/410 or a redirect away from
+  the 2025 baseball roster (no page) > other (no domain, robots.txt, network errors, HTTP 429).
+- *Linkage:* the play-by-play `batter_id` and `pitcher_id` are WMT `game_player_id` values, unique to one
+  game (every id appears in exactly one game), so they do not equal the roster's `wmt_person_id`. Players are
+  matched by name within team: the check name ("Gholston, J.", "J. Jones", "T Head", "Herrera lll",
+  "Justin Heffl"; WMT cuts names at 12 characters) is read as a last name and a first-name prefix, and matched
+  to the roster's last name (any trailing run of words, or one part of a hyphenated name; a prefix when the
+  check name is 12+ characters) plus first initial or the longer prefix given. One candidate -> matched; more
+  -> ambiguous (unmatched); none -> no candidate. Each spelling of a player (scorers differ by game) is matched
+  separately and summed per roster player.
+- *Role:* a start is being the first pitcher of his team's half-innings in a game; a pitcher matched to the
+  play-by-play is a starter when at least half his appearances (games) are starts, else a reliever. Roster P
+  and two-way players not found in the play-by-play are `unmatched`.
+- *Origin* (previous-school field; several schools are each classified and the most informative kept,
+  D1 > JUCO > other four-year > high school):
+  1. JUCO marker: Community College, CC, C.C., JC, J.C., Junior College, Jr. College, City College -> `juco`;
+  2. a 2025 D1 program (`ncaa_d1_teams_2025.csv`, `pbp/teams_2025.csv`) or an alias, after normalising
+     St./State/Saint, the NCAA abbreviations (Ark., Fla., Caro., Miss., So., U.) and "University of" -> `d1_transfer`;
+  3. "College of the ..." or a name on the constant JUCO list in the script (Chipola, San Jacinto, Walters
+     State, McLennan, ... 258 names) followed only by College / CC / campus words -> `juco`;
+  4. the player's own high school, or High School, HS, Academy, Prep, School, Catholic, Jesuit, Bishop,
+     Country Day without University or College -> `high_school_only`;
+  5. anything else -> `other_four_year` (D2, D3, NAIA, and anything unclassified; rule `four_year_keyword`
+     when the name says University, College, State, Institute or Tech, `residual_unclassified` otherwise),
+     except that a freshman's residual is taken as his high school (`freshman_residual_as_high_school`).
+  A blank previous school is `high_school_only` when the team's page lists previous schools for anyone, and
+  `unknown` when it lists none (the column is missing).
+
+**Confidence grades** (A best, D worst). The share classified will be read from `coverage.csv`
+(`share_origin_classified`) and `origins_rules.csv` after the first run of the workflow with this script; no
+roster fetch has been aggregated yet, and the selftest's synthetic shares measure nothing real. Grades
+may be revised once the real shares are in.
+
+| Item | Grade | Why |
+|---|---|---|
+| Bats and throws | A | As printed on the roster page; parsers checked by `fetch_rosters.py --selftest` |
+| Position group, class | B | Free-text strings; the first-listed rule decides multi-position players |
+| Hometown area and Census region | A for US states and Canada, B overall | Canonical lists; unrecognised entries are counted (`share_hometown_located`) |
+| Origin `d1_transfer` | A | Exact match on 2025 D1 names and aliases. Misses programs that left D1 or names written unusually; "Butler" alone is read as D1 Butler, not Butler CC |
+| Origin `juco` | B | Markers plus a list; a junior college without a marker and not on the list falls into `other_four_year` |
+| Origin `high_school_only` | B | Depends on the page listing previous schools; the freshman rule may move a few freshman transfers here |
+| Origin `other_four_year` | C | A residual: D2, D3 and NAIA, plus unlisted junior colleges and unmarked high schools |
+| Origins overall | B | |
+| Name linkage, roles | B | Name match within team. On synthetic rosters built from the play-by-play names (8% left off), 88% of PA and BF matched; the real rate is in `linkage.csv` |
+| Platoon league table | B | Limited by linkage coverage (share of PA in `coverage.csv`) and by WMT's tier mix (59% P4 PA; reweight as in `scripts/build_pbp_benchmarks.py`) |
+| Platoon spread | C | About 200 qualified players a side: `obs_var_se` is about .02 on K's logit variance, so true SDs below about .15 logits are not distinguishable from zero; on fake hands `true_sd_net` is about .1, the method's floor |
 
 ## data/ncaa_2025/sidearm/ — 13 Sidearm season pages (cross-check)
 
