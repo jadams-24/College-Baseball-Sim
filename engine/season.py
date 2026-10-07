@@ -81,7 +81,11 @@ def _decision_counts(eng) -> dict:
         a[0] += 1; a[1] += att; a[2] += ok
         b = by_fc.setdefault(fc, [0, 0, 0])
         b[0] += 1; b[1] += att; b[2] += ok
-    return {"bunts": eng.bunt_rec["bunts"], "SH": eng.bunt_rec["SH"], "bunt_hits": eng.bunt_rec["hits"], "ibb": eng.ibb_count,
+    by_len_all = {}
+    for n, att in eng.path_all_rec:
+        a = by_len_all.setdefault(min(n, 8), [0, 0])
+        a[0] += 1; a[1] += att
+    return {"path_all_by_len": by_len_all, "bunts": eng.bunt_rec["bunts"], "SH": eng.bunt_rec["SH"], "bunt_hits": eng.bunt_rec["hits"], "ibb": eng.ibb_count,
             "path_by_len": by_len, "path_by_fc": by_fc}
 
 

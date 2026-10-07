@@ -65,6 +65,9 @@ def season_extract6(res: dict) -> dict:
             n_, a_, k_ = dc["path_by_len"].get(L, (0, 0, 0))
             out[f"path_len{L}_attempt"] = a_ / max(n_, 1)
             out[f"path_len{L}_success"] = k_ / a_ if a_ else float("nan")
+        for L in range(2, 9):
+            n_, a_ = dc.get("path_all_by_len", {}).get(L, (0, 0))
+            out[f"path_all_len{L}_attempt"] = a_ / max(n_, 1)
         for fc in PATH_COUNTS:
             n_, a_, _ = dc["path_by_fc"].get(fc, (0, 0, 0))
             out[f"path_fc{fc}_attempt"] = a_ / max(n_, 1)
@@ -217,6 +220,7 @@ def build_report6(agg: dict, agg2: dict, agg5: dict, seeds: list, st2: dict, st4
         st.record("p6_pitchers_50ip", lb["mean"], lb["sd"] / math.sqrt(n))
     rows.append(("deferred", f"| Pitchers with 50+ IP | {lb['mean']:.1f} (seasons {lb['min']:.0f}–{lb['max']:.0f}) | {real} | ±{half:.1f} (95% PI) | {'pass' if ok else 'FAIL'} | "
                              f"{'watch item: ' + WATCH6['p6_pitchers_50ip'] + '. ' if watch else ''}56-game equivalent of the raw {pb['value']} (ratio {pb['ratio_56g']['value']} ± {pb['ratio_56g']['se']}, WMT full-season teams) |"))
+    prb_all = json.loads((ROOT / "data/ncaa_2025/derived/prb_inputs.json").read_text())["bench"]["steal_attempt_by_pa_length_all"]
     # PR B: decisions that change outcomes, with the AI deciding (benchmarks decisions_2025: the play-by-play's games)
     if "dec_bunts_per_team_game" in m:
         sa = lt["sb_attempts_per_team_game"]
@@ -272,7 +276,12 @@ def build_report6(agg: dict, agg2: dict, agg5: dict, seeds: list, st2: dict, st4
              "(box scores, league_totals_2025).", "", hdr, sec("dec"), "",
              "Steal attempts and success by observed pitch path: plate appearances that began with a lead runner able to steal, no other "
              "base running first and at least one ball or strike (scripts/build_prb_steals.py eligible()); the attempt counted in the plate "
-             "appearance it happened in. Tolerance: 3 SE of the real share combined with 3 SE of the simulated mean.", "", hdr, sec("path"), ""]
+             "appearance it happened in. Tolerance: 3 SE of the real share combined with 3 SE of the simulated mean.", "", hdr, sec("path"), "",
+             "Diagnostic, not gated: the same by length over every such plate appearance, whatever base running came first (the gated rows "
+             "leave out those where a wild pitch, passed ball, pickoff or balk came first, more often long ones; the engine draws those "
+             "events before the pitches, so it has no such selection). Sim / real: " + "; ".join(
+                 f"{L}{'+' if L == 8 else ''} pitches {m[f'path_all_len{L}_attempt']:.4f} / "
+                 f"{prb_all[str(L)]['attempts'] / prb_all[str(L)]['pas']:.4f}" for L in range(2, 9)) + ".", ""]
             if "dec_bunts_per_team_game" in m else []),
           "## Pitcher usage (56-game equivalent)", "", hdr, sec("usage"), "",
           "Top three pitchers' innings, split (sim / real): " + "; ".join(

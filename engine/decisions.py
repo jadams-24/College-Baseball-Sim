@@ -59,6 +59,7 @@ class DecisionModels:
         self.min_cell = inp["bunt_outcome"]["min_cell"]
         self.bunt_cells = {k: Categorical.from_counts(v) for k, v in cells.items() if sum(v.values()) >= self.min_cell or k == "*|*"}
         self._law_cache: dict = {}
+        self.slot_bunt, self.slot_ibb = inp["by_slot"]["bunt"], inp["by_slot"]["ibb"]
 
     # ---- features shared by the models ----
     def _lead(self, st) -> str:
@@ -91,9 +92,10 @@ class DecisionModels:
 
     # ---- bunts and intentional walks: the AI's rates ----
     def bunt_prob(self, st, slot: int) -> float:
-        bc = base_class(st.bases)
-        feats = (f"base_{self.base_names[bc]}" if bc else None, f"outs_{st.outs}" if st.outs in (1, 2) else None,
-                 self._lead(st), self._inning(st), self._slot(slot))
+        """P(the plate appearance ends in a bunt in play): one cell per outs x occupied bases (what a team bunts for
+        depends on both), plus the lead, inning and slot (scripts/build_prb_decisions.py cell_features)."""
+        cell = f"cell_{st.outs}|{st.base_code}"
+        feats = (cell, self._lead(st), self._inning(st), self._slot(slot))
         return float(_expit(self._sum(self.bunt, feats)))
 
     def ibb_prob(self, st, slot: int) -> float:
@@ -109,7 +111,14 @@ class DecisionModels:
         r1, r2, r3, b, _outs, err = tup.split(",")
         return res, [r1, r2, r3], b, int(err)
 
-    def bunt_law(self, outs: int, base_code: str) -> tuple[np.ndarray, float]:
+    def slot_shares(self, slot: int) -> tuple[float, float]:
+        """The batter's average share of called bunts and of intentional walks in lineup slot `slot` (1-9): the data's
+        bunts in play per plate appearance over the chance a called bunt ends in one, and intentional walks per plate
+        appearance."""
+        _, q = self.bunt_law("*", "*")
+        return self.slot_bunt[slot - 1] / max(q, 1e-9), self.slot_ibb[slot - 1]
+
+    def bunt_law(self, outs, base_code) -> tuple[np.ndarray, float]:
         """A called bunt in a base-out state: its outcome law (OUTCOMES order) and the probability q that it ends
         with a bunt in play. Bunt pitches before two strikes (a bunt in play ends it with the bunt table's result),
         then the league chain from the two-strike count (the bunt is taken off, GUESS)."""

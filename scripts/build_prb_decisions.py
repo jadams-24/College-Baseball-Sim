@@ -60,15 +60,16 @@ def base_class(on1, on2, on3) -> int:
 
 def logit_fit(X, y, ridge=1e-3, iters=60):
     beta = np.zeros(X.shape[1])
+    R = np.diag(np.broadcast_to(np.asarray(ridge, float), (X.shape[1],)))
     for _ in range(iters):
         p = 1 / (1 + np.exp(-(X @ beta)))
-        H = X.T @ (X * (p * (1 - p))[:, None]) + ridge * np.eye(X.shape[1])
-        step = np.linalg.solve(H, X.T @ (y - p) - ridge * beta)
+        H = X.T @ (X * (p * (1 - p))[:, None]) + R
+        step = np.linalg.solve(H, X.T @ (y - p) - R @ beta)
         beta += step
         if np.abs(step).max() < 1e-9:
             break
     p = 1 / (1 + np.exp(-(X @ beta)))
-    cov = np.linalg.inv(X.T @ (X * (p * (1 - p))[:, None]) + ridge * np.eye(X.shape[1]))
+    cov = np.linalg.inv(X.T @ (X * (p * (1 - p))[:, None]) + R)
     return beta, np.sqrt(np.diag(cov))
 
 
@@ -83,6 +84,59 @@ def features(df, lead_col, first_open: bool = False) -> tuple[np.ndarray, list]:
         cols.append(df.first_open.values); names.append("first_open")
     for o in (1, 2):
         cols.append(df.outs0.values == o); names.append(f"outs_{o}")
+    lb = df[lead_col].values
+    for k in range(len(SCORE_BUCKETS)):
+        if k != 2:
+            cols.append(lb == k); names.append(f"lead_{SCORE_BUCKETS[k][0]}_{SCORE_BUCKETS[k][1]}")
+    ib = df.inn_b.values
+    for k in range(1, len(INNING_BUCKETS)):
+        cols.append(ib == k); names.append(f"inning_{INNING_BUCKETS[k][0]}_{INNING_BUCKETS[k][1]}")
+    sg = df.slot_g.values
+    for k in range(1, len(SLOT_GROUPS)):
+        cols.append(sg == k); names.append(f"slot_{SLOT_GROUPS[k][0]}_{SLOT_GROUPS[k][1]}")
+    return np.column_stack(cols).astype(float), names
+
+
+def selection_free(pa: pd.DataFrame) -> dict:
+    """Diagnostic for the path rows: attempts by plate-appearance length over every plate appearance that began with a
+    lead runner able to steal and has a ball or strike, whatever base running came first; an attempt is any steal or
+    caught stealing during it (its own line or written into the plate appearance's line). The gated rows leave out
+    the plate appearances in which a wild pitch, passed ball, pickoff or balk came first, which are more often long;
+    the engine draws those events before the pitches, so it has no such selection."""
+    d = pa[pa.pitch_seq.notna()].copy()
+    on1, on2, on3 = d.on1_0.astype(bool), d.on2_0.astype(bool), d.on3_0.astype(bool)
+    d = d[(on1 & ~on2) | (on2 & ~on3)].copy()
+    seq, res = d.pitch_seq.astype(str), d.result
+    nbks = seq.str.count("[BKS]") - ((res == "HBP") & seq.str[-1:].str.contains("[BKS]")).astype(int)
+    d = d[nbks > 0].copy()
+    re_ = pd.read_csv(ROOT / "data/ncaa_2025/pbp/parsed/runner_events_2025.csv.gz")
+    keys = d[["game_id", "group_id", "inning", "half"]].rename(columns={"group_id": "pa_gid", "inning": "pi", "half": "ph"}).sort_values("pa_gid")
+    allk = pa[["game_id", "group_id", "inning", "half"]].rename(columns={"group_id": "pa_gid", "inning": "pi", "half": "ph"}).sort_values("pa_gid")
+    m = pd.merge_asof(re_.sort_values("group_id").rename(columns={"group_id": "gid"}), allk, left_on="gid", right_on="pa_gid",
+                      by="game_id", direction="forward")
+    m = m[(m.inning == m.pi) & (m.half == m.ph) & m.event.isin(["SB", "CS"])]
+    hit = set(m.pa_gid)
+    after = d.text.fillna("").str.split(r"\)|;", n=1, regex=True).str[1].fillna("")
+    d["att"] = d.group_id.isin(hit) | after.str.contains(r"stole|caught stealing", case=False)
+    d["n"] = d.pitches.clip(upper=8)
+    del keys
+    return {str(int(k)): {"pas": int(v.size), "attempts": int(v.sum())} for k, v in d.groupby("n").att}
+
+
+CELLS = [f"{o}|{a}{b}{c}" for o in range(3) for a in (0, 1) for b in (0, 1) for c in (0, 1)]
+BUNT_CELL_RIDGE = 1.0      # GUESS: shrinkage of the outs x bases cells toward the empty-base no-out cell (prior SD 1 logit)
+
+
+def cell_features(df, lead_col) -> tuple[np.ndarray, list]:
+    """The bunt model's design: one cell per outs x occupied bases (reference: no out, bases empty), because what a
+    team bunts for depends on both together (the sacrifice with runners on and nobody out, the squeeze with a runner
+    on third and one out, the bunt for a hit with nobody on), which main effects of bases and outs cannot hold;
+    then the lead, inning and slot buckets."""
+    key = [f"{int(o)}|{int(a)}{int(b)}{int(c)}" for o, a, b, c in zip(df.outs0, df.on1_0, df.on2_0, df.on3_0)]
+    cols, names = [np.ones(len(df))], ["intercept"]
+    key = np.array(key)
+    for c in CELLS[1:]:
+        cols.append(key == c); names.append(f"cell_{c}")
     lb = df[lead_col].values
     for k in range(len(SCORE_BUCKETS)):
         if k != 2:
@@ -122,9 +176,9 @@ def main() -> None:
     # ---- bunts: the AI's rate ----
     ibb = pa.sub_type == "intentional walk"
     sw = pa[~ibb]
-    X, names = features(sw, "lead_b")
+    X, names = cell_features(sw, "lead_b")
     y = (sw.bunt == 1).astype(float).values
-    b, se = logit_fit(X, y)
+    b, se = logit_fit(X, y, ridge=np.r_[1e-3, np.full(len(CELLS) - 1, BUNT_CELL_RIDGE), np.full(X.shape[1] - len(CELLS), 1e-3)])
     out["bunt_ai"] = {"names": names, "coef": b.round(5).tolist(), "se": se.round(5).tolist(), "n": int(len(sw)), "bunts": int(y.sum())}
     # ---- bunts: pitches by count before two strikes ----
     bp = pa[(pa.bunt == 1) & pa.pitch_seq.notna()]
@@ -156,6 +210,11 @@ def main() -> None:
         tab["*|*"][key] += 1
     out["bunt_outcome"] = {"cells": {k: dict(v) for k, v in tab.items()}, "min_cell": MIN_CELL,
                            "encoding": "result|r1,r2,r3,batter,outs_on_play,errors (engine.tables advancement encoding)"}
+    # ---- the batter's average share of bunts and intentional walks, by lineup slot: the swing-away law takes these
+    # out of his season law (engine.game2 _forward), so his season totals stay at it ----
+    out["by_slot"] = {"bunt": [round(float(sw[sw.slot == k].bunt.mean()), 5) for k in range(1, 10)],
+                      "ibb": [round(float(ibb[pa.slot == k].mean()), 5) for k in range(1, 10)],
+                      "note": "bunts in play per non-IBB plate appearance and intentional walks per plate appearance, slots 1-9"}
     # ---- intentional walks: the AI's rate ----
     X, names = features(pa, "lead_b", first_open=True)
     y = ibb.astype(float).values
@@ -210,6 +269,7 @@ def main() -> None:
     bench["steal_attempt_by_pa_length"] = {str(int(k)): {"pas": int(v.size), "attempts": int(v.sum())} for k, v in e.groupby("n").attempt}
     bench["steal_attempt_by_final_count"] = {k: {"pas": int(v.size), "attempts": int(v.sum())} for k, v in e.groupby("fc").attempt}
     bench["steal_success_by_pa_length"] = {str(int(k)): {"attempts": int(v.attempt.sum()), "steals": int(v.success.sum())} for k, v in e.groupby("n")}
+    bench["steal_attempt_by_pa_length_all"] = selection_free(pa)
     bench["note"] = ("WMT play-by-play 2025 (54 programs and every other WMT-covered game); attempts by path: plate appearances that "
                      "begin with a lead runner able to steal and whose first base-running event is a steal or none, the steal "
                      "counted in the plate appearance it happened in (scripts/build_prb_steals.py eligible())")

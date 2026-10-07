@@ -204,7 +204,7 @@ class PlayerGameEngine:
         # PR B: decisions that change outcomes (config.decisions)
         from config import decisions as cdec
         self.dec_on = cdec.on("decisions")
-        self.ibb_count, self.bunt_rec, self.path_rec = 0, {"bunts": 0, "SH": 0, "hits": 0}, []
+        self.ibb_count, self.bunt_rec, self.path_rec, self.path_all_rec = 0, {"bunts": 0, "SH": 0, "hits": 0}, [], []
         if self.dec_on:
             from engine.decisions import DecisionModels
             d_in = cdec.load()
@@ -383,22 +383,30 @@ class PlayerGameEngine:
     def _forward(self, batter, pitcher, home_batting: bool, eo: float, adj=None) -> list:
         """The matchup's forward pitch table against a defense with error odds eo (cached per game: a side's
         error odds are set at the start of the game).
-        adj (PR B) = (b, i, (outs, bases)): the AI's bunt and intentional-walk probabilities in this state. The
-        matchup law m is every plate appearance's, bunts and intentional walks included, so a batter who swings
-        away plays m_sw = (m - b law_bunt - i e_BB) / (1 - b - i): under the AI the mix of plate appearances is m
-        again, and a human who swings away faces the same m_sw as the AI's batter."""
+        adj (PR B): the batter's lineup slot. The matchup law m is the batter's season law over every plate
+        appearance, bunts and intentional walks included, so when he swings away he plays
+        m_sw = (m - b law_bunt - i e_BB) / (1 - b - i), with b and i his slot's average shares of called bunts and
+        intentional walks (engine.decisions slot_shares) and law_bunt a called bunt's law pooled over the states
+        bunts happen in. Over a season his totals are m again (the AI's calls average b and i in his slot); in a given
+        state they are not, as in the data (more outs where teams bunt, more walks where they walk the batter). A
+        human who swings away faces the same m_sw."""
         fk = (self._key(batter, pitcher, home_batting), eo, adj)
-        cum = self.fwd_cache.get(fk)
-        if cum is None:
+        hit = self.fwd_cache.get(fk)
+        if hit is not None:
+            self.last_law = hit[1]
+            return hit[0]
+        if True:
             m = self._pa_law(batter, pitcher, home_batting, eo)        # fills the matchup caches
-            if adj is not None and (adj[0] > 0 or adj[1] > 0):
-                b, i, state = adj
-                m = m - b * self.dm.bunt_law(state[0], state[1])[0]
+            if adj is not None:
+                b, i = self.dm.slot_shares(adj)
+                m = m - b * self.dm.bunt_law("*", "*")[0]
                 m[OUTCOMES.index("BB")] -= i
                 m = np.maximum(m, 0.0) / max(1.0 - b - i, 1e-9)
                 m = m / m.sum()
             qs, h = self._matchup_chain(batter, pitcher, home_batting)
-            cum = self.fwd_cache[fk] = self.pitch.forward(qs, h, m)
+            cum = self.pitch.forward(qs, h, m)
+            self.fwd_cache[fk] = (cum, m)
+            self.last_law = m                  # the law this plate appearance plays (the Phase 4 test's expectation)
         return cum
 
     def _pa_law(self, batter, pitcher, home_batting: bool, eo: float) -> np.ndarray:
@@ -552,7 +560,7 @@ class PlayerGameEngine:
             pr["bb"][i] += res == "BB"
         return n
 
-    def _record(self, st, batter, pitcher, res, seq, skip_pitches=0, pitch_to=None):
+    def _record(self, st, batter, pitcher, res, seq, skip_pitches=0, pitch_to=None, law=None):
         """Record a plate appearance. seq None: an intentional walk awarded without pitches (NCAA 8-2-b), no pitch
         statistics. skip_pitches: pitches already charged to an earlier pitcher at a mid-PA change; the rest go to
         `pitch_to` (the pitcher who threw them; `pitcher` is charged with the plate appearance, NCAA 10-22-b)."""
@@ -567,12 +575,19 @@ class PlayerGameEngine:
         ot[batter.pid, ptid, h, 0] += 1
         ot[pitcher.pid, btid, h, 0] += 1
         rp = self.rate_cache.get(self._key(batter, pitcher, bool(h)))
+        if rp is not None and law is not None:
+            rp = _rates_of(law)                # PR B: the law the plate appearance played (decisions taken into account)
         if rp is not None:
             ex = self.exp_trials
             ex[batter.pid, :3, 0] += rp[:3]; ex[batter.pid, :3, 1] += rp[:3] * (1 - rp[:3])
             ex[pitcher.pid, :3, 0] += rp[:3]; ex[pitcher.pid, :3, 1] += rp[:3] * (1 - rp[:3])
         if ci in _HITS or ci == _OUT:
-            b = self._babip_vs(batter, pitcher, bool(h), st.err_or[st.fielding_side]) if rp is not None else None
+            if rp is None:
+                b = None
+            elif law is not None:
+                b = rp[3]                      # the law is already against this defense (_pa_law)
+            else:
+                b = self._babip_vs(batter, pitcher, bool(h), st.err_or[st.fielding_side])
         if ci in _HITS:
             ot[batter.pid, ptid, h, 1] += 1
             ot[batter.pid, ptid, h, 2] += 1
@@ -693,6 +708,18 @@ def _hit_and_run(res: str, dests: list) -> list:
     elif res in ("IP_OUT", "FC") and d[0] == "0":
         d[0] = "2"
     return d
+
+
+_E_BB = np.eye(len(OUTCOMES))[OUTCOMES.index("BB")]
+_I_K, _I_BB, _I_HR = OUTCOMES.index("K"), OUTCOMES.index("BB"), OUTCOMES.index("HR")
+_I_1B, _I_2B, _I_3B, _I_OUT = OUTCOMES.index("1B"), OUTCOMES.index("2B"), OUTCOMES.index("3B"), OUTCOMES.index("OUT")
+
+
+def _rates_of(law) -> np.ndarray:
+    """K, BB, HR per PA, BABIP (hits over hits and in-play outs) and the extra-base share of hits of an outcome law
+    (OUTCOMES order), as rate_cache holds them for a matchup."""
+    hits = law[_I_1B] + law[_I_2B] + law[_I_3B]
+    return np.array([law[_I_K], law[_I_BB], law[_I_HR], hits / max(hits + law[_I_OUT], 1e-12), (law[_I_2B] + law[_I_3B]) / max(hits, 1e-12)])
 
 
 def _n_eligible(seq: list, res: str) -> int:
@@ -897,8 +924,11 @@ class GameSession:
             eng._sub(st, fld, player, slot)
 
     def _pre_pa(self) -> str:
-        """Base running before the plate appearance, then its setup; 'pitch' when it starts, 'pa_end' for an
-        intentional walk (no pitches), 'half_end' if the half ends first."""
+        """The start of a plate appearance: the pinch hitter, the intentional walk and the bunt are decided in the
+        base-out state as it begins (as the play-by-play's models are fitted), then the base running during it that is
+        not a pitch-level steal (wild pitches, passed balls, pickoffs, balks; drawn here, before the pitches), then its
+        setup. Returns 'pitch' when it starts, 'pa_end' for an intentional walk (awarded without pitches), 'half_end'
+        if the half ends first (the batter then leads off the next inning)."""
         eng, st = self.eng, self.st
         if st.outs >= 3 or st.over:
             return "half_end"
@@ -908,8 +938,20 @@ class GameSession:
         bat, fld = st.batting_side, st.fielding_side
         dec_on = eng.dec_on
         steal_base0 = self._steal_base()
-        clean = True                   # no base running before the plate appearance other than steals (path statistics)
-        # pre-PA base running events: one draw per opportunity, again after each event until none occurs
+        eng._sub(st, bat, self.ask(bat, "pinch_hit", bat, st.slot[bat] % 9), st.slot[bat] % 9)
+        batter = st.lineup[bat][st.slot[bat] % 9]
+        st.cur_slot = st.slot[bat] % 9 + 1
+        st.slot[bat] += 1
+        self.pa = {"batter": batter, "pitcher": st.pitcher[fld], "bunt": Decision.NO, "cum": None, "b": 0, "s": 0, "seq": [],
+                   "res": None, "ibb": False, "charge_to": None, "hnr": False, "attempt": False, "stole": False, "known_last": False,
+                   "path": False, "path_all": steal_base0 > 0, "adj": None}
+        ibb = self.ask(fld, "intentional_walk")
+        if dec_on and ibb == Decision.YES:
+            self.pa.update(res="BB", ibb=True)          # NCAA 8-2-b: awarded on the coach's notification, no pitches
+            return "pa_end"
+        self.pa["bunt"] = self.pa["bunt0"] = self.ask(bat, "bunt")
+        clean = True                   # no base running other than steals before the pitches (path statistics)
+        # base running events: one draw per opportunity, again after each event until none occurs
         # (scripts/build_engine_tables.py). PR B: steals are decided before each pitch instead (_pitch); the table
         # keeps the wild pitches, passed balls, pickoffs and balks at their league rates (a steal draw is "none").
         while any(b is not None for b in st.bases) and st.outs < 3 and not st.over:
@@ -947,28 +989,14 @@ class GameSession:
             if eng._apply(st, dests, None, None, err, event=ev) and st.half == "B":
                 eng._end_check(st, True)
         if st.outs >= 3 or st.over:
+            st.slot[bat] -= 1                           # the third out on the bases: he leads off the next inning
+            self.pa = None
             return "half_end"
-        eng._sub(st, bat, self.ask(bat, "pinch_hit", bat, st.slot[bat] % 9), st.slot[bat] % 9)
-        batter = st.lineup[bat][st.slot[bat] % 9]
-        st.cur_slot = st.slot[bat] % 9 + 1
-        st.slot[bat] += 1
-        pitcher = st.pitcher[fld]
-        self.pa = {"batter": batter, "pitcher": pitcher, "bunt": Decision.NO, "cum": None, "b": 0, "s": 0, "seq": [], "res": None,
-                   "ibb": False, "charge_to": None, "hnr": False, "attempt": False, "stole": False, "known_last": False,
-                   "path": steal_base0 > 0 and clean, "adj": None}
-        ibb = self.ask(fld, "intentional_walk")
-        if dec_on and ibb == Decision.YES:
-            self.pa.update(res="BB", ibb=True)          # NCAA 8-2-b: awarded on the coach's notification, no pitches
-            return "pa_end"
-        bunt = self.ask(bat, "bunt")
-        self.pa["bunt"] = bunt
-        adj = None
-        if dec_on:
-            b_ = eng.dm.bunt_call_prob(st, st.cur_slot)
-            i_ = eng.dm.ibb_prob(st, st.cur_slot)
-            adj = (b_, i_, (st.outs, st.base_code))
+        self.pa["path"] = steal_base0 > 0 and clean
+        adj = st.cur_slot if dec_on else None
         self.pa["adj"] = adj
-        self.pa["cum"] = eng._forward(batter, pitcher, bat == "home", st.err_or[fld], adj)
+        self.pa["cum"] = eng._forward(batter, st.pitcher[fld], bat == "home", st.err_or[fld], adj)
+        self.pa["law"] = eng.last_law
         return "pitch"
 
     # ---- PR B: before each pitch -----------------------------------------------------------------------
@@ -1048,6 +1076,7 @@ class GameSession:
             eng._bring_in(st, fld, act[1], False)
             pa["pitcher"] = act[1]
             pa["cum"] = eng._forward(pa["batter"], act[1], st.batting_side == "home", st.err_or[fld], pa["adj"])
+            pa["law"] = eng.last_law
             if self.log is not None:
                 self.log.append(("pit", self.pa_serial, fld, act[1].pid))
             return None
@@ -1191,6 +1220,8 @@ class GameSession:
             pitcher = pa["charge_to"]                         # NCAA 10-22-b
         eo = st.err_or[fld]
         bases0 = list(st.bases)
+        bunted = eng.dec_on and pa.get("bunt0") == Decision.YES        # called as the plate appearance began (ex ante)
+        outs_b, base_b = st.outs, st.base_code
         if res == "BUNT":
             res, dests, b_to, err = eng.dm.bunt_outcome(st.outs, st.base_code, rng.random())
             eng.bunt_rec["bunts"] += 1
@@ -1208,8 +1239,18 @@ class GameSession:
             eng.ibb_count += 1
             st.ibb[bat] += 1
         n_charged = pa.get("pitches_charged", 0)
+        law = None
+        if eng.dec_on:
+            if pa["ibb"]:
+                law = _E_BB
+            elif bunted:
+                law = eng.dm.bunt_law(outs_b, base_b)[0]
+            else:
+                law = pa.get("law")
         eng._record(st, batter, pitcher, res, None if (pa["ibb"] and not pa["seq"]) else "".join(pa["seq"]),
-                    skip_pitches=n_charged, pitch_to=pa["pitcher"])
+                    skip_pitches=n_charged, pitch_to=pa["pitcher"], law=law)
+        if pa.get("path_all") and not pa["ibb"] and _n_eligible(pa["seq"], res):
+            eng.path_all_rec.append((sum(c != "N" for c in pa["seq"]), int(pa["attempt"])))
         if pa["path"] and not pa["ibb"] and _n_eligible(pa["seq"], res):
             # the play-by-play's sample (scripts/build_prb_steals.py eligible()): a plate appearance that began with
             # a lead runner able to steal, no other base running first, and at least one ball or strike
