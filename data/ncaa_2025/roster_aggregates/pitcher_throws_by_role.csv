@@ -1,0 +1,193 @@
+scope,scope_value,role,throws,pitchers,appearances,starts,batters_faced,share_pitchers,share_bf
+all,all,reliever,L,460,2570,181,16908,0.2746,0.2596
+all,all,reliever,R,1215,6911,478,48217,0.7254,0.7404
+all,all,starter,L,158,864,722,15611,0.2862,0.3402
+all,all,starter,R,394,1734,1394,30277,0.7138,0.6598
+all,all,unmatched,L,282,0,0,0,0.2538,0.0
+all,all,unmatched,R,829,0,0,0,0.7462,0.0
+tier,low,reliever,L,46,86,1,573,0.2244,0.2236
+tier,low,reliever,R,159,283,10,1990,0.7756,0.7764
+tier,low,starter,L,17,25,19,404,0.1954,0.1943
+tier,low,starter,R,70,101,83,1675,0.8046,0.8057
+tier,low,unmatched,L,50,0,0,0,0.2415,0.0
+tier,low,unmatched,R,157,0,0,0,0.7585,0.0
+tier,mid,reliever,L,216,784,58,5396,0.2621,0.25
+tier,mid,reliever,R,608,2287,142,16189,0.7379,0.75
+tier,mid,starter,L,77,229,177,3779,0.273,0.2451
+tier,mid,starter,R,205,664,524,11641,0.727,0.7549
+tier,mid,unmatched,L,166,0,0,0,0.2665,0.0
+tier,mid,unmatched,R,457,0,0,0,0.7335,0.0
+tier,p4,reliever,L,198,1700,122,10939,0.3065,0.267
+tier,p4,reliever,R,448,4341,326,30038,0.6935,0.733
+tier,p4,starter,L,64,610,526,11428,0.3497,0.4026
+tier,p4,starter,R,119,969,787,16961,0.6503,0.5974
+tier,p4,unmatched,L,66,0,0,0,0.2349,0.0
+tier,p4,unmatched,R,215,0,0,0,0.7651,0.0
+conference,ACC,reliever,L,50,341,26,2278,0.3425,0.2981
+conference,ACC,reliever,R,96,791,38,5364,0.6575,0.7019
+conference,ACC,starter,L,20,176,143,3064,0.4545,0.502
+conference,ACC,starter,R,24,172,148,3039,0.5455,0.498
+conference,ACC,unmatched,L,19,0,0,0,0.2676,0.0
+conference,ACC,unmatched,R,52,0,0,0,0.7324,0.0
+conference,ASUN,reliever,L,15,26,0,165,0.2941,0.2065
+conference,ASUN,reliever,R,36,94,5,634,0.7059,0.7935
+conference,ASUN,starter,L,4,8,8,182,0.2353,0.3467
+conference,ASUN,starter,R,13,24,20,343,0.7647,0.6533
+conference,ASUN,unmatched,L,14,0,0,0,0.209,0.0
+conference,ASUN,unmatched,R,53,0,0,0,0.791,0.0
+conference,America East,reliever,L,2,2,0,14,0.1818,0.1186
+conference,America East,reliever,R,9,11,0,104,0.8182,0.8814
+conference,America East,starter,L,1,2,1,22,0.25,0.2056
+conference,America East,starter,R,3,4,4,85,0.75,0.7944
+conference,America East,unmatched,L,1,0,0,0,0.3333,0.0
+conference,America East,unmatched,R,2,0,0,0,0.6667,0.0
+conference,Atlantic 10,reliever,L,12,27,1,208,0.2791,0.324
+conference,Atlantic 10,reliever,R,31,69,4,434,0.7209,0.676
+conference,Atlantic 10,starter,L,3,3,3,65,0.2143,0.1762
+conference,Atlantic 10,starter,R,11,20,16,304,0.7857,0.8238
+conference,Atlantic 10,unmatched,L,13,0,0,0,0.3611,0.0
+conference,Atlantic 10,unmatched,R,23,0,0,0,0.6389,0.0
+conference,Big 12,reliever,L,43,315,25,2103,0.2848,0.2543
+conference,Big 12,reliever,R,108,888,69,6166,0.7152,0.7457
+conference,Big 12,starter,L,12,93,76,1702,0.2667,0.2848
+conference,Big 12,starter,R,33,235,191,4274,0.7333,0.7152
+conference,Big 12,unmatched,L,16,0,0,0,0.2192,0.0
+conference,Big 12,unmatched,R,57,0,0,0,0.7808,0.0
+conference,Big East,reliever,L,12,33,0,215,0.25,0.2569
+conference,Big East,reliever,R,36,86,6,622,0.75,0.7431
+conference,Big East,starter,L,2,2,2,42,0.1429,0.0753
+conference,Big East,starter,R,12,30,26,516,0.8571,0.9247
+conference,Big East,unmatched,L,7,0,0,0,0.28,0.0
+conference,Big East,unmatched,R,18,0,0,0,0.72,0.0
+conference,Big South,reliever,L,7,21,4,116,0.2121,0.2511
+conference,Big South,reliever,R,26,55,1,346,0.7879,0.7489
+conference,Big South,starter,L,3,5,3,57,0.3333,0.2953
+conference,Big South,starter,R,6,9,7,136,0.6667,0.7047
+conference,Big South,unmatched,L,3,0,0,0,0.2143,0.0
+conference,Big South,unmatched,R,11,0,0,0,0.7857,0.0
+conference,Big Ten,reliever,L,53,390,24,2819,0.3333,0.3282
+conference,Big Ten,reliever,R,106,828,70,5771,0.6667,0.6718
+conference,Big Ten,starter,L,9,69,63,1324,0.2,0.2293
+conference,Big Ten,starter,R,36,243,201,4451,0.8,0.7707
+conference,Big Ten,unmatched,L,12,0,0,0,0.1667,0.0
+conference,Big Ten,unmatched,R,60,0,0,0,0.8333,0.0
+conference,Big West,reliever,L,35,138,13,1002,0.3333,0.304
+conference,Big West,reliever,R,70,331,17,2294,0.6667,0.696
+conference,Big West,starter,L,10,46,29,623,0.2857,0.2542
+conference,Big West,starter,R,25,107,84,1828,0.7143,0.7458
+conference,Big West,unmatched,L,13,0,0,0,0.2708,0.0
+conference,Big West,unmatched,R,35,0,0,0,0.7292,0.0
+conference,CAA,reliever,L,3,6,0,51,0.1364,0.1723
+conference,CAA,reliever,R,19,32,0,245,0.8636,0.8277
+conference,CAA,starter,L,4,10,9,225,0.5714,0.6098
+conference,CAA,starter,R,3,7,7,144,0.4286,0.3902
+conference,CAA,unmatched,L,4,0,0,0,0.25,0.0
+conference,CAA,unmatched,R,12,0,0,0,0.75,0.0
+conference,CUSA,reliever,L,7,19,1,81,0.1795,0.1304
+conference,CUSA,reliever,R,32,80,5,540,0.8205,0.8696
+conference,CUSA,starter,L,3,4,4,61,0.3333,0.2364
+conference,CUSA,starter,R,6,13,10,197,0.6667,0.7636
+conference,CUSA,unmatched,L,11,0,0,0,0.1642,0.0
+conference,CUSA,unmatched,R,56,0,0,0,0.8358,0.0
+conference,DI Independent,reliever,L,2,9,2,106,0.1818,0.2208
+conference,DI Independent,reliever,R,9,50,4,374,0.8182,0.7792
+conference,DI Independent,starter,L,2,7,7,136,0.5,0.3627
+conference,DI Independent,starter,R,2,13,10,239,0.5,0.6373
+conference,DI Independent,unmatched,R,3,0,0,0,1.0,0.0
+conference,Horizon,reliever,L,5,7,0,54,0.2083,0.2584
+conference,Horizon,reliever,R,19,26,1,155,0.7917,0.7416
+conference,Horizon,starter,L,1,1,1,21,0.125,0.1346
+conference,Horizon,starter,R,7,8,7,135,0.875,0.8654
+conference,Horizon,unmatched,L,7,0,0,0,0.2188,0.0
+conference,Horizon,unmatched,R,25,0,0,0,0.7812,0.0
+conference,Ivy League,reliever,L,8,12,0,98,0.25,0.2685
+conference,Ivy League,reliever,R,24,34,0,267,0.75,0.7315
+conference,Ivy League,starter,L,1,1,1,18,0.0667,0.0501
+conference,Ivy League,starter,R,14,19,17,341,0.9333,0.9499
+conference,Ivy League,unmatched,L,4,0,0,0,0.1739,0.0
+conference,Ivy League,unmatched,R,19,0,0,0,0.8261,0.0
+conference,MAAC,reliever,R,1,1,0,9,1.0,1.0
+conference,MAAC,unmatched,R,2,0,0,0,1.0,0.0
+conference,MAC,reliever,L,10,14,0,99,0.2703,0.2409
+conference,MAC,reliever,R,27,47,1,312,0.7297,0.7591
+conference,MAC,starter,L,3,4,3,46,0.25,0.2222
+conference,MAC,starter,R,9,12,11,161,0.75,0.7778
+conference,MAC,unmatched,L,4,0,0,0,0.4444,0.0
+conference,MAC,unmatched,R,5,0,0,0,0.5556,0.0
+conference,MVC,reliever,L,17,52,1,297,0.2698,0.2532
+conference,MVC,reliever,R,46,139,7,876,0.7302,0.7468
+conference,MVC,starter,L,4,7,7,149,0.1667,0.1913
+conference,MVC,starter,R,20,41,32,630,0.8333,0.8087
+conference,MVC,unmatched,L,13,0,0,0,0.3095,0.0
+conference,MVC,unmatched,R,29,0,0,0,0.6905,0.0
+conference,Mountain West,reliever,L,16,205,24,1410,0.32,0.2693
+conference,Mountain West,reliever,R,34,523,50,3826,0.68,0.7307
+conference,Mountain West,starter,L,3,45,33,860,0.2308,0.2223
+conference,Mountain West,starter,R,10,136,110,3008,0.7692,0.7777
+conference,Mountain West,unmatched,L,7,0,0,0,0.1944,0.0
+conference,Mountain West,unmatched,R,29,0,0,0,0.8056,0.0
+conference,OVC,reliever,L,4,5,0,22,0.0851,0.0387
+conference,OVC,reliever,R,43,74,2,546,0.9149,0.9613
+conference,OVC,starter,L,7,11,8,169,0.3043,0.3012
+conference,OVC,starter,R,16,23,18,392,0.6957,0.6988
+conference,OVC,unmatched,L,16,0,0,0,0.3333,0.0
+conference,OVC,unmatched,R,32,0,0,0,0.6667,0.0
+conference,Patriot,reliever,L,8,11,0,66,0.3478,0.3317
+conference,Patriot,reliever,R,15,20,0,133,0.6522,0.6683
+conference,Patriot,starter,L,2,2,2,33,0.25,0.2324
+conference,Patriot,starter,R,6,7,6,109,0.75,0.7676
+conference,Patriot,unmatched,L,4,0,0,0,0.129,0.0
+conference,Patriot,unmatched,R,27,0,0,0,0.871,0.0
+conference,SEC,reliever,L,50,645,45,3633,0.2793,0.2271
+conference,SEC,reliever,R,129,1784,145,12363,0.7207,0.7729
+conference,SEC,starter,L,21,265,237,5202,0.4667,0.512
+conference,SEC,starter,R,24,306,237,4958,0.5333,0.488
+conference,SEC,unmatched,L,19,0,0,0,0.3065,0.0
+conference,SEC,unmatched,R,43,0,0,0,0.6935,0.0
+conference,SWAC,reliever,L,5,9,0,61,0.3125,0.2961
+conference,SWAC,reliever,R,11,20,0,145,0.6875,0.7039
+conference,SWAC,starter,L,4,7,5,116,0.5,0.5524
+conference,SWAC,starter,R,4,6,5,94,0.5,0.4476
+conference,SWAC,unmatched,L,4,0,0,0,0.2857,0.0
+conference,SWAC,unmatched,R,10,0,0,0,0.7143,0.0
+conference,SoCon,reliever,L,9,16,0,103,0.2045,0.1604
+conference,SoCon,reliever,R,35,91,3,539,0.7955,0.8396
+conference,SoCon,starter,L,7,13,9,128,0.5,0.4013
+conference,SoCon,starter,R,7,15,12,191,0.5,0.5987
+conference,SoCon,unmatched,L,6,0,0,0,0.2222,0.0
+conference,SoCon,unmatched,R,21,0,0,0,0.7778,0.0
+conference,Southland,reliever,L,3,10,0,71,0.1667,0.2817
+conference,Southland,reliever,R,15,28,2,181,0.8333,0.7183
+conference,Southland,starter,R,7,9,8,146,1.0,1.0
+conference,Southland,unmatched,L,9,0,0,0,0.2432,0.0
+conference,Southland,unmatched,R,28,0,0,0,0.7568,0.0
+conference,Summit League,reliever,L,11,30,1,187,0.3333,0.2936
+conference,Summit League,reliever,R,22,69,5,450,0.6667,0.7064
+conference,Summit League,starter,L,1,1,1,25,0.0714,0.0628
+conference,Summit League,starter,R,13,25,18,373,0.9286,0.9372
+conference,Summit League,unmatched,L,5,0,0,0,0.2941,0.0
+conference,Summit League,unmatched,R,12,0,0,0,0.7059,0.0
+conference,Sun Belt,reliever,L,26,72,3,504,0.3133,0.3235
+conference,Sun Belt,reliever,R,57,152,6,1054,0.6867,0.6765
+conference,Sun Belt,starter,L,12,26,20,401,0.375,0.3198
+conference,Sun Belt,starter,R,20,54,40,853,0.625,0.6802
+conference,Sun Belt,unmatched,L,25,0,0,0,0.3247,0.0
+conference,Sun Belt,unmatched,R,52,0,0,0,0.6753,0.0
+conference,The American,reliever,L,13,42,0,209,0.2063,0.1903
+conference,The American,reliever,R,50,125,2,889,0.7937,0.8097
+conference,The American,starter,L,7,16,13,256,0.25,0.2703
+conference,The American,starter,R,21,43,35,691,0.75,0.7297
+conference,The American,unmatched,L,24,0,0,0,0.3692,0.0
+conference,The American,unmatched,R,41,0,0,0,0.6308,0.0
+conference,WAC,reliever,L,15,59,9,585,0.2273,0.1884
+conference,WAC,reliever,R,51,313,24,2520,0.7727,0.8116
+conference,WAC,starter,L,3,18,17,393,0.1154,0.1577
+conference,WAC,starter,R,23,115,89,2099,0.8846,0.8423
+conference,WAC,unmatched,L,15,0,0,0,0.2727,0.0
+conference,WAC,unmatched,R,40,0,0,0,0.7273,0.0
+conference,WCC,reliever,L,19,54,2,351,0.2468,0.2491
+conference,WCC,reliever,R,58,150,11,1058,0.7532,0.7509
+conference,WCC,starter,L,9,22,17,291,0.3214,0.3502
+conference,WCC,starter,R,19,38,25,540,0.6786,0.6498
+conference,WCC,unmatched,L,7,0,0,0,0.1795,0.0
+conference,WCC,unmatched,R,32,0,0,0,0.8205,0.0

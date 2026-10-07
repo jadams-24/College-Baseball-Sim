@@ -1,0 +1,1932 @@
+team_ncaa_id,team,conference,tier,hometown_area,area_type,census_region,census_division,count
+596418,Utah Tech,WAC,mid,AR,us_state,South,West South Central,1
+596418,Utah Tech,WAC,mid,CA,us_state,West,Pacific,9
+596418,Utah Tech,WAC,mid,ID,us_state,West,Mountain,4
+596418,Utah Tech,WAC,mid,IL,us_state,Midwest,East North Central,1
+596418,Utah Tech,WAC,mid,NV,us_state,West,Mountain,5
+596418,Utah Tech,WAC,mid,OR,us_state,West,Pacific,1
+596418,Utah Tech,WAC,mid,PA,us_state,Northeast,Middle Atlantic,1
+596418,Utah Tech,WAC,mid,SC,us_state,South,South Atlantic,1
+596418,Utah Tech,WAC,mid,TX,us_state,South,West South Central,1
+596418,Utah Tech,WAC,mid,UT,us_state,West,Mountain,15
+596418,Utah Tech,WAC,mid,WA,us_state,West,Pacific,1
+596419,Akron,MAC,mid,AL,us_state,South,East South Central,1
+596419,Akron,MAC,mid,CA,us_state,West,Pacific,3
+596419,Akron,MAC,mid,Canada,international,international,international,1
+596419,Akron,MAC,mid,IL,us_state,Midwest,East North Central,1
+596419,Akron,MAC,mid,IN,us_state,Midwest,East North Central,1
+596419,Akron,MAC,mid,MO,us_state,Midwest,West North Central,1
+596419,Akron,MAC,mid,OH,us_state,Midwest,East North Central,23
+596419,Akron,MAC,mid,PA,us_state,Northeast,Middle Atlantic,2
+596419,Akron,MAC,mid,TX,us_state,South,West South Central,1
+596419,Akron,MAC,mid,WA,us_state,West,Pacific,1
+596420,Texas A&M,SEC,p4,AZ,us_state,West,Mountain,1
+596420,Texas A&M,SEC,p4,CA,us_state,West,Pacific,6
+596420,Texas A&M,SEC,p4,CT,us_state,Northeast,New England,1
+596420,Texas A&M,SEC,p4,GA,us_state,South,South Atlantic,1
+596420,Texas A&M,SEC,p4,IN,us_state,Midwest,East North Central,1
+596420,Texas A&M,SEC,p4,LA,us_state,South,West South Central,1
+596420,Texas A&M,SEC,p4,MN,us_state,Midwest,West North Central,1
+596420,Texas A&M,SEC,p4,MO,us_state,Midwest,West North Central,2
+596420,Texas A&M,SEC,p4,PA,us_state,Northeast,Middle Atlantic,1
+596420,Texas A&M,SEC,p4,Puerto Rico,us_territory,US territory,US territory,1
+596420,Texas A&M,SEC,p4,TN,us_state,South,East South Central,1
+596420,Texas A&M,SEC,p4,TX,us_state,South,West South Central,25
+596420,Texas A&M,SEC,p4,WA,us_state,West,Pacific,1
+596421,TCU,Big 12,p4,AZ,us_state,West,Mountain,1
+596421,TCU,Big 12,p4,CA,us_state,West,Pacific,13
+596421,TCU,Big 12,p4,FL,us_state,South,South Atlantic,1
+596421,TCU,Big 12,p4,IA,us_state,Midwest,West North Central,1
+596421,TCU,Big 12,p4,MA,us_state,Northeast,New England,1
+596421,TCU,Big 12,p4,MN,us_state,Midwest,West North Central,1
+596421,TCU,Big 12,p4,MO,us_state,Midwest,West North Central,2
+596421,TCU,Big 12,p4,NE,us_state,Midwest,West North Central,1
+596421,TCU,Big 12,p4,OK,us_state,South,West South Central,1
+596421,TCU,Big 12,p4,OR,us_state,West,Pacific,1
+596421,TCU,Big 12,p4,TX,us_state,South,West South Central,17
+596421,TCU,Big 12,p4,WA,us_state,West,Pacific,1
+596422,Texas Southern,SWAC,low,AZ,us_state,West,Mountain,1
+596422,Texas Southern,SWAC,low,CA,us_state,West,Pacific,1
+596422,Texas Southern,SWAC,low,GA,us_state,South,South Atlantic,1
+596422,Texas Southern,SWAC,low,LA,us_state,South,West South Central,1
+596422,Texas Southern,SWAC,low,MS,us_state,South,East South Central,1
+596422,Texas Southern,SWAC,low,NC,us_state,South,South Atlantic,1
+596422,Texas Southern,SWAC,low,Puerto Rico,us_territory,US territory,US territory,1
+596422,Texas Southern,SWAC,low,TX,us_state,South,West South Central,33
+596423,Texas Tech,Big 12,p4,CA,us_state,West,Pacific,4
+596423,Texas Tech,Big 12,p4,Canada,international,international,international,2
+596423,Texas Tech,Big 12,p4,FL,us_state,South,South Atlantic,3
+596423,Texas Tech,Big 12,p4,GA,us_state,South,South Atlantic,1
+596423,Texas Tech,Big 12,p4,HI,us_state,West,Pacific,1
+596423,Texas Tech,Big 12,p4,LA,us_state,South,West South Central,1
+596423,Texas Tech,Big 12,p4,NJ,us_state,Northeast,Middle Atlantic,1
+596423,Texas Tech,Big 12,p4,NM,us_state,West,Mountain,1
+596423,Texas Tech,Big 12,p4,TX,us_state,South,West South Central,25
+596423,Texas Tech,Big 12,p4,WA,us_state,West,Pacific,1
+596425,Texas,SEC,p4,CA,us_state,West,Pacific,5
+596425,Texas,SEC,p4,MI,us_state,Midwest,East North Central,2
+596425,Texas,SEC,p4,MS,us_state,South,East South Central,2
+596425,Texas,SEC,p4,ND,us_state,Midwest,West North Central,1
+596425,Texas,SEC,p4,NY,us_state,Northeast,Middle Atlantic,1
+596425,Texas,SEC,p4,TN,us_state,South,East South Central,1
+596425,Texas,SEC,p4,TX,us_state,South,West South Central,26
+596425,Texas,SEC,p4,VA,us_state,South,South Atlantic,1
+596425,Texas,SEC,p4,WI,us_state,Midwest,East North Central,1
+596429,Troy,Sun Belt,mid,AL,us_state,South,East South Central,10
+596429,Troy,Sun Belt,mid,Australia,international,international,international,1
+596429,Troy,Sun Belt,mid,Canada,international,international,international,1
+596429,Troy,Sun Belt,mid,FL,us_state,South,South Atlantic,3
+596429,Troy,Sun Belt,mid,GA,us_state,South,South Atlantic,2
+596429,Troy,Sun Belt,mid,IA,us_state,Midwest,West North Central,1
+596429,Troy,Sun Belt,mid,IL,us_state,Midwest,East North Central,3
+596429,Troy,Sun Belt,mid,IN,us_state,Midwest,East North Central,1
+596429,Troy,Sun Belt,mid,KY,us_state,South,East South Central,2
+596429,Troy,Sun Belt,mid,LA,us_state,South,West South Central,3
+596429,Troy,Sun Belt,mid,MI,us_state,Midwest,East North Central,1
+596429,Troy,Sun Belt,mid,MO,us_state,Midwest,West North Central,1
+596429,Troy,Sun Belt,mid,MS,us_state,South,East South Central,5
+596429,Troy,Sun Belt,mid,NH,us_state,Northeast,New England,1
+596429,Troy,Sun Belt,mid,NJ,us_state,Northeast,Middle Atlantic,1
+596429,Troy,Sun Belt,mid,NY,us_state,Northeast,Middle Atlantic,2
+596429,Troy,Sun Belt,mid,PA,us_state,Northeast,Middle Atlantic,1
+596429,Troy,Sun Belt,mid,TN,us_state,South,East South Central,2
+596429,Troy,Sun Belt,mid,TX,us_state,South,West South Central,1
+596429,Troy,Sun Belt,mid,WA,us_state,West,Pacific,1
+596429,Troy,Sun Belt,mid,WI,us_state,Midwest,East North Central,1
+596430,Air Force,Mountain West,mid,AL,us_state,South,East South Central,2
+596430,Air Force,Mountain West,mid,AR,us_state,South,West South Central,1
+596430,Air Force,Mountain West,mid,AZ,us_state,West,Mountain,3
+596430,Air Force,Mountain West,mid,CA,us_state,West,Pacific,6
+596430,Air Force,Mountain West,mid,CO,us_state,West,Mountain,4
+596430,Air Force,Mountain West,mid,FL,us_state,South,South Atlantic,5
+596430,Air Force,Mountain West,mid,GA,us_state,South,South Atlantic,1
+596430,Air Force,Mountain West,mid,LA,us_state,South,West South Central,1
+596430,Air Force,Mountain West,mid,MO,us_state,Midwest,West North Central,1
+596430,Air Force,Mountain West,mid,MS,us_state,South,East South Central,1
+596430,Air Force,Mountain West,mid,NC,us_state,South,South Atlantic,2
+596430,Air Force,Mountain West,mid,OH,us_state,Midwest,East North Central,1
+596430,Air Force,Mountain West,mid,OK,us_state,South,West South Central,1
+596430,Air Force,Mountain West,mid,TN,us_state,South,East South Central,1
+596430,Air Force,Mountain West,mid,TX,us_state,South,West South Central,5
+596430,Air Force,Mountain West,mid,VA,us_state,South,South Atlantic,1
+596431,Navy,Patriot,low,CA,us_state,West,Pacific,4
+596431,Navy,Patriot,low,CO,us_state,West,Mountain,1
+596431,Navy,Patriot,low,CT,us_state,Northeast,New England,1
+596431,Navy,Patriot,low,FL,us_state,South,South Atlantic,6
+596431,Navy,Patriot,low,GA,us_state,South,South Atlantic,4
+596431,Navy,Patriot,low,IL,us_state,Midwest,East North Central,2
+596431,Navy,Patriot,low,IN,us_state,Midwest,East North Central,2
+596431,Navy,Patriot,low,LA,us_state,South,West South Central,1
+596431,Navy,Patriot,low,MA,us_state,Northeast,New England,1
+596431,Navy,Patriot,low,MD,us_state,South,South Atlantic,2
+596431,Navy,Patriot,low,NJ,us_state,Northeast,Middle Atlantic,2
+596431,Navy,Patriot,low,NM,us_state,West,Mountain,1
+596431,Navy,Patriot,low,NY,us_state,Northeast,Middle Atlantic,5
+596431,Navy,Patriot,low,PA,us_state,Northeast,Middle Atlantic,2
+596431,Navy,Patriot,low,SC,us_state,South,South Atlantic,1
+596431,Navy,Patriot,low,TN,us_state,South,East South Central,1
+596431,Navy,Patriot,low,VA,us_state,South,South Atlantic,3
+596432,Utah,Big 12,p4,AZ,us_state,West,Mountain,1
+596432,Utah,Big 12,p4,CA,us_state,West,Pacific,9
+596432,Utah,Big 12,p4,Canada,international,international,international,5
+596432,Utah,Big 12,p4,HI,us_state,West,Pacific,2
+596432,Utah,Big 12,p4,ID,us_state,West,Mountain,3
+596432,Utah,Big 12,p4,KS,us_state,Midwest,West North Central,1
+596432,Utah,Big 12,p4,MN,us_state,Midwest,West North Central,2
+596432,Utah,Big 12,p4,NM,us_state,West,Mountain,1
+596432,Utah,Big 12,p4,NV,us_state,West,Mountain,5
+596432,Utah,Big 12,p4,OR,us_state,West,Pacific,2
+596432,Utah,Big 12,p4,SD,us_state,Midwest,West North Central,1
+596432,Utah,Big 12,p4,UT,us_state,West,Mountain,5
+596432,Utah,Big 12,p4,WA,us_state,West,Pacific,1
+596432,Utah,Big 12,p4,WY,us_state,West,Mountain,1
+596433,Valparaiso,MVC,mid,CA,us_state,West,Pacific,2
+596433,Valparaiso,MVC,mid,FL,us_state,South,South Atlantic,1
+596433,Valparaiso,MVC,mid,IA,us_state,Midwest,West North Central,1
+596433,Valparaiso,MVC,mid,IL,us_state,Midwest,East North Central,15
+596433,Valparaiso,MVC,mid,IN,us_state,Midwest,East North Central,2
+596433,Valparaiso,MVC,mid,MA,us_state,Northeast,New England,1
+596433,Valparaiso,MVC,mid,MI,us_state,Midwest,East North Central,2
+596433,Valparaiso,MVC,mid,MN,us_state,Midwest,West North Central,3
+596433,Valparaiso,MVC,mid,MO,us_state,Midwest,West North Central,1
+596433,Valparaiso,MVC,mid,NE,us_state,Midwest,West North Central,1
+596433,Valparaiso,MVC,mid,OH,us_state,Midwest,East North Central,2
+596433,Valparaiso,MVC,mid,TN,us_state,South,East South Central,1
+596433,Valparaiso,MVC,mid,WI,us_state,Midwest,East North Central,4
+596436,VCU,Atlantic 10,mid,AZ,us_state,West,Mountain,1
+596436,VCU,Atlantic 10,mid,CA,us_state,West,Pacific,3
+596436,VCU,Atlantic 10,mid,CO,us_state,West,Mountain,1
+596436,VCU,Atlantic 10,mid,CT,us_state,Northeast,New England,2
+596436,VCU,Atlantic 10,mid,Canada,international,international,international,3
+596436,VCU,Atlantic 10,mid,FL,us_state,South,South Atlantic,1
+596436,VCU,Atlantic 10,mid,GA,us_state,South,South Atlantic,2
+596436,VCU,Atlantic 10,mid,IL,us_state,Midwest,East North Central,2
+596436,VCU,Atlantic 10,mid,IN,us_state,Midwest,East North Central,1
+596436,VCU,Atlantic 10,mid,MD,us_state,South,South Atlantic,1
+596436,VCU,Atlantic 10,mid,NC,us_state,South,South Atlantic,2
+596436,VCU,Atlantic 10,mid,OR,us_state,West,Pacific,1
+596436,VCU,Atlantic 10,mid,PA,us_state,Northeast,Middle Atlantic,5
+596436,VCU,Atlantic 10,mid,TX,us_state,South,West South Central,1
+596436,VCU,Atlantic 10,mid,VA,us_state,South,South Atlantic,14
+596436,VCU,Atlantic 10,mid,WA,us_state,West,Pacific,1
+596438,Virginia Tech,ACC,p4,CA,us_state,West,Pacific,1
+596438,Virginia Tech,ACC,p4,CT,us_state,Northeast,New England,1
+596438,Virginia Tech,ACC,p4,FL,us_state,South,South Atlantic,2
+596438,Virginia Tech,ACC,p4,GA,us_state,South,South Atlantic,2
+596438,Virginia Tech,ACC,p4,KY,us_state,South,East South Central,1
+596438,Virginia Tech,ACC,p4,LA,us_state,South,West South Central,1
+596438,Virginia Tech,ACC,p4,MD,us_state,South,South Atlantic,2
+596438,Virginia Tech,ACC,p4,NC,us_state,South,South Atlantic,1
+596438,Virginia Tech,ACC,p4,NJ,us_state,Northeast,Middle Atlantic,3
+596438,Virginia Tech,ACC,p4,NY,us_state,Northeast,Middle Atlantic,2
+596438,Virginia Tech,ACC,p4,OH,us_state,Midwest,East North Central,1
+596438,Virginia Tech,ACC,p4,PA,us_state,Northeast,Middle Atlantic,4
+596438,Virginia Tech,ACC,p4,SC,us_state,South,South Atlantic,2
+596438,Virginia Tech,ACC,p4,TN,us_state,South,East South Central,2
+596438,Virginia Tech,ACC,p4,VA,us_state,South,South Atlantic,19
+596441,Wake Forest,ACC,p4,CA,us_state,West,Pacific,1
+596441,Wake Forest,ACC,p4,CT,us_state,Northeast,New England,1
+596441,Wake Forest,ACC,p4,FL,us_state,South,South Atlantic,4
+596441,Wake Forest,ACC,p4,IN,us_state,Midwest,East North Central,1
+596441,Wake Forest,ACC,p4,MI,us_state,Midwest,East North Central,2
+596441,Wake Forest,ACC,p4,MO,us_state,Midwest,West North Central,1
+596441,Wake Forest,ACC,p4,NC,us_state,South,South Atlantic,8
+596441,Wake Forest,ACC,p4,NJ,us_state,Northeast,Middle Atlantic,6
+596441,Wake Forest,ACC,p4,NY,us_state,Northeast,Middle Atlantic,1
+596441,Wake Forest,ACC,p4,PA,us_state,Northeast,Middle Atlantic,5
+596441,Wake Forest,ACC,p4,TN,us_state,South,East South Central,1
+596441,Wake Forest,ACC,p4,TX,us_state,South,West South Central,3
+596442,Washington St.,Mountain West,mid,AZ,us_state,West,Mountain,3
+596442,Washington St.,Mountain West,mid,CA,us_state,West,Pacific,6
+596442,Washington St.,Mountain West,mid,CO,us_state,West,Mountain,1
+596442,Washington St.,Mountain West,mid,Canada,international,international,international,2
+596442,Washington St.,Mountain West,mid,IA,us_state,Midwest,West North Central,1
+596442,Washington St.,Mountain West,mid,ID,us_state,West,Mountain,2
+596442,Washington St.,Mountain West,mid,MI,us_state,Midwest,East North Central,1
+596442,Washington St.,Mountain West,mid,MT,us_state,West,Mountain,3
+596442,Washington St.,Mountain West,mid,NV,us_state,West,Mountain,1
+596442,Washington St.,Mountain West,mid,Netherlands,international,international,international,1
+596442,Washington St.,Mountain West,mid,OK,us_state,South,West South Central,1
+596442,Washington St.,Mountain West,mid,OR,us_state,West,Pacific,2
+596442,Washington St.,Mountain West,mid,TX,us_state,South,West South Central,1
+596442,Washington St.,Mountain West,mid,UT,us_state,West,Mountain,1
+596442,Washington St.,Mountain West,mid,WA,us_state,West,Pacific,9
+596442,Washington St.,Mountain West,mid,WI,us_state,Midwest,East North Central,1
+596442,Washington St.,Mountain West,mid,WY,us_state,West,Mountain,1
+596442,Washington St.,Mountain West,mid,unrecognized,unrecognized,unknown,unknown,1
+596443,Washington,Big Ten,p4,AZ,us_state,West,Mountain,1
+596443,Washington,Big Ten,p4,CA,us_state,West,Pacific,14
+596443,Washington,Big Ten,p4,Canada,international,international,international,1
+596443,Washington,Big Ten,p4,FL,us_state,South,South Atlantic,1
+596443,Washington,Big Ten,p4,MA,us_state,Northeast,New England,1
+596443,Washington,Big Ten,p4,WA,us_state,West,Pacific,24
+596444,West Virginia,Big 12,p4,Canada,international,international,international,2
+596444,West Virginia,Big 12,p4,FL,us_state,South,South Atlantic,2
+596444,West Virginia,Big 12,p4,IA,us_state,Midwest,West North Central,1
+596444,West Virginia,Big 12,p4,IL,us_state,Midwest,East North Central,1
+596444,West Virginia,Big 12,p4,KY,us_state,South,East South Central,1
+596444,West Virginia,Big 12,p4,MD,us_state,South,South Atlantic,2
+596444,West Virginia,Big 12,p4,NJ,us_state,Northeast,Middle Atlantic,4
+596444,West Virginia,Big 12,p4,NY,us_state,Northeast,Middle Atlantic,4
+596444,West Virginia,Big 12,p4,PA,us_state,Northeast,Middle Atlantic,8
+596444,West Virginia,Big 12,p4,RI,us_state,Northeast,New England,1
+596444,West Virginia,Big 12,p4,SC,us_state,South,South Atlantic,2
+596444,West Virginia,Big 12,p4,VA,us_state,South,South Atlantic,5
+596444,West Virginia,Big 12,p4,WV,us_state,South,South Atlantic,6
+596446,Western Ill.,OVC,low,IL,us_state,Midwest,East North Central,3
+596446,Western Ill.,OVC,low,IN,us_state,Midwest,East North Central,1
+596446,Western Ill.,OVC,low,OH,us_state,Midwest,East North Central,1
+596448,Western Mich.,MAC,mid,IL,us_state,Midwest,East North Central,7
+596448,Western Mich.,MAC,mid,IN,us_state,Midwest,East North Central,4
+596448,Western Mich.,MAC,mid,MI,us_state,Midwest,East North Central,18
+596448,Western Mich.,MAC,mid,OH,us_state,Midwest,East North Central,1
+596448,Western Mich.,MAC,mid,WI,us_state,Midwest,East North Central,2
+596449,Wichita St.,The American,mid,AR,us_state,South,West South Central,3
+596449,Wichita St.,The American,mid,AZ,us_state,West,Mountain,2
+596449,Wichita St.,The American,mid,CA,us_state,West,Pacific,1
+596449,Wichita St.,The American,mid,Canada,international,international,international,1
+596449,Wichita St.,The American,mid,GA,us_state,South,South Atlantic,1
+596449,Wichita St.,The American,mid,IA,us_state,Midwest,West North Central,1
+596449,Wichita St.,The American,mid,ID,us_state,West,Mountain,1
+596449,Wichita St.,The American,mid,IL,us_state,Midwest,East North Central,1
+596449,Wichita St.,The American,mid,KS,us_state,Midwest,West North Central,8
+596449,Wichita St.,The American,mid,MN,us_state,Midwest,West North Central,1
+596449,Wichita St.,The American,mid,MO,us_state,Midwest,West North Central,3
+596449,Wichita St.,The American,mid,NE,us_state,Midwest,West North Central,1
+596449,Wichita St.,The American,mid,NY,us_state,Northeast,Middle Atlantic,1
+596449,Wichita St.,The American,mid,OK,us_state,South,West South Central,2
+596449,Wichita St.,The American,mid,TX,us_state,South,West South Central,10
+596449,Wichita St.,The American,mid,WI,us_state,Midwest,East North Central,4
+596451,Winthrop,Big South,mid,AZ,us_state,West,Mountain,1
+596451,Winthrop,Big South,mid,Australia,international,international,international,1
+596451,Winthrop,Big South,mid,CA,us_state,West,Pacific,2
+596451,Winthrop,Big South,mid,CT,us_state,Northeast,New England,2
+596451,Winthrop,Big South,mid,Canada,international,international,international,3
+596451,Winthrop,Big South,mid,FL,us_state,South,South Atlantic,1
+596451,Winthrop,Big South,mid,IA,us_state,Midwest,West North Central,1
+596451,Winthrop,Big South,mid,IL,us_state,Midwest,East North Central,1
+596451,Winthrop,Big South,mid,KY,us_state,South,East South Central,1
+596451,Winthrop,Big South,mid,MD,us_state,South,South Atlantic,2
+596451,Winthrop,Big South,mid,NC,us_state,South,South Atlantic,1
+596451,Winthrop,Big South,mid,NV,us_state,West,Mountain,1
+596451,Winthrop,Big South,mid,NY,us_state,Northeast,Middle Atlantic,1
+596451,Winthrop,Big South,mid,OH,us_state,Midwest,East North Central,3
+596451,Winthrop,Big South,mid,PA,us_state,Northeast,Middle Atlantic,1
+596451,Winthrop,Big South,mid,RI,us_state,Northeast,New England,1
+596451,Winthrop,Big South,mid,SC,us_state,South,South Atlantic,8
+596451,Winthrop,Big South,mid,TX,us_state,South,West South Central,3
+596452,Milwaukee,Horizon,low,CA,us_state,West,Pacific,1
+596452,Milwaukee,Horizon,low,IL,us_state,Midwest,East North Central,4
+596452,Milwaukee,Horizon,low,IN,us_state,Midwest,East North Central,1
+596452,Milwaukee,Horizon,low,MN,us_state,Midwest,West North Central,4
+596452,Milwaukee,Horizon,low,ND,us_state,Midwest,West North Central,1
+596452,Milwaukee,Horizon,low,OH,us_state,Midwest,East North Central,1
+596452,Milwaukee,Horizon,low,WI,us_state,Midwest,East North Central,26
+596454,Xavier,Big East,mid,AR,us_state,South,West South Central,1
+596454,Xavier,Big East,mid,CA,us_state,West,Pacific,2
+596454,Xavier,Big East,mid,CO,us_state,West,Mountain,2
+596454,Xavier,Big East,mid,FL,us_state,South,South Atlantic,2
+596454,Xavier,Big East,mid,IL,us_state,Midwest,East North Central,5
+596454,Xavier,Big East,mid,IN,us_state,Midwest,East North Central,5
+596454,Xavier,Big East,mid,KY,us_state,South,East South Central,5
+596454,Xavier,Big East,mid,MI,us_state,Midwest,East North Central,1
+596454,Xavier,Big East,mid,MN,us_state,Midwest,West North Central,3
+596454,Xavier,Big East,mid,MO,us_state,Midwest,West North Central,2
+596454,Xavier,Big East,mid,NC,us_state,South,South Atlantic,1
+596454,Xavier,Big East,mid,NY,us_state,Northeast,Middle Atlantic,2
+596454,Xavier,Big East,mid,OH,us_state,Midwest,East North Central,6
+596454,Xavier,Big East,mid,PA,us_state,Northeast,Middle Atlantic,1
+596454,Xavier,Big East,mid,TX,us_state,South,West South Central,3
+596454,Xavier,Big East,mid,WI,us_state,Midwest,East North Central,1
+596456,Youngstown St.,Horizon,low,AL,us_state,South,East South Central,1
+596456,Youngstown St.,Horizon,low,Australia,international,international,international,1
+596456,Youngstown St.,Horizon,low,CA,us_state,West,Pacific,2
+596456,Youngstown St.,Horizon,low,IL,us_state,Midwest,East North Central,1
+596456,Youngstown St.,Horizon,low,KS,us_state,Midwest,West North Central,1
+596456,Youngstown St.,Horizon,low,LA,us_state,South,West South Central,1
+596456,Youngstown St.,Horizon,low,MO,us_state,Midwest,West North Central,1
+596456,Youngstown St.,Horizon,low,NJ,us_state,Northeast,Middle Atlantic,1
+596456,Youngstown St.,Horizon,low,NV,us_state,West,Mountain,2
+596456,Youngstown St.,Horizon,low,OH,us_state,Midwest,East North Central,15
+596456,Youngstown St.,Horizon,low,PA,us_state,Northeast,Middle Atlantic,7
+596456,Youngstown St.,Horizon,low,TX,us_state,South,West South Central,2
+596456,Youngstown St.,Horizon,low,UT,us_state,West,Mountain,1
+596456,Youngstown St.,Horizon,low,WA,us_state,West,Pacific,3
+596456,Youngstown St.,Horizon,low,WI,us_state,Midwest,East North Central,1
+596462,Grand Canyon,WAC,mid,AZ,us_state,West,Mountain,24
+596462,Grand Canyon,WAC,mid,CA,us_state,West,Pacific,8
+596462,Grand Canyon,WAC,mid,CO,us_state,West,Mountain,1
+596462,Grand Canyon,WAC,mid,IA,us_state,Midwest,West North Central,2
+596462,Grand Canyon,WAC,mid,MO,us_state,Midwest,West North Central,1
+596462,Grand Canyon,WAC,mid,NV,us_state,West,Mountain,3
+596462,Grand Canyon,WAC,mid,UT,us_state,West,Mountain,1
+596462,Grand Canyon,WAC,mid,WA,us_state,West,Pacific,4
+596463,Kennesaw St.,CUSA,mid,CA,us_state,West,Pacific,1
+596463,Kennesaw St.,CUSA,mid,Canada,international,international,international,1
+596463,Kennesaw St.,CUSA,mid,GA,us_state,South,South Atlantic,34
+596463,Kennesaw St.,CUSA,mid,PA,us_state,Northeast,Middle Atlantic,1
+596463,Kennesaw St.,CUSA,mid,TN,us_state,South,East South Central,1
+596463,Kennesaw St.,CUSA,mid,VA,us_state,South,South Atlantic,1
+596464,Presbyterian,Big South,mid,AL,us_state,South,East South Central,2
+596464,Presbyterian,Big South,mid,Bahamas,international,international,international,1
+596464,Presbyterian,Big South,mid,FL,us_state,South,South Atlantic,9
+596464,Presbyterian,Big South,mid,GA,us_state,South,South Atlantic,7
+596464,Presbyterian,Big South,mid,KS,us_state,Midwest,West North Central,1
+596464,Presbyterian,Big South,mid,NC,us_state,South,South Atlantic,5
+596464,Presbyterian,Big South,mid,NJ,us_state,Northeast,Middle Atlantic,1
+596464,Presbyterian,Big South,mid,NY,us_state,Northeast,Middle Atlantic,1
+596464,Presbyterian,Big South,mid,SC,us_state,South,South Atlantic,7
+596464,Presbyterian,Big South,mid,VA,us_state,South,South Atlantic,3
+596464,Presbyterian,Big South,mid,unrecognized,unrecognized,unknown,unknown,1
+596465,Seattle U,WAC,mid,Australia,international,international,international,1
+596465,Seattle U,WAC,mid,CA,us_state,West,Pacific,3
+596465,Seattle U,WAC,mid,GA,us_state,South,South Atlantic,1
+596465,Seattle U,WAC,mid,HI,us_state,West,Pacific,2
+596465,Seattle U,WAC,mid,ID,us_state,West,Mountain,1
+596465,Seattle U,WAC,mid,IN,us_state,Midwest,East North Central,1
+596465,Seattle U,WAC,mid,Japan,international,international,international,1
+596465,Seattle U,WAC,mid,NV,us_state,West,Mountain,3
+596465,Seattle U,WAC,mid,OR,us_state,West,Pacific,2
+596465,Seattle U,WAC,mid,SC,us_state,South,South Atlantic,1
+596465,Seattle U,WAC,mid,TX,us_state,South,West South Central,1
+596465,Seattle U,WAC,mid,WA,us_state,West,Pacific,16
+596467,North Florida,ASUN,mid,Canada,international,international,international,1
+596467,North Florida,ASUN,mid,FL,us_state,South,South Atlantic,25
+596467,North Florida,ASUN,mid,GA,us_state,South,South Atlantic,2
+596467,North Florida,ASUN,mid,IL,us_state,Midwest,East North Central,1
+596467,North Florida,ASUN,mid,IN,us_state,Midwest,East North Central,1
+596467,North Florida,ASUN,mid,KS,us_state,Midwest,West North Central,1
+596467,North Florida,ASUN,mid,PA,us_state,Northeast,Middle Atlantic,2
+596467,North Florida,ASUN,mid,Puerto Rico,us_territory,US territory,US territory,2
+596467,North Florida,ASUN,mid,TN,us_state,South,East South Central,2
+596467,North Florida,ASUN,mid,TX,us_state,South,West South Central,2
+596467,North Florida,ASUN,mid,Venezuela,international,international,international,1
+596469,USC Upstate,Big South,mid,AZ,us_state,West,Mountain,3
+596469,USC Upstate,Big South,mid,Canada,international,international,international,2
+596469,USC Upstate,Big South,mid,FL,us_state,South,South Atlantic,2
+596469,USC Upstate,Big South,mid,GA,us_state,South,South Atlantic,2
+596469,USC Upstate,Big South,mid,IA,us_state,Midwest,West North Central,1
+596469,USC Upstate,Big South,mid,IL,us_state,Midwest,East North Central,6
+596469,USC Upstate,Big South,mid,KY,us_state,South,East South Central,1
+596469,USC Upstate,Big South,mid,MA,us_state,Northeast,New England,1
+596469,USC Upstate,Big South,mid,MD,us_state,South,South Atlantic,1
+596469,USC Upstate,Big South,mid,MI,us_state,Midwest,East North Central,1
+596469,USC Upstate,Big South,mid,MN,us_state,Midwest,West North Central,1
+596469,USC Upstate,Big South,mid,MO,us_state,Midwest,West North Central,2
+596469,USC Upstate,Big South,mid,NC,us_state,South,South Atlantic,1
+596469,USC Upstate,Big South,mid,NY,us_state,Northeast,Middle Atlantic,1
+596469,USC Upstate,Big South,mid,OH,us_state,Midwest,East North Central,1
+596469,USC Upstate,Big South,mid,PA,us_state,Northeast,Middle Atlantic,1
+596469,USC Upstate,Big South,mid,SC,us_state,South,South Atlantic,5
+596469,USC Upstate,Big South,mid,SD,us_state,Midwest,West North Central,1
+596469,USC Upstate,Big South,mid,WA,us_state,West,Pacific,1
+596469,USC Upstate,Big South,mid,WV,us_state,South,South Atlantic,2
+596470,Belmont,MVC,mid,CA,us_state,West,Pacific,1
+596470,Belmont,MVC,mid,CO,us_state,West,Mountain,1
+596470,Belmont,MVC,mid,FL,us_state,South,South Atlantic,2
+596470,Belmont,MVC,mid,GA,us_state,South,South Atlantic,4
+596470,Belmont,MVC,mid,IL,us_state,Midwest,East North Central,1
+596470,Belmont,MVC,mid,IN,us_state,Midwest,East North Central,1
+596470,Belmont,MVC,mid,MI,us_state,Midwest,East North Central,1
+596470,Belmont,MVC,mid,MO,us_state,Midwest,West North Central,1
+596470,Belmont,MVC,mid,OH,us_state,Midwest,East North Central,1
+596470,Belmont,MVC,mid,TN,us_state,South,East South Central,21
+596470,Belmont,MVC,mid,TX,us_state,South,West South Central,3
+596471,A&M-Corpus Christi,Southland,low,IL,us_state,Midwest,East North Central,1
+596471,A&M-Corpus Christi,Southland,low,MI,us_state,Midwest,East North Central,1
+596471,A&M-Corpus Christi,Southland,low,TX,us_state,South,West South Central,3
+596471,A&M-Corpus Christi,Southland,low,WA,us_state,West,Pacific,1
+596472,Lipscomb,ASUN,mid,AL,us_state,South,East South Central,3
+596472,Lipscomb,ASUN,mid,CA,us_state,West,Pacific,1
+596472,Lipscomb,ASUN,mid,DC,us_state,South,South Atlantic,1
+596472,Lipscomb,ASUN,mid,FL,us_state,South,South Atlantic,6
+596472,Lipscomb,ASUN,mid,GA,us_state,South,South Atlantic,3
+596472,Lipscomb,ASUN,mid,IL,us_state,Midwest,East North Central,2
+596472,Lipscomb,ASUN,mid,IN,us_state,Midwest,East North Central,2
+596472,Lipscomb,ASUN,mid,MD,us_state,South,South Atlantic,1
+596472,Lipscomb,ASUN,mid,NC,us_state,South,South Atlantic,1
+596472,Lipscomb,ASUN,mid,OH,us_state,Midwest,East North Central,1
+596472,Lipscomb,ASUN,mid,OR,us_state,West,Pacific,1
+596472,Lipscomb,ASUN,mid,PA,us_state,Northeast,Middle Atlantic,2
+596472,Lipscomb,ASUN,mid,TN,us_state,South,East South Central,9
+596472,Lipscomb,ASUN,mid,TX,us_state,South,West South Central,3
+596472,Lipscomb,ASUN,mid,VA,us_state,South,South Atlantic,1
+596472,Lipscomb,ASUN,mid,WI,us_state,Midwest,East North Central,2
+596473,FGCU,ASUN,mid,Canada,international,international,international,1
+596473,FGCU,ASUN,mid,FL,us_state,South,South Atlantic,33
+596473,FGCU,ASUN,mid,GA,us_state,South,South Atlantic,1
+596473,FGCU,ASUN,mid,KS,us_state,Midwest,West North Central,1
+596473,FGCU,ASUN,mid,MN,us_state,Midwest,West North Central,1
+596473,FGCU,ASUN,mid,MO,us_state,Midwest,West North Central,1
+596473,FGCU,ASUN,mid,PA,us_state,Northeast,Middle Atlantic,1
+596474,Utah Valley,WAC,mid,AZ,us_state,West,Mountain,9
+596474,Utah Valley,WAC,mid,CA,us_state,West,Pacific,10
+596474,Utah Valley,WAC,mid,CO,us_state,West,Mountain,4
+596474,Utah Valley,WAC,mid,HI,us_state,West,Pacific,1
+596474,Utah Valley,WAC,mid,ID,us_state,West,Mountain,1
+596474,Utah Valley,WAC,mid,OR,us_state,West,Pacific,1
+596474,Utah Valley,WAC,mid,UT,us_state,West,Mountain,7
+596474,Utah Valley,WAC,mid,WA,us_state,West,Pacific,5
+596474,Utah Valley,WAC,mid,WI,us_state,Midwest,East North Central,1
+596474,Utah Valley,WAC,mid,WY,us_state,West,Mountain,1
+596477,Abilene Christian,WAC,mid,AZ,us_state,West,Mountain,1
+596477,Abilene Christian,WAC,mid,CA,us_state,West,Pacific,3
+596477,Abilene Christian,WAC,mid,NM,us_state,West,Mountain,1
+596477,Abilene Christian,WAC,mid,OK,us_state,South,West South Central,1
+596477,Abilene Christian,WAC,mid,TX,us_state,South,West South Central,32
+596477,Abilene Christian,WAC,mid,WA,us_state,West,Pacific,1
+596477,Abilene Christian,WAC,mid,unrecognized,unrecognized,unknown,unknown,1
+596479,Alabama St.,SWAC,low,AL,us_state,South,East South Central,7
+596479,Alabama St.,SWAC,low,Brazil,international,international,international,1
+596479,Alabama St.,SWAC,low,CA,us_state,West,Pacific,1
+596479,Alabama St.,SWAC,low,DC,us_state,South,South Atlantic,1
+596479,Alabama St.,SWAC,low,FL,us_state,South,South Atlantic,7
+596479,Alabama St.,SWAC,low,GA,us_state,South,South Atlantic,8
+596479,Alabama St.,SWAC,low,IA,us_state,Midwest,West North Central,1
+596479,Alabama St.,SWAC,low,ID,us_state,West,Mountain,1
+596479,Alabama St.,SWAC,low,IL,us_state,Midwest,East North Central,1
+596479,Alabama St.,SWAC,low,IN,us_state,Midwest,East North Central,1
+596479,Alabama St.,SWAC,low,KS,us_state,Midwest,West North Central,1
+596479,Alabama St.,SWAC,low,NE,us_state,Midwest,West North Central,1
+596479,Alabama St.,SWAC,low,Puerto Rico,us_territory,US territory,US territory,5
+596479,Alabama St.,SWAC,low,SC,us_state,South,South Atlantic,2
+596479,Alabama St.,SWAC,low,TN,us_state,South,East South Central,2
+596479,Alabama St.,SWAC,low,TX,us_state,South,West South Central,1
+596479,Alabama St.,SWAC,low,Venezuela,international,international,international,1
+596479,Alabama St.,SWAC,low,unrecognized,unrecognized,unknown,unknown,1
+596480,Alabama,SEC,p4,AL,us_state,South,East South Central,17
+596480,Alabama,SEC,p4,CA,us_state,West,Pacific,1
+596480,Alabama,SEC,p4,CT,us_state,Northeast,New England,1
+596480,Alabama,SEC,p4,FL,us_state,South,South Atlantic,3
+596480,Alabama,SEC,p4,GA,us_state,South,South Atlantic,5
+596480,Alabama,SEC,p4,IL,us_state,Midwest,East North Central,1
+596480,Alabama,SEC,p4,IN,us_state,Midwest,East North Central,2
+596480,Alabama,SEC,p4,MA,us_state,Northeast,New England,2
+596480,Alabama,SEC,p4,MI,us_state,Midwest,East North Central,1
+596480,Alabama,SEC,p4,MS,us_state,South,East South Central,4
+596480,Alabama,SEC,p4,NC,us_state,South,South Atlantic,1
+596480,Alabama,SEC,p4,NE,us_state,Midwest,West North Central,1
+596480,Alabama,SEC,p4,NJ,us_state,Northeast,Middle Atlantic,3
+596480,Alabama,SEC,p4,NY,us_state,Northeast,Middle Atlantic,1
+596480,Alabama,SEC,p4,OH,us_state,Midwest,East North Central,1
+596480,Alabama,SEC,p4,TN,us_state,South,East South Central,2
+596480,Alabama,SEC,p4,TX,us_state,South,West South Central,2
+596485,Arizona St.,Big 12,p4,AZ,us_state,West,Mountain,13
+596485,Arizona St.,Big 12,p4,CA,us_state,West,Pacific,9
+596485,Arizona St.,Big 12,p4,FL,us_state,South,South Atlantic,1
+596485,Arizona St.,Big 12,p4,GA,us_state,South,South Atlantic,1
+596485,Arizona St.,Big 12,p4,HI,us_state,West,Pacific,1
+596485,Arizona St.,Big 12,p4,KY,us_state,South,East South Central,1
+596485,Arizona St.,Big 12,p4,LA,us_state,South,West South Central,1
+596485,Arizona St.,Big 12,p4,MN,us_state,Midwest,West North Central,1
+596485,Arizona St.,Big 12,p4,NC,us_state,South,South Atlantic,1
+596485,Arizona St.,Big 12,p4,NV,us_state,West,Mountain,1
+596485,Arizona St.,Big 12,p4,OK,us_state,South,West South Central,4
+596485,Arizona St.,Big 12,p4,TX,us_state,South,West South Central,5
+596485,Arizona St.,Big 12,p4,UT,us_state,West,Mountain,1
+596485,Arizona St.,Big 12,p4,WA,us_state,West,Pacific,1
+596490,Austin Peay,ASUN,mid,AZ,us_state,West,Mountain,1
+596490,Austin Peay,ASUN,mid,CA,us_state,West,Pacific,2
+596490,Austin Peay,ASUN,mid,CO,us_state,West,Mountain,1
+596490,Austin Peay,ASUN,mid,Canada,international,international,international,1
+596490,Austin Peay,ASUN,mid,Dominican Republic,international,international,international,1
+596490,Austin Peay,ASUN,mid,IL,us_state,Midwest,East North Central,2
+596490,Austin Peay,ASUN,mid,KS,us_state,Midwest,West North Central,3
+596490,Austin Peay,ASUN,mid,KY,us_state,South,East South Central,1
+596490,Austin Peay,ASUN,mid,MA,us_state,Northeast,New England,1
+596490,Austin Peay,ASUN,mid,MO,us_state,Midwest,West North Central,1
+596490,Austin Peay,ASUN,mid,NV,us_state,West,Mountain,1
+596490,Austin Peay,ASUN,mid,OH,us_state,Midwest,East North Central,1
+596490,Austin Peay,ASUN,mid,OK,us_state,South,West South Central,6
+596490,Austin Peay,ASUN,mid,TN,us_state,South,East South Central,10
+596490,Austin Peay,ASUN,mid,TX,us_state,South,West South Central,5
+596490,Austin Peay,ASUN,mid,unrecognized,unrecognized,unknown,unknown,2
+596493,Baylor,Big 12,p4,AZ,us_state,West,Mountain,1
+596493,Baylor,Big 12,p4,FL,us_state,South,South Atlantic,1
+596493,Baylor,Big 12,p4,IA,us_state,Midwest,West North Central,1
+596493,Baylor,Big 12,p4,IN,us_state,Midwest,East North Central,1
+596493,Baylor,Big 12,p4,LA,us_state,South,West South Central,1
+596493,Baylor,Big 12,p4,MS,us_state,South,East South Central,1
+596493,Baylor,Big 12,p4,Netherlands,international,international,international,1
+596493,Baylor,Big 12,p4,TX,us_state,South,West South Central,34
+596495,Binghamton,America East,low,CT,us_state,Northeast,New England,1
+596495,Binghamton,America East,low,FL,us_state,South,South Atlantic,1
+596495,Binghamton,America East,low,MA,us_state,Northeast,New England,2
+596495,Binghamton,America East,low,NJ,us_state,Northeast,Middle Atlantic,5
+596495,Binghamton,America East,low,NY,us_state,Northeast,Middle Atlantic,20
+596495,Binghamton,America East,low,PA,us_state,Northeast,Middle Atlantic,4
+596496,Boston College,ACC,p4,CA,us_state,West,Pacific,1
+596496,Boston College,ACC,p4,CT,us_state,Northeast,New England,4
+596496,Boston College,ACC,p4,Canada,international,international,international,1
+596496,Boston College,ACC,p4,FL,us_state,South,South Atlantic,2
+596496,Boston College,ACC,p4,IN,us_state,Midwest,East North Central,1
+596496,Boston College,ACC,p4,MA,us_state,Northeast,New England,13
+596496,Boston College,ACC,p4,MN,us_state,Midwest,West North Central,1
+596496,Boston College,ACC,p4,NH,us_state,Northeast,New England,1
+596496,Boston College,ACC,p4,NJ,us_state,Northeast,Middle Atlantic,4
+596496,Boston College,ACC,p4,NY,us_state,Northeast,Middle Atlantic,6
+596496,Boston College,ACC,p4,PA,us_state,Northeast,Middle Atlantic,3
+596496,Boston College,ACC,p4,Puerto Rico,us_territory,US territory,US territory,1
+596496,Boston College,ACC,p4,RI,us_state,Northeast,New England,1
+596496,Boston College,ACC,p4,TN,us_state,South,East South Central,1
+596496,Boston College,ACC,p4,UT,us_state,West,Mountain,1
+596496,Boston College,ACC,p4,VA,us_state,South,South Atlantic,1
+596496,Boston College,ACC,p4,Venezuela,international,international,international,1
+596502,Bucknell,Patriot,low,CA,us_state,West,Pacific,3
+596502,Bucknell,Patriot,low,FL,us_state,South,South Atlantic,2
+596502,Bucknell,Patriot,low,IL,us_state,Midwest,East North Central,1
+596502,Bucknell,Patriot,low,MA,us_state,Northeast,New England,2
+596502,Bucknell,Patriot,low,MD,us_state,South,South Atlantic,1
+596502,Bucknell,Patriot,low,MI,us_state,Midwest,East North Central,1
+596502,Bucknell,Patriot,low,NC,us_state,South,South Atlantic,1
+596502,Bucknell,Patriot,low,ND,us_state,Midwest,West North Central,1
+596502,Bucknell,Patriot,low,NJ,us_state,Northeast,Middle Atlantic,4
+596502,Bucknell,Patriot,low,NY,us_state,Northeast,Middle Atlantic,8
+596502,Bucknell,Patriot,low,PA,us_state,Northeast,Middle Atlantic,9
+596502,Bucknell,Patriot,low,TN,us_state,South,East South Central,1
+596502,Bucknell,Patriot,low,VA,us_state,South,South Atlantic,3
+596504,Cal Poly,Big West,mid,CA,us_state,West,Pacific,29
+596504,Cal Poly,Big West,mid,HI,us_state,West,Pacific,1
+596504,Cal Poly,Big West,mid,NV,us_state,West,Mountain,1
+596504,Cal Poly,Big West,mid,OR,us_state,West,Pacific,1
+596504,Cal Poly,Big West,mid,WA,us_state,West,Pacific,1
+596504,Cal Poly,Big West,mid,unrecognized,unrecognized,unknown,unknown,5
+596505,CSU Bakersfield,Big West,mid,AZ,us_state,West,Mountain,1
+596505,CSU Bakersfield,Big West,mid,CA,us_state,West,Pacific,10
+596505,CSU Bakersfield,Big West,mid,Canada,international,international,international,1
+596505,CSU Bakersfield,Big West,mid,HI,us_state,West,Pacific,2
+596505,CSU Bakersfield,Big West,mid,MI,us_state,Midwest,East North Central,2
+596505,CSU Bakersfield,Big West,mid,WA,us_state,West,Pacific,1
+596505,CSU Bakersfield,Big West,mid,unrecognized,unrecognized,unknown,unknown,2
+596506,Cal St. Fullerton,Big West,mid,AZ,us_state,West,Mountain,1
+596506,Cal St. Fullerton,Big West,mid,CA,us_state,West,Pacific,39
+596506,Cal St. Fullerton,Big West,mid,Puerto Rico,us_territory,US territory,US territory,1
+596507,Long Beach St.,Big West,mid,CA,us_state,West,Pacific,35
+596507,Long Beach St.,Big West,mid,CO,us_state,West,Mountain,1
+596507,Long Beach St.,Big West,mid,HI,us_state,West,Pacific,1
+596507,Long Beach St.,Big West,mid,KS,us_state,Midwest,West North Central,1
+596507,Long Beach St.,Big West,mid,OH,us_state,Midwest,East North Central,1
+596507,Long Beach St.,Big West,mid,UT,us_state,West,Mountain,1
+596508,CSUN,Big West,mid,CA,us_state,West,Pacific,32
+596508,CSUN,Big West,mid,CO,us_state,West,Mountain,1
+596508,CSUN,Big West,mid,ID,us_state,West,Mountain,1
+596508,CSUN,Big West,mid,Mexico,international,international,international,1
+596508,CSUN,Big West,mid,NV,us_state,West,Mountain,1
+596509,Sacramento St.,WAC,mid,AZ,us_state,West,Mountain,3
+596509,Sacramento St.,WAC,mid,CA,us_state,West,Pacific,23
+596509,Sacramento St.,WAC,mid,Canada,international,international,international,2
+596509,Sacramento St.,WAC,mid,ID,us_state,West,Mountain,1
+596509,Sacramento St.,WAC,mid,NV,us_state,West,Mountain,5
+596509,Sacramento St.,WAC,mid,OR,us_state,West,Pacific,2
+596509,Sacramento St.,WAC,mid,Philippines,international,international,international,1
+596509,Sacramento St.,WAC,mid,TX,us_state,South,West South Central,1
+596509,Sacramento St.,WAC,mid,WA,us_state,West,Pacific,1
+596510,UC Santa Barbara,Big West,mid,AZ,us_state,West,Mountain,1
+596510,UC Santa Barbara,Big West,mid,CA,us_state,West,Pacific,36
+596510,UC Santa Barbara,Big West,mid,IL,us_state,Midwest,East North Central,1
+596510,UC Santa Barbara,Big West,mid,MN,us_state,Midwest,West North Central,1
+596510,UC Santa Barbara,Big West,mid,OR,us_state,West,Pacific,1
+596510,UC Santa Barbara,Big West,mid,WA,us_state,West,Pacific,1
+596511,California,ACC,p4,CA,us_state,West,Pacific,38
+596511,California,ACC,p4,KS,us_state,Midwest,West North Central,1
+596511,California,ACC,p4,NY,us_state,Northeast,Middle Atlantic,1
+596511,California,ACC,p4,TX,us_state,South,West South Central,1
+596512,UC Davis,Big West,mid,CA,us_state,West,Pacific,39
+596512,UC Davis,Big West,mid,NV,us_state,West,Mountain,1
+596513,UC Irvine,Big West,mid,AZ,us_state,West,Mountain,1
+596513,UC Irvine,Big West,mid,CA,us_state,West,Pacific,39
+596514,UCLA,Big Ten,p4,AZ,us_state,West,Mountain,2
+596514,UCLA,Big Ten,p4,CA,us_state,West,Pacific,33
+596514,UCLA,Big Ten,p4,CO,us_state,West,Mountain,1
+596514,UCLA,Big Ten,p4,HI,us_state,West,Pacific,1
+596514,UCLA,Big Ten,p4,IL,us_state,Midwest,East North Central,1
+596514,UCLA,Big Ten,p4,NV,us_state,West,Mountain,1
+596514,UCLA,Big Ten,p4,WA,us_state,West,Pacific,1
+596515,UC Riverside,Big West,mid,CA,us_state,West,Pacific,36
+596515,UC Riverside,Big West,mid,unrecognized,unrecognized,unknown,unknown,1
+596517,Canisius,MAAC,low,Canada,international,international,international,3
+596517,Canisius,MAAC,low,FL,us_state,South,South Atlantic,1
+596517,Canisius,MAAC,low,NJ,us_state,Northeast,Middle Atlantic,2
+596517,Canisius,MAAC,low,NY,us_state,Northeast,Middle Atlantic,9
+596517,Canisius,MAAC,low,OH,us_state,Midwest,East North Central,2
+596517,Canisius,MAAC,low,PA,us_state,Northeast,Middle Atlantic,7
+596519,UCF,Big 12,p4,AL,us_state,South,East South Central,1
+596519,UCF,Big 12,p4,Aruba,international,international,international,1
+596519,UCF,Big 12,p4,Dominican Republic,international,international,international,1
+596519,UCF,Big 12,p4,FL,us_state,South,South Atlantic,26
+596519,UCF,Big 12,p4,GA,us_state,South,South Atlantic,1
+596519,UCF,Big 12,p4,IL,us_state,Midwest,East North Central,1
+596519,UCF,Big 12,p4,NJ,us_state,Northeast,Middle Atlantic,2
+596519,UCF,Big 12,p4,OH,us_state,Midwest,East North Central,2
+596519,UCF,Big 12,p4,PA,us_state,Northeast,Middle Atlantic,3
+596519,UCF,Big 12,p4,Puerto Rico,us_territory,US territory,US territory,1
+596519,UCF,Big 12,p4,TX,us_state,South,West South Central,1
+596521,Cincinnati,Big 12,p4,AR,us_state,South,West South Central,1
+596521,Cincinnati,Big 12,p4,FL,us_state,South,South Atlantic,1
+596521,Cincinnati,Big 12,p4,IL,us_state,Midwest,East North Central,8
+596521,Cincinnati,Big 12,p4,IN,us_state,Midwest,East North Central,6
+596521,Cincinnati,Big 12,p4,KS,us_state,Midwest,West North Central,1
+596521,Cincinnati,Big 12,p4,KY,us_state,South,East South Central,1
+596521,Cincinnati,Big 12,p4,MI,us_state,Midwest,East North Central,3
+596521,Cincinnati,Big 12,p4,MN,us_state,Midwest,West North Central,1
+596521,Cincinnati,Big 12,p4,MO,us_state,Midwest,West North Central,1
+596521,Cincinnati,Big 12,p4,OH,us_state,Midwest,East North Central,10
+596521,Cincinnati,Big 12,p4,OK,us_state,South,West South Central,1
+596521,Cincinnati,Big 12,p4,OR,us_state,West,Pacific,1
+596521,Cincinnati,Big 12,p4,PA,us_state,Northeast,Middle Atlantic,4
+596521,Cincinnati,Big 12,p4,SC,us_state,South,South Atlantic,1
+596521,Cincinnati,Big 12,p4,TN,us_state,South,East South Central,2
+596522,The Citadel,SoCon,mid,CA,us_state,West,Pacific,1
+596522,The Citadel,SoCon,mid,CO,us_state,West,Mountain,1
+596522,The Citadel,SoCon,mid,GA,us_state,South,South Atlantic,6
+596522,The Citadel,SoCon,mid,NC,us_state,South,South Atlantic,1
+596522,The Citadel,SoCon,mid,OH,us_state,Midwest,East North Central,1
+596522,The Citadel,SoCon,mid,SC,us_state,South,South Atlantic,17
+596523,Clemson,ACC,p4,CA,us_state,West,Pacific,2
+596523,Clemson,ACC,p4,CT,us_state,Northeast,New England,1
+596523,Clemson,ACC,p4,FL,us_state,South,South Atlantic,5
+596523,Clemson,ACC,p4,GA,us_state,South,South Atlantic,9
+596523,Clemson,ACC,p4,KY,us_state,South,East South Central,1
+596523,Clemson,ACC,p4,MD,us_state,South,South Atlantic,1
+596523,Clemson,ACC,p4,MI,us_state,Midwest,East North Central,4
+596523,Clemson,ACC,p4,NC,us_state,South,South Atlantic,1
+596523,Clemson,ACC,p4,NH,us_state,Northeast,New England,1
+596523,Clemson,ACC,p4,NY,us_state,Northeast,Middle Atlantic,2
+596523,Clemson,ACC,p4,OH,us_state,Midwest,East North Central,1
+596523,Clemson,ACC,p4,PA,us_state,Northeast,Middle Atlantic,2
+596523,Clemson,ACC,p4,SC,us_state,South,South Atlantic,10
+596524,Coastal Carolina,Sun Belt,mid,CA,us_state,West,Pacific,2
+596524,Coastal Carolina,Sun Belt,mid,CT,us_state,Northeast,New England,1
+596524,Coastal Carolina,Sun Belt,mid,FL,us_state,South,South Atlantic,2
+596524,Coastal Carolina,Sun Belt,mid,GA,us_state,South,South Atlantic,1
+596524,Coastal Carolina,Sun Belt,mid,KY,us_state,South,East South Central,1
+596524,Coastal Carolina,Sun Belt,mid,MA,us_state,Northeast,New England,1
+596524,Coastal Carolina,Sun Belt,mid,MD,us_state,South,South Atlantic,1
+596524,Coastal Carolina,Sun Belt,mid,MI,us_state,Midwest,East North Central,1
+596524,Coastal Carolina,Sun Belt,mid,NC,us_state,South,South Atlantic,3
+596524,Coastal Carolina,Sun Belt,mid,NE,us_state,Midwest,West North Central,1
+596524,Coastal Carolina,Sun Belt,mid,NJ,us_state,Northeast,Middle Atlantic,4
+596524,Coastal Carolina,Sun Belt,mid,NY,us_state,Northeast,Middle Atlantic,1
+596524,Coastal Carolina,Sun Belt,mid,OH,us_state,Midwest,East North Central,1
+596524,Coastal Carolina,Sun Belt,mid,OR,us_state,West,Pacific,1
+596524,Coastal Carolina,Sun Belt,mid,PA,us_state,Northeast,Middle Atlantic,7
+596524,Coastal Carolina,Sun Belt,mid,SC,us_state,South,South Atlantic,7
+596524,Coastal Carolina,Sun Belt,mid,VA,us_state,South,South Atlantic,4
+596524,Coastal Carolina,Sun Belt,mid,WA,us_state,West,Pacific,1
+596525,Columbia,Ivy League,low,AR,us_state,South,West South Central,1
+596525,Columbia,Ivy League,low,Australia,international,international,international,1
+596525,Columbia,Ivy League,low,CA,us_state,West,Pacific,10
+596525,Columbia,Ivy League,low,CT,us_state,Northeast,New England,1
+596525,Columbia,Ivy League,low,Canada,international,international,international,1
+596525,Columbia,Ivy League,low,DE,us_state,South,South Atlantic,1
+596525,Columbia,Ivy League,low,FL,us_state,South,South Atlantic,3
+596525,Columbia,Ivy League,low,GA,us_state,South,South Atlantic,2
+596525,Columbia,Ivy League,low,IL,us_state,Midwest,East North Central,1
+596525,Columbia,Ivy League,low,IN,us_state,Midwest,East North Central,1
+596525,Columbia,Ivy League,low,Japan,international,international,international,1
+596525,Columbia,Ivy League,low,MA,us_state,Northeast,New England,3
+596525,Columbia,Ivy League,low,MD,us_state,South,South Atlantic,1
+596525,Columbia,Ivy League,low,NC,us_state,South,South Atlantic,1
+596525,Columbia,Ivy League,low,NJ,us_state,Northeast,Middle Atlantic,4
+596525,Columbia,Ivy League,low,NY,us_state,Northeast,Middle Atlantic,2
+596525,Columbia,Ivy League,low,PA,us_state,Northeast,Middle Atlantic,2
+596525,Columbia,Ivy League,low,TX,us_state,South,West South Central,3
+596525,Columbia,Ivy League,low,WI,us_state,Midwest,East North Central,1
+596526,UConn,Big East,mid,CA,us_state,West,Pacific,2
+596526,UConn,Big East,mid,CT,us_state,Northeast,New England,12
+596526,UConn,Big East,mid,MA,us_state,Northeast,New England,2
+596526,UConn,Big East,mid,ME,us_state,Northeast,New England,2
+596526,UConn,Big East,mid,MT,us_state,West,Mountain,1
+596526,UConn,Big East,mid,NJ,us_state,Northeast,Middle Atlantic,1
+596526,UConn,Big East,mid,NY,us_state,Northeast,Middle Atlantic,11
+596526,UConn,Big East,mid,PA,us_state,Northeast,Middle Atlantic,4
+596526,UConn,Big East,mid,RI,us_state,Northeast,New England,1
+596526,UConn,Big East,mid,TX,us_state,South,West South Central,2
+596526,UConn,Big East,mid,VA,us_state,South,South Atlantic,1
+596526,UConn,Big East,mid,VT,us_state,Northeast,New England,1
+596526,UConn,Big East,mid,WA,us_state,West,Pacific,1
+596526,UConn,Big East,mid,WI,us_state,Midwest,East North Central,1
+596529,Creighton,Big East,mid,AZ,us_state,West,Mountain,1
+596529,Creighton,Big East,mid,CA,us_state,West,Pacific,1
+596529,Creighton,Big East,mid,CO,us_state,West,Mountain,1
+596529,Creighton,Big East,mid,Canada,international,international,international,3
+596529,Creighton,Big East,mid,FL,us_state,South,South Atlantic,1
+596529,Creighton,Big East,mid,IA,us_state,Midwest,West North Central,1
+596529,Creighton,Big East,mid,IL,us_state,Midwest,East North Central,4
+596529,Creighton,Big East,mid,KS,us_state,Midwest,West North Central,2
+596529,Creighton,Big East,mid,MN,us_state,Midwest,West North Central,5
+596529,Creighton,Big East,mid,ND,us_state,Midwest,West North Central,1
+596529,Creighton,Big East,mid,NE,us_state,Midwest,West North Central,6
+596529,Creighton,Big East,mid,NH,us_state,Northeast,New England,1
+596529,Creighton,Big East,mid,NJ,us_state,Northeast,Middle Atlantic,2
+596529,Creighton,Big East,mid,NM,us_state,West,Mountain,1
+596529,Creighton,Big East,mid,NV,us_state,West,Mountain,1
+596529,Creighton,Big East,mid,OH,us_state,Midwest,East North Central,1
+596529,Creighton,Big East,mid,WI,us_state,Midwest,East North Central,4
+596530,Dartmouth,Ivy League,low,AR,us_state,South,West South Central,1
+596530,Dartmouth,Ivy League,low,CA,us_state,West,Pacific,3
+596530,Dartmouth,Ivy League,low,CT,us_state,Northeast,New England,1
+596530,Dartmouth,Ivy League,low,Canada,international,international,international,1
+596530,Dartmouth,Ivy League,low,FL,us_state,South,South Atlantic,4
+596530,Dartmouth,Ivy League,low,GA,us_state,South,South Atlantic,4
+596530,Dartmouth,Ivy League,low,IL,us_state,Midwest,East North Central,1
+596530,Dartmouth,Ivy League,low,IN,us_state,Midwest,East North Central,1
+596530,Dartmouth,Ivy League,low,LA,us_state,South,West South Central,2
+596530,Dartmouth,Ivy League,low,MA,us_state,Northeast,New England,1
+596530,Dartmouth,Ivy League,low,MI,us_state,Midwest,East North Central,1
+596530,Dartmouth,Ivy League,low,MO,us_state,Midwest,West North Central,2
+596530,Dartmouth,Ivy League,low,NJ,us_state,Northeast,Middle Atlantic,1
+596530,Dartmouth,Ivy League,low,NY,us_state,Northeast,Middle Atlantic,2
+596530,Dartmouth,Ivy League,low,PA,us_state,Northeast,Middle Atlantic,3
+596530,Dartmouth,Ivy League,low,SD,us_state,Midwest,West North Central,1
+596530,Dartmouth,Ivy League,low,UT,us_state,West,Mountain,1
+596530,Dartmouth,Ivy League,low,WI,us_state,Midwest,East North Central,1
+596531,Davidson,Atlantic 10,mid,CA,us_state,West,Pacific,2
+596531,Davidson,Atlantic 10,mid,CT,us_state,Northeast,New England,2
+596531,Davidson,Atlantic 10,mid,FL,us_state,South,South Atlantic,6
+596531,Davidson,Atlantic 10,mid,GA,us_state,South,South Atlantic,4
+596531,Davidson,Atlantic 10,mid,IL,us_state,Midwest,East North Central,2
+596531,Davidson,Atlantic 10,mid,KS,us_state,Midwest,West North Central,1
+596531,Davidson,Atlantic 10,mid,KY,us_state,South,East South Central,1
+596531,Davidson,Atlantic 10,mid,MD,us_state,South,South Atlantic,1
+596531,Davidson,Atlantic 10,mid,NC,us_state,South,South Atlantic,9
+596531,Davidson,Atlantic 10,mid,NJ,us_state,Northeast,Middle Atlantic,1
+596531,Davidson,Atlantic 10,mid,NY,us_state,Northeast,Middle Atlantic,2
+596531,Davidson,Atlantic 10,mid,OH,us_state,Midwest,East North Central,1
+596531,Davidson,Atlantic 10,mid,PA,us_state,Northeast,Middle Atlantic,1
+596531,Davidson,Atlantic 10,mid,TX,us_state,South,West South Central,2
+596531,Davidson,Atlantic 10,mid,VA,us_state,South,South Atlantic,5
+596531,Davidson,Atlantic 10,mid,WA,us_state,West,Pacific,1
+596531,Davidson,Atlantic 10,mid,WI,us_state,Midwest,East North Central,1
+596531,Davidson,Atlantic 10,mid,unrecognized,unrecognized,unknown,unknown,1
+596532,Dayton,Atlantic 10,mid,Aruba,international,international,international,1
+596532,Dayton,Atlantic 10,mid,CO,us_state,West,Mountain,1
+596532,Dayton,Atlantic 10,mid,Canada,international,international,international,1
+596532,Dayton,Atlantic 10,mid,FL,us_state,South,South Atlantic,7
+596532,Dayton,Atlantic 10,mid,MA,us_state,Northeast,New England,2
+596532,Dayton,Atlantic 10,mid,MO,us_state,Midwest,West North Central,1
+596532,Dayton,Atlantic 10,mid,NH,us_state,Northeast,New England,2
+596532,Dayton,Atlantic 10,mid,NJ,us_state,Northeast,Middle Atlantic,1
+596532,Dayton,Atlantic 10,mid,NY,us_state,Northeast,Middle Atlantic,1
+596532,Dayton,Atlantic 10,mid,OH,us_state,Midwest,East North Central,3
+596532,Dayton,Atlantic 10,mid,PA,us_state,Northeast,Middle Atlantic,1
+596535,East Carolina,The American,mid,GA,us_state,South,South Atlantic,1
+596535,East Carolina,The American,mid,NC,us_state,South,South Atlantic,1
+596535,East Carolina,The American,mid,NV,us_state,West,Mountain,1
+596535,East Carolina,The American,mid,NY,us_state,Northeast,Middle Atlantic,1
+596535,East Carolina,The American,mid,OH,us_state,Midwest,East North Central,2
+596535,East Carolina,The American,mid,PA,us_state,Northeast,Middle Atlantic,2
+596535,East Carolina,The American,mid,SC,us_state,South,South Atlantic,1
+596535,East Carolina,The American,mid,TN,us_state,South,East South Central,1
+596535,East Carolina,The American,mid,VA,us_state,South,South Atlantic,4
+596535,East Carolina,The American,mid,unrecognized,unrecognized,unknown,unknown,8
+596536,ETSU,SoCon,mid,CA,us_state,West,Pacific,1
+596536,ETSU,SoCon,mid,CT,us_state,Northeast,New England,1
+596536,ETSU,SoCon,mid,Canada,international,international,international,1
+596536,ETSU,SoCon,mid,FL,us_state,South,South Atlantic,3
+596536,ETSU,SoCon,mid,GA,us_state,South,South Atlantic,7
+596536,ETSU,SoCon,mid,IL,us_state,Midwest,East North Central,1
+596536,ETSU,SoCon,mid,MN,us_state,Midwest,West North Central,1
+596536,ETSU,SoCon,mid,NC,us_state,South,South Atlantic,3
+596536,ETSU,SoCon,mid,NJ,us_state,Northeast,Middle Atlantic,1
+596536,ETSU,SoCon,mid,NY,us_state,Northeast,Middle Atlantic,2
+596536,ETSU,SoCon,mid,Puerto Rico,us_territory,US territory,US territory,1
+596536,ETSU,SoCon,mid,SC,us_state,South,South Atlantic,1
+596536,ETSU,SoCon,mid,TN,us_state,South,East South Central,10
+596536,ETSU,SoCon,mid,TX,us_state,South,West South Central,1
+596536,ETSU,SoCon,mid,VA,us_state,South,South Atlantic,2
+596538,Eastern Ky.,ASUN,mid,AL,us_state,South,East South Central,1
+596538,Eastern Ky.,ASUN,mid,Australia,international,international,international,1
+596538,Eastern Ky.,ASUN,mid,FL,us_state,South,South Atlantic,7
+596538,Eastern Ky.,ASUN,mid,GA,us_state,South,South Atlantic,3
+596538,Eastern Ky.,ASUN,mid,IA,us_state,Midwest,West North Central,1
+596538,Eastern Ky.,ASUN,mid,KS,us_state,Midwest,West North Central,1
+596538,Eastern Ky.,ASUN,mid,KY,us_state,South,East South Central,18
+596538,Eastern Ky.,ASUN,mid,MA,us_state,Northeast,New England,1
+596538,Eastern Ky.,ASUN,mid,MO,us_state,Midwest,West North Central,3
+596538,Eastern Ky.,ASUN,mid,NY,us_state,Northeast,Middle Atlantic,1
+596538,Eastern Ky.,ASUN,mid,OH,us_state,Midwest,East North Central,3
+596538,Eastern Ky.,ASUN,mid,SC,us_state,South,South Atlantic,2
+596538,Eastern Ky.,ASUN,mid,TN,us_state,South,East South Central,1
+596538,Eastern Ky.,ASUN,mid,VA,us_state,South,South Atlantic,1
+596538,Eastern Ky.,ASUN,mid,Venezuela,international,international,international,2
+596543,Fla. Atlantic,The American,mid,CA,us_state,West,Pacific,1
+596543,Fla. Atlantic,The American,mid,CT,us_state,Northeast,New England,1
+596543,Fla. Atlantic,The American,mid,Canada,international,international,international,2
+596543,Fla. Atlantic,The American,mid,FL,us_state,South,South Atlantic,28
+596543,Fla. Atlantic,The American,mid,MA,us_state,Northeast,New England,1
+596543,Fla. Atlantic,The American,mid,NC,us_state,South,South Atlantic,2
+596543,Fla. Atlantic,The American,mid,NJ,us_state,Northeast,Middle Atlantic,1
+596543,Fla. Atlantic,The American,mid,PA,us_state,Northeast,Middle Atlantic,1
+596543,Fla. Atlantic,The American,mid,TX,us_state,South,West South Central,2
+596544,FIU,CUSA,mid,AZ,us_state,West,Mountain,1
+596544,FIU,CUSA,mid,CO,us_state,West,Mountain,1
+596544,FIU,CUSA,mid,Colombia,international,international,international,1
+596544,FIU,CUSA,mid,FL,us_state,South,South Atlantic,21
+596544,FIU,CUSA,mid,GA,us_state,South,South Atlantic,1
+596544,FIU,CUSA,mid,IA,us_state,Midwest,West North Central,3
+596544,FIU,CUSA,mid,MD,us_state,South,South Atlantic,1
+596544,FIU,CUSA,mid,NY,us_state,Northeast,Middle Atlantic,1
+596544,FIU,CUSA,mid,OH,us_state,Midwest,East North Central,1
+596544,FIU,CUSA,mid,PA,us_state,Northeast,Middle Atlantic,2
+596544,FIU,CUSA,mid,Panama,international,international,international,1
+596544,FIU,CUSA,mid,Puerto Rico,us_territory,US territory,US territory,2
+596544,FIU,CUSA,mid,SC,us_state,South,South Atlantic,1
+596544,FIU,CUSA,mid,VA,us_state,South,South Atlantic,1
+596544,FIU,CUSA,mid,WA,us_state,West,Pacific,1
+596544,FIU,CUSA,mid,WV,us_state,South,South Atlantic,1
+596545,Florida St.,ACC,p4,AL,us_state,South,East South Central,1
+596545,Florida St.,ACC,p4,FL,us_state,South,South Atlantic,31
+596545,Florida St.,ACC,p4,GA,us_state,South,South Atlantic,2
+596545,Florida St.,ACC,p4,IL,us_state,Midwest,East North Central,1
+596545,Florida St.,ACC,p4,MA,us_state,Northeast,New England,1
+596545,Florida St.,ACC,p4,NJ,us_state,Northeast,Middle Atlantic,1
+596545,Florida St.,ACC,p4,TX,us_state,South,West South Central,1
+596545,Florida St.,ACC,p4,VA,us_state,South,South Atlantic,1
+596545,Florida St.,ACC,p4,WI,us_state,Midwest,East North Central,1
+596546,Florida,SEC,p4,Canada,international,international,international,1
+596546,Florida,SEC,p4,FL,us_state,South,South Atlantic,30
+596546,Florida,SEC,p4,GA,us_state,South,South Atlantic,4
+596546,Florida,SEC,p4,NJ,us_state,Northeast,Middle Atlantic,1
+596546,Florida,SEC,p4,SC,us_state,South,South Atlantic,2
+596550,Georgetown,Big East,mid,CA,us_state,West,Pacific,5
+596550,Georgetown,Big East,mid,CO,us_state,West,Mountain,1
+596550,Georgetown,Big East,mid,DC,us_state,South,South Atlantic,1
+596550,Georgetown,Big East,mid,FL,us_state,South,South Atlantic,6
+596550,Georgetown,Big East,mid,GA,us_state,South,South Atlantic,2
+596550,Georgetown,Big East,mid,IL,us_state,Midwest,East North Central,3
+596550,Georgetown,Big East,mid,IN,us_state,Midwest,East North Central,1
+596550,Georgetown,Big East,mid,MA,us_state,Northeast,New England,4
+596550,Georgetown,Big East,mid,MD,us_state,South,South Atlantic,3
+596550,Georgetown,Big East,mid,MI,us_state,Midwest,East North Central,3
+596550,Georgetown,Big East,mid,MO,us_state,Midwest,West North Central,2
+596550,Georgetown,Big East,mid,NJ,us_state,Northeast,Middle Atlantic,1
+596550,Georgetown,Big East,mid,NY,us_state,Northeast,Middle Atlantic,2
+596550,Georgetown,Big East,mid,SC,us_state,South,South Atlantic,1
+596550,Georgetown,Big East,mid,TN,us_state,South,East South Central,2
+596550,Georgetown,Big East,mid,VA,us_state,South,South Atlantic,2
+596551,Ga. Southern,Sun Belt,mid,AZ,us_state,West,Mountain,1
+596551,Ga. Southern,Sun Belt,mid,FL,us_state,South,South Atlantic,6
+596551,Ga. Southern,Sun Belt,mid,GA,us_state,South,South Atlantic,27
+596551,Ga. Southern,Sun Belt,mid,KY,us_state,South,East South Central,1
+596551,Ga. Southern,Sun Belt,mid,MO,us_state,Midwest,West North Central,1
+596551,Ga. Southern,Sun Belt,mid,MS,us_state,South,East South Central,1
+596551,Ga. Southern,Sun Belt,mid,NC,us_state,South,South Atlantic,2
+596551,Ga. Southern,Sun Belt,mid,SC,us_state,South,South Atlantic,1
+596551,Ga. Southern,Sun Belt,mid,TN,us_state,South,East South Central,1
+596554,Georgia,SEC,p4,AL,us_state,South,East South Central,2
+596554,Georgia,SEC,p4,AZ,us_state,West,Mountain,1
+596554,Georgia,SEC,p4,CA,us_state,West,Pacific,1
+596554,Georgia,SEC,p4,FL,us_state,South,South Atlantic,5
+596554,Georgia,SEC,p4,GA,us_state,South,South Atlantic,28
+596554,Georgia,SEC,p4,MI,us_state,Midwest,East North Central,1
+596554,Georgia,SEC,p4,NC,us_state,South,South Atlantic,1
+596554,Georgia,SEC,p4,TN,us_state,South,East South Central,2
+596554,Georgia,SEC,p4,TX,us_state,South,West South Central,3
+596554,Georgia,SEC,p4,VA,us_state,South,South Atlantic,1
+596555,Gonzaga,WCC,mid,CA,us_state,West,Pacific,8
+596555,Gonzaga,WCC,mid,CO,us_state,West,Mountain,3
+596555,Gonzaga,WCC,mid,Canada,international,international,international,2
+596555,Gonzaga,WCC,mid,HI,us_state,West,Pacific,1
+596555,Gonzaga,WCC,mid,ID,us_state,West,Mountain,1
+596555,Gonzaga,WCC,mid,OR,us_state,West,Pacific,4
+596555,Gonzaga,WCC,mid,PA,us_state,Northeast,Middle Atlantic,1
+596555,Gonzaga,WCC,mid,South Africa,international,international,international,1
+596555,Gonzaga,WCC,mid,WA,us_state,West,Pacific,17
+596555,Gonzaga,WCC,mid,WI,us_state,Midwest,East North Central,1
+596556,Harvard,Ivy League,low,AZ,us_state,West,Mountain,2
+596556,Harvard,Ivy League,low,CA,us_state,West,Pacific,6
+596556,Harvard,Ivy League,low,CT,us_state,Northeast,New England,3
+596556,Harvard,Ivy League,low,Canada,international,international,international,1
+596556,Harvard,Ivy League,low,FL,us_state,South,South Atlantic,2
+596556,Harvard,Ivy League,low,GA,us_state,South,South Atlantic,3
+596556,Harvard,Ivy League,low,MA,us_state,Northeast,New England,4
+596556,Harvard,Ivy League,low,MI,us_state,Midwest,East North Central,2
+596556,Harvard,Ivy League,low,NY,us_state,Northeast,Middle Atlantic,1
+596556,Harvard,Ivy League,low,OH,us_state,Midwest,East North Central,3
+596556,Harvard,Ivy League,low,PA,us_state,Northeast,Middle Atlantic,2
+596556,Harvard,Ivy League,low,RI,us_state,Northeast,New England,1
+596557,Hawaii,Big West,mid,AZ,us_state,West,Mountain,2
+596557,Hawaii,Big West,mid,CA,us_state,West,Pacific,17
+596557,Hawaii,Big West,mid,HI,us_state,West,Pacific,2
+596557,Hawaii,Big West,mid,IL,us_state,Midwest,East North Central,1
+596557,Hawaii,Big West,mid,Japan,international,international,international,1
+596557,Hawaii,Big West,mid,OH,us_state,Midwest,East North Central,1
+596557,Hawaii,Big West,mid,OR,us_state,West,Pacific,1
+596557,Hawaii,Big West,mid,SC,us_state,South,South Atlantic,1
+596557,Hawaii,Big West,mid,TX,us_state,South,West South Central,1
+596557,Hawaii,Big West,mid,WA,us_state,West,Pacific,2
+596557,Hawaii,Big West,mid,unrecognized,unrecognized,unknown,unknown,11
+596558,Hofstra,CAA,mid,CT,us_state,Northeast,New England,3
+596558,Hofstra,CAA,mid,FL,us_state,South,South Atlantic,2
+596558,Hofstra,CAA,mid,MA,us_state,Northeast,New England,1
+596558,Hofstra,CAA,mid,MD,us_state,South,South Atlantic,4
+596558,Hofstra,CAA,mid,NH,us_state,Northeast,New England,1
+596558,Hofstra,CAA,mid,NJ,us_state,Northeast,Middle Atlantic,2
+596558,Hofstra,CAA,mid,NV,us_state,West,Mountain,1
+596558,Hofstra,CAA,mid,NY,us_state,Northeast,Middle Atlantic,21
+596558,Hofstra,CAA,mid,PA,us_state,Northeast,Middle Atlantic,2
+596559,Holy Cross,Patriot,low,AZ,us_state,West,Mountain,1
+596559,Holy Cross,Patriot,low,CA,us_state,West,Pacific,4
+596559,Holy Cross,Patriot,low,CO,us_state,West,Mountain,1
+596559,Holy Cross,Patriot,low,CT,us_state,Northeast,New England,3
+596559,Holy Cross,Patriot,low,FL,us_state,South,South Atlantic,1
+596559,Holy Cross,Patriot,low,IL,us_state,Midwest,East North Central,2
+596559,Holy Cross,Patriot,low,MA,us_state,Northeast,New England,9
+596559,Holy Cross,Patriot,low,NJ,us_state,Northeast,Middle Atlantic,3
+596559,Holy Cross,Patriot,low,NY,us_state,Northeast,Middle Atlantic,7
+596559,Holy Cross,Patriot,low,PA,us_state,Northeast,Middle Atlantic,4
+596559,Holy Cross,Patriot,low,RI,us_state,Northeast,New England,1
+596560,Houston Christian,Southland,low,CA,us_state,West,Pacific,3
+596560,Houston Christian,Southland,low,CO,us_state,West,Mountain,1
+596560,Houston Christian,Southland,low,FL,us_state,South,South Atlantic,1
+596560,Houston Christian,Southland,low,GA,us_state,South,South Atlantic,1
+596560,Houston Christian,Southland,low,LA,us_state,South,West South Central,5
+596560,Houston Christian,Southland,low,MO,us_state,Midwest,West North Central,2
+596560,Houston Christian,Southland,low,TN,us_state,South,East South Central,1
+596560,Houston Christian,Southland,low,TX,us_state,South,West South Central,26
+596561,Houston,Big 12,p4,AL,us_state,South,East South Central,1
+596561,Houston,Big 12,p4,AZ,us_state,West,Mountain,1
+596561,Houston,Big 12,p4,CA,us_state,West,Pacific,2
+596561,Houston,Big 12,p4,CO,us_state,West,Mountain,2
+596561,Houston,Big 12,p4,Canada,international,international,international,1
+596561,Houston,Big 12,p4,FL,us_state,South,South Atlantic,5
+596561,Houston,Big 12,p4,Germany,international,international,international,1
+596561,Houston,Big 12,p4,IA,us_state,Midwest,West North Central,1
+596561,Houston,Big 12,p4,IL,us_state,Midwest,East North Central,2
+596561,Houston,Big 12,p4,MI,us_state,Midwest,East North Central,1
+596561,Houston,Big 12,p4,MO,us_state,Midwest,West North Central,1
+596561,Houston,Big 12,p4,Mexico,international,international,international,2
+596561,Houston,Big 12,p4,NJ,us_state,Northeast,Middle Atlantic,1
+596561,Houston,Big 12,p4,NV,us_state,West,Mountain,1
+596561,Houston,Big 12,p4,NY,us_state,Northeast,Middle Atlantic,1
+596561,Houston,Big 12,p4,RI,us_state,Northeast,New England,1
+596561,Houston,Big 12,p4,TX,us_state,South,West South Central,18
+596563,Illinois,Big Ten,p4,Canada,international,international,international,3
+596563,Illinois,Big Ten,p4,FL,us_state,South,South Atlantic,1
+596563,Illinois,Big Ten,p4,IA,us_state,Midwest,West North Central,1
+596563,Illinois,Big Ten,p4,IL,us_state,Midwest,East North Central,21
+596563,Illinois,Big Ten,p4,IN,us_state,Midwest,East North Central,2
+596563,Illinois,Big Ten,p4,MN,us_state,Midwest,West North Central,2
+596563,Illinois,Big Ten,p4,MO,us_state,Midwest,West North Central,1
+596563,Illinois,Big Ten,p4,NM,us_state,West,Mountain,1
+596563,Illinois,Big Ten,p4,WI,us_state,Midwest,East North Central,3
+596564,UIC,MVC,mid,CA,us_state,West,Pacific,1
+596564,UIC,MVC,mid,IA,us_state,Midwest,West North Central,1
+596564,UIC,MVC,mid,IL,us_state,Midwest,East North Central,25
+596564,UIC,MVC,mid,IN,us_state,Midwest,East North Central,1
+596564,UIC,MVC,mid,KS,us_state,Midwest,West North Central,1
+596564,UIC,MVC,mid,MI,us_state,Midwest,East North Central,1
+596564,UIC,MVC,mid,MN,us_state,Midwest,West North Central,1
+596564,UIC,MVC,mid,MO,us_state,Midwest,West North Central,1
+596564,UIC,MVC,mid,OR,us_state,West,Pacific,1
+596564,UIC,MVC,mid,WI,us_state,Midwest,East North Central,6
+596565,Indiana St.,MVC,mid,AL,us_state,South,East South Central,1
+596565,Indiana St.,MVC,mid,CA,us_state,West,Pacific,2
+596565,Indiana St.,MVC,mid,Canada,international,international,international,2
+596565,Indiana St.,MVC,mid,Dominican Republic,international,international,international,3
+596565,Indiana St.,MVC,mid,FL,us_state,South,South Atlantic,2
+596565,Indiana St.,MVC,mid,IA,us_state,Midwest,West North Central,1
+596565,Indiana St.,MVC,mid,IL,us_state,Midwest,East North Central,6
+596565,Indiana St.,MVC,mid,IN,us_state,Midwest,East North Central,7
+596565,Indiana St.,MVC,mid,KS,us_state,Midwest,West North Central,2
+596565,Indiana St.,MVC,mid,KY,us_state,South,East South Central,2
+596565,Indiana St.,MVC,mid,MI,us_state,Midwest,East North Central,1
+596565,Indiana St.,MVC,mid,MO,us_state,Midwest,West North Central,4
+596565,Indiana St.,MVC,mid,NY,us_state,Northeast,Middle Atlantic,1
+596565,Indiana St.,MVC,mid,Puerto Rico,us_territory,US territory,US territory,1
+596565,Indiana St.,MVC,mid,SC,us_state,South,South Atlantic,1
+596565,Indiana St.,MVC,mid,TX,us_state,South,West South Central,1
+596565,Indiana St.,MVC,mid,WI,us_state,Midwest,East North Central,2
+596566,Indiana,Big Ten,p4,CA,us_state,West,Pacific,2
+596566,Indiana,Big Ten,p4,CT,us_state,Northeast,New England,1
+596566,Indiana,Big Ten,p4,Canada,international,international,international,2
+596566,Indiana,Big Ten,p4,FL,us_state,South,South Atlantic,1
+596566,Indiana,Big Ten,p4,GA,us_state,South,South Atlantic,1
+596566,Indiana,Big Ten,p4,IL,us_state,Midwest,East North Central,5
+596566,Indiana,Big Ten,p4,IN,us_state,Midwest,East North Central,18
+596566,Indiana,Big Ten,p4,MD,us_state,South,South Atlantic,1
+596566,Indiana,Big Ten,p4,MI,us_state,Midwest,East North Central,1
+596566,Indiana,Big Ten,p4,MN,us_state,Midwest,West North Central,1
+596566,Indiana,Big Ten,p4,MO,us_state,Midwest,West North Central,2
+596566,Indiana,Big Ten,p4,NH,us_state,Northeast,New England,1
+596566,Indiana,Big Ten,p4,NJ,us_state,Northeast,Middle Atlantic,1
+596566,Indiana,Big Ten,p4,OH,us_state,Midwest,East North Central,3
+596566,Indiana,Big Ten,p4,unrecognized,unrecognized,unknown,unknown,1
+596567,Purdue Fort Wayne,Horizon,low,IL,us_state,Midwest,East North Central,5
+596567,Purdue Fort Wayne,Horizon,low,IN,us_state,Midwest,East North Central,23
+596567,Purdue Fort Wayne,Horizon,low,KY,us_state,South,East South Central,1
+596567,Purdue Fort Wayne,Horizon,low,MI,us_state,Midwest,East North Central,3
+596567,Purdue Fort Wayne,Horizon,low,MN,us_state,Midwest,West North Central,1
+596567,Purdue Fort Wayne,Horizon,low,OH,us_state,Midwest,East North Central,3
+596567,Purdue Fort Wayne,Horizon,low,OK,us_state,South,West South Central,1
+596571,Jacksonville St.,CUSA,mid,AL,us_state,South,East South Central,12
+596571,Jacksonville St.,CUSA,mid,Canada,international,international,international,1
+596571,Jacksonville St.,CUSA,mid,GA,us_state,South,South Atlantic,8
+596571,Jacksonville St.,CUSA,mid,IL,us_state,Midwest,East North Central,3
+596571,Jacksonville St.,CUSA,mid,IN,us_state,Midwest,East North Central,1
+596571,Jacksonville St.,CUSA,mid,KS,us_state,Midwest,West North Central,1
+596571,Jacksonville St.,CUSA,mid,KY,us_state,South,East South Central,1
+596571,Jacksonville St.,CUSA,mid,MO,us_state,Midwest,West North Central,2
+596571,Jacksonville St.,CUSA,mid,MS,us_state,South,East South Central,5
+596571,Jacksonville St.,CUSA,mid,NC,us_state,South,South Atlantic,1
+596571,Jacksonville St.,CUSA,mid,OH,us_state,Midwest,East North Central,1
+596571,Jacksonville St.,CUSA,mid,PA,us_state,Northeast,Middle Atlantic,1
+596571,Jacksonville St.,CUSA,mid,SC,us_state,South,South Atlantic,1
+596571,Jacksonville St.,CUSA,mid,TN,us_state,South,East South Central,1
+596571,Jacksonville St.,CUSA,mid,unrecognized,unrecognized,unknown,unknown,1
+596573,James Madison,Sun Belt,mid,AL,us_state,South,East South Central,2
+596573,James Madison,Sun Belt,mid,CT,us_state,Northeast,New England,1
+596573,James Madison,Sun Belt,mid,DE,us_state,South,South Atlantic,1
+596573,James Madison,Sun Belt,mid,GA,us_state,South,South Atlantic,1
+596573,James Madison,Sun Belt,mid,MD,us_state,South,South Atlantic,3
+596573,James Madison,Sun Belt,mid,MN,us_state,Midwest,West North Central,1
+596573,James Madison,Sun Belt,mid,NC,us_state,South,South Atlantic,4
+596573,James Madison,Sun Belt,mid,NE,us_state,Midwest,West North Central,1
+596573,James Madison,Sun Belt,mid,NJ,us_state,Northeast,Middle Atlantic,5
+596573,James Madison,Sun Belt,mid,PA,us_state,Northeast,Middle Atlantic,4
+596573,James Madison,Sun Belt,mid,TX,us_state,South,West South Central,1
+596573,James Madison,Sun Belt,mid,VA,us_state,South,South Atlantic,15
+596573,James Madison,Sun Belt,mid,WV,us_state,South,South Atlantic,1
+596574,Kansas St.,Big 12,p4,CA,us_state,West,Pacific,3
+596574,Kansas St.,Big 12,p4,Canada,international,international,international,2
+596574,Kansas St.,Big 12,p4,GA,us_state,South,South Atlantic,4
+596574,Kansas St.,Big 12,p4,HI,us_state,West,Pacific,2
+596574,Kansas St.,Big 12,p4,Japan,international,international,international,1
+596574,Kansas St.,Big 12,p4,KS,us_state,Midwest,West North Central,5
+596574,Kansas St.,Big 12,p4,LA,us_state,South,West South Central,1
+596574,Kansas St.,Big 12,p4,MA,us_state,Northeast,New England,1
+596574,Kansas St.,Big 12,p4,MN,us_state,Midwest,West North Central,1
+596574,Kansas St.,Big 12,p4,MO,us_state,Midwest,West North Central,3
+596574,Kansas St.,Big 12,p4,MS,us_state,South,East South Central,1
+596574,Kansas St.,Big 12,p4,NE,us_state,Midwest,West North Central,4
+596574,Kansas St.,Big 12,p4,NJ,us_state,Northeast,Middle Atlantic,1
+596574,Kansas St.,Big 12,p4,OK,us_state,South,West South Central,2
+596574,Kansas St.,Big 12,p4,TN,us_state,South,East South Central,1
+596574,Kansas St.,Big 12,p4,TX,us_state,South,West South Central,8
+596574,Kansas St.,Big 12,p4,WI,us_state,Midwest,East North Central,2
+596575,Kansas,Big 12,p4,AZ,us_state,West,Mountain,1
+596575,Kansas,Big 12,p4,Australia,international,international,international,1
+596575,Kansas,Big 12,p4,CA,us_state,West,Pacific,2
+596575,Kansas,Big 12,p4,CO,us_state,West,Mountain,2
+596575,Kansas,Big 12,p4,Dominican Republic,international,international,international,1
+596575,Kansas,Big 12,p4,FL,us_state,South,South Atlantic,1
+596575,Kansas,Big 12,p4,GA,us_state,South,South Atlantic,1
+596575,Kansas,Big 12,p4,IA,us_state,Midwest,West North Central,1
+596575,Kansas,Big 12,p4,IL,us_state,Midwest,East North Central,5
+596575,Kansas,Big 12,p4,KS,us_state,Midwest,West North Central,3
+596575,Kansas,Big 12,p4,MI,us_state,Midwest,East North Central,1
+596575,Kansas,Big 12,p4,MN,us_state,Midwest,West North Central,1
+596575,Kansas,Big 12,p4,MO,us_state,Midwest,West North Central,4
+596575,Kansas,Big 12,p4,NE,us_state,Midwest,West North Central,1
+596575,Kansas,Big 12,p4,NJ,us_state,Northeast,Middle Atlantic,1
+596575,Kansas,Big 12,p4,NV,us_state,West,Mountain,1
+596575,Kansas,Big 12,p4,NY,us_state,Northeast,Middle Atlantic,1
+596575,Kansas,Big 12,p4,OH,us_state,Midwest,East North Central,2
+596575,Kansas,Big 12,p4,OK,us_state,South,West South Central,2
+596575,Kansas,Big 12,p4,TX,us_state,South,West South Central,2
+596575,Kansas,Big 12,p4,VA,us_state,South,South Atlantic,1
+596575,Kansas,Big 12,p4,WI,us_state,Midwest,East North Central,4
+596581,Liberty,CUSA,mid,AR,us_state,South,West South Central,1
+596581,Liberty,CUSA,mid,CO,us_state,West,Mountain,2
+596581,Liberty,CUSA,mid,Canada,international,international,international,1
+596581,Liberty,CUSA,mid,DE,us_state,South,South Atlantic,1
+596581,Liberty,CUSA,mid,FL,us_state,South,South Atlantic,1
+596581,Liberty,CUSA,mid,ID,us_state,West,Mountain,1
+596581,Liberty,CUSA,mid,KY,us_state,South,East South Central,1
+596581,Liberty,CUSA,mid,MN,us_state,Midwest,West North Central,2
+596581,Liberty,CUSA,mid,NC,us_state,South,South Atlantic,7
+596581,Liberty,CUSA,mid,PA,us_state,Northeast,Middle Atlantic,3
+596581,Liberty,CUSA,mid,SC,us_state,South,South Atlantic,5
+596581,Liberty,CUSA,mid,TX,us_state,South,West South Central,1
+596581,Liberty,CUSA,mid,VA,us_state,South,South Atlantic,13
+596583,LSU,SEC,p4,CA,us_state,West,Pacific,3
+596583,LSU,SEC,p4,FL,us_state,South,South Atlantic,2
+596583,LSU,SEC,p4,GA,us_state,South,South Atlantic,2
+596583,LSU,SEC,p4,KS,us_state,Midwest,West North Central,1
+596583,LSU,SEC,p4,LA,us_state,South,West South Central,14
+596583,LSU,SEC,p4,MA,us_state,Northeast,New England,1
+596583,LSU,SEC,p4,MS,us_state,South,East South Central,1
+596583,LSU,SEC,p4,NJ,us_state,Northeast,Middle Atlantic,1
+596583,LSU,SEC,p4,NM,us_state,West,Mountain,1
+596583,LSU,SEC,p4,NY,us_state,Northeast,Middle Atlantic,1
+596583,LSU,SEC,p4,PA,us_state,Northeast,Middle Atlantic,1
+596583,LSU,SEC,p4,Puerto Rico,us_territory,US territory,US territory,1
+596583,LSU,SEC,p4,SC,us_state,South,South Atlantic,1
+596583,LSU,SEC,p4,TX,us_state,South,West South Central,8
+596583,LSU,SEC,p4,UT,us_state,West,Mountain,1
+596583,LSU,SEC,p4,WA,us_state,West,Pacific,1
+596585,Louisville,ACC,p4,CA,us_state,West,Pacific,2
+596585,Louisville,ACC,p4,IL,us_state,Midwest,East North Central,9
+596585,Louisville,ACC,p4,IN,us_state,Midwest,East North Central,3
+596585,Louisville,ACC,p4,KY,us_state,South,East South Central,9
+596585,Louisville,ACC,p4,MD,us_state,South,South Atlantic,1
+596585,Louisville,ACC,p4,MI,us_state,Midwest,East North Central,1
+596585,Louisville,ACC,p4,MO,us_state,Midwest,West North Central,2
+596585,Louisville,ACC,p4,NY,us_state,Northeast,Middle Atlantic,2
+596585,Louisville,ACC,p4,OH,us_state,Midwest,East North Central,5
+596585,Louisville,ACC,p4,PA,us_state,Northeast,Middle Atlantic,1
+596585,Louisville,ACC,p4,RI,us_state,Northeast,New England,1
+596585,Louisville,ACC,p4,SC,us_state,South,South Atlantic,1
+596585,Louisville,ACC,p4,TN,us_state,South,East South Central,1
+596585,Louisville,ACC,p4,WI,us_state,Midwest,East North Central,4
+596587,LMU (CA),WCC,mid,AZ,us_state,West,Mountain,3
+596587,LMU (CA),WCC,mid,CA,us_state,West,Pacific,23
+596587,LMU (CA),WCC,mid,CO,us_state,West,Mountain,1
+596587,LMU (CA),WCC,mid,IL,us_state,Midwest,East North Central,1
+596587,LMU (CA),WCC,mid,MN,us_state,Midwest,West North Central,2
+596587,LMU (CA),WCC,mid,MO,us_state,Midwest,West North Central,2
+596587,LMU (CA),WCC,mid,NH,us_state,Northeast,New England,1
+596587,LMU (CA),WCC,mid,NV,us_state,West,Mountain,1
+596587,LMU (CA),WCC,mid,TX,us_state,South,West South Central,2
+596587,LMU (CA),WCC,mid,WA,us_state,West,Pacific,2
+596587,LMU (CA),WCC,mid,unrecognized,unrecognized,unknown,unknown,3
+596591,Marshall,Sun Belt,mid,FL,us_state,South,South Atlantic,4
+596591,Marshall,Sun Belt,mid,KY,us_state,South,East South Central,4
+596591,Marshall,Sun Belt,mid,MI,us_state,Midwest,East North Central,1
+596591,Marshall,Sun Belt,mid,NC,us_state,South,South Atlantic,1
+596591,Marshall,Sun Belt,mid,NY,us_state,Northeast,Middle Atlantic,2
+596591,Marshall,Sun Belt,mid,OH,us_state,Midwest,East North Central,11
+596591,Marshall,Sun Belt,mid,PA,us_state,Northeast,Middle Atlantic,4
+596591,Marshall,Sun Belt,mid,RI,us_state,Northeast,New England,1
+596591,Marshall,Sun Belt,mid,SC,us_state,South,South Atlantic,2
+596591,Marshall,Sun Belt,mid,VA,us_state,South,South Atlantic,1
+596591,Marshall,Sun Belt,mid,WA,us_state,West,Pacific,2
+596591,Marshall,Sun Belt,mid,WV,us_state,South,South Atlantic,2
+596597,Memphis,The American,mid,AR,us_state,South,West South Central,2
+596597,Memphis,The American,mid,CA,us_state,West,Pacific,4
+596597,Memphis,The American,mid,CO,us_state,West,Mountain,1
+596597,Memphis,The American,mid,CT,us_state,Northeast,New England,1
+596597,Memphis,The American,mid,GA,us_state,South,South Atlantic,1
+596597,Memphis,The American,mid,IL,us_state,Midwest,East North Central,1
+596597,Memphis,The American,mid,MO,us_state,Midwest,West North Central,1
+596597,Memphis,The American,mid,MS,us_state,South,East South Central,10
+596597,Memphis,The American,mid,NC,us_state,South,South Atlantic,2
+596597,Memphis,The American,mid,NJ,us_state,Northeast,Middle Atlantic,1
+596597,Memphis,The American,mid,OH,us_state,Midwest,East North Central,1
+596597,Memphis,The American,mid,PA,us_state,Northeast,Middle Atlantic,1
+596597,Memphis,The American,mid,TN,us_state,South,East South Central,10
+596597,Memphis,The American,mid,TX,us_state,South,West South Central,2
+596597,Memphis,The American,mid,UT,us_state,West,Mountain,1
+596598,Mercer,SoCon,mid,Australia,international,international,international,1
+596598,Mercer,SoCon,mid,FL,us_state,South,South Atlantic,2
+596598,Mercer,SoCon,mid,GA,us_state,South,South Atlantic,33
+596598,Mercer,SoCon,mid,IN,us_state,Midwest,East North Central,1
+596598,Mercer,SoCon,mid,KS,us_state,Midwest,West North Central,1
+596598,Mercer,SoCon,mid,KY,us_state,South,East South Central,1
+596598,Mercer,SoCon,mid,MD,us_state,South,South Atlantic,1
+596598,Mercer,SoCon,mid,SC,us_state,South,South Atlantic,1
+596598,Mercer,SoCon,mid,WA,us_state,West,Pacific,1
+596599,Miami (OH),MAC,mid,CO,us_state,West,Mountain,4
+596599,Miami (OH),MAC,mid,Canada,international,international,international,2
+596599,Miami (OH),MAC,mid,FL,us_state,South,South Atlantic,1
+596599,Miami (OH),MAC,mid,GA,us_state,South,South Atlantic,1
+596599,Miami (OH),MAC,mid,IL,us_state,Midwest,East North Central,6
+596599,Miami (OH),MAC,mid,IN,us_state,Midwest,East North Central,2
+596599,Miami (OH),MAC,mid,KS,us_state,Midwest,West North Central,1
+596599,Miami (OH),MAC,mid,KY,us_state,South,East South Central,1
+596599,Miami (OH),MAC,mid,MI,us_state,Midwest,East North Central,4
+596599,Miami (OH),MAC,mid,MO,us_state,Midwest,West North Central,1
+596599,Miami (OH),MAC,mid,MS,us_state,South,East South Central,1
+596599,Miami (OH),MAC,mid,OH,us_state,Midwest,East North Central,10
+596599,Miami (OH),MAC,mid,OR,us_state,West,Pacific,1
+596599,Miami (OH),MAC,mid,Puerto Rico,us_territory,US territory,US territory,1
+596599,Miami (OH),MAC,mid,SD,us_state,Midwest,West North Central,1
+596599,Miami (OH),MAC,mid,WI,us_state,Midwest,East North Central,2
+596599,Miami (OH),MAC,mid,unrecognized,unrecognized,unknown,unknown,1
+596601,Michigan St.,Big Ten,p4,CT,us_state,Northeast,New England,1
+596601,Michigan St.,Big Ten,p4,IL,us_state,Midwest,East North Central,5
+596601,Michigan St.,Big Ten,p4,IN,us_state,Midwest,East North Central,1
+596601,Michigan St.,Big Ten,p4,MI,us_state,Midwest,East North Central,23
+596601,Michigan St.,Big Ten,p4,OH,us_state,Midwest,East North Central,3
+596601,Michigan St.,Big Ten,p4,TN,us_state,South,East South Central,2
+596601,Michigan St.,Big Ten,p4,WI,us_state,Midwest,East North Central,1
+596602,Michigan,Big Ten,p4,AZ,us_state,West,Mountain,1
+596602,Michigan,Big Ten,p4,CA,us_state,West,Pacific,9
+596602,Michigan,Big Ten,p4,Canada,international,international,international,4
+596602,Michigan,Big Ten,p4,FL,us_state,South,South Atlantic,1
+596602,Michigan,Big Ten,p4,IL,us_state,Midwest,East North Central,1
+596602,Michigan,Big Ten,p4,MA,us_state,Northeast,New England,1
+596602,Michigan,Big Ten,p4,MI,us_state,Midwest,East North Central,14
+596602,Michigan,Big Ten,p4,MN,us_state,Midwest,West North Central,2
+596602,Michigan,Big Ten,p4,OH,us_state,Midwest,East North Central,1
+596602,Michigan,Big Ten,p4,OR,us_state,West,Pacific,2
+596602,Michigan,Big Ten,p4,South Korea,international,international,international,1
+596602,Michigan,Big Ten,p4,TX,us_state,South,West South Central,1
+596602,Michigan,Big Ten,p4,WA,us_state,West,Pacific,1
+596602,Michigan,Big Ten,p4,WI,us_state,Midwest,East North Central,2
+596602,Michigan,Big Ten,p4,unrecognized,unrecognized,unknown,unknown,1
+596604,Minnesota,Big Ten,p4,IA,us_state,Midwest,West North Central,3
+596604,Minnesota,Big Ten,p4,IL,us_state,Midwest,East North Central,2
+596604,Minnesota,Big Ten,p4,MA,us_state,Northeast,New England,1
+596604,Minnesota,Big Ten,p4,MI,us_state,Midwest,East North Central,2
+596604,Minnesota,Big Ten,p4,MN,us_state,Midwest,West North Central,19
+596604,Minnesota,Big Ten,p4,MO,us_state,Midwest,West North Central,1
+596604,Minnesota,Big Ten,p4,WA,us_state,West,Pacific,1
+596604,Minnesota,Big Ten,p4,WI,us_state,Midwest,East North Central,4
+596605,Mississippi St.,SEC,p4,AL,us_state,South,East South Central,2
+596605,Mississippi St.,SEC,p4,CA,us_state,West,Pacific,1
+596605,Mississippi St.,SEC,p4,Canada,international,international,international,1
+596605,Mississippi St.,SEC,p4,FL,us_state,South,South Atlantic,3
+596605,Mississippi St.,SEC,p4,GA,us_state,South,South Atlantic,7
+596605,Mississippi St.,SEC,p4,IA,us_state,Midwest,West North Central,2
+596605,Mississippi St.,SEC,p4,IN,us_state,Midwest,East North Central,1
+596605,Mississippi St.,SEC,p4,KS,us_state,Midwest,West North Central,1
+596605,Mississippi St.,SEC,p4,LA,us_state,South,West South Central,2
+596605,Mississippi St.,SEC,p4,MO,us_state,Midwest,West North Central,1
+596605,Mississippi St.,SEC,p4,MS,us_state,South,East South Central,9
+596605,Mississippi St.,SEC,p4,OH,us_state,Midwest,East North Central,1
+596605,Mississippi St.,SEC,p4,SC,us_state,South,South Atlantic,1
+596605,Mississippi St.,SEC,p4,TN,us_state,South,East South Central,4
+596605,Mississippi St.,SEC,p4,TX,us_state,South,West South Central,3
+596605,Mississippi St.,SEC,p4,VA,us_state,South,South Atlantic,1
+596607,Ole Miss,SEC,p4,AL,us_state,South,East South Central,1
+596607,Ole Miss,SEC,p4,CA,us_state,West,Pacific,2
+596607,Ole Miss,SEC,p4,FL,us_state,South,South Atlantic,3
+596607,Ole Miss,SEC,p4,GA,us_state,South,South Atlantic,3
+596607,Ole Miss,SEC,p4,IL,us_state,Midwest,East North Central,1
+596607,Ole Miss,SEC,p4,KY,us_state,South,East South Central,1
+596607,Ole Miss,SEC,p4,LA,us_state,South,West South Central,3
+596607,Ole Miss,SEC,p4,MD,us_state,South,South Atlantic,1
+596607,Ole Miss,SEC,p4,MN,us_state,Midwest,West North Central,1
+596607,Ole Miss,SEC,p4,MS,us_state,South,East South Central,17
+596607,Ole Miss,SEC,p4,NC,us_state,South,South Atlantic,1
+596607,Ole Miss,SEC,p4,NY,us_state,Northeast,Middle Atlantic,1
+596607,Ole Miss,SEC,p4,PA,us_state,Northeast,Middle Atlantic,1
+596607,Ole Miss,SEC,p4,SC,us_state,South,South Atlantic,1
+596607,Ole Miss,SEC,p4,TX,us_state,South,West South Central,3
+596608,Missouri,SEC,p4,AL,us_state,South,East South Central,1
+596608,Missouri,SEC,p4,AZ,us_state,West,Mountain,2
+596608,Missouri,SEC,p4,Australia,international,international,international,1
+596608,Missouri,SEC,p4,Canada,international,international,international,1
+596608,Missouri,SEC,p4,FL,us_state,South,South Atlantic,2
+596608,Missouri,SEC,p4,GA,us_state,South,South Atlantic,4
+596608,Missouri,SEC,p4,HI,us_state,West,Pacific,1
+596608,Missouri,SEC,p4,IL,us_state,Midwest,East North Central,1
+596608,Missouri,SEC,p4,KS,us_state,Midwest,West North Central,3
+596608,Missouri,SEC,p4,MI,us_state,Midwest,East North Central,1
+596608,Missouri,SEC,p4,MN,us_state,Midwest,West North Central,2
+596608,Missouri,SEC,p4,MO,us_state,Midwest,West North Central,14
+596608,Missouri,SEC,p4,MS,us_state,South,East South Central,1
+596608,Missouri,SEC,p4,NJ,us_state,Northeast,Middle Atlantic,1
+596608,Missouri,SEC,p4,NY,us_state,Northeast,Middle Atlantic,1
+596608,Missouri,SEC,p4,SD,us_state,Midwest,West North Central,1
+596608,Missouri,SEC,p4,TN,us_state,South,East South Central,2
+596608,Missouri,SEC,p4,TX,us_state,South,West South Central,2
+596608,Missouri,SEC,p4,WI,us_state,Midwest,East North Central,1
+596610,Morehead St.,OVC,low,CA,us_state,West,Pacific,1
+596610,Morehead St.,OVC,low,Canada,international,international,international,5
+596610,Morehead St.,OVC,low,IN,us_state,Midwest,East North Central,2
+596610,Morehead St.,OVC,low,KY,us_state,South,East South Central,18
+596610,Morehead St.,OVC,low,MI,us_state,Midwest,East North Central,1
+596610,Morehead St.,OVC,low,OH,us_state,Midwest,East North Central,3
+596610,Morehead St.,OVC,low,TN,us_state,South,East South Central,1
+596610,Morehead St.,OVC,low,TX,us_state,South,West South Central,1
+596610,Morehead St.,OVC,low,VA,us_state,South,South Atlantic,1
+596610,Morehead St.,OVC,low,WI,us_state,Midwest,East North Central,1
+596610,Morehead St.,OVC,low,WV,us_state,South,South Atlantic,1
+596612,Murray St.,MVC,mid,AR,us_state,South,West South Central,1
+596612,Murray St.,MVC,mid,CA,us_state,West,Pacific,2
+596612,Murray St.,MVC,mid,FL,us_state,South,South Atlantic,2
+596612,Murray St.,MVC,mid,GA,us_state,South,South Atlantic,1
+596612,Murray St.,MVC,mid,IL,us_state,Midwest,East North Central,8
+596612,Murray St.,MVC,mid,IN,us_state,Midwest,East North Central,5
+596612,Murray St.,MVC,mid,KY,us_state,South,East South Central,6
+596612,Murray St.,MVC,mid,MI,us_state,Midwest,East North Central,1
+596612,Murray St.,MVC,mid,MS,us_state,South,East South Central,1
+596612,Murray St.,MVC,mid,NC,us_state,South,South Atlantic,1
+596612,Murray St.,MVC,mid,ND,us_state,Midwest,West North Central,1
+596612,Murray St.,MVC,mid,NM,us_state,West,Mountain,1
+596612,Murray St.,MVC,mid,NY,us_state,Northeast,Middle Atlantic,1
+596612,Murray St.,MVC,mid,TN,us_state,South,East South Central,4
+596612,Murray St.,MVC,mid,WI,us_state,Midwest,East North Central,1
+596614,North Carolina,ACC,p4,FL,us_state,South,South Atlantic,2
+596614,North Carolina,ACC,p4,GA,us_state,South,South Atlantic,2
+596614,North Carolina,ACC,p4,IL,us_state,Midwest,East North Central,1
+596614,North Carolina,ACC,p4,MA,us_state,Northeast,New England,1
+596614,North Carolina,ACC,p4,MN,us_state,Midwest,West North Central,1
+596614,North Carolina,ACC,p4,NC,us_state,South,South Atlantic,23
+596614,North Carolina,ACC,p4,NJ,us_state,Northeast,Middle Atlantic,3
+596614,North Carolina,ACC,p4,NY,us_state,Northeast,Middle Atlantic,2
+596614,North Carolina,ACC,p4,SC,us_state,South,South Atlantic,4
+596614,North Carolina,ACC,p4,SD,us_state,Midwest,West North Central,1
+596614,North Carolina,ACC,p4,VA,us_state,South,South Atlantic,3
+596614,North Carolina,ACC,p4,WA,us_state,West,Pacific,2
+596615,Charlotte,The American,mid,CO,us_state,West,Mountain,2
+596615,Charlotte,The American,mid,CT,us_state,Northeast,New England,1
+596615,Charlotte,The American,mid,Canada,international,international,international,1
+596615,Charlotte,The American,mid,FL,us_state,South,South Atlantic,2
+596615,Charlotte,The American,mid,GA,us_state,South,South Atlantic,4
+596615,Charlotte,The American,mid,IL,us_state,Midwest,East North Central,1
+596615,Charlotte,The American,mid,KS,us_state,Midwest,West North Central,1
+596615,Charlotte,The American,mid,MA,us_state,Northeast,New England,1
+596615,Charlotte,The American,mid,MD,us_state,South,South Atlantic,1
+596615,Charlotte,The American,mid,MN,us_state,Midwest,West North Central,2
+596615,Charlotte,The American,mid,NC,us_state,South,South Atlantic,11
+596615,Charlotte,The American,mid,PA,us_state,Northeast,Middle Atlantic,1
+596615,Charlotte,The American,mid,SC,us_state,South,South Atlantic,1
+596615,Charlotte,The American,mid,TN,us_state,South,East South Central,2
+596615,Charlotte,The American,mid,TX,us_state,South,West South Central,1
+596615,Charlotte,The American,mid,VA,us_state,South,South Atlantic,3
+596618,Omaha,Summit League,low,CO,us_state,West,Mountain,1
+596618,Omaha,Summit League,low,Canada,international,international,international,2
+596618,Omaha,Summit League,low,IA,us_state,Midwest,West North Central,1
+596618,Omaha,Summit League,low,IL,us_state,Midwest,East North Central,1
+596618,Omaha,Summit League,low,LA,us_state,South,West South Central,1
+596618,Omaha,Summit League,low,MN,us_state,Midwest,West North Central,1
+596618,Omaha,Summit League,low,NE,us_state,Midwest,West North Central,26
+596618,Omaha,Summit League,low,UT,us_state,West,Mountain,1
+596618,Omaha,Summit League,low,WI,us_state,Midwest,East North Central,1
+596619,UNLV,Mountain West,mid,AZ,us_state,West,Mountain,3
+596619,UNLV,Mountain West,mid,CA,us_state,West,Pacific,7
+596619,UNLV,Mountain West,mid,FL,us_state,South,South Atlantic,1
+596619,UNLV,Mountain West,mid,ID,us_state,West,Mountain,1
+596619,UNLV,Mountain West,mid,NV,us_state,West,Mountain,17
+596619,UNLV,Mountain West,mid,OR,us_state,West,Pacific,1
+596619,UNLV,Mountain West,mid,UT,us_state,West,Mountain,1
+596619,UNLV,Mountain West,mid,WA,us_state,West,Pacific,3
+596620,Nevada,Mountain West,mid,AZ,us_state,West,Mountain,1
+596620,Nevada,Mountain West,mid,CA,us_state,West,Pacific,1
+596620,Nevada,Mountain West,mid,NV,us_state,West,Mountain,1
+596620,Nevada,Mountain West,mid,OR,us_state,West,Pacific,2
+596622,New Mexico St.,CUSA,mid,AZ,us_state,West,Mountain,9
+596622,New Mexico St.,CUSA,mid,CA,us_state,West,Pacific,9
+596622,New Mexico St.,CUSA,mid,CO,us_state,West,Mountain,1
+596622,New Mexico St.,CUSA,mid,IA,us_state,Midwest,West North Central,1
+596622,New Mexico St.,CUSA,mid,ID,us_state,West,Mountain,2
+596622,New Mexico St.,CUSA,mid,NE,us_state,Midwest,West North Central,1
+596622,New Mexico St.,CUSA,mid,NM,us_state,West,Mountain,4
+596622,New Mexico St.,CUSA,mid,NY,us_state,Northeast,Middle Atlantic,1
+596622,New Mexico St.,CUSA,mid,OR,us_state,West,Pacific,2
+596622,New Mexico St.,CUSA,mid,TX,us_state,South,West South Central,2
+596622,New Mexico St.,CUSA,mid,UT,us_state,West,Mountain,1
+596622,New Mexico St.,CUSA,mid,WA,us_state,West,Pacific,3
+596622,New Mexico St.,CUSA,mid,unrecognized,unrecognized,unknown,unknown,1
+596628,NC State,ACC,p4,CA,us_state,West,Pacific,1
+596628,NC State,ACC,p4,FL,us_state,South,South Atlantic,8
+596628,NC State,ACC,p4,GA,us_state,South,South Atlantic,1
+596628,NC State,ACC,p4,IN,us_state,Midwest,East North Central,1
+596628,NC State,ACC,p4,MN,us_state,Midwest,West North Central,1
+596628,NC State,ACC,p4,NC,us_state,South,South Atlantic,17
+596628,NC State,ACC,p4,NJ,us_state,Northeast,Middle Atlantic,2
+596628,NC State,ACC,p4,NV,us_state,West,Mountain,1
+596628,NC State,ACC,p4,NY,us_state,Northeast,Middle Atlantic,1
+596628,NC State,ACC,p4,OH,us_state,Midwest,East North Central,1
+596628,NC State,ACC,p4,SD,us_state,Midwest,West North Central,1
+596628,NC State,ACC,p4,TN,us_state,South,East South Central,1
+596628,NC State,ACC,p4,VA,us_state,South,South Atlantic,3
+596629,North Dakota St.,Summit League,low,AK,us_state,West,Pacific,1
+596629,North Dakota St.,Summit League,low,AZ,us_state,West,Mountain,1
+596629,North Dakota St.,Summit League,low,Canada,international,international,international,7
+596629,North Dakota St.,Summit League,low,FL,us_state,South,South Atlantic,1
+596629,North Dakota St.,Summit League,low,IA,us_state,Midwest,West North Central,1
+596629,North Dakota St.,Summit League,low,ID,us_state,West,Mountain,1
+596629,North Dakota St.,Summit League,low,IL,us_state,Midwest,East North Central,1
+596629,North Dakota St.,Summit League,low,MN,us_state,Midwest,West North Central,8
+596629,North Dakota St.,Summit League,low,ND,us_state,Midwest,West North Central,4
+596629,North Dakota St.,Summit League,low,OH,us_state,Midwest,East North Central,1
+596629,North Dakota St.,Summit League,low,SD,us_state,Midwest,West North Central,3
+596629,North Dakota St.,Summit League,low,UT,us_state,West,Mountain,1
+596629,North Dakota St.,Summit League,low,WA,us_state,West,Pacific,1
+596629,North Dakota St.,Summit League,low,WI,us_state,Midwest,East North Central,8
+596629,North Dakota St.,Summit League,low,WY,us_state,West,Mountain,1
+596630,ULM,Sun Belt,mid,AL,us_state,South,East South Central,1
+596630,ULM,Sun Belt,mid,AR,us_state,South,West South Central,1
+596630,ULM,Sun Belt,mid,CA,us_state,West,Pacific,8
+596630,ULM,Sun Belt,mid,Canada,international,international,international,1
+596630,ULM,Sun Belt,mid,FL,us_state,South,South Atlantic,1
+596630,ULM,Sun Belt,mid,IA,us_state,Midwest,West North Central,1
+596630,ULM,Sun Belt,mid,KS,us_state,Midwest,West North Central,1
+596630,ULM,Sun Belt,mid,LA,us_state,South,West South Central,13
+596630,ULM,Sun Belt,mid,MO,us_state,Midwest,West North Central,2
+596630,ULM,Sun Belt,mid,MS,us_state,South,East South Central,2
+596630,ULM,Sun Belt,mid,NY,us_state,Northeast,Middle Atlantic,1
+596630,ULM,Sun Belt,mid,OK,us_state,South,West South Central,2
+596630,ULM,Sun Belt,mid,TX,us_state,South,West South Central,7
+596631,Northeastern,CAA,mid,CA,us_state,West,Pacific,1
+596631,Northeastern,CAA,mid,CT,us_state,Northeast,New England,4
+596631,Northeastern,CAA,mid,MA,us_state,Northeast,New England,22
+596631,Northeastern,CAA,mid,NH,us_state,Northeast,New England,1
+596631,Northeastern,CAA,mid,NJ,us_state,Northeast,Middle Atlantic,4
+596631,Northeastern,CAA,mid,NY,us_state,Northeast,Middle Atlantic,7
+596631,Northeastern,CAA,mid,Puerto Rico,us_territory,US territory,US territory,1
+596631,Northeastern,CAA,mid,RI,us_state,Northeast,New England,1
+596632,Northern Colo.,Summit League,low,AZ,us_state,West,Mountain,1
+596632,Northern Colo.,Summit League,low,CA,us_state,West,Pacific,4
+596632,Northern Colo.,Summit League,low,CO,us_state,West,Mountain,17
+596632,Northern Colo.,Summit League,low,Canada,international,international,international,1
+596632,Northern Colo.,Summit League,low,IL,us_state,Midwest,East North Central,2
+596632,Northern Colo.,Summit League,low,NH,us_state,Northeast,New England,1
+596632,Northern Colo.,Summit League,low,NV,us_state,West,Mountain,2
+596632,Northern Colo.,Summit League,low,OK,us_state,South,West South Central,1
+596632,Northern Colo.,Summit League,low,OR,us_state,West,Pacific,2
+596632,Northern Colo.,Summit League,low,SD,us_state,Midwest,West North Central,1
+596632,Northern Colo.,Summit League,low,TX,us_state,South,West South Central,2
+596632,Northern Colo.,Summit League,low,WA,us_state,West,Pacific,3
+596632,Northern Colo.,Summit League,low,WY,us_state,West,Mountain,1
+596639,Ohio St.,Big Ten,p4,AL,us_state,South,East South Central,1
+596639,Ohio St.,Big Ten,p4,CA,us_state,West,Pacific,2
+596639,Ohio St.,Big Ten,p4,Canada,international,international,international,1
+596639,Ohio St.,Big Ten,p4,FL,us_state,South,South Atlantic,1
+596639,Ohio St.,Big Ten,p4,GA,us_state,South,South Atlantic,2
+596639,Ohio St.,Big Ten,p4,IL,us_state,Midwest,East North Central,1
+596639,Ohio St.,Big Ten,p4,IN,us_state,Midwest,East North Central,2
+596639,Ohio St.,Big Ten,p4,MD,us_state,South,South Atlantic,1
+596639,Ohio St.,Big Ten,p4,MI,us_state,Midwest,East North Central,3
+596639,Ohio St.,Big Ten,p4,OH,us_state,Midwest,East North Central,19
+596639,Ohio St.,Big Ten,p4,PA,us_state,Northeast,Middle Atlantic,1
+596639,Ohio St.,Big Ten,p4,TX,us_state,South,West South Central,2
+596639,Ohio St.,Big Ten,p4,VA,us_state,South,South Atlantic,1
+596639,Ohio St.,Big Ten,p4,WI,us_state,Midwest,East North Central,1
+596641,Oklahoma,SEC,p4,AL,us_state,South,East South Central,1
+596641,Oklahoma,SEC,p4,AR,us_state,South,West South Central,1
+596641,Oklahoma,SEC,p4,AZ,us_state,West,Mountain,1
+596641,Oklahoma,SEC,p4,CA,us_state,West,Pacific,2
+596641,Oklahoma,SEC,p4,CO,us_state,West,Mountain,2
+596641,Oklahoma,SEC,p4,FL,us_state,South,South Atlantic,2
+596641,Oklahoma,SEC,p4,GA,us_state,South,South Atlantic,2
+596641,Oklahoma,SEC,p4,IA,us_state,Midwest,West North Central,1
+596641,Oklahoma,SEC,p4,LA,us_state,South,West South Central,2
+596641,Oklahoma,SEC,p4,MD,us_state,South,South Atlantic,1
+596641,Oklahoma,SEC,p4,MO,us_state,Midwest,West North Central,2
+596641,Oklahoma,SEC,p4,NC,us_state,South,South Atlantic,1
+596641,Oklahoma,SEC,p4,NM,us_state,West,Mountain,1
+596641,Oklahoma,SEC,p4,OK,us_state,South,West South Central,1
+596641,Oklahoma,SEC,p4,PA,us_state,Northeast,Middle Atlantic,1
+596641,Oklahoma,SEC,p4,TX,us_state,South,West South Central,18
+596641,Oklahoma,SEC,p4,UT,us_state,West,Mountain,2
+596643,Oregon St.,DI Independent,p4,AZ,us_state,West,Mountain,4
+596643,Oregon St.,DI Independent,p4,CA,us_state,West,Pacific,6
+596643,Oregon St.,DI Independent,p4,CO,us_state,West,Mountain,2
+596643,Oregon St.,DI Independent,p4,GA,us_state,South,South Atlantic,1
+596643,Oregon St.,DI Independent,p4,HI,us_state,West,Pacific,1
+596643,Oregon St.,DI Independent,p4,ID,us_state,West,Mountain,2
+596643,Oregon St.,DI Independent,p4,NM,us_state,West,Mountain,1
+596643,Oregon St.,DI Independent,p4,OR,us_state,West,Pacific,10
+596643,Oregon St.,DI Independent,p4,UT,us_state,West,Mountain,1
+596643,Oregon St.,DI Independent,p4,WA,us_state,West,Pacific,6
+596644,Oregon,Big Ten,p4,AK,us_state,West,Pacific,1
+596644,Oregon,Big Ten,p4,CA,us_state,West,Pacific,19
+596644,Oregon,Big Ten,p4,IN,us_state,Midwest,East North Central,1
+596644,Oregon,Big Ten,p4,NE,us_state,Midwest,West North Central,1
+596644,Oregon,Big Ten,p4,NM,us_state,West,Mountain,1
+596644,Oregon,Big Ten,p4,NV,us_state,West,Mountain,4
+596644,Oregon,Big Ten,p4,OR,us_state,West,Pacific,7
+596644,Oregon,Big Ten,p4,PA,us_state,Northeast,Middle Atlantic,1
+596644,Oregon,Big Ten,p4,WA,us_state,West,Pacific,5
+596645,Pacific,WCC,mid,AR,us_state,South,West South Central,1
+596645,Pacific,WCC,mid,AZ,us_state,West,Mountain,1
+596645,Pacific,WCC,mid,Australia,international,international,international,1
+596645,Pacific,WCC,mid,CA,us_state,West,Pacific,25
+596645,Pacific,WCC,mid,CO,us_state,West,Mountain,2
+596645,Pacific,WCC,mid,Canada,international,international,international,1
+596645,Pacific,WCC,mid,FL,us_state,South,South Atlantic,2
+596645,Pacific,WCC,mid,GA,us_state,South,South Atlantic,1
+596645,Pacific,WCC,mid,NV,us_state,West,Mountain,1
+596645,Pacific,WCC,mid,OH,us_state,Midwest,East North Central,1
+596645,Pacific,WCC,mid,TX,us_state,South,West South Central,1
+596645,Pacific,WCC,mid,UT,us_state,West,Mountain,1
+596648,Pepperdine,WCC,mid,AZ,us_state,West,Mountain,1
+596648,Pepperdine,WCC,mid,CA,us_state,West,Pacific,24
+596648,Pepperdine,WCC,mid,CO,us_state,West,Mountain,2
+596648,Pepperdine,WCC,mid,Canada,international,international,international,2
+596648,Pepperdine,WCC,mid,IL,us_state,Midwest,East North Central,3
+596648,Pepperdine,WCC,mid,NY,us_state,Northeast,Middle Atlantic,1
+596648,Pepperdine,WCC,mid,PA,us_state,Northeast,Middle Atlantic,2
+596648,Pepperdine,WCC,mid,TX,us_state,South,West South Central,4
+596648,Pepperdine,WCC,mid,unrecognized,unrecognized,unknown,unknown,1
+596649,Pittsburgh,ACC,p4,DE,us_state,South,South Atlantic,2
+596649,Pittsburgh,ACC,p4,FL,us_state,South,South Atlantic,7
+596649,Pittsburgh,ACC,p4,IL,us_state,Midwest,East North Central,1
+596649,Pittsburgh,ACC,p4,MA,us_state,Northeast,New England,1
+596649,Pittsburgh,ACC,p4,MD,us_state,South,South Atlantic,1
+596649,Pittsburgh,ACC,p4,MN,us_state,Midwest,West North Central,1
+596649,Pittsburgh,ACC,p4,MO,us_state,Midwest,West North Central,1
+596649,Pittsburgh,ACC,p4,NJ,us_state,Northeast,Middle Atlantic,4
+596649,Pittsburgh,ACC,p4,NV,us_state,West,Mountain,1
+596649,Pittsburgh,ACC,p4,NY,us_state,Northeast,Middle Atlantic,1
+596649,Pittsburgh,ACC,p4,PA,us_state,Northeast,Middle Atlantic,15
+596649,Pittsburgh,ACC,p4,TX,us_state,South,West South Central,1
+596649,Pittsburgh,ACC,p4,VA,us_state,South,South Atlantic,1
+596650,Portland,WCC,mid,AK,us_state,West,Pacific,1
+596650,Portland,WCC,mid,CA,us_state,West,Pacific,5
+596650,Portland,WCC,mid,Canada,international,international,international,1
+596650,Portland,WCC,mid,HI,us_state,West,Pacific,1
+596650,Portland,WCC,mid,ID,us_state,West,Mountain,2
+596650,Portland,WCC,mid,NV,us_state,West,Mountain,1
+596650,Portland,WCC,mid,OR,us_state,West,Pacific,13
+596650,Portland,WCC,mid,VA,us_state,South,South Atlantic,1
+596650,Portland,WCC,mid,WA,us_state,West,Pacific,13
+596652,Princeton,Ivy League,low,AZ,us_state,West,Mountain,1
+596652,Princeton,Ivy League,low,CA,us_state,West,Pacific,4
+596652,Princeton,Ivy League,low,Canada,international,international,international,1
+596652,Princeton,Ivy League,low,DC,us_state,South,South Atlantic,1
+596652,Princeton,Ivy League,low,FL,us_state,South,South Atlantic,2
+596652,Princeton,Ivy League,low,GA,us_state,South,South Atlantic,1
+596652,Princeton,Ivy League,low,IL,us_state,Midwest,East North Central,2
+596652,Princeton,Ivy League,low,MA,us_state,Northeast,New England,2
+596652,Princeton,Ivy League,low,MI,us_state,Midwest,East North Central,1
+596652,Princeton,Ivy League,low,NC,us_state,South,South Atlantic,3
+596652,Princeton,Ivy League,low,NY,us_state,Northeast,Middle Atlantic,3
+596652,Princeton,Ivy League,low,OH,us_state,Midwest,East North Central,1
+596652,Princeton,Ivy League,low,TX,us_state,South,West South Central,3
+596652,Princeton,Ivy League,low,VA,us_state,South,South Atlantic,3
+596652,Princeton,Ivy League,low,WA,us_state,West,Pacific,2
+596652,Princeton,Ivy League,low,unrecognized,unrecognized,unknown,unknown,1
+596653,Purdue,Big Ten,p4,Australia,international,international,international,1
+596653,Purdue,Big Ten,p4,CA,us_state,West,Pacific,1
+596653,Purdue,Big Ten,p4,Canada,international,international,international,2
+596653,Purdue,Big Ten,p4,IL,us_state,Midwest,East North Central,8
+596653,Purdue,Big Ten,p4,IN,us_state,Midwest,East North Central,11
+596653,Purdue,Big Ten,p4,KS,us_state,Midwest,West North Central,1
+596653,Purdue,Big Ten,p4,KY,us_state,South,East South Central,2
+596653,Purdue,Big Ten,p4,LA,us_state,South,West South Central,2
+596653,Purdue,Big Ten,p4,MI,us_state,Midwest,East North Central,2
+596653,Purdue,Big Ten,p4,MN,us_state,Midwest,West North Central,4
+596653,Purdue,Big Ten,p4,NE,us_state,Midwest,West North Central,1
+596653,Purdue,Big Ten,p4,NY,us_state,Northeast,Middle Atlantic,2
+596653,Purdue,Big Ten,p4,OH,us_state,Midwest,East North Central,2
+596653,Purdue,Big Ten,p4,OK,us_state,South,West South Central,1
+596653,Purdue,Big Ten,p4,PA,us_state,Northeast,Middle Atlantic,1
+596653,Purdue,Big Ten,p4,TN,us_state,South,East South Central,1
+596653,Purdue,Big Ten,p4,TX,us_state,South,West South Central,1
+596653,Purdue,Big Ten,p4,WI,us_state,Midwest,East North Central,1
+596656,Rhode Island,Atlantic 10,mid,CT,us_state,Northeast,New England,3
+596656,Rhode Island,Atlantic 10,mid,FL,us_state,South,South Atlantic,1
+596656,Rhode Island,Atlantic 10,mid,IL,us_state,Midwest,East North Central,1
+596656,Rhode Island,Atlantic 10,mid,MA,us_state,Northeast,New England,5
+596656,Rhode Island,Atlantic 10,mid,MD,us_state,South,South Atlantic,2
+596656,Rhode Island,Atlantic 10,mid,ME,us_state,Northeast,New England,1
+596656,Rhode Island,Atlantic 10,mid,NH,us_state,Northeast,New England,2
+596656,Rhode Island,Atlantic 10,mid,NJ,us_state,Northeast,Middle Atlantic,5
+596656,Rhode Island,Atlantic 10,mid,NY,us_state,Northeast,Middle Atlantic,4
+596656,Rhode Island,Atlantic 10,mid,OH,us_state,Midwest,East North Central,1
+596656,Rhode Island,Atlantic 10,mid,PA,us_state,Northeast,Middle Atlantic,1
+596656,Rhode Island,Atlantic 10,mid,RI,us_state,Northeast,New England,14
+596657,Rice,The American,mid,FL,us_state,South,South Atlantic,5
+596657,Rice,The American,mid,GA,us_state,South,South Atlantic,3
+596657,Rice,The American,mid,IL,us_state,Midwest,East North Central,1
+596657,Rice,The American,mid,NC,us_state,South,South Atlantic,2
+596657,Rice,The American,mid,NV,us_state,West,Mountain,1
+596657,Rice,The American,mid,NY,us_state,Northeast,Middle Atlantic,1
+596657,Rice,The American,mid,OH,us_state,Midwest,East North Central,1
+596657,Rice,The American,mid,Puerto Rico,us_territory,US territory,US territory,2
+596657,Rice,The American,mid,TN,us_state,South,East South Central,1
+596657,Rice,The American,mid,TX,us_state,South,West South Central,22
+596660,Rutgers,Big Ten,p4,AL,us_state,South,East South Central,1
+596660,Rutgers,Big Ten,p4,CO,us_state,West,Mountain,1
+596660,Rutgers,Big Ten,p4,CT,us_state,Northeast,New England,2
+596660,Rutgers,Big Ten,p4,Canada,international,international,international,2
+596660,Rutgers,Big Ten,p4,FL,us_state,South,South Atlantic,1
+596660,Rutgers,Big Ten,p4,MA,us_state,Northeast,New England,3
+596660,Rutgers,Big Ten,p4,NC,us_state,South,South Atlantic,2
+596660,Rutgers,Big Ten,p4,NJ,us_state,Northeast,Middle Atlantic,18
+596660,Rutgers,Big Ten,p4,NY,us_state,Northeast,Middle Atlantic,3
+596660,Rutgers,Big Ten,p4,PA,us_state,Northeast,Middle Atlantic,2
+596660,Rutgers,Big Ten,p4,Puerto Rico,us_territory,US territory,US territory,1
+596660,Rutgers,Big Ten,p4,TX,us_state,South,West South Central,1
+596660,Rutgers,Big Ten,p4,unrecognized,unrecognized,unknown,unknown,1
+596662,St. Bonaventure,Atlantic 10,mid,Australia,international,international,international,1
+596662,St. Bonaventure,Atlantic 10,mid,CO,us_state,West,Mountain,3
+596662,St. Bonaventure,Atlantic 10,mid,Canada,international,international,international,3
+596662,St. Bonaventure,Atlantic 10,mid,FL,us_state,South,South Atlantic,1
+596662,St. Bonaventure,Atlantic 10,mid,IL,us_state,Midwest,East North Central,3
+596662,St. Bonaventure,Atlantic 10,mid,MA,us_state,Northeast,New England,1
+596662,St. Bonaventure,Atlantic 10,mid,NJ,us_state,Northeast,Middle Atlantic,1
+596662,St. Bonaventure,Atlantic 10,mid,NV,us_state,West,Mountain,1
+596662,St. Bonaventure,Atlantic 10,mid,NY,us_state,Northeast,Middle Atlantic,10
+596662,St. Bonaventure,Atlantic 10,mid,OH,us_state,Midwest,East North Central,2
+596662,St. Bonaventure,Atlantic 10,mid,PA,us_state,Northeast,Middle Atlantic,7
+596662,St. Bonaventure,Atlantic 10,mid,TX,us_state,South,West South Central,2
+596662,St. Bonaventure,Atlantic 10,mid,VA,us_state,South,South Atlantic,1
+596662,St. Bonaventure,Atlantic 10,mid,WA,us_state,West,Pacific,1
+596662,St. Bonaventure,Atlantic 10,mid,unrecognized,unrecognized,unknown,unknown,1
+596665,Saint Mary's (CA),WCC,mid,CA,us_state,West,Pacific,39
+596665,Saint Mary's (CA),WCC,mid,HI,us_state,West,Pacific,2
+596665,Saint Mary's (CA),WCC,mid,UT,us_state,West,Mountain,1
+596667,Sam Houston,CUSA,mid,CO,us_state,West,Mountain,1
+596667,Sam Houston,CUSA,mid,MO,us_state,Midwest,West North Central,1
+596667,Sam Houston,CUSA,mid,NE,us_state,Midwest,West North Central,1
+596667,Sam Houston,CUSA,mid,TX,us_state,South,West South Central,31
+596667,Sam Houston,CUSA,mid,WA,us_state,West,Pacific,1
+596667,Sam Houston,CUSA,mid,unrecognized,unrecognized,unknown,unknown,1
+596668,Samford,SoCon,mid,AL,us_state,South,East South Central,16
+596668,Samford,SoCon,mid,CA,us_state,West,Pacific,1
+596668,Samford,SoCon,mid,FL,us_state,South,South Atlantic,5
+596668,Samford,SoCon,mid,GA,us_state,South,South Atlantic,8
+596668,Samford,SoCon,mid,MS,us_state,South,East South Central,3
+596668,Samford,SoCon,mid,NC,us_state,South,South Atlantic,1
+596668,Samford,SoCon,mid,NM,us_state,West,Mountain,1
+596668,Samford,SoCon,mid,TN,us_state,South,East South Central,2
+596668,Samford,SoCon,mid,VA,us_state,South,South Atlantic,2
+596668,Samford,SoCon,mid,WV,us_state,South,South Atlantic,1
+596669,San Diego St.,Mountain West,mid,AZ,us_state,West,Mountain,3
+596669,San Diego St.,Mountain West,mid,Australia,international,international,international,1
+596669,San Diego St.,Mountain West,mid,CA,us_state,West,Pacific,27
+596669,San Diego St.,Mountain West,mid,CO,us_state,West,Mountain,1
+596669,San Diego St.,Mountain West,mid,FL,us_state,South,South Atlantic,3
+596669,San Diego St.,Mountain West,mid,MN,us_state,Midwest,West North Central,1
+596669,San Diego St.,Mountain West,mid,NV,us_state,West,Mountain,2
+596673,Santa Clara,WCC,mid,CA,us_state,West,Pacific,28
+596673,Santa Clara,WCC,mid,CO,us_state,West,Mountain,2
+596673,Santa Clara,WCC,mid,ID,us_state,West,Mountain,1
+596673,Santa Clara,WCC,mid,NV,us_state,West,Mountain,1
+596673,Santa Clara,WCC,mid,OR,us_state,West,Pacific,4
+596673,Santa Clara,WCC,mid,WA,us_state,West,Pacific,2
+596673,Santa Clara,WCC,mid,unrecognized,unrecognized,unknown,unknown,3
+596677,South Carolina,SEC,p4,Canada,international,international,international,1
+596677,South Carolina,SEC,p4,FL,us_state,South,South Atlantic,5
+596677,South Carolina,SEC,p4,GA,us_state,South,South Atlantic,5
+596677,South Carolina,SEC,p4,ID,us_state,West,Mountain,1
+596677,South Carolina,SEC,p4,IL,us_state,Midwest,East North Central,1
+596677,South Carolina,SEC,p4,KS,us_state,Midwest,West North Central,1
+596677,South Carolina,SEC,p4,NC,us_state,South,South Atlantic,1
+596677,South Carolina,SEC,p4,NE,us_state,Midwest,West North Central,1
+596677,South Carolina,SEC,p4,NJ,us_state,Northeast,Middle Atlantic,2
+596677,South Carolina,SEC,p4,NY,us_state,Northeast,Middle Atlantic,2
+596677,South Carolina,SEC,p4,OH,us_state,Midwest,East North Central,1
+596677,South Carolina,SEC,p4,OK,us_state,South,West South Central,1
+596677,South Carolina,SEC,p4,PA,us_state,Northeast,Middle Atlantic,2
+596677,South Carolina,SEC,p4,SC,us_state,South,South Atlantic,12
+596677,South Carolina,SEC,p4,TN,us_state,South,East South Central,1
+596677,South Carolina,SEC,p4,TX,us_state,South,West South Central,1
+596677,South Carolina,SEC,p4,VA,us_state,South,South Atlantic,1
+596679,South Fla.,The American,mid,Canada,international,international,international,1
+596679,South Fla.,The American,mid,FL,us_state,South,South Atlantic,25
+596679,South Fla.,The American,mid,GA,us_state,South,South Atlantic,2
+596679,South Fla.,The American,mid,IL,us_state,Midwest,East North Central,1
+596679,South Fla.,The American,mid,IN,us_state,Midwest,East North Central,1
+596679,South Fla.,The American,mid,KS,us_state,Midwest,West North Central,1
+596679,South Fla.,The American,mid,PA,us_state,Northeast,Middle Atlantic,2
+596679,South Fla.,The American,mid,Puerto Rico,us_territory,US territory,US territory,2
+596679,South Fla.,The American,mid,TN,us_state,South,East South Central,2
+596679,South Fla.,The American,mid,TX,us_state,South,West South Central,2
+596679,South Fla.,The American,mid,Venezuela,international,international,international,1
+596681,Southern California,Big Ten,p4,CA,us_state,West,Pacific,32
+596681,Southern California,Big Ten,p4,MI,us_state,Midwest,East North Central,1
+596681,Southern California,Big Ten,p4,NV,us_state,West,Mountain,3
+596681,Southern California,Big Ten,p4,TX,us_state,South,West South Central,1
+596681,Southern California,Big Ten,p4,WA,us_state,West,Pacific,2
+596681,Southern California,Big Ten,p4,unrecognized,unrecognized,unknown,unknown,1
+596683,SIUE,OVC,low,AZ,us_state,West,Mountain,1
+596683,SIUE,OVC,low,CO,us_state,West,Mountain,1
+596683,SIUE,OVC,low,Canada,international,international,international,3
+596683,SIUE,OVC,low,GA,us_state,South,South Atlantic,1
+596683,SIUE,OVC,low,IA,us_state,Midwest,West North Central,3
+596683,SIUE,OVC,low,IL,us_state,Midwest,East North Central,17
+596683,SIUE,OVC,low,KS,us_state,Midwest,West North Central,1
+596683,SIUE,OVC,low,MI,us_state,Midwest,East North Central,1
+596683,SIUE,OVC,low,MO,us_state,Midwest,West North Central,6
+596683,SIUE,OVC,low,OH,us_state,Midwest,East North Central,1
+596683,SIUE,OVC,low,WI,us_state,Midwest,East North Central,1
+596685,Missouri St.,MVC,mid,CO,us_state,West,Mountain,2
+596685,Missouri St.,MVC,mid,Canada,international,international,international,6
+596685,Missouri St.,MVC,mid,FL,us_state,South,South Atlantic,2
+596685,Missouri St.,MVC,mid,IL,us_state,Midwest,East North Central,3
+596685,Missouri St.,MVC,mid,KS,us_state,Midwest,West North Central,1
+596685,Missouri St.,MVC,mid,MO,us_state,Midwest,West North Central,11
+596685,Missouri St.,MVC,mid,NV,us_state,West,Mountain,1
+596685,Missouri St.,MVC,mid,OH,us_state,Midwest,East North Central,1
+596685,Missouri St.,MVC,mid,OK,us_state,South,West South Central,1
+596685,Missouri St.,MVC,mid,WI,us_state,Midwest,East North Central,1
+596686,Texas St.,Sun Belt,mid,CA,us_state,West,Pacific,1
+596686,Texas St.,Sun Belt,mid,FL,us_state,South,South Atlantic,2
+596686,Texas St.,Sun Belt,mid,OK,us_state,South,West South Central,2
+596686,Texas St.,Sun Belt,mid,TX,us_state,South,West South Central,38
+596687,Louisiana,Sun Belt,mid,FL,us_state,South,South Atlantic,1
+596687,Louisiana,Sun Belt,mid,GA,us_state,South,South Atlantic,1
+596687,Louisiana,Sun Belt,mid,LA,us_state,South,West South Central,18
+596687,Louisiana,Sun Belt,mid,OK,us_state,South,West South Central,1
+596687,Louisiana,Sun Belt,mid,Panama,international,international,international,1
+596687,Louisiana,Sun Belt,mid,TX,us_state,South,West South Central,9
+596688,Stanford,ACC,p4,AZ,us_state,West,Mountain,1
+596688,Stanford,ACC,p4,Australia,international,international,international,1
+596688,Stanford,ACC,p4,CA,us_state,West,Pacific,27
+596688,Stanford,ACC,p4,CO,us_state,West,Mountain,2
+596688,Stanford,ACC,p4,CT,us_state,Northeast,New England,1
+596688,Stanford,ACC,p4,FL,us_state,South,South Atlantic,1
+596688,Stanford,ACC,p4,MI,us_state,Midwest,East North Central,1
+596688,Stanford,ACC,p4,TN,us_state,South,East South Central,1
+596688,Stanford,ACC,p4,TX,us_state,South,West South Central,1
+596688,Stanford,ACC,p4,WA,us_state,West,Pacific,1
+596688,Stanford,ACC,p4,unrecognized,unrecognized,unknown,unknown,1
+596689,SFA,Southland,low,AZ,us_state,West,Mountain,2
+596689,SFA,Southland,low,CA,us_state,West,Pacific,3
+596689,SFA,Southland,low,Canada,international,international,international,1
+596689,SFA,Southland,low,IL,us_state,Midwest,East North Central,1
+596689,SFA,Southland,low,KS,us_state,Midwest,West North Central,1
+596689,SFA,Southland,low,LA,us_state,South,West South Central,1
+596689,SFA,Southland,low,MN,us_state,Midwest,West North Central,1
+596689,SFA,Southland,low,NM,us_state,West,Mountain,1
+596689,SFA,Southland,low,NV,us_state,West,Mountain,1
+596689,SFA,Southland,low,OH,us_state,Midwest,East North Central,1
+596689,SFA,Southland,low,OK,us_state,South,West South Central,1
+596689,SFA,Southland,low,TN,us_state,South,East South Central,1
+596689,SFA,Southland,low,TX,us_state,South,West South Central,26
+596692,UT Martin,OVC,low,AL,us_state,South,East South Central,2
+596692,UT Martin,OVC,low,FL,us_state,South,South Atlantic,4
+596692,UT Martin,OVC,low,GA,us_state,South,South Atlantic,3
+596692,UT Martin,OVC,low,IN,us_state,Midwest,East North Central,1
+596692,UT Martin,OVC,low,LA,us_state,South,West South Central,1
+596692,UT Martin,OVC,low,MO,us_state,Midwest,West North Central,1
+596692,UT Martin,OVC,low,MS,us_state,South,East South Central,5
+596692,UT Martin,OVC,low,OH,us_state,Midwest,East North Central,1
+596692,UT Martin,OVC,low,TN,us_state,South,East South Central,14
+596692,UT Martin,OVC,low,WV,us_state,South,South Atlantic,1
+596695,Lindenwood,OVC,low,AZ,us_state,West,Mountain,1
+596695,Lindenwood,OVC,low,CA,us_state,West,Pacific,3
+596695,Lindenwood,OVC,low,Canada,international,international,international,1
+596695,Lindenwood,OVC,low,IL,us_state,Midwest,East North Central,6
+596695,Lindenwood,OVC,low,IN,us_state,Midwest,East North Central,2
+596695,Lindenwood,OVC,low,KY,us_state,South,East South Central,1
+596695,Lindenwood,OVC,low,LA,us_state,South,West South Central,1
+596695,Lindenwood,OVC,low,MN,us_state,Midwest,West North Central,1
+596695,Lindenwood,OVC,low,MO,us_state,Midwest,West North Central,16
+596695,Lindenwood,OVC,low,Poland,international,international,international,1
+596695,Lindenwood,OVC,low,TN,us_state,South,East South Central,1
+596695,Lindenwood,OVC,low,UT,us_state,West,Mountain,1
+596695,Lindenwood,OVC,low,WI,us_state,Midwest,East North Central,2
+596696,Queens (NC),ASUN,mid,GA,us_state,South,South Atlantic,2
+596696,Queens (NC),ASUN,mid,KY,us_state,South,East South Central,1
+596696,Queens (NC),ASUN,mid,NC,us_state,South,South Atlantic,4
+596696,Queens (NC),ASUN,mid,NY,us_state,Northeast,Middle Atlantic,1
+596696,Queens (NC),ASUN,mid,TN,us_state,South,East South Central,1
+596697,Southern Ind.,OVC,low,AR,us_state,South,West South Central,1
+596697,Southern Ind.,OVC,low,AZ,us_state,West,Mountain,1
+596697,Southern Ind.,OVC,low,CA,us_state,West,Pacific,2
+596697,Southern Ind.,OVC,low,FL,us_state,South,South Atlantic,2
+596697,Southern Ind.,OVC,low,IA,us_state,Midwest,West North Central,4
+596697,Southern Ind.,OVC,low,IL,us_state,Midwest,East North Central,2
+596697,Southern Ind.,OVC,low,IN,us_state,Midwest,East North Central,10
+596697,Southern Ind.,OVC,low,Japan,international,international,international,1
+596697,Southern Ind.,OVC,low,KY,us_state,South,East South Central,1
+596697,Southern Ind.,OVC,low,MI,us_state,Midwest,East North Central,1
+596697,Southern Ind.,OVC,low,MO,us_state,Midwest,West North Central,1
+596697,Southern Ind.,OVC,low,MS,us_state,South,East South Central,1
+596697,Southern Ind.,OVC,low,NC,us_state,South,South Atlantic,2
+596697,Southern Ind.,OVC,low,NV,us_state,West,Mountain,1
+596697,Southern Ind.,OVC,low,OK,us_state,South,West South Central,1
+596697,Southern Ind.,OVC,low,PA,us_state,Northeast,Middle Atlantic,1
+596697,Southern Ind.,OVC,low,Puerto Rico,us_territory,US territory,US territory,3
+596697,Southern Ind.,OVC,low,TN,us_state,South,East South Central,2
+596697,Southern Ind.,OVC,low,TX,us_state,South,West South Central,2
+596697,Southern Ind.,OVC,low,WI,us_state,Midwest,East North Central,2
+596700,Tarleton St.,WAC,mid,AZ,us_state,West,Mountain,1
+596700,Tarleton St.,WAC,mid,CA,us_state,West,Pacific,1
+596700,Tarleton St.,WAC,mid,CO,us_state,West,Mountain,1
+596700,Tarleton St.,WAC,mid,IA,us_state,Midwest,West North Central,2
+596700,Tarleton St.,WAC,mid,KS,us_state,Midwest,West North Central,1
+596700,Tarleton St.,WAC,mid,NE,us_state,Midwest,West North Central,1
+596700,Tarleton St.,WAC,mid,NV,us_state,West,Mountain,1
+596700,Tarleton St.,WAC,mid,Netherlands,international,international,international,1
+596700,Tarleton St.,WAC,mid,OK,us_state,South,West South Central,2
+596700,Tarleton St.,WAC,mid,TX,us_state,South,West South Central,30
+596701,Tulane,The American,mid,AR,us_state,South,West South Central,1
+596701,Tulane,The American,mid,AZ,us_state,West,Mountain,2
+596701,Tulane,The American,mid,CA,us_state,West,Pacific,5
+596701,Tulane,The American,mid,CO,us_state,West,Mountain,1
+596701,Tulane,The American,mid,FL,us_state,South,South Atlantic,3
+596701,Tulane,The American,mid,IN,us_state,Midwest,East North Central,3
+596701,Tulane,The American,mid,LA,us_state,South,West South Central,3
+596701,Tulane,The American,mid,MA,us_state,Northeast,New England,1
+596701,Tulane,The American,mid,MD,us_state,South,South Atlantic,1
+596701,Tulane,The American,mid,MI,us_state,Midwest,East North Central,3
+596701,Tulane,The American,mid,MN,us_state,Midwest,West North Central,1
+596701,Tulane,The American,mid,NE,us_state,Midwest,West North Central,1
+596701,Tulane,The American,mid,NY,us_state,Northeast,Middle Atlantic,2
+596701,Tulane,The American,mid,OK,us_state,South,West South Central,2
+596701,Tulane,The American,mid,PA,us_state,Northeast,Middle Atlantic,2
+596701,Tulane,The American,mid,SC,us_state,South,South Atlantic,1
+596701,Tulane,The American,mid,TN,us_state,South,East South Central,1
+596701,Tulane,The American,mid,UT,us_state,West,Mountain,1
+596707,Fresno St.,Mountain West,mid,CA,us_state,West,Pacific,35
+596707,Fresno St.,Mountain West,mid,NV,us_state,West,Mountain,1
+596707,Fresno St.,Mountain West,mid,WA,us_state,West,Pacific,1
+596708,Duke,ACC,p4,CO,us_state,West,Mountain,1
+596708,Duke,ACC,p4,CT,us_state,Northeast,New England,5
+596708,Duke,ACC,p4,DC,us_state,South,South Atlantic,1
+596708,Duke,ACC,p4,GA,us_state,South,South Atlantic,1
+596708,Duke,ACC,p4,IA,us_state,Midwest,West North Central,1
+596708,Duke,ACC,p4,MA,us_state,Northeast,New England,2
+596708,Duke,ACC,p4,MD,us_state,South,South Atlantic,3
+596708,Duke,ACC,p4,MI,us_state,Midwest,East North Central,1
+596708,Duke,ACC,p4,NC,us_state,South,South Atlantic,6
+596708,Duke,ACC,p4,NJ,us_state,Northeast,Middle Atlantic,4
+596708,Duke,ACC,p4,NY,us_state,Northeast,Middle Atlantic,1
+596708,Duke,ACC,p4,OH,us_state,Midwest,East North Central,2
+596708,Duke,ACC,p4,OK,us_state,South,West South Central,1
+596708,Duke,ACC,p4,PA,us_state,Northeast,Middle Atlantic,5
+596708,Duke,ACC,p4,TN,us_state,South,East South Central,1
+596708,Duke,ACC,p4,TX,us_state,South,West South Central,5
+596708,Duke,ACC,p4,VA,us_state,South,South Atlantic,3
+596709,Evansville,MVC,mid,AL,us_state,South,East South Central,1
+596709,Evansville,MVC,mid,CA,us_state,West,Pacific,1
+596709,Evansville,MVC,mid,Canada,international,international,international,4
+596709,Evansville,MVC,mid,IA,us_state,Midwest,West North Central,1
+596709,Evansville,MVC,mid,IL,us_state,Midwest,East North Central,7
+596709,Evansville,MVC,mid,IN,us_state,Midwest,East North Central,6
+596709,Evansville,MVC,mid,KY,us_state,South,East South Central,3
+596709,Evansville,MVC,mid,MI,us_state,Midwest,East North Central,1
+596709,Evansville,MVC,mid,MO,us_state,Midwest,West North Central,5
+596709,Evansville,MVC,mid,WI,us_state,Midwest,East North Central,1
+596709,Evansville,MVC,mid,WY,us_state,West,Mountain,1
+596712,Nebraska,Big Ten,p4,AZ,us_state,West,Mountain,1
+596712,Nebraska,Big Ten,p4,CO,us_state,West,Mountain,2
+596712,Nebraska,Big Ten,p4,Canada,international,international,international,3
+596712,Nebraska,Big Ten,p4,FL,us_state,South,South Atlantic,1
+596712,Nebraska,Big Ten,p4,IA,us_state,Midwest,West North Central,2
+596712,Nebraska,Big Ten,p4,KS,us_state,Midwest,West North Central,7
+596712,Nebraska,Big Ten,p4,MN,us_state,Midwest,West North Central,1
+596712,Nebraska,Big Ten,p4,MO,us_state,Midwest,West North Central,2
+596712,Nebraska,Big Ten,p4,NE,us_state,Midwest,West North Central,12
+596712,Nebraska,Big Ten,p4,NM,us_state,West,Mountain,1
+596712,Nebraska,Big Ten,p4,OH,us_state,Midwest,East North Central,1
+596712,Nebraska,Big Ten,p4,OK,us_state,South,West South Central,2
+596712,Nebraska,Big Ten,p4,TX,us_state,South,West South Central,5
+596713,Nicholls,Southland,low,CA,us_state,West,Pacific,3
+596713,Nicholls,Southland,low,FL,us_state,South,South Atlantic,1
+596713,Nicholls,Southland,low,GA,us_state,South,South Atlantic,1
+596713,Nicholls,Southland,low,HI,us_state,West,Pacific,1
+596713,Nicholls,Southland,low,ID,us_state,West,Mountain,1
+596713,Nicholls,Southland,low,IL,us_state,Midwest,East North Central,1
+596713,Nicholls,Southland,low,KS,us_state,Midwest,West North Central,1
+596713,Nicholls,Southland,low,LA,us_state,South,West South Central,19
+596713,Nicholls,Southland,low,MO,us_state,Midwest,West North Central,1
+596713,Nicholls,Southland,low,MS,us_state,South,East South Central,2
+596713,Nicholls,Southland,low,NY,us_state,Northeast,Middle Atlantic,1
+596713,Nicholls,Southland,low,Netherlands,international,international,international,1
+596713,Nicholls,Southland,low,OR,us_state,West,Pacific,1
+596713,Nicholls,Southland,low,TX,us_state,South,West South Central,2
+596713,Nicholls,Southland,low,UT,us_state,West,Mountain,4
+596714,Oklahoma St.,Big 12,p4,AR,us_state,South,West South Central,1
+596714,Oklahoma St.,Big 12,p4,CA,us_state,West,Pacific,5
+596714,Oklahoma St.,Big 12,p4,CO,us_state,West,Mountain,1
+596714,Oklahoma St.,Big 12,p4,Canada,international,international,international,1
+596714,Oklahoma St.,Big 12,p4,FL,us_state,South,South Atlantic,1
+596714,Oklahoma St.,Big 12,p4,HI,us_state,West,Pacific,1
+596714,Oklahoma St.,Big 12,p4,IL,us_state,Midwest,East North Central,1
+596714,Oklahoma St.,Big 12,p4,IN,us_state,Midwest,East North Central,2
+596714,Oklahoma St.,Big 12,p4,LA,us_state,South,West South Central,1
+596714,Oklahoma St.,Big 12,p4,MI,us_state,Midwest,East North Central,2
+596714,Oklahoma St.,Big 12,p4,NE,us_state,Midwest,West North Central,1
+596714,Oklahoma St.,Big 12,p4,NY,us_state,Northeast,Middle Atlantic,1
+596714,Oklahoma St.,Big 12,p4,OK,us_state,South,West South Central,14
+596714,Oklahoma St.,Big 12,p4,TX,us_state,South,West South Central,2
+596714,Oklahoma St.,Big 12,p4,WI,us_state,Midwest,East North Central,1
+596714,Oklahoma St.,Big 12,p4,unrecognized,unrecognized,unknown,unknown,1
+596718,Southeast Mo. St.,OVC,low,AR,us_state,South,West South Central,1
+596718,Southeast Mo. St.,OVC,low,CA,us_state,West,Pacific,8
+596718,Southeast Mo. St.,OVC,low,CO,us_state,West,Mountain,1
+596718,Southeast Mo. St.,OVC,low,Canada,international,international,international,2
+596718,Southeast Mo. St.,OVC,low,IA,us_state,Midwest,West North Central,2
+596718,Southeast Mo. St.,OVC,low,IL,us_state,Midwest,East North Central,3
+596718,Southeast Mo. St.,OVC,low,KS,us_state,Midwest,West North Central,3
+596718,Southeast Mo. St.,OVC,low,MA,us_state,Northeast,New England,1
+596718,Southeast Mo. St.,OVC,low,MO,us_state,Midwest,West North Central,10
+596718,Southeast Mo. St.,OVC,low,OK,us_state,South,West South Central,1
+596718,Southeast Mo. St.,OVC,low,TX,us_state,South,West South Central,1
+596718,Southeast Mo. St.,OVC,low,WI,us_state,Midwest,East North Central,2
+596719,Southern Miss.,Sun Belt,mid,AL,us_state,South,East South Central,10
+596719,Southern Miss.,Sun Belt,mid,FL,us_state,South,South Atlantic,1
+596719,Southern Miss.,Sun Belt,mid,GA,us_state,South,South Atlantic,1
+596719,Southern Miss.,Sun Belt,mid,IL,us_state,Midwest,East North Central,1
+596719,Southern Miss.,Sun Belt,mid,KY,us_state,South,East South Central,1
+596719,Southern Miss.,Sun Belt,mid,LA,us_state,South,West South Central,4
+596719,Southern Miss.,Sun Belt,mid,MN,us_state,Midwest,West North Central,1
+596719,Southern Miss.,Sun Belt,mid,MS,us_state,South,East South Central,19
+596719,Southern Miss.,Sun Belt,mid,TX,us_state,South,West South Central,1
+596720,Stetson,ASUN,mid,AL,us_state,South,East South Central,2
+596720,Stetson,ASUN,mid,CT,us_state,Northeast,New England,1
+596720,Stetson,ASUN,mid,Canada,international,international,international,2
+596720,Stetson,ASUN,mid,DE,us_state,South,South Atlantic,1
+596720,Stetson,ASUN,mid,FL,us_state,South,South Atlantic,22
+596720,Stetson,ASUN,mid,GA,us_state,South,South Atlantic,1
+596720,Stetson,ASUN,mid,IL,us_state,Midwest,East North Central,1
+596720,Stetson,ASUN,mid,KS,us_state,Midwest,West North Central,1
+596720,Stetson,ASUN,mid,MA,us_state,Northeast,New England,1
+596720,Stetson,ASUN,mid,NH,us_state,Northeast,New England,1
+596720,Stetson,ASUN,mid,NJ,us_state,Northeast,Middle Atlantic,2
+596720,Stetson,ASUN,mid,NY,us_state,Northeast,Middle Atlantic,3
+596720,Stetson,ASUN,mid,SC,us_state,South,South Atlantic,2
+596721,Tennessee,SEC,p4,AL,us_state,South,East South Central,1
+596721,Tennessee,SEC,p4,AZ,us_state,West,Mountain,1
+596721,Tennessee,SEC,p4,CA,us_state,West,Pacific,2
+596721,Tennessee,SEC,p4,CO,us_state,West,Mountain,1
+596721,Tennessee,SEC,p4,FL,us_state,South,South Atlantic,3
+596721,Tennessee,SEC,p4,GA,us_state,South,South Atlantic,7
+596721,Tennessee,SEC,p4,IL,us_state,Midwest,East North Central,1
+596721,Tennessee,SEC,p4,KS,us_state,Midwest,West North Central,2
+596721,Tennessee,SEC,p4,KY,us_state,South,East South Central,1
+596721,Tennessee,SEC,p4,MI,us_state,Midwest,East North Central,1
+596721,Tennessee,SEC,p4,MO,us_state,Midwest,West North Central,2
+596721,Tennessee,SEC,p4,NE,us_state,Midwest,West North Central,1
+596721,Tennessee,SEC,p4,NH,us_state,Northeast,New England,1
+596721,Tennessee,SEC,p4,NJ,us_state,Northeast,Middle Atlantic,1
+596721,Tennessee,SEC,p4,OH,us_state,Midwest,East North Central,1
+596721,Tennessee,SEC,p4,PA,us_state,Northeast,Middle Atlantic,1
+596721,Tennessee,SEC,p4,SC,us_state,South,South Atlantic,1
+596721,Tennessee,SEC,p4,SD,us_state,Midwest,West North Central,1
+596721,Tennessee,SEC,p4,TN,us_state,South,East South Central,17
+596721,Tennessee,SEC,p4,TX,us_state,South,West South Central,4
+596721,Tennessee,SEC,p4,VA,us_state,South,South Atlantic,1
+596721,Tennessee,SEC,p4,WI,us_state,Midwest,East North Central,2

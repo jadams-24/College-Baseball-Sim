@@ -1,0 +1,751 @@
+scope,scope_value,position_group,bats,throws,count,share
+all,all,P,L,L,706,0.2294
+all,all,P,L,R,102,0.0331
+all,all,P,R,L,105,0.0341
+all,all,P,R,R,2144,0.6966
+all,all,P,S,L,9,0.0029
+all,all,P,S,R,12,0.0039
+all,all,C,L,R,106,0.18
+all,all,C,R,L,1,0.0017
+all,all,C,R,R,449,0.7623
+all,all,C,S,R,33,0.056
+all,all,1B,L,L,28,0.2828
+all,all,1B,L,R,30,0.303
+all,all,1B,R,L,3,0.0303
+all,all,1B,R,R,35,0.3535
+all,all,1B,S,L,1,0.0101
+all,all,1B,S,R,2,0.0202
+all,all,IF,L,L,31,0.0251
+all,all,IF,L,R,318,0.2575
+all,all,IF,R,L,2,0.0016
+all,all,IF,R,R,814,0.6591
+all,all,IF,S,L,1,0.0008
+all,all,IF,S,R,69,0.0559
+all,all,OF,L,L,216,0.2457
+all,all,OF,L,R,199,0.2264
+all,all,OF,R,L,12,0.0137
+all,all,OF,R,R,425,0.4835
+all,all,OF,S,L,6,0.0068
+all,all,OF,S,R,21,0.0239
+all,all,UT/DH,L,L,4,0.0357
+all,all,UT/DH,L,R,33,0.2946
+all,all,UT/DH,R,L,2,0.0179
+all,all,UT/DH,R,R,67,0.5982
+all,all,UT/DH,S,L,1,0.0089
+all,all,UT/DH,S,R,5,0.0446
+all,all,two-way,L,L,62,0.2938
+all,all,two-way,L,R,26,0.1232
+all,all,two-way,R,L,6,0.0284
+all,all,two-way,R,R,116,0.5498
+all,all,two-way,S,R,1,0.0047
+all,all,unknown,L,L,5,0.1064
+all,all,unknown,L,R,14,0.2979
+all,all,unknown,R,L,2,0.0426
+all,all,unknown,R,R,26,0.5532
+conference,ACC,P,L,L,70,0.2846
+conference,ACC,P,L,R,9,0.0366
+conference,ACC,P,R,L,11,0.0447
+conference,ACC,P,R,R,153,0.622
+conference,ACC,P,S,L,2,0.0081
+conference,ACC,P,S,R,1,0.0041
+conference,ACC,C,L,R,12,0.3
+conference,ACC,C,R,R,24,0.6
+conference,ACC,C,S,R,4,0.1
+conference,ACC,1B,L,L,2,0.2
+conference,ACC,1B,L,R,4,0.4
+conference,ACC,1B,R,L,1,0.1
+conference,ACC,1B,R,R,2,0.2
+conference,ACC,1B,S,L,1,0.1
+conference,ACC,IF,L,L,2,0.0211
+conference,ACC,IF,L,R,22,0.2316
+conference,ACC,IF,R,R,64,0.6737
+conference,ACC,IF,S,R,7,0.0737
+conference,ACC,OF,L,L,17,0.2394
+conference,ACC,OF,L,R,18,0.2535
+conference,ACC,OF,R,L,1,0.0141
+conference,ACC,OF,R,R,32,0.4507
+conference,ACC,OF,S,R,3,0.0423
+conference,ACC,UT/DH,L,R,4,0.3636
+conference,ACC,UT/DH,R,L,1,0.0909
+conference,ACC,UT/DH,R,R,5,0.4545
+conference,ACC,UT/DH,S,R,1,0.0909
+conference,ACC,two-way,L,L,4,0.3077
+conference,ACC,two-way,L,R,1,0.0769
+conference,ACC,two-way,R,L,1,0.0769
+conference,ACC,two-way,R,R,6,0.4615
+conference,ACC,two-way,S,R,1,0.0769
+conference,ASUN,P,L,L,29,0.2248
+conference,ASUN,P,R,L,2,0.0155
+conference,ASUN,P,R,R,97,0.7519
+conference,ASUN,P,S,R,1,0.0078
+conference,ASUN,C,L,R,3,0.1364
+conference,ASUN,C,R,R,18,0.8182
+conference,ASUN,C,S,R,1,0.0455
+conference,ASUN,1B,L,L,2,0.2
+conference,ASUN,1B,L,R,2,0.2
+conference,ASUN,1B,R,R,5,0.5
+conference,ASUN,1B,S,R,1,0.1
+conference,ASUN,IF,L,L,3,0.0698
+conference,ASUN,IF,L,R,13,0.3023
+conference,ASUN,IF,R,R,23,0.5349
+conference,ASUN,IF,S,R,4,0.093
+conference,ASUN,OF,L,L,9,0.2571
+conference,ASUN,OF,L,R,7,0.2
+conference,ASUN,OF,R,R,17,0.4857
+conference,ASUN,OF,S,L,1,0.0286
+conference,ASUN,OF,S,R,1,0.0286
+conference,ASUN,UT/DH,R,R,6,1.0
+conference,ASUN,two-way,L,L,2,0.3333
+conference,ASUN,two-way,L,R,1,0.1667
+conference,ASUN,two-way,R,R,3,0.5
+conference,ASUN,unknown,R,R,1,1.0
+conference,America East,P,L,L,2,0.1429
+conference,America East,P,R,R,12,0.8571
+conference,America East,C,L,R,1,0.25
+conference,America East,C,R,R,3,0.75
+conference,America East,1B,R,R,1,1.0
+conference,America East,IF,L,R,1,0.1429
+conference,America East,IF,R,R,5,0.7143
+conference,America East,IF,S,R,1,0.1429
+conference,America East,OF,L,L,1,0.25
+conference,America East,OF,L,R,1,0.25
+conference,America East,OF,R,R,2,0.5
+conference,America East,two-way,L,L,2,0.6667
+conference,America East,two-way,R,R,1,0.3333
+conference,Atlantic 10,P,L,L,20,0.241
+conference,Atlantic 10,P,L,R,2,0.0241
+conference,Atlantic 10,P,R,L,3,0.0361
+conference,Atlantic 10,P,R,R,58,0.6988
+conference,Atlantic 10,C,L,R,4,0.1905
+conference,Atlantic 10,C,R,R,16,0.7619
+conference,Atlantic 10,C,S,R,1,0.0476
+conference,Atlantic 10,1B,L,L,2,0.2857
+conference,Atlantic 10,1B,L,R,2,0.2857
+conference,Atlantic 10,1B,R,R,3,0.4286
+conference,Atlantic 10,IF,L,R,6,0.1875
+conference,Atlantic 10,IF,R,R,26,0.8125
+conference,Atlantic 10,OF,L,L,5,0.1923
+conference,Atlantic 10,OF,L,R,3,0.1154
+conference,Atlantic 10,OF,R,R,18,0.6923
+conference,Atlantic 10,UT/DH,L,R,1,0.2
+conference,Atlantic 10,UT/DH,R,R,4,0.8
+conference,Atlantic 10,two-way,L,L,5,0.5556
+conference,Atlantic 10,two-way,L,R,1,0.1111
+conference,Atlantic 10,two-way,R,R,3,0.3333
+conference,Big 12,P,L,L,51,0.2016
+conference,Big 12,P,L,R,9,0.0356
+conference,Big 12,P,R,L,15,0.0593
+conference,Big 12,P,R,R,176,0.6957
+conference,Big 12,P,S,L,1,0.004
+conference,Big 12,P,S,R,1,0.004
+conference,Big 12,C,L,R,6,0.1395
+conference,Big 12,C,R,R,34,0.7907
+conference,Big 12,C,S,R,3,0.0698
+conference,Big 12,1B,L,L,3,0.3
+conference,Big 12,1B,L,R,4,0.4
+conference,Big 12,1B,R,L,1,0.1
+conference,Big 12,1B,R,R,2,0.2
+conference,Big 12,IF,L,L,2,0.0204
+conference,Big 12,IF,L,R,31,0.3163
+conference,Big 12,IF,R,R,62,0.6327
+conference,Big 12,IF,S,R,3,0.0306
+conference,Big 12,OF,L,L,20,0.3509
+conference,Big 12,OF,L,R,14,0.2456
+conference,Big 12,OF,R,L,2,0.0351
+conference,Big 12,OF,R,R,20,0.3509
+conference,Big 12,OF,S,R,1,0.0175
+conference,Big 12,UT/DH,L,R,3,0.4286
+conference,Big 12,UT/DH,R,R,4,0.5714
+conference,Big 12,two-way,L,L,4,0.2857
+conference,Big 12,two-way,L,R,1,0.0714
+conference,Big 12,two-way,R,R,9,0.6429
+conference,Big East,P,L,L,20,0.2353
+conference,Big East,P,L,R,1,0.0118
+conference,Big East,P,R,L,1,0.0118
+conference,Big East,P,R,R,63,0.7412
+conference,Big East,C,L,R,4,0.2857
+conference,Big East,C,R,R,9,0.6429
+conference,Big East,C,S,R,1,0.0714
+conference,Big East,1B,L,R,1,0.3333
+conference,Big East,1B,R,R,2,0.6667
+conference,Big East,IF,L,L,2,0.0645
+conference,Big East,IF,L,R,5,0.1613
+conference,Big East,IF,R,L,1,0.0323
+conference,Big East,IF,R,R,21,0.6774
+conference,Big East,IF,S,R,2,0.0645
+conference,Big East,OF,L,L,6,0.2609
+conference,Big East,OF,L,R,3,0.1304
+conference,Big East,OF,R,L,1,0.0435
+conference,Big East,OF,R,R,10,0.4348
+conference,Big East,OF,S,L,1,0.0435
+conference,Big East,OF,S,R,2,0.087
+conference,Big East,UT/DH,R,R,2,1.0
+conference,Big East,two-way,R,R,1,1.0
+conference,Big South,P,L,L,12,0.2449
+conference,Big South,P,R,R,37,0.7551
+conference,Big South,C,L,R,1,0.0769
+conference,Big South,C,R,R,11,0.8462
+conference,Big South,C,S,R,1,0.0769
+conference,Big South,IF,L,R,5,0.2273
+conference,Big South,IF,R,R,16,0.7273
+conference,Big South,IF,S,R,1,0.0455
+conference,Big South,OF,L,L,3,0.25
+conference,Big South,OF,L,R,5,0.4167
+conference,Big South,OF,R,L,2,0.1667
+conference,Big South,OF,R,R,2,0.1667
+conference,Big South,UT/DH,L,L,1,0.2
+conference,Big South,UT/DH,L,R,1,0.2
+conference,Big South,UT/DH,R,R,3,0.6
+conference,Big South,two-way,L,L,1,0.1667
+conference,Big South,two-way,R,R,5,0.8333
+conference,Big South,unknown,L,R,1,1.0
+conference,Big Ten,P,L,L,51,0.2134
+conference,Big Ten,P,L,R,11,0.046
+conference,Big Ten,P,R,L,14,0.0586
+conference,Big Ten,P,R,R,161,0.6736
+conference,Big Ten,P,S,R,2,0.0084
+conference,Big Ten,C,L,R,11,0.25
+conference,Big Ten,C,R,R,29,0.6591
+conference,Big Ten,C,S,R,4,0.0909
+conference,Big Ten,1B,L,L,2,0.5
+conference,Big Ten,1B,L,R,2,0.5
+conference,Big Ten,IF,L,L,2,0.023
+conference,Big Ten,IF,L,R,26,0.2989
+conference,Big Ten,IF,R,R,55,0.6322
+conference,Big Ten,IF,S,R,4,0.046
+conference,Big Ten,OF,L,L,19,0.2603
+conference,Big Ten,OF,L,R,16,0.2192
+conference,Big Ten,OF,R,R,37,0.5068
+conference,Big Ten,OF,S,R,1,0.0137
+conference,Big Ten,UT/DH,L,L,1,0.1429
+conference,Big Ten,UT/DH,L,R,2,0.2857
+conference,Big Ten,UT/DH,R,R,3,0.4286
+conference,Big Ten,UT/DH,S,R,1,0.1429
+conference,Big Ten,two-way,L,L,3,0.1765
+conference,Big Ten,two-way,L,R,4,0.2353
+conference,Big Ten,two-way,R,L,1,0.0588
+conference,Big Ten,two-way,R,R,9,0.5294
+conference,Big Ten,unknown,L,L,5,0.1316
+conference,Big Ten,unknown,L,R,10,0.2632
+conference,Big Ten,unknown,R,L,2,0.0526
+conference,Big Ten,unknown,R,R,21,0.5526
+conference,Big West,P,L,L,47,0.2597
+conference,Big West,P,L,R,4,0.0221
+conference,Big West,P,R,L,6,0.0331
+conference,Big West,P,R,R,122,0.674
+conference,Big West,P,S,L,1,0.0055
+conference,Big West,P,S,R,1,0.0055
+conference,Big West,C,L,R,4,0.1081
+conference,Big West,C,R,L,1,0.027
+conference,Big West,C,R,R,31,0.8378
+conference,Big West,C,S,R,1,0.027
+conference,Big West,1B,L,L,4,0.3636
+conference,Big West,1B,L,R,2,0.1818
+conference,Big West,1B,R,R,5,0.4545
+conference,Big West,IF,L,L,2,0.026
+conference,Big West,IF,L,R,21,0.2727
+conference,Big West,IF,R,R,52,0.6753
+conference,Big West,IF,S,R,2,0.026
+conference,Big West,OF,L,L,16,0.2759
+conference,Big West,OF,L,R,10,0.1724
+conference,Big West,OF,R,R,29,0.5
+conference,Big West,OF,S,R,3,0.0517
+conference,Big West,UT/DH,L,R,1,0.3333
+conference,Big West,UT/DH,R,R,2,0.6667
+conference,Big West,two-way,L,L,4,0.8
+conference,Big West,two-way,L,R,1,0.2
+conference,CAA,P,L,L,8,0.2105
+conference,CAA,P,R,R,29,0.7632
+conference,CAA,P,S,L,1,0.0263
+conference,CAA,C,L,R,2,0.2857
+conference,CAA,C,R,R,5,0.7143
+conference,CAA,1B,R,R,2,1.0
+conference,CAA,IF,L,R,3,0.2308
+conference,CAA,IF,R,R,9,0.6923
+conference,CAA,IF,S,R,1,0.0769
+conference,CAA,OF,L,L,2,0.2
+conference,CAA,OF,L,R,1,0.1
+conference,CAA,OF,R,R,7,0.7
+conference,CAA,UT/DH,L,R,2,0.6667
+conference,CAA,UT/DH,R,R,1,0.3333
+conference,CAA,two-way,L,L,2,0.4
+conference,CAA,two-way,R,R,3,0.6
+conference,CUSA,P,L,L,16,0.1429
+conference,CUSA,P,L,R,5,0.0446
+conference,CUSA,P,R,L,5,0.0446
+conference,CUSA,P,R,R,86,0.7679
+conference,CUSA,C,L,R,2,0.0909
+conference,CUSA,C,R,R,19,0.8636
+conference,CUSA,C,S,R,1,0.0455
+conference,CUSA,1B,L,L,1,0.5
+conference,CUSA,1B,R,R,1,0.5
+conference,CUSA,IF,L,L,2,0.04
+conference,CUSA,IF,L,R,15,0.3
+conference,CUSA,IF,R,L,1,0.02
+conference,CUSA,IF,R,R,29,0.58
+conference,CUSA,IF,S,R,3,0.06
+conference,CUSA,OF,L,L,8,0.2162
+conference,CUSA,OF,L,R,10,0.2703
+conference,CUSA,OF,R,R,17,0.4595
+conference,CUSA,OF,S,L,1,0.027
+conference,CUSA,OF,S,R,1,0.027
+conference,CUSA,UT/DH,L,R,3,0.6
+conference,CUSA,UT/DH,R,R,1,0.2
+conference,CUSA,UT/DH,S,L,1,0.2
+conference,CUSA,two-way,R,R,2,1.0
+conference,CUSA,unknown,L,R,1,1.0
+conference,DI Independent,P,L,L,4,0.2353
+conference,DI Independent,P,L,R,1,0.0588
+conference,DI Independent,P,R,R,12,0.7059
+conference,DI Independent,C,L,R,2,0.5
+conference,DI Independent,C,R,R,2,0.5
+conference,DI Independent,IF,R,R,7,1.0
+conference,DI Independent,OF,L,R,2,0.4
+conference,DI Independent,OF,R,R,3,0.6
+conference,DI Independent,two-way,R,R,1,1.0
+conference,Horizon,P,L,L,12,0.2
+conference,Horizon,P,L,R,2,0.0333
+conference,Horizon,P,R,R,46,0.7667
+conference,Horizon,C,L,R,2,0.1818
+conference,Horizon,C,R,R,7,0.6364
+conference,Horizon,C,S,R,2,0.1818
+conference,Horizon,1B,L,L,1,0.3333
+conference,Horizon,1B,L,R,2,0.6667
+conference,Horizon,IF,L,R,7,0.3684
+conference,Horizon,IF,R,R,10,0.5263
+conference,Horizon,IF,S,R,2,0.1053
+conference,Horizon,OF,L,L,3,0.2
+conference,Horizon,OF,L,R,1,0.0667
+conference,Horizon,OF,R,L,2,0.1333
+conference,Horizon,OF,R,R,8,0.5333
+conference,Horizon,OF,S,L,1,0.0667
+conference,Horizon,UT/DH,L,R,1,0.3333
+conference,Horizon,UT/DH,R,R,2,0.6667
+conference,Horizon,two-way,L,L,1,0.25
+conference,Horizon,two-way,R,R,3,0.75
+conference,Ivy League,P,L,L,12,0.1935
+conference,Ivy League,P,L,R,1,0.0161
+conference,Ivy League,P,R,L,1,0.0161
+conference,Ivy League,P,R,R,48,0.7742
+conference,Ivy League,C,L,R,2,0.125
+conference,Ivy League,C,R,R,13,0.8125
+conference,Ivy League,C,S,R,1,0.0625
+conference,Ivy League,1B,R,R,1,1.0
+conference,Ivy League,IF,L,R,6,0.2143
+conference,Ivy League,IF,R,R,22,0.7857
+conference,Ivy League,OF,L,L,2,0.1333
+conference,Ivy League,OF,L,R,3,0.2
+conference,Ivy League,OF,R,R,10,0.6667
+conference,Ivy League,UT/DH,L,R,2,0.5
+conference,Ivy League,UT/DH,R,R,2,0.5
+conference,Ivy League,two-way,L,R,1,0.1667
+conference,Ivy League,two-way,R,R,5,0.8333
+conference,MAAC,P,R,R,1,1.0
+conference,MAAC,C,L,R,1,0.25
+conference,MAAC,C,R,R,3,0.75
+conference,MAAC,IF,L,L,1,0.1111
+conference,MAAC,IF,L,R,4,0.4444
+conference,MAAC,IF,R,R,4,0.4444
+conference,MAAC,OF,L,L,1,0.125
+conference,MAAC,OF,L,R,2,0.25
+conference,MAAC,OF,R,R,5,0.625
+conference,MAAC,two-way,R,R,2,1.0
+conference,MAC,P,L,L,15,0.2778
+conference,MAC,P,R,L,1,0.0185
+conference,MAC,P,R,R,38,0.7037
+conference,MAC,C,L,R,3,0.2727
+conference,MAC,C,R,R,8,0.7273
+conference,MAC,IF,L,L,1,0.05
+conference,MAC,IF,L,R,4,0.2
+conference,MAC,IF,R,R,12,0.6
+conference,MAC,IF,S,R,3,0.15
+conference,MAC,OF,L,L,4,0.2667
+conference,MAC,OF,L,R,4,0.2667
+conference,MAC,OF,R,R,6,0.4
+conference,MAC,OF,S,R,1,0.0667
+conference,MAC,UT/DH,L,R,1,0.5
+conference,MAC,UT/DH,R,R,1,0.5
+conference,MAC,two-way,L,L,1,0.25
+conference,MAC,two-way,R,R,3,0.75
+conference,MAC,unknown,R,R,1,1.0
+conference,MVC,P,L,L,28,0.2314
+conference,MVC,P,L,R,3,0.0248
+conference,MVC,P,R,L,3,0.0248
+conference,MVC,P,R,R,87,0.719
+conference,MVC,C,L,R,6,0.2222
+conference,MVC,C,R,R,20,0.7407
+conference,MVC,C,S,R,1,0.037
+conference,MVC,1B,L,R,2,0.6667
+conference,MVC,1B,R,R,1,0.3333
+conference,MVC,IF,L,R,16,0.32
+conference,MVC,IF,R,R,33,0.66
+conference,MVC,IF,S,R,1,0.02
+conference,MVC,OF,L,L,13,0.3714
+conference,MVC,OF,L,R,8,0.2286
+conference,MVC,OF,R,L,1,0.0286
+conference,MVC,OF,R,R,13,0.3714
+conference,MVC,UT/DH,L,R,1,0.25
+conference,MVC,UT/DH,R,R,3,0.75
+conference,MVC,two-way,L,L,1,0.1667
+conference,MVC,two-way,R,L,1,0.1667
+conference,MVC,two-way,R,R,4,0.6667
+conference,MVC,unknown,L,R,1,1.0
+conference,Mountain West,P,L,L,17,0.191
+conference,Mountain West,P,L,R,4,0.0449
+conference,Mountain West,P,R,L,3,0.0337
+conference,Mountain West,P,R,R,64,0.7191
+conference,Mountain West,P,S,L,1,0.0112
+conference,Mountain West,C,L,R,4,0.2
+conference,Mountain West,C,R,R,14,0.7
+conference,Mountain West,C,S,R,2,0.1
+conference,Mountain West,1B,L,L,1,0.5
+conference,Mountain West,1B,R,R,1,0.5
+conference,Mountain West,IF,L,R,5,0.1389
+conference,Mountain West,IF,R,R,31,0.8611
+conference,Mountain West,OF,L,L,5,0.1724
+conference,Mountain West,OF,L,R,8,0.2759
+conference,Mountain West,OF,R,L,1,0.0345
+conference,Mountain West,OF,R,R,15,0.5172
+conference,Mountain West,UT/DH,R,L,1,0.3333
+conference,Mountain West,UT/DH,R,R,2,0.6667
+conference,Mountain West,two-way,L,L,3,0.375
+conference,Mountain West,two-way,R,L,1,0.125
+conference,Mountain West,two-way,R,R,4,0.5
+conference,Mountain West,unknown,L,R,1,1.0
+conference,OVC,P,L,L,22,0.1964
+conference,OVC,P,L,R,1,0.0089
+conference,OVC,P,R,L,4,0.0357
+conference,OVC,P,R,R,85,0.7589
+conference,OVC,C,L,R,4,0.1905
+conference,OVC,C,R,R,17,0.8095
+conference,OVC,IF,L,L,2,0.0426
+conference,OVC,IF,L,R,11,0.234
+conference,OVC,IF,R,R,34,0.7234
+conference,OVC,OF,L,L,4,0.1333
+conference,OVC,OF,L,R,6,0.2
+conference,OVC,OF,R,R,20,0.6667
+conference,OVC,UT/DH,L,L,1,0.1429
+conference,OVC,UT/DH,L,R,1,0.1429
+conference,OVC,UT/DH,R,R,5,0.7143
+conference,OVC,two-way,L,R,2,0.4
+conference,OVC,two-way,R,L,1,0.2
+conference,OVC,two-way,R,R,2,0.4
+conference,Patriot,P,L,L,9,0.15
+conference,Patriot,P,L,R,4,0.0667
+conference,Patriot,P,R,L,4,0.0667
+conference,Patriot,P,R,R,43,0.7167
+conference,Patriot,C,L,R,1,0.1
+conference,Patriot,C,R,R,9,0.9
+conference,Patriot,1B,L,L,1,0.3333
+conference,Patriot,1B,L,R,1,0.3333
+conference,Patriot,1B,R,R,1,0.3333
+conference,Patriot,IF,L,L,1,0.0455
+conference,Patriot,IF,L,R,2,0.0909
+conference,Patriot,IF,R,R,17,0.7727
+conference,Patriot,IF,S,R,2,0.0909
+conference,Patriot,OF,L,L,2,0.1333
+conference,Patriot,OF,L,R,7,0.4667
+conference,Patriot,OF,R,R,6,0.4
+conference,Patriot,two-way,L,L,1,0.5
+conference,Patriot,two-way,R,R,1,0.5
+conference,SEC,P,L,L,65,0.2434
+conference,SEC,P,L,R,18,0.0674
+conference,SEC,P,R,L,17,0.0637
+conference,SEC,P,R,R,164,0.6142
+conference,SEC,P,S,L,1,0.0037
+conference,SEC,P,S,R,2,0.0075
+conference,SEC,C,L,R,8,0.2051
+conference,SEC,C,R,R,27,0.6923
+conference,SEC,C,S,R,4,0.1026
+conference,SEC,1B,L,L,1,0.3333
+conference,SEC,1B,R,R,2,0.6667
+conference,SEC,IF,L,L,3,0.0278
+conference,SEC,IF,L,R,34,0.3148
+conference,SEC,IF,R,R,62,0.5741
+conference,SEC,IF,S,L,1,0.0093
+conference,SEC,IF,S,R,8,0.0741
+conference,SEC,OF,L,L,19,0.2676
+conference,SEC,OF,L,R,19,0.2676
+conference,SEC,OF,R,L,1,0.0141
+conference,SEC,OF,R,R,30,0.4225
+conference,SEC,OF,S,R,2,0.0282
+conference,SEC,UT/DH,L,R,2,0.3333
+conference,SEC,UT/DH,R,R,3,0.5
+conference,SEC,UT/DH,S,R,1,0.1667
+conference,SEC,two-way,L,L,5,0.3333
+conference,SEC,two-way,L,R,1,0.0667
+conference,SEC,two-way,R,R,9,0.6
+conference,SWAC,P,L,L,12,0.3529
+conference,SWAC,P,L,R,1,0.0294
+conference,SWAC,P,R,R,21,0.6176
+conference,SWAC,C,L,R,2,0.25
+conference,SWAC,C,R,R,6,0.75
+conference,SWAC,1B,R,R,1,1.0
+conference,SWAC,IF,L,L,1,0.0625
+conference,SWAC,IF,L,R,2,0.125
+conference,SWAC,IF,R,R,13,0.8125
+conference,SWAC,OF,L,L,5,0.3846
+conference,SWAC,OF,R,R,8,0.6154
+conference,SWAC,UT/DH,L,R,2,0.2857
+conference,SWAC,UT/DH,R,R,5,0.7143
+conference,SWAC,two-way,L,L,1,0.25
+conference,SWAC,two-way,R,R,3,0.75
+conference,SoCon,P,L,L,18,0.25
+conference,SoCon,P,L,R,2,0.0278
+conference,SoCon,P,R,L,1,0.0139
+conference,SoCon,P,R,R,51,0.7083
+conference,SoCon,C,L,R,1,0.0667
+conference,SoCon,C,R,R,14,0.9333
+conference,SoCon,1B,L,R,1,0.5
+conference,SoCon,1B,R,R,1,0.5
+conference,SoCon,IF,L,L,1,0.0417
+conference,SoCon,IF,L,R,1,0.0417
+conference,SoCon,IF,R,R,20,0.8333
+conference,SoCon,IF,S,R,2,0.0833
+conference,SoCon,OF,L,L,1,0.0556
+conference,SoCon,OF,L,R,4,0.2222
+conference,SoCon,OF,R,R,12,0.6667
+conference,SoCon,OF,S,R,1,0.0556
+conference,SoCon,UT/DH,L,R,1,0.5
+conference,SoCon,UT/DH,R,R,1,0.5
+conference,SoCon,two-way,L,L,3,0.25
+conference,SoCon,two-way,L,R,4,0.3333
+conference,SoCon,two-way,R,R,5,0.4167
+conference,Southland,P,L,L,11,0.1833
+conference,Southland,P,L,R,1,0.0167
+conference,Southland,P,R,R,47,0.7833
+conference,Southland,P,S,R,1,0.0167
+conference,Southland,C,L,R,3,0.2
+conference,Southland,C,R,R,12,0.8
+conference,Southland,1B,L,L,1,1.0
+conference,Southland,IF,L,L,2,0.08
+conference,Southland,IF,L,R,1,0.04
+conference,Southland,IF,R,R,21,0.84
+conference,Southland,IF,S,R,1,0.04
+conference,Southland,OF,L,L,6,0.3333
+conference,Southland,OF,L,R,3,0.1667
+conference,Southland,OF,R,R,9,0.5
+conference,Southland,UT/DH,L,R,2,0.4
+conference,Southland,UT/DH,R,R,3,0.6
+conference,Southland,two-way,L,L,1,0.5
+conference,Southland,two-way,R,R,1,0.5
+conference,Southland,unknown,R,R,1,1.0
+conference,Summit League,P,L,L,12,0.2105
+conference,Summit League,P,L,R,2,0.0351
+conference,Summit League,P,R,L,1,0.0175
+conference,Summit League,P,R,R,42,0.7368
+conference,Summit League,C,L,R,1,0.1111
+conference,Summit League,C,R,R,8,0.8889
+conference,Summit League,IF,L,L,1,0.0417
+conference,Summit League,IF,L,R,8,0.3333
+conference,Summit League,IF,R,R,14,0.5833
+conference,Summit League,IF,S,R,1,0.0417
+conference,Summit League,OF,L,L,5,0.3125
+conference,Summit League,OF,L,R,4,0.25
+conference,Summit League,OF,R,R,7,0.4375
+conference,Summit League,two-way,L,L,3,0.4286
+conference,Summit League,two-way,R,L,1,0.1429
+conference,Summit League,two-way,R,R,3,0.4286
+conference,Sun Belt,P,L,L,56,0.3146
+conference,Sun Belt,P,L,R,5,0.0281
+conference,Sun Belt,P,R,L,2,0.0112
+conference,Sun Belt,P,R,R,115,0.6461
+conference,Sun Belt,C,L,R,4,0.1212
+conference,Sun Belt,C,R,R,27,0.8182
+conference,Sun Belt,C,S,R,2,0.0606
+conference,Sun Belt,1B,L,L,2,0.6667
+conference,Sun Belt,1B,L,R,1,0.3333
+conference,Sun Belt,IF,L,L,1,0.0147
+conference,Sun Belt,IF,L,R,21,0.3088
+conference,Sun Belt,IF,R,R,41,0.6029
+conference,Sun Belt,IF,S,R,5,0.0735
+conference,Sun Belt,OF,L,L,16,0.2963
+conference,Sun Belt,OF,L,R,13,0.2407
+conference,Sun Belt,OF,R,R,24,0.4444
+conference,Sun Belt,OF,S,R,1,0.0185
+conference,Sun Belt,UT/DH,L,R,1,0.25
+conference,Sun Belt,UT/DH,R,R,2,0.5
+conference,Sun Belt,UT/DH,S,R,1,0.25
+conference,Sun Belt,two-way,L,L,5,0.3571
+conference,Sun Belt,two-way,L,R,2,0.1429
+conference,Sun Belt,two-way,R,R,7,0.5
+conference,The American,P,L,L,35,0.2381
+conference,The American,P,L,R,4,0.0272
+conference,The American,P,R,L,6,0.0408
+conference,The American,P,R,R,100,0.6803
+conference,The American,P,S,L,1,0.0068
+conference,The American,P,S,R,1,0.0068
+conference,The American,C,L,R,4,0.1538
+conference,The American,C,R,R,21,0.8077
+conference,The American,C,S,R,1,0.0385
+conference,The American,1B,L,R,1,0.25
+conference,The American,1B,R,L,1,0.25
+conference,The American,1B,R,R,1,0.25
+conference,The American,1B,S,R,1,0.25
+conference,The American,IF,L,L,2,0.0317
+conference,The American,IF,L,R,18,0.2857
+conference,The American,IF,R,R,37,0.5873
+conference,The American,IF,S,R,6,0.0952
+conference,The American,OF,L,L,8,0.2105
+conference,The American,OF,L,R,10,0.2632
+conference,The American,OF,R,L,1,0.0263
+conference,The American,OF,R,R,17,0.4474
+conference,The American,OF,S,L,1,0.0263
+conference,The American,OF,S,R,1,0.0263
+conference,The American,UT/DH,R,R,3,1.0
+conference,The American,two-way,L,L,2,0.25
+conference,The American,two-way,L,R,1,0.125
+conference,The American,two-way,R,R,5,0.625
+conference,WAC,P,L,L,24,0.1752
+conference,WAC,P,L,R,4,0.0292
+conference,WAC,P,R,L,4,0.0292
+conference,WAC,P,R,R,103,0.7518
+conference,WAC,P,S,L,1,0.0073
+conference,WAC,P,S,R,1,0.0073
+conference,WAC,C,L,R,6,0.2308
+conference,WAC,C,R,R,17,0.6538
+conference,WAC,C,S,R,3,0.1154
+conference,WAC,1B,L,L,2,0.5
+conference,WAC,1B,L,R,2,0.5
+conference,WAC,IF,L,R,20,0.3704
+conference,WAC,IF,R,R,29,0.537
+conference,WAC,IF,S,R,5,0.0926
+conference,WAC,OF,L,L,11,0.2683
+conference,WAC,OF,L,R,8,0.1951
+conference,WAC,OF,R,R,19,0.4634
+conference,WAC,OF,S,L,1,0.0244
+conference,WAC,OF,S,R,2,0.0488
+conference,WAC,UT/DH,L,L,1,0.1667
+conference,WAC,UT/DH,L,R,1,0.1667
+conference,WAC,UT/DH,R,R,3,0.5
+conference,WAC,UT/DH,S,R,1,0.1667
+conference,WAC,two-way,L,L,2,0.2857
+conference,WAC,two-way,L,R,2,0.2857
+conference,WAC,two-way,R,R,3,0.4286
+conference,WAC,unknown,R,R,2,1.0
+conference,WCC,P,L,L,28,0.2314
+conference,WCC,P,L,R,8,0.0661
+conference,WCC,P,R,L,1,0.0083
+conference,WCC,P,R,R,83,0.686
+conference,WCC,P,S,R,1,0.0083
+conference,WCC,C,L,R,2,0.0741
+conference,WCC,C,R,R,25,0.9259
+conference,WCC,1B,L,L,3,0.3333
+conference,WCC,1B,L,R,3,0.3333
+conference,WCC,1B,R,R,3,0.3333
+conference,WCC,IF,L,R,10,0.1667
+conference,WCC,IF,R,R,45,0.75
+conference,WCC,IF,S,R,5,0.0833
+conference,WCC,OF,L,L,5,0.1351
+conference,WCC,OF,L,R,9,0.2432
+conference,WCC,OF,R,R,22,0.5946
+conference,WCC,OF,S,R,1,0.027
+conference,WCC,UT/DH,L,R,1,0.5
+conference,WCC,UT/DH,R,R,1,0.5
+conference,WCC,two-way,L,L,6,0.2609
+conference,WCC,two-way,L,R,4,0.1739
+conference,WCC,two-way,R,R,13,0.5652
+tier,low,P,L,L,92,0.2
+tier,low,P,L,R,12,0.0261
+tier,low,P,R,L,10,0.0217
+tier,low,P,R,R,345,0.75
+tier,low,P,S,R,1,0.0022
+tier,low,C,L,R,17,0.1735
+tier,low,C,R,R,78,0.7959
+tier,low,C,S,R,3,0.0306
+tier,low,1B,L,L,3,0.3
+tier,low,1B,L,R,3,0.3
+tier,low,1B,R,R,4,0.4
+tier,low,IF,L,L,8,0.0406
+tier,low,IF,L,R,42,0.2132
+tier,low,IF,R,R,140,0.7107
+tier,low,IF,S,R,7,0.0355
+tier,low,OF,L,L,29,0.2164
+tier,low,OF,L,R,27,0.2015
+tier,low,OF,R,L,2,0.0149
+tier,low,OF,R,R,75,0.5597
+tier,low,OF,S,L,1,0.0075
+tier,low,UT/DH,L,L,1,0.0385
+tier,low,UT/DH,L,R,8,0.3077
+tier,low,UT/DH,R,R,17,0.6538
+tier,low,two-way,L,L,9,0.2571
+tier,low,two-way,L,R,3,0.0857
+tier,low,two-way,R,L,2,0.0571
+tier,low,two-way,R,R,21,0.6
+tier,low,unknown,R,R,1,1.0
+tier,mid,P,L,L,373,0.2337
+tier,mid,P,L,R,42,0.0263
+tier,mid,P,R,L,38,0.0238
+tier,mid,P,R,R,1133,0.7099
+tier,mid,P,S,L,5,0.0031
+tier,mid,P,S,R,5,0.0031
+tier,mid,C,L,R,50,0.1558
+tier,mid,C,R,L,1,0.0031
+tier,mid,C,R,R,255,0.7944
+tier,mid,C,S,R,15,0.0467
+tier,mid,1B,L,L,17,0.2742
+tier,mid,1B,L,R,17,0.2742
+tier,mid,1B,R,L,1,0.0161
+tier,mid,1B,R,R,25,0.4032
+tier,mid,1B,S,R,2,0.0323
+tier,mid,IF,L,L,14,0.0218
+tier,mid,IF,L,R,163,0.2535
+tier,mid,IF,R,L,2,0.0031
+tier,mid,IF,R,R,424,0.6594
+tier,mid,IF,S,R,40,0.0622
+tier,mid,OF,L,L,112,0.2393
+tier,mid,OF,L,R,103,0.2201
+tier,mid,OF,R,L,6,0.0128
+tier,mid,OF,R,R,228,0.4872
+tier,mid,OF,S,L,5,0.0107
+tier,mid,OF,S,R,14,0.0299
+tier,mid,UT/DH,L,L,2,0.0364
+tier,mid,UT/DH,L,R,14,0.2545
+tier,mid,UT/DH,R,L,1,0.0182
+tier,mid,UT/DH,R,R,35,0.6364
+tier,mid,UT/DH,S,L,1,0.0182
+tier,mid,UT/DH,S,R,2,0.0364
+tier,mid,two-way,L,L,37,0.319
+tier,mid,two-way,L,R,16,0.1379
+tier,mid,two-way,R,L,2,0.0172
+tier,mid,two-way,R,R,61,0.5259
+tier,mid,unknown,L,R,4,0.5
+tier,mid,unknown,R,R,4,0.5
+tier,p4,P,L,L,241,0.2358
+tier,p4,P,L,R,48,0.047
+tier,p4,P,R,L,57,0.0558
+tier,p4,P,R,R,666,0.6517
+tier,p4,P,S,L,4,0.0039
+tier,p4,P,S,R,6,0.0059
+tier,p4,C,L,R,39,0.2294
+tier,p4,C,R,R,116,0.6824
+tier,p4,C,S,R,15,0.0882
+tier,p4,1B,L,L,8,0.2963
+tier,p4,1B,L,R,10,0.3704
+tier,p4,1B,R,L,2,0.0741
+tier,p4,1B,R,R,6,0.2222
+tier,p4,1B,S,L,1,0.037
+tier,p4,IF,L,L,9,0.0228
+tier,p4,IF,L,R,113,0.2861
+tier,p4,IF,R,R,250,0.6329
+tier,p4,IF,S,L,1,0.0025
+tier,p4,IF,S,R,22,0.0557
+tier,p4,OF,L,L,75,0.2708
+tier,p4,OF,L,R,69,0.2491
+tier,p4,OF,R,L,4,0.0144
+tier,p4,OF,R,R,122,0.4404
+tier,p4,OF,S,R,7,0.0253
+tier,p4,UT/DH,L,L,1,0.0323
+tier,p4,UT/DH,L,R,11,0.3548
+tier,p4,UT/DH,R,L,1,0.0323
+tier,p4,UT/DH,R,R,15,0.4839
+tier,p4,UT/DH,S,R,3,0.0968
+tier,p4,two-way,L,L,16,0.2667
+tier,p4,two-way,L,R,7,0.1167
+tier,p4,two-way,R,L,2,0.0333
+tier,p4,two-way,R,R,34,0.5667
+tier,p4,two-way,S,R,1,0.0167
+tier,p4,unknown,L,L,5,0.1316
+tier,p4,unknown,L,R,10,0.2632
+tier,p4,unknown,R,L,2,0.0526
+tier,p4,unknown,R,R,21,0.5526

@@ -1,0 +1,7 @@
+team_ncaa_id,team,domain,platform,status,reason
+596583,LSU,lsusports.net,WMT,ok: 40 players (json),
+596514,UCLA,uclabruins.com,WMT,ok: 40 players (table),
+596607,Ole Miss,olemisssports.com,Sidearm,ok: 40 players (table),
+596523,Clemson,clemsontigers.com,WMT,ok: 40 players (json),
+596488,Little Rock,lrtrojans.com,unknown,failed,/sports/baseball/roster/2025: disallowed by robots.txt; /sports/bsb/roster/season/2025: disallowed by robots.txt; /sports/baseball/roster/season/2025: disallowed by robots.txt; /sports/baseball/roster/2024-25: disallowed by robots.txt; /sports/bsb/2024-25/roster: disallowed by robots.txt; /roster.as
+596683,SIUE,siuecougars.com,Presto,ok: 36 players (table),
