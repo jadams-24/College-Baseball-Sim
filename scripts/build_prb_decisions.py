@@ -98,11 +98,12 @@ def features(df, lead_col, first_open: bool = False) -> tuple[np.ndarray, list]:
 
 
 def selection_free(pa: pd.DataFrame) -> dict:
-    """Diagnostic for the path rows: attempts by plate-appearance length over every plate appearance that began with a
-    lead runner able to steal and has a ball or strike, whatever base running came first; an attempt is any steal or
-    caught stealing during it (its own line or written into the plate appearance's line). The gated rows leave out
-    the plate appearances in which a wild pitch, passed ball, pickoff or balk came first, which are more often long;
-    the engine draws those events before the pitches, so it has no such selection."""
+    """The gated steal-path sample (owner decision 2026-10-07): every plate appearance that began with a lead runner
+    able to steal and has a ball or strike, whatever base running came first, so nothing is selected on what happened
+    during it; an attempt is any steal or caught stealing during it (its own line, or written into the plate
+    appearance's line on its last pitch), success that of the first. By length (8+ pooled) and final count. The
+    first-event sample (scripts/build_prb_steals.py eligible()) leaves out the plate appearances in which a wild pitch,
+    passed ball, pickoff or balk came first, more often long ones; it stays as a diagnostic."""
     d = pa[pa.pitch_seq.notna()].copy()
     on1, on2, on3 = d.on1_0.astype(bool), d.on2_0.astype(bool), d.on3_0.astype(bool)
     d = d[(on1 & ~on2) | (on2 & ~on3)].copy()
@@ -110,17 +111,23 @@ def selection_free(pa: pd.DataFrame) -> dict:
     nbks = seq.str.count("[BKS]") - ((res == "HBP") & seq.str[-1:].str.contains("[BKS]")).astype(int)
     d = d[nbks > 0].copy()
     re_ = pd.read_csv(ROOT / "data/ncaa_2025/pbp/parsed/runner_events_2025.csv.gz")
-    keys = d[["game_id", "group_id", "inning", "half"]].rename(columns={"group_id": "pa_gid", "inning": "pi", "half": "ph"}).sort_values("pa_gid")
     allk = pa[["game_id", "group_id", "inning", "half"]].rename(columns={"group_id": "pa_gid", "inning": "pi", "half": "ph"}).sort_values("pa_gid")
     m = pd.merge_asof(re_.sort_values("group_id").rename(columns={"group_id": "gid"}), allk, left_on="gid", right_on="pa_gid",
                       by="game_id", direction="forward")
-    m = m[(m.inning == m.pi) & (m.half == m.ph) & m.event.isin(["SB", "CS"])]
-    hit = set(m.pa_gid)
+    m = m[(m.inning == m.pi) & (m.half == m.ph) & m.event.isin(["SB", "CS"])].sort_values(["pa_gid", "gid"])
+    first = m.groupby("pa_gid").event.first()
     after = d.text.fillna("").str.split(r"\)|;", n=1, regex=True).str[1].fillna("")
-    d["att"] = d.group_id.isin(hit) | after.str.contains(r"stole|caught stealing", case=False)
+    last = after.str.contains(r"stole|caught stealing", case=False)
+    last_ok = after.str.contains("stole", case=False) & ~after.str.contains("caught stealing", case=False)
+    ev = d.group_id.map(first)
+    d["att"] = ev.notna() | last
+    d["ok"] = np.where(ev.notna(), ev == "SB", last_ok)
     d["n"] = d.pitches.clip(upper=8)
-    del keys
-    return {str(int(k)): {"pas": int(v.size), "attempts": int(v.sum())} for k, v in d.groupby("n").att}
+    d["fc"] = [final_count(str(x)) for x in d.pitch_seq]
+    by = lambda col: {str(int(k)) if col == "n" else k: {"pas": int(len(v)), "attempts": int(v.att.sum()), "steals": int((v.att & v.ok).sum())}
+                      for k, v in d.groupby(col)}
+    return {"by_length": by("n"), "by_final_count": by("fc"),
+            "all": {"pas": int(len(d)), "attempts": int(d.att.sum()), "steals": int((d.att & d.ok).sum())}}
 
 
 CELLS = [f"{o}|{a}{b}{c}" for o in range(3) for a in (0, 1) for b in (0, 1) for c in (0, 1)]
@@ -274,7 +281,9 @@ def main() -> None:
                      "begin with a lead runner able to steal and whose first base-running event is a steal or none, the steal "
                      "counted in the plate appearance it happened in (scripts/build_prb_steals.py eligible())")
     out["bench"] = bench
-    OUT.write_text(json.dumps(out, indent=1, default=float) + "\n")
+    tmp = OUT.with_suffix(".tmp")
+    tmp.write_text(json.dumps(out, indent=1, default=float) + "\n")
+    tmp.replace(OUT)                                   # atomic: a running simulation may be reading it
     print(json.dumps({k: v for k, v in bench.items() if not isinstance(v, dict)}, indent=1))
     print("pitcher hold", out["pitcher_hold"])
     print("bunt ai", dict(zip(out["bunt_ai"]["names"], out["bunt_ai"]["coef"])))

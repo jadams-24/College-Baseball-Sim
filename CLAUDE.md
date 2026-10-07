@@ -33,6 +33,12 @@ Phases advance only when the gate passes. Do not build ahead of the current phas
 
   The Phase 4 Contact slope fell to .976–.991 once Phase 6 fielding was on. The forward test's expectation now includes the defense faced (the fielding team's reached-on-error odds move outs to errors and back); at 40 seasons the slope is .994 ± .014. Ablations: PHASE0_NOTES, Phase 6.
 
+  PR B (decisions that change outcomes, 2026-10-07) adds a decisions section to the Phase 6 report, gated on the AI's decisions:
+  - steal attempts per team-game;
+  - bunts, sacrifice hits, bunt hits and intentional walks per team-game;
+  - steal attempts and success by observed pitch path (the sample free of selection; the first-event sample is a diagnostic).
+  Runs per team-game and ERA, moved by the decisions with every rate unchanged, are gated against real data (Phase 2 and Phase 6 reports) instead of against the Phase 4 run. Owner decision 2026-10-07; details in PHASE0_NOTES, "Decisions that change outcomes".
+
   PA per team-game is gated against real data in the Phase 6 report (40.31 ± 1.0), not against the Phase 4 run: the per-opportunity base running (2026-10-04) has fewer caught-stealing and pickoff outs, so more plate appearances. Errors and earned share are gated the same way, because Phase 6 fielding moves them.
 
   A watch item is marked closed only when a 40-season run confirms it (owner decision 2026-10-04).

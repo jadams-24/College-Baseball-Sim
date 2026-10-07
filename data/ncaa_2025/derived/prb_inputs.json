@@ -1027,37 +1027,114 @@
    }
   },
   "steal_attempt_by_pa_length_all": {
-   "1": {
-    "pas": 52,
-    "attempts": 4
+   "by_length": {
+    "1": {
+     "pas": 52,
+     "attempts": 4,
+     "steals": 4
+    },
+    "2": {
+     "pas": 9211,
+     "attempts": 176,
+     "steals": 154
+    },
+    "3": {
+     "pas": 12145,
+     "attempts": 515,
+     "steals": 448
+    },
+    "4": {
+     "pas": 13402,
+     "attempts": 889,
+     "steals": 759
+    },
+    "5": {
+     "pas": 12348,
+     "attempts": 1124,
+     "steals": 975
+    },
+    "6": {
+     "pas": 8843,
+     "attempts": 1219,
+     "steals": 1014
+    },
+    "7": {
+     "pas": 3441,
+     "attempts": 584,
+     "steals": 517
+    },
+    "8": {
+     "pas": 2021,
+     "attempts": 348,
+     "steals": 292
+    }
    },
-   "2": {
-    "pas": 9211,
-    "attempts": 176
+   "by_final_count": {
+    "0-0": {
+     "pas": 52,
+     "attempts": 4,
+     "steals": 4
+    },
+    "0-1": {
+     "pas": 4383,
+     "attempts": 100,
+     "steals": 86
+    },
+    "0-2": {
+     "pas": 5933,
+     "attempts": 274,
+     "steals": 230
+    },
+    "1-0": {
+     "pas": 4949,
+     "attempts": 112,
+     "steals": 99
+    },
+    "1-1": {
+     "pas": 5461,
+     "attempts": 257,
+     "steals": 227
+    },
+    "1-2": {
+     "pas": 9936,
+     "attempts": 719,
+     "steals": 607
+    },
+    "2-0": {
+     "pas": 1917,
+     "attempts": 86,
+     "steals": 80
+    },
+    "2-1": {
+     "pas": 3324,
+     "attempts": 240,
+     "steals": 214
+    },
+    "2-2": {
+     "pas": 9042,
+     "attempts": 978,
+     "steals": 827
+    },
+    "3-0": {
+     "pas": 1846,
+     "attempts": 117,
+     "steals": 103
+    },
+    "3-1": {
+     "pas": 4453,
+     "attempts": 444,
+     "steals": 388
+    },
+    "3-2": {
+     "pas": 10167,
+     "attempts": 1528,
+     "steals": 1298
+    }
    },
-   "3": {
-    "pas": 12145,
-    "attempts": 515
-   },
-   "4": {
-    "pas": 13402,
-    "attempts": 889
-   },
-   "5": {
-    "pas": 12348,
-    "attempts": 1124
-   },
-   "6": {
-    "pas": 8843,
-    "attempts": 1219
-   },
-   "7": {
-    "pas": 3441,
-    "attempts": 584
-   },
-   "8": {
-    "pas": 2021,
-    "attempts": 348
+   "all": {
+    "pas": 61463,
+    "attempts": 4859,
+    "steals": 4163
    }
   },
   "note": "WMT play-by-play 2025 (54 programs and every other WMT-covered game); attempts by path: plate appearances that begin with a lead runner able to steal and whose first base-running event is a steal or none, the steal counted in the plate appearance it happened in (scripts/build_prb_steals.py eligible())"

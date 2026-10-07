@@ -577,11 +577,17 @@ Measured on committed data, no simulation (`scripts/diag_sizes.py`, `reports/dia
 - Data: steal attempt and success by count and game state, double-steal destinations, pickoff scoring, bunt and intentional-walk rates by game state, bunt outcomes and destinations, the pitcher's hold on attempts (SD .470 logit).
 - Guess: two-strike bunts, the bunting batter's pitch mix (completed bunts only), the hold's effect on success (not detectable, SD 0), pitchout, hit-and-run, mound visits, no straight steal of home.
 
+**Gate decisions (owner, 2026-10-07).**
+- Steals by pitch path are gated on the sample free of selection. That sample is every plate appearance that began with a lead runner able to steal and has a ball or strike, whatever base running came first. An attempt is any steal or caught stealing during it, and success is that of the first. It is computed the same way on the play-by-play (`scripts/build_prb_decisions.py` `selection_free()`) and on the simulated plate appearances.
+- The first-event sample stays as a diagnostic. It leaves out the plate appearances in which a wild pitch, passed ball, pickoff or balk came first, which are more often long ones; the engine draws those events before the pitches, so the sim has no such selection. On the play-by-play the selection raises the attempt rate at 7 pitches from .170 to .193.
+- Steal attempts per team-game and the success rate stay gated.
+- In the Phase 5 "PA-level outcomes unchanged from Phase 4" block, runs per team-game and ERA are moved on purpose by the decisions (sacrifice bunts, intentional walks, steals) with every rate unchanged. They are gated against real data instead, as Phase 6 did for PA per team-game, errors and earned share: runs per team-game in the Phase 2 report and ERA in the Phase 6 report (`league_totals_2025.era`, 6.08 ± .30).
+
 **Benchmarks (2026-10-07).**
 - `league_totals_2025.sb_attempts_per_team_game` gets a tolerance, 0.131: the stolen-base row's relative tolerance (0.1 / 1.098) on the same box-score sample. It was reported, not gated, before.
 - New block `decisions_2025`, from the 2025 play-by-play (4,464 team-games), tolerance 3 SE:
   - bunts, sacrifice hits, bunt hits and intentional walks per team-game;
-  - steal attempts and success per eligible plate appearance, by length (2 to 8+ pitches) and by final count.
+  - steal attempts and success per eligible plate appearance, by length (2 to 8+ pitches) and by final count, on the sample free of selection (`steal_paths`); the first-event sample is kept as `steal_paths_first_event` (diagnostic).
 
 ## Bibliography
 

@@ -1573,6 +1573,154 @@
       "conf": "B"
     },
     "steal_paths": {
+      "_note": "Gated (owner decision 2026-10-07): every plate appearance that began with a lead runner able to steal (runner on first with second open, else on second with third open) and has a ball or strike, whatever base running came first; an attempt is any steal or caught stealing during it, success that of the first (scripts/build_prb_decisions.py selection_free()). The same definition on the simulated plate appearances (engine.game2 path_all_rec). Length 8 pools 8 or more pitches; length 1 and final count 0-0 (52 plate appearances) left out. Tolerance 3 SE (binomial).",
+      "attempt_per_pa": {
+        "value": 0.0791,
+        "tol": 0.0033,
+        "pas": 61463,
+        "attempts": 4859
+      },
+      "success": {
+        "value": 0.8568,
+        "tol": 0.0151,
+        "attempts": 4859,
+        "steals": 4163
+      },
+      "by_length": {
+        "2": {
+          "pas": 9211,
+          "attempts": 176,
+          "steals": 154,
+          "attempt": 0.0191,
+          "tol_attempt": 0.0043,
+          "success": 0.875,
+          "tol_success": 0.0748
+        },
+        "3": {
+          "pas": 12145,
+          "attempts": 515,
+          "steals": 448,
+          "attempt": 0.0424,
+          "tol_attempt": 0.0055,
+          "success": 0.8699,
+          "tol_success": 0.0445
+        },
+        "4": {
+          "pas": 13402,
+          "attempts": 889,
+          "steals": 759,
+          "attempt": 0.0663,
+          "tol_attempt": 0.0064,
+          "success": 0.8538,
+          "tol_success": 0.0356
+        },
+        "5": {
+          "pas": 12348,
+          "attempts": 1124,
+          "steals": 975,
+          "attempt": 0.091,
+          "tol_attempt": 0.0078,
+          "success": 0.8674,
+          "tol_success": 0.0303
+        },
+        "6": {
+          "pas": 8843,
+          "attempts": 1219,
+          "steals": 1014,
+          "attempt": 0.1378,
+          "tol_attempt": 0.011,
+          "success": 0.8318,
+          "tol_success": 0.0321
+        },
+        "7": {
+          "pas": 3441,
+          "attempts": 584,
+          "steals": 517,
+          "attempt": 0.1697,
+          "tol_attempt": 0.0192,
+          "success": 0.8853,
+          "tol_success": 0.0396
+        },
+        "8": {
+          "pas": 2021,
+          "attempts": 348,
+          "steals": 292,
+          "attempt": 0.1722,
+          "tol_attempt": 0.0252,
+          "success": 0.8391,
+          "tol_success": 0.0591
+        }
+      },
+      "by_final_count": {
+        "0-1": {
+          "pas": 4383,
+          "attempts": 100,
+          "attempt": 0.0228,
+          "tol_attempt": 0.0068
+        },
+        "0-2": {
+          "pas": 5933,
+          "attempts": 274,
+          "attempt": 0.0462,
+          "tol_attempt": 0.0082
+        },
+        "1-0": {
+          "pas": 4949,
+          "attempts": 112,
+          "attempt": 0.0226,
+          "tol_attempt": 0.0063
+        },
+        "1-1": {
+          "pas": 5461,
+          "attempts": 257,
+          "attempt": 0.0471,
+          "tol_attempt": 0.0086
+        },
+        "1-2": {
+          "pas": 9936,
+          "attempts": 719,
+          "attempt": 0.0724,
+          "tol_attempt": 0.0078
+        },
+        "2-0": {
+          "pas": 1917,
+          "attempts": 86,
+          "attempt": 0.0449,
+          "tol_attempt": 0.0142
+        },
+        "2-1": {
+          "pas": 3324,
+          "attempts": 240,
+          "attempt": 0.0722,
+          "tol_attempt": 0.0135
+        },
+        "2-2": {
+          "pas": 9042,
+          "attempts": 978,
+          "attempt": 0.1082,
+          "tol_attempt": 0.0098
+        },
+        "3-0": {
+          "pas": 1846,
+          "attempts": 117,
+          "attempt": 0.0634,
+          "tol_attempt": 0.017
+        },
+        "3-1": {
+          "pas": 4453,
+          "attempts": 444,
+          "attempt": 0.0997,
+          "tol_attempt": 0.0135
+        },
+        "3-2": {
+          "pas": 10167,
+          "attempts": 1528,
+          "attempt": 0.1503,
+          "tol_attempt": 0.0106
+        }
+      }
+    },
+    "steal_paths_first_event": {
       "attempt_per_pa": {
         "value": 0.0844,
         "tol": 0.0035,
@@ -1718,7 +1866,7 @@
           "tol_attempt": 0.0119
         }
       },
-      "_note": "length 8 pools 8 or more pitches; length 1 and final count 0-0 (48 plate appearances) left out"
+      "_note": "Diagnostic, not gated (owner decision 2026-10-07): the first-event sample, plate appearances whose first base-running event is a steal or none (scripts/build_prb_steals.py eligible()). It leaves out those in which a wild pitch, passed ball, pickoff or balk came first, more often long ones, a selection the engine (which draws those events before the pitches) does not share. Length 8 pools 8 or more pitches; length 1 and final count 0-0 left out."
     }
   }
 }

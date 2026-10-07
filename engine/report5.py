@@ -18,6 +18,7 @@ from pathlib import Path
 
 import numpy as np
 
+from config import decisions as _cdec
 from config import phase6
 from config.phase5 import DEFERRED_TO_PHASE6, MAX_PITCHES_HIST
 from config.phase5 import load as load_pitch
@@ -34,6 +35,7 @@ PHASE6_MOVED = ("errors_per_team_game", "earned_share")
 # moved on purpose by the per-opportunity base running (scripts/build_engine_tables.py): fewer caught-stealing
 # and pickoff outs, so more plate appearances; gated against real data in reports/phase6.md
 BASERUNNING_MOVED = ("pa_per_team_game",)
+DECISIONS_MOVED = ("runs_per_team_game", "era")          # PR B: owner decision 2026-10-07
 QUANTS = (10, 50, 90)
 SPREAD_EVENTS = ("B", "K", "S", "F", "P")     # player_pitch columns 0-4 (H is column 5)
 SPREAD_MIN = 150                               # PA (batters) or BF (pitchers), as in the data comparison
@@ -128,13 +130,22 @@ def build_report5(agg: dict, seeds: list, league: dict, league_se: dict, st2: di
     # rates a Phase 6 mechanism changes on purpose (fielding: errors, and through them earned runs) are
     # gated against real data in reports/phase6.md instead of against the Phase 4 run
     moved = (PHASE6_MOVED if phase6.on("fielding") else ()) + BASERUNNING_MOVED
+    # PR B (owner decision 2026-10-07): the AI's decisions (sacrifice bunts, intentional walks, steals) move runs and
+    # ERA with every rate unchanged; both are gated against real data (runs in reports/phase2.md, ERA in reports/phase6.md)
+    dec_moved = DECISIONS_MOVED if _cdec.on("decisions") else ()
     for key, label in PA_ROWS:
         tol = 3 * np.sqrt(base["se"][key] ** 2 + league_se[key] ** 2)
         ok = abs(league[key] - base["league"][key]) <= tol
-        st[f"pa_unchanged_{key}"] = None if key in moved else bool(ok)
-        if key not in moved:
+        st[f"pa_unchanged_{key}"] = None if (key in moved or key in dec_moved) else bool(ok)
+        if key not in moved and key not in dec_moved:
             st.record(f"pa_unchanged_{key}", league[key], league_se[key])
-        status = ("pass" if ok else "differs") + " (moved on purpose in Phase 6: fielding or base running; gated against data in reports/phase6.md)" if key in moved else ("pass" if ok else "FAIL")
+        if key in dec_moved:
+            status = ("pass" if ok else "differs") + (" (moved on purpose in PR B: decisions; gated against data in reports/"
+                                                       + ("phase2.md" if key == "runs_per_team_game" else "phase6.md") + ")")
+        elif key in moved:
+            status = ("pass" if ok else "differs") + " (moved on purpose in Phase 6: fielding or base running; gated against data in reports/phase6.md)"
+        else:
+            status = "pass" if ok else "FAIL"
         pa_lines.append(f"| {label} | {league[key]:.4f} | {base['league'][key]:.4f} | ±{tol:.4f} | {status} |")
     p2_ok = all(v for v in st2.values() if v is not None)
     p4_ok = all(v for v in st4.values() if v is not None)

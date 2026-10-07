@@ -58,19 +58,19 @@ def season_extract6(res: dict) -> dict:
         # PR B: decisions (per team-game, regular season) and the steal paths
         for k in ("bunts", "SH", "bunt_hits", "ibb"):
             out[f"dec_{k}_per_team_game"] = dc[k] / len(tg)
-        tot = np.sum([v for v in dc["path_by_len"].values()], axis=0)
-        out["path_attempt_per_pa"] = tot[1] / max(tot[0], 1)
-        out["path_success"] = tot[2] / max(tot[1], 1)
-        for L in range(2, 9):
-            n_, a_, k_ = dc["path_by_len"].get(L, (0, 0, 0))
-            out[f"path_len{L}_attempt"] = a_ / max(n_, 1)
-            out[f"path_len{L}_success"] = k_ / a_ if a_ else float("nan")
-        for L in range(2, 9):
-            n_, a_ = dc.get("path_all_by_len", {}).get(L, (0, 0))
-            out[f"path_all_len{L}_attempt"] = a_ / max(n_, 1)
-        for fc in PATH_COUNTS:
-            n_, a_, _ = dc["path_by_fc"].get(fc, (0, 0, 0))
-            out[f"path_fc{fc}_attempt"] = a_ / max(n_, 1)
+        # the steal paths: gated on every plate appearance that began with a lead runner able to steal (path_all_*),
+        # the first-event sample (path_*) as a diagnostic; prefix "path" for the gated, "fe" for the diagnostic
+        for pre, kl, kf in (("path", "path_all_by_len", "path_all_by_fc"), ("fe", "path_by_len", "path_by_fc")):
+            tot = np.sum([v for v in dc[kl].values()], axis=0)
+            out[f"{pre}_attempt_per_pa"] = tot[1] / max(tot[0], 1)
+            out[f"{pre}_success"] = tot[2] / max(tot[1], 1)
+            for L in range(2, 9):
+                n_, a_, k_ = dc[kl].get(L, (0, 0, 0))
+                out[f"{pre}_len{L}_attempt"] = a_ / max(n_, 1)
+                out[f"{pre}_len{L}_success"] = k_ / a_ if a_ else float("nan")
+            for fc in PATH_COUNTS:
+                n_, a_, _ = dc[kf].get(fc, (0, 0, 0))
+                out[f"{pre}_fc{fc}_attempt"] = a_ / max(n_, 1)
     o = res["outings"]
     fs_outs, os_outs, rl_outs = {}, {}, {}
     for pid, started, outs, wd in o:
@@ -186,6 +186,8 @@ def build_report6(agg: dict, agg2: dict, agg5: dict, seeds: list, st2: dict, st4
     # so it is gated against real data here, not against the Phase 4 run (reports/phase5.md)
     row("field", "p6_pa_per_team_game", "PA per team-game", agg2["league"]["pa_per_team_game"], agg2["se"]["league/pa_per_team_game"],
         lt["pa_per_team_game"]["value"], lt["pa_per_team_game"]["tol"], 2, "gated here, not against the Phase 4 run (base running per opportunity moves it)")
+    row("field", "p6_era", "ERA", agg2["league"]["era"], agg2["se"]["league/era"], lt["era"]["value"], lt["era"]["tol"], 3,
+        "gated here, not against the Phase 4 run (PR B decisions move it; owner decision 2026-10-07)")
     row("field", "p6_earned_share", "Earned share of runs", agg2["league"]["earned_share"], agg2["se"]["league/earned_share"], u6["earned_run_share"]["value"],
         u6["earned_run_share"]["tol"], 4, "gated here, not against the Phase 4 run (Phase 6 fielding moves it)")
     for key, label in (("app_max", "Appearances, team's busiest pitcher"), ("app_5th", "Appearances, 5th busiest"), ("app_10th", "Appearances, 10th busiest"),
@@ -220,7 +222,6 @@ def build_report6(agg: dict, agg2: dict, agg5: dict, seeds: list, st2: dict, st4
         st.record("p6_pitchers_50ip", lb["mean"], lb["sd"] / math.sqrt(n))
     rows.append(("deferred", f"| Pitchers with 50+ IP | {lb['mean']:.1f} (seasons {lb['min']:.0f}–{lb['max']:.0f}) | {real} | ±{half:.1f} (95% PI) | {'pass' if ok else 'FAIL'} | "
                              f"{'watch item: ' + WATCH6['p6_pitchers_50ip'] + '. ' if watch else ''}56-game equivalent of the raw {pb['value']} (ratio {pb['ratio_56g']['value']} ± {pb['ratio_56g']['se']}, WMT full-season teams) |"))
-    prb_all = json.loads((ROOT / "data/ncaa_2025/derived/prb_inputs.json").read_text())["bench"]["steal_attempt_by_pa_length_all"]
     # PR B: decisions that change outcomes, with the AI deciding (benchmarks decisions_2025: the play-by-play's games)
     if "dec_bunts_per_team_game" in m:
         sa = lt["sb_attempts_per_team_game"]
@@ -231,8 +232,8 @@ def build_report6(agg: dict, agg2: dict, agg5: dict, seeds: list, st2: dict, st4
                            ("ibb", "Intentional walks per team-game")):
             bz = dz[f"{key}_per_team_game"]
             row("dec", f"pb_{key}", label, m[f"dec_{key}_per_team_game"], se[f"dec_{key}_per_team_game"], bz["value"], bz["tol"], 3)
-        pz = dz["steal_paths"]
-        row("dec", "pb_path_attempt", "Steal attempts per eligible PA (all paths)", m["path_attempt_per_pa"], se["path_attempt_per_pa"],
+        pz, fe = dz["steal_paths"], dz["steal_paths_first_event"]
+        row("dec", "pb_path_attempt", "Steal attempts per eligible PA", m["path_attempt_per_pa"], se["path_attempt_per_pa"],
             pz["attempt_per_pa"]["value"], pz["attempt_per_pa"]["tol"], 4)
         row("dec", "pb_path_success", "Steal success on eligible PAs", m["path_success"], se["path_success"], pz["success"]["value"], pz["success"]["tol"], 3)
         for L in range(2, 9):
@@ -274,14 +275,17 @@ def build_report6(agg: dict, agg2: dict, agg5: dict, seeds: list, st2: dict, st4
              "The AI manager decides; its attempt, bunt and intentional-walk rates are the play-by-play's, by game state "
              "(data/ncaa_2025/derived/prb_steals.json, prb_inputs.json). Benchmarks: the 2025 play-by-play's games, except steal attempts "
              "(box scores, league_totals_2025).", "", hdr, sec("dec"), "",
-             "Steal attempts and success by observed pitch path: plate appearances that began with a lead runner able to steal, no other "
-             "base running first and at least one ball or strike (scripts/build_prb_steals.py eligible()); the attempt counted in the plate "
-             "appearance it happened in. Tolerance: 3 SE of the real share combined with 3 SE of the simulated mean.", "", hdr, sec("path"), "",
-             "Diagnostic, not gated: the same by length over every such plate appearance, whatever base running came first (the gated rows "
-             "leave out those where a wild pitch, passed ball, pickoff or balk came first, more often long ones; the engine draws those "
-             "events before the pitches, so it has no such selection). Sim / real: " + "; ".join(
-                 f"{L}{'+' if L == 8 else ''} pitches {m[f'path_all_len{L}_attempt']:.4f} / "
-                 f"{prb_all[str(L)]['attempts'] / prb_all[str(L)]['pas']:.4f}" for L in range(2, 9)) + ".", ""]
+             "Steal attempts and success by observed pitch path (owner decision 2026-10-07: the sample free of selection): every plate "
+             "appearance that began with a lead runner able to steal and has a ball or strike, whatever base running came first; an attempt "
+             "is any steal or caught stealing during it, counted in the plate appearance it happened in, success that of the first. Computed "
+             "the same way on the play-by-play (scripts/build_prb_decisions.py selection_free()) and on the simulated plate appearances. "
+             "Tolerance: 3 SE of the real share combined with 3 SE of the simulated mean.", "", hdr, sec("path"), "",
+             "Diagnostic, not gated: the first-event sample (plate appearances whose first base-running event is a steal or none; it leaves "
+             "out those in which a wild pitch, passed ball, pickoff or balk came first, more often long ones, and the engine draws those "
+             "events before the pitches, so it has no such selection). Sim / real attempt per PA: all " +
+             f"{m['fe_attempt_per_pa']:.4f} / {fe['attempt_per_pa']['value']:.4f}; " + "; ".join(
+                 f"{L}{'+' if L == 8 else ''} pitches {m[f'fe_len{L}_attempt']:.4f} / {fe['by_length'][str(L)]['attempt']:.4f}" for L in range(2, 9)) +
+             "; final count " + ", ".join(f"{fc} {m[f'fe_fc{fc}_attempt']:.4f} / {fe['by_final_count'][fc]['attempt']:.4f}" for fc in PATH_COUNTS) + ".", ""]
             if "dec_bunts_per_team_game" in m else []),
           "## Pitcher usage (56-game equivalent)", "", hdr, sec("usage"), "",
           "Top three pitchers' innings, split (sim / real): " + "; ".join(

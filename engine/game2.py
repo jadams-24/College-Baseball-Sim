@@ -204,6 +204,7 @@ class PlayerGameEngine:
         # PR B: decisions that change outcomes (config.decisions)
         from config import decisions as cdec
         self.dec_on = cdec.on("decisions")
+        self.dec_steal, self.dec_bunt, self.dec_ibb = cdec.on("steals"), cdec.on("bunts"), cdec.on("ibb")
         self.ibb_count, self.bunt_rec, self.path_rec, self.path_all_rec = 0, {"bunts": 0, "SH": 0, "hits": 0}, [], []
         if self.dec_on:
             from engine.decisions import DecisionModels
@@ -399,6 +400,7 @@ class PlayerGameEngine:
             m = self._pa_law(batter, pitcher, home_batting, eo)        # fills the matchup caches
             if adj is not None:
                 b, i = self.dm.slot_shares(adj)
+                b, i = (b if self.dec_bunt else 0.0), (i if self.dec_ibb else 0.0)
                 m = m - b * self.dm.bunt_law("*", "*")[0]
                 m[OUTCOMES.index("BB")] -= i
                 m = np.maximum(m, 0.0) / max(1.0 - b - i, 1e-9)
@@ -947,7 +949,7 @@ class GameSession:
                    "res": None, "ibb": False, "charge_to": None, "hnr": False, "attempt": False, "stole": False, "known_last": False,
                    "path": False, "path_all": steal_base0 > 0, "adj": None}
         ibb = self.ask(fld, "intentional_walk")
-        if dec_on and ibb == Decision.YES:
+        if eng.dec_ibb and ibb == Decision.YES:
             self.pa.update(res="BB", ibb=True)          # NCAA 8-2-b: awarded on the coach's notification, no pitches
             return "pa_end"
         self.pa["bunt"] = self.pa["bunt0"] = self.ask(bat, "bunt")
@@ -956,14 +958,18 @@ class GameSession:
         # (scripts/build_engine_tables.py). PR B: steals are decided before each pitch instead (_pitch); the table
         # keeps the wild pitches, passed balls, pickoffs and balks at their league rates (a steal draw is "none").
         while any(b is not None for b in st.bases) and st.outs < 3 and not st.over:
-            steal = Decision.NO if dec_on else self.ask(bat, "steal_attempt")
+            steal = Decision.NO if eng.dec_steal else self.ask(bat, "steal_attempt")
             runner = eng._lead_stealer(st, bat)
             ta = to_ = 0.0
             if eng.sb_tier:
                 cell = f"{st.team_obj[bat].tier}|{st.team_obj[fld].tier}"
                 ta, to_ = eng.sb_tier["attempt"]["cell"][cell], eng.sb_tier["success"]["cell"][cell]
-            sb_or = np.exp(runner.run[0] + eng.delta["att"] + ta) if (runner is not None and not dec_on) else 1.0
+            sb_or = np.exp(runner.run[0] + eng.delta["att"] + ta) if (runner is not None and not eng.dec_steal) else 1.0
             ev = eng.pre_pa.draw_event(st.outs, st.base_code, rng.random(), sb_or)
+            if eng.dec_steal and ev == "SB_ATT":
+                # the steal is decided before a pitch instead; in the data the opportunity that held it was followed by
+                # another (a wild pitch, passed ball, pickoff or balk can come next), so it is taken out and the draw goes on
+                continue
             if steal == Decision.NO and ev == "SB_ATT":
                 ev = None
             if ev is None:
@@ -981,7 +987,7 @@ class GameSession:
                 eng.sb[1] += "0" not in dests
                 st.sb_att[bat] += 1
                 st.sb_ok[bat] += "0" not in dests
-            elif ev == "PO" and dec_on and "0" in dests and rng.random() < eng.po_cs_share:
+            elif ev == "PO" and eng.dec_steal and "0" in dests and rng.random() < eng.po_cs_share:
                 # scoring only: the runner was breaking for the next base, a caught stealing in the box score
                 eng.sb[0] += 1
                 st.sb_att[bat] += 1
@@ -1018,7 +1024,7 @@ class GameSession:
         eng, st, pa = self.eng, self.st, self.pa
         bat, fld = st.batting_side, st.fielding_side
         info = {"count": (pa["b"], pa["s"]), "steal_base": steal_base, "pitcher": st.pitcher[fld], "runner": None}
-        if not steal_base or not eng.dec_on:
+        if not steal_base or not eng.dec_steal:
             return info
         runner = eng._lead_stealer(st, bat)
         a, s_ = eng.dm.steal_logits(st, (pa["b"], pa["s"]), steal_base)
@@ -1119,7 +1125,7 @@ class GameSession:
         b, s_ = pa["b"], pa["s"]
         i = b * 3 + s_
         u = st.rng.random()
-        bunting = dec_on and pa["bunt"] == Decision.YES and s_ < 2 and not attempt
+        bunting = eng.dec_bunt and pa["bunt"] == Decision.YES and s_ < 2 and not attempt
         if forced == "B":
             sym, d = "B", (i + 3 if b < 3 else -1 - _O_BB)
         elif bunting and i in eng.dm.bunt_pitch:
@@ -1221,7 +1227,7 @@ class GameSession:
             pitcher = pa["charge_to"]                         # NCAA 10-22-b
         eo = st.err_or[fld]
         bases0 = list(st.bases)
-        bunted = eng.dec_on and pa.get("bunt0") == Decision.YES        # called as the plate appearance began (ex ante)
+        bunted = eng.dec_bunt and pa.get("bunt0") == Decision.YES      # called as the plate appearance began (ex ante)
         outs_b, base_b = st.outs, st.base_code
         if res == "BUNT":
             res, dests, b_to, err = eng.dm.bunt_outcome(st.outs, st.base_code, rng.random())
@@ -1230,7 +1236,7 @@ class GameSession:
             eng.bunt_rec["hits"] += res in ("1B", "2B")
         else:
             if res == "OUT":
-                res = eng._subtype(st, rng, Decision.NO if eng.dec_on else pa["bunt"])
+                res = eng._subtype(st, rng, Decision.NO if eng.dec_bunt else pa["bunt"])
             dests, b_to, err = eng.advance.draw(res, st.outs, st.base_code, rng.random(), [rng.random() for _ in range(4)], eo)
             if res in ("1B", "2B") and eng.speed_on:
                 dests = eng._extra_bases(st, bat, fld, res, dests, bases0, rng)
@@ -1251,7 +1257,7 @@ class GameSession:
         eng._record(st, batter, pitcher, res, None if (pa["ibb"] and not pa["seq"]) else "".join(pa["seq"]),
                     skip_pitches=n_charged, pitch_to=pa["pitcher"], law=law)
         if pa.get("path_all") and not pa["ibb"] and _n_eligible(pa["seq"], res):
-            eng.path_all_rec.append((sum(c != "N" for c in pa["seq"]), int(pa["attempt"])))
+            eng.path_all_rec.append((sum(c != "N" for c in pa["seq"]), _final_count(pa["seq"]), int(pa["attempt"]), int(pa["stole"])))
         if pa["path"] and not pa["ibb"] and _n_eligible(pa["seq"], res):
             # the play-by-play's sample (scripts/build_prb_steals.py eligible()): a plate appearance that began with
             # a lead runner able to steal, no other base running first, and at least one ball or strike
