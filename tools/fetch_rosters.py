@@ -50,6 +50,8 @@ HERE = Path(__file__).resolve().parent
 UA = "CollegeBaseballSim-roster-fetcher/1.0 (personal research project; one request every few seconds)"
 MIN_DELAY = 3.0
 PROBE_MAX_TRIES = 25      # teams the probe may try while looking for each platform
+MAX_CRAWL_DELAY = 60.0    # a host whose robots.txt asks for a longer Crawl-delay is skipped (logged), not fetched faster
+RESPONSE_DEADLINE = 90.0  # seconds for a whole response; a server that trickles bytes past it is treated as a block
 MIN_PLAYERS = 10          # a parsed page with fewer players carrying bats/throws is treated as a miss
 ORIGIN = ["hometown_city", "hometown_state", "high_school", "previous_school"]
 FIELDS = ["team_ncaa_id", "team", "name", "jersey", "position", "class", "bats", "throws", *ORIGIN, "source_url", "wmt_person_id"]
@@ -446,8 +448,8 @@ class Fetcher:
             for attempt in range(3):
                 self._wait(host, MIN_DELAY * (attempt + 1))
                 try:
-                    r = self.s.get(f"https://{host}/robots.txt", timeout=30)
-                except requests.RequestException as e:
+                    r = self._fetch(f"https://{host}/robots.txt", 30)
+                except (requests.RequestException, TimeoutError) as e:
                     note = f"robots.txt unreachable ({e.__class__.__name__})"
                     continue
                 if r.status_code >= 500:
@@ -465,6 +467,22 @@ class Fetcher:
             self.robots[host] = (rp, note)
         return self.robots[host]
 
+    def _fetch(self, url: str, timeout: float):
+        """GET with a per-read timeout and a deadline on the whole response (streamed, so a slow drip is cut off)."""
+        start = time.monotonic()
+        r = self.s.get(url, timeout=timeout, allow_redirects=True, stream=True)
+        chunks = []
+        try:
+            for chunk in r.iter_content(65536):
+                chunks.append(chunk)
+                if time.monotonic() - start > RESPONSE_DEADLINE:
+                    raise TimeoutError(url)
+        finally:
+            r.close()
+        r._content = b"".join(chunks)
+        r._content_consumed = True
+        return r
+
     def get(self, host: str, path: str):
         rp, note = self.robot(host)
         url = f"https://{host}{path}"
@@ -473,11 +491,15 @@ class Fetcher:
         if not rp.can_fetch(UA, url):
             return url, None, "disallowed by robots.txt"
         cd = float(rp.crawl_delay(UA) or 0)
+        if cd > MAX_CRAWL_DELAY:
+            return url, None, f"robots.txt Crawl-delay {cd:.0f} s (over {MAX_CRAWL_DELAY:.0f} s): skipped"
         r = None
         for attempt in range(3):  # network errors and 5xx retried with a growing pause
             self._wait(host, max(cd, MIN_DELAY * (attempt + 1)))
             try:
-                r = self.s.get(url, timeout=45, allow_redirects=True)
+                r = self._fetch(url, 45)
+            except TimeoutError:
+                return url, None, f"response not complete in {RESPONSE_DEADLINE:.0f} s (treated as a block, not retried)"
             except requests.RequestException as e:
                 err = f"request error: {e.__class__.__name__}"
                 r = None

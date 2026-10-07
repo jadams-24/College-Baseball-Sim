@@ -52,6 +52,8 @@ jobs:
           python tools/aggregate_rosters.py --selftest
 
       - name: Probe 5 roster pages (Sidearm, WMT, Presto)
+        timeout-minutes: 20
+        continue-on-error: true
         run: |
           python tools/fetch_rosters.py --probe 5 --delay "$DELAY" --out "$WORK"
           python - <<'EOF' >> "$GITHUB_STEP_SUMMARY"
