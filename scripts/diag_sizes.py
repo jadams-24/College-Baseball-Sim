@@ -43,6 +43,9 @@ BOOT = 400
 SIM = {"run_rule": 0.1201, "bin15": 0.0533, "obp_p10": 0.3242, "team_rg_sd": 1.032, "phi": 2.224, "rcorr": 0.0463,
        "corr_era_e": 0.727, "corr_ra_e": 0.801}
 REAL_PHI, SIM_PHI = 2.6185, 2.224
+# round 2 (scripts/diag_tto_mopup.py) appends to the same outputs; a rerun of this script keeps its parts
+ROUND2_KEYS = ("item5_tto", "item6_mopup", "running_total", "_meta_round2")
+ROUND2_MARKER = "<!-- round2: scripts/diag_tto_mopup.py -->"
 
 
 def d1_names() -> set:
@@ -889,7 +892,8 @@ def main() -> None:
     a = ap.parse_args()
     import os
     os.chdir(ROOT)     # build_phase2_gate reads relative paths
-    res = json.loads(OUT_JSON.read_text()) if (a.only and OUT_JSON.exists()) else {}
+    prev = json.loads(OUT_JSON.read_text()) if OUT_JSON.exists() else {}
+    res = prev if a.only else {k: v for k, v in prev.items() if k in ROUND2_KEYS}   # round 2 keys survive a rerun
     fns = {1: item1, 2: item2, 3: item3, 4: item4}
     for k, fn in fns.items():
         if a.only in (None, k):
@@ -903,7 +907,11 @@ def main() -> None:
     res["_meta"] = {"script": "scripts/diag_sizes.py", "date": "2026-10-06", "bootstrap_reps": BOOT,
                     "note": "Real-data sizes only. Sim values are copied from reports/phase2.md, phase6.md, phase7.md (40 seasons, 2026-10-05)."}
     OUT_JSON.write_text(json.dumps(plain(res), indent=1) + "\n")
-    OUT_MD.write_text(markdown(res))
+    md = markdown(res)
+    old_md = OUT_MD.read_text() if OUT_MD.exists() else ""
+    if ROUND2_MARKER in old_md:      # keep round 2's sections (scripts/diag_tto_mopup.py); rerun that script to refresh them
+        md = md.rstrip("\n") + "\n\n" + old_md[old_md.index(ROUND2_MARKER):]
+    OUT_MD.write_text(md)
     print("wrote", OUT_JSON, OUT_MD)
 
 
