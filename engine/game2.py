@@ -574,9 +574,10 @@ class PlayerGameEngine:
         ot = self.opp_trials
         ot[batter.pid, ptid, h, 0] += 1
         ot[pitcher.pid, btid, h, 0] += 1
-        rp = self.rate_cache.get(self._key(batter, pitcher, bool(h)))
-        if rp is not None and law is not None:
+        if law is not None:
             rp = _rates_of(law)                # PR B: the law the plate appearance played (decisions taken into account)
+        else:
+            rp = self.rate_cache.get(self._key(batter, pitcher, bool(h)))
         if rp is not None:
             ex = self.exp_trials
             ex[batter.pid, :3, 0] += rp[:3]; ex[batter.pid, :3, 1] += rp[:3] * (1 - rp[:3])
