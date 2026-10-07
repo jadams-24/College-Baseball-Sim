@@ -28,7 +28,7 @@ permissions:
 jobs:
   fetch:
     runs-on: ubuntu-latest
-    timeout-minutes: 180
+    timeout-minutes: 345
     env:
       DELAY: ${{ inputs.delay }}
       AGG: data/ncaa_2025/roster_aggregates
@@ -73,7 +73,7 @@ jobs:
         # directory; nothing raw survives the job, so a later run fetches everything again.
         continue-on-error: true
         run: |
-          timeout --signal=INT 150m python tools/fetch_rosters.py --delay "$DELAY" --out "$WORK"
+          timeout --signal=INT 300m python tools/fetch_rosters.py --delay "$DELAY" --out "$WORK"
 
       - name: Aggregate (counts and shares only; fails if a roster name reaches an output)
         id: aggregate
