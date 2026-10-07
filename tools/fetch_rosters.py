@@ -52,6 +52,9 @@ MIN_DELAY = 3.0
 PROBE_MAX_TRIES = 25      # teams the probe may try while looking for each platform
 MAX_CRAWL_DELAY = 60.0    # a host whose robots.txt asks for a longer Crawl-delay is skipped (logged), not fetched faster
 RESPONSE_DEADLINE = 90.0  # seconds for a whole response; a server that trickles bytes past it is treated as a block
+HOST_STOP = ("request error", "response not complete", "robots.txt unreachable", "bot challenge", "HTTP 403", "HTTP 429",
+             "Crawl-delay")       # a host that answers so on one roster path is not tried on the others
+STOP_AFTER_BLOCKED = 20   # consecutive teams failing only so: the runner is blocked; stop and aggregate what there is
 MIN_PLAYERS = 10          # a parsed page with fewer players carrying bats/throws is treated as a miss
 ORIGIN = ["hometown_city", "hometown_state", "high_school", "previous_school"]
 FIELDS = ["team_ncaa_id", "team", "name", "jersey", "position", "class", "bats", "throws", *ORIGIN, "source_url", "wmt_person_id"]
@@ -538,6 +541,8 @@ def fetch_team(fetcher: "Fetcher", t: dict, out: Path) -> tuple[list[dict], str,
                 g.write(f"<!-- source: {url} fetched {time.strftime('%Y-%m-%d')} -->\n" + page)
         if err:
             reasons.append(f"{path}: {err}")
+            if any(err.startswith(m) or m in err for m in HOST_STOP):
+                break
             continue
         rows, how = parse_page(page)
         if len(rows) >= MIN_PLAYERS:
@@ -671,6 +676,7 @@ def main() -> int:
             w.writeheader()
         if ff.tell() == 0:
             wf.writerow(["team_ncaa_id", "team", "domain", "reason", "last_url", "when"])
+        blocked_run = 0
         for i, t in enumerate(teams):
             tid = t["team_ncaa_id"]
             if tid in state["done"] or (tid in state["failed"] and not a.retry_failed and not a.only):
@@ -694,6 +700,11 @@ def main() -> int:
                 ff.flush()
                 logging.warning("FAILED %s %s: %s", tid, t["team"], reason)
             state_path.write_text(json.dumps(state, indent=1))
+            blocked_run = 0 if rows else blocked_run + (bool(reason) and all(any(m in part for m in HOST_STOP) for part in reason.split("; ")))
+            if blocked_run >= STOP_AFTER_BLOCKED:
+                print(f"stopping: {blocked_run} teams in a row failed on network errors or blocks (the runner looks blocked)", flush=True)
+                logging.warning("stopped after %d consecutive blocked or unreachable teams", blocked_run)
+                break
     print(f"done: {len(state['done'])} teams parsed, {len(state['failed'])} failed (see {fail_path})")
     return 0
 

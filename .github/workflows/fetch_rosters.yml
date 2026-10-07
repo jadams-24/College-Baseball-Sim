@@ -52,7 +52,7 @@ jobs:
           python tools/aggregate_rosters.py --selftest
 
       - name: Probe 5 roster pages (Sidearm, WMT, Presto)
-        timeout-minutes: 20
+        timeout-minutes: 10
         continue-on-error: true
         run: |
           python tools/fetch_rosters.py --probe 5 --delay "$DELAY" --out "$WORK"
@@ -81,6 +81,17 @@ jobs:
         run: |
           if [ ! -f "$WORK/state.json" ]; then echo "nothing fetched"; exit 1; fi
           python tools/aggregate_rosters.py --in "$WORK" --out "$AGG"
+          # the probe's result per team (platform, status, reason; no URLs, no player data)
+          python - <<'EOF'
+          import csv, json, os, pathlib
+          p = pathlib.Path(os.environ["WORK"]) / "probe.json"
+          res = json.loads(p.read_text()) if p.exists() else []
+          with open(pathlib.Path(os.environ["AGG"]) / "probe.csv", "w", newline="") as fh:
+              w = csv.writer(fh)
+              w.writerow(["team_ncaa_id", "team", "domain", "platform", "status", "reason"])
+              for r in res:
+                  w.writerow([r["team_ncaa_id"], r["team"], r["domain"], r["platform"], r["status"], r["detail"][:300]])
+          EOF
 
       - name: Summarize coverage (counts only, no names)
         if: always() && steps.aggregate.outcome == 'success'
