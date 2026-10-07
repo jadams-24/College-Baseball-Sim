@@ -40,6 +40,12 @@ from engine.decider import Decision, LeagueAverageDecider
 
 
 class Manager(LeagueAverageDecider):
+    rng = None    # set by engine.control.AIController for each call: this team's keyed stream at the decision point
+
+    def _r(self, state):
+        """The generator for this decision: the controller's positioned stream, else the game's (scripts)."""
+        return self.rng if self.rng is not None else state.rng
+
     def __init__(self, cfg: Phase2Config):
         u = cfg.usage
         self.start = phase6.batter_start_shares(u["batter_start_share_by_rank"], N_REGULARS + N_BENCH)
@@ -105,7 +111,7 @@ class Manager(LeagueAverageDecider):
 
     def lineup(self, state, team: str):
         tm = state.team_obj[team]
-        rng = state.rng
+        rng = self._r(state)
         starters = [p for p in tm.batters[:N_REGULARS] if rng.random() < self._start_prob(tm.tid, p)]
         bench = list(tm.batters[N_REGULARS:])
         while len(starters) < N_REGULARS and bench:
@@ -151,7 +157,7 @@ class Manager(LeagueAverageDecider):
     def _choose(self, state, cands: list, coef: dict, ctx: str):
         u = np.array([self._utility(coef, role, ctx, p.pid, state.date) + self.platoon_utility(state, p) for p, role in cands])
         w = np.exp(u - u.max())
-        return cands[int(state.rng.choice(len(cands), p=w / w.sum()))][0]
+        return cands[int(self._r(state).choice(len(cands), p=w / w.sum()))][0]
 
     def record_game(self, state) -> None:
         """After a game: every pitcher's outing (date, pitches) for the rest state of later games."""
@@ -192,7 +198,7 @@ class Manager(LeagueAverageDecider):
             return tm.midweek_sp[k % len(tm.midweek_sp)]
         key = (tm.tid, state.week)
         if key not in self.series_plan:
-            ranks = self.patterns[int(state.rng.choice(len(self.patterns), p=self.pattern_w))]
+            ranks = self.patterns[int(self._r(state).choice(len(self.patterns), p=self.pattern_w))]
             plan, taken = [], set()
             for r in ranks:
                 grp, i = ROTATION_STAFF[r - 1]
@@ -250,7 +256,7 @@ class Manager(LeagueAverageDecider):
             lt = g["log_mean"] + (lt - g["log_mean"]) * self.mid_spread / g["log_sd"]
         theta = np.exp(lt)
         hp = -np.expm1(theta * np.log1p(-min(h, 1 - 1e-9)))
-        pulled = state.rng.random() < hp
+        pulled = self._r(state).random() < hp
         if not midweek_start:
             # the Phase 4 round trip reads the leash where the Stamina rating applies in full (midweek starts,
             # where it is shrunk to the midweek spread, stay out of it)
@@ -279,18 +285,18 @@ class Manager(LeagueAverageDecider):
             return None
         bw = self.subs6.get("bench_pick_weight", {}).get("weight") if self.subs6 else None
         w = np.array([bw[str(p.order + 1)] if bw else self.start[p.order] for p in bench])
-        return bench[int(state.rng.choice(len(bench), p=w / w.sum()))]
+        return bench[int(self._r(state).choice(len(bench), p=w / w.sum()))]
 
     def pinch_hit(self, state, team: str, slot: int):
         if not self.subs6:
             return None
         h = self._sub_rate(state, team, "ph") * self.subs6["ph_slot_factor"][str(slot + 1)]
-        return self._bench_pick(state, team) if state.rng.random() < h else None
+        return self._bench_pick(state, team) if self._r(state).random() < h else None
 
     def pinch_runner(self, state, team: str, slot: int):
         if not self.subs6:
             return None
-        if state.rng.random() >= self._sub_rate(state, team, "pr"):
+        if self._r(state).random() >= self._sub_rate(state, team, "pr"):
             return None
         bench = [p for p in state.team_obj[team].batters if p.pid not in state.in_game[team]]
         # with Speed (Phase 6) only a faster player runs for him; the pick among them by rank as for any substitute
@@ -302,14 +308,14 @@ class Manager(LeagueAverageDecider):
     def defensive_subs(self, state, team: str) -> list:
         if not self.subs6:
             return []
-        k = int(state.rng.poisson(self._sub_rate(state, team, "def")))
+        k = int(self._r(state).poisson(self._sub_rate(state, team, "def")))
         out, slots = [], list(range(9))
         for _ in range(k):
             p = self._bench_pick(state, team)
             if p is None or not slots:
                 break
             w = np.array([self.def_slot[s_] for s_ in slots])
-            slot = slots.pop(int(state.rng.choice(len(slots), p=w / w.sum())))
+            slot = slots.pop(int(self._r(state).choice(len(slots), p=w / w.sum())))
             state.in_game[team].add(p.pid)      # reserved now; the engine records the entry
             out.append((slot, p))
         return out
@@ -332,4 +338,4 @@ class Manager(LeagueAverageDecider):
         if not avail:
             return None
         w = np.array([self.relw[min(p.order, len(self.relw) - 1)] for p in avail])   # ranks past the table share its last rank
-        return avail[int(state.rng.choice(len(avail), p=w / w.sum()))]
+        return avail[int(self._r(state).choice(len(avail), p=w / w.sum()))]

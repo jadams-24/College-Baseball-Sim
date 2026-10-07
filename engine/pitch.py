@@ -26,6 +26,14 @@ chain conditioned on ending in o is again a chain (Doob h-transform): from c, an
 c' has probability q(c, e) h_o(c') / h_o(c); repeat pitches (fouls with two strikes, N) keep their
 probability. So the sequence follows the pitch chain exactly given the outcome, and the outcome
 follows the PA model exactly.
+
+Forward play (engine restructure, 2026-10-06). The same joint law of (outcome, sequence) is drawn one pitch at a
+time, with nothing decided in advance: with w_o = m(o) / h_o(0-0) (m the matchup's outcome probabilities) and
+H(c) = sum_o w_o h_o(c), the chain transformed by H (an event from c to c' has probability q(c, e) H(c') / H(c);
+ending in outcome o has probability q(c, e) w_o / H(c)) ends in o with probability m(o), and its sequence given o
+is the conditioned chain above. So forward play and "outcome first, then the sequence" are the same distribution
+(scripts/check_forward_chain.py runs both). A count reached some other way (a pitchout, an intentional ball)
+continues under the same transformed chain.
 """
 from __future__ import annotations
 
@@ -40,6 +48,43 @@ B_, K_, S_, F_, P_, H_, N_ = (EVENTS.index(e) for e in ("B", "K", "S", "F", "P",
 DIR_EVENTS = ("B", "K", "S", "F", "P")       # events with measured player directions (H, N: none)
 O_K, O_BB, O_HBP = OUTCOMES.index("K"), OUTCOMES.index("BB"), OUTCOMES.index("HBP")
 BIP_OF = {OUTCOMES.index(o): BIP_RESULTS.index(o) for o in BIP_RESULTS}
+# forward slots per count: N, F (two strikes, repeat), F (fewer than two strikes), B, K, S, ball in play by result
+# (BIP_RESULTS order), HBP. Each slot either keeps the count, moves to another count or ends the PA in an outcome.
+SLOT_SYM = ("N", "F", "F", "B", "K", "S") + ("P",) * len(BIP_RESULTS) + ("H",)
+N_SLOTS = len(SLOT_SYM)
+
+
+def _slot_layout():
+    """Per count and slot: the event column of q, the destination (count index, or -1 - outcome when the PA
+    ends) and the BIP result column (or -1)."""
+    ev = np.zeros((12, N_SLOTS), dtype=int)
+    dest = np.zeros((12, N_SLOTS), dtype=int)
+    bip = np.full((12, N_SLOTS), -1)
+    for b, s in COUNTS:
+        i = b * 3 + s
+        row = [(N_, i), (F_, i if s == 2 else None), (F_, i + 1 if s < 2 else None),
+               (B_, i + 3 if b < 3 else -1 - O_BB), (K_, i + 1 if s < 2 else -1 - O_K), (S_, i + 1 if s < 2 else -1 - O_K)]
+        row += [(P_, -1 - OUTCOMES.index(o)) for o in BIP_RESULTS]
+        row += [(H_, -1 - O_HBP)]
+        for k, (e, d) in enumerate(row):
+            ev[i, k] = e
+            dest[i, k] = i if d is None else d          # unused slot (F repeat below two strikes, F advance at two): weight 0
+        for j in range(len(BIP_RESULTS)):
+            bip[i, 6 + j] = j
+    used = np.ones((12, N_SLOTS), dtype=bool)
+    for b, s in COUNTS:
+        i = b * 3 + s
+        used[i, 1] = s == 2
+        used[i, 2] = s < 2
+    return ev, dest, bip, used
+
+
+_EV, _DEST, _BIP, _USED = _slot_layout()
+_ROWS = np.repeat(np.arange(12)[:, None], N_SLOTS, axis=1)
+_TO = _DEST >= 0
+_T_IDX = (_ROWS * 12 + _DEST)[_TO]                                   # flat (count, next count) of transient slots
+_R_IDX = (_ROWS * len(OUTCOMES) + (-1 - _DEST))[~_TO]               # flat (count, outcome) of ending slots
+_V_IDX = np.where(_TO, _DEST, 12 + (-1 - _DEST))                    # slot -> entry of [H (12), w (outcomes)]
 
 
 def _logit(p):
@@ -125,6 +170,30 @@ class PitchModel:
 
     def absorb_all(self, q: list) -> np.ndarray:
         return np.array([self.absorb(q, o) for o in range(len(OUTCOMES))]).T     # (12 counts, outcomes)
+
+    # ---- forward play ------------------------------------------------------------------------
+    def slots(self, q: list) -> np.ndarray:
+        """Chain weight of every slot at every count, (12, N_SLOTS): q(c, e), times the BIP result share for
+        balls in play (0 for a slot that cannot occur at the count)."""
+        if not hasattr(self, "_slot_factor"):
+            r = np.asarray(self.r, float)
+            f = np.where(_BIP >= 0, r[_ROWS, np.maximum(_BIP, 0)], 1.0)
+            self._slot_factor = np.where(_USED, f, 0.0)
+        return np.asarray(q, float)[_ROWS, _EV] * self._slot_factor
+
+    def absorb_matrix(self, qs: np.ndarray) -> np.ndarray:
+        """h_o(c) for every count and outcome, (12, outcomes): one linear solve, (I - T) h = R."""
+        T = np.bincount(_T_IDX, weights=qs[_TO], minlength=144).reshape(12, 12)
+        R = np.bincount(_R_IDX, weights=qs[~_TO], minlength=12 * len(OUTCOMES)).reshape(12, len(OUTCOMES))
+        return np.linalg.solve(np.eye(12) - T, R)
+
+    def forward(self, qs: np.ndarray, h: np.ndarray, m: np.ndarray) -> list:
+        """Cumulative slot probabilities by count for a matchup with outcome probabilities m (OUTCOMES order):
+        the chain transformed by H = h @ (m / h(0-0))."""
+        w = np.divide(m, h[0], out=np.zeros_like(m), where=h[0] > 0)
+        H = h @ w
+        W = qs * np.concatenate([H, w])[_V_IDX] / H[:, None]
+        return np.cumsum(W, axis=1).tolist()
 
     # ---- one plate appearance --------------------------------------------------------------
     def sequence(self, q: list, o: int, rng) -> str:

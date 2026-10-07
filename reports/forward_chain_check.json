@@ -1,0 +1,85 @@
+{
+ "matchups": 10000,
+ "pa_per_method": 5000000,
+ "seed": 7,
+ "exact_outcome_law_max_abs_diff": 4.440892098500626e-16,
+ "two_sample": [
+  {
+   "comparison": "PA outcome",
+   "chi2": 7.5,
+   "df": 8,
+   "p": 0.4801
+  },
+  {
+   "comparison": "Count the PA ended at",
+   "chi2": 16.9,
+   "df": 11,
+   "p": 0.1104
+  },
+  {
+   "comparison": "Pitches per PA",
+   "chi2": 15.4,
+   "df": 11,
+   "p": 0.1645
+  },
+  {
+   "comparison": "Pitch events by count",
+   "chi2": 75.7,
+   "df": 83,
+   "p": 0.7029
+  },
+  {
+   "comparison": "Outcome x pitches",
+   "chi2": 114.8,
+   "df": 102,
+   "p": 0.1814
+  },
+  {
+   "comparison": "Counts reached (largest of 12 two-proportion z; Bonferroni p)",
+   "chi2": 1.83,
+   "df": 12,
+   "p": 0.8119
+  }
+ ],
+ "against_exact_law": {
+  "old": {
+   "chi2": 79915.7,
+   "df": 79995,
+   "p": 0.5779
+  },
+  "new": {
+   "chi2": 79493.4,
+   "df": 79995,
+   "p": 0.8953
+  }
+ },
+ "pitches_per_pa": {
+  "old": 3.862,
+  "new": 3.8623
+ },
+ "outcome_shares": {
+  "old": {
+   "K": 0.20532,
+   "BB": 0.11753,
+   "HBP": 0.03882,
+   "HR": 0.02287,
+   "1B": 0.15239,
+   "2B": 0.04189,
+   "3B": 0.00421,
+   "ROE": 0.01429,
+   "OUT": 0.40267
+  },
+  "new": {
+   "K": 0.20536,
+   "BB": 0.11753,
+   "HBP": 0.03888,
+   "HR": 0.0229,
+   "1B": 0.15259,
+   "2B": 0.04188,
+   "3B": 0.00415,
+   "ROE": 0.01415,
+   "OUT": 0.40257
+  }
+ },
+ "secs": 117
+}

@@ -21,18 +21,25 @@ Earned runs follow the official scoring rules by reconstructing each half-inning
     pitcher becomes that pitcher's responsibility.
 Runner advancement is not re-run without the error, so a run that would have scored
 anyway on an error play is counted unearned.
+
+Games are played by a GameSession (engine restructure, 2026-10-06): plate appearances forward, pitch by pitch,
+with a pause point before every pitch; one controller per team; keyed random streams for the engine and for each
+team's AI manager; save and restore at any pause point. PlayerGameEngine.play runs a session to the end.
 """
 from __future__ import annotations
+
+from bisect import bisect_right
 
 import numpy as np
 
 from config.phase1 import IN_PLAY_OUT_CLASS, MIN_CELL_N, PRE_PA_EVENTS, RESULTS
 from config.phase2 import Phase2Config
-from config.phase5 import MAX_PITCHES_HIST, OUTCOMES as PITCH_OUTCOMES
+from config.phase5 import MAX_PITCHES_HIST
 from config.phase5 import load as load_pitch, load_solved
+from engine.control import AIController, KIND as _KIND
 from engine.decider import Decision
 from engine.matchup import OUTCOMES, matchup_probs
-from engine.pitch import COUNTS as PITCH_COUNTS, PitchModel
+from engine.pitch import N_SLOTS, SLOT_SYM, PitchModel, _DEST as SLOT_DEST_ARR
 from engine.rng import Categorical
 from engine.tables import AdvancementTable, OutcomeTable, PrePaEventTable
 
@@ -53,9 +60,9 @@ TRIAL_KINDS = ("PA", "BIP", "HITS")       # BIP: balls in play other than reache
 EXP_RATES = ("K", "BB", "HR", "BABIP", "XBH")
 _HITS = frozenset(_CELL_IDX[r] for r in ("1B", "2B", "3B"))
 _OUT = _CELL_IDX["OUT"]
-_PITCH_O = {o: i for i, o in enumerate(PITCH_OUTCOMES)}   # in-play outs of every subtype are OUT
 _EV6 = {e: i for i, e in enumerate("BKSFPH")}
 _EV7 = {e: i for i, e in enumerate("BKSFPHN")}            # config.phase5.EVENTS order
+SLOT_DEST = SLOT_DEST_ARR.tolist()                         # per count and forward slot: next count, or -1 - outcome
 _K, _BB = 0, 1                                             # rate order of the logit offsets (config.phase2.RATES)
 
 
@@ -161,6 +168,7 @@ class PlayerGameEngine:
         self.pitch = PitchModel(load_pitch(), load_solved())
         self.tilt_cache: dict = {}
         self.q_cache: dict = {}
+        self.fwd_cache: dict = {}
         self.pitch_rec = {"hist": np.zeros(MAX_PITCHES_HIST + 1, dtype=np.int64), "n_pa": 0, "pitches": 0, "fps": 0, "k2p": 0, "k2f": 0,
                           "reach": np.zeros(12, dtype=np.int64), "ab": np.zeros(12, dtype=np.int64), "h": np.zeros(12, dtype=np.int64),
                           "k": np.zeros(12, dtype=np.int64), "bb": np.zeros(12, dtype=np.int64),
@@ -318,90 +326,39 @@ class PlayerGameEngine:
             if st.weekend:
                 ps[P_WGS] += 1
 
-    def _half(self, st, dec):
-        rng = st.rng
-        st.outs, st.bases = 0, [None, None, None]
-        st.phantom = st.p_phantom = 0
-        bat, fld = st.batting_side, st.fielding_side
-        runs0, pa0 = st.score[bat], st.pa[bat]
-        if st.pending_change[fld]:
-            # a pitcher pulled at the end of an inning is replaced when his side takes the field again,
-            # so a reliever never appears in a game that ends first (as in the play-by-play)
-            st.pending_change[fld] = False
-            nxt = dec.relief_pitcher(st, fld)
-            if nxt is not None:
-                self._bring_in(st, fld, nxt, False)
-        for slot, player in dec.defensive_subs(st, fld):
-            self._sub(st, fld, player, slot)
-        while st.outs < 3 and not st.over:
-            # pre-PA base running events: one draw per opportunity, again after each event until none
-            # occurs (scripts/build_engine_tables.py)
-            while any(b is not None for b in st.bases) and st.outs < 3 and not st.over:
-                steal = dec.steal_attempt(st)
-                runner = self._lead_stealer(st, bat)
-                ta = to_ = 0.0
-                if self.sb_tier:
-                    cell = f"{st.team_obj[bat].tier}|{st.team_obj[fld].tier}"
-                    ta, to_ = self.sb_tier["attempt"]["cell"][cell], self.sb_tier["success"]["cell"][cell]
-                sb_or = np.exp(runner.run[0] + self.delta["att"] + ta) if runner is not None else 1.0
-                ev = self.pre_pa.draw_event(st.outs, st.base_code, rng.random(), sb_or)
-                if steal == Decision.NO and ev == "SB_ATT":
-                    ev = None
-                if ev is None:
-                    break
-                ok_or = 1.0
-                if ev == "SB_ATT" and runner is not None:
-                    ok_or = np.exp(runner.run[1] - st.catcher_arm[fld] + self.delta["ok"] + to_)
-                out = self.pre_pa.draw_outcome(ev, st.outs, st.base_code, rng.random(), ok_or)
-                if out is None:
-                    break
-                dests, _, err = out
-                if ev == "SB_ATT":
-                    self.sb[0] += 1
-                    self.sb[1] += "0" not in dests
-                    st.sb_att[bat] += 1
-                    st.sb_ok[bat] += "0" not in dests
-                if self._apply(st, dests, None, None, err, event=ev) and st.half == "B":
-                    self._end_check(st, True)
-            if st.outs >= 3 or st.over:
-                break
-            self._sub(st, bat, dec.pinch_hit(st, bat, st.slot[bat] % 9), st.slot[bat] % 9)
-            batter = st.lineup[bat][st.slot[bat] % 9]
-            st.slot[bat] += 1
-            pitcher = st.pitcher[fld]
-            dec.intentional_walk(st)
-            bunt = dec.bunt(st)
-            res = self._probs(batter, pitcher, bat == "home").draw(rng.random())
-            eo = st.err_or[fld]
-            if eo != 1.0 and res in ("ROE", "OUT"):
-                res = self._roe_tilt(batter, pitcher, bat == "home", res, eo, rng)
-            if res == "OUT":
-                res = self._subtype(st, rng, bunt)
-            bases0 = list(st.bases)
-            dests, b_to, err = self.advance.draw(res, st.outs, st.base_code, rng.random(), [rng.random() for _ in range(4)], eo)
-            if res in ("1B", "2B") and self.speed_on:
-                dests = self._extra_bases(st, bat, fld, res, dests, bases0, rng)
-            self._record(st, batter, pitcher, res, rng)
-            outs0 = st.outs
-            slot = (st.slot[bat] - 1) % 9
-            scored = self._apply(st, dests, (pitcher.pid, res == "ROE", slot), b_to, err, res=res)
-            if b_to in ("1", "2", "3") and not st.over:
-                self._sub(st, bat, dec.pinch_runner(st, bat, slot), slot)
-            st.outing[fld]["runs"] += scored
-            st.outing[fld]["pa_outs"] += st.outs - outs0
-            if scored and st.half == "B":
-                self._end_check(st, True)
-            if st.over:
-                break
-            st.inning_end = st.outs >= 3
-            if dec.pitching_change(st) == Decision.YES:
-                if st.inning_end:
-                    st.pending_change[fld] = True
-                else:
-                    nxt = dec.relief_pitcher(st, fld)
-                    if nxt is not None:
-                        self._bring_in(st, fld, nxt, False)
-        st.half_innings.append((st.inning, st.half, st.score[bat] - runs0, st.pa[bat] - pa0))
+    def _matchup_chain(self, batter, pitcher, home_batting: bool):
+        """The matchup's pitch-chain slot weights and absorption matrix (engine.pitch), cached per game."""
+        key = self._key(batter, pitcher, home_batting)
+        c = self.q_cache.get(key)
+        if c is None:
+            qs = self.pitch.slots(self.pitch.chain(self.tilt_cache[key]))
+            c = self.q_cache[key] = (qs, self.pitch.absorb_matrix(qs))
+        return c
+
+    def _forward(self, batter, pitcher, home_batting: bool, eo: float) -> list:
+        """The matchup's forward pitch table against a defense with error odds eo (cached per game: a side's
+        error odds are set at the start of the game)."""
+        fk = (self._key(batter, pitcher, home_batting), eo)
+        cum = self.fwd_cache.get(fk)
+        if cum is None:
+            m = self._pa_law(batter, pitcher, home_batting, eo)        # fills the matchup caches
+            qs, h = self._matchup_chain(batter, pitcher, home_batting)
+            cum = self.fwd_cache[fk] = self.pitch.forward(qs, h, m)
+        return cum
+
+    def _pa_law(self, batter, pitcher, home_batting: bool, eo: float) -> np.ndarray:
+        """The PA outcome probabilities (OUTCOMES order) against a defense with error odds eo: the matchup's,
+        with reached on error against in-play out tilted (_roe_tilt's exact marginal: P(ROE | ROE or out)
+        -> odds x eo)."""
+        m = np.array(self._probs(batter, pitcher, home_batting).cum)
+        m = np.diff(np.concatenate([[0.0], m]))
+        if eo != 1.0:
+            i_roe, i_out = OUTCOMES.index("ROE"), OUTCOMES.index("OUT")
+            tot = m[i_roe] + m[i_out]
+            r = m[i_roe] / tot
+            r2 = r * eo / (1 - r + r * eo)
+            m[i_roe], m[i_out] = r2 * tot, (1 - r2) * tot
+        return m
 
     # ---- Phase 6: base running and fielding --------------------------------------------------
     def _lead_stealer(self, st, bat):
@@ -505,14 +462,8 @@ class PlayerGameEngine:
             s = Categorical.from_counts(others).draw(rng.random())
         return s
 
-    def _pitches(self, batter, pitcher, home_batting: bool, res: str, rng) -> int:
-        """Draw the PA's pitch sequence given its outcome; record the pitch-level statistics."""
-        key = self._key(batter, pitcher, home_batting)
-        q = self.q_cache.get(key)
-        if q is None:
-            q = self.q_cache[key] = self.pitch.chain(self.tilt_cache[key])
-        o = _PITCH_O.get(res, _PITCH_O["OUT"])
-        seq = self.pitch.sequence(q, o, rng)
+    def _record_pitches(self, batter, pitcher, seq: str, res: str) -> int:
+        """Record the pitch-level statistics of a plate appearance's sequence (played forward, GameSession)."""
         pr = self.pitch_rec
         n = len(seq)
         pr["n_pa"] += 1; pr["pitches"] += n
@@ -546,7 +497,7 @@ class PlayerGameEngine:
             pr["bb"][i] += res == "BB"
         return n
 
-    def _record(self, st, batter, pitcher, res, rng):
+    def _record(self, st, batter, pitcher, res, seq):
         bs, ps = self.bstats[batter.pid], self.pstats[pitcher.pid]
         bat = st.batting_side
         bs[B_PA] += 1; ps[P_BF] += 1; st.pa[bat] += 1
@@ -574,7 +525,7 @@ class PlayerGameEngine:
             ot[batter.pid, ptid, h, 1] += 1
             if rp is not None:
                 ex[batter.pid, 3, 0] += b; ex[batter.pid, 3, 1] += b * (1 - b)
-        n = self._pitches(batter, pitcher, bool(h), res, rng)
+        n = self._record_pitches(batter, pitcher, seq, res)
         ps[P_PITCH] += n
         st.outing[st.fielding_side]["pitches"] += n
         if res == "BB":
@@ -600,39 +551,356 @@ class PlayerGameEngine:
                 elif res == "HR":
                     bs[B_HR] += 1; ps[P_HR] += 1; st.hr[bat] += 1
 
-    def play(self, rng, home, away, weekend, dec, week=0, day=0, date=0, neutral=False, tournament=False) -> GameState2:
-        st = GameState2(rng, home, away, weekend)
-        st.tournament = tournament
+    def _half(self, st, dec):
+        """One half-inning on an existing game state (scripts/build_phase2_run_scale.py measures the engine this
+        way): a session over `st`, both sides managed by `dec`, played to the end of the half."""
+        sess = GameSession(self, st.rng, st.team_obj["home"], st.team_obj["away"], st.weekend, dec)
+        sess.st = st
+        sess._begin_half()
+        ph = "pre_pa"
+        while ph != "half_end":
+            if ph == "pre_pa":
+                ph = sess._pre_pa()
+            else:
+                while not sess._pitch():
+                    pass
+                ph = sess._finish_pa()
+        st.half_innings.append((st.inning, st.half, st.score[st.batting_side] - sess.half_start[0], st.pa[st.batting_side] - sess.half_start[1]))
+
+    def play(self, rng, home, away, weekend, dec, week=0, day=0, date=0, neutral=False, tournament=False, controllers=None) -> GameState2:
+        """Play a whole game: a GameSession run to the end, both sides managed by `dec` unless `controllers`
+        ({side: Controller}) says otherwise."""
+        sess = GameSession(self, rng, home, away, weekend, dec, week=week, day=day, date=date, neutral=neutral,
+                           tournament=tournament, controllers=controllers)
+        sess.run()
+        return sess.st
+
+
+class _Positioned:
+    """A stream positioned at a decision point on first use (most decisions draw nothing)."""
+    __slots__ = ("stream", "pos", "gen")
+
+    def __init__(self, stream, pos):
+        self.stream, self.pos, self.gen = stream, pos, None
+
+    def __getattr__(self, name):
+        if self.gen is None:
+            self.gen = self.stream.at(*self.pos)
+        return getattr(self.gen, name)
+
+
+SIDES = ("away", "home")
+_SALT = {"away": 0x9E3779B97F4A7C15, "home": 0xC2B2AE3D27D4EB4F}   # per-side key offsets of the AI streams
+STOPS = ("pitch", "pa", "half", "inning", "three_innings", "game")
+
+
+class GameSession:
+    """One game played forward, pitch by pitch, with a pause point before every pitch (engine restructure,
+    2026-10-06; CLAUDE.md, in-game management and sim controls).
+
+    - Plate appearances are played forward through the matchup's transformed pitch chain (engine.pitch,
+      `forward`): the same joint law of outcome and pitch sequence as drawing the outcome first.
+    - Each side has its own controller (engine.control). Every decision goes to the side it belongs to, with a
+      generator positioned on that side's keyed stream; the engine's own draws come from a third keyed stream,
+      positioned per plate appearance. So a decision's answer never moves a draw that does not depend on it.
+    - `run(stop)` plays until `stop(session)` is true at a pause point (before a pitch) or the game ends;
+      `sim_ahead` stops at the next plate appearance, half inning, inning, three innings or the end, with the AI
+      managing a side meanwhile; `save` / `load` pickle the session (game state, stream positions, the engine and
+      its season accumulators) at a pause point.
+    """
+
+    def __init__(self, eng, rng, home, away, weekend, dec, week=0, day=0, date=0, neutral=False, tournament=False,
+                 controllers=None, log=False):
+        from engine.rng import KeyedStream
+        self.eng, self.book = eng, dec
+        k0, k1 = (int(x) for x in rng.integers(0, 2 ** 63, size=2))
+        self.key = (k0, k1)
+        self.engine_stream = KeyedStream([k0, k1])
+        self.ai = {s: KeyedStream([k0 ^ _SALT[s], k1]) for s in SIDES}
+        self.ctrl = dict(controllers) if controllers else {s: AIController(dec) for s in SIDES}
         self.neutral = neutral
-        self.q_cache.clear()          # chains are rebuilt per game (memory); the tilts stay cached
-        st.run_rule_in_effect = rng.random() < self.rules.p_run_rule_in_effect
+        st = self.st = GameState2(None, home, away, weekend)
+        st.tournament = tournament
         st.week, st.day, st.date = week, day, date
-        for side in ("away", "home"):
-            st.lineup[side] = dec.lineup(st, side)
+        self.pa_serial = 0
+        self.calls: dict = {}
+        self.phase = "pregame"
+        self.log = [] if log else None
+        self.pa = None            # the plate appearance in progress
+        self.half_start = (0, 0)  # runs and PAs of the batting side when the half began
+
+    # ---- decisions -------------------------------------------------------------------------
+    def ask(self, side: str, kind: str, *args):
+        ck = (side, kind)
+        calls = self.calls
+        n = calls[ck] = calls.get(ck, -1) + 1
+        return self.ctrl[side].answer(kind, self.st, _Positioned(self.ai[side], (_KIND[kind], self.pa_serial, n)), *args)
+
+    def set_controller(self, side: str, controller) -> None:
+        self.ctrl[side] = controller
+
+    # ---- pause points ----------------------------------------------------------------------
+    def point(self) -> dict:
+        """Where the game stands at a pause point (before a pitch)."""
+        st, pa = self.st, self.pa
+        return {"inning": st.inning, "half": st.half, "outs": st.outs, "bases": st.base_code, "count": (pa["b"], pa["s"]),
+                "score": dict(st.score), "pa_serial": self.pa_serial, "pitch": len(pa["seq"]),
+                "batter": pa["batter"].pid, "pitcher": pa["pitcher"].pid, "batting": st.batting_side}
+
+    def _stopper(self, target: str):
+        """A stop rule for sim-ahead from the current pause point."""
+        st = self.st
+        if target == "pitch":
+            return lambda s: True
+        if target == "pa":
+            n0 = self.pa_serial
+            return lambda s: s.pa_serial > n0
+        if target == "half":
+            h0 = (st.inning, st.half)
+            return lambda s: (s.st.inning, s.st.half) != h0
+        if target in ("inning", "three_innings"):
+            k = 1 if target == "inning" else 3
+            i0, h0 = st.inning, st.half
+            return lambda s: s.st.inning > i0 + k or (s.st.inning == i0 + k and (s.st.half == h0 or h0 == "T"))
+        if target == "game":
+            return None
+        raise ValueError(target)
+
+    def sim_ahead(self, target: str, ai_side: str | None = None, ai=None):
+        """Play to the next stopping point (STOPS); with `ai_side`, the AI controller `ai` manages that side
+        meanwhile and the side's own controller is handed back at the stop."""
+        keep = self.ctrl.get(ai_side) if ai_side else None
+        if ai_side:
+            self.ctrl[ai_side] = ai
+        try:
+            # from a pause point, "next" means the next one: leave the current pause point first
+            return self.run(self._stopper(target), skip_current=self.phase == "pitch")
+        finally:
+            if ai_side:
+                self.ctrl[ai_side] = keep
+
+    def save(self, include_engine: bool = True) -> bytes:
+        """The session at a pause point, pickled: the game state, the stream positions, both controllers and the
+        manager's season state. With include_engine (the default) also the engine and its season accumulators,
+        so the save is complete on its own; without it, `load` reattaches a live engine (the accumulators only
+        collect statistics; play never reads them)."""
+        import pickle
+        eng = self.eng
+        if not include_engine:
+            self.eng = None
+        try:
+            return pickle.dumps(self, protocol=pickle.HIGHEST_PROTOCOL)
+        finally:
+            self.eng = eng
+
+    @staticmethod
+    def load(blob: bytes, engine=None) -> "GameSession":
+        import pickle
+        s = pickle.loads(blob)
+        if engine is not None:
+            s.eng = engine
+        if s.eng is None:
+            raise ValueError("this save has no engine: pass engine=")
+        return s
+
+    # ---- the game loop ---------------------------------------------------------------------
+    def run(self, stop=None, skip_current: bool = False):
+        """Play until `stop(self)` is true at a pause point (returns `point()`), or to the end (returns None)."""
+        eng = self.eng
+        eng.neutral = self.neutral
+        while True:
+            ph = self.phase
+            if ph == "pitch":
+                if stop is not None:
+                    if not skip_current and stop(self):
+                        return self.point()
+                    skip_current = False
+                    if self._pitch():
+                        self.phase = self._finish_pa()
+                else:
+                    while not self._pitch():
+                        pass
+                    self.phase = self._finish_pa()
+            elif ph == "pre_pa":
+                self.phase = self._pre_pa()
+            elif ph == "half_start":
+                self._begin_half()
+                self.phase = "pre_pa"
+            elif ph == "half_end":
+                self.phase = self._end_half()
+            elif ph == "pregame":
+                self._pregame()
+                self.phase = "half_start"
+            elif ph == "final":
+                self._final()
+                self.phase = "over"
+                return None
+            else:
+                return None
+
+    def _pregame(self):
+        eng, st = self.eng, self.st
+        eng.q_cache.clear()          # matchup chains are rebuilt per game (memory); the tilts stay cached
+        eng.fwd_cache.clear()
+        rng = self.engine_stream.at(0, 0)
+        st.rng = rng
+        st.run_rule_in_effect = rng.random() < eng.rules.p_run_rule_in_effect
+        for side in SIDES:
+            st.lineup[side] = self.ask(side, "lineup", side)
             for p in st.lineup[side]:
-                self.bstats[p.pid][B_G] += 1
+                eng.bstats[p.pid][B_G] += 1
                 st.in_game[side].add(p.pid)
-            self._bring_in(st, side, dec.starting_pitcher(st, side), True)
-        self._fielding_context(st)
-        while not st.over:
-            st.half = "T"
-            self._half(st, dec)
-            if st.over:
+            eng._bring_in(st, side, self.ask(side, "starting_pitcher", side), True)
+        eng._fielding_context(st)
+
+    def _begin_half(self):
+        eng, st = self.eng, self.st
+        st.outs, st.bases = 0, [None, None, None]
+        st.phantom = st.p_phantom = 0
+        bat, fld = st.batting_side, st.fielding_side
+        self.half_start = (st.score[bat], st.pa[bat])
+        if st.pending_change[fld]:
+            # a pitcher pulled at the end of an inning is replaced when his side takes the field again,
+            # so a reliever never appears in a game that ends first (as in the play-by-play)
+            st.pending_change[fld] = False
+            nxt = self.ask(fld, "relief_pitcher", fld)
+            if nxt is not None:
+                eng._bring_in(st, fld, nxt, False)
+        for slot, player in self.ask(fld, "defensive_subs", fld):
+            eng._sub(st, fld, player, slot)
+
+    def _pre_pa(self) -> str:
+        """Base running before the plate appearance, then its setup; 'pitch' when it starts, 'half_end' if the
+        half ends first."""
+        eng, st = self.eng, self.st
+        if st.outs >= 3 or st.over:
+            return "half_end"
+        self.pa_serial += 1
+        self.calls = {}
+        rng = st.rng = self.engine_stream.at(1, self.pa_serial)
+        bat, fld = st.batting_side, st.fielding_side
+        # pre-PA base running events: one draw per opportunity, again after each event until none occurs
+        # (scripts/build_engine_tables.py)
+        while any(b is not None for b in st.bases) and st.outs < 3 and not st.over:
+            steal = self.ask(bat, "steal_attempt")
+            runner = eng._lead_stealer(st, bat)
+            ta = to_ = 0.0
+            if eng.sb_tier:
+                cell = f"{st.team_obj[bat].tier}|{st.team_obj[fld].tier}"
+                ta, to_ = eng.sb_tier["attempt"]["cell"][cell], eng.sb_tier["success"]["cell"][cell]
+            sb_or = np.exp(runner.run[0] + eng.delta["att"] + ta) if runner is not None else 1.0
+            ev = eng.pre_pa.draw_event(st.outs, st.base_code, rng.random(), sb_or)
+            if steal == Decision.NO and ev == "SB_ATT":
+                ev = None
+            if ev is None:
                 break
-            self._end_check(st, False)
-            if st.over:
+            ok_or = 1.0
+            if ev == "SB_ATT" and runner is not None:
+                ok_or = np.exp(runner.run[1] - st.catcher_arm[fld] + eng.delta["ok"] + to_)
+            out = eng.pre_pa.draw_outcome(ev, st.outs, st.base_code, rng.random(), ok_or)
+            if out is None:
                 break
+            dests, _, err = out
+            if ev == "SB_ATT":
+                eng.sb[0] += 1
+                eng.sb[1] += "0" not in dests
+                st.sb_att[bat] += 1
+                st.sb_ok[bat] += "0" not in dests
+            if self.log is not None:
+                self.log.append(("run", self.pa_serial, ev, tuple(dests)))
+            if eng._apply(st, dests, None, None, err, event=ev) and st.half == "B":
+                eng._end_check(st, True)
+        if st.outs >= 3 or st.over:
+            return "half_end"
+        eng._sub(st, bat, self.ask(bat, "pinch_hit", bat, st.slot[bat] % 9), st.slot[bat] % 9)
+        batter = st.lineup[bat][st.slot[bat] % 9]
+        st.slot[bat] += 1
+        pitcher = st.pitcher[fld]
+        self.ask(fld, "intentional_walk")
+        bunt = self.ask(bat, "bunt")
+        home_batting = bat == "home"
+        self.pa = {"batter": batter, "pitcher": pitcher, "bunt": bunt, "cum": eng._forward(batter, pitcher, home_batting, st.err_or[fld]),
+                   "b": 0, "s": 0, "seq": [], "res": None}
+        return "pitch"
+
+    def _pitch(self) -> bool:
+        """One pitch; True when it ends the plate appearance."""
+        pa = self.pa
+        i = pa["b"] * 3 + pa["s"]
+        row = pa["cum"][i]
+        k = bisect_right(row, self.st.rng.random() * row[-1])
+        if k >= N_SLOTS:
+            k = N_SLOTS - 1
+        sym, d = SLOT_SYM[k], SLOT_DEST[i][k]
+        pa["seq"].append(sym)
+        if self.log is not None:
+            self.log.append(("p", self.pa_serial, sym))
+        if d >= 0:
+            pa["b"], pa["s"] = divmod(d, 3)
+            return False
+        pa["res"] = OUTCOMES[-1 - d]
+        return True
+
+    def _finish_pa(self) -> str:
+        eng, st, pa = self.eng, self.st, self.pa
+        rng = st.rng
+        bat, fld = st.batting_side, st.fielding_side
+        batter, pitcher, res = pa["batter"], pa["pitcher"], pa["res"]
+        eo = st.err_or[fld]
+        if res == "OUT":
+            res = eng._subtype(st, rng, pa["bunt"])
+        bases0 = list(st.bases)
+        dests, b_to, err = eng.advance.draw(res, st.outs, st.base_code, rng.random(), [rng.random() for _ in range(4)], eo)
+        if res in ("1B", "2B") and eng.speed_on:
+            dests = eng._extra_bases(st, bat, fld, res, dests, bases0, rng)
+        eng._record(st, batter, pitcher, res, "".join(pa["seq"]))
+        if self.log is not None:
+            self.log.append(("pa", self.pa_serial, batter.pid, pitcher.pid, res, tuple(dests), b_to))
+        outs0 = st.outs
+        slot = (st.slot[bat] - 1) % 9
+        scored = eng._apply(st, dests, (pitcher.pid, res == "ROE", slot), b_to, err, res=res)
+        if b_to in ("1", "2", "3") and not st.over:
+            eng._sub(st, bat, self.ask(bat, "pinch_runner", bat, slot), slot)
+        st.outing[fld]["runs"] += scored
+        st.outing[fld]["pa_outs"] += st.outs - outs0
+        if scored and st.half == "B":
+            eng._end_check(st, True)
+        self.pa = None
+        if st.over:
+            return "half_end"
+        st.inning_end = st.outs >= 3
+        if self.ask(fld, "pitching_change") == Decision.YES:
+            if st.inning_end:
+                st.pending_change[fld] = True
+            else:
+                nxt = self.ask(fld, "relief_pitcher", fld)
+                if nxt is not None:
+                    eng._bring_in(st, fld, nxt, False)
+        return "pre_pa"
+
+    def _end_half(self) -> str:
+        eng, st = self.eng, self.st
+        bat = st.batting_side
+        st.half_innings.append((st.inning, st.half, st.score[bat] - self.half_start[0], st.pa[bat] - self.half_start[1]))
+        if st.over:
+            return "final"
+        eng._end_check(st, False)
+        if st.over:
+            return "final"
+        if st.half == "T":
             st.half = "B"
-            self._half(st, dec)
-            if st.over:
-                break
-            self._end_check(st, False)
-            if not st.over:
-                st.inning += 1
-        for side in ("away", "home"):
-            self._end_outing(st, side)
+        else:
+            st.inning += 1
+            st.half = "T"
+        return "half_start"
+
+    def _final(self):
+        eng, st = self.eng, self.st
+        for side in SIDES:
+            eng._end_outing(st, side)
             for pid in st.batted[side]:
-                self.bstats[pid][B_GPA] += 1
-        if hasattr(dec, "record_game"):
-            dec.record_game(st)
-        return st
+                eng.bstats[pid][B_GPA] += 1
+        if hasattr(self.book, "record_game"):
+            self.book.record_game(st)
+        if self.log is not None:
+            self.log.append(("final", st.inning, st.score["away"], st.score["home"]))
