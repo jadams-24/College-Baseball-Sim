@@ -139,7 +139,7 @@ Names are used only inside `tools/aggregate_rosters.py`, to join roster hands to
   `state.json`, the request log) stays in the job's temporary directory and is never committed, uploaded
   as an artifact or cached. Local runs write it to `data/ncaa_2025/rosters/`, which is git-ignored. The
   workflow runs `tools/aggregate_rosters.py` and commits only this folder (plus the script and the
-  workflow) to a branch `rosters/aggregates-<date>-<run id>` made from `main`; no pull request is opened.
+  workflow) to the branch the workflow was run on; no pull request is opened.
 - **Leak check:** the script ends by scanning every file it wrote, cell by cell, for any roster full name
   (also inside a cell, as a run of words), any last name of 6+ letters, and any hometown city, high school
   or previous school, as whole cells (team, conference and place names and the tables' fixed labels are

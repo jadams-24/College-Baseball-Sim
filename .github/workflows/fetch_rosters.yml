@@ -11,8 +11,8 @@ name: fetch rosters
 # this job only: it is never committed, never uploaded as an artifact and never cached.
 # tools/aggregate_rosters.py turns it into count and share tables (it fails if a roster name
 # reaches any output), and only data/ncaa_2025/roster_aggregates/ (with failures.csv: team and
-# reason, no player data) is committed, to a new branch rosters/aggregates-<date>-<run id> made
-# from origin/main. No pull request is opened: the working session merges the branch.
+# reason, no player data) is committed, to the branch the workflow was run on. No pull request is
+# opened.
 
 on:
   workflow_dispatch:
@@ -95,45 +95,31 @@ jobs:
               print(f"| {m} | " + " | ".join(str(v) for v in row) + " |")
           EOF
 
-      - name: Commit the aggregates to a new branch from main (no pull request)
+      - name: Commit the aggregates to the branch the workflow was run on (no pull request)
         if: always() && steps.aggregate.outcome == 'success'
         run: |
           set -euo pipefail
-          branch="rosters/aggregates-$(date -u +%Y-%m-%d)-${{ github.run_id }}"
+          branch="${GITHUB_REF_NAME}"
           stage="$RUNNER_TEMP/stage"
           rm -rf "$stage" && mkdir -p "$stage"
           cp -r "$AGG" "$stage/roster_aggregates"
-          cp tools/aggregate_rosters.py "$stage/"
-          cp .github/workflows/fetch_rosters.yml "$stage/"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git reset --hard -q
-          git clean -fdq
-          git fetch --no-tags --depth=1 origin +refs/heads/main:refs/remotes/origin/main
-          git checkout -B "$branch" origin/main
-          mkdir -p data/ncaa_2025 tools .github/workflows
-          rm -rf "$AGG"
-          cp -r "$stage/roster_aggregates" "$AGG"
-          cp "$stage/aggregate_rosters.py" tools/aggregate_rosters.py
-          git add -- "$AGG" tools/aggregate_rosters.py
-          git commit -q -m "Roster aggregates 2025: fetch of $(date -u +%Y-%m-%d) by the fetch rosters workflow (run ${{ github.run_id }}); counts and shares only, no player rows or names (owner decision 2026-10-07)"
-          # The workflow file goes in its own commit: the job token may not be allowed to change
-          # workflows, and then the branch is pushed without it.
-          cp "$stage/fetch_rosters.yml" .github/workflows/fetch_rosters.yml
-          wf=0
-          if ! git diff --quiet -- .github/workflows/fetch_rosters.yml || ! git ls-files --error-unmatch .github/workflows/fetch_rosters.yml >/dev/null 2>&1; then
-            git add -- .github/workflows/fetch_rosters.yml
-            git commit -q -m "fetch rosters workflow as run (run ${{ github.run_id }})"
-            wf=1
-          fi
-          if ! git push -u origin "$branch"; then
-            if [ "$wf" = 1 ]; then
-              git reset -q --hard HEAD~1
-              git push -u origin "$branch"
-              echo "The workflow file was left out of the branch: the job token may not change workflows." >> "$GITHUB_STEP_SUMMARY"
-            else
-              exit 1
+          for attempt in 1 2 3 4; do
+            git reset --hard -q
+            git clean -fdq
+            git fetch --no-tags origin "+refs/heads/$branch:refs/remotes/origin/$branch"
+            git checkout -q -B "$branch" "origin/$branch"
+            rm -rf "$AGG" && mkdir -p "$(dirname "$AGG")"
+            cp -r "$stage/roster_aggregates" "$AGG"
+            git add -- "$AGG"
+            git diff --cached --quiet && { echo "no change"; exit 0; }
+            git commit -q -m "Roster aggregates 2025: fetch of $(date -u +%Y-%m-%d) by the fetch rosters workflow (run ${{ github.run_id }}); counts and shares only, no player rows or names (owner decision 2026-10-07)"
+            if git push origin "HEAD:$branch"; then
+              git log -1 --stat --format="%H %s"
+              echo "Committed the aggregates to \`$branch\`: ${{ github.server_url }}/${{ github.repository }}/tree/$branch/$AGG" >> "$GITHUB_STEP_SUMMARY"
+              exit 0
             fi
-          fi
-          git log -2 --stat --format="%H %s"
-          echo "Pushed branch \`$branch\` (aggregates only): ${{ github.server_url }}/${{ github.repository }}/tree/$branch" >> "$GITHUB_STEP_SUMMARY"
+            sleep $((attempt * 15))
+          done
+          exit 1
