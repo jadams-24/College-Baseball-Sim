@@ -3,5 +3,5 @@ __pycache__/
 .pytest_cache/
 .venv/
 
-
-
+# Raw roster fetch (player names): never committed (owner decision 2026-10-07)
+data/ncaa_2025/rosters/
