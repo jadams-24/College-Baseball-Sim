@@ -38,6 +38,7 @@ from engine.game2 import P_ER, P_G, P_GS, P_K, P_OUTS
 
 ROOT = Path(__file__).resolve().parents[1]
 FRI_SUN = (4, 5, 6)
+PATH_COUNTS = tuple(f"{b}-{s}" for b in range(4) for s in range(3) if (b, s) != (0, 0))   # 0-0: 48 plate appearances in the data
 
 
 def season_extract6(res: dict) -> dict:
@@ -52,6 +53,21 @@ def season_extract6(res: dict) -> dict:
         out[f"errors_{t}"] = float(tg[sel, 8].mean())
     att, ok = res["sb"]
     out["sb_per_team_game"], out["sb_attempts_per_team_game"], out["sb_success_rate"] = ok / len(tg), att / len(tg), ok / max(att, 1)
+    dc = res.get("decisions")
+    if dc is not None:
+        # PR B: decisions (per team-game, regular season) and the steal paths
+        for k in ("bunts", "SH", "bunt_hits", "ibb"):
+            out[f"dec_{k}_per_team_game"] = dc[k] / len(tg)
+        tot = np.sum([v for v in dc["path_by_len"].values()], axis=0)
+        out["path_attempt_per_pa"] = tot[1] / max(tot[0], 1)
+        out["path_success"] = tot[2] / max(tot[1], 1)
+        for L in range(2, 9):
+            n_, a_, k_ = dc["path_by_len"].get(L, (0, 0, 0))
+            out[f"path_len{L}_attempt"] = a_ / max(n_, 1)
+            out[f"path_len{L}_success"] = k_ / a_ if a_ else float("nan")
+        for fc in PATH_COUNTS:
+            n_, a_, _ = dc["path_by_fc"].get(fc, (0, 0, 0))
+            out[f"path_fc{fc}_attempt"] = a_ / max(n_, 1)
     o = res["outings"]
     fs_outs, os_outs, rl_outs = {}, {}, {}
     for pid, started, outs, wd in o:
@@ -126,8 +142,8 @@ def season_extract6(res: dict) -> dict:
 def aggregate6(ex: list) -> dict:
     n = len(ex)
     keys = ex[0].keys()
-    mean = {k: float(np.mean([e[k] for e in ex])) for k in keys}
-    se = {k: float(np.std([e[k] for e in ex], ddof=1) / np.sqrt(n)) if n > 1 else 0.0 for k in keys}
+    mean = {k: float(np.nanmean([e[k] for e in ex])) for k in keys}
+    se = {k: float(np.nanstd([e[k] for e in ex], ddof=1) / np.sqrt(n)) if n > 1 else 0.0 for k in keys}
     lo = {k: float(np.min([e[k] for e in ex])) for k in keys}
     hi = {k: float(np.max([e[k] for e in ex])) for k in keys}
     return {"n_seasons": n, "mean": mean, "se": se, "min": lo, "max": hi}
@@ -201,6 +217,32 @@ def build_report6(agg: dict, agg2: dict, agg5: dict, seeds: list, st2: dict, st4
         st.record("p6_pitchers_50ip", lb["mean"], lb["sd"] / math.sqrt(n))
     rows.append(("deferred", f"| Pitchers with 50+ IP | {lb['mean']:.1f} (seasons {lb['min']:.0f}–{lb['max']:.0f}) | {real} | ±{half:.1f} (95% PI) | {'pass' if ok else 'FAIL'} | "
                              f"{'watch item: ' + WATCH6['p6_pitchers_50ip'] + '. ' if watch else ''}56-game equivalent of the raw {pb['value']} (ratio {pb['ratio_56g']['value']} ± {pb['ratio_56g']['se']}, WMT full-season teams) |"))
+    # PR B: decisions that change outcomes, with the AI deciding (benchmarks decisions_2025: the play-by-play's games)
+    if "dec_bunts_per_team_game" in m:
+        sa = lt["sb_attempts_per_team_game"]
+        row("dec", "pb_sb_attempts", "Steal attempts per team-game", m["sb_attempts_per_team_game"], se["sb_attempts_per_team_game"], sa["value"], sa["tol"], 3,
+            "box-score count: every runner in a double steal, a runner picked off while breaking charged a caught stealing")
+        dz = b["decisions_2025"]
+        for key, label in (("bunts", "Bunts per team-game"), ("SH", "Sacrifice hits per team-game"), ("bunt_hits", "Bunt hits per team-game"),
+                           ("ibb", "Intentional walks per team-game")):
+            bz = dz[f"{key}_per_team_game"]
+            row("dec", f"pb_{key}", label, m[f"dec_{key}_per_team_game"], se[f"dec_{key}_per_team_game"], bz["value"], bz["tol"], 3)
+        pz = dz["steal_paths"]
+        row("dec", "pb_path_attempt", "Steal attempts per eligible PA (all paths)", m["path_attempt_per_pa"], se["path_attempt_per_pa"],
+            pz["attempt_per_pa"]["value"], pz["attempt_per_pa"]["tol"], 4)
+        row("dec", "pb_path_success", "Steal success on eligible PAs", m["path_success"], se["path_success"], pz["success"]["value"], pz["success"]["tol"], 3)
+        for L in range(2, 9):
+            c_ = pz["by_length"][str(L)]
+            row("path", f"pb_len{L}_attempt", f"Attempt per PA, {L}{'+' if L == 8 else ''} pitches", m[f"path_len{L}_attempt"], se[f"path_len{L}_attempt"],
+                c_["attempt"], c_["tol_attempt"], 4)
+        for L in range(2, 9):
+            c_ = pz["by_length"][str(L)]
+            row("path", f"pb_len{L}_success", f"Success, {L}{'+' if L == 8 else ''} pitches", m[f"path_len{L}_success"], se[f"path_len{L}_success"],
+                c_["success"], c_["tol_success"], 3)
+        for fc in PATH_COUNTS:
+            c_ = pz["by_final_count"][fc]
+            row("path", f"pb_fc{fc}_attempt", f"Attempt per PA, final count {fc}", m[f"path_fc{fc}_attempt"], se[f"path_fc{fc}_attempt"],
+                c_["attempt"], c_["tol_attempt"], 4)
     for tr in TIERS:
         for s_k, lab in (("o", "offense"), ("d", "run prevention")):
             key = f"rec_{s_k}_minus_drawn_{tr}"
@@ -224,6 +266,14 @@ def build_report6(agg: dict, agg2: dict, agg5: dict, seeds: list, st2: dict, st4
           f"Errors per team-game by tier: P4 {m['errors_p4']:.3f}, mid {m['errors_mid']:.3f}, low {m['errors_low']:.3f} "
           f"(2025 sample, raw: {lt['errors_per_team_game']['by_tier_in_sample']}). Steal attempts per team-game {m['sb_attempts_per_team_game']:.3f} "
           f"(real {lt['sb_attempts_per_team_game']['value']}).", "",
+          *(["## Decisions (PR B: steals before each pitch, called bunts, intentional walks)", "",
+             "The AI manager decides; its attempt, bunt and intentional-walk rates are the play-by-play's, by game state "
+             "(data/ncaa_2025/derived/prb_steals.json, prb_inputs.json). Benchmarks: the 2025 play-by-play's games, except steal attempts "
+             "(box scores, league_totals_2025).", "", hdr, sec("dec"), "",
+             "Steal attempts and success by observed pitch path: plate appearances that began with a lead runner able to steal, no other "
+             "base running first and at least one ball or strike (scripts/build_prb_steals.py eligible()); the attempt counted in the plate "
+             "appearance it happened in. Tolerance: 3 SE of the real share combined with 3 SE of the simulated mean.", "", hdr, sec("path"), ""]
+            if "dec_bunts_per_team_game" in m else []),
           "## Pitcher usage (56-game equivalent)", "", hdr, sec("usage"), "",
           "Top three pitchers' innings, split (sim / real): " + "; ".join(
               f"#{r}: Fri-Sun starts {m[f'ip_rank{r}_fri_sun_starts']:.1f} / {u6[f'ip_rank{r}_fri_sun_starts']['value']:.1f}, "

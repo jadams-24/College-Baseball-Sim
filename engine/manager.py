@@ -46,6 +46,35 @@ class Manager(LeagueAverageDecider):
         """The generator for this decision: the controller's positioned stream, else the game's (scripts)."""
         return self.rng if self.rng is not None else state.rng
 
+    # ---- PR B: decisions that change outcomes (config.decisions; engine.decisions) ----------------
+    def _dm(self):
+        if not hasattr(self, "_dm_cache"):
+            from config import decisions
+            from engine.decisions import DecisionModels
+            self._dm_cache = DecisionModels(decisions.load()) if decisions.on("decisions") else None
+        return self._dm_cache
+
+    def intentional_walk(self, state):
+        dm = self._dm()
+        if dm is None:
+            return Decision.LEAGUE_RATE
+        return Decision.YES if self._r(state).random() < dm.ibb_prob(state, state.cur_slot) else Decision.NO
+
+    def bunt(self, state):
+        dm = self._dm()
+        if dm is None:
+            return Decision.LEAGUE_RATE
+        return Decision.YES if self._r(state).random() < dm.bunt_call_prob(state, state.cur_slot) else Decision.NO
+
+    def pre_pitch(self, state, info: dict):
+        """Steal or not, before the coming pitch: the league's attempt rate in this count and game state for this
+        runner against this pitcher (info["attempt_logit"]: the fitted hazard with the runner's speed, the
+        pitcher's hold and the tier cell; engine.game2 GameSession._steal_info)."""
+        if not info.get("steal_base") or self._dm() is None:
+            return None
+        p = 1.0 / (1.0 + np.exp(-info["attempt_logit"]))
+        return "steal" if self._r(state).random() < p else None
+
     def __init__(self, cfg: Phase2Config):
         u = cfg.usage
         self.start = phase6.batter_start_shares(u["batter_start_share_by_rank"], N_REGULARS + N_BENCH)

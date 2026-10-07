@@ -232,6 +232,20 @@ magnitude comes from the scoreboard fit with a park term (`scripts/build_phase2_
   waits 1.5 s between requests, retries a reset connection at most 3 times (after 5, 10, 20 s), sends a descriptive
   User-Agent, and stops on a 403/407/429 or a bot-protection page. Each page was fetched once per season and is committed.
 
+## data/ncaa_2025/derived/ — PR B decision inputs
+
+- `prb_steals.json`: steal attempt and success by count and game state, fitted by EM on the pitch paths of the 2025 WMT play-by-play (`scripts/build_prb_steals.py`, built 2026-10-07; report `reports/prb_steals.md`).
+- `prb_inputs.json`: the AI's bunt and intentional-walk rates by game state, a called bunt's pitches and its outcome table, the pitcher's hold, pickoff scoring, and the gate benchmarks (`scripts/build_prb_decisions.py`, built 2026-10-07).
+- Both are built from `data/ncaa_2025/pbp/parsed/` only; nothing is fetched. Method and caveats: PHASE0_NOTES, "Decisions that change outcomes".
+
+## data/ncaa_rules/ — NCAA baseball rules (PR B)
+
+Fetched 2026-10-07 from the NCAA's public document store:
+- `PRMBA_RulesBook.pdf`: NCAA Baseball 2025 and 2026 Rules (the rules book), https://ncaaorg.s3.amazonaws.com/championships/sports/baseball/rules/PRMBA_RulesBook.pdf
+- `2025-26PRMBA_RulesChanges.pdf`: the 2025-26 rules changes, https://ncaaorg.s3.amazonaws.com/championships/sports/baseball/rules/2025-26PRMBA_RulesChanges.pdf
+
+Used for the limits on in-game calls (`config/decisions.py`): coach trips to the mound (9-4), the intentional walk without pitches (8-2-b), the walk charged to the previous pitcher (10-22-b), and a foul bunt on strike three (10-23).
+
 ## Not pulled
 
 - **stats.ncaa.org team, individual and contest pages.** The team list is

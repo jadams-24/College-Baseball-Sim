@@ -62,13 +62,27 @@ def simulate_season(cfg: Phase2Config, seed: int) -> dict:
            "team_cell": eng.team_cell.copy(), "opp_trials": eng.opp_trials.copy(), "exp_trials": eng.exp_trials.copy(),
            "leash_survive": copy.deepcopy(mgr.leash_survive), "leash_pulls": copy.deepcopy(mgr.leash_pulls),
            "leash_expected": copy.deepcopy(mgr.leash_expected), "leash_var": copy.deepcopy(mgr.leash_var),
-           "pitch_rec": copy.deepcopy(eng.pitch_rec), "sb": list(eng.sb), "outings": np.array(eng.outings, dtype=np.int32),
+           "pitch_rec": copy.deepcopy(eng.pitch_rec), "sb": list(eng.sb), "decisions": _decision_counts(eng), "outings": np.array(eng.outings, dtype=np.int32),
            "outing_lines": np.array(eng.outing_lines, dtype=np.int32), "player_pitch": eng.player_pitch.copy(), "starts": np.array(eng.starts, dtype=float),
            "scheduled_games": Counter([g.home for i, g in enumerate(schedule) if not dropped[i]] + [g.away for i, g in enumerate(schedule) if not dropped[i]]),
            "canceled": int(canceled.sum())}
     if world:
         res["post"] = _postseason(cfg, league, eng, mgr, reg_games, max(g.date for g in schedule), s_post, team_games, bstats, pstats)
     return res
+
+
+def _decision_counts(eng) -> dict:
+    """PR B: bunts, sacrifice hits, bunt hits and intentional walks, and the steal paths (plate appearances that began
+    with a lead runner able to steal: pitches, final count, attempt, steal) aggregated by length (8+ pooled) and final
+    count, as the play-by-play's benchmark (scripts/build_prb_decisions.py)."""
+    by_len, by_fc = {}, {}
+    for n, fc, att, ok, _known in eng.path_rec:
+        a = by_len.setdefault(min(n, 8), [0, 0, 0])
+        a[0] += 1; a[1] += att; a[2] += ok
+        b = by_fc.setdefault(fc, [0, 0, 0])
+        b[0] += 1; b[1] += att; b[2] += ok
+    return {"bunts": eng.bunt_rec["bunts"], "SH": eng.bunt_rec["SH"], "bunt_hits": eng.bunt_rec["hits"], "ibb": eng.ibb_count,
+            "path_by_len": by_len, "path_by_fc": by_fc}
 
 
 def _postseason(cfg, league, eng, mgr, reg_games, last_date, s_post, team_games, bstats, pstats) -> dict:
