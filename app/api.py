@@ -16,7 +16,7 @@
     GET  /                           the frontend (app/static/v2; the first page at /static/index.html)
 
 A turn carries the state (app.timeline.state_json), the feed entries since the client's cursor, the pending
-question or boundary, the queued orders, the modes and the decision buttons. Saves are pickles signed with
+question or boundary, the queued orders, the modes, the decision buttons and the action menu (app.menu). Saves are pickles signed with
 HMAC-SHA256 under CBS_SAVE_SECRET (an unsigned or foreign save is refused: unpickling untrusted bytes runs code).
 """
 from __future__ import annotations
@@ -38,6 +38,7 @@ from pydantic import BaseModel
 
 from app import catalogue as cat
 from app.connector import GameRunner
+from app.menu import menu
 from app.timeline import Narrator, box_score, state_json
 from app.world import World
 from engine.game2 import STOPS
@@ -144,6 +145,7 @@ def _turn(gid: str, runner: GameRunner, full: bool = False) -> dict:
     t["events"] = entries[cur:]
     t["feed_cursor"] = store.cursors[gid] = len(entries)
     t["meta"] = runner.meta
+    t["menu"] = menu(runner)                 # the action menu: the calls legal now for the user's side (app.menu)
     return t
 
 

@@ -144,7 +144,7 @@
   // ---- 3. field: runners as markers (tap or hover: name, Speed, the ratings that matter on the bases), the
   //      fielders' positions faintly, the batter at the plate ----
   const BASES = { 1: [250, 160], 2: [160, 70], 3: [70, 160] };
-  const FIELDERS = [["P", 160, 150], ["C", 160, 262], ["1B", 240, 125], ["2B", 190, 85], ["SS", 125, 85], ["3B", 78, 125], ["LF", 60, 40], ["CF", 160, 18], ["RF", 260, 40]];
+  const FIELDERS = [["P", 160, 150], ["C", 132, 266], ["1B", 240, 125], ["2B", 190, 85], ["SS", 125, 85], ["3B", 78, 125], ["LF", 60, 40], ["CF", 160, 18], ["RF", 260, 40]];
   function renderField(t) {
     const st = t.state, bside = st.batting_side, fside = bside === "home" ? "away" : "home";
     const byPid = {};
@@ -174,7 +174,7 @@
         <rect class="base" x="151" y="61" width="18" height="18" transform="rotate(45 160 70)"/>
         <rect class="base" x="61" y="151" width="18" height="18" transform="rotate(45 70 160)"/>
         <polygon class="base" points="151,243 169,243 169,251 160,259 151,251"/>
-        ${st.batter && st.count ? `<g class="atbat"><circle cx="178" cy="268" r="5"/><text x="188" y="272">${esc(st.batter.name)}</text></g>` : ""}
+        ${st.batter && st.count ? `<g class="atbat"><circle cx="184" cy="268" r="5"/><text x="194" y="272">${esc(st.batter.name)}</text></g>` : ""}
         ${st.bases.map((b, i) => runner(i, b)).join("")}
       </svg>
       <div class="legend-line">${st.due_up.length ? "Due up: " + st.due_up.map(esc).join(", ") : ""}</div>`;
@@ -194,80 +194,192 @@
     });
   }
 
-  // ---- 4. action menu: only the calls legal now, for the side you are on ----
-  function menuItems(t) {
-    const st = t.state, me = t.user_side, acts = Object.fromEntries(t.actions.map((a) => [a.kind, a]));
-    const batting = st.batting_side === me && !st.over;
-    const items = [];
-    const pre = acts.pre_pitch, def = acts.pre_pitch_defense;
-    const queued = (k) => t.orders.some((o) => o.kind === k);
-    if (batting) {
-      const picks = (pre && pre.picks) || {};
-      items.push({ k: "pre_pitch", v: "swing", label: "Swing away", dflt: true, on: !!pre && pre.legal });
-      items.push({ k: "pre_pitch", v: "bunt", label: "Bunt", on: !!pre && pre.legal });
-      if (picks.steal_base) items.push({ k: "pre_pitch", v: "steal", label: `Steal ${ORD(picks.steal_base)}`, on: true });
-      if (picks.steal_base) items.push({ k: "pre_pitch", v: "hit_and_run", label: "Hit & run", on: true });
-      if (acts.pinch_hit) items.push({ k: "pinch_hit", label: st.count ? "Pinch hit (next batter)" : "Pinch hit", on: acts.pinch_hit.legal, why: acts.pinch_hit.reason });
-      (picks.runners || []).forEach((r) => items.push({ k: "pre_pitch", v: { pinch_runner: null, slot: r.slot }, label: `Pinch run ${ORD(r.base)}`, on: (picks.bench || []).length > 0, why: (picks.bench || []).length ? "" : "no bench player left" }));
-    } else if (!st.over) {
-      const picks = (def && def.picks) || {};
-      items.push({ k: "pre_pitch_defense", v: "none", label: "Pitch", dflt: true, on: !!def && def.legal });
-      items.push({ k: "pre_pitch_defense", v: "ibb", label: "Intentional walk", on: !!def && def.legal });
-      items.push({ k: "pre_pitch_defense", v: "pitchout", label: "Pitchout", on: !!def && def.legal && st.bases.some(Boolean), why: st.bases.some(Boolean) ? "" : "no runner on" });
-      const m = st.mound || {};
-      let why = "";
-      if (m.same_batter) why = "no second trip with the same batter at bat (9-4-c)";
-      else if (m.visited_this_pitcher_inning) why = "a second trip this inning removes him (9-4-b)";
-      else if (m.free_used >= m.free_limit) why = `no free trips left (${m.free_used} of ${m.free_limit}): a trip removes him`;
-      items.push({ k: "pre_pitch_defense", v: "mound_visit", label: "Mound visit", on: !!def && def.legal && !m.same_batter, why });
-      items.push({ k: "pitching_change", label: st.count ? "Pitching change (now)" : "Pitching change", on: (picks.bullpen || []).length > 0, why: (picks.bullpen || []).length ? "" : "no pitcher left" });
-      items.push({ k: "defensive_subs", label: "Defensive change", on: acts.defensive_subs && acts.defensive_subs.legal, why: acts.defensive_subs ? acts.defensive_subs.reason : "" });
+  // ---- 4. action menu: the calls legal now for the side you are on, built by the server (app/menu.py);
+  //      tapping queues the order, the sim buttons proceed with the AI handling anything not queued ----
+  function playerOf(pid) {
+    const st = S.game.turn.state;
+    for (const side of ["away", "home"]) for (const grp of ["lineups", "bench", "bullpen", "used_pitchers"]) { const p = (st[grp][side] || []).find((x) => x.pid === pid); if (p) return p; }
+    return { pid, name: `#${pid}`, ratings: {} };
+  }
+  function pickCard(p) {
+    const r = p.ratings || {};
+    const meta = p.side === "pit" ? `${p.role} · Stf ${r.stuff} Ctl ${r.control} Mov ${r.movement} Sta ${r.stamina}` : `${p.pos} · Con ${r.contact} Pow ${r.power} Spd ${r.speed} Glv ${r.glove}${p.line_text ? " · today " + p.line_text : ""}`;
+    return `<button class="pick" data-pid="${p.pid}"><span>${esc(p.name)}</span><span class="why">${esc(meta)}</span></button>`;
+  }
+  function orderFor(item, pid, slot) {
+    // the order an item sends once its player (and slot) is picked (app/menu.py's shapes)
+    const v = item.value;
+    if (item.kind === "pinch_hit") return pid;
+    if (item.kind === "pitching_change") return { yes: true, reliever: pid };
+    if (item.kind === "defensive_subs") return [[slot, pid]];
+    if (v && "pinch_runner" in v) return { pinch_runner: pid, slot: v.slot };
+    if (v && "pitching_change" in v) return { pitching_change: pid };
+    if (v && "defensive_sub" in v) return { defensive_sub: [slot, pid] };
+    return v;
+  }
+  function chooser(item, question) {
+    // the inline picker under an item that needs a player (a lineup slot too for a defensive change)
+    const st = S.game.turn.state, me = S.game.turn.user_side;
+    const pool = item.pick.options.map(playerOf);
+    const slots = item.pick.what === "sub" ? `<label class="slot">For the slot <select id="pick-slot">${st.lineups[me].map((p, i) => `<option value="${i}">${i + 1}. ${esc(p.name)} (${p.pos})</option>`).join("")}</select></label>` : "";
+    const html = `<div class="chooser" data-for="${item.id}">${slots}<div class="picks">${pool.map(pickCard).join("")}</div><button class="btn-ghost" data-cancel="1">Cancel</button></div>`;
+    return { html, send: (pid, slot) => (question ? decide(item.kind, orderFor(item, pid, slot)) : order(item.kind, orderFor(item, pid, slot))) };
+  }
+  async function order(kind, value) { applyTurn(await gameCall("/orders", "POST", { kind, value })); }
+  async function decide(kind, value) { applyTurn(await gameCall("/decide", "POST", { kind, value })); }
+  let openPick = null;                 // the item whose picker is open
+  function questionBlock(t) {
+    // a kind on "ask me": the engine waits for this answer; the menu items of that kind answer it, other kinds
+    // get a plain chooser from the pending question's shape (app/catalogue.py)
+    const p = t.pending, st = t.state, me = t.user_side;
+    let body = "";
+    const inMenu = t.menu.some((i) => i.kind === p.kind);
+    if (!inMenu) {
+      if (p.answer === "choice3" || p.answer === "generic") body = `<div class="picks row-picks"><button data-answer='"yes"'>Yes</button><button data-answer='"no"'>No</button><button data-answer='"league_rate"'>Let them play (league rate)</button></div>`;
+      else if (p.answer === "pick_batter") body = `<div class="picks"><button data-answer="null">No one</button>${p.options.map((pid) => pickCard(playerOf(pid))).join("")}</div>`;
+      else if (p.answer === "pick_pitcher") body = `<div class="picks">${p.options.map((pid) => pickCard(playerOf(pid))).join("")}</div>`;
+      else if (p.answer === "pitching_change") body = `<div class="picks"><button data-answer='"no"'>No change</button>${p.options.map((pid) => pickCard(playerOf(pid))).join("")}</div>`;
+      else if (p.answer === "subs") body = `<label class="slot">For the slot <select id="q-slot">${st.lineups[me].map((x, i) => `<option value="${i}">${i + 1}. ${esc(x.name)} (${x.pos})</option>`).join("")}</select></label><div class="picks"><button data-answer="[]">No change</button>${p.options.map((pid) => pickCard(playerOf(pid))).join("")}</div>`;
+      else body = `<div class="why">Set before the game.</div>`;
     }
-    return items.map((i) => Object.assign(i, { queued: queued(i.k) }));
+    return `<div class="question" data-kind="${p.kind}" data-answer-type="${p.answer}"><b>Your call: ${esc(p.label)}</b><div class="why">${inMenu ? "Pick one of the calls below." : "The engine is waiting for this decision (you asked to be asked)."}${p.legal ? "" : " " + esc(p.reason)}</div>${body}
+      <button class="btn-ghost" data-q-auto="${p.kind}">Let the AI decide this one</button></div>`;
   }
   function renderActions(t) {
-    const items = menuItems(t);
-    const st = t.state;
+    const st = t.state, question = t.phase === "question";
     const side = st.batting_side === t.user_side ? "You bat" : "You pitch";
     const when = st.over ? "final" : t.phase === "pregame" ? "pregame" : st.count ? "before the next pitch" : "before the at-bat";
-    let question = "";
-    if (t.phase === "question") {
-      const p = t.pending;
-      question = `<div class="question"><b>Your call: ${esc(p.label)}</b><div class="why">The engine is waiting for this decision (you asked to be asked).</div>
-        <button data-q-auto="${p.kind}">Let the AI decide this one</button></div>`;
-    }
+    const items = t.menu.filter((i) => !question || i.kind === t.pending.kind);
+    const anyQueued = t.orders.length > 0;
     const sims = t.phase === "pregame"
-      ? `<button class="go" data-sim="pitch">Play ball</button>`
+      ? `<div class="why">Your batting order and starter are the AI's picks: change them in the Lineup panel${window.innerWidth <= 760 ? ' (<a href="#" data-goto="lineup">open it</a>)' : ""} before the first pitch.</div><button class="go" data-sim="pitch">Play ball</button>`
       : `<button class="go" data-sim="pitch">Next pitch</button><button data-sim="pa">At-bat</button><button data-sim="half">Half inning</button><button data-sim="inning">Inning</button><button data-sim="three_innings">3 innings</button><button data-sim="game">End of game</button>`;
-    const off = st.over || t.phase === "question" || S.busy;
-    $("#actions").innerHTML = `<h2>Calls <span class="sub">${side} · ${when}</span></h2>${question}
-      <div class="menu">${items.map((i) => `<button data-k="${i.k}" class="${i.dflt ? "default" : ""} ${i.queued ? "queued" : ""}" disabled title="calls go live in the next step"><span>${i.label}</span>${i.why ? `<span class="why">${esc(i.why)}</span>` : i.dflt ? `<span class="key">default</span>` : ""}</button>`).join("")}
+    const off = st.over || question || S.busy;
+    $("#actions").innerHTML = `<h2>Calls <span class="sub">${side} · ${when}</span></h2>${question ? questionBlock(t) : ""}
+      <div class="menu">${items.map((i) => `<button data-item="${i.id}" class="${i.default ? "default" : ""} ${i.queued ? "queued" : ""} ${openPick === i.id ? "open" : ""}" ${i.enabled ? "" : "disabled"}><span>${esc(i.label)}</span>${i.queued ? `<span class="key you">queued</span>` : i.reason ? `<span class="why">${esc(i.reason)}</span>` : i.default ? `<span class="key">default</span>` : i.pick ? `<span class="key">pick…</span>` : ""}</button>${openPick === i.id ? chooser(i, question).html : ""}`).join("")}
+      ${anyQueued && !question ? `<div class="orders">${t.orders.map((o) => `<span>${esc(orderText(o))}</span>`).join("")} <button class="btn-ghost" data-clear-all="1">Clear</button></div>` : ""}
       <div class="group">Sim</div>
       <div class="sims">${sims}</div>
-      <div class="coach"><button class="btn-ghost" id="legend-btn">Rating legend</button></div></div>`;
+      <div class="coach"><div class="tools"><button class="btn-ghost" id="coach-btn">Ask bench coach</button><button class="btn-ghost" id="ask-btn">Ask me…</button><button class="btn-ghost" id="legend-btn">Rating legend</button></div><div id="coach-out" class="hidden"></div><div id="ask-panel" class="hidden"></div></div></div>`;
     $$("#actions [data-sim]").forEach((b) => (b.disabled = off));
+    const go = $("#actions [data-goto]");
+    if (go) go.addEventListener("click", (e) => { e.preventDefault(); $(`#phone-tabs [data-tab="lineup"]`).click(); });
     $("#legend-btn").addEventListener("click", () => $("#legend").classList.toggle("hidden"));
+    $("#coach-btn").addEventListener("click", () => busy(async () => {
+      const c = await gameCall("/coach");
+      const lines = c.advice.filter((a) => !a.pids).map((a) => `<div>${esc(a.label)}: ${esc(a.text || a.name || "")}</div>`);
+      S.coach = `<b>Bench coach</b> (what the AI would do for your team next): ${lines.length ? lines.join("") : "<div>nothing to call before the next pitch</div>"}`;
+    }));
+    if (S.coach) { $("#coach-out").innerHTML = S.coach; $("#coach-out").classList.remove("hidden"); }
+    $("#ask-btn").addEventListener("click", () => { const p = $("#ask-panel"); p.classList.toggle("hidden"); renderAsk(t); });
+    // items
+    $$("#actions [data-item]").forEach((b) => b.addEventListener("click", () => {
+      const item = t.menu.find((i) => i.id === b.dataset.item);
+      if (item.pick) { openPick = openPick === item.id ? null : item.id; return renderActions(t); }
+      if (item.queued && !question) return busy(() => order(item.kind, null));           // tap again: cancel
+      busy(() => (question ? decide(item.kind, item.value) : order(item.kind, item.value)));
+    }));
+    const ch = $("#actions .chooser");
+    if (ch) {
+      const item = t.menu.find((i) => i.id === ch.dataset.for), c = chooser(item, question);
+      $$("#actions .chooser [data-pid]").forEach((b) => b.addEventListener("click", () => { openPick = null; busy(() => c.send(+b.dataset.pid, ch.querySelector("#pick-slot") ? +ch.querySelector("#pick-slot").value : 0)); }));
+      ch.querySelector("[data-cancel]").addEventListener("click", () => { openPick = null; renderActions(t); });
+    }
+    const qb = $("#actions .question");
+    if (qb) {
+      $$("#actions .question [data-answer]").forEach((b) => b.addEventListener("click", () => busy(() => decide(qb.dataset.kind, JSON.parse(b.dataset.answer)))));
+      $$("#actions .question [data-pid]").forEach((b) => b.addEventListener("click", () => {
+        const pid = +b.dataset.pid, type = qb.dataset.answerType;
+        const v = type === "pitching_change" ? { yes: true, reliever: pid } : type === "subs" ? [[+$("#q-slot").value, pid]] : pid;
+        busy(() => decide(qb.dataset.kind, v));
+      }));
+    }
+    const ca = $("#actions [data-clear-all]");
+    if (ca) ca.addEventListener("click", () => busy(async () => { for (const o of t.orders) await order(o.kind, null); }));
+  }
+  function orderText(o) {
+    const d = S.decisions.kinds.find((k) => k.kind === o.kind), v = o.value;
+    const name = (pid) => playerOf(pid).name;
+    let what;
+    if (v === "auto") what = "AI decides";
+    else if (typeof v === "number") what = name(v);
+    else if (Array.isArray(v)) what = v.map((x) => (Array.isArray(x) ? `${name(x[1])} in at ${x[0] + 1}` : name(x))).join(", ");
+    else if (v && typeof v === "object") what = "pinch_runner" in v ? `${name(v.pinch_runner)} runs` : "pitching_change" in v ? `${name(v.pitching_change)} in` : "defensive_sub" in v ? `${name(v.defensive_sub[1])} in at ${v.defensive_sub[0] + 1}` : v.yes ? `yes, ${name(v.reliever)}` : "no";
+    else what = String(v).replace(/_/g, " ");
+    return `${d ? d.label : o.kind}: ${what}`;
+  }
+  function renderAsk(t) {
+    const p = $("#ask-panel");
+    p.innerHTML = `<div class="why">Autopilot answers every decision you have not queued. Tick a decision to be stopped and asked each time.</div>` +
+      S.decisions.kinds.filter((k) => k.when !== "pregame").map((k) => `<label class="ask"><input type="checkbox" data-mode="${k.kind}" ${t.modes[k.kind] === "ask" ? "checked" : ""}> ${esc(k.label)}</label>`).join("");
+    $$("#ask-panel [data-mode]").forEach((c) => c.addEventListener("change", () => busy(async () => { applyTurn(await gameCall("/modes", "POST", { kind: c.dataset.mode, mode: c.checked ? "ask" : "auto" })); S.askOpen = true; })));
   }
 
-  // ---- 5. lineup panel ----
+  // ---- 5. lineup panel: batting order with position, bats, today's results and H-AB; the opponent's lineup;
+  //      the bullpen with each pitcher's status; before the game, the lineup and starter editor ----
   function resChips(list) { return `<span class="res">${(list || []).map((r) => { const [lab, cls] = RES[r] || [r, "out"]; return `<i class="${cls}">${lab}</i>`; }).join("")}</span>`; }
+  let lineupTab = "mine";
   function renderLineup(t, tab) {
     const st = t.state, me = t.user_side, opp = me === "home" ? "away" : "home";
-    tab = tab || "mine";
-    const side = tab === "opp" ? opp : me;
+    lineupTab = tab || lineupTab;
+    const side = lineupTab === "opp" ? opp : me;
     let body;
-    if (tab === "pen") {
-      const rows = st.bullpen[me].map((p) => `<tr><td class="nm">${esc(p.name)}</td><td>${p.role}</td><td class="hand">${p.hand || "–"}</td><td class="avail">available</td><td><span class="stam-mini" title="Stamina ${p.ratings.stamina}"><i style="width:${Math.max(8, Math.min(100, (p.ratings.stamina - 20) / 60 * 100))}%"></i></span> ${p.ratings.stamina}</td></tr>`)
-        .concat(st.used_pitchers[me].map((p) => `<tr class="bp"><td class="nm">${esc(p.name)}</td><td>${p.role}</td><td class="hand">${p.hand || "–"}</td><td class="avail used">${st.pitcher && st.pitcher.pid === p.pid ? "pitching" : "used"}</td><td>${p.line.ip} IP, ${p.line.pitches} P</td></tr>`));
-      body = `<table class="lu bp"><tr><th>Pitcher</th><th>Role</th><th>T</th><th>Status</th><th>Stamina</th></tr>${rows.join("")}</table>`;
+    if (t.phase === "pregame" && lineupTab === "mine") body = pregameEditor(t);
+    else if (lineupTab === "pen") {
+      const cur = st.pitcher && st.pitcher.pid;
+      const rows = st.bullpen[me].map((p) => `<tr><td class="nm">${esc(p.name)}</td><td>${p.role}</td><td class="hand">${p.hand || "–"}</td><td class="avail">${t.phase === "pregame" ? "rested" : "available"}</td><td><span class="stam-mini" title="Stamina ${p.ratings.stamina}"><i style="width:${Math.max(8, Math.min(100, (p.ratings.stamina - 20) / 60 * 100))}%"></i></span> ${p.ratings.stamina}</td></tr>`)
+        .concat(st.used_pitchers[me].map((p) => `<tr class="bp ${p.pid === cur ? "now" : ""}"><td class="nm">${esc(p.name)}</td><td>${p.role}</td><td class="hand">${p.hand || "–"}</td><td class="avail ${p.pid === cur ? "" : "used"}">${p.pid === cur ? "pitching" : "used"}</td><td>${p.line.ip} IP, ${p.line.pitches} P, ${p.line.r} R</td></tr>`));
+      body = `<table class="lu bp"><tr><th>Pitcher</th><th>Role</th><th>T</th><th>Status</th><th>Stamina</th></tr>${rows.join("")}</table><div class="muted">Every pitcher is rested: this is an exhibition. Rest days arrive with season play.</div>`;
     } else {
-      const lu = st.lineups[side];
+      const lu = st.lineups[side] || [];
       const cur = st.batter && st.batting_side === side ? st.batter.pid : null;
       const curIdx = cur ? lu.findIndex((p) => p.pid === cur) : -1;
-      body = `<table class="lu"><tr><th>#</th><th>Batter</th><th>Pos</th><th>B</th><th>Today</th><th>H-AB</th></tr>${lu.map((p, i) => `<tr class="${p.pid === cur ? "now" : ""} ${curIdx >= 0 && i === (curIdx + 1) % 9 ? "deck" : ""}"><td class="n">${i + 1}</td><td class="nm">${esc(p.name)}</td><td>${p.pos}</td><td class="hand">${p.hand || "–"}</td><td>${resChips(st.pa_results[String(p.pid)])}</td><td class="hab">${p.line.h}-${p.line.ab}</td></tr>`).join("")}</table>`;
+      body = lu.length ? `<table class="lu"><tr><th>#</th><th>Batter</th><th>Pos</th><th>B</th><th>Today</th><th>H-AB</th></tr>${lu.map((p, i) => `<tr class="${p.pid === cur ? "now" : ""} ${curIdx >= 0 && i === (curIdx + 1) % 9 ? "deck" : ""} ${p.on_base ? "onbase" : ""}"><td class="n">${i + 1}</td><td class="nm">${esc(p.name)}${p.on_base ? ' <span class="ob">on base</span>' : ""}</td><td>${p.pos}</td><td class="hand">${p.hand || "–"}</td><td>${resChips(st.pa_results[String(p.pid)])}</td><td class="hab">${p.line.h}-${p.line.ab}</td></tr>`).join("")}</table>`
+        : `<div class="muted">The AI sets the ${esc(st.teams[side].name)} lineup when the game starts.</div>`;
     }
-    $("#lineup").innerHTML = `<h2>Lineup</h2><div class="tabs"><button data-tab="mine" class="${tab === "mine" ? "on" : ""}">${esc(st.teams[me].name)}</button><button data-tab="opp" class="${tab === "opp" ? "on" : ""}">${esc(st.teams[opp].name)}</button><button data-tab="pen" class="${tab === "pen" ? "on" : ""}">Bullpen</button></div>${body}`;
+    $("#lineup").innerHTML = `<h2>Lineup</h2><div class="tabs"><button data-tab="mine" class="${lineupTab === "mine" ? "on" : ""}">${esc(st.teams[me].name)}</button><button data-tab="opp" class="${lineupTab === "opp" ? "on" : ""}">${esc(st.teams[opp].name)}</button><button data-tab="pen" class="${lineupTab === "pen" ? "on" : ""}">Bullpen</button></div>${body}`;
     $$("#lineup .tabs button").forEach((b) => b.addEventListener("click", () => renderLineup(t, b.dataset.tab)));
+    if (t.phase === "pregame" && lineupTab === "mine") bindPregame(t);
+  }
+  // the pregame editor: the AI's lineup and starter prefilled (the bench coach's answer), reorder or swap with the bench
+  async function preparePregame() {
+    const t = S.game.turn, me = t.user_side, st = t.state;
+    const coach = await gameCall("/coach");
+    const lu = coach.advice.find((a) => a.kind === "lineup"), sp = coach.advice.find((a) => a.kind === "starting_pitcher");
+    const batters = st.bench[me], pitchers = st.bullpen[me];
+    S.pregame = { lineup: lu ? lu.pids.slice() : batters.slice(0, 9).map((p) => p.pid), aiLineup: lu ? lu.pids.slice() : null,
+                  sp: sp ? sp.pid : pitchers[0].pid, aiSp: sp ? sp.pid : null };
+  }
+  function pregameEditor(t) {
+    const pg = S.pregame, st = t.state, me = t.user_side;
+    if (!pg) return `<div class="muted">Loading the AI's lineup…</div>`;
+    const byPid = Object.fromEntries(st.bench[me].map((p) => [p.pid, p]));
+    const bench = st.bench[me].filter((p) => !pg.lineup.includes(p.pid));
+    const rows = pg.lineup.map((pid, i) => {
+      const p = byPid[pid];
+      const opts = [p].concat(bench).map((q) => `<option value="${q.pid}" ${q.pid === pid ? "selected" : ""}>${esc(q.name)} (${q.pos}) Con ${q.ratings.contact} Pow ${q.ratings.power} Spd ${q.ratings.speed}</option>`).join("");
+      return `<tr><td class="n">${i + 1}</td><td><select data-slot="${i}">${opts}</select></td><td class="mv"><button data-up="${i}" ${i === 0 ? "disabled" : ""}>▲</button><button data-down="${i}" ${i === 8 ? "disabled" : ""}>▼</button></td></tr>`;
+    }).join("");
+    const sps = st.bullpen[me].map((p) => `<option value="${p.pid}" ${p.pid === pg.sp ? "selected" : ""}>${esc(p.name)} ${p.role} · Stf ${p.ratings.stuff} Ctl ${p.ratings.control} Mov ${p.ratings.movement} Sta ${p.ratings.stamina}${p.pid === pg.aiSp ? " · AI's pick" : ""}</option>`).join("");
+    const changed = pg.aiLineup && (pg.aiLineup.join() !== pg.lineup.join() || pg.sp !== pg.aiSp);
+    return `<div class="muted">Your batting order and starter: the AI's picks, yours to change. Play ball sends them.</div>
+      <table class="lu edit">${rows}</table>
+      <label class="slot">Starting pitcher <select id="sp-pick">${sps}</select></label>
+      ${changed ? `<button class="btn-ghost" id="lineup-reset">Back to the AI's lineup</button>` : ""}`;
+  }
+  function bindPregame(t) {
+    const pg = S.pregame; if (!pg) return;
+    $$("#lineup select[data-slot]").forEach((s) => s.addEventListener("change", (e) => { pg.lineup[+e.target.dataset.slot] = +e.target.value; renderLineup(t); }));
+    $$("#lineup [data-up]").forEach((b) => b.addEventListener("click", () => { const i = +b.dataset.up; [pg.lineup[i - 1], pg.lineup[i]] = [pg.lineup[i], pg.lineup[i - 1]]; renderLineup(t); }));
+    $$("#lineup [data-down]").forEach((b) => b.addEventListener("click", () => { const i = +b.dataset.down; [pg.lineup[i + 1], pg.lineup[i]] = [pg.lineup[i], pg.lineup[i + 1]]; renderLineup(t); }));
+    $("#sp-pick").addEventListener("change", (e) => { pg.sp = +e.target.value; renderLineup(t); });
+    const r = $("#lineup-reset");
+    if (r) r.addEventListener("click", () => { pg.lineup = pg.aiLineup.slice(); pg.sp = pg.aiSp; renderLineup(t); });
+  }
+  async function sendPregame() {
+    const pg = S.pregame; if (!pg) return;
+    if (!pg.aiLineup || pg.aiLineup.join() !== pg.lineup.join()) await order("lineup", pg.lineup);
+    if (pg.sp !== pg.aiSp) await order("starting_pitcher", pg.sp);
   }
 
   // ---- 6. play-by-play ----
@@ -331,6 +443,8 @@
   async function sim(target) {
     const t = S.game.turn;
     if (t.phase === "question") return toast("Answer the pending question first.");
+    S.coach = null;
+    if (t.phase === "pregame") await sendPregame();
     applyTurn(await gameCall("/sim", "POST", { target }));
   }
   $("#actions").addEventListener("click", (e) => {
@@ -383,7 +497,9 @@
     const t = await raw("/api/games", "POST", { home, away, user_side: side, seed });
     S.game = { id: t.game_id, turn: t, meta: t.meta, save: null };
     applyTurn(t, true);
+    S.pregame = null; lineupTab = "mine";
     show(true); render(t);
+    if (t.phase === "pregame") { await preparePregame(); render(t); }
   }));
   $("#nav-new").addEventListener("click", () => { show(false); renderSaves(); });
 
@@ -400,7 +516,9 @@
     const t = await raw("/api/games/load", "POST", { save });
     S.game = { id: t.game_id, turn: t, meta: t.meta, save };
     applyTurn(t, true);
+    S.pregame = null; lineupTab = "mine";
     show(true); render(t);
+    if (t.phase === "pregame") { await preparePregame(); render(t); }
   }
   function renderSaves() {
     const latest = ls.get(LS_LATEST, null), saves = ls.get(LS_SAVES, []);
@@ -424,6 +542,6 @@
     renderSaves();
     show(false);
   }
-  window.v2 = { render, callout, calloutFor, menuItems };
+  window.v2 = { render, callout, calloutFor };
   boot();
 })();
