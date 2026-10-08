@@ -652,6 +652,27 @@ The data-only estimates ignore who is available in a bullpen or on a bench. So g
 
 **Individual platoon spread.** League-level shifts only (GUESSES.md: individual spread zero). The sim's spread is reported against `platoon_spread.csv`.
 
+**First 40-season run (commit ad6ae50, reports in cc3aa85) and the centring fix.** Phase 2 and Phase 4 passed. The two reliever tier rows failed, as predicted (they became the watch item). Four other rows failed:
+- HR per team-game 1.042 against the Phase 4 run's 1.068 ± .018 (PR B 1.057), and SLG with it;
+- distinct batters per team-game 10.505 (limit 10.499; PR B 10.481);
+- low-tier offense, recovered minus drawn, −.009 ± .006.
+
+Cause, measured on four seasons of the same seeds:
+- With the platoon shifts on and the first usage model, league HR per PA was .02592 against .02581 off.
+- After the usage solve (stronger bullpen matching), same-hand plate appearances rose (lefty batter against lefty pitcher .094 → .101), and HR per PA fell to .02558. The shifts had been centred, to first order, on the earlier mix.
+- The pinch-hit and late pull multipliers, normalized on the real opportunity mix, averaged 1.021 / 1.023 and 1.022 on the engine's.
+
+The fix applies the design ("centred on the league mix"; "multipliers average 1 over the mix") to the final engine's mix:
+- the multipliers are rescaled to average 1 on the engine's opportunity mix (`build_phase3_usage.py --normalize`);
+- each rate's four shifts get the constant that keeps the league rate exactly (`build_phase3_platoon.py --recentre`): HR +.0137 logit, BB +.0046, HBP +.0046, the rest under .002.
+
+No tolerance moved.
+
+**Process (owner decisions 2026-10-08).**
+- Resumable runs are keyed on a hash of what the seasons read (engine, config, scripts, derived inputs, benchmarks.json), not the git commit. A documentation commit keeps finished seasons; any change to code or inputs starts fresh.
+- The roster workflow commits its aggregates to its own branch and opens a pull request, so no pull request's head lacks CI.
+- The next aggregator run adds `platoon_league.csv` scopes by the batting and the pitching conference. These give conference-clustered intervals for the plate-appearance mix, so the platoon-advantage share can be gated.
+
 ## Bibliography
 
 - Jones, M. C. and Pewsey, A. (2009). Sinh-arcsinh distributions. *Biometrika* 96(4), 761–780.
