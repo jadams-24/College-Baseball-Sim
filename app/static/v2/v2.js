@@ -91,20 +91,25 @@
     return `hsl(${hue} ${sat}% ${light}%)`;
   }
   function initials(name) { return name.split(/\s+/).map((w) => w[0]).join("").slice(0, 3).toUpperCase(); }
-  function mark(team) { return `<span class="mark" style="background:${colorOf(team.name)}" title="${esc(team.name)}">${initials(team.name)}</span>`; }
+  function mark(team) { return `<span class="mark" style="--team:${colorOf(team.name)}" title="${esc(team.name)}">${initials(team.name)}</span>`; }
   function esc(s) { return String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
 
-  // ---- 1. scoreboard bar ----
+  // ---- 1. scoreboard strip: line score | R/H/E | bases | inning | balls, strikes, outs ----
+  function basesSvg(bases, size) {
+    const on = (i) => (bases[i] ? "on" : "");
+    return `<svg class="bases" viewBox="0 0 40 40" width="${size}" height="${size}" aria-label="bases"><rect class="b ${on(1)}" x="14" y="4" width="12" height="12" transform="rotate(45 20 10)"/><rect class="b ${on(2)}" x="4" y="14" width="12" height="12" transform="rotate(45 10 20)"/><rect class="b ${on(0)}" x="24" y="14" width="12" height="12" transform="rotate(45 30 20)"/><polygon class="home" points="16,30 24,30 24,33 20,37 16,33"/></svg>`;
+  }
   function renderScorebar(t) {
     const st = t.state, inns = st.line_score.innings;
-    const row = (side) => `<tr class="${st.batting_side === side && !st.over ? "batting" : ""}"><td class="team">${mark(st.teams[side])}${esc(st.teams[side].name)}</td>${st.line_score[side].map((r) => `<td>${r === null ? "" : r}</td>`).join("")}<td class="tot r">${st.score[side]}</td><td class="tot">${st.hits[side]}</td><td class="tot">${st.errors[side]}</td></tr>`;
-    $("#linescore").innerHTML = `<tr><th></th>${inns.map((i) => `<th>${i}</th>`).join("")}<th>R</th><th>H</th><th>E</th></tr>${row("away")}${row("home")}`;
-    $("#sb-inning").innerHTML = st.over ? `<div class="half">Final${st.ended_by_run_rule ? " · run rule" : ""}</div><div class="inn">${st.inning !== 9 ? st.inning + " inn" : ""}</div>`
-      : t.phase === "pregame" ? `<div class="half">Pregame</div><div class="inn">${esc(st.teams.away.name)} at ${esc(st.teams.home.name)}</div>`
-      : `<div class="half">${st.half === "T" ? "Top" : "Bottom"} of the</div><div class="inn"><span class="arrow">${st.half === "T" ? "▲" : "▼"}</span>${ORD(st.inning)}</div>`;
+    const row = (side) => `<tr class="${st.batting_side === side && !st.over && t.phase !== "pregame" ? "batting" : ""}"><td class="team">${mark(st.teams[side])}<span class="tn">${esc(st.teams[side].name)}</span></td>${st.line_score[side].map((r) => `<td>${r === null ? "" : r}</td>`).join("")}<td class="tot r">${st.score[side]}</td><td class="tot">${st.hits[side]}</td><td class="tot">${st.errors[side]}</td></tr>`;
+    $("#linescore").innerHTML = `<tr><th></th>${inns.map((i) => `<th>${i}</th>`).join("")}<th class="tot">R</th><th class="tot">H</th><th class="tot">E</th></tr>${row("away")}${row("home")}`;
+    $("#sb-bases").innerHTML = basesSvg(st.bases, 44);
+    $("#sb-inning").innerHTML = st.over ? `<div class="half">Final${st.ended_by_run_rule ? " · run rule" : ""}</div><div class="inn">${st.inning !== 9 ? st.inning + " inn" : "9 inn"}</div>`
+      : t.phase === "pregame" ? `<div class="half">Pregame</div><div class="inn">—</div>`
+      : `<div class="half">${st.half === "T" ? "Top" : "Bot"}</div><div class="inn"><span class="arrow">${st.half === "T" ? "▲" : "▼"}</span>${ORD(st.inning)}</div>`;
     const c = st.count || [0, 0];
     const counter = (lbl, n, max, cls) => `<div class="counter ${cls}"><div class="lbl">${lbl}</div><div class="num">${n}</div><div class="dots">${Array.from({ length: max }, (_, i) => `<i class="${i < n ? "on" : ""}"></i>`).join("")}</div></div>`;
-    $("#sb-counts").innerHTML = counter("Balls", c[0], 3, "balls") + counter("Strikes", c[1], 2, "strikes") + counter("Outs", st.outs, 3, "outs");
+    $("#sb-counts").innerHTML = counter("B", c[0], 3, "balls") + counter("S", c[1], 2, "strikes") + counter("O", st.outs, 3, "outs");
   }
 
   // ---- 2. matchup banner ----
@@ -129,16 +134,17 @@
     const st = t.state, me = t.user_side, b = st.batter, p = st.pitcher;
     const bside = st.batting_side, pside = bside === "home" ? "away" : "home";
     const order = b ? st.lineups[bside].findIndex((x) => x.pid === b.pid) + 1 : 0;
-    $("#batter").innerHTML = b ? `${mark(st.teams[bside])}<div class="role">${st.count ? "At bat" : "Due up"} · ${esc(st.teams[bside].name)}${bside === me ? " (you)" : ""}</div>
-      <div class="name">${esc(b.name)}<small>${b.pos} · bats ${b.hand || "–"}${order ? ` · bats ${ORD(order)}` : ""}</small></div>
+    const you = (side) => (side === me ? '<span class="you-tag">you</span>' : "");
+    $("#batter").innerHTML = `<div class="hdr">${st.count ? "At bat" : "Due up"} · ${esc(st.teams[bside].name)}${you(bside)}</div>` + (b ? `<div class="body">${mark(st.teams[bside])}
+      <div class="name">${esc(b.name)}<small>${b.pos} · bats ${b.hand || "–"}${order ? ` · ${ORD(order)} in the order` : ""}</small></div>
       <div class="today">${stat("AB", b.line.ab)}${stat("H", b.line.h)}${stat("RBI", b.line.rbi)}${stat("BB", b.line.bb)}${stat("K", b.line.k)}<span class="season">${stat("AVG", "")}${stat("HR", "")}${stat("SB", "")}</span></div>
-      ${chips(b)}` : `<div class="role">${t.phase === "pregame" ? "Lineups are set when the game starts" : "No batter yet"}</div>`;
+      ${chips(b)}</div>` : `<div class="body empty">${t.phase === "pregame" ? "Lineups are set when the game starts" : "No batter yet"}</div>`);
     const pitches = p ? (p.outing ? p.outing.pitches : p.line.pitches) : 0;
-    $("#pitcher").innerHTML = p ? `<div class="role">Pitching · ${esc(st.teams[pside].name)}${pside === me ? " (you)" : ""}</div>${mark(st.teams[pside])}
+    $("#pitcher").innerHTML = `<div class="hdr">Pitching · ${esc(st.teams[pside].name)}${you(pside)}</div>` + (p ? `<div class="body">${mark(st.teams[pside])}
       <div class="name">${esc(p.name)}<small>${p.role} · throws ${p.hand || "–"}</small></div>
       <div class="today">${stat("IP", p.line.ip)}${stat("H", p.line.h)}${stat("R", p.line.r)}${stat("BB", p.line.bb)}${stat("K", p.line.k)}${stat("P", pitches)}<span class="season">${stat("W-L", "")}${stat("ERA", "")}${stat("IP", "")}</span></div>
       ${staminaBar(p)}
-      ${chips(p)}` : `<div class="role">${t.phase === "pregame" ? "The starters are named when the game starts" : "No pitcher yet"}</div>`;
+      ${chips(p)}</div>` : `<div class="body empty">${t.phase === "pregame" ? "The starters are named when the game starts" : "No pitcher yet"}</div>`);
   }
 
   // ---- 3. field: runners as markers (tap or hover: name, Speed, the ratings that matter on the bases), the
@@ -163,7 +169,7 @@
     if (st.pitcher) who.P = st.pitcher;
     const fielder = ([n, x, y]) => `<g class="fielder"><text class="pos" x="${x}" y="${y}" text-anchor="middle">${n}</text>${who[n] ? `<text class="fname" x="${x}" y="${y + 11}" text-anchor="middle">${esc(who[n].name)}</text>` : ""}</g>`;
     const on = st.bases.some(Boolean);
-    $("#field").innerHTML = `<h2>Field <span class="sub">${t.phase === "pregame" ? "" : on ? "tap a runner for his ratings" : "bases empty"}</span></h2>
+    $("#field").innerHTML = `<div class="hdr">Field <span class="sub">${t.phase === "pregame" ? "" : on ? "tap a runner for his ratings" : ""}</span></div>
       <svg class="diamond" viewBox="0 0 320 290" aria-label="diamond">
         <rect class="turf" x="0" y="0" width="320" height="290" rx="14"/>
         <path class="turf2" d="M160 250 L0 90 Q160 -70 320 90 Z"/>
@@ -177,7 +183,9 @@
         ${st.batter && st.count ? `<g class="atbat"><circle cx="184" cy="268" r="5"/><text x="194" y="272">${esc(st.batter.name)}</text></g>` : ""}
         ${st.bases.map((b, i) => runner(i, b)).join("")}
       </svg>
-      <div class="legend-line">${st.due_up.length ? "Due up: " + st.due_up.map(esc).join(", ") : ""}</div>`;
+`;
+    const due = st.due_up.map((n) => esc(n));
+    $("#ondeck").innerHTML = `<span class="k">On deck</span><b>${due[0] || "—"}</b><span class="k">In the hole</span><b>${due[1] || "—"}</b>`;
     const tip = $("#tip");
     const show = (g) => {
       const d = g.dataset;
@@ -251,17 +259,13 @@
     const when = st.over ? "final" : t.phase === "pregame" ? "pregame" : st.count ? "before the next pitch" : "before the at-bat";
     const items = t.menu.filter((i) => !question || i.kind === t.pending.kind);
     const anyQueued = t.orders.length > 0;
-    const sims = t.phase === "pregame"
-      ? `<div class="why">Your batting order and starter are the AI's picks: change them in the Lineup panel${window.innerWidth <= 760 ? ' (<a href="#" data-goto="lineup">open it</a>)' : ""} before the first pitch.</div><button class="go" data-sim="pitch">Play ball</button>`
-      : `<button class="go" data-sim="pitch">Next pitch</button><button data-sim="pa">At-bat</button><button data-sim="half">Half inning</button><button data-sim="inning">Inning</button><button data-sim="three_innings">3 innings</button><button data-sim="game">End of game</button>`;
+    const pregameNote = t.phase === "pregame" ? `<div class="why">Your batting order and starter are the AI's picks: change them in the Lineup panel${window.innerWidth <= 760 ? ' (<a href="#" data-goto="lineup">open it</a>)' : ""} before the first pitch.</div>` : "";
     const off = st.over || question || S.busy;
-    $("#actions").innerHTML = `<h2>Calls <span class="sub">${side} · ${when}</span></h2>${question ? questionBlock(t) : ""}
+    $("#actions").innerHTML = `<div class="hdr">Strategy <span class="sub">${side} · ${when}</span></div>${pregameNote}${question ? questionBlock(t) : ""}
       <div class="menu">${items.map((i) => `<button data-item="${i.id}" class="${i.default ? "default" : ""} ${i.queued ? "queued" : ""} ${openPick === i.id ? "open" : ""}" ${i.enabled ? "" : "disabled"}><span>${esc(i.label)}</span>${i.queued ? `<span class="key you">queued</span>` : i.reason ? `<span class="why">${esc(i.reason)}</span>` : i.default ? `<span class="key">default</span>` : i.pick ? `<span class="key">pick…</span>` : ""}</button>${openPick === i.id ? chooser(i, question).html : ""}`).join("")}
       ${anyQueued && !question ? `<div class="orders">${t.orders.map((o) => `<span>${esc(orderText(o))}</span>`).join("")} <button class="btn-ghost" data-clear-all="1">Clear</button></div>` : ""}
-      <div class="group">Sim</div>
-      <div class="sims">${sims}</div>
       <div class="coach"><div class="tools"><button class="btn-ghost" id="coach-btn">Ask bench coach</button><button class="btn-ghost" id="ask-btn">Ask me…</button><button class="btn-ghost" id="legend-btn">Rating legend</button></div><div id="coach-out" class="hidden"></div><div id="ask-panel" class="hidden"></div></div></div>`;
-    $$("#actions [data-sim]").forEach((b) => (b.disabled = off));
+    renderSims(t, off);
     const go = $("#actions [data-goto]");
     if (go) go.addEventListener("click", (e) => { e.preventDefault(); $(`#phone-tabs [data-tab="lineup"]`).click(); });
     $("#legend-btn").addEventListener("click", () => $("#legend").classList.toggle("hidden"));
@@ -296,6 +300,13 @@
     }
     const ca = $("#actions [data-clear-all]");
     if (ca) ca.addEventListener("click", () => busy(async () => { for (const o of t.orders) await order(o.kind, null); }));
+  }
+  function renderSims(t, off) {
+    const sims = t.phase === "pregame"
+      ? `<button class="go" data-sim="pitch">Play ball</button>`
+      : `<button class="go" data-sim="pitch">Next pitch</button><button data-sim="pa">At-bat</button><button data-sim="half">Half inning</button><button data-sim="inning">Inning</button><button data-sim="three_innings">3 innings</button><button data-sim="game">End of game</button>`;
+    $("#simbar").innerHTML = `<span class="k">Sim</span>${sims}`;
+    $$("#simbar [data-sim]").forEach((b) => (b.disabled = off));
   }
   function orderText(o) {
     const d = S.decisions.kinds.find((k) => k.kind === o.kind), v = o.value;
@@ -337,7 +348,7 @@
       body = lu.length ? `<table class="lu"><tr><th>#</th><th>Batter</th><th>Pos</th><th>B</th><th>Today</th><th>H-AB</th></tr>${lu.map((p, i) => `<tr class="${p.pid === cur ? "now" : ""} ${curIdx >= 0 && i === (curIdx + 1) % 9 ? "deck" : ""} ${p.on_base ? "onbase" : ""}"><td class="n">${i + 1}</td><td class="nm">${esc(p.name)}${p.on_base ? ' <span class="ob">on base</span>' : ""}</td><td>${p.pos}</td><td class="hand">${p.hand || "–"}</td><td>${resChips(st.pa_results[String(p.pid)])}</td><td class="hab">${p.line.h}-${p.line.ab}</td></tr>`).join("")}</table>`
         : `<div class="muted">The AI sets the ${esc(st.teams[side].name)} lineup when the game starts.</div>`;
     }
-    $("#lineup").innerHTML = `<h2>Lineup</h2><div class="tabs"><button data-tab="mine" class="${lineupTab === "mine" ? "on" : ""}">${esc(st.teams[me].name)}</button><button data-tab="opp" class="${lineupTab === "opp" ? "on" : ""}">${esc(st.teams[opp].name)}</button><button data-tab="pen" class="${lineupTab === "pen" ? "on" : ""}">Bullpen</button></div>${body}`;
+    $("#lineup").innerHTML = `<div class="hdr">Lineup</div><div class="tabs"><button data-tab="mine" class="${lineupTab === "mine" ? "on" : ""}">${esc(st.teams[me].name)}</button><button data-tab="opp" class="${lineupTab === "opp" ? "on" : ""}">${esc(st.teams[opp].name)}</button><button data-tab="pen" class="${lineupTab === "pen" ? "on" : ""}">Bullpen</button></div>${body}`;
     $$("#lineup .tabs button").forEach((b) => b.addEventListener("click", () => renderLineup(t, b.dataset.tab)));
     if (t.phase === "pregame" && lineupTab === "mine") bindPregame(t);
   }
@@ -475,9 +486,11 @@
     applyTurn(await gameCall("/sim", "POST", { target }));
     calloutFor(S.game.turn.events, target);
   }
-  $("#actions").addEventListener("click", (e) => {
+  $("#simbar").addEventListener("click", (e) => {
     const b = e.target.closest("[data-sim]");
     if (b && !b.disabled) busy(() => sim(b.dataset.sim));
+  });
+  $("#actions").addEventListener("click", (e) => {
     const qa = e.target.closest("[data-q-auto]");
     if (qa) busy(async () => applyTurn(await gameCall("/decide", "POST", { kind: qa.dataset.qAuto, value: "auto" })));
   });
@@ -493,6 +506,7 @@
     $("#game").classList.toggle("hidden", !game);
     $("#topnav").classList.toggle("hidden", !game);
     $("#phone-tabs").classList.toggle("hidden", !game);
+    $("#simbar").classList.toggle("hidden", !game);
     window.scrollTo(0, 0);
   }
   function fillTeams(sel, filter) {

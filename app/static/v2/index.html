@@ -6,6 +6,7 @@
 <title>College Baseball Sim</title>
 <meta name="description" content="Manage one game of the college baseball simulation engine pitch by pitch: scoreboard, matchup, field, calls, lineup and play-by-play.">
 <link rel="icon" href="data:,">
+<link rel="stylesheet" href="/static/v2/system.css">
 <link rel="stylesheet" href="/static/v2/v2.css">
 </head>
 <body>
@@ -19,7 +20,7 @@
   </header>
 
   <!-- the lobby: matchup, side, seed, saved games -->
-  <section id="lobby" class="lobby">
+  <section id="lobby" class="lobby panel">
     <h1>Pick a matchup</h1>
     <div class="lobby-grid">
       <label>Away team
@@ -47,28 +48,29 @@
   </section>
 
   <div id="game" class="game hidden">
-  <!-- 1. scoreboard bar -->
+  <!-- 1. scoreboard strip: line score | R/H/E | bases | inning | B/S/O -->
   <header class="scorebar">
-    <div class="sb-line">
-      <table id="linescore" class="linescore" aria-label="line score"></table>
-    </div>
-    <div id="sb-inning" class="sb-inning"></div>
-    <div class="sb-counts" id="sb-counts"></div>
+    <div class="sb-seg sb-line"><table id="linescore" class="linescore" aria-label="line score"></table></div>
+    <div class="sb-seg sb-bases" id="sb-bases" aria-label="runners on base"></div>
+    <div class="sb-seg sb-inning" id="sb-inning"></div>
+    <div class="sb-seg sb-counts" id="sb-counts"></div>
   </header>
 
-  <!-- 2. matchup banner -->
+  <!-- 2. matchup banner, joined to the strip -->
   <section class="banner">
     <div id="batter" class="who batter"></div>
-    <div class="vs">vs</div>
     <div id="pitcher" class="who pitcher"></div>
   </section>
 
-  <!-- 3-5. field, actions, lineup -->
+  <!-- 3-5. three columns: field + on deck | strategy | lineup -->
   <main class="zones">
-    <section id="field" class="zone field" aria-label="field"></section>
-    <section id="actions" class="zone actions" aria-label="calls"></section>
-    <section id="lineup" class="zone lineup" aria-label="lineup"></section>
+    <section class="zone col-field"><div id="field" class="panel field" aria-label="field"></div><div id="ondeck" class="panel ondeck"></div></section>
+    <section id="actions" class="zone panel actions" aria-label="strategy"></section>
+    <section id="lineup" class="zone panel lineup" aria-label="lineup"></section>
   </main>
+
+  <!-- sim speeds -->
+  <nav id="simbar" class="simbar" aria-label="sim"></nav>
 
   <!-- phone tabs for lineup and feed -->
   <nav id="phone-tabs" class="phone-tabs">
@@ -78,8 +80,8 @@
   </nav>
 
   <!-- 6. play-by-play drawer -->
-  <section id="feed" class="drawer">
-    <button id="drawer-toggle" class="drawer-handle" aria-expanded="false"><span id="drawer-title">Play by play</span><span class="chev">▴</span></button>
+  <section id="feed" class="drawer panel">
+    <button id="drawer-toggle" class="drawer-handle hdr" aria-expanded="false"><span id="drawer-title">Play by play</span><span class="chev">▴</span></button>
     <div id="feed-body" class="drawer-body"></div>
   </section>
   </div>

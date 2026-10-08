@@ -1,0 +1,89 @@
+/* College Baseball Sim design system (2026-10-08). Original design: an evening-ballpark palette, crisp 1px
+   borders, 3px radii, no drop shadows, dark header strips with bold uppercase labels, dense tabular numbers.
+   Everything on screen is built from these tokens and primitives so season screens reuse them. */
+:root {
+  /* surfaces */
+  --bg: #0d1713; --panel: #15231c; --panel2: #1c2e25; --panel3: #243a2f; --hdr: #0a120e;
+  --line: #2b4337; --line2: #3a5747; --line-strong: #5a7d69;
+  /* ink */
+  --ink: #eef0e8; --ink2: #b7c3ba; --muted: #7d9185; --faint: #5a6d62;
+  /* accent and semantic */
+  --accent: #f0b142; --accent-ink: #1a1308; --accent-dim: #8a6324;
+  --good: #58c98a; --bad: #e76f51; --walk: #6fb3e0; --out: #5c6f66; --you: #8fd3ff; --ai: #f0b142;
+  /* field */
+  --grass: #1e3a2b; --grass-stripe: #22402f; --dirt: #a67c52; --dirt2: #8f6a45; --track: #6e4f33; --base: #f1efe6; --runner: #f0b142;
+  /* ratings 20–80: low red → average yellow → high green-blue */
+  --r20: #c43d2f; --r30: #d9663a; --r40: #d9a23a; --r50: #e2c84a; --r60: #9ccf4a; --r70: #4cc27a; --r80: #3aa7c4;
+  /* stamina bar */
+  --stam-hi: #58c98a; --stam-mid: #f0b142; --stam-lo: #e76f51;
+  /* geometry and type */
+  --radius: 3px; --gap: 6px; --pad: 8px;
+  --font: 13px/1.3 "Avenir Next", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --hdr-font: 700 11px/1 "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --cmd-font: 700 11px/1 "Avenir Next", "Segoe UI", system-ui, sans-serif;
+}
+:root[data-theme="light"] {
+  --bg: #e9ede6; --panel: #ffffff; --panel2: #f2f5f0; --panel3: #e6ebe3; --hdr: #1c2a22;
+  --line: #cfd8cf; --line2: #b9c6bb; --line-strong: #8fa396;
+  --ink: #15211b; --ink2: #3d4e45; --muted: #6f8076; --faint: #9aa89f;
+  --accent: #c57a0e; --accent-ink: #ffffff; --accent-dim: #e8c892;
+  --good: #1f8f52; --bad: #c4452b; --walk: #2a79b0; --out: #8a9890; --you: #1f5f9f; --ai: #c57a0e;
+  --grass: #cfe3cc; --grass-stripe: #c4dbc1; --dirt: #c9a26b; --dirt2: #b8905a; --track: #a98a63; --base: #ffffff; --runner: #e04b2f;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); color: var(--ink); font: var(--font); font-variant-numeric: tabular-nums; }
+.hidden { display: none !important; }
+.muted { color: var(--muted); font-size: 12px; }
+
+/* panels and header strips */
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); }
+.hdr { background: var(--hdr); color: var(--ink2); font: var(--hdr-font); letter-spacing: .12em; text-transform: uppercase; padding: 6px var(--pad); border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; gap: 8px; min-height: 24px; }
+.hdr .sub { font-weight: 500; letter-spacing: .02em; text-transform: none; color: var(--muted); font-size: 11px; }
+.hdr .you-tag { margin-left: 6px; padding: 1px 5px; border: 1px solid var(--accent); color: var(--accent); border-radius: 2px; font-size: 9px; letter-spacing: .1em; }
+
+/* commands: compact uppercase buttons, 1px borders, a clear active state */
+button { font: var(--cmd-font); letter-spacing: .06em; text-transform: uppercase; color: var(--ink); background: var(--panel2); border: 1px solid var(--line2); border-radius: var(--radius); padding: 7px 10px; cursor: pointer; min-height: 30px; text-align: left; }
+button:hover:not(:disabled) { border-color: var(--line-strong); background: var(--panel3); }
+button:active:not(:disabled), button.on, button.active { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+button:disabled { opacity: .4; cursor: not-allowed; }
+button.go { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+button.go:hover:not(:disabled) { background: #f7c35e; border-color: #f7c35e; }
+.btn-ghost { background: transparent; min-height: 24px; padding: 3px 8px; font-size: 10px; }
+
+/* team mark: initials in the team's color */
+.mark { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 2px; background: var(--team, var(--line2)); color: #fff; font-size: 10px; font-weight: 800; letter-spacing: .02em; margin-right: 6px; vertical-align: middle; text-shadow: 0 1px 1px rgba(0,0,0,.35); }
+
+/* 20–80 rating badges */
+.rt { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; color: var(--ink2); cursor: help; }
+.rt b { display: inline-grid; place-items: center; min-width: 24px; height: 17px; padding: 0 3px; border-radius: 2px; font-size: 11px; font-weight: 800; color: #111; background: var(--r50); }
+.rt .k { letter-spacing: .04em; }
+.rt.r20 b { background: var(--r20); color: #fff; } .rt.r30 b { background: var(--r30); color: #fff; } .rt.r40 b { background: var(--r40); }
+.rt.r50 b { background: var(--r50); } .rt.r60 b { background: var(--r60); } .rt.r70 b { background: var(--r70); } .rt.r80 b { background: var(--r80); color: #fff; }
+
+/* dense tables */
+.tbl { width: 100%; border-collapse: collapse; font-size: 12px; }
+.tbl th { text-align: left; color: var(--muted); font-weight: 700; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; padding: 3px 5px; border-bottom: 1px solid var(--line2); background: var(--panel2); white-space: nowrap; }
+.tbl td { padding: 3px 5px; border-bottom: 1px solid var(--line); white-space: nowrap; line-height: 1.25; }
+.tbl tr:last-child td { border-bottom: none; }
+.tbl td.num, .tbl th.num { text-align: right; }
+
+/* tabs */
+.tabs { display: flex; gap: 0; border-bottom: 1px solid var(--line); background: var(--panel2); }
+.tabs button { border: none; border-right: 1px solid var(--line); border-radius: 0; background: transparent; min-height: 26px; padding: 4px 10px; font-size: 10px; }
+.tabs button.on { background: var(--panel); color: var(--accent); box-shadow: inset 0 -2px 0 var(--accent); }
+
+/* toast, callout, tooltip, legend */
+.toast { position: fixed; left: 50%; bottom: 64px; transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 8px 14px; border-radius: var(--radius); font-size: 12px; z-index: 30; max-width: 90vw; }
+.callout { position: fixed; inset: 0; display: grid; place-items: center; background: rgba(5, 12, 9, .6); z-index: 20; cursor: pointer; }
+.callout .box { background: var(--panel); border: 2px solid var(--accent); border-radius: var(--radius); padding: 18px 36px; text-align: center; animation: pop .2s ease-out; }
+.callout .big { font-size: 40px; font-weight: 900; letter-spacing: .08em; color: var(--accent); line-height: 1; text-transform: uppercase; }
+.callout .sub { color: var(--ink2); margin-top: 8px; font-size: 14px; }
+.callout .hint { color: var(--muted); font-size: 10px; margin-top: 10px; letter-spacing: .12em; text-transform: uppercase; }
+@keyframes pop { from { transform: scale(.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.tip { position: fixed; background: var(--panel); border: 1px solid var(--accent); border-radius: var(--radius); padding: 6px 10px; font-size: 12px; z-index: 16; pointer-events: none; max-width: 260px; }
+.tip b { font-size: 13px; }
+.legend { position: fixed; right: 12px; bottom: 60px; background: var(--panel); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 8px 12px; z-index: 15; font-size: 12px; max-width: 340px; }
+.legend dl { display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; margin: 6px 0 0; }
+.legend dt { font-weight: 800; } .legend dd { margin: 0; color: var(--ink2); }
+.legend .scale { display: flex; gap: 2px; margin-top: 6px; }
+.legend .scale i { flex: 1; height: 10px; display: block; }
