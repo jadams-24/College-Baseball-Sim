@@ -114,7 +114,11 @@ class RecordingAI(Controller):
 
 
 class HumanController(Controller):
-    """The human's team: orders, autopilot, boundary stops and questions (module docstring)."""
+    """The human's team: orders, autopilot, boundary stops and questions (module docstring). Asked before every pitch
+    (PR B: `per_pitch`), so an order queued at the pause before a pitch applies to that pitch."""
+
+    per_pitch = True
+    NO_AI = ("pre_pitch_defense",)      # the AI manager has no such decision: autopilot answers "no call"
 
     def __init__(self, side: str, decider):
         self.side = side
@@ -208,7 +212,7 @@ class HumanController(Controller):
                 raise AskHuman(kind, args, True, w, i)
             source = "auto"
         if source == "auto":
-            ans = self.ai.answer(kind, state, rng, *args)
+            ans = None if kind in self.NO_AI else self.ai.answer(kind, state, rng, *args)
         text = cat.describe(kind, ans)
         if text or source == "order" or self.record_all:
             sess.app["records"].append({"pos": len(sess.log), "side": self.side, "kind": kind, "source": source,
@@ -302,6 +306,7 @@ class GameRunner:
         self.raised: AskHuman | None = None
         self.view_tail: tuple = ([], [])
         self.plan: tuple | None = None
+        self.error: str | None = None            # the engine's refusal of the last call, reported once in the turn
         self.attach(session)
 
     # ---- construction -------------------------------------------------------------------------
@@ -460,6 +465,18 @@ class GameRunner:
                 self.view, self.raised = sess, ask
                 self.base, self.view_tail = self.restore(snap)
                 break
+            except ValueError as e:
+                # the engine refused a call (NCAA rules, e.g. a second mound trip with the same batter at bat): back
+                # to the pause before the pitch, the pre-pitch orders dropped, the reason reported in the turn
+                hc.stop_rule = None
+                if snap is None:
+                    raise
+                self.base, _ = self.restore(snap)
+                for k in ("pre_pitch", "pre_pitch_defense"):
+                    self.human.clear(k)
+                self.view, self.raised, self.view_tail = None, None, ([], [])
+                self.error = str(e)
+                break
             finally:
                 hc.stop_rule = None
             first = False
@@ -480,7 +497,7 @@ class GameRunner:
             raise ValueError(f"unknown decision kind {kind}")
         d = cat.CATALOGUE[kind]
         st = self.current.st
-        target = self.window_now()
+        target = self.window_now(kind)
         hc = self.human
         if value != "auto":
             if kind == "pitching_change" and isinstance(value, dict):
@@ -513,12 +530,17 @@ class GameRunner:
             self.queue(kind, "auto", self.raised.index)
             self.raised.soft = True
 
-    def window_now(self) -> int:
-        """The window the human's next orders are for: the view's at a stop, else the one after the pause's."""
+    def window_now(self, kind: str | None = None) -> int:
+        """The window the human's next orders are for: the view's at a stop, else the one after the pause's. A
+        pre-pitch kind (asked inside the coming pitch) targets the pause's own window."""
         if self.view is not None:
             return window_of(self.view.st)
         st = self.base.st
-        return window_of(st) if self.base.phase == "pregame" else window_of(st) + (1 if self.base.pa is not None else 0)
+        if self.base.phase == "pregame":
+            return window_of(st)
+        if kind is not None and cat.CATALOGUE[kind].when == cat.PRE_PITCH:
+            return window_of(st)
+        return window_of(st) + (1 if self.base.pa is not None else 0)
 
     # ---- the bench coach: what the AI would do from here, by a dry run on a copy ---------------------
     def recommend(self) -> list:
@@ -544,7 +566,9 @@ class GameRunner:
                 if window_of(sess.st) > w0 or pregame:
                     break
             recs = [r for r in sess.app["records"] if r["side"] == self.user]
-            out = [{"kind": r["kind"], "text": r["text"]} for r in recs if not (pregame and r["kind"] in ("lineup", "starting_pitcher"))]
+            out = [{"kind": r["kind"], "text": r["text"]} for r in recs
+                   if not (pregame and r["kind"] in ("lineup", "starting_pitcher"))
+                   and not (cat.CATALOGUE[r["kind"]].when == cat.PRE_PITCH and r["text"] == "no change")]
             if pregame:
                 st = sess.st
                 out.append({"kind": "lineup", "pids": [p.pid for p in st.lineup[self.user]]})
@@ -591,9 +615,12 @@ class GameRunner:
         pending = None
         if self.raised is not None:
             d = cat.CATALOGUE[self.raised.kind]
+            info = next((a for a in self.raised.args if isinstance(a, dict)), None)
             pending = {"kind": self.raised.kind, "soft": self.raised.soft, "label": d.label,
-                       "args": [a for a in self.raised.args if isinstance(a, (int, str))], **d.legal(st, self.user)}
-        return {"phase": phase, "user_side": self.user, "window": self.window_now(), "pending": pending,
+                       "args": [a for a in self.raised.args if isinstance(a, (int, str))],
+                       "count": list(info["count"]) if info and "count" in info else None, **d.legal(st, self.user)}
+        err, self.error = self.error, None
+        return {"phase": phase, "user_side": self.user, "window": self.window_now(), "pending": pending, "error": err,
                 "orders": [{"kind": o.kind, "value": o.value, "target": o.target} for o in hc.all_orders() if o.index is None],
                 "modes": dict(hc.modes), "actions": self.actions(st)}
 
@@ -617,12 +644,22 @@ class GameRunner:
                 legal, reason = False, "only right after your batter reaches base"
             elif k == "relief_pitcher":
                 legal, reason = False, "choose the reliever with the pitching change"
+            elif d.when == cat.PRE_PITCH:
+                # for the coming pitch: at a pause before a pitch (the plate appearance in progress) or at a boundary
+                # (the next plate appearance's first pitch); the side that bats or fields that pitch
+                in_pa = self.current.pa is not None or self.raised is not None
+                if self.base.phase == "over" or not in_pa:
+                    legal, reason = False, "no pitch is coming"
+                elif (d.side == cat.BATTING) != bats_next:
+                    legal, reason = False, ("your team is in the field" if d.side == cat.BATTING else "your team is batting")
             elif d.side == cat.BATTING and not bats_next:
                 legal, reason = False, "your team is in the field"
             elif d.side == cat.FIELDING and bats_next and not d.persistent:
                 legal, reason = False, "your team is batting"
+            if k == "steal_attempt" and legal and getattr(self.eng, "dec_steal", False):
+                legal, reason = False, "steals are called before a pitch (Before the pitch)"
             if k == "steal_attempt" and legal and all(b is None for b in st.bases):
                 legal, reason = False, "no runner on base"
             out.append({"kind": k, "label": d.label, "legal": legal, "reason": reason, "answer": d.answer, "options": leg["options"],
-                        "mode": self.human.modes.get(k, "auto"), "queued": k in self.human.orders})
+                        "picks": leg.get("picks"), "mode": self.human.modes.get(k, "auto"), "queued": k in self.human.orders})
         return out

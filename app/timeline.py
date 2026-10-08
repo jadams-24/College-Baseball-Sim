@@ -8,6 +8,9 @@ Log entries (engine.game2.GameSession, log=True):
   ('run', pa_serial, event, dests)                       base running before a plate appearance: SB_ATT, WP, PB,
                                                          PO (pickoff), BK (balk), OTHER; dests per origin base
   ('pa', pa_serial, batter, pitcher, res, dests, b_to)   the plate appearance's result and runner destinations
+  ('steal', pa_serial, base, ok, (b, s))                 PR B: a steal of `base` on the pitch thrown at that count
+  ('visit', pa_serial, side)                             PR B: a coach's trip to the mound
+  ('pit', pa_serial, side, pid)                          PR B: a pitching change during the plate appearance
   ('final', inning, away, home)
 A destination is '' (stays), '0' (out), '1'..'3' (to that base) or '4' (scores).
 """
@@ -25,7 +28,7 @@ RESULT_TEXT = {"K": "strikes out", "BB": "walks", "HBP": "is hit by the pitch", 
                "SH": "lays down a sacrifice bunt", "FC": "reaches on a fielder's choice"}
 RUN_TEXT = {"SB_ATT": "steal attempt", "WP": "wild pitch", "PB": "passed ball", "PO": "pickoff", "BK": "balk", "OTHER": "base-running play"}
 ORD = {1: "1st", 2: "2nd", 3: "3rd"}
-BASE_NAME = {"1": "first", "2": "second", "3": "third"}
+BASE_NAME = {"1": "first", "2": "second", "3": "third", "4": "home"}
 SOURCE_TEXT = {"order": "You", "auto": "AUTO (AI ran your team)", "ai": "Opponent", "note": "Note"}
 
 
@@ -100,6 +103,7 @@ class Narrator:
             rec_i += 1
         b = s = 0
         last_count = (0, 0)
+        cur_serial = None
         cur_half = None
         for j in range(since, len(log)):
             e = log[j]
@@ -113,6 +117,8 @@ class Narrator:
                 bat = "away" if m["half"] == "T" else "home"
                 self.entries.append({"pos": j, "type": "half", "inning": m["inning"], "half": m["half"],
                                      "text": f"{'Top' if m['half'] == 'T' else 'Bottom'} of the {ordinal(m['inning'])}, {self.teams[bat].name} batting"})
+            if e[0] in ("p", "steal") and e[1] != cur_serial:
+                cur_serial, b, s = e[1], 0, 0           # a new plate appearance (also after a third out on the bases)
             if e[0] == "p":
                 sym = e[2]
                 last_count = (b, s)
@@ -126,6 +132,16 @@ class Narrator:
                 b = s = 0
             elif e[0] == "run":
                 self._run(j, e, m)
+            elif e[0] == "steal":
+                self._steal(j, e, m)
+            elif e[0] == "visit":
+                side = e[2]
+                self.entries.append({"pos": j, "type": "decision", "source": "note", "side": side, "kind": "mound_visit",
+                                     "text": f"Mound visit, {self.teams[side].name}."})
+            elif e[0] == "pit":
+                side = e[2]
+                self.entries.append({"pos": j, "type": "decision", "source": "note", "side": side, "kind": "pitching_change",
+                                     "text": f"Pitching change during the at-bat: {self.name(e[3])} comes in for {self.teams[side].name}."})
             elif e[0] == "final":
                 _, inn, aw, hm = e
                 self.entries.append({"pos": j, "type": "final", "text": f"Final: {self.teams['away'].name} {aw}, {self.teams['home'].name} {hm}"
@@ -158,7 +174,9 @@ class Narrator:
         elif kind == "bunt":
             line = {"called": "bunt on", "held off": "no bunt"}.get(text, f"bunt: {text}")
         elif kind == "intentional_walk":
-            line = {"called": "intentional walk called (no effect in today's engine)"}.get(text, f"intentional walk: {text}")
+            line = {"called": "intentional walk"}.get(text, f"intentional walk: {text}")
+        elif kind in ("pre_pitch", "pre_pitch_defense"):
+            line = f"{text} (before the pitch)"
         else:
             line = f"{kind.replace('_', ' ')}: {text}"
         self.entries.append({"pos": pos, "type": "decision", "source": src, "side": side, "kind": kind, "text": f"{who}: {line}"})
@@ -197,6 +215,9 @@ class Narrator:
         texts, scored = self._runner_moves(dests, before, side, after_bases)
         batter = self.name(bpid)
         main = f"{batter} {RESULT_TEXT.get(res, res)}"
+        no_pitches = j == 0 or self.sess.log[j - 1][0] != "p" or self.sess.log[j - 1][1] != serial
+        if res == "BB" and no_pitches:
+            main = f"{batter} is intentionally walked"
         if res == "K":
             last = self.sess.log[j - 1][2] if j > 0 and self.sess.log[j - 1][0] == "p" else ""
             main = f"{batter} strikes out {'looking' if last == 'K' else 'swinging'}"
@@ -219,8 +240,25 @@ class Narrator:
         if runs:
             tail += f" ({runs} run{'s' if runs > 1 else ''} score{'' if runs > 1 else 's'})"
         outs_txt = f" {outs_after} out{'s' if outs_after != 1 else ''}." if outs_after is not None and outs_after != outs_before else ""
+        on_pitch = "" if (res == "BB" and no_pitches) else f" on a {count[0]}-{count[1]} pitch"
         self.entries.append({"pos": j, "type": "pa", "count": list(count), "res": res, "batter": bpid, "pitcher": ppid, "runs": runs,
-                             "text": f"{main} on a {count[0]}-{count[1]} pitch{tail}.{outs_txt}"})
+                             "text": f"{main}{on_pitch}{tail}.{outs_txt}"})
+
+    def _steal(self, j: int, e, before) -> None:
+        _, serial, base, ok, count = e
+        side = "away" if before is None else ("away" if before["half"] == "T" else "home")
+        slot = before["bases"][base - 2] if before is not None and base >= 2 else None
+        nm = self.runner_name(before, side, slot) if slot is not None else "the runner"
+        lu = self._lineup_at_mark(before).get(side, ()) if before is not None else ()
+        pid = lu[slot] if slot is not None and slot < len(lu) else None
+        where = BASE_NAME[str(base)]
+        if ok:
+            text = f"Stolen base: {nm} steals {where} on the {count[0]}-{count[1]} pitch."
+            if base == 4 and pid is not None:
+                self.scored[pid] = self.scored.get(pid, 0) + 1
+        else:
+            text = f"Caught stealing: {nm} is out at {where} on the {count[0]}-{count[1]} pitch."
+        self.entries.append({"pos": j, "type": "run", "event": "SB_PITCH", "text": text})
 
     def _run(self, j: int, e, before) -> None:
         _, serial, ev, dests = e

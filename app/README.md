@@ -40,7 +40,8 @@ question the engine has already asked. The connector therefore works by **snapsh
 4. Orders and answers are queued per decision window (the number of completed plate appearances) and consumed
    when the engine asks; the pitch is re-run; anything not queued the AI answers with the same positioned
    generator it would have used (`tests/test_app_connector.py`: the runner's game equals the engine's, the
-   questions path and the orders path equal a scripted `Controller`, save and load replay identically).
+   questions path and the orders path equal a scripted `Controller`, save and load replay identically). A kind
+   asked inside the coming pitch (the pre-pitch calls) targets the pause's own window.
 
 **This is a prototype workaround.** The final engine (Phase 12) should pause natively at decision points, a
 change that goes through the engine session with full gates (CLAUDE.md, architecture constraints). What carries
@@ -55,11 +56,17 @@ do next (a dry run on a copy of the game, nothing is changed). Pinch runners are
 has no pitchers). Fatigue is shown as the pitch count and the outing's line next to the Stamina rating; the AI's
 pull probability is not displayed.
 
-What the engine does with each answer today is stated on each button (`catalogue.py`): a steal order of "no"
-holds the runners while "yes" lets them run at the league's rates (a forced steal is PR B); "bunt" makes an
-in-play out a sacrifice when one is feasible; the intentional walk is recorded but the engine does not act on
-it yet (PR B); pitchouts, intentional balls and mound visits do not exist in the engine and will appear through
-the generic descriptor when PR B adds them.
+What the engine does with each answer is stated on each button (`catalogue.py`). With PR B merged (2026-10-08) the
+calls before a pitch are live: the human's controller is asked before every pitch (`per_pitch`), so an order queued at
+the pause before a pitch applies to that pitch. Batting: steal or hit-and-run (a runner on first with second open, or
+on second with third open; resolved on a ball or strike, the runner goes back on a foul, he was running on a ball in
+play), bunt, swing away, a pinch runner. Fielding: pitchout, intentional ball, intentional walk (awarded without
+pitches, NCAA 8-2-b), mound visit (NCAA 9-4: a second trip to the same pitcher in an inning removes him, three free
+trips a game; a second trip with the same batter at bat is refused by the engine and reported in the turn), a
+pitching change or a defensive sub mid at-bat. Before the plate appearance: a called bunt (every pitch until two
+strikes) and the intentional walk. The PR A engine's per-plate-appearance steal (`steal_attempt`) is not asked while
+the per-pitch steal model is on. The owner's example, a steal on a 2-0 count, is `tests/test_app_connector.py`
+(`test_steal_on_2_0_through_the_connector`) and `tests/test_app_api.py` (through HTTP).
 
 ## Sim targets and stops
 

@@ -8,7 +8,7 @@
   const $$ = (s) => Array.from(document.querySelectorAll(s));
   const LS_LATEST = "cbs.latest", LS_SAVES = "cbs.saves";
   const RATING_LABEL = { contact: "Con", gap: "Gap", power: "Pow", eye: "Eye", avoid_k: "AvK", speed: "Spd", glove: "Glv", arm: "Arm",
-                         stuff: "Stf", control: "Ctl", movement: "Mov", stamina: "Sta" };
+                         stuff: "Stf", control: "Ctl", movement: "Mov", stamina: "Sta", hold: "Hld" };
   const SIM_LABEL = { pitch: "pitch", pa: "at-bat", half: "half inning", inning: "inning", three_innings: "three innings", game: "end of game" };
 
   const S = { league: null, decisions: null, rosters: {}, game: null, events: [], pregame: null, busy: false, screen: "picker" };
@@ -56,6 +56,7 @@
   // ---- turns --------------------------------------------------------------------------------------
   function applyTurn(t, replaceEvents = false) {
     S.game.turn = t; S.game.meta = t.meta;
+    if (t.error) toast("The engine refused that call: " + t.error);
     if (replaceEvents) S.events = t.events.slice(); else S.events = S.events.concat(t.events);
     mirrorSave();
   }
@@ -230,7 +231,7 @@
     const q = $("#question");
     if (t.phase === "question") { q.classList.remove("hidden"); renderQuestion(t.pending); } else q.classList.add("hidden");
     // actions
-    const hint = t.phase === "boundary" ? "before the next pitch" : t.phase === "pitch" ? "orders apply at your team's next decision" : t.phase === "over" ? "game over" : "";
+    const hint = t.phase === "boundary" ? "for the coming at-bat" : t.phase === "pitch" ? "a pre-pitch call applies to the next pitch; other orders at your team's next decision" : t.phase === "over" ? "game over" : "";
     $("#decisions-hint").textContent = hint;
     $("#actions").innerHTML = t.actions.filter((a) => a.answer !== "lineup" && a.kind !== "starting_pitcher" && a.kind !== "relief_pitcher").map((a) =>
       `<button data-action="${a.kind}" class="${a.queued ? "queued" : ""} ${a.mode === "ask" ? "ask" : ""}" ${a.legal && !st.over && t.phase !== "question" ? "" : "disabled"} title="${a.legal ? "" : a.reason}">${a.label}${a.mode === "ask" ? " ?" : ""}</button>`).join("");
@@ -254,8 +255,13 @@
     if (v === null) return "no one";
     if (typeof v === "number") return playerName(v);
     if (Array.isArray(v)) return v.map((x) => (Array.isArray(x) ? `${playerName(x[1])} → slot ${x[0] + 1}` : playerName(x))).join(", ");
-    if (typeof v === "object") return v.yes ? `yes, ${playerName(v.reliever)}` : "no";
-    return String(v).replace("_", " ");
+    if (typeof v === "object") {
+      if ("pinch_runner" in v) return `pinch runner ${playerName(v.pinch_runner)} for slot ${v.slot + 1}`;
+      if ("pitching_change" in v) return `pitching change: ${playerName(v.pitching_change)}`;
+      if ("defensive_sub" in v) return `${playerName(v.defensive_sub[1])} → slot ${v.defensive_sub[0] + 1}`;
+      return v.yes ? `yes, ${playerName(v.reliever)}` : "no";
+    }
+    return String(v).replace(/_/g, " ");
   }
 
   // ---- feed --------------------------------------------------------------------------------------------
@@ -291,6 +297,38 @@
         <div class="row wrap"><select id="sub-player">${bench.map((p) => `<option value="${p.pid}">${p.name} (${p.pos}) Glv ${p.ratings.glove}</option>`).join("")}</select>
         <select id="sub-slot">${lineup.map((p, i) => `<option value="${i}">${i + 1}. ${p.name} (${p.pos})</option>`).join("")}</select>
         <button class="primary" data-sub="1">Queue</button></div>`;
+    } else if (a.answer === "pre_pitch") {
+      const pk = a.picks || {};
+      const sb = pk.steal_base || 0;
+      const canSteal = sb > 0;
+      const runnersOn = (pk.runners || []).map((r) => Object.assign({}, r, { name: playerName(r.pid) }));
+      const bench = st.bench[me].filter((p) => (pk.bench || []).includes(p.pid));
+      body = `<div class="help">${canSteal ? `A runner can steal ${sb === 2 ? "second" : "third"} on this pitch.` : "No runner can steal on this pitch (one on first with second open, or on second with third open)."}</div>
+        <div class="row wrap">
+          <button class="primary" data-choice="steal" ${canSteal ? "" : "disabled"}>Steal</button>
+          <button data-choice="hit_and_run" ${canSteal ? "" : "disabled"}>Hit-and-run</button>
+          <button data-choice="bunt">Bunt</button>
+          <button data-choice="swing">Swing away</button>
+          <button data-choice="none">No call</button>
+        </div>
+        ${runnersOn.length && bench.length ? `<div class="help" style="margin-top:8px">Pinch runner: pick the runner, then the bench player.</div>
+        <div class="row wrap"><select id="pr-slot">${runnersOn.map((r) => `<option value="${r.slot}">${r.name} on ${["first", "second", "third"][r.base - 1]}</option>`).join("")}</select>
+        <select id="pr-player">${bench.map((p) => `<option value="${p.pid}">${p.name} (${p.pos}) Spd ${p.ratings.speed}</option>`).join("")}</select>
+        <button data-pr="1">Queue pinch runner</button></div>` : ""}`;
+    } else if (a.answer === "pre_pitch_defense") {
+      const pk = a.picks || {};
+      const pen = st.bullpen[me].filter((p) => (pk.bullpen || []).includes(p.pid));
+      const bench = st.bench[me].filter((p) => (pk.bench || []).includes(p.pid));
+      const lineup = st.lineups[me];
+      body = `<div class="row wrap">
+          <button data-choice="pitchout">Pitchout</button>
+          <button data-choice="intentional_ball">Intentional ball</button>
+          <button data-choice="ibb">Intentional walk</button>
+          <button data-choice="mound_visit">Mound visit</button>
+          <button data-choice="none">No call</button>
+        </div>
+        ${pen.length ? `<div class="help" style="margin-top:8px">Pitching change now (mid at-bat):</div><div class="row wrap"><select id="pc-player">${pen.map((p) => `<option value="${p.pid}">${p.name} ${p.role} Stf ${p.ratings.stuff} Ctl ${p.ratings.control}</option>`).join("")}</select><button data-pc="1">Queue pitching change</button></div>` : ""}
+        ${bench.length ? `<div class="help" style="margin-top:8px">Defensive sub now:</div><div class="row wrap"><select id="ds-player">${bench.map((p) => `<option value="${p.pid}">${p.name} (${p.pos}) Glv ${p.ratings.glove}</option>`).join("")}</select><select id="ds-slot">${lineup.map((p, i) => `<option value="${i}">${i + 1}. ${p.name} (${p.pos})</option>`).join("")}</select><button data-ds="1">Queue sub</button></div>` : ""}`;
     } else if (a.answer === "pick_pitcher") {
       body = pick(st.bullpen[me].filter((p) => a.options.includes(p.pid)), false, (p) => p.role);
     } else {
@@ -306,6 +344,12 @@
     }));
     const sub = $("#sheet [data-sub]");
     if (sub) sub.addEventListener("click", () => send([[+$("#sub-slot").value, +$("#sub-player").value]]));
+    const pr = $("#sheet [data-pr]");
+    if (pr) pr.addEventListener("click", () => send({ pinch_runner: +$("#pr-player").value, slot: +$("#pr-slot").value }));
+    const pc = $("#sheet [data-pc]");
+    if (pc) pc.addEventListener("click", () => send({ pitching_change: +$("#pc-player").value }));
+    const ds = $("#sheet [data-ds]");
+    if (ds) ds.addEventListener("click", () => send({ defensive_sub: [+$("#ds-slot").value, +$("#ds-player").value] }));
     const auto = $("#sheet [data-auto]");
     if (auto) auto.addEventListener("click", () => send("auto"));
     $("#sheet [data-close]").addEventListener("click", closeSheet);

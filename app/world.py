@@ -23,7 +23,7 @@ LEAGUE_SEED = 20261006          # tests/test_session_determinism.py builds the s
 EXHIBITION = {"weekend": True, "week": 1, "day": 0, "date": 11}
 
 BAT_RATINGS = ("contact", "gap", "power", "eye", "avoid_k", "speed", "glove", "arm")
-PIT_RATINGS = ("stuff", "control", "movement", "stamina")
+PIT_RATINGS = ("stuff", "control", "movement", "stamina", "hold")
 POS_LABEL = {"c": "C", "1b": "1B", "2b": "2B", "3b": "3B", "ss": "SS", "lf": "LF", "cf": "CF", "rf": "RF", "dh": "DH"}
 
 

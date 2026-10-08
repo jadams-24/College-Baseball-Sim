@@ -86,14 +86,41 @@ def test_api_save_load_replays(client):
         assert _runner(gid).base.log == ref, f"game {i}: a reloaded game diverged"
 
 
+def test_steal_on_2_0_through_the_api(client):
+    """The owner's example through HTTP: at a 2-0 count with the user's runner on first and second open, queue
+    'steal' for the coming pitch; the next pitch runs it and the feed says so."""
+    for seed in range(1, 60):
+        t = client.post("/api/games", json={"home": 5, "away": 200, "user_side": "home", "seed": seed}).json()
+        gid = t["game_id"]
+        t = client.post(f"/api/games/{gid}/sim", json={"target": "pitch"}).json()
+        while t["phase"] != "over":
+            st = t["state"]
+            if t["phase"] == "pitch" and st["batting_side"] == "home" and st["count"] == [2, 0] and st["bases"][0] and not st["bases"][1]:
+                act = next(a for a in t["actions"] if a["kind"] == "pre_pitch")
+                assert act["legal"] and act["picks"]["steal_base"] == 2
+                t = client.post(f"/api/games/{gid}/orders", json={"kind": "pre_pitch", "value": "steal"}).json()
+                assert any(o["kind"] == "pre_pitch" for o in t["orders"])
+                t = client.post(f"/api/games/{gid}/sim", json={"target": "pitch"}).json()
+                texts = [e["text"] for e in t["events"]]
+                assert any(e["type"] == "decision" and e["source"] == "order" and "steal on" in e["text"] for e in t["events"]), texts
+                if any(("steals second on the 2-0 pitch" in x) or ("out at second on the 2-0 pitch" in x) for x in texts):
+                    return
+                break                               # fouled or put in play: try another game
+            t = client.post(f"/api/games/{gid}/sim", json={"target": "pitch"}).json()
+    pytest.fail("no called steal on a 2-0 ball or strike in the sample")
+
+
 def test_endpoints(client):
     lg = client.get("/api/league").json()
     assert len(lg["teams"]) == 307 and {"tid", "name", "conference", "tier"} <= set(lg["teams"][0])
     roster = client.get("/api/teams/5").json()
     assert len(roster["batters"]) >= 9 and len(roster["pitchers"]) >= 5 and "contact" in roster["batters"][0]["ratings"]
+    assert "hold" in roster["pitchers"][0]["ratings"]
     assert client.get("/api/teams/9999").status_code == 404
     cat = client.get("/api/decisions").json()
     assert [k["kind"] for k in cat["kinds"]] == list(DECISIONS) and cat["stops"] == list(STOPS)
+    assert {"pre_pitch", "pre_pitch_defense"} <= {k["kind"] for k in cat["kinds"]}      # PR B's per-pitch decisions
+    assert "steal" in next(k for k in cat["kinds"] if k["kind"] == "pre_pitch")["choices"]
     t = client.post("/api/games", json={"home": 5, "away": 200, "user_side": "home", "seed": 3}).json()
     gid = t["game_id"]
     coach = client.get(f"/api/games/{gid}/coach").json()["advice"]

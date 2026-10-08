@@ -100,6 +100,19 @@ class Policy:
             return [[8, bench[0].pid]] if (state.inning == 7 and bench) else []
         if kind == "starting_pitcher":
             return cat.staff(state.team_obj[side])[1].pid
+        if kind == "pre_pitch":
+            sb = cat.steal_base(state) if state.batting_side == side else 0
+            if sb and w % 3 == 0:
+                return "steal" if w % 2 == 0 else "hit_and_run"
+            if w % 7 == 1 and state.outs == 0:
+                return "bunt"
+            return "auto"
+        if kind == "pre_pitch_defense":
+            if w % 5 == 2 and state.bases[0] is not None:
+                return "pitchout"
+            if w % 13 == 4:
+                return "ibb"
+            return "auto"                                  # a mound visit has its own test: once per batter (NCAA 9-4-c)
         return "auto"
 
     @classmethod
@@ -111,7 +124,9 @@ class ScriptedHuman(Controller):
     """Answers the engine directly: per ask (questions mode), or from orders fixed at its first ask of each window
     with the connector's order rules (a repeating kind's order covers every ask of the window; another kind's is
     consumed by its first ask; a persistent kind's orders queue up until asked, oldest first; a pitching change
-    carries its reliever)."""
+    carries its reliever). Asked before every pitch, as the connector's controller is."""
+
+    per_pitch = True
 
     def __init__(self, side, decider, per_window: bool):
         self.side, self.ai, self.per_window = side, AIController(decider), per_window
@@ -150,7 +165,7 @@ class ScriptedHuman(Controller):
     def answer(self, kind, state, rng, *args):
         value = self._value(kind, state)
         if value == "auto":
-            return self.ai.answer(kind, state, rng, *args)
+            return None if kind == "pre_pitch_defense" else self.ai.answer(kind, state, rng, *args)
         if kind == "pitching_change" and isinstance(value, dict):
             value = "yes" if value["yes"] else "no"
         try:
@@ -256,6 +271,57 @@ def test_save_load_fresh_process(world):
                 "print(hashlib.sha256(repr(r.base.log).encode()).hexdigest())") % (str(ROOT), str(f))
         out = subprocess.run([sys.executable, "-c", code], capture_output=True, text=True, check=True).stdout.strip()
     assert out == hashlib.sha256(repr(ref).encode()).hexdigest()
+
+
+# ---- 5b. the owner's example: a steal on a 2-0 count ------------------------------------------------
+def test_steal_on_2_0_through_the_connector(world):
+    """Pitch by pitch, at the pause before a 2-0 pitch with the user's runner on first and second open: the
+    'Before the pitch' action is legal with steal base 2, a 'steal' order is queued, the next pitch runs the steal
+    (engine log entry ('steal', pa, 2, ok, (2, 0))), and the game goes on."""
+    for seed in range(1, 60):
+        for user in ("home", "away"):
+            r = GameRunner.new(world, 5, 200, user, seed)
+            tr = r.step("pitch")
+            while not r.over:
+                st = r.current.st
+                pa = r.base.pa
+                if tr["phase"] == "pitch" and st.batting_side == user and pa is not None and (pa["b"], pa["s"]) == (2, 0) and cat.steal_base(st) == 2:
+                    act = next(a for a in tr["actions"] if a["kind"] == "pre_pitch")
+                    assert act["legal"] and act["picks"]["steal_base"] == 2
+                    n0 = len(r.base.log)
+                    r.queue("pre_pitch", "steal")
+                    tr = r.step("pitch")
+                    assert any(x["source"] == "order" and x["kind"] == "pre_pitch" for x in r.records()[-3:]), "the steal order was not consumed"
+                    ev = [e for e in r.base.log[n0:] if e[0] == "steal"]
+                    if not ev:
+                        break                       # the 2-0 pitch was fouled or put in play: the runner goes back / was running
+                    assert ev[0][2] == 2 and ev[0][4] == (2, 0), "the called steal on 2-0 was not run"
+                    r.step("game")
+                    assert r.over
+                    return
+                tr = r.step("pitch")
+    pytest.fail("no called steal on a 2-0 ball or strike in the sample")
+
+
+def test_mound_visit_and_the_engine_refusing_a_second_one(world):
+    """A mound visit before a pitch is logged; a second trip with the same batter at bat is refused by the engine
+    (NCAA 9-4-c): the runner restores the pause, drops the call and reports the reason in the turn."""
+    r = GameRunner.new(world, 5, 200, "home", 11)
+    tr = r.step("pitch")
+    while not (tr["phase"] == "pitch" and r.current.st.batting_side == "away" and r.base.pa is not None and r.base.pa["s"] == 0 and r.base.pa["b"] == 0):
+        tr = r.step("pitch")
+    n0 = len(r.base.log)
+    r.queue("pre_pitch_defense", "mound_visit")
+    tr = r.step("pitch")
+    assert any(e[0] == "visit" for e in r.base.log[n0:]) and tr["error"] is None
+    if r.base.pa is not None and r.base.pa["seq"] and r.current.st.batting_side == "away":
+        r.queue("pre_pitch_defense", "mound_visit")
+        tr = r.step("pitch")
+        assert tr["error"] and "same batter" in tr["error"]
+        assert not any(o["kind"] == "pre_pitch_defense" for o in tr["orders"])
+        assert r.step("pitch")["error"] is None               # the game goes on from the same pause
+    r.step("game")
+    assert r.over
 
 
 # ---- 6. the catalogue --------------------------------------------------------------------------
