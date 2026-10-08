@@ -9,8 +9,8 @@ restructure, 2026-10-06; owner condition: the four-part determinism test).
    uninterrupted AI game.
 3. Equal odds: the same decisions given by a human controller and by an AI manager are resolved identically (the
    engine never sees who decided).
-4. The 2-0 steal: a game can stop before a 2-0 pitch with a runner on first and second base open, and resume.
-   Calling the steal there is PR B (steals become a pitch-level decision); that part is skipped here.
+4. The 2-0 steal: a game can stop before a 2-0 pitch with a runner on first and second base open, and resume; the
+   batting side's manager calls a steal there and the runner goes on that pitch (PR B).
 """
 from __future__ import annotations
 
@@ -226,6 +226,48 @@ def test_pause_before_2_0_pitch_with_runner_on_first(world):
     pytest.fail("no 2-0 count with a runner on first and second open in the sample")
 
 
-@pytest.mark.skip(reason="PR B: steals become a pitch-level decision; the called steal on 2-0 goes live there")
-def test_steal_on_2_0():
-    raise NotImplementedError
+class StealOn20(Controller):
+    """A human on the batting side who manages every pitch (asked before each one) and calls a steal on the first 2-0
+    pitch with a runner on first and second open; otherwise he gives the AI's answers."""
+
+    per_pitch = True
+
+    def __init__(self, dec):
+        self.ai, self.called = AIController(dec), False
+
+    def answer(self, kind, state, rng, *args):
+        if kind == "pre_pitch":
+            info = args[0]
+            if not self.called and info["count"] == (2, 0) and info["steal_base"] == 2:
+                self.called = True
+                return "steal"
+            return None if not info.get("steal_base") else self.ai.answer(kind, state, rng, *args)
+        return self.ai.answer(kind, state, rng, *args)
+
+
+def test_steal_on_2_0(world):
+    """Owner's example: stealing on a 2-0 count. The game pauses before a 2-0 pitch with a runner on first and second
+    open, the batting side's manager calls the steal, the runner goes on that pitch (resolved if the pitch is a ball
+    or a strike; on a foul he goes back, on a ball in play he was running), and the game goes on."""
+    eng = world[0]
+    for i in range(N_GAMES):
+        s = _session(world, i)
+        pt = s.run(_at_2_0_runner_on_first)
+        if pt is None:
+            continue
+        side = s.st.batting_side
+        h = StealOn20(s.book)
+        s.set_controller(side, h)
+        n0 = len(s.log)
+        s.run(lambda x: x.pa is None or x.pa_serial != pt["pa_serial"])     # to the end of this plate appearance
+        assert h.called
+        ev = [e for e in s.log[n0:] if e[0] == "p"]
+        st_ev = [e for e in s.log[n0:] if e[0] == "steal"]
+        if ev and ev[0][2] in "BKS":
+            assert st_ev and st_ev[0][2] == 2 and st_ev[0][4] == (2, 0), "the called steal on 2-0 was not run"
+        else:
+            assert not st_ev or st_ev[0][4] != (2, 0)
+        assert s.run() is None and s.phase == "over"
+        if st_ev:
+            return
+    pytest.fail("no called steal on a 2-0 ball or strike in the sample")

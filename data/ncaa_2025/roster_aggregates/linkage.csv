@@ -1,0 +1,11 @@
+scope,scope_value,side,pbp_names,matched,ambiguous,no_candidate,pbp_names_team_not_parsed,pa_or_bf,pa_or_bf_matched,share_pa_or_bf_matched,share_names_matched,roster_players,roster_players_matched,share_roster_matched
+all,all,batter,4124,3410,9,705,877,131628,114965,0.8734,0.8269,4403,2898,0.6582
+tier,low,batter,920,703,2,215,169,8037,6001,0.7467,0.7641,1068,612,0.573
+tier,mid,batter,2133,1720,3,410,347,47234,37343,0.7906,0.8064,2310,1497,0.6481
+tier,non_d1,batter,12,12,0,0,69,33,33,1.0,1.0,27,12,0.4444
+tier,p4,batter,1059,975,4,80,292,76324,71588,0.9379,0.9207,998,777,0.7786
+all,all,pitcher,3575,2951,7,617,794,132478,115278,0.8702,0.8255,4494,2598,0.5781
+tier,low,pitcher,690,509,0,181,165,9143,6641,0.7263,0.7377,1024,467,0.4561
+tier,mid,pitcher,1834,1474,2,358,289,49321,39240,0.7956,0.8037,2367,1325,0.5598
+tier,non_d1,pitcher,7,5,0,2,47,43,31,0.7209,0.7143,21,5,0.2381
+tier,p4,pitcher,1044,963,5,76,293,73971,69366,0.9377,0.9224,1082,801,0.7403

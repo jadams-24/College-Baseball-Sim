@@ -8,9 +8,11 @@ from __future__ import annotations
 
 import argparse
 import json
+import pickle
+import subprocess
 import sys
 import time
-from concurrent.futures import ProcessPoolExecutor
+from concurrent.futures import ProcessPoolExecutor, as_completed
 from pathlib import Path
 
 import numpy as np
@@ -39,10 +41,52 @@ def one(seed: int) -> tuple:
     return season_metrics(res), season_extract4(res), season_extract5(res), season_extract6(res), season_extract7(res)
 
 
-def run(seasons: int, seed: int, workers: int) -> tuple:
+def _code_id() -> str | None:
+    """The commit the simulation code comes from, or None when the code is not exactly a commit (uncommitted changes
+    to anything the seasons read: engine, config, scripts, data, benchmarks)."""
+    try:
+        head = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True, text=True, check=True).stdout.strip()
+        dirty = subprocess.run(["git", "status", "--porcelain", "--", "engine", "config", "scripts", "data", "benchmarks.json"],
+                               cwd=ROOT, capture_output=True, text=True, check=True).stdout.strip()
+    except (OSError, subprocess.CalledProcessError):
+        return None
+    return None if dirty else head
+
+
+def run(seasons: int, seed: int, workers: int, checkpoint: bool = False) -> tuple:
+    """Simulate the seasons. checkpoint (the command line's default): each finished season is saved under
+    runs/<commit>/ and a restart skips the seeds already there. Only when the code is exactly a commit; a run on
+    another commit, or on uncommitted code, never reads another run's seasons."""
     seeds = [seed + i for i in range(seasons)]
+    done, cdir = {}, None
+    if checkpoint:
+        code = _code_id()
+        if code is None:
+            print("checkpoints off: uncommitted changes to the simulation code (commit them to make the run resumable)", flush=True)
+        else:
+            cdir = ROOT / "runs" / code
+            cdir.mkdir(parents=True, exist_ok=True)
+            others = [d.name for d in (ROOT / "runs").iterdir() if d.is_dir() and d.name != code]
+            if others:
+                print(f"not resuming from runs of other commits ({', '.join(o[:8] for o in others)}): the code changed", flush=True)
+            for sd in seeds:
+                f = cdir / f"season_{sd}.pkl"
+                if f.exists():
+                    done[sd] = pickle.loads(f.read_bytes())
+            if done:
+                print(f"resuming on {code[:8]}: {len(done)} of {len(seeds)} seasons already done", flush=True)
+    todo = [sd for sd in seeds if sd not in done]
     with ProcessPoolExecutor(max_workers=workers) as ex:
-        out = list(ex.map(one, seeds))
+        futs = {ex.submit(one, sd): sd for sd in todo}
+        for fu in as_completed(futs):
+            sd = futs[fu]
+            done[sd] = fu.result()
+            if cdir is not None:
+                tmp = cdir / f"season_{sd}.tmp"
+                tmp.write_bytes(pickle.dumps(done[sd]))
+                tmp.replace(cdir / f"season_{sd}.pkl")
+            print(f"season {sd} done ({len(done)} of {len(seeds)})", flush=True)
+    out = [done[sd] for sd in seeds]
     return (aggregate([o[0] for o in out]), aggregate4([o[1] for o in out]), aggregate5([o[2] for o in out]), aggregate6([o[3] for o in out]),
             aggregate7([o[4] for o in out]), seeds)
 
@@ -81,6 +125,7 @@ def main() -> None:
     ap.add_argument("--seasons", type=int, default=REPORT_SEASONS)
     ap.add_argument("--seed", type=int, default=REPORT_SEED)
     ap.add_argument("--workers", type=int, default=4)
+    ap.add_argument("--no-resume", action="store_true", help="do not save or reuse finished seasons (runs/<commit>/)")
     ap.add_argument("--from-reports", action="store_true",
                     help="rebuild every report from the aggregates saved in reports/*.json (no simulation): a change to a "
                          "report's rows or gating, on the committed run")
@@ -90,7 +135,7 @@ def main() -> None:
         aggs = [json.loads((ROOT / f"reports/{n}.json").read_text())["aggregate"] for n in ("phase2", "phase4", "phase5", "phase6", "phase7")]
         agg2, agg4, agg5, agg6, agg7, seeds = (*aggs, [a.seed + i for i in range(a.seasons)])
     else:
-        agg2, agg4, agg5, agg6, agg7, seeds = run(a.seasons, a.seed, a.workers)
+        agg2, agg4, agg5, agg6, agg7, seeds = run(a.seasons, a.seed, a.workers, checkpoint=not a.no_resume)
     sts = write(agg2, agg4, agg5, agg6, agg7, seeds)
     print((ROOT / "reports/phase7.md").read_text())
     ok = lambda st: all(v for v in st.values() if v is not None)

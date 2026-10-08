@@ -1,0 +1,311 @@
+conference,census_region,census_division,count,share
+ACC,Midwest,East North Central,42,0.0864
+ACC,Midwest,West North Central,12,0.0247
+ACC,Northeast,Middle Atlantic,81,0.1667
+ACC,Northeast,New England,35,0.072
+ACC,South,East South Central,20,0.0412
+ACC,South,South Atlantic,194,0.3992
+ACC,South,West South Central,14,0.0288
+ACC,US territory,US territory,1,0.0021
+ACC,West,Mountain,7,0.0144
+ACC,West,Pacific,76,0.1564
+ACC,international,international,3,0.0062
+ACC,unknown,unknown,1,0.0021
+ASUN,Midwest,East North Central,17,0.0514
+ASUN,Midwest,West North Central,19,0.0574
+ASUN,Northeast,Middle Atlantic,13,0.0393
+ASUN,Northeast,New England,5,0.0151
+ASUN,South,East South Central,53,0.1601
+ASUN,South,South Atlantic,147,0.4441
+ASUN,South,West South Central,46,0.139
+ASUN,US territory,US territory,3,0.0091
+ASUN,West,Mountain,3,0.0091
+ASUN,West,Pacific,12,0.0363
+ASUN,international,international,11,0.0332
+ASUN,unknown,unknown,2,0.006
+America East,Midwest,East North Central,2,0.0299
+America East,Northeast,Middle Atlantic,40,0.597
+America East,Northeast,New England,6,0.0896
+America East,South,South Atlantic,19,0.2836
+Atlantic 10,Midwest,East North Central,17,0.0642
+Atlantic 10,Midwest,West North Central,4,0.0151
+Atlantic 10,Northeast,Middle Atlantic,70,0.2642
+Atlantic 10,Northeast,New England,58,0.2189
+Atlantic 10,South,East South Central,1,0.0038
+Atlantic 10,South,South Atlantic,68,0.2566
+Atlantic 10,South,West South Central,10,0.0377
+Atlantic 10,West,Mountain,7,0.0264
+Atlantic 10,West,Pacific,18,0.0679
+Atlantic 10,international,international,10,0.0377
+Atlantic 10,unknown,unknown,2,0.0075
+Big 12,Midwest,East North Central,55,0.1141
+Big 12,Midwest,West North Central,41,0.0851
+Big 12,Northeast,Middle Atlantic,32,0.0664
+Big 12,Northeast,New England,4,0.0083
+Big 12,South,East South Central,10,0.0207
+Big 12,South,South Atlantic,68,0.1411
+Big 12,South,West South Central,143,0.2967
+Big 12,US territory,US territory,1,0.0021
+Big 12,West,Mountain,43,0.0892
+Big 12,West,Pacific,62,0.1286
+Big 12,international,international,22,0.0456
+Big 12,unknown,unknown,1,0.0021
+Big East,Midwest,East North Central,60,0.1942
+Big East,Midwest,West North Central,26,0.0841
+Big East,Northeast,Middle Atlantic,104,0.3366
+Big East,Northeast,New England,39,0.1262
+Big East,South,East South Central,7,0.0227
+Big East,South,South Atlantic,32,0.1036
+Big East,South,West South Central,7,0.0227
+Big East,West,Mountain,12,0.0388
+Big East,West,Pacific,18,0.0583
+Big East,international,international,4,0.0129
+Big South,Midwest,East North Central,24,0.0727
+Big South,Midwest,West North Central,10,0.0303
+Big South,Northeast,Middle Atlantic,38,0.1152
+Big South,Northeast,New England,8,0.0242
+Big South,South,East South Central,13,0.0394
+Big South,South,South Atlantic,193,0.5848
+Big South,South,West South Central,12,0.0364
+Big South,West,Mountain,8,0.0242
+Big South,West,Pacific,14,0.0424
+Big South,international,international,9,0.0273
+Big South,unknown,unknown,1,0.003
+Big Ten,Midwest,East North Central,166,0.3261
+Big Ten,Midwest,West North Central,63,0.1238
+Big Ten,Northeast,Middle Atlantic,29,0.057
+Big Ten,Northeast,New England,11,0.0216
+Big Ten,South,East South Central,7,0.0138
+Big Ten,South,South Atlantic,15,0.0295
+Big Ten,South,West South Central,16,0.0314
+Big Ten,US territory,US territory,1,0.002
+Big Ten,West,Mountain,20,0.0393
+Big Ten,West,Pacific,157,0.3084
+Big Ten,international,international,20,0.0393
+Big Ten,unknown,unknown,4,0.0079
+Big West,Midwest,East North Central,6,0.0161
+Big West,Midwest,West North Central,2,0.0054
+Big West,South,South Atlantic,1,0.0027
+Big West,South,West South Central,1,0.0027
+Big West,US territory,US territory,1,0.0027
+Big West,West,Mountain,13,0.0349
+Big West,West,Pacific,326,0.8763
+Big West,international,international,3,0.0081
+Big West,unknown,unknown,19,0.0511
+CAA,Midwest,East North Central,3,0.011
+CAA,Northeast,Middle Atlantic,102,0.375
+CAA,Northeast,New England,40,0.1471
+CAA,South,East South Central,3,0.011
+CAA,South,South Atlantic,113,0.4154
+CAA,South,West South Central,1,0.0037
+CAA,US territory,US territory,1,0.0037
+CAA,West,Mountain,2,0.0074
+CAA,West,Pacific,5,0.0184
+CAA,international,international,2,0.0074
+CUSA,Midwest,East North Central,6,0.0218
+CUSA,Midwest,West North Central,14,0.0509
+CUSA,Northeast,Middle Atlantic,9,0.0327
+CUSA,Northeast,New England,1,0.0036
+CUSA,South,East South Central,29,0.1055
+CUSA,South,South Atlantic,100,0.3636
+CUSA,South,West South Central,66,0.24
+CUSA,US territory,US territory,2,0.0073
+CUSA,West,Mountain,23,0.0836
+CUSA,West,Pacific,17,0.0618
+CUSA,international,international,5,0.0182
+CUSA,unknown,unknown,3,0.0109
+DI Independent,South,South Atlantic,1,0.0294
+DI Independent,West,Mountain,10,0.2941
+DI Independent,West,Pacific,23,0.6765
+Horizon,Midwest,East North Central,125,0.7022
+Horizon,Midwest,West North Central,9,0.0506
+Horizon,Northeast,Middle Atlantic,9,0.0506
+Horizon,South,East South Central,4,0.0225
+Horizon,South,South Atlantic,1,0.0056
+Horizon,South,West South Central,6,0.0337
+Horizon,West,Mountain,8,0.0449
+Horizon,West,Pacific,13,0.073
+Horizon,international,international,3,0.0169
+Ivy League,Midwest,East North Central,19,0.1195
+Ivy League,Midwest,West North Central,3,0.0189
+Ivy League,Northeast,Middle Atlantic,31,0.195
+Ivy League,Northeast,New England,18,0.1132
+Ivy League,South,East South Central,1,0.0063
+Ivy League,South,South Atlantic,36,0.2264
+Ivy League,South,West South Central,12,0.0755
+Ivy League,West,Mountain,4,0.0252
+Ivy League,West,Pacific,28,0.1761
+Ivy League,international,international,6,0.0377
+Ivy League,unknown,unknown,1,0.0063
+MAAC,Midwest,East North Central,6,0.0303
+MAAC,Midwest,West North Central,1,0.0051
+MAAC,Northeast,Middle Atlantic,114,0.5758
+MAAC,Northeast,New England,55,0.2778
+MAAC,South,East South Central,2,0.0101
+MAAC,South,South Atlantic,9,0.0455
+MAAC,West,Pacific,5,0.0253
+MAAC,international,international,5,0.0253
+MAAC,unknown,unknown,1,0.0051
+MAC,Midwest,East North Central,226,0.7609
+MAC,Midwest,West North Central,12,0.0404
+MAC,Northeast,Middle Atlantic,6,0.0202
+MAC,South,East South Central,8,0.0269
+MAC,South,South Atlantic,7,0.0236
+MAC,South,West South Central,4,0.0135
+MAC,US territory,US territory,1,0.0034
+MAC,West,Mountain,9,0.0303
+MAC,West,Pacific,13,0.0438
+MAC,international,international,10,0.0337
+MAC,unknown,unknown,1,0.0034
+MVC,Midwest,East North Central,138,0.4859
+MVC,Midwest,West North Central,40,0.1408
+MVC,Northeast,Middle Atlantic,2,0.007
+MVC,Northeast,New England,1,0.0035
+MVC,South,East South Central,40,0.1408
+MVC,South,South Atlantic,16,0.0563
+MVC,South,West South Central,6,0.0211
+MVC,US territory,US territory,2,0.007
+MVC,West,Mountain,6,0.0211
+MVC,West,Pacific,13,0.0458
+MVC,international,international,20,0.0704
+Mountain West,Midwest,East North Central,3,0.016
+Mountain West,Midwest,West North Central,3,0.016
+Mountain West,South,East South Central,4,0.0213
+Mountain West,South,South Atlantic,13,0.0691
+Mountain West,South,West South Central,10,0.0532
+Mountain West,West,Mountain,50,0.266
+Mountain West,West,Pacific,100,0.5319
+Mountain West,international,international,4,0.0213
+Mountain West,unknown,unknown,1,0.0053
+NEC,Midwest,East North Central,5,0.0543
+NEC,Midwest,West North Central,2,0.0217
+NEC,Northeast,Middle Atlantic,34,0.3696
+NEC,Northeast,New England,4,0.0435
+NEC,South,East South Central,2,0.0217
+NEC,South,South Atlantic,33,0.3587
+NEC,South,West South Central,1,0.0109
+NEC,West,Mountain,3,0.0326
+NEC,West,Pacific,7,0.0761
+NEC,unknown,unknown,1,0.0109
+OVC,Midwest,East North Central,79,0.3211
+OVC,Midwest,West North Central,52,0.2114
+OVC,Northeast,Middle Atlantic,2,0.0081
+OVC,Northeast,New England,1,0.0041
+OVC,South,East South Central,46,0.187
+OVC,South,South Atlantic,15,0.061
+OVC,South,West South Central,11,0.0447
+OVC,US territory,US territory,3,0.0122
+OVC,West,Mountain,8,0.0325
+OVC,West,Pacific,15,0.061
+OVC,international,international,14,0.0569
+Patriot,Midwest,East North Central,16,0.0664
+Patriot,Midwest,West North Central,1,0.0041
+Patriot,Northeast,Middle Atlantic,107,0.444
+Patriot,Northeast,New England,29,0.1203
+Patriot,South,East South Central,5,0.0207
+Patriot,South,South Atlantic,44,0.1826
+Patriot,South,West South Central,12,0.0498
+Patriot,West,Mountain,6,0.0249
+Patriot,West,Pacific,21,0.0871
+SEC,Midwest,East North Central,23,0.0452
+SEC,Midwest,West North Central,42,0.0825
+SEC,Northeast,Middle Atlantic,23,0.0452
+SEC,Northeast,New England,6,0.0118
+SEC,South,East South Central,91,0.1788
+SEC,South,South Atlantic,156,0.3065
+SEC,South,West South Central,120,0.2358
+SEC,US territory,US territory,2,0.0039
+SEC,West,Mountain,15,0.0295
+SEC,West,Pacific,26,0.0511
+SEC,international,international,5,0.0098
+SWAC,Midwest,East North Central,19,0.0551
+SWAC,Midwest,West North Central,8,0.0232
+SWAC,Northeast,Middle Atlantic,4,0.0116
+SWAC,Northeast,New England,1,0.0029
+SWAC,South,East South Central,37,0.1072
+SWAC,South,South Atlantic,117,0.3391
+SWAC,South,West South Central,111,0.3217
+SWAC,US territory,US territory,20,0.058
+SWAC,West,Mountain,6,0.0174
+SWAC,West,Pacific,3,0.0087
+SWAC,international,international,17,0.0493
+SWAC,unknown,unknown,2,0.0058
+SoCon,Midwest,East North Central,8,0.0261
+SoCon,Midwest,West North Central,3,0.0098
+SoCon,Northeast,Middle Atlantic,14,0.0458
+SoCon,Northeast,New England,2,0.0065
+SoCon,South,East South Central,36,0.1176
+SoCon,South,South Atlantic,221,0.7222
+SoCon,South,West South Central,2,0.0065
+SoCon,US territory,US territory,1,0.0033
+SoCon,West,Mountain,5,0.0163
+SoCon,West,Pacific,7,0.0229
+SoCon,international,international,5,0.0163
+SoCon,unknown,unknown,2,0.0065
+Southland,Midwest,East North Central,6,0.0191
+Southland,Midwest,West North Central,9,0.0287
+Southland,Northeast,Middle Atlantic,3,0.0096
+Southland,South,East South Central,18,0.0573
+Southland,South,South Atlantic,21,0.0669
+Southland,South,West South Central,213,0.6783
+Southland,US territory,US territory,3,0.0096
+Southland,West,Mountain,16,0.051
+Southland,West,Pacific,15,0.0478
+Southland,international,international,10,0.0318
+Summit League,Midwest,East North Central,26,0.1347
+Summit League,Midwest,West North Central,103,0.5337
+Summit League,Northeast,New England,1,0.0052
+Summit League,South,South Atlantic,1,0.0052
+Summit League,South,West South Central,6,0.0311
+Summit League,West,Mountain,32,0.1658
+Summit League,West,Pacific,13,0.0674
+Summit League,international,international,11,0.057
+Sun Belt,Midwest,East North Central,32,0.0711
+Sun Belt,Midwest,West North Central,17,0.0378
+Sun Belt,Northeast,Middle Atlantic,34,0.0756
+Sun Belt,Northeast,New England,5,0.0111
+Sun Belt,South,East South Central,79,0.1756
+Sun Belt,South,South Atlantic,135,0.3
+Sun Belt,South,West South Central,121,0.2689
+Sun Belt,US territory,US territory,1,0.0022
+Sun Belt,West,Mountain,1,0.0022
+Sun Belt,West,Pacific,19,0.0422
+Sun Belt,international,international,6,0.0133
+The American,Midwest,East North Central,20,0.0692
+The American,Midwest,West North Central,21,0.0727
+The American,Northeast,Middle Atlantic,16,0.0554
+The American,Northeast,New England,6,0.0208
+The American,South,East South Central,27,0.0934
+The American,South,South Atlantic,105,0.3633
+The American,South,West South Central,52,0.1799
+The American,US territory,US territory,4,0.0138
+The American,West,Mountain,13,0.045
+The American,West,Pacific,11,0.0381
+The American,international,international,6,0.0208
+The American,unknown,unknown,8,0.0277
+WAC,Midwest,East North Central,3,0.0108
+WAC,Midwest,West North Central,7,0.0253
+WAC,Northeast,Middle Atlantic,1,0.0036
+WAC,South,South Atlantic,3,0.0108
+WAC,South,West South Central,69,0.2491
+WAC,West,Mountain,93,0.3357
+WAC,West,Pacific,94,0.3394
+WAC,international,international,6,0.0217
+WAC,unknown,unknown,1,0.0036
+WCC,Midwest,East North Central,6,0.0215
+WCC,Midwest,West North Central,4,0.0143
+WCC,Northeast,Middle Atlantic,4,0.0143
+WCC,Northeast,New England,1,0.0036
+WCC,South,South Atlantic,4,0.0143
+WCC,South,West South Central,8,0.0287
+WCC,West,Mountain,25,0.0896
+WCC,West,Pacific,212,0.7599
+WCC,international,international,8,0.0287
+WCC,unknown,unknown,7,0.0251
+non-D1,Midwest,East North Central,32,0.7442
+non-D1,Midwest,West North Central,4,0.093
+non-D1,South,South Atlantic,1,0.0233
+non-D1,South,West South Central,1,0.0233
+non-D1,West,Mountain,2,0.0465
+non-D1,West,Pacific,2,0.0465
+non-D1,international,international,1,0.0233

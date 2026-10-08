@@ -1,0 +1,390 @@
+{
+ "built": "2026-10-07",
+ "_note": "Steals as a pitch-level decision (PR B, owner approval 2026-10-06/07): attempt and success rates by count and\ngame state, fitted from the 2025 WMT play-by-play, validated on the games that record the exact pitch of a steal.\n\nThe data. The play-by-play records a steal (SB, CS) as its own line between two plate appearances' results, but for\nabout 89% of steals not the pitch it happened on: the line is stamped with the pitcher's pitch count at the end of\nthe plate appearance. What each plate appearance does record is its pitch sequence (balls, called and swinging\nstrikes, fouls, the ball in play). A steal is resolved on a pitch the batter did not hit: a ball or a strike, not a\nfoul (the runner returns) and not a ball in play (the play is a hit or an out with the runner moving). So a steal\nattempt sits on one of the plate appearance's ball / called strike / swinging strike pitches, which one unknown.\n\nThe model. Before each of those pitches, with the lead runner able to steal (runner on first with second open, else\non second with third open; engine.game2 _lead_stealer), an attempt starts with probability\n    a = expit(alpha_count + beta . x),   x: outs, which base, score difference, inning (buckets below),\nand succeeds with probability s = expit(gamma_count + delta . z), z: outs, which base. A plate appearance with no\nattempt contributes prod_j (1 - a_j) over its eligible pitches; one whose first base-running event is an attempt on\nan unknown eligible pitch j contributes sum_j [prod_{i<j} (1 - a_i)] a_j s_j^(SB) (1 - s_j)^(CS). Fitted by EM (the\nE-step weights the candidate pitches; the M-steps are weighted logistic regressions, Newton-Raphson). The count\neffects are identified because plate appearances pass through different count paths.\n\nLeft out: plate appearances whose first base-running event is not a steal (a wild pitch, pickoff, balk: the base\nstate changes at an unknown pitch; 5% of eligible plate appearances), and everything after the first steal of a\nplate appearance (the base state changed).\n\nSteals on the last pitch. A steal on the pitch that ends the plate appearance (strike three or ball four) is written\ninto the plate appearance's own line (\"... struck out swinging (3-2 BBBKFS); X caught stealing\"), so its pitch is\nknown exactly: it enters the fit with its position known.\n\nInning-ending caught stealing. A runner caught stealing for the third out leaves no plate appearance (the batter\nleads off the next inning with a new count), so those attempts have no pitch path. The count effects come from the\nplate appearances; the two-out levels of attempt and success are then set so that the fitted model reproduces every\ntwo-out steal and caught stealing in the data (runner_events), the inning-ending ones included.\n\nValidation. The checks by plate-appearance length and final count are confounded: a steal changes the rest of its\nplate appearance (with the runner in scoring position pitchers throw more balls; in the play-by-play, plate\nappearances with no base running run 3.61 pitches with a runner on first only and 3.72 with one on second only), so\nplate appearances with an attempt end longer and in ball-heavy counts, which a per-pitch hazard on the path before\nthe attempt does not describe. The unconfounded check is the steals on the last pitch, whose count is exact.\n\nNo game records the pitch of a steal that happens in the middle of a plate appearance (the pitch count on\na steal line is the count at the end of the plate appearance for every steal linked here; an earlier reading of 41\ngames with live stamps was an artifact of matching steals written into the previous batter's line). So the model is\nchecked out of sample: fitted on 80% of the games, it predicts, in the other 20%, the share of eligible plate\nappearances with an attempt by the plate appearance's number of pitches and final count, and the attempts written on\nthe last pitch by its count (the exact ones).\n\nWrites data/ncaa_2025/derived/prb_steals.json and reports/prb_steals.md.\n\n    python3 scripts/build_prb_steals.py\n",
+ "sample": {
+  "eligible_pa": 56975,
+  "attempts": 4808,
+  "steals": 4120,
+  "attempts_last_pitch_known": 389,
+  "eligible_pitches": 166423,
+  "left_out_other_event_first": 4573,
+  "direct_attempts_by_outs": {
+   "0": 1147,
+   "1": 2334,
+   "2": 2540
+  },
+  "direct_steals_by_outs": {
+   "0": 903,
+   "1": 1795,
+   "2": 2029
+  },
+  "linked_attempts_by_outs": {
+   "0": 1049,
+   "1": 1992,
+   "2": 1767
+  },
+  "two_out_attempt_factor": 1.2558,
+  "two_out_success_direct": 0.7988
+ },
+ "attempt": {
+  "names": [
+   "intercept",
+   "count_0-0",
+   "count_0-1",
+   "count_0-2",
+   "count_1-0",
+   "count_1-1",
+   "count_1-2",
+   "count_2-0",
+   "count_2-1",
+   "count_2-2",
+   "count_3-0",
+   "count_3-1",
+   "count_3-2",
+   "outs_1",
+   "outs_2",
+   "steal_third",
+   "lead_-99_-4",
+   "lead_-3_-2",
+   "lead_2_3",
+   "lead_4_99",
+   "inning_4_6",
+   "inning_7_8",
+   "inning_9_99"
+  ],
+  "coef": [
+   -3.29458,
+   -0.07494,
+   0.56421,
+   0.17773,
+   0.10405,
+   0.46988,
+   0.37652,
+   0.16079,
+   0.50289,
+   0.41415,
+   -1.96029,
+   -1.3515,
+   0.6165,
+   0.39048,
+   0.42431,
+   -1.59417,
+   -1.12458,
+   -0.66856,
+   0.18159,
+   0.0642,
+   -0.00857,
+   -0.09724,
+   -0.36971
+  ],
+  "se": [
+   0.20957,
+   0.20825,
+   0.20915,
+   0.21457,
+   0.21035,
+   0.21029,
+   0.21193,
+   0.21641,
+   0.2135,
+   0.21369,
+   0.31884,
+   0.27413,
+   0.21722,
+   0.03917,
+   0.04007,
+   0.04274,
+   0.06365,
+   0.05842,
+   0.04188,
+   0.04018,
+   0.03583,
+   0.04292,
+   0.07063
+  ]
+ },
+ "success": {
+  "names": [
+   "intercept",
+   "count_0-0",
+   "count_0-1",
+   "count_0-2",
+   "count_1-0",
+   "count_1-1",
+   "count_1-2",
+   "count_2-0",
+   "count_2-1",
+   "count_2-2",
+   "count_3-0",
+   "count_3-1",
+   "count_3-2",
+   "outs_1",
+   "outs_2",
+   "steal_third"
+  ],
+  "coef": [
+   1.25064,
+   0.25826,
+   -0.10182,
+   -0.12536,
+   0.32271,
+   -0.09828,
+   -0.24041,
+   0.04001,
+   -0.04651,
+   0.07136,
+   -0.01223,
+   0.10856,
+   -0.17629,
+   -0.12831,
+   0.06678,
+   0.25
+  ],
+  "se": [
+   0.13525,
+   0.14353,
+   0.14982,
+   0.19118,
+   0.16566,
+   0.15851,
+   0.16953,
+   0.20083,
+   0.18011,
+   0.1831,
+   0.33353,
+   0.31397,
+   0.17925,
+   0.09342,
+   0.0495,
+   0.1266
+  ]
+ },
+ "buckets": {
+  "lead": [
+   [
+    -99,
+    -4
+   ],
+   [
+    -3,
+    -2
+   ],
+   [
+    -1,
+    1
+   ],
+   [
+    2,
+    3
+   ],
+   [
+    4,
+    99
+   ]
+  ],
+  "inning": [
+   [
+    1,
+    3
+   ],
+   [
+    4,
+    6
+   ],
+   [
+    7,
+    8
+   ],
+   [
+    9,
+    99
+   ]
+  ],
+  "lead_reference": [
+   -1,
+   1
+  ],
+  "inning_reference": [
+   1,
+   3
+  ]
+ },
+ "loglik": -23752.373518260832,
+ "em_iterations": 24,
+ "validation_20pct_games": {
+  "games": 436,
+  "eligible_pa": 11206,
+  "by_pa_length": {
+   "1.0": {
+    "obs": 1,
+    "pred": 0.0,
+    "pas": 2
+   },
+   "2.0": {
+    "obs": 40,
+    "pred": 40.1,
+    "pas": 1762
+   },
+   "3.0": {
+    "obs": 109,
+    "pred": 123.9,
+    "pas": 2320
+   },
+   "4.0": {
+    "obs": 160,
+    "pred": 194.0,
+    "pas": 2406
+   },
+   "5.0": {
+    "obs": 234,
+    "pred": 238.4,
+    "pas": 2226
+   },
+   "6.0": {
+    "obs": 243,
+    "pred": 207.0,
+    "pas": 1571
+   },
+   "7.0": {
+    "obs": 116,
+    "pred": 81.5,
+    "pas": 602
+   },
+   "8.0": {
+    "obs": 66,
+    "pred": 47.3,
+    "pas": 317
+   }
+  },
+  "by_final_count": {
+   "0-0": {
+    "obs": 1,
+    "pred": 0.0,
+    "pas": 2
+   },
+   "0-1": {
+    "obs": 17,
+    "pred": 18.7,
+    "pas": 843
+   },
+   "0-2": {
+    "obs": 55,
+    "pred": 64.8,
+    "pas": 1138
+   },
+   "1-0": {
+    "obs": 31,
+    "pred": 21.8,
+    "pas": 938
+   },
+   "1-1": {
+    "obs": 39,
+    "pred": 50.9,
+    "pas": 998
+   },
+   "1-2": {
+    "obs": 133,
+    "pred": 151.2,
+    "pas": 1817
+   },
+   "2-0": {
+    "obs": 23,
+    "pred": 18.6,
+    "pas": 361
+   },
+   "2-1": {
+    "obs": 49,
+    "pred": 48.0,
+    "pas": 613
+   },
+   "2-2": {
+    "obs": 201,
+    "pred": 185.4,
+    "pas": 1589
+   },
+   "3-0": {
+    "obs": 22,
+    "pred": 24.8,
+    "pas": 305
+   },
+   "3-1": {
+    "obs": 99,
+    "pred": 86.0,
+    "pas": 809
+   },
+   "3-2": {
+    "obs": 299,
+    "pred": 261.8,
+    "pas": 1793
+   }
+  },
+  "last_pitch_by_count": {
+   "0-0": {
+    "obs": 0,
+    "pred": 0.0
+   },
+   "0-1": {
+    "obs": 0,
+    "pred": 0.0
+   },
+   "0-2": {
+    "obs": 12,
+    "pred": 14.5
+   },
+   "1-0": {
+    "obs": 0,
+    "pred": 0.0
+   },
+   "1-1": {
+    "obs": 0,
+    "pred": 0.0
+   },
+   "1-2": {
+    "obs": 12,
+    "pred": 25.6
+   },
+   "2-0": {
+    "obs": 0,
+    "pred": 0.0
+   },
+   "2-1": {
+    "obs": 0,
+    "pred": 0.0
+   },
+   "2-2": {
+    "obs": 11,
+    "pred": 21.9
+   },
+   "3-0": {
+    "obs": 0,
+    "pred": 1.1
+   },
+   "3-1": {
+    "obs": 1,
+    "pred": 3.1
+   },
+   "3-2": {
+    "obs": 42,
+    "pred": 39.8
+   }
+  },
+  "chi2": {
+   "by_pa_length": [
+    65.60273652696173,
+    8,
+    1.8520474043270951e-10
+   ],
+   "by_final_count": [
+    49.90761444092572,
+    12,
+    2.0612608626624507e-06
+   ],
+   "last_pitch_by_count": [
+    15.725667050596245,
+    7,
+    0.02766116969087018
+   ]
+  }
+ },
+ "conf": "B"
+}
