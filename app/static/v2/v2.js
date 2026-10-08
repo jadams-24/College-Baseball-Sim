@@ -323,7 +323,8 @@
       ? `<button class="go" data-sim="pitch">Play ball</button>`
       : `<button class="go" data-sim="pitch">Next pitch</button><button data-sim="pa">At-bat</button><button data-sim="half">Half inning</button><button data-sim="inning">Inning</button><button data-sim="three_innings">3 innings</button><button data-sim="game">End of game</button>`;
     const back = S.game && S.game.dynasty ? (t.state.over ? `<button class="go" data-dyn-finish="1">Back to the dynasty</button>` : `<button class="btn-ghost" data-dyn-back="1">Dynasty</button>`) : "";
-    $("#simbar").innerHTML = `<span class="k">Sim</span>${t.state.over && S.game && S.game.dynasty ? "" : sims}${back}`;
+    const league = $("#league-sim") ? $("#league-sim").outerHTML : "";
+    $("#simbar").innerHTML = `<span class="k">Sim</span>${t.state.over && S.game && S.game.dynasty ? "" : sims}${back}${league}`;
     $$("#simbar [data-sim]").forEach((b) => (b.disabled = off));
   }
   function orderText(o) {

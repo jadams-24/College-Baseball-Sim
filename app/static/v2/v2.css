@@ -366,3 +366,5 @@ body.busy .simbar button { opacity: .6; }
 .summary .facts b { font-size: 15px; }
 .offseason ol { margin: 6px 0 0 18px; padding: 0; }
 .offseason li { padding: 2px 0; color: var(--ink2); }
+
+#league-sim { margin-left: auto; font-size: 11px; }

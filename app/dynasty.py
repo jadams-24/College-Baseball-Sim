@@ -220,11 +220,33 @@ class Dynasty:
         return rec
 
     def next_index(self) -> int | None:
-        """The next scheduled game not yet played (skipping dropped and canceled ones), or None."""
+        """The next scheduled game not yet played (skipping dropped and canceled ones, and games the background
+        sim played ahead of the user's), or None."""
         i = self.pos
-        while i < len(self.schedule) and self.skip[i]:
+        while i < len(self.schedule) and (self.skip[i] or i in self.results):
             i += 1
         return i if i < len(self.schedule) else None
+
+    def background_plan(self) -> list:
+        """The games to sim while the user plays the pending one: the rest of that week's games that follow it in
+        schedule order and do not involve the user's team. Games of disjoint teams do not depend on each other
+        (per-game seeds; the engine's accumulators and the Decider's rest history, rotation plans and counters are
+        per player or per team), so playing them before the user's game finishes gives the engine's results
+        (tests/test_app_dynasty.py plays the user's games with the background sim running). Postseason games are
+        never simmed ahead: a bracket's later games depend on its earlier ones."""
+        if self.pending is None or self.pending["stage"] != "regular" or self.stage != "regular":
+            return []
+        i0 = self.pending["i"]
+        week = self._week_of(self.schedule[i0].date)
+        out = []
+        for i in range(i0 + 1, len(self.schedule)):
+            g = self.schedule[i]
+            if self._week_of(g.date) != week:
+                break
+            if self.skip[i] or i in self.results or self.mine(g):
+                continue
+            out.append(i)
+        return out
 
     def my_games(self) -> list:
         return [i for i, g in enumerate(self.schedule) if self.mine(g) and not self.skip[i]]
@@ -730,18 +752,30 @@ def leaders_json(d: Dynasty, n: int = 10) -> dict:
             "floors": {"batting": "2 PA per team game", "pitching": "1 IP per team game"}}
 
 
+def _hand(p) -> str:
+    """B/T once the engine's Player carries handedness (Phase 3: bats, throws); a dash until then."""
+    b, t = getattr(p, "bats", None), getattr(p, "throws", None)
+    return f"{b or '–'}/{t or '–'}" if (b or t) else "–"
+
+
+def _year(p) -> str:
+    """Class or year once the engine's Player carries it (roster rules); a dash until then."""
+    y = getattr(p, "year", None) or getattr(p, "class_year", None) or getattr(p, "klass", None)
+    return str(y) if y else "–"
+
+
 def roster_json(d: Dynasty) -> dict:
     """The user's roster with ratings, position, the season line, and each pitcher's last outing (date and pitches)
     from the Decider's rest history: the facts behind the AI's rest rule, which is internal. No class or year, no
     handedness: not in the engine."""
     t = d.team
     today = d.date_now()
-    bats = [dict(player_json(p), stats=_bat_stats(d.bstats[p.pid]), hand="–", year="–") for p in t.batters]
+    bats = [dict(player_json(p), stats=_bat_stats(d.bstats[p.pid]), hand=_hand(p), year=_year(p)) for p in t.batters]
     pits = []
     for p in staff(t):
         h = d.mgr.history.get(p.pid, [])
         last = h[-1] if h else None
-        pits.append(dict(player_json(p), stats=_pit_stats(d.pstats[p.pid]), hand="–", year="–",
+        pits.append(dict(player_json(p), stats=_pit_stats(d.pstats[p.pid]), hand=_hand(p), year=_year(p),
                          last_outing={"date": int(last[0]), "pitches": int(last[1]), "days_ago": int(today - last[0])} if last else None,
                          outings=len(h)))
     return {"team": t.name, "batters": bats, "pitchers": pits, "date": today}

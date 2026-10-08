@@ -5,9 +5,10 @@
    champion. The dynasty plays the schedule game by game with the engine's per-game seeds and runs the postseason
    pipeline over recorded results (snapshot and replay at the tournament level).
 2. A dynasty season played through the API with decisions (the user's first games on the manager screen with the
-   scripted policy of tests/test_app_connector.py answering every question, the rest simmed; sims run as the API's
-   background jobs; a save and reload in the middle) equals the engine's loop with the same scripted controller
-   for those games (engine.season's loop and postseason with `controllers` for the user's games).
+   scripted policy of tests/test_app_connector.py answering every question while the week's other games sim in the
+   background, the rest simmed; sims run as the API's background jobs; a save and reload in the middle) equals the
+   engine's loop with the same scripted controller for those games (engine.season's loop and postseason with
+   `controllers` for the user's games).
 Both run a full D1 season twice (about 20 minutes each on the development machine).
 """
 from __future__ import annotations
@@ -135,10 +136,11 @@ def test_dynasty_with_decisions_through_the_api_equals_the_scripted_engine_run(t
             if h["pending"] is None:
                 break
             if played < n_scripted:
-                h = _play_pending_with_policy(c, did)
+                h = _play_pending_with_policy(c, did)          # opening the game starts the background sim of the week's other games
             else:
                 h = c.post(f"/api/dynasties/{did}/game/sim").json()
             played += 1
+            h = _wait(c, did)                                   # the background job must finish before the next sim target
             if played == 5:                               # a save and reload in the middle of the season
                 sv = c.get(f"/api/dynasties/{did}/save").json()
                 api_mod.store.dynasties.pop(did)

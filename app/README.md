@@ -191,6 +191,12 @@ outings), Postseason (conference tournaments in their published formats, Selecti
 Omaha) and, when the season is over, Year in review with the offseason placeholder (transfer portal, MLB draft,
 recruiting, roster cuts, Year 2 plug in there).
 
+While the user plays a game, the rest of that week's other games sim in the background (owner decision
+2026-10-08, option 2 of `reports/dynasty_latency.md`): games of disjoint teams do not depend on each other (per-game
+seeds; the engine's accumulators and the Decider's state are per player or per team), so the result is still the
+engine's; the hub and the manager screen's sim bar show the progress; postseason games are never simmed ahead
+(a bracket's later games depend on its earlier ones).
+
 Saves: the server autosaves after every sim job and game (`CBS_SAVE_DIR`, default `saves/`; the free host's disk
 is ephemeral) and the browser mirrors the signed blob in IndexedDB; Continue restores from the mirror when the
 server has forgotten the dynasty. Sim cost on the free tier: `reports/dynasty_latency.md`.

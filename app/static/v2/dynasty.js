@@ -45,7 +45,9 @@
       try { p = await raw(`/api/dynasties/${D.id}/progress`); } catch (e) { D.poll = setTimeout(tick, 3000); return; }
       if (p.running) {
         const el = $("#sim-progress");
-        if (el) el.innerHTML = `<div class="prog"><i style="width:${p.total ? (100 * p.played / p.total).toFixed(1) : 0}%"></i></div><div class="muted">Simming the D1 world: ${p.played} of ${p.total} games · ${dateText(p.date)} · ${STAGE[p.stage] || p.stage}</div>`;
+        if (el) el.innerHTML = p.kind === "background"
+          ? `<div class="prog"><i style="width:${p.ahead_total ? (100 * p.ahead / p.ahead_total).toFixed(1) : 0}%"></i></div><div class="muted">The rest of the league's week is simming while you play: ${p.ahead} of ${p.ahead_total} games</div>`
+          : `<div class="prog"><i style="width:${p.total ? (100 * p.played / p.total).toFixed(1) : 0}%"></i></div><div class="muted">Simming the D1 world: ${p.played} of ${p.total} games · ${dateText(p.date)} · ${STAGE[p.stage] || p.stage}</div>`;
         D.poll = setTimeout(tick, 1500);
       } else {
         if (p.error) toast("The sim stopped: " + p.error);
@@ -65,6 +67,23 @@
   async function simPending() { D.hub = await raw(`/api/dynasties/${D.id}/game/sim`, "POST"); D.cache = {}; render(); mirror(); }
   document.addEventListener("cbs:dyn-finish", () => busy(async () => { D.hub = await raw(`/api/dynasties/${D.id}/game/finish`, "POST"); D.cache = {}; show("dyn"); setScreen("hub"); mirror(); }));
   document.addEventListener("cbs:dyn-back", () => { show("dyn"); render(); });
+  // while a dynasty game is on the manager screen, the league's background sim shows its progress in the sim bar
+  let gamePoll = null;
+  document.addEventListener("cbs:screen", (e) => {
+    clearTimeout(gamePoll);
+    if (e.detail !== "game" || !V.S.game || !V.S.game.dynasty) return;
+    const tick = async () => {
+      if (V.S.screen !== "game") return;
+      try {
+        const p = await raw(`/api/dynasties/${V.S.game.dynasty}/progress`);
+        let el = $("#league-sim");
+        if (!el) { el = document.createElement("span"); el.id = "league-sim"; el.className = "muted"; $("#simbar").appendChild(el); }
+        el.textContent = p.running && p.kind === "background" ? `League: ${p.ahead} of ${p.ahead_total} other games this week simmed` : p.running ? "League sim running" : "League: this week's other games are in";
+      } catch (err) { /* the next tick */ }
+      gamePoll = setTimeout(tick, 2500);
+    };
+    tick();
+  });
   $("#nav-dyn").addEventListener("click", () => { if (D.id) { show("dyn"); refresh(); } });
 
   // ---- screens ----
@@ -88,7 +107,7 @@
     const next = p ? `<div class="panel next"><div class="hdr">Next game <span class="sub">${dateText(p.date)} · ${p.stage === "regular" ? (p.weekend ? "weekend series" : "midweek") : STAGE[p.stage] || p.stage}${p.neutral ? " · neutral site" : ""}</span></div>
         <div class="body"><div class="matchup"><div>${mark({ name: p.away_name })}<b>${esc(p.away_name)}</b><span class="muted">${p.user_side === "away" ? " (you)" : ""}</span></div><div class="at">at</div><div>${mark({ name: p.home_name })}<b>${esc(p.home_name)}</b><span class="muted">${p.user_side === "home" ? " (you)" : ""}</span></div></div>
         ${p.probables ? `<div class="probables">${["away", "home"].map((sd) => p.probables[sd] ? `<div><span class="k">${sd === "away" ? "Away" : "Home"} starter</span><b>${esc(p.probables[sd].name)}</b> <span class="muted">${p.probables[sd].role}</span> ${["stuff", "control", "movement", "stamina"].map((k) => badge(k, p.probables[sd].ratings[k])).join(" ")}</div>` : "").join("")}<div class="muted">Probable starters: each AI's pick at first pitch; yours can change in the pregame.</div></div>` : `<div class="muted">Probable starters: set at first pitch.</div>`}
-        <div class="row">${h.running ? "" : `<button class="go" id="play-btn">${p.open ? "Back to the game" : "Play"}</button><button id="simgame-btn">Sim game</button>`}</div></div></div>`
+        <div class="row">${h.running && h.job_kind !== "background" ? "" : `<button class="go" id="play-btn">${p.open ? "Back to the game" : "Play"}</button><button id="simgame-btn">Sim game</button>`}</div></div></div>`
       : `<div class="panel next"><div class="hdr">Next game</div><div class="body muted">${h.stage === "done" ? `The season is over. <button class="go" id="to-summary">Year in review</button>` : h.stage === "regular" ? "Sim ahead to reach your next game." : "No game of yours is pending in this stage; sim ahead."}</div></div>`;
     const sims = h.running ? `<div id="sim-progress"></div>` : `<div class="sims">${[["game", "Next game"], ["week", "Next week"], ["regular", "End of regular season"], ["conf", "Conference tournament"], ["selection", "Selection Monday"], ["end", "End of season"]].map(([t, l]) => `<button data-simto="${t}" ${h.stage === "done" ? "disabled" : ""}>${l}</button>`).join("")}</div><div class="muted">Your games ${pauseFlags().myGames ? "pause the sim (Settings)" : "are played by the AI (Settings)"}.</div>`;
     const recent = h.recent.length ? `<table class="tbl">${h.recent.map(resultRow).join("")}</table>` : `<div class="muted">No games yet.</div>`;

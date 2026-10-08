@@ -21,7 +21,9 @@
     POST /api/dynasties/load               {save} -> {id, hub}
     DELETE /api/dynasties/{id}             forget the dynasty and delete its server save
 
-Sim jobs run in a thread holding the engine lock (one engine runs at a time); the page polls progress. A finished
+Sim jobs run in a thread holding the engine lock (one engine runs at a time); the page polls progress. While the user plays
+a game, a background job sims the rest of that week's other games one at a time under the lock, so the user's pitches
+interleave (owner decision 2026-10-08, option 2 of reports/dynasty_latency.md). A finished
 step autosaves to the server's save directory (CBS_SAVE_DIR, default saves/ next to app/; the free host's disk is
 ephemeral, which is why the browser keeps a mirror). One dynasty stays loaded; the one in memory is
 saved and dropped when another is opened, and the engine's table caches (engine.tables, keyed by object id) are cleared so a later engine
@@ -152,7 +154,9 @@ def _load_server_save(did: str):
 def _hub(did: str, d: dyn_mod.Dynasty) -> dict:
     h = d.hub()
     h["id"] = did
+    j = _store.jobs.get(did)
     h["running"] = _running(did)
+    h["job_kind"] = j.get("kind", "sim") if j and j["running"] else None
     h["game_id"] = next((g for g, r in _store.games.items() if r is d.runner), None) if d.runner is not None else None
     h["recent"] = dyn_mod.recent_json(d)
     return h
@@ -226,7 +230,7 @@ def sim(did: str, body: SimIn):
         raise HTTPException(400, f"target is one of {dyn_mod.SIM_TARGETS}")
     if d.runner is not None and not d.runner.over:
         raise HTTPException(409, "finish or sim the open game first")
-    job = {"running": True, "played": len(d.reg_games) + len(d.post_calls), "total": int((~d.skip).sum()), "stage": d.stage,
+    job = {"running": True, "kind": "sim", "played": len(d.reg_games) + len(d.post_calls), "total": int((~d.skip).sum()), "stage": d.stage,
            "date": d.date_now(), "error": None, "started": time.time()}
     _store.jobs[did] = job
 
@@ -253,18 +257,49 @@ def sim(did: str, body: SimIn):
 def progress(did: str):
     d = _get(did)
     j = _store.jobs.get(did) or {"running": False}
-    out = {"running": j.get("running", False), "played": j.get("played"), "total": j.get("total"), "stage": j.get("stage"), "date": j.get("date"),
-           "error": j.get("error")}
+    out = {"running": j.get("running", False), "kind": j.get("kind", "sim"), "played": j.get("played"), "total": j.get("total"), "stage": j.get("stage"),
+           "date": j.get("date"), "error": j.get("error"), "ahead": j.get("ahead"), "ahead_total": j.get("ahead_total")}
     if not out["running"]:
         out["hub"] = _hub(did, d)
     return out
+
+
+def _start_background(did: str, d: dyn_mod.Dynasty) -> None:
+    """While the user plays the pending game, sim the rest of the week's other games (dynasty.background_plan),
+    taking the engine lock one game at a time so the user's pitches interleave; autosave when done."""
+    plan = d.background_plan()
+    if not plan or _running(did):
+        return
+    job = {"running": True, "kind": "background", "played": len(d.reg_games), "total": int((~d.skip).sum()), "stage": d.stage,
+           "date": d.date_now(), "error": None, "started": time.time(), "ahead": 0, "ahead_total": len(plan)}
+    _store.jobs[did] = job
+
+    def run():
+        try:
+            for i in plan:
+                if job.get("cancel"):
+                    break
+                with _store.lock:
+                    if i in d.results:
+                        continue
+                    d._play(i)
+                job["ahead"] += 1; job["played"] = len(d.reg_games); job["date"] = int(d.schedule[i].date)
+            with _store.lock:
+                _autosave(did, d)
+        except Exception as e:
+            job["error"] = str(e)
+        finally:
+            job["running"] = False
+            job["finished"] = time.time()
+    threading.Thread(target=run, daemon=True).start()
 
 
 @router.post("/api/dynasties/{did}/game/open")
 def open_game(did: str, body: OpenIn | None = None):
     from app.api import _turn
     d = _get(did)
-    if _running(did):
+    j = _store.jobs.get(did)
+    if j and j["running"] and j.get("kind") != "background":
         raise HTTPException(409, "a sim is running")
     try:
         with _store.lock:
@@ -274,13 +309,15 @@ def open_game(did: str, body: OpenIn | None = None):
     gid = next((g for g, rr in _store.games.items() if rr is r), None) or _store.put(r)
     t = _turn(gid, r, full=True)
     t["dynasty"] = did
+    _start_background(did, d)
     return t
 
 
 @router.post("/api/dynasties/{did}/game/sim")
 def sim_game(did: str):
     d = _get(did)
-    if _running(did):
+    j = _store.jobs.get(did)
+    if j and j["running"] and j.get("kind") != "background":
         raise HTTPException(409, "a sim is running")
     try:
         with _store.lock:
