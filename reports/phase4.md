@@ -13,15 +13,15 @@ For each rated rate, every qualifying player-season's opponent-adjusted observed
 
 | Rating | Rate | Player-seasons per season | Intercept (logit) | Intercept (rating pts) | Status | Slope | Status | Dispersion | Status |
 |---|---|---|---|---|---|---|---|---|---|
-| contact | BABIP | 2154 | -0.0002 ± 0.0027 | -0.02 | pass | 0.994 ± 0.016 | pass | 0.986 ± 0.019 | pass |
-| gap | XBH share of hits | 1992 | +0.0017 ± 0.0042 | +0.07 | pass | 0.997 ± 0.014 | pass | 1.004 ± 0.014 | pass |
-| power | HR/PA | 2327 | +0.0028 ± 0.0035 | +0.04 | pass | 0.997 ± 0.011 | pass | 0.998 ± 0.019 | pass |
-| eye | BB/PA | 2327 | -0.0003 ± 0.0026 | -0.01 | pass | 1.003 ± 0.009 | pass | 0.999 ± 0.013 | pass |
-| avoid_k | K/PA | 2327 | -0.0009 ± 0.0018 | -0.02 | pass | 1.000 ± 0.007 | pass | 0.990 ± 0.015 | pass |
-| stuff | K/BF | 1619 | -0.0015 ± 0.0022 | -0.03 | pass | 0.998 ± 0.006 | pass | 0.995 ± 0.026 | pass |
-| control | BB/BF | 1619 | -0.0004 ± 0.0026 | -0.01 | pass | 1.000 ± 0.009 | pass | 0.987 ± 0.023 | pass |
-| movement | HR/BF | 1619 | +0.0008 ± 0.0046 | +0.03 | pass | 0.998 ± 0.020 | pass | 1.000 ± 0.023 | pass |
-| stamina | pull hazard (log leash) | 4070 | +0.0006 ± 0.0022 | — | pass | 1.001 ± 0.004 | pass | 1.004 ± 0.011 | pass |
+| contact | BABIP | 2154 | +0.0003 ± 0.0030 | +0.02 | pass | 0.996 ± 0.018 | pass | 0.995 ± 0.014 | pass |
+| gap | XBH share of hits | 1991 | +0.0025 ± 0.0040 | +0.10 | pass | 0.993 ± 0.019 | pass | 0.999 ± 0.018 | pass |
+| power | HR/PA | 2328 | +0.0019 ± 0.0048 | +0.03 | pass | 0.997 ± 0.011 | pass | 1.001 ± 0.016 | pass |
+| eye | BB/PA | 2328 | -0.0008 ± 0.0024 | -0.03 | pass | 1.001 ± 0.009 | pass | 0.996 ± 0.013 | pass |
+| avoid_k | K/PA | 2328 | -0.0004 ± 0.0019 | -0.01 | pass | 1.000 ± 0.007 | pass | 0.992 ± 0.017 | pass |
+| stuff | K/BF | 1620 | -0.0014 ± 0.0023 | -0.03 | pass | 1.000 ± 0.006 | pass | 0.992 ± 0.026 | pass |
+| control | BB/BF | 1620 | +0.0001 ± 0.0027 | +0.00 | pass | 1.000 ± 0.009 | pass | 0.992 ± 0.023 | pass |
+| movement | HR/BF | 1620 | -0.0010 ± 0.0045 | -0.03 | pass | 0.989 ± 0.013 | pass | 0.997 ± 0.016 | pass |
+| stamina | pull hazard (log leash) | 4076 | +0.0002 ± 0.0026 | — | pass | 0.999 ± 0.005 | pass | 0.999 ± 0.010 | pass |
 
 ### By workload tercile (informational)
 
@@ -29,28 +29,28 @@ Qualifying player-seasons split into thirds by workload. Each cell: intercept (l
 
 | Rating | Workload | Light | Middle | Heavy |
 |---|---|---|---|---|
-| contact | plate appearances | -0.0009 / 0.985 / 0.997 | -0.0015 / 0.999 / 0.988 | +0.0014 / 0.988 / 0.978 |
-| gap | plate appearances | +0.0031 / 0.995 / 1.011 | +0.0006 / 1.002 / 1.009 | +0.0016 / 0.996 / 0.995 |
-| power | plate appearances | +0.0005 / 0.995 / 0.994 | +0.0006 / 0.995 / 0.998 | +0.0053 / 0.998 / 0.998 |
-| eye | plate appearances | -0.0015 / 0.998 / 0.994 | -0.0007 / 1.008 / 1.007 | +0.0009 / 1.000 / 0.995 |
-| avoid_k | plate appearances | +0.0014 / 1.001 / 0.993 | -0.0011 / 0.995 / 0.992 | -0.0023 / 1.004 / 0.986 |
-| stuff | batters faced | -0.0021 / 1.001 / 0.996 | -0.0027 / 1.001 / 0.998 | -0.0003 / 0.993 / 0.993 |
-| control | batters faced | +0.0002 / 0.995 / 0.992 | +0.0033 / 1.003 / 0.992 | -0.0037 / 0.998 / 0.979 |
-| movement | batters faced | -0.0035 / 1.003 / 0.991 | +0.0087 / 0.998 / 1.025 | -0.0027 / 0.991 / 0.987 |
-| stamina | appearances | -0.0083 † / 1.007 / 1.007 | -0.0047 † / 1.004 / 1.002 | +0.0083 † / 0.995 † / 1.005 |
+| contact | plate appearances | -0.0016 / 1.005 / 0.995 | -0.0006 / 0.987 / 0.992 | +0.0024 / 0.986 / 0.997 |
+| gap | plate appearances | +0.0048 / 0.992 / 1.005 | -0.0021 / 0.996 / 0.993 | +0.0047 / 0.991 / 1.001 |
+| power | plate appearances | +0.0030 / 0.996 / 0.992 | -0.0006 / 0.994 / 0.997 | +0.0032 / 1.000 / 1.008 |
+| eye | plate appearances | -0.0007 / 1.000 / 1.004 | -0.0016 / 1.002 / 1.006 | -0.0003 / 1.001 / 0.983 |
+| avoid_k | plate appearances | +0.0017 / 1.004 / 1.001 | -0.0007 / 0.994 / 0.996 | -0.0016 / 1.002 / 0.981 |
+| stuff | batters faced | -0.0030 / 1.002 / 0.990 | -0.0019 / 1.001 / 1.000 | -0.0002 / 0.998 / 0.987 |
+| control | batters faced | +0.0032 / 0.999 / 0.994 | +0.0037 / 1.001 / 1.001 | -0.0048 † / 0.995 / 0.984 |
+| movement | batters faced | -0.0012 / 0.987 / 0.992 | +0.0049 / 0.984 / 1.006 | -0.0052 / 0.994 / 0.993 |
+| stamina | appearances | -0.0079 † / 1.004 / 0.997 | -0.0066 † / 0.999 / 0.999 | +0.0086 † / 0.996 / 1.000 |
 
 Box-score version (informational): the same regression with opponents adjusted only from the league's team-by-team results. A box score shows which team a player faced, not which pitcher (or hitter): an ace or a midweek starter. That adds variance the team-level baseline cannot attribute, so its dispersion runs above 1.
 
 | Rating | Slope | Dispersion |
 |---|---|---|
-| contact | 0.927 | 1.033 |
-| gap | 0.972 | 1.027 |
-| power | 0.918 | 1.198 |
-| eye | 1.031 | 1.278 |
-| avoid_k | 0.982 | 1.179 |
-| stuff | 1.008 | 1.258 |
-| control | 1.005 | 1.037 |
-| movement | 1.002 | 1.155 |
+| contact | 0.933 | 1.040 |
+| gap | 0.970 | 1.024 |
+| power | 0.918 | 1.195 |
+| eye | 1.028 | 1.277 |
+| avoid_k | 0.983 | 1.181 |
+| stuff | 1.011 | 1.254 |
+| control | 1.005 | 1.041 |
+| movement | 0.993 | 1.151 |
 
 ## True rating distributions (mean of 40 seasons)
 
@@ -58,30 +58,30 @@ Everyday players: regulars for batting ratings, weekend starters for pitching ra
 
 | Rating | D1 weighted mean | D1 weighted SD | P4 everyday | Mid everyday | Low everyday | Status |
 |---|---|---|---|---|---|---|
-| contact | 49.5 | 9.8 | 57.6 | 51.3 | 46.1 | pass |
-| gap | 49.6 | 9.8 | 55.7 | 50.7 | 46.6 | pass |
-| power | 49.5 | 9.7 | 57.1 | 49.5 | 44.1 | pass |
-| eye | 49.9 | 9.9 | 54.8 | 49.8 | 45.9 | pass |
-| avoid_k | 49.7 | 10.0 | 56.4 | 51.0 | 46.5 | pass |
-| stuff | 50.3 | 9.7 | 58.8 | 51.2 | 45.6 | pass |
-| control | 50.9 | 9.6 | 58.4 | 53.4 | 49.8 | pass |
+| contact | 49.6 | 9.7 | 57.4 | 51.3 | 46.3 | pass |
+| gap | 49.6 | 9.8 | 55.6 | 50.7 | 46.8 | pass |
+| power | 49.5 | 9.6 | 56.9 | 49.5 | 44.3 | pass |
+| eye | 49.9 | 9.8 | 54.7 | 49.9 | 46.0 | pass |
+| avoid_k | 49.8 | 9.9 | 56.2 | 51.0 | 46.7 | pass |
+| stuff | 50.3 | 9.8 | 58.9 | 51.2 | 45.5 | pass |
+| control | 50.9 | 9.7 | 58.5 | 53.4 | 49.8 | pass |
 | movement | 50.2 | 9.4 | 52.4 | 49.1 | 46.9 | pass |
-| stamina | 51.7 | 10.0 | 49.9 | 49.9 | 50.0 | — |
+| stamina | 51.6 | 10.0 | 49.9 | 49.9 | 50.0 | — |
 
 ## Example player cards (first simulated season)
 
 | Player | Team (tier) | Role | Ratings | Season |
 |---|---|---|---|---|
-| Best P4 hitter (OPS, qualified): TR. Graigyley | Thyryn Owls (p4) | regular | Contact 61, Gap 52, Power 67, Eye 61, Avoid K 45, Speed 51 | 27 G, 105 PA, 0.420/0.533/0.827, 7 HR, 19.0% BB, 13.3% K |
-| Median mid-major regular: W. Rord | Stouvaifield Badgers (mid) | regular | Contact 36, Gap 54, Power 50, Eye 69, Avoid K 48, Speed 56 | 40 G, 157 PA, 0.299/0.395/0.425, 3 HR, 12.1% BB, 20.4% K |
-| Median low-tier regular: BR. Wysewood | Vaimoux Voyagers (low) | regular | Contact 49, Gap 52, Power 46, Eye 34, Avoid K 57, Speed 47 | 53 G, 249 PA, 0.291/0.346/0.475, 9 HR, 6.8% BB, 18.1% K |
-| Home-run leader: TH. Stojeafield | Season Wolves (p4) | regular | Contact 71, Gap 58, Power 68, Eye 67, Avoid K 38, Speed 20 | 50 G, 234 PA, 0.315/0.402/0.764, 27 HR, 10.7% BB, 31.6% K |
-| Highest true Contact, qualified: H. Weawood | Briberg Comets (p4) | regular | Contact 80, Gap 56, Power 74, Eye 60, Avoid K 58, Speed 64 | 52 G, 258 PA, 0.373/0.450/0.795, 26 HR, 12.8% BB, 20.9% K |
-| Bench player with most PA: Z. Woson | Wicot Gulls (p4) | bench | Contact 45, Gap 50, Power 49, Eye 69, Avoid K 56, Speed 53 | 39 G, 134 PA, 0.211/0.348/0.376, 5 HR, 11.9% BB, 17.9% K |
-| Best P4 weekend starter (ERA, qualified): N. Stouvuwell | Nythaberg Bluejays (p4) | sp_weekend | Stuff 62, Control 66, Movement 51, Stamina 47 | 12 G, 9 GS, 57.0 IP, 1.89 ERA, 9.5 K/9, 1.3 BB/9, 0.8 HR/9 |
-| Median mid-major weekend starter: R. Teashout | Rair Otters (mid) | sp_weekend | Stuff 49, Control 54, Movement 52, Stamina 46 | 17 G, 12 GS, 57.2 IP, 5.31 ERA, 7.8 K/9, 3.3 BB/9, 0.9 HR/9 |
-| Low-tier reliever with most innings: R. Ter | Weazeal Bobcats (low) | rp | Stuff 60, Control 57, Movement 51, Stamina 78 | 23 G, 0 GS, 65.1 IP, 4.41 ERA, 10.6 K/9, 2.8 BB/9, 0.8 HR/9 |
-| Starter with the highest true Stamina: ST. Theatem | Zytheawell Miners (low) | sp_weekend | Stuff 54, Control 70, Movement 46, Stamina 79 | 14 G, 11 GS, 83.2 IP, 5.06 ERA, 9.1 K/9, 2.4 BB/9, 1.1 HR/9 |
+| Best P4 hitter (OPS, qualified): M. Lestelt | Seatriley Clippers (p4) | regular | Contact 67, Gap 50, Power 64, Eye 50, Avoid K 59, Speed 65 | 46 G, 210 PA, 0.439/0.507/0.856, 19 HR, 11.4% BB, 11.9% K |
+| Median mid-major regular: GR. Kystan | Stafaiwood Mustangs (mid) | regular | Contact 61, Gap 43, Power 38, Eye 62, Avoid K 48, Speed 50 | 47 G, 184 PA, 0.282/0.431/0.394, 3 HR, 16.8% BB, 21.2% K |
+| Median low-tier regular: R. Mard | Louton Kestrels (low) | regular | Contact 40, Gap 49, Power 41, Eye 60, Avoid K 36, Speed 53 | 52 G, 244 PA, 0.270/0.422/0.402, 3 HR, 19.7% BB, 20.1% K |
+| Home-run leader: H. Weawood | Briberg Comets (p4) | regular | Contact 80, Gap 56, Power 73, Eye 60, Avoid K 58, Speed 64 | 52 G, 250 PA, 0.357/0.444/0.822, 28 HR, 12.8% BB, 22.4% K |
+| Highest true Contact, qualified: H. Weawood | Briberg Comets (p4) | regular | Contact 80, Gap 56, Power 73, Eye 60, Avoid K 58, Speed 64 | 52 G, 250 PA, 0.357/0.444/0.822, 28 HR, 12.8% BB, 22.4% K |
+| Bench player with most PA: Z. Seanaiwood | Sugoufield Monarchs (p4) | bench | Contact 46, Gap 51, Power 54, Eye 59, Avoid K 54, Speed 80 | 38 G, 133 PA, 0.198/0.333/0.321, 2 HR, 15.0% BB, 21.8% K |
+| Best P4 weekend starter (ERA, qualified): P. Reans | Nythaberg Bluejays (p4) | sp_weekend | Stuff 80, Control 59, Movement 55, Stamina 60 | 14 G, 13 GS, 74.2 IP, 1.81 ERA, 16.5 K/9, 3.5 BB/9, 0.6 HR/9 |
+| Median mid-major weekend starter: TH. Routriwell | Souclowood Otters (mid) | sp_weekend | Stuff 45, Control 66, Movement 55, Stamina 47 | 13 G, 13 GS, 62.0 IP, 5.37 ERA, 7.1 K/9, 2.3 BB/9, 0.9 HR/9 |
+| Low-tier reliever with most innings: R. Ter | Weazeal Bobcats (low) | rp | Stuff 60, Control 57, Movement 51, Stamina 78 | 24 G, 0 GS, 71.2 IP, 3.64 ERA, 9.4 K/9, 2.1 BB/9, 0.6 HR/9 |
+| Starter with the highest true Stamina: ST. Theatem | Zytheawell Miners (low) | sp_weekend | Stuff 54, Control 70, Movement 46, Stamina 79 | 13 G, 11 GS, 80.1 IP, 5.27 ERA, 9.9 K/9, 2.5 BB/9, 0.9 HR/9 |
 
 ## Future scouting estimator (Phase 9, informational; not gated)
 
@@ -89,15 +89,15 @@ Recruiting (Phase 9) will show coaches noisy ratings, estimated from what they c
 
 | Rating | Players per season | Slope | Bias | Resid SD / predicted | SD ratio | Reliability |
 |---|---|---|---|---|---|---|
-| contact | 2153 | 1.082 ± 0.039 | 0.22 ± 0.07 | 7.29 / 6.90 | 1.057 ± 0.021 | 0.34 |
-| gap | 1991 | 1.037 ± 0.038 | -0.41 ± 0.08 | 7.84 / 7.56 | 1.037 ± 0.018 | 0.38 |
-| power | 2327 | 1.059 ± 0.024 | 0.29 ± 0.06 | 6.26 / 5.30 | 1.181 ± 0.019 | 0.58 |
-| eye | 2327 | 0.851 ± 0.008 | 0.17 ± 0.03 | 6.29 / 6.10 | 1.032 ± 0.009 | 0.69 |
-| avoid_k | 2327 | 0.979 ± 0.008 | 0.00 ± 0.02 | 4.67 / 4.43 | 1.055 ± 0.010 | 0.78 |
-| stuff | 1619 | 0.959 ± 0.009 | 0.29 ± 0.03 | 4.00 / 3.69 | 1.085 ± 0.016 | 0.87 |
-| control | 1619 | 0.967 ± 0.012 | 0.34 ± 0.05 | 5.00 / 4.87 | 1.028 ± 0.013 | 0.72 |
-| movement | 1619 | 0.768 ± 0.021 | 1.00 ± 0.09 | 7.87 / 8.40 | 0.938 ± 0.015 | 0.44 |
-| stamina | 4070 | 0.999 ± 0.006 | 0.00 ± 0.05 | 4.67 / 4.68 | 0.998 ± 0.006 | 0.78 |
+| contact | 2154 | 1.061 ± 0.037 | 0.16 ± 0.08 | 7.25 / 6.93 | 1.046 ± 0.020 | 0.34 |
+| gap | 1990 | 1.041 ± 0.035 | -0.43 ± 0.07 | 7.82 / 7.52 | 1.041 ± 0.022 | 0.37 |
+| power | 2327 | 1.058 ± 0.020 | 0.30 ± 0.06 | 6.24 / 5.28 | 1.183 ± 0.017 | 0.57 |
+| eye | 2327 | 0.851 ± 0.009 | 0.17 ± 0.02 | 6.29 / 6.09 | 1.033 ± 0.008 | 0.69 |
+| avoid_k | 2327 | 0.977 ± 0.009 | 0.01 ± 0.03 | 4.68 / 4.43 | 1.056 ± 0.010 | 0.78 |
+| stuff | 1620 | 0.957 ± 0.009 | 0.29 ± 0.04 | 4.00 / 3.69 | 1.082 ± 0.015 | 0.87 |
+| control | 1620 | 0.966 ± 0.007 | 0.35 ± 0.06 | 5.00 / 4.86 | 1.029 ± 0.015 | 0.72 |
+| movement | 1620 | 0.769 ± 0.021 | 0.98 ± 0.08 | 7.89 / 8.40 | 0.940 ± 0.015 | 0.44 |
+| stamina | 4076 | 1.001 ± 0.006 | 0.00 ± 0.06 | 4.67 / 4.68 | 0.999 ± 0.007 | 0.78 |
 
 Workload selection: the estimator's prior ignores that playing time depends on talent. Managers start, bat high and work their best players most, so within a role group true rating and workload correlate (+.10 to +.28 for pitchers, +.50 for regulars' Power). A prior per role × tier pulls a team's busiest players toward too low a mean and its least-used toward too high a one. On players with at least half a regular's workload, the pitcher ratings are estimated slightly low: a third of a point for Movement, where shrinkage is strongest (reliability .39). Within a role, bias rises with workload (Movement for weekend starters −1.2 / +.2 / +1.3 by workload tercile; Power for regulars −2.9 / −.7 / +1.6). Weighted by trials over all players it is .00. Two variants were tried (PHASE0_NOTES.md, Phase 4): a prior mean linear in log trials (fixes the pitchers, but Power's relation is convex) and a prior per workload rank on the team (fixes the means, but given a rank one rating is not normal, so the spread is misstated). For Phase 9 that bias may be the right behaviour: coaches see stats and playing time, not true talent. Revisit it there.
 

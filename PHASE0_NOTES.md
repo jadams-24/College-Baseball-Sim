@@ -668,6 +668,30 @@ The fix applies the design ("centred on the league mix"; "multipliers average 1 
 
 No tolerance moved.
 
+**Second run and the strength-map re-solve (owner decision 2026-10-08).**
+- With the re-centred shifts, the 40-season run passed every row but one: low-tier offense, recovered minus drawn, −.0075 ± .0025 (3.07 SE).
+- That row had drifted across PRs since the map was last solved on 2026-10-04: −.0038 (Phase 6), −.0058 (Phase 7), −.0070 (PR B), −.0075 (Phase 3; Phase 3's own share −.0005 ± .0034).
+- The strength map and home edge were re-solved on the current engine (`solve_phase2_game_scale.py --warm`: 2 iterations of 8 seasons, then 1 of 16 when the drift check read run-prevention curvature at z −2.01). Targets were unchanged.
+- The final drift check passes every row (`reports/drift_check.md`).
+
+**Final 40-season run (2026-10-08): every Phase 2–7 gate passes.**
+- Low-tier offense recovery +.001.
+- HR per team-game 1.060 (Phase 4 run 1.068 ± .018).
+- Runs per team-game 6.67.
+- The reliever tier rows stay in the watch item:
+  - P4 .229 against .306;
+  - low .279 against .197.
+- **Variance link against PR B:**
+
+| Row | Real | PR B | Phase 3 | Change | Gap closed |
+|---|---|---|---|---|---|
+| P4-vs-mid margin SD | 5.97 | 5.61 | 5.69 | +.077 ± .041 | 22% ± 12% |
+| Regional upset rate | .371 | .343 | .365 | +.023 ± .016 | 81% ± 57% (not significant) |
+| 15+ bin | .066 | .051 | .052 | +.001 | 4% |
+| Run rule | .152 | .116 | .116 | 0 | 0% |
+
+- **Platoon-advantage share** .464 against .480 (reported); the advantage above random pairing is .008 against .022.
+
 **Process (owner decisions 2026-10-08).**
 - Resumable runs are keyed on a hash of what the seasons read (engine, config, scripts, derived inputs, benchmarks.json), not the git commit. A documentation commit keeps finished seasons; any change to code or inputs starts fresh.
 - The roster workflow commits its aggregates to its own branch and opens a pull request, so no pull request's head lacks CI.
