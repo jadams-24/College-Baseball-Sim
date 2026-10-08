@@ -166,9 +166,14 @@ button:disabled { opacity: .45; cursor: not-allowed; }
   .sb-inning { border: none; padding: 0; display: flex; gap: 10px; align-items: baseline; justify-content: flex-start; }
   .sb-inning .half { font-size: 11px; }
   .sb-inning .inn { font-size: 22px; }
-  .sb-counts { justify-content: space-between; }
+  .sb-line { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   .linescore { font-size: 13px; }
-  .linescore th, .linescore td { padding: 1px 4px; min-width: 18px; }
+  .linescore th, .linescore td { padding: 1px 3px; min-width: 17px; }
+  .linescore td.team { max-width: 7.5em; overflow: hidden; text-overflow: ellipsis; padding-right: 6px; }
+  .linescore td.tot.r { font-size: 15px; }
+  .mark { width: 22px; height: 22px; font-size: 10px; margin-right: 5px; }
+  .sb-counts { justify-content: space-between; gap: 8px; }
+  .counter .num { font-size: 22px; }
   .banner { grid-template-columns: 1fr; }
   .vs { display: none; }
   .who { padding: 8px 10px; }
