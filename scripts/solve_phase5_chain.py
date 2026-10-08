@@ -41,11 +41,19 @@ def season_events(seed: int) -> np.ndarray:
 
 
 def main() -> None:
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--warm", action="store_true", help="start from the current solved chain (a drift re-solve, scripts/check_drift.py)")
+    ap.add_argument("--iters", type=int, default=ITERS)
+    args = ap.parse_args()
     data = load_pitch()["chain"]["by_count"]
     target = np.array([data[f"{b}-{s}"] for b, s in COUNTS], float)
     q0 = target.copy()
+    if args.warm and SOLVED.exists():
+        cur = json.loads(SOLVED.read_text())["by_count"]
+        q0 = np.array([cur[f"{b}-{s}"] for b, s in COUNTS], float)
     log = []
-    for it in range(ITERS):
+    for it in range(args.iters):
         SOLVED.write_text(json.dumps({"by_count": {f"{b}-{s}": q0[i].tolist() for i, (b, s) in enumerate(COUNTS)}}) + "\n")
         with ProcessPoolExecutor(WORKERS) as ex:
             ev = sum(ex.map(season_events, SEEDS))

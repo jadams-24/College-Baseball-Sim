@@ -40,9 +40,9 @@ BATTER_INDEX = "run_value"
 
 # Deconvolution through the observed bins: noise replicates per simulated player (numerical, not a rate)
 N_NOISE_REPLICATES = 40
-POP_SEEDS = (7001, 7002, 7003, 7004)
-PLATOON_SEEDS = (7101, 7102, 7103, 7104)
-USAGE_SEEDS = (7201, 7202, 7203, 7204)     # seasons behind each step of the usage solve (scripts/build_phase3_usage.py --solve)   # seasons with hands and usage on, platoon off, behind the platoon fit   # seasons of the engine (hands off) that give the talent and playing-time population
+POP_SEEDS = (7001, 7002, 7003, 7004)        # seasons of the engine (hands off) that give the talent and playing-time population
+PLATOON_SEEDS = (7101, 7102, 7103, 7104)    # seasons with hands and usage on, platoon off, behind the platoon fit
+USAGE_SEEDS = (7201, 7202, 7203, 7204)     # seasons behind each step of the usage solve (scripts/build_phase3_usage.py --solve)
 
 
 def on(name: str) -> bool:
