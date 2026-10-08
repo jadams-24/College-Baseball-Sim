@@ -69,6 +69,7 @@
   }
   let saveTimer = null;
   function mirrorSave() {
+    if (S.game && S.game.dynasty) return;
     clearTimeout(saveTimer);
     saveTimer = setTimeout(async () => {
       try {
@@ -321,7 +322,8 @@
     const sims = t.phase === "pregame"
       ? `<button class="go" data-sim="pitch">Play ball</button>`
       : `<button class="go" data-sim="pitch">Next pitch</button><button data-sim="pa">At-bat</button><button data-sim="half">Half inning</button><button data-sim="inning">Inning</button><button data-sim="three_innings">3 innings</button><button data-sim="game">End of game</button>`;
-    $("#simbar").innerHTML = `<span class="k">Sim</span>${sims}`;
+    const back = S.game && S.game.dynasty ? (t.state.over ? `<button class="go" data-dyn-finish="1">Back to the dynasty</button>` : `<button class="btn-ghost" data-dyn-back="1">Dynasty</button>`) : "";
+    $("#simbar").innerHTML = `<span class="k">Sim</span>${t.state.over && S.game && S.game.dynasty ? "" : sims}${back}`;
     $$("#simbar [data-sim]").forEach((b) => (b.disabled = off));
   }
   function orderText(o) {
@@ -512,6 +514,8 @@
   $("#simbar").addEventListener("click", (e) => {
     const b = e.target.closest("[data-sim]");
     if (b && !b.disabled) busy(() => sim(b.dataset.sim));
+    if (e.target.closest("[data-dyn-finish]")) document.dispatchEvent(new CustomEvent("cbs:dyn-finish"));
+    if (e.target.closest("[data-dyn-back]")) document.dispatchEvent(new CustomEvent("cbs:dyn-back"));
   });
   $("#actions").addEventListener("click", (e) => {
     const qa = e.target.closest("[data-q-auto]");
@@ -523,14 +527,19 @@
     if (map[e.key]) { e.preventDefault(); busy(() => sim(map[e.key])); }
   });
 
-  // ---- lobby ----
-  function show(game) {
-    $("#lobby").classList.toggle("hidden", game);
-    $("#game").classList.toggle("hidden", !game);
-    $("#topnav").classList.toggle("hidden", !game);
-    $("#phone-tabs").classList.toggle("hidden", !game);
-    $("#simbar").classList.toggle("hidden", !game);
+  // ---- screens: main, picker (new dynasty), lobby (quick game), game, dyn (the dynasty hub) ----
+  function show(name) {
+    if (name === true) name = "game"; if (name === false) name = "main";
+    ["main", "picker", "lobby", "game", "dyn"].forEach((n) => $(`#${n}`).classList.toggle("hidden", n !== name));
+    $("#phone-tabs").classList.toggle("hidden", name !== "game");
+    $("#simbar").classList.toggle("hidden", name !== "game");
+    $("#nav-save").classList.toggle("hidden", name !== "game");
+    $("#nav-new").classList.toggle("hidden", name !== "game" || !!(S.game && S.game.dynasty));
+    $("#nav-dyn").classList.toggle("hidden", !(window.dyn && window.dyn.id()) || name === "dyn");
+    $("#nav-home").classList.toggle("hidden", name === "main");
+    S.screen = name;
     window.scrollTo(0, 0);
+    document.dispatchEvent(new CustomEvent("cbs:screen", { detail: name }));
   }
   function fillTeams(sel, filter) {
     const f = (filter || "").toLowerCase(), keep = sel.value;
@@ -559,14 +568,31 @@
     if (home === away) return toast("Pick two different teams.");
     const side = $('input[name="side"]:checked').value;
     const seed = $("#seed").value ? +$("#seed").value : null;
-    const t = await raw("/api/games", "POST", { home, away, user_side: side, seed });
-    S.game = { id: t.game_id, turn: t, meta: t.meta, save: null };
+    let t = await raw("/api/games", "POST", { home, away, user_side: side, seed });
+    S.game = { id: t.game_id, turn: t, meta: t.meta, save: null, dynasty: null };
     applyTurn(t, true);
+    t = await applyAskDefaults();
     S.pregame = null; lineupTab = "mine";
-    show(true); render(t);
+    show("game"); render(t);
     if (t.phase === "pregame") { await preparePregame(); render(t); }
   }));
-  $("#nav-new").addEventListener("click", () => { show(false); renderSaves(); });
+  async function applyAskDefaults() {
+    // settings (main screen): the decision kinds switched to "ask me" for every new game
+    const ask = (window.cbsSettings && window.cbsSettings().askModes) || {};
+    let t = S.game.turn;
+    for (const k of Object.keys(ask)) if (ask[k]) { t = await gameCall("/modes", "POST", { kind: k, mode: "ask" }); applyTurn(t); }
+    return t;
+  }
+  // a dynasty game: opened by dynasty.js with the turn of the pending game
+  function openDynastyGame(t, did) {
+    S.game = { id: t.game_id, turn: t, meta: t.meta, save: null, dynasty: did };
+    applyTurn(t, true);
+    S.pregame = null; lineupTab = "mine";
+    show("game"); render(t);
+    if (t.phase === "pregame") { preparePregame().then(() => render(S.game.turn)); }
+  }
+  $("#nav-new").addEventListener("click", () => { show("lobby"); renderSaves(); });
+  $("#nav-home").addEventListener("click", () => show("main"));
 
   // ---- saves ----
   $("#nav-save").addEventListener("click", () => busy(async () => {
@@ -579,10 +605,10 @@
   }));
   async function loadSave(save) {
     const t = await raw("/api/games/load", "POST", { save });
-    S.game = { id: t.game_id, turn: t, meta: t.meta, save };
+    S.game = { id: t.game_id, turn: t, meta: t.meta, save, dynasty: null };
     applyTurn(t, true);
     S.pregame = null; lineupTab = "mine";
-    show(true); render(t);
+    show("game"); render(t);
     if (t.phase === "pregame") { await preparePregame(); render(t); }
   }
   function renderSaves() {
@@ -605,8 +631,9 @@
     catch (e) { toast("The server is waking up; retrying in a few seconds."); return setTimeout(boot, 4000); }
     fillTeams($("#home")); fillTeams($("#away"));
     renderSaves();
-    show(false);
+    show("main");
+    document.dispatchEvent(new Event("cbs:ready"));
   }
-  window.v2 = { render, callout, calloutFor };
+  window.v2 = { render, callout, calloutFor, raw, toast, esc, mark, badge, band, ls, show, busy, openDynastyGame, S, ORD, RATING, renderSaves, loadSave, gameCall, applyTurn };
   boot();
 })();

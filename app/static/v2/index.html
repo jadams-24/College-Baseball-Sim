@@ -13,15 +13,49 @@
 <div id="app" class="app">
   <header class="topbar">
     <div class="brand">College Baseball Sim <span class="tag">prototype</span></div>
-    <nav id="topnav" class="hidden">
-      <button class="btn-ghost" id="nav-save">Save</button>
-      <button class="btn-ghost" id="nav-new">New game</button>
+    <nav id="topnav">
+      <button class="btn-ghost" id="nav-home">Home</button>
+      <button class="btn-ghost hidden" id="nav-dyn">Dynasty</button>
+      <button class="btn-ghost hidden" id="nav-save">Save game</button>
+      <button class="btn-ghost hidden" id="nav-new">Quick game</button>
     </nav>
   </header>
 
+  <!-- main screen: continue, new dynasty, quick game, saved dynasties, settings, what comes later -->
+  <section id="main" class="main hidden">
+    <div class="main-grid">
+      <div class="panel tile continue" id="tile-continue">
+        <div class="hdr">Continue</div>
+        <div class="body" id="continue-body"><div class="muted">Looking for your latest dynasty or game…</div></div>
+      </div>
+      <button class="panel tile act" id="tile-dynasty"><div class="hdr">New dynasty</div><div class="body"><b>Take over a Division I program.</b><div class="muted">Pick any of the 307 teams by name, conference or tier. Year 1 is a full season: schedule, conference tournament, Selection Monday, regionals, supers, Omaha.</div></div></button>
+      <button class="panel tile act" id="tile-quick"><div class="hdr">Quick game</div><div class="body"><b>One exhibition, any two teams.</b><div class="muted">Straight into the manager screen.</div></div></button>
+      <div class="panel tile saves-tile"><div class="hdr">Saved dynasties <span class="sub">server saves and this browser's mirrors</span></div><div class="body" id="dyn-saves"><div class="muted">None yet.</div></div>
+        <div class="body"><label class="inline muted">Load a dynasty file <input id="dyn-file" type="file" accept=".cbsd,.txt,application/octet-stream"></label></div></div>
+      <div class="panel tile settings-tile"><div class="hdr">Settings</div><div class="body" id="settings-body"></div></div>
+      <div class="panel tile locked"><div class="hdr">Coaching career</div><div class="body muted">Coming later</div></div>
+      <div class="panel tile locked"><div class="hdr">Recruiting</div><div class="body muted">Coming later</div></div>
+      <div class="panel tile locked"><div class="hdr">Program building</div><div class="body muted">Coming later</div></div>
+    </div>
+  </section>
+
+  <!-- new dynasty: the team picker -->
+  <section id="picker" class="picker hidden">
+    <div class="panel">
+      <div class="hdr">New dynasty <span class="sub" id="picker-sub"></span></div>
+      <div class="body row">
+        <input id="pick-search" class="search" placeholder="search by name, conference or tier" autocomplete="off">
+        <select id="pick-tier"><option value="">every tier</option><option value="p4">P4</option><option value="mid">mid</option><option value="low">low</option></select>
+        <label class="inline muted">Seed <input id="dyn-seed" type="number" placeholder="random" class="short"></label>
+        <button class="btn-ghost" id="picker-back">Back</button>
+      </div>
+      <div id="pick-list" class="pick-list"></div>
+    </div>
+  </section>
+
   <!-- the lobby: matchup, side, seed, saved games -->
-  <section id="lobby" class="lobby panel">
-    <h1>Pick a matchup</h1>
+  <section id="lobby" class="lobby panel hidden">
+    <h1>Quick game: pick a matchup</h1>
     <div class="lobby-grid">
       <label>Away team
         <input id="away-search" class="search" placeholder="search by name, conference or tier" autocomplete="off">
@@ -86,6 +120,18 @@
   </section>
   </div>
 
+  <!-- dynasty: left nav (bottom tabs on a phone) and the current screen -->
+  <section id="dyn" class="dyn hidden">
+    <header class="panel dyn-head" id="dyn-head"></header>
+    <div class="dyn-body">
+      <nav class="dyn-nav panel" id="dyn-nav">
+        <button data-screen="hub" class="on">Hub</button><button data-screen="schedule">Schedule</button><button data-screen="standings">Standings</button>
+        <button data-screen="stats">Stats</button><button data-screen="roster">Roster</button><button data-screen="postseason">Postseason</button>
+      </nav>
+      <main class="dyn-main" id="dyn-main"></main>
+    </div>
+  </section>
+
   <!-- 7. callout -->
   <div id="callout" class="callout hidden" role="status"></div>
   <div id="legend" class="legend hidden"></div>
@@ -93,5 +139,7 @@
   <div id="toast" class="toast hidden"></div>
 </div>
 <script src="/static/v2/v2.js"></script>
+<script src="/static/v2/main.js"></script>
+<script src="/static/v2/dynasty.js"></script>
 </body>
 </html>

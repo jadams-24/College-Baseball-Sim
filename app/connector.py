@@ -311,20 +311,24 @@ class GameRunner:
 
     # ---- construction -------------------------------------------------------------------------
     @classmethod
-    def new(cls, world: World, home_tid: int, away_tid: int, user_side: str, seed: int, exhibition: dict | None = None) -> "GameRunner":
+    def new(cls, world: World, home_tid: int, away_tid: int, user_side: str, seed, exhibition: dict | None = None,
+            mgr=None, neutral: bool = False, tournament: bool = False) -> "GameRunner":
+        """An exhibition (EXHIBITION's calendar slot, a fresh Decider) or, with `mgr`, a dynasty game: the season's
+        Decider (its rest history), the schedule's calendar slot in `exhibition`, neutral site and tournament usage."""
         if user_side not in SIDES:
             raise ValueError("user_side is 'home' or 'away'")
         if home_tid == away_tid:
             raise ValueError("a team cannot play itself")
         ex = dict(EXHIBITION, **(exhibition or {}))
         home, away = world.team(home_tid), world.team(away_tid)
-        mgr = Manager(world.cfg)
+        mgr = mgr if mgr is not None else Manager(world.cfg)
         opp = "home" if user_side == "away" else "away"
         ctrl = {user_side: HumanController(user_side, mgr), opp: RecordingAI(opp, mgr)}
         sess = GameSession(world.eng, np.random.Generator(np.random.PCG64(seed)), home, away, ex["weekend"], mgr,
-                           week=ex["week"], day=ex["day"], date=ex["date"], controllers=ctrl, log=True)
+                           week=ex["week"], day=ex["day"], date=ex["date"], neutral=neutral, tournament=tournament, controllers=ctrl, log=True)
         sess.app = {"marks": [], "records": [], "last": None}
-        meta = {"home_tid": home_tid, "away_tid": away_tid, "seed": seed, "exhibition": ex, "league_seed": world.seed}
+        meta = {"home_tid": home_tid, "away_tid": away_tid, "seed": seed if isinstance(seed, int) else None, "exhibition": ex,
+                "league_seed": world.seed, "neutral": neutral, "tournament": tournament}
         rows = cls._rows(world.eng, world.game_pids(home, away))
         return cls(world, sess, user_side, meta, rows)
 
@@ -588,11 +592,17 @@ class GameRunner:
                              "modes": dict(hc.modes)}, protocol=pickle.HIGHEST_PROTOCOL)
 
     @classmethod
-    def load_bytes(cls, world: World, data: bytes) -> "GameRunner":
+    def load_bytes(cls, world: World, data: bytes, mgr=None) -> "GameRunner":
+        """With `mgr` (a dynasty's Decider), the loaded session and its controllers are bound to it instead of the
+        copy the save carries, so the game's outings land in the season's rest history."""
         d = pickle.loads(data)
         if d.get("version") != SAVE_VERSION:
             raise ValueError("unknown save version")
         sess = GameSession.load(d["blob"], engine=_Placeholder())
+        if mgr is not None:
+            sess.book = mgr
+            for c in sess.ctrl.values():
+                c.ai.dec = mgr
         r = cls(world, sess, d["user"], d["meta"], d["base_rows"])
         r._put_rows(d["rows"])
         hc = r.human

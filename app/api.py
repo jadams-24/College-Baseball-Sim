@@ -14,6 +14,7 @@
     GET  /api/games/{id}/save        {save: base64} (signed; the browser keeps it)
     POST /api/games/load             {save} -> a game id and its turn
     GET  /                           the frontend (app/static/v2; the first page at /static/index.html)
+    /api/saves, /api/dynasties/...   Dynasty mode (app/dynasty_api.py)
 
 A turn carries the state (app.timeline.state_json), the feed entries since the client's cursor, the pending
 question or boundary, the queued orders, the modes, the decision buttons and the action menu (app.menu). Saves are pickles signed with
@@ -38,6 +39,7 @@ from pydantic import BaseModel
 
 from app import catalogue as cat
 from app.connector import GameRunner
+from app import dynasty_api
 from app.menu import menu
 from app.timeline import Narrator, box_score, state_json
 from app.world import World
@@ -90,6 +92,8 @@ async def _lifespan(app):
 
 
 app = FastAPI(title="College Baseball Sim — game prototype", lifespan=_lifespan)
+dynasty_api.bind(store, lambda data: _sign(data), lambda text: _verify(text))
+app.include_router(dynasty_api.router)
 
 
 # ---- models -------------------------------------------------------------------------------
