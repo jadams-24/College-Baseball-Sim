@@ -55,6 +55,17 @@ class Decider(ABC):
         """At the start of a half-inning in the field: [(slot, bench player), ...] to substitute."""
         return []
 
+    def pre_pitch(self, state, info: dict):
+        """Before a pitch, the batting side: None, "steal", "hit_and_run", "bunt", "swing" (take the bunt off) or
+        ("pinch_runner", slot, bench player). info: count, steal_base (the base the lead runner would steal, 0 if
+        none), runner, pitcher (engine.game2 GameSession._pitch)."""
+        return None
+
+    def pre_pitch_defense(self, state, info: dict):
+        """Before a pitch, the fielding side: None, "pitchout", "intentional_ball", "ibb", "mound_visit",
+        ("pitching_change", reliever) or ("defensive_sub", slot, bench player)."""
+        return None
+
 
 class LeagueAverageDecider(Decider):
     """Phase 1 manager: everything at league rates, no substitutions, no players."""

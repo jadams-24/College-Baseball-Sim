@@ -12,12 +12,15 @@ the same way, whoever gave it.
 from __future__ import annotations
 
 DECISIONS = ("lineup", "starting_pitcher", "relief_pitcher", "defensive_subs", "pinch_hit", "pinch_runner",
-             "steal_attempt", "bunt", "intentional_walk", "pitching_change")
+             "steal_attempt", "bunt", "intentional_walk", "pitching_change", "pre_pitch", "pre_pitch_defense")
 KIND = {k: i + 1 for i, k in enumerate(DECISIONS)}
 
 
 class Controller:
-    """One team's manager in one game."""
+    """One team's manager in one game. `per_pitch`: asked before every pitch (a human); the AI is asked before a
+    pitch only when it has a decision to make there (a runner who can steal)."""
+
+    per_pitch = False
 
     def answer(self, kind: str, state, rng, *args):
         raise NotImplementedError

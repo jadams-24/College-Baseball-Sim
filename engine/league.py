@@ -74,6 +74,8 @@ class Player:
     run: tuple = (0.0, 0.0, 0.0)
     err: float = 0.0
     arm: float = 0.0
+    hold: float = 0.0         # PR B (pitchers): hold / time to plate, standard-normal z; runners attempt less against a high
+                              # hold (config.decisions, prb_inputs.json pitcher_hold); the rating is 50 + 10 z
 
 
 @dataclass
@@ -165,6 +167,7 @@ def build_league(cfg: Phase2Config, rng: np.random.Generator) -> League:
     pk6 = phase6.load().get("parks6") if phase6.on("parks") else None
     rng_field = np.random.Generator(np.random.PCG64(rng.bit_generator.seed_seq.spawn(1)[0]))
     rng_pt = np.random.Generator(np.random.PCG64(rng.bit_generator.seed_seq.spawn(1)[0]))
+    rng_hold = np.random.Generator(np.random.PCG64(rng.bit_generator.seed_seq.spawn(1)[0]))   # PR B; spawned last, so the rest is unchanged
     pt_rho = phase6.load().get("subs6", {}).get("bench_pick_weight", {}).get("playing_time_rho", {}).get("value") if phase6.on("subs") else None
     fl6 = phase6.load().get("fielding6") if phase6.on("fielding") else None
     phi_field = phase6.load().get("fielding_scale", {}).get("phi_engine") if fl6 else None
@@ -301,6 +304,10 @@ def build_league(cfg: Phase2Config, rng: np.random.Generator) -> League:
         teams.append(t)
     league = League(teams, confs, players, {r: 0.0 for r in RATES})
     league.location = dict(FIXED_LOCATION) if FIXED_LOCATION is not None else load_location()
+    for p in league.players:          # PR B: the pitcher's hold, one standard-normal z per pitcher
+        if p.side == "pit":
+            p.hold = float(rng_hold.standard_normal())
+            p.ratings["hold"] = 50 + 10 * p.hold
     return league
 
 
