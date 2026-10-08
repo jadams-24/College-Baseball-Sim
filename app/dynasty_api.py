@@ -131,10 +131,12 @@ def _meta(did: str, d: dyn_mod.Dynasty) -> dict:
 
 
 def _autosave(did: str, d: dyn_mod.Dynasty) -> dict:
-    SAVE_DIR.mkdir(parents=True, exist_ok=True)
-    blob = dyn_mod.save_bytes(d)
+    """Under the engine lock (re-entrant): the background job changes the dynasty between games."""
+    with _store.lock:
+        SAVE_DIR.mkdir(parents=True, exist_ok=True)
+        blob = dyn_mod.save_bytes(d)
+        meta = _meta(did, d)
     (SAVE_DIR / f"dyn_{did}.cbs").write_bytes(blob)
-    meta = _meta(did, d)
     (SAVE_DIR / f"dyn_{did}.json").write_text(json.dumps(meta))
     return meta
 

@@ -56,7 +56,7 @@ class Store:
         self.games: dict = {}
         self.cursors: dict = {}
         self.touched: dict = {}
-        self.lock = threading.Lock()         # one engine per process: one game steps at a time
+        self.lock = threading.RLock()        # one engine runs at a time; re-entrant so a save inside a step can take it too
 
     def ready(self) -> World:
         if self.world is None:
