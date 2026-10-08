@@ -125,7 +125,12 @@
     if (h.running) pollProgress();
     fillStandingsSnippets();
   }
-  async function standings() { if (!D.cache.standings) D.cache.standings = await raw(`/api/dynasties/${D.id}/standings`); return D.cache.standings; }
+  async function standings() {
+    if (D.cache.standings) return D.cache.standings;
+    const v = await raw(`/api/dynasties/${D.id}/standings`);          // the cache may have been reset while awaiting: return the value itself
+    D.cache.standings = v;
+    return v;
+  }
   async function fillStandingsSnippets() {
     const st = await standings();
     const rows = st.conferences[st.mine] || [];
