@@ -244,3 +244,10 @@ body.busy .simbar button { opacity: .6; }
 .legend { padding: 0; overflow: hidden; }
 .legend dl, .legend .scale, .legend .muted { margin: 6px 10px; }
 .legend .scale { display: flex; gap: 4px; }
+/* dense lineup: short headers, season columns hidden until Season Mode */
+.lu.tbl td, .lu.tbl th { padding: 2px 5px; }
+.lu.tbl td { height: 22px; }
+.lu td.pos { color: var(--ink2); width: 2.4em; }
+.lu .season { display: none; }
+.lu.tbl tr.now td.nm::before { content: "▶ "; }
+.lu.tbl tr.deck td.nm::after { content: " ◦ deck"; }
