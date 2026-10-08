@@ -151,7 +151,17 @@ def _load_server_save(did: str):
     return d
 
 
+def _read(fn):
+    """A reader under the engine lock: the background job changes the dynasty's results between games."""
+    with _store.lock:
+        return fn()
+
+
 def _hub(did: str, d: dyn_mod.Dynasty) -> dict:
+    return _read(lambda: _hub_unlocked(did, d))
+
+
+def _hub_unlocked(did: str, d: dyn_mod.Dynasty) -> dict:
     h = d.hub()
     h["id"] = did
     j = _store.jobs.get(did)
@@ -343,7 +353,7 @@ def finish_game(did: str):
 @router.get("/api/dynasties/{did}/schedule")
 def schedule(did: str):
     d = _get(did)
-    return {"games": dyn_mod.schedule_json(d), "tid": d.tid}
+    return _read(lambda: {"games": dyn_mod.schedule_json(d), "tid": d.tid})
 
 
 @router.get("/api/dynasties/{did}/games/{i}")
@@ -352,7 +362,7 @@ def game_box(did: str, i: int):
     rec = dyn_mod.find_game(d, i, None)
     if rec is None:
         raise HTTPException(404, "no such game")
-    return dyn_mod.game_json(d, rec, full=True)
+    return _read(lambda: dyn_mod.game_json(d, rec, full=True))
 
 
 @router.get("/api/dynasties/{did}/postgames/{k}")
@@ -361,18 +371,18 @@ def post_box(did: str, k: int):
     rec = dyn_mod.find_game(d, None, k)
     if rec is None:
         raise HTTPException(404, "no such game")
-    return dyn_mod.game_json(d, rec, full=True)
+    return _read(lambda: dyn_mod.game_json(d, rec, full=True))
 
 
 @router.get("/api/dynasties/{did}/standings")
 def standings(did: str):
-    return dyn_mod.standings_json(_get(did))
+    return _read(lambda: dyn_mod.standings_json(_get(did)))
 
 
 @router.get("/api/dynasties/{did}/stats")
 def stats(did: str):
     d = _get(did)
-    return {"team": dyn_mod.team_stats_json(d), "leaders": dyn_mod.leaders_json(d)}
+    return _read(lambda: {"team": dyn_mod.team_stats_json(d), "leaders": dyn_mod.leaders_json(d)})
 
 
 @router.get("/api/dynasties/{did}/teams/{tid}/stats")
@@ -380,22 +390,22 @@ def team_stats(did: str, tid: int):
     d = _get(did)
     if not 0 <= tid < len(d.league.teams):
         raise HTTPException(404, "unknown team")
-    return dyn_mod.team_stats_json(d, tid)
+    return _read(lambda: dyn_mod.team_stats_json(d, tid))
 
 
 @router.get("/api/dynasties/{did}/roster")
 def roster(did: str):
-    return dyn_mod.roster_json(_get(did))
+    return _read(lambda: dyn_mod.roster_json(_get(did)))
 
 
 @router.get("/api/dynasties/{did}/postseason")
 def postseason(did: str):
-    return dyn_mod.postseason_json(_get(did))
+    return _read(lambda: dyn_mod.postseason_json(_get(did)))
 
 
 @router.get("/api/dynasties/{did}/summary")
 def summary(did: str):
-    return dyn_mod.summary_json(_get(did))
+    return _read(lambda: dyn_mod.summary_json(_get(did)))
 
 
 @router.get("/api/dynasties/{did}/save")

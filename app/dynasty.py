@@ -657,7 +657,7 @@ def find_game(d: Dynasty, i: int | None, k: int | None) -> dict | None:
 
 
 def recent_json(d: Dynasty, n: int = 6) -> list:
-    mine = [r for r in d.results.values() if d.mine(d.schedule[r["i"]])] + [r for r in d.post_calls if d.tid in (r["home"], r["away"])]
+    mine = [r for r in list(d.results.values()) if d.mine(d.schedule[r["i"]])] + [r for r in list(d.post_calls) if d.tid in (r["home"], r["away"])]
     mine.sort(key=lambda r: (r["date"], r.get("k", -1), r["i"]))
     return [game_json(d, r) for r in mine[-n:]][::-1]
 
