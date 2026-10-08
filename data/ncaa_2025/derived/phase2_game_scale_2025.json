@@ -1,6 +1,6 @@
 {
- "_note": "Solve the engine's game-level run scale and home edge.\n\nTeam strength (o, d) and the home effect h come from a quasi-Poisson fit of runs per\nteam-game on the 2025 scoreboard (build_phase2_teams.py). Runs per game include the\nrun rule and the skipped or walk-off bottom of the ninth, which compress lopsided games,\nwhile the half-inning scale (build_phase2_run_scale.py) has no truncation. So the same\nfit is run on simulated seasons and three numbers are found by fixed-point iteration:\n  map_o, map_d  one monotone map per side from the scoreboard rating x to engine units,\n             g(x) = k x + q x^2, the same for every team. The fitted o (d) of simulated\n             teams is regressed on their true rating, pooled over seasons:\n             fitted = a + b x + c x^2. The target is b = 1, c = 0 (the fit recovers the\n             rating). Composition update g <- g o (b x + c x^2)^-1:\n             k <- k / b,  q <- q / b^2 - k c / b^3.\n             (A single linear k left the response convex: within-P4 slope 1.10, low 0.99,\n             because run-rule truncation compresses lopsided games, not close ones.)\n  eta        home talent edge, so the simulated fitted home effect equals the\n             scoreboard's: eta <- eta + (h_scoreboard - h_sim)\nNothing else is matched: runs, spreads and gate rows are not used. Calibration seeds\n(910000+) are disjoint from the location solve and the report.\nOutput: data/ncaa_2025/derived/phase2_game_scale_2025.json\n",
- "built": "2026-10-04",
+ "_note": "Solve the engine's game-level run scale and home edge.\n\nTeam strength (o, d) and the home effect h come from a quasi-Poisson fit of runs per\nteam-game on the 2025 scoreboard (build_phase2_teams.py). Runs per game include the\nrun rule and the skipped or walk-off bottom of the ninth, which compress lopsided games,\nwhile the half-inning scale (build_phase2_run_scale.py) has no truncation. So the same\nfit is run on simulated seasons and three numbers are found by fixed-point iteration:\n  map_o, map_d  one monotone map per side from the scoreboard rating x to engine units,\n             g(x) = k x + q x^2, the same for every team. The fitted o (d) of simulated\n             teams is regressed on their true rating, pooled over seasons:\n             fitted = a + b x + c x^2. The target is b = 1, c = 0 (the fit recovers the\n             rating). Composition update g <- g o (b x + c x^2)^-1:\n             k <- k / b,  q <- q / b^2 - k c / b^3.\n             (A single linear k left the response convex: within-P4 slope 1.10, low 0.99,\n             because run-rule truncation compresses lopsided games, not close ones.)\n  eta        home talent edge, so the simulated fitted home effect equals the\n             scoreboard's: eta <- eta + (h_scoreboard - h_sim)\nNothing else is matched: runs, spreads and gate rows are not used. Calibration seeds\n(910000+) are disjoint from the location solve and the report.\n--warm starts from the current solved scale (a re-solve after the engine changed: owner rule 2026-10-08, scripts/check_drift.py).\nOutput: data/ncaa_2025/derived/phase2_game_scale_2025.json\n",
+ "built": "2026-10-08",
  "seeds": [
   910001,
   910002,
@@ -13,11 +13,11 @@
  ],
  "h_scoreboard": 0.0438,
  "scale": {
-  "k_o": 0.9695776611445546,
-  "q_o": -0.11393588177483319,
-  "k_d": 1.1643828273427783,
-  "q_d": -0.045936469686788384,
-  "eta": 0.11123351662385192
+  "k_o": 0.938987721427144,
+  "q_o": -0.09721891823243656,
+  "k_d": 1.1807784473786187,
+  "q_d": -0.07955688790601424,
+  "eta": 0.11050124423316349
  },
  "history": [
   {
@@ -91,6 +91,44 @@
     "b_d": 0.9905610820635753,
     "c_d": -0.014184023300741259
    }
+  },
+  {
+   "iteration": 0,
+   "scale": {
+    "k_o": 0.9695776611445546,
+    "q_o": -0.11393588177483319,
+    "k_d": 1.1643828273427783,
+    "q_d": -0.045936469686788384,
+    "eta": 0.11123351662385192
+   },
+   "fitted": {
+    "h": 0.04438154120187103,
+    "phi": 2.162689120763317,
+    "b_o": 1.0247446378008411,
+    "c_o": -0.0027974536252999226,
+    "b_d": 0.9838379056055335,
+    "c_d": 0.02836194844687103
+   },
+   "warm_start": "2026-10-08"
+  },
+  {
+   "iteration": 1,
+   "scale": {
+    "k_o": 0.9461651472754442,
+    "q_o": -0.10597929909498548,
+    "k_d": 1.1835108412763613,
+    "q_d": -0.08213668982642111,
+    "eta": 0.11065197542198088
+   },
+   "fitted": {
+    "h": 0.0439507311888174,
+    "phi": 2.154889501543841,
+    "b_o": 1.0076437909511653,
+    "c_o": -0.0077407385203327374,
+    "b_d": 1.0023140614598858,
+    "c_d": -0.0018726432984522488
+   },
+   "warm_start": "2026-10-08"
   }
  ]
 }
