@@ -34,7 +34,8 @@ WATCH6 = {"p6_run_rule": "offense extremes compressed (game-to-game variance; ev
           "p6_ip_rank2": "top starters' innings (re-check in Phase 7)",
           "p6_pitchers_50ip": "top starters' innings (re-check in Phase 7)",
           # owner decision 2026-10-07: the steal-path tails, after the 3-2 test (PHASE0_NOTES, PR B)
-          **{k: "steal timing within the plate appearance" for k in ("pb_len2_attempt", "pb_len6_attempt", "pb_len7_attempt", "pb_fc3-2_attempt")}}
+          **{k: "steal timing within the plate appearance"
+             for k in [f"pb_len{L}_attempt" for L in range(2, 9)] + ["pb_fc3-2_attempt", "pb_len7_success"]}}
 from engine.status import Status
 from engine.game2 import P_ER, P_G, P_GS, P_K, P_OUTS
 

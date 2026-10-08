@@ -38,9 +38,9 @@ Phases advance only when the gate passes. Do not build ahead of the current phas
   - bunts, sacrifice hits, bunt hits and intentional walks per team-game;
   - steal attempts and success by observed pitch path (the sample free of selection; the first-event sample is a diagnostic).
   **Watch item "steal timing within the plate appearance"** (owner decision 2026-10-07), reported and not gated:
-  - Rows: steal attempts in 2-, 6- and 7-pitch plate appearances and at final count 3-2 (selection-free sample). Real attempts come later in the plate appearance than the per-pitch count model gives.
-  - Fewer than two outs: the 3-2 gap is the runner going on the payoff pitch; proposed fix, a 3-2 x outs term fitted from the last-pitch steals.
-  - Two outs: the gap is earlier in the plate appearance, with no observable pitch.
+  - Rows (owner decision 2026-10-08): steal attempts by plate-appearance length (2 to 8+ pitches), at final count 3-2, and success in 7-pitch plate appearances (selection-free sample). Real attempts come later in the plate appearance than the per-pitch count model gives.
+  - A 3-2 x outs term (the runner going on the payoff pitch) was tried and withdrawn: it changes no row. Two-out strikeouts are not scored as steals.
+  - Candidate for the variance stage: plate-appearance length by base state (real plate appearances with runners on may run longer; the sim's pitch chain ignores the base state). It could also bear on "top starters' innings".
   - Details in PHASE0_NOTES.
   Runs per team-game and ERA, moved by the decisions with every rate unchanged, are gated against real data (Phase 2 and Phase 6 reports) instead of against the Phase 4 run. Owner decision 2026-10-07; details in PHASE0_NOTES, "Decisions that change outcomes".
 
