@@ -71,7 +71,8 @@
   function render() {
     if (!D.hub) return;
     renderHead();
-    const fn = { hub: renderHub, schedule: renderSchedule, standings: renderSoon, stats: renderSoon, roster: renderSoon, postseason: renderSoon }[D.screen] || renderHub;
+
+    const fn = { hub: renderHub, schedule: renderSchedule, standings: renderStandings, stats: renderStats, roster: renderRoster, postseason: renderSoon }[D.screen] || renderHub;
     fn();
   }
   function resultRow(g) {
@@ -85,7 +86,7 @@
     const h = D.hub, p = h.pending;
     const next = p ? `<div class="panel next"><div class="hdr">Next game <span class="sub">${dateText(p.date)} · ${p.stage === "regular" ? (p.weekend ? "weekend series" : "midweek") : STAGE[p.stage] || p.stage}${p.neutral ? " · neutral site" : ""}</span></div>
         <div class="body"><div class="matchup"><div>${mark({ name: p.away_name })}<b>${esc(p.away_name)}</b><span class="muted">${p.user_side === "away" ? " (you)" : ""}</span></div><div class="at">at</div><div>${mark({ name: p.home_name })}<b>${esc(p.home_name)}</b><span class="muted">${p.user_side === "home" ? " (you)" : ""}</span></div></div>
-        <div class="muted" id="probables">Probable starters: set at first pitch by each team's AI (see the manager screen's pregame).</div>
+        ${p.probables ? `<div class="probables">${["away", "home"].map((sd) => p.probables[sd] ? `<div><span class="k">${sd === "away" ? "Away" : "Home"} starter</span><b>${esc(p.probables[sd].name)}</b> <span class="muted">${p.probables[sd].role}</span> ${["stuff", "control", "movement", "stamina"].map((k) => badge(k, p.probables[sd].ratings[k])).join(" ")}</div>` : "").join("")}<div class="muted">Probable starters: each AI's pick at first pitch; yours can change in the pregame.</div></div>` : `<div class="muted">Probable starters: set at first pitch.</div>`}
         <div class="row">${h.running ? "" : `<button class="go" id="play-btn">${p.open ? "Back to the game" : "Play"}</button><button id="simgame-btn">Sim game</button>`}</div></div></div>`
       : `<div class="panel next"><div class="hdr">Next game</div><div class="body muted">${h.stage === "done" ? "The season is over." : h.stage === "regular" ? "Sim ahead to reach your next game." : "No game of yours is pending in this stage; sim ahead."}</div></div>`;
     const sims = h.running ? `<div id="sim-progress"></div>` : `<div class="sims">${[["game", "Next game"], ["week", "Next week"], ["regular", "End of regular season"], ["conf", "Conference tournament"], ["selection", "Selection Monday"], ["end", "End of season"]].map(([t, l]) => `<button data-simto="${t}" ${h.stage === "done" ? "disabled" : ""}>${l}</button>`).join("")}</div><div class="muted">Your games ${pauseFlags().myGames ? "pause the sim (Settings)" : "are played by the AI (Settings)"}.</div>`;
@@ -144,6 +145,52 @@
     $("#box-close").addEventListener("click", () => (el.innerHTML = ""));
     el.scrollIntoView({ behavior: "smooth", block: "start" });
   }
+  // ---- standings: every conference, and the national RPI top 25 and top 64 ----
+  async function renderStandings() {
+    const st = await standings();
+    const confs = Object.keys(st.conferences).sort((a, b) => (a === st.mine ? -1 : b === st.mine ? 1 : a.localeCompare(b)));
+    const table = (rows) => `<table class="tbl"><tr><th>Team</th><th class="num">Conf</th><th class="num">All</th><th class="num">RPI</th></tr>${rows.map((r) => `<tr class="${r.me ? "now" : ""}"><td class="nm">${esc(r.name)}</td><td class="num">${r.cw}-${r.cl}</td><td class="num">${r.w}-${r.l}</td><td class="num">${r.rpi_rank || "—"}</td></tr>`).join("")}</table>`;
+    const nat = (lo, hi) => `<table class="tbl"><tr><th>#</th><th>Team</th><th>Conf</th><th class="num">W-L</th><th class="num">RPI</th></tr>${st.national.slice(lo, hi).map((r) => `<tr class="${r.me ? "now" : ""}"><td class="muted">${r.rank}</td><td class="nm">${esc(r.name)}</td><td class="muted">${esc(r.conference)}</td><td class="num">${r.w}-${r.l}</td><td class="num">${r.rpi.toFixed(3)}</td></tr>`).join("")}</table>`;
+    $("#dyn-main").innerHTML = `<div class="tabs" id="st-tabs"><button data-t="conf" class="on">Conferences</button><button data-t="top25">RPI top 25</button><button data-t="top64">RPI top 64</button></div>
+      <div id="st-conf" class="st-grid">${confs.map((c) => `<div class="panel"><div class="hdr">${esc(c)}${c === st.mine ? '<span class="you-tag">you</span>' : ""}</div><div class="body tight">${table(st.conferences[c])}</div></div>`).join("")}</div>
+      <div id="st-top25" class="hidden"><div class="panel"><div class="hdr">RPI top 25 <span class="sub">your rank: ${st.my_rank || "—"}</span></div><div class="body tight">${nat(0, 25)}</div></div></div>
+      <div id="st-top64" class="hidden"><div class="panel"><div class="hdr">RPI top 64 <span class="sub">your rank: ${st.my_rank || "—"}</span></div><div class="body tight">${nat(0, 64)}</div></div></div>`;
+    $$("#st-tabs button").forEach((b) => b.addEventListener("click", () => { $$("#st-tabs button").forEach((x) => x.classList.toggle("on", x === b)); ["conf", "top25", "top64"].forEach((t) => $(`#st-${t}`).classList.toggle("hidden", t !== b.dataset.t)); }));
+  }
+
+  // ---- stats: the team's batting and pitching (sortable), national leaders ----
+  const BCOLS = [["g", "G"], ["pa", "PA"], ["ab", "AB"], ["h", "H"], ["2b", "2B"], ["3b", "3B"], ["hr", "HR"], ["bb", "BB"], ["hbp", "HBP"], ["k", "K"], ["avg", "AVG"], ["obp", "OBP"], ["slg", "SLG"], ["ops", "OPS"]];
+  const PCOLS = [["g", "G"], ["gs", "GS"], ["ip", "IP"], ["h", "H"], ["r", "R"], ["er", "ER"], ["bb", "BB"], ["k", "K"], ["hr", "HR"], ["era", "ERA"], ["whip", "WHIP"], ["k9", "K/9"], ["bb9", "BB/9"]];
+  const f3 = (v) => (typeof v === "number" && !Number.isInteger(v) ? v.toFixed(3).replace(/^0/, "") : v);
+  let sortBy = { b: "pa", p: "outs", dir: -1 };
+  function statTable(rows, cols, which) {
+    const key = sortBy[which] === "ip" ? "outs" : sortBy[which];
+    const sorted = rows.slice().sort((a, b) => (a.stats[key] > b.stats[key] ? 1 : a.stats[key] < b.stats[key] ? -1 : 0) * sortBy.dir);
+    return `<table class="tbl stats"><tr><th>Name</th><th>Pos</th>${cols.map(([k, l]) => `<th class="num ${sortBy[which] === k ? "on" : ""}" data-sort="${k}" data-which="${which}">${l}</th>`).join("")}</tr>${sorted.map((r) => `<tr><td class="nm">${esc(r.name)}</td><td>${r.pos}</td>${cols.map(([k]) => `<td class="num">${k === "era" || k === "whip" || k === "k9" || k === "bb9" ? r.stats[k].toFixed(k === "era" || k === "whip" ? 2 : 1) : f3(r.stats[k])}</td>`).join("")}</tr>`).join("")}</table>`;
+  }
+  async function renderStats() {
+    if (!D.cache.stats) D.cache.stats = await raw(`/api/dynasties/${D.id}/stats`);
+    const { team, leaders } = D.cache.stats;
+    const lead = (title, rows, fmt) => `<div class="panel"><div class="hdr">${title}</div><div class="body tight"><table class="tbl">${rows.map((r, i) => `<tr class="${r.me ? "now" : ""}"><td class="muted">${i + 1}</td><td class="nm">${esc(r.name)} <span class="muted">${esc(r.team)}</span></td><td class="num">${fmt(r.value)}</td></tr>`).join("")}</table></div></div>`;
+    $("#dyn-main").innerHTML = `<div class="panel"><div class="hdr">${esc(team.team)} batting <span class="sub">${team.games} games · tap a column to sort · not in the engine's accumulators: ${team.missing.join(", ")}</span></div><div class="body tight scroll-x">${statTable(team.batting, BCOLS, "b")}</div></div>
+      <div class="panel"><div class="hdr">${esc(team.team)} pitching</div><div class="body tight scroll-x">${statTable(team.pitching, PCOLS, "p")}</div></div>
+      <div class="hdr-line">National leaders <span class="muted">qualified: ${leaders.floors.batting} (batting), ${leaders.floors.pitching} (pitching)</span></div>
+      <div class="st-grid">${lead("Batting average", leaders.batting.avg, f3)}${lead("Home runs", leaders.batting.hr, (v) => v)}${lead("OPS", leaders.batting.ops, f3)}${lead("Hits", leaders.batting.h, (v) => v)}${lead("ERA", leaders.pitching.era, (v) => v.toFixed(2))}${lead("Strikeouts", leaders.pitching.k, (v) => v)}${lead("K/9", leaders.pitching.k9, (v) => v.toFixed(1))}${lead("WHIP", leaders.pitching.whip, (v) => v.toFixed(2))}</div>`;
+    $$("#dyn-main [data-sort]").forEach((h) => h.addEventListener("click", () => { const w = h.dataset.which; if (sortBy[w] === h.dataset.sort) sortBy.dir = -sortBy.dir; else { sortBy[w] = h.dataset.sort; sortBy.dir = h.dataset.sort === "era" || h.dataset.sort === "whip" || h.dataset.sort === "bb9" ? 1 : -1; } renderStats(); }));
+  }
+
+  // ---- roster: ratings, position, B/T, class, the season line, pitchers' rest ----
+  async function renderRoster() {
+    if (!D.cache.roster) D.cache.roster = await raw(`/api/dynasties/${D.id}/roster`);
+    const r = D.cache.roster;
+    const bk = ["contact", "gap", "power", "eye", "avoid_k", "speed", "glove", "arm"], pk = ["stuff", "control", "movement", "stamina", "hold"];
+    const bat = `<table class="tbl roster"><tr><th>Pos</th><th>Name</th><th>B/T</th><th>Yr</th>${bk.map((k) => `<th>${V.RATING[k][0]}</th>`).join("")}<th class="num">AVG</th><th class="num">OBP</th><th class="num">SLG</th><th class="num">HR</th></tr>${r.batters.map((p) => `<tr><td>${p.pos}</td><td class="nm">${esc(p.name)} <span class="muted">${p.role}</span></td><td class="muted">${p.hand}</td><td class="muted">${p.year}</td>${bk.map((k) => `<td>${badge(k, p.ratings[k]).replace(/<span class="k">.*?<\/span>/, "")}</td>`).join("")}<td class="num">${f3(p.stats.avg)}</td><td class="num">${f3(p.stats.obp)}</td><td class="num">${f3(p.stats.slg)}</td><td class="num">${p.stats.hr}</td></tr>`).join("")}</table>`;
+    const rest = (p) => (p.last_outing ? `${p.last_outing.days_ago === 0 ? "today" : p.last_outing.days_ago === 1 ? "yesterday" : p.last_outing.days_ago + " days ago"} · ${p.last_outing.pitches} pitches` : "no outing yet");
+    const pit = `<table class="tbl roster"><tr><th>Role</th><th>Name</th><th>B/T</th><th>Yr</th>${pk.map((k) => `<th>${V.RATING[k][0]}</th>`).join("")}<th class="num">IP</th><th class="num">ERA</th><th class="num">K</th><th>Last outing</th></tr>${r.pitchers.map((p) => `<tr><td>${p.role}</td><td class="nm">${esc(p.name)}</td><td class="muted">${p.hand}</td><td class="muted">${p.year}</td>${pk.map((k) => `<td>${badge(k, p.ratings[k]).replace(/<span class="k">.*?<\/span>/, "")}</td>`).join("")}<td class="num">${p.stats.ip}</td><td class="num">${p.stats.era.toFixed(2)}</td><td class="num">${p.stats.k}</td><td class="muted">${rest(p)}</td></tr>`).join("")}</table>`;
+    $("#dyn-main").innerHTML = `<div class="panel"><div class="hdr">${esc(r.team)} batters <span class="sub">B/T and class arrive with the engine's handedness (Phase 3) and roster rules; shown as – until then</span></div><div class="body tight scroll-x">${bat}</div></div>
+      <div class="panel"><div class="hdr">${esc(r.team)} pitchers <span class="sub">rest: the last outing's date and pitches (the AI's rest rule reads these)</span></div><div class="body tight scroll-x">${pit}</div></div>`;
+  }
+
   function renderSoon() { $("#dyn-main").innerHTML = `<div class="panel"><div class="hdr">${D.screen}</div><div class="body muted">This screen arrives in a later push.</div></div>`; }
 
   window.dyn = { open, id: () => D.id, refresh };

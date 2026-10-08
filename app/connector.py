@@ -577,6 +577,9 @@ class GameRunner:
                 st = sess.st
                 out.append({"kind": "lineup", "pids": [p.pid for p in st.lineup[self.user]]})
                 out.append({"kind": "starting_pitcher", "pid": st.pitcher[self.user].pid})
+                opp = "home" if self.user == "away" else "away"
+                if st.pitcher.get(opp) is not None:
+                    out.append({"kind": "opponent_starter", "pid": st.pitcher[opp].pid})
             return out
         finally:
             self._put_rows(snap.rows)   # the accumulator rows, touched by the dry run, back to the live game's

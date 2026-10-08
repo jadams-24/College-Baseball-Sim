@@ -13,6 +13,10 @@
     GET  /api/dynasties/{id}/schedule      the user's team's schedule and results
     GET  /api/dynasties/{id}/games/{i}     a regular-season game's box score; /postgames/{k} a postseason game's
     GET  /api/dynasties/{id}/standings     conferences and the national RPI list
+    GET  /api/dynasties/{id}/stats         the team's batting and pitching, national leaders; /teams/{tid}/stats any team's
+    GET  /api/dynasties/{id}/roster        ratings, season lines, pitchers' last outings
+    GET  /api/dynasties/{id}/postseason    conference tournaments, the field, regionals, supers, the CWS
+    GET  /api/dynasties/{id}/summary       the end-of-year summary and the offseason placeholder
     GET  /api/dynasties/{id}/save          {save} (signed, compressed; the browser mirrors it)
     POST /api/dynasties/load               {save} -> {id, hub}
     DELETE /api/dynasties/{id}             forget the dynasty and delete its server save
@@ -326,6 +330,35 @@ def post_box(did: str, k: int):
 @router.get("/api/dynasties/{did}/standings")
 def standings(did: str):
     return dyn_mod.standings_json(_get(did))
+
+
+@router.get("/api/dynasties/{did}/stats")
+def stats(did: str):
+    d = _get(did)
+    return {"team": dyn_mod.team_stats_json(d), "leaders": dyn_mod.leaders_json(d)}
+
+
+@router.get("/api/dynasties/{did}/teams/{tid}/stats")
+def team_stats(did: str, tid: int):
+    d = _get(did)
+    if not 0 <= tid < len(d.league.teams):
+        raise HTTPException(404, "unknown team")
+    return dyn_mod.team_stats_json(d, tid)
+
+
+@router.get("/api/dynasties/{did}/roster")
+def roster(did: str):
+    return dyn_mod.roster_json(_get(did))
+
+
+@router.get("/api/dynasties/{did}/postseason")
+def postseason(did: str):
+    return dyn_mod.postseason_json(_get(did))
+
+
+@router.get("/api/dynasties/{did}/summary")
+def summary(did: str):
+    return dyn_mod.summary_json(_get(did))
 
 
 @router.get("/api/dynasties/{did}/save")
