@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Manager Screen</title>
+<meta name="description" content="College Baseball Sim manager screen, v2: scoreboard, matchup, field, action menu, lineup and play-by-play.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="/static/v2/v2.css">
+</head>
+<body>
+<div id="app" class="app">
+  <!-- 1. scoreboard bar -->
+  <header class="scorebar">
+    <div class="sb-line">
+      <table id="linescore" class="linescore" aria-label="line score"></table>
+    </div>
+    <div id="sb-inning" class="sb-inning"></div>
+    <div class="sb-counts" id="sb-counts"></div>
+  </header>
+
+  <!-- 2. matchup banner -->
+  <section class="banner">
+    <div id="batter" class="who batter"></div>
+    <div class="vs">vs</div>
+    <div id="pitcher" class="who pitcher"></div>
+  </section>
+
+  <!-- 3-5. field, actions, lineup -->
+  <main class="zones">
+    <section id="field" class="zone field" aria-label="field"></section>
+    <section id="actions" class="zone actions" aria-label="calls"></section>
+    <section id="lineup" class="zone lineup" aria-label="lineup"></section>
+  </main>
+
+  <!-- phone tabs for lineup and feed -->
+  <nav id="phone-tabs" class="phone-tabs">
+    <button data-tab="game" class="on">Game</button>
+    <button data-tab="lineup">Lineup</button>
+    <button data-tab="feed">Plays</button>
+  </nav>
+
+  <!-- 6. play-by-play drawer -->
+  <section id="feed" class="drawer">
+    <button id="drawer-toggle" class="drawer-handle" aria-expanded="false"><span id="drawer-title">Play by play</span><span class="chev">▴</span></button>
+    <div id="feed-body" class="drawer-body"></div>
+  </section>
+
+  <!-- 7. callout -->
+  <div id="callout" class="callout hidden" role="status"></div>
+  <div id="legend" class="legend hidden"></div>
+  <div id="tip" class="tip hidden"></div>
+</div>
+<script src="/static/v2/mock_data.js"></script>
+<script src="/static/v2/v2.js"></script>
+</body>
+</html>

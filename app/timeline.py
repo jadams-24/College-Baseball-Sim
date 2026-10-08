@@ -348,7 +348,22 @@ def state_json(runner) -> dict:
     if bat in st.lineup and batter is not None:
         i0 = st.lineup[bat].index(batter) if batter in st.lineup[bat] else 0
         due = [st.lineup[bat][(i0 + k) % 9].name for k in range(1, 3)]
+    # per-plate-appearance results by batter (the lineup panel), from the narration
+    pa_results: dict = {}
+    for e in nar.entries:
+        if e["type"] == "pa":
+            pa_results.setdefault(e["batter"], []).append(e["res"])
+    # PR B: the fielding side's mound trips (NCAA 9-4), for the mound-visit button's state
+    mound = None
+    m = getattr(st, "mound", None)
+    if m is not None and pitcher is not None:
+        from config.decisions import FREE_TRIPS, FREE_TRIPS_EXTRA
+        limit = FREE_TRIPS + (FREE_TRIPS_EXTRA if st.inning > 9 else 0)
+        mound = {"free_used": m["free"].get(fld, 0), "free_limit": limit,
+                 "visited_this_pitcher_inning": bool(m["trips"].get((fld, st.inning, pitcher.pid))),
+                 "same_batter": m["batter"].get(fld) == (st.inning, sess.pa_serial)}
     out = {"score": dict(st.score), "inning": st.inning, "half": st.half, "outs": st.outs, "over": st.over,
+           "pa_results": {str(k): v for k, v in pa_results.items()}, "mound": mound,
            "ended_by_run_rule": st.ended_by_run_rule, "run_rule_in_effect": st.run_rule_in_effect,
            "count": [sess.pa["b"], sess.pa["s"]] if sess.pa is not None else None,
            "batting_side": bat, "bases": bases, "line_score": line_score, "hits": dict(st.hits), "errors": dict(st.errors),
