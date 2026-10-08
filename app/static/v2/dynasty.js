@@ -71,8 +71,9 @@
   function render() {
     if (!D.hub) return;
     renderHead();
-
-    const fn = { hub: renderHub, schedule: renderSchedule, standings: renderStandings, stats: renderStats, roster: renderRoster, postseason: renderSoon }[D.screen] || renderHub;
+    const nav = $("#dyn-nav");
+    if (D.hub.stage === "done" && !nav.querySelector("[data-screen='summary']")) { const b = document.createElement("button"); b.dataset.screen = "summary"; b.textContent = "Year in review"; b.addEventListener("click", () => setScreen("summary")); nav.appendChild(b); }
+    const fn = { hub: renderHub, schedule: renderSchedule, standings: renderStandings, stats: renderStats, roster: renderRoster, postseason: renderPostseason, summary: renderSummary }[D.screen] || renderHub;
     fn();
   }
   function resultRow(g) {
@@ -88,7 +89,7 @@
         <div class="body"><div class="matchup"><div>${mark({ name: p.away_name })}<b>${esc(p.away_name)}</b><span class="muted">${p.user_side === "away" ? " (you)" : ""}</span></div><div class="at">at</div><div>${mark({ name: p.home_name })}<b>${esc(p.home_name)}</b><span class="muted">${p.user_side === "home" ? " (you)" : ""}</span></div></div>
         ${p.probables ? `<div class="probables">${["away", "home"].map((sd) => p.probables[sd] ? `<div><span class="k">${sd === "away" ? "Away" : "Home"} starter</span><b>${esc(p.probables[sd].name)}</b> <span class="muted">${p.probables[sd].role}</span> ${["stuff", "control", "movement", "stamina"].map((k) => badge(k, p.probables[sd].ratings[k])).join(" ")}</div>` : "").join("")}<div class="muted">Probable starters: each AI's pick at first pitch; yours can change in the pregame.</div></div>` : `<div class="muted">Probable starters: set at first pitch.</div>`}
         <div class="row">${h.running ? "" : `<button class="go" id="play-btn">${p.open ? "Back to the game" : "Play"}</button><button id="simgame-btn">Sim game</button>`}</div></div></div>`
-      : `<div class="panel next"><div class="hdr">Next game</div><div class="body muted">${h.stage === "done" ? "The season is over." : h.stage === "regular" ? "Sim ahead to reach your next game." : "No game of yours is pending in this stage; sim ahead."}</div></div>`;
+      : `<div class="panel next"><div class="hdr">Next game</div><div class="body muted">${h.stage === "done" ? `The season is over. <button class="go" id="to-summary">Year in review</button>` : h.stage === "regular" ? "Sim ahead to reach your next game." : "No game of yours is pending in this stage; sim ahead."}</div></div>`;
     const sims = h.running ? `<div id="sim-progress"></div>` : `<div class="sims">${[["game", "Next game"], ["week", "Next week"], ["regular", "End of regular season"], ["conf", "Conference tournament"], ["selection", "Selection Monday"], ["end", "End of season"]].map(([t, l]) => `<button data-simto="${t}" ${h.stage === "done" ? "disabled" : ""}>${l}</button>`).join("")}</div><div class="muted">Your games ${pauseFlags().myGames ? "pause the sim (Settings)" : "are played by the AI (Settings)"}.</div>`;
     const recent = h.recent.length ? `<table class="tbl">${h.recent.map(resultRow).join("")}</table>` : `<div class="muted">No games yet.</div>`;
     const news = h.news.length ? h.news.map((n) => `<div class="ev"><span class="muted">${dateText(n.date)}</span><span>${esc(n.text)}</span></div>`).join("") : `<div class="muted">Nothing yet. News comes from the engine's results only.</div>`;
@@ -98,6 +99,7 @@
       <div class="col"><div class="panel"><div class="hdr">Standings <span class="sub">${esc(h.conference)}</span></div><div class="body" id="hub-standings"><div class="muted">Loading…</div></div></div><div class="panel"><div class="hdr">RPI top 25</div><div class="body" id="hub-rpi"><div class="muted">Loading…</div></div></div></div>
     </div>`;
     const pb = $("#play-btn"); if (pb) pb.addEventListener("click", () => busy(playPending));
+    const ts = $("#to-summary"); if (ts) ts.addEventListener("click", () => setScreen("summary"));
     const sb = $("#simgame-btn"); if (sb) sb.addEventListener("click", () => busy(simPending));
     $$("#dyn-main [data-simto]").forEach((b) => b.addEventListener("click", () => busy(() => simTo(b.dataset.simto))));
     bindBoxes();
@@ -189,6 +191,49 @@
     const pit = `<table class="tbl roster"><tr><th>Role</th><th>Name</th><th>B/T</th><th>Yr</th>${pk.map((k) => `<th>${V.RATING[k][0]}</th>`).join("")}<th class="num">IP</th><th class="num">ERA</th><th class="num">K</th><th>Last outing</th></tr>${r.pitchers.map((p) => `<tr><td>${p.role}</td><td class="nm">${esc(p.name)}</td><td class="muted">${p.hand}</td><td class="muted">${p.year}</td>${pk.map((k) => `<td>${badge(k, p.ratings[k]).replace(/<span class="k">.*?<\/span>/, "")}</td>`).join("")}<td class="num">${p.stats.ip}</td><td class="num">${p.stats.era.toFixed(2)}</td><td class="num">${p.stats.k}</td><td class="muted">${rest(p)}</td></tr>`).join("")}</table>`;
     $("#dyn-main").innerHTML = `<div class="panel"><div class="hdr">${esc(r.team)} batters <span class="sub">B/T and class arrive with the engine's handedness (Phase 3) and roster rules; shown as – until then</span></div><div class="body tight scroll-x">${bat}</div></div>
       <div class="panel"><div class="hdr">${esc(r.team)} pitchers <span class="sub">rest: the last outing's date and pitches (the AI's rest rule reads these)</span></div><div class="body tight scroll-x">${pit}</div></div>`;
+  }
+
+  // ---- postseason: conference tournaments in their formats, Selection Monday, regionals, supers, Omaha ----
+  function gameLine(g) {
+    const w = g.hr > g.ar ? "home" : "away";
+    return `<div class="pg ${g.side ? "mine" : ""}"><span class="muted">${dateText(g.date)}</span><span class="${w === "away" ? "won" : ""}">${esc(g.away_name)} ${g.ar}</span><span class="muted">${g.neutral ? "vs" : "at"}</span><span class="${w === "home" ? "won" : ""}">${esc(g.home_name)} ${g.hr}</span>${g.inning !== 9 ? `<span class="muted">(${g.inning})</span>` : ""}${g.user ? '<span class="tag you">PLAYED</span>' : ""}<button class="btn-ghost" data-postbox="${g.k}">Box</button></div>`;
+  }
+  function byDay(games) {
+    const days = {};
+    games.forEach((g) => (days[g.date] = days[g.date] || []).push(g));
+    return Object.keys(days).sort((a, b) => a - b).map((d, i) => `<div class="round"><div class="k">Day ${i + 1} · ${dateText(+d)}</div>${days[d].map(gameLine).join("")}</div>`).join("");
+  }
+  async function renderPostseason() {
+    const ps = await raw(`/api/dynasties/${D.id}/postseason`);
+    if (ps.note) { $("#dyn-main").innerHTML = `<div class="panel"><div class="hdr">Postseason</div><div class="body muted">${esc(ps.note)}</div></div>`; return; }
+    const confs = Object.keys(ps.conference).sort((a, b) => (a === ps.mine_conf ? -1 : b === ps.mine_conf ? 1 : a.localeCompare(b)));
+    const conf = (c) => { const t = ps.conference[c]; return `<div class="panel"><div class="hdr">${esc(c)} tournament${c === ps.mine_conf ? '<span class="you-tag">you</span>' : ""} <span class="sub">${t.champion_name ? "champion: " + esc(t.champion_name) : t.games.length ? "in progress" : "not started"}</span></div>
+      <div class="body"><div class="muted">${esc(t.description)}${t.venue ? " · " + esc(t.venue) : ""}</div><div class="seeds">${t.seeds.map((s) => `<span class="${s.me ? "me" : ""}">${s.seed}. ${esc(s.name)}</span>`).join("")}</div>${byDay(t.games)}</div></div>`; };
+    const sel = ps.selection ? `<div class="panel"><div class="hdr">Selection Monday <span class="sub">${ps.selection.in_field ? (ps.selection.my_status.national_seed ? `you are the #${ps.selection.my_status.national_seed} national seed` : `you are in the field: a ${ps.selection.my_status.line} seed${ps.selection.my_status.auto ? " (automatic bid)" : " (at large)"}`) : `not selected · RPI rank ${ps.selection.my_status.rpi_rank || "—"}`}</span></div>
+      <div class="body"><div class="k">National seeds (regional hosts)</div><div class="seeds">${ps.selection.national_seeds.map((s) => `<span class="${s.me ? "me" : ""}">${s.seed}. ${esc(s.name)} <i>RPI ${s.rpi_rank}</i></span>`).join("")}</div>
+      <div class="k">The field of 64</div><table class="tbl field"><tr><th>Line</th><th>Team</th><th>Conf</th><th class="num">RPI</th><th>Bid</th></tr>${ps.selection.field.map((t) => `<tr class="${t.me ? "now" : ""}"><td>${t.national_seed ? "#" + t.national_seed : t.line}</td><td class="nm">${esc(t.name)}</td><td class="muted">${esc(t.conference)}</td><td class="num">${t.rpi_rank}</td><td class="muted">${t.auto ? "auto" : "at large"}</td></tr>`).join("")}</table></div></div>` : "";
+    const regs = ps.regionals ? `<div class="hdr-line">Regionals <span class="muted">four-team double elimination at the host's park</span></div><div class="st-grid">${ps.regionals.map((r) => `<div class="panel"><div class="hdr">Regional ${r.n} · ${esc(r.host)} <span class="sub">${r.winner ? "winner: " + esc(r.winner) : ""}</span></div><div class="body"><div class="seeds">${r.teams.map((t) => `<span class="${t.me ? "me" : ""}">${t.seed}. ${esc(t.name)}</span>`).join("")}</div>${byDay(r.games)}</div></div>`).join("")}</div>` : "";
+    const sups = ps.supers && (ps.supers.length || ps.super_rows) ? `<div class="panel"><div class="hdr">Super regionals <span class="sub">best of three</span></div><div class="body">${ps.super_rows ? `<div class="seeds">${ps.super_rows.map((s) => `<span>${esc(s.teams[0])} vs ${esc(s.teams[1])} <i>at ${esc(s.host)}</i> → <b>${esc(s.winner)}</b></span>`).join("")}</div>` : ""}${byDay(ps.supers)}</div></div>` : "";
+    const cws = ps.cws && ps.cws.length ? `<div class="panel"><div class="hdr">College World Series · Omaha <span class="sub">${ps.champion ? `national champion: ${esc(ps.champion)} over ${esc(ps.runner_up)}` : "in progress"}</span></div><div class="body">${ps.cws_teams ? `<div class="seeds">${ps.cws_teams.map((t) => `<span>${esc(t)}</span>`).join("")}</div>` : ""}${byDay(ps.cws)}</div></div>` : "";
+    $("#dyn-main").innerHTML = `<div class="tabs" id="ps-tabs"><button data-t="conf" class="on">Conference tournaments</button><button data-t="sel">Selection Monday</button><button data-t="ncaa">NCAA tournament</button></div>
+      <div id="ps-conf"><div class="st-grid">${confs.map(conf).join("")}</div></div>
+      <div id="ps-sel" class="hidden">${sel || '<div class="panel"><div class="body muted">The field is announced after the conference tournaments.</div></div>'}</div>
+      <div id="ps-ncaa" class="hidden">${regs || '<div class="panel"><div class="body muted">The bracket is set on Selection Monday.</div></div>'}${sups}${cws}</div>`;
+    $$("#ps-tabs button").forEach((b) => b.addEventListener("click", () => { $$("#ps-tabs button").forEach((x) => x.classList.toggle("on", x === b)); ["conf", "sel", "ncaa"].forEach((t) => $(`#ps-${t}`).classList.toggle("hidden", t !== b.dataset.t)); }));
+    if (ps.stage === "ncaa" || ps.stage === "done") $("#ps-tabs [data-t='ncaa']").click(); else if (ps.stage === "selection") $("#ps-tabs [data-t='sel']").click();
+    bindBoxes();
+  }
+
+  // ---- end of Year 1: the season summary, then the offseason placeholder ----
+  async function renderSummary() {
+    const s = await raw(`/api/dynasties/${D.id}/summary`);
+    const L = s.leaders, line = (k, who, v) => (who ? `<div><span class="k">${k}</span><b>${esc(who.name)}</b> <span class="muted">${v}</span></div>` : "");
+    $("#dyn-main").innerHTML = `<div class="panel"><div class="hdr">Year ${s.year} in review · ${esc(s.team)}</div><div class="body summary">
+        <div class="big">${s.record[0]}-${s.record[1]} <span class="muted">(${s.conf_record[0]}-${s.conf_record[1]} conference)</span></div>
+        <div class="facts"><div><span class="k">Postseason</span><b>${esc(s.result)}</b></div><div><span class="k">RPI</span><b>${s.rpi_rank ? "#" + s.rpi_rank : "—"}</b></div>${s.conference_champion ? `<div><span class="k">Conference tournament</span><b>champions</b></div>` : ""}<div><span class="k">National champion</span><b>${esc(s.champion || "—")}</b>${s.runner_up ? ` <span class="muted">over ${esc(s.runner_up)}</span>` : ""}</div></div>
+        <div class="k">Team leaders</div><div class="leaders">${line("AVG", L.avg, L.avg && L.avg.stats.avg.toFixed(3))}${line("HR", L.hr, L.hr && L.hr.stats.hr)}${line("OPS", L.ops, L.ops && L.ops.stats.ops.toFixed(3))}${line("ERA", L.era, L.era && L.era.stats.era.toFixed(2))}${line("K", L.k, L.k && L.k.stats.k)}</div></div></div>
+      <div class="panel offseason"><div class="hdr">Offseason <span class="sub">coming next · not playable yet</span></div><div class="body"><div class="muted">Year ${s.year} ends after Omaha. These phases plug in here, in this order, and lead into Year ${s.year + 1}:</div><ol>${s.offseason.map((x) => `<li>${esc(x)}</li>`).join("")}</ol><div class="row"><button class="btn-ghost" id="to-main">Back to the main screen</button></div></div></div>`;
+    $("#to-main").addEventListener("click", () => show("main"));
   }
 
   function renderSoon() { $("#dyn-main").innerHTML = `<div class="panel"><div class="hdr">${D.screen}</div><div class="body muted">This screen arrives in a later push.</div></div>`; }

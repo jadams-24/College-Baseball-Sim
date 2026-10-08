@@ -349,3 +349,20 @@ body.busy .simbar button { opacity: .6; }
 .tbl.roster .rt b { min-width: 22px; }
 .dyn .tabs { margin-bottom: var(--gap); border: 1px solid var(--line); border-radius: var(--radius); }
 
+/* postseason and the year in review */
+.seeds { display: flex; flex-wrap: wrap; gap: 4px 10px; margin: 6px 0; font-size: 12px; }
+.seeds span.me { color: var(--accent); font-weight: 800; }
+.seeds i { color: var(--muted); font-style: normal; font-size: 11px; }
+.round { margin-top: 6px; }
+.round .k, .summary .k, .dyn .body > .k { font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); font-weight: 700; margin: 6px 0 2px; }
+.pg { display: flex; gap: 8px; align-items: center; padding: 2px 0; font-size: 12px; border-bottom: 1px solid var(--line); }
+.pg .won { font-weight: 800; }
+.pg.mine { background: color-mix(in srgb, var(--accent) 12%, transparent); }
+.pg button { margin-left: auto; }
+.tbl.field td { height: 20px; }
+.summary .big { font-size: 28px; font-weight: 900; }
+.summary .facts, .summary .leaders { display: flex; flex-wrap: wrap; gap: 6px 24px; margin: 6px 0; }
+.summary .facts > div, .summary .leaders > div { display: flex; flex-direction: column; }
+.summary .facts b { font-size: 15px; }
+.offseason ol { margin: 6px 0 0 18px; padding: 0; }
+.offseason li { padding: 2px 0; color: var(--ink2); }
