@@ -35,7 +35,9 @@ from engine.status import Status
 ROOT = Path(__file__).resolve().parents[1]
 # owner rule 2026-10-08: a failing tier-gradient row is not fixed with a tier term; it becomes a watch item and a Phase 9
 # requirement ("recruiting values handedness beyond talent"), with the measured effect at equal talent
-WATCH3: dict = {}
+WATCH3 = {k: ("left-handers by tier: the talent-only draw does not give the real gradient (P4 against low +1.19 +- .50 log-odds at "
+              "equal talent, scripts/build_phase3_hands.py); Phase 9 requirement 'recruiting values handedness beyond talent'")
+          for k in ("p3_lhp_tier_p4_reliever", "p3_lhp_tier_low_reliever")}   # failing rows of the 40-season run of 2026-10-08
 PAIRS = ("L|L", "L|R", "R|L", "R|R")
 PLAT_RATES = ("K", "BB", "HR", "BABIP", "OB")
 _K, _BB, _HBP, _HR, _1B, _2B, _3B, _ROE, _OUT = range(9)      # engine.game2 CELL_RESULTS

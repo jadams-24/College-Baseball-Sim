@@ -28,6 +28,7 @@ is available, so g, f, gamma and the pull multipliers' ratios are moved until th
 Writes the "usage" key of data/ncaa_2025/derived/phase3_inputs_2025.json.
     python3 scripts/build_phase3_usage.py
     python3 scripts/build_phase3_usage.py --solve runs/phase3_usage_step1.pkl
+    python3 scripts/build_phase3_usage.py --normalize runs/phase3_usage_step2.pkl
 """
 from __future__ import annotations
 
@@ -186,6 +187,25 @@ def solve(usage: dict, runs: list) -> dict:
     return new
 
 
+def normalize(usage: dict, runs: list) -> dict:
+    """The pull and pinch-hit multipliers rescaled per inning bucket so they average 1 over the engine's own opportunity
+    mix (the hands of pitchers and batters due up in simulated seasons with the final inputs): the hand terms move pulls
+    and pinch hitters between matchups, not in total. Fitted on the real mix they averaged 1.02 on the engine's (2026-10-08:
+    distinct batters per team-game 10.505 against 10.481 before Phase 3)."""
+    new = json.loads(json.dumps(usage))
+    hands, bats = "LR", "LRS"
+    for key, arr in (("pull_mult", sum(r["relief"] for r in runs).sum(axis=0)), ("ph_mult", sum(r["ph"] for r in runs).sum(axis=0))):
+        for bi, b in enumerate(BUCKETS):
+            num = sum(arr[c, d, bi, 0] * usage[key][f"{hands[c]}|{bats[d]}|{b}"] for c in range(2) for d in range(3))
+            mean = num / arr[:, :, bi, 0].sum()
+            for c in hands:
+                for d in bats:
+                    new[key][f"{c}|{d}|{b}"] = round(usage[key][f"{c}|{d}|{b}"] / mean, 4)
+            new.setdefault("normalized_mean_before", {})[f"{key}|{b}"] = round(float(mean), 4)
+    print("multiplier means on the engine's mix before normalizing:", new["normalized_mean_before"])
+    return new
+
+
 def main() -> None:
     import argparse
     import pickle
@@ -193,8 +213,13 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--solve", type=Path, help="seasons file (runs/...pkl): one solve step from seasons played with the current inputs "
                                                "(simulated with config.phase3.USAGE_SEEDS when the file does not exist)")
+    ap.add_argument("--normalize", type=Path, help="seasons file played with the final inputs: rescale the multipliers to average 1 on its mix")
     args = ap.parse_args()
     out = json.loads(phase3.INPUTS.read_text())
+    if args.normalize:
+        out["usage"] = normalize(out["usage"], pickle.loads(args.normalize.read_bytes()))
+        phase3.INPUTS.write_text(json.dumps(out, indent=1))
+        return
     if args.solve:
         if args.solve.exists():
             runs = pickle.loads(args.solve.read_bytes())

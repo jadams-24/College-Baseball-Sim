@@ -15,7 +15,8 @@ pair, p the rate there). Standard errors from the binomial variance of the real 
 
 Writes the "platoon" key of data/ncaa_2025/derived/phase3_inputs_2025.json.
     python3 scripts/build_phase3_platoon.py [--seasons runs/phase3_platoon_seasons.pkl] [--iterate]
---iterate refits on seasons played with the current shifts (adds the remaining gap to them).
+--iterate refits on seasons played with the current shifts (adds the remaining gap to them); --recentre runs/x.pkl centres the
+shifts exactly on the final engine's mix (after the usage solve and normalization).
 """
 from __future__ import annotations
 
@@ -134,13 +135,47 @@ def fit(real: dict, sim: dict, prior: dict | None = None) -> dict:
             "remaining_gap": {key(pr): v for pr, v in gap.items()}}
 
 
+def recentre(shift: dict, runs: list) -> dict:
+    """Exact centring on the final engine's plate-appearance mix: per rate, one constant c added to the four shifts so that
+    sum over pairs of n expit(logit p + c) equals sum of n expit(logit p - shift), p the simulated rate in the pair with the
+    shifts on, n its trials (seasons with the final inputs). The first-order centring of fit() used the mix before the usage
+    solve; stronger bullpen matching then raised same-hand plate appearances (L vs L .094 -> .101) and HR per PA fell 1%."""
+    sim = sim_cells(runs)
+    new = {k: list(v) for k, v in shift.items()}
+    cs = {}
+    for ri, r in enumerate(RATES6):
+        cells = []
+        for pr in PAIRS:
+            x = sum(sim[(t, *pr)][r][0] for t in TIERS); n = sum(sim[(t, *pr)][r][1] for t in TIERS)
+            cells.append((n, np.log(x / (n - x)), shift[f"{pr[0]}|{pr[1]}"][ri]))
+        target = sum(n * 1 / (1 + np.exp(-(lp - d))) for n, lp, d in cells)
+        c = 0.0
+        for _ in range(50):
+            f = sum(n / (1 + np.exp(-(lp + c))) for n, lp, _ in cells) - target
+            g = sum(n * np.exp(-(lp + c)) / (1 + np.exp(-(lp + c))) ** 2 for n, lp, _ in cells)
+            c -= f / g
+            if abs(f) < 1e-9:
+                break
+        cs[r] = round(float(c), 5)
+        for pr in PAIRS:
+            new[f"{pr[0]}|{pr[1]}"][ri] = round(shift[f"{pr[0]}|{pr[1]}"][ri] + c, 5)
+    print("recentring constants:", cs)
+    return new, cs
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--seasons", type=Path, default=ROOT / "runs/phase3_platoon_seasons.pkl")
     ap.add_argument("--iterate", action="store_true")
     ap.add_argument("--workers", type=int, default=4)
+    ap.add_argument("--recentre", type=Path, help="seasons file played with the final inputs (simulated if missing): exact centring")
     args = ap.parse_args()
     out = json.loads(phase3.INPUTS.read_text())
+    if args.recentre:
+        runs = seasons(args.recentre, True, args.workers)
+        out["platoon"]["shift"], out["platoon"]["recentre_constants"] = recentre(out["platoon"]["shift"], runs)
+        phase3.INPUTS.write_text(json.dumps(out, indent=1))
+        return
     prior = out.get("platoon", {}).get("shift") if args.iterate else None
     runs = seasons(args.seasons, bool(args.iterate), args.workers)
     res = fit(real_cells(), sim_cells(runs), prior)
