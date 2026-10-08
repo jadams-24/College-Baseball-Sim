@@ -114,7 +114,7 @@ Section 12 holds the rule verification and the data inventory (research tasks of
 - watch him play;
 - send staff to a showcase;
 - camp invite;
-- home visit (contact periods only; the number allowed follows the NCAA's off-campus contact limits, Section 12.1);
+- home visit (contact periods only; the number allowed follows the NCAA off-campus contact rules: from September 1 of the junior year, in contact periods; the per-prospect contact limit is not yet verified);
 - unofficial visit;
 - official visit: one per school per recruit, hosted on a home-series weekend, so Ballpark Atmosphere and that weekend's results matter (but see Section 14, item 4: fall visits);
 - offer.
@@ -123,7 +123,7 @@ Section 12 holds the rule verification and the data inventory (research tasks of
 - The coach sells grade categories. Matching the recruit's priorities builds influence fast.
 - A hard sell late in the funnel is a big gain or a big backfire.
 
-**Legality.** The NCAA calendar decides which actions are legal each week: Contact / Quiet / Dead (and any other period types the official calendar uses; Section 12.1).
+**Legality.** The NCAA calendar decides which actions are legal each week: Contact / Quiet / Dead / Recruiting Shutdown (Section 12.1, item 1: a shutdown allows nothing, a dead period still allows calls and messages).
 
 ## 6. Money: one roster budget
 
