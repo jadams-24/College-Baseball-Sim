@@ -1,11 +1,11 @@
-name: tests
+name: app
 
-# The full suite: every phase gate (40 seasons) and the app tests. Skipped when a push or pull request touches
-# only the game UI (app/, its tests, docs and deploy files): those run the "app" workflow instead. Engine, config,
-# benchmark and data changes always run here.
+# The game UI's tests (the connector against the engine, the API against the engine, save and load, the action
+# menu's legality): run when a push or pull request touches the app. A change that also touches the engine or
+# config runs the full "tests" workflow as well.
 on:
   push:
-    paths-ignore:
+    paths:
       - "app/**"
       - "tests/test_app_*.py"
       - "render.yaml"
@@ -13,7 +13,7 @@ on:
       - "reports/app_latency.md"
       - ".github/workflows/app.yml"
   pull_request:
-    paths-ignore:
+    paths:
       - "app/**"
       - "tests/test_app_*.py"
       - "render.yaml"
@@ -22,7 +22,7 @@ on:
       - ".github/workflows/app.yml"
 
 jobs:
-  pytest:
+  app-tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -31,4 +31,4 @@ jobs:
           python-version: "3.11"
           cache: pip
       - run: pip install -r requirements.txt
-      - run: pytest
+      - run: pytest tests/test_app_connector.py tests/test_app_api.py
