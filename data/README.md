@@ -375,11 +375,14 @@ Used for the limits on in-game calls (`config/decisions.py`): coach trips to the
 
 ## data/ncaa_2026/ — 2026 D1 game results for the RPI formula check
 
-- `rpi/ncaa_rpi_through_2026-05-24.html.gz`: https://www.ncaa.com/rankings/baseball/d1/rpi,
-  fetched 2026-10-05; the page reads "Through Games May. 24 2026". Parsed to
-  `rpi/ncaa_rpi_through_2026-05-24.csv` (rank, school, record, conference, road,
-  neutral, home, non_d1, prev; W-L strings as published, 308 schools; `record` is
-  the D1 record, road + neutral + home).
+- `rpi/ncaa_rpi_through_2026-05-24.csv`: the NCAA's published 2026 RPI rankings table, extracted from
+  https://www.ncaa.com/rankings/baseball/d1/rpi (fetched 2026-10-05; the page read "Through Games May. 24 2026"):
+  rank, school, record, conference, road, neutral, home, non_d1, prev; W-L strings as published, 308 schools;
+  `record` is the D1 record, road + neutral + home. Used by the RPI formula check (`scripts/check_rpi_2026.py`).
+  **www.ncaa.com's robots.txt now disallows AI agents (found 2026-10-08).** Owner decision 2026-10-08:
+  - only this extracted table is kept; the raw page snapshot was removed from the repository;
+  - www.ncaa.com is never fetched again (data.ncaa.com is fine);
+  - future RPI checks use Warren Nolan or the project's own computation.
 - `warrennolan/raw/<slug>.html.gz`: every team's 2026 schedule page,
   `https://www.warrennolan.com/baseball/2026/schedule/<slug>` (robots.txt: Allow /),
   fetched 2026-10-05 by `scripts/fetch_warrennolan_2026.py` (1.5 s delay, up to 3

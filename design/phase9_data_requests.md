@@ -61,3 +61,18 @@ That is 80 pages, plus the supplemental and competitive-balance rounds, which ap
 - signed and unsigned counts by year × round × type;
 - the median bonus as a share of the slot value by round band;
 - four-year picks by D1 tier.
+
+## 3. NJCAA team stats (optional, by hand, the owner)
+
+- **Today:** JUCO sits on the talent scale from roster origins plus documented guesses, graded D and marked for replacement (spec Section 7). No usable JUCO source is reachable from the cloud environment:
+  - NJCAA stats sit behind a client-rendered app on an undocumented API;
+  - the Presto region and CCCAA sites return 403.
+- **The upgrade:** a hand export by the owner of the NJCAA composite **team** stats for Divisions I, II and III, if njcaa.org's terms allow personal use:
+  - batting, pitching and fielding team tables for the 2025 season (2024 and 2026 too, if available);
+  - about 3 divisions × 2–3 tables per season.
+- **What it gives:**
+  - JUCO league rates (BA, OBP, SLG, K, BB, HR) and team runs per game;
+  - with transfers' outcomes, an estimate of the JUCO talent offset;
+  - the JUCO grade would rise from D to B.
+- Team-level tables only; no player rows are committed.
+
