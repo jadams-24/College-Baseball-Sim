@@ -155,8 +155,8 @@
   //      position badges with names, runners lit on the bases (tap or hover for ratings). The batter is in the
   //      banner, not on the grass. ----
   const BASES = { 1: [250, 160], 2: [160, 70], 3: [70, 160] };
-  const TAG_AT = { 1: (x, y) => [x, y + 27, "middle"], 2: (x, y) => [x + 17, y + 4, "start"], 3: (x, y) => [x, y + 27, "middle"] };
-  const FIELDERS = [["P", 160, 168], ["C", 160, 280], ["1B", 236, 128], ["2B", 198, 98], ["SS", 122, 98], ["3B", 84, 128], ["LF", 68, 52], ["CF", 160, 26], ["RF", 252, 52]];
+  const TAG_AT = { 1: (x, y) => [x, y + 27, "middle"], 2: (x, y) => [x, y - 17, "middle"], 3: (x, y) => [x, y + 27, "middle"] };
+  const FIELDERS = [["P", 160, 168], ["C", 160, 280], ["1B", 236, 128], ["2B", 198, 98], ["SS", 122, 98], ["3B", 84, 128], ["LF", 68, 52], ["CF", 160, 18], ["RF", 252, 52]];
   function renderField(t) {
     const st = t.state, bside = st.batting_side, fside = bside === "home" ? "away" : "home";
     const byPid = {};

@@ -27,13 +27,25 @@ app tests for changes under `app/`, its tests, docs and deploy files (`.github/w
 config changes run the full gates (`tests.yml`). Engine PRs merged to `main` are merged into `ui-prototype`
 promptly; `ui-prototype` goes back into `main` through a PR at natural checkpoints.
 
+## Design system
+
+`app/static/v2/system.css` holds the tokens and primitives every screen is built from, so Season Mode screens reuse
+them: surfaces and lines, ink, the accent, the field colors, the 20–80 rating scale (`--r20` … `--r80`: red low,
+yellow for the D1 average, green to blue high), geometry (3px radii, 1px borders, no shadows) and type; the
+primitives are `.panel`, the `.hdr` header strip (dark bar, bold uppercase label), command `button`s (compact,
+uppercase, clear active state; `.go` for the primary accent), `.mark` team marks, `.rt` rating badges, `.tbl` dense
+tables, `.tabs`, the toast, callout, tooltip and legend. `v2.css` is the manager screen's layout only. The design is
+original: no OOTP, MLB or other third-party assets, fonts or marks; teams are fictional.
+
 ## The manager screen (v2)
 
-The layout follows a quick-manage structure (scoreboard, matchup, field, calls, lineup, play-by-play); the visual
-design is original (an evening-ballpark palette, team marks as initials in a color hashed from the team's name,
-fictional teams). Zones, top to bottom on a phone, three columns on a desktop:
+A strict grid in the density of a dedicated sim: the scoreboard strip, the matchup banner joined under it, three
+equal-height columns (field with the on-deck / in-the-hole bar, strategy, lineup), the sim bar, the play-by-play
+drawer. Every panel has a header strip. On a phone the columns stack in the same order with the same density, the
+lineup and the feed are tabs, and the sim bar is sticky at the bottom. Zones:
 
-1. **Scoreboard bar**: line score with R/H/E; inning and half; balls, strikes and outs as separate counters.
+1. **Scoreboard strip**: segmented with vertical dividers: line score, R/H/E, a bases graphic lit gold for occupied
+   bases, inning and half, balls, strikes and outs as separate counters.
 2. **Matchup banner**: the batter (position, bats L/R once Phase 3 lands, batting-order ordinal, today's
    AB/H/RBI/BB/K) and the pitcher (role, throws, IP/H/R/BB/K, pitch count) with his 20–80 ratings. The bar under
    the pitcher is labeled **pitch count**: the engine has no fatigue state (the AI's pull hazard reads the
@@ -42,12 +54,14 @@ fictional teams). Zones, top to bottom on a phone, three columns on a desktop:
    slots in the banner, hidden until season play exists: never faked.
 3. **Field**: runners as markers (tap or hover: name, Speed, Contact, Power, today's line), the fielders by
    position faintly, the batter at the plate, due up.
-4. **Action menu** (`menu.py`): only the calls legal now for the side you are on. Batting: swing away (default),
-   bunt, steal and hit-and-run (only when the engine's lead-runner rule allows a steal; the label names the runner
-   who goes; the engine has no double steal, so none is offered), pinch hit, pinch run per runner on base.
-   Pitching: pitch (default), intentional walk, pitchout (a runner on), mound visit (greyed with the NCAA 9-4
-   reason when a second trip with the same batter at bat would be refused), pitching change and defensive change
-   (now, mid at-bat, through the pre-pitch call; or after the at-bat, through the window's decision). Tapping
+4. **Strategy** (`menu.py`): only the calls legal now for the side you are on, in sub-panels. Offense when
+   batting: swing away (default), bunt, steal and hit-and-run (only when the engine's lead-runner rule allows a
+   steal; the label names the runner who goes; the engine has no double steal, so none is offered), pinch hit,
+   pinch run per runner on base. Pitching: pitch (default), pitch around (the intentional ball), intentional walk,
+   pitchout (a runner on). Defense: mound visit (greyed with the NCAA 9-4 reason when a second trip with the same
+   batter at bat would be refused), pitching change and defensive change (now, mid at-bat, through the pre-pitch
+   call; or after the at-bat, through the window's decision). No shift: the engine has no fielder positioning.
+   Sim speeds live in their own bar under the columns. Tapping
    queues the order (tap again to cancel); the sim buttons proceed with the AI handling anything not queued. A kind
    switched to "ask me" stops with its question, answered in place. "Ask bench coach" shows the AI's next calls for
    your team. `tests/test_app_menu.py`: every offered call validates against the engine's eligibility rules on
