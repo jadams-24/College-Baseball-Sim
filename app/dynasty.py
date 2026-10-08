@@ -157,6 +157,12 @@ class Dynasty:
             self.bstats = [[0] * B_NCOL for _ in range(n)]
             self.pstats = [[0] * P_NCOL for _ in range(n)]
         self.eng = PlayerGameEngine(self.cfg, self.league, self.bstats, self.pstats)
+        # The engine's per-player-per-opponent trial counts (the Phase 4 report's opponent adjustment) are a
+        # preallocated 80 MB array that a season pages in entirely; play only increments it, nothing reads it. A
+        # dynasty does not report, so it hands the engine a zero-strided view over one cell: every increment lands
+        # there and the memory stays out (the 512 MB host). Not an engine change: the engine's own attribute, replaced.
+        ot = self.eng.opp_trials
+        self.eng.opp_trials = np.lib.stride_tricks.as_strided(np.zeros(1, dtype=ot.dtype), shape=ot.shape, strides=(0, 0, 0, 0), writeable=True)
         if self.mgr is None:
             self.mgr = Manager(self.cfg)
 

@@ -13,13 +13,17 @@ and `benchmarks.json` are untouched by this workstream.
 | `connector.py` | `HumanController` (orders, autopilot, "ask me"), `RecordingAI` (the opponent, recorded for the feed), `GameRunner` (snapshot and replay, sim targets, the bench coach, save and load) |
 | `timeline.py` | play-by-play and box score from the event log, the marks taken at every ask, and the engine's accumulator rows |
 | `menu.py` | the action menu of the manager screen: the calls legal now for the user's side, built on the server from the turn and the engine state so the page never decides legality |
+| `dynasty.py` | Dynasty mode: the engine's Phase 7 season driven game by game (the user's games on the manager screen, the rest simmed), the postseason pipeline replayed over recorded results, standings, RPI, stats, roster, postseason and summary readers, saves |
+| `dynasty_api.py` | the dynasty endpoints: world building, team pick, background sim jobs with progress, the user's game, screens, server saves and the browser mirror |
 | `api.py` | FastAPI: league, rosters, catalogue, games, sim, orders, questions, modes, coach, box, save, load; serves `static/` |
-| `static/v2/` | the manager screen (v2, served at `/`): lobby, scoreboard bar, matchup banner, field, action menu, lineup panel with the pregame editor, play-by-play drawer with the box score, callouts |
+| `static/v2/` | served at `/`: the main screen (`main.js`), the manager screen (`v2.js`), Dynasty mode (`dynasty.js`), on the design system (`system.css`) |
 | `static/` (root) | the first frontend (v1), still served at `/static/index.html`: the same API, plainer screens |
 
 Run locally: `pip install -r requirements.txt && uvicorn app.api:app --reload`, then open http://127.0.0.1:8000.
-Tests: `pytest tests/test_app_connector.py tests/test_app_api.py tests/test_app_menu.py` (a few minutes). Latency:
-`python3 scripts/bench_app.py` writes `reports/app_latency.md`.
+Tests: `pytest tests/test_app_connector.py tests/test_app_api.py tests/test_app_menu.py` (a few minutes) and
+`tests/test_app_dynasty.py` (two full D1 seasons, about 20 minutes each: a dynasty equals the engine's own season run).
+Latency: `python3 scripts/bench_app.py` writes `reports/app_latency.md`; `python3 scripts/bench_dynasty.py` writes
+`reports/dynasty_latency.md` (the week and season sims on the free tier, and the options).
 
 Workflow (owner decision 2026-10-08): `ui-prototype` is the single live branch; Render auto-deploys every push. The
 app tests and the API-vs-engine equality tests run before every push (never push a failing build). CI runs only the
@@ -156,3 +160,43 @@ per machine).
 `render.yaml` deploys one free Render web service that serves both the API and the frontend. The frontend is
 static files and could move to Vercel (or any static host) later with the API's URL configured in `app.js`;
 for the prototype one service is simpler. Latency on Render's Free plan (0.1 CPU share): `reports/app_latency.md`.
+
+## Main screen
+
+The site root: Continue (the newest of the server's dynasty saves, this browser's mirrors and the latest quick
+game; team, record and date shown), New Dynasty (the D1 world of a seed is built first, then any of the 307 teams
+can be picked by name, conference or tier with its offense and run prevention on the 20–80 scale), Quick Game (the
+exhibition flow), saved dynasties (load, download as a `.cbsd` file, delete), Settings (default sim step, the
+decisions to be asked about, which moments pause a dynasty sim, the rating color legend) and locked tiles for
+Coaching Career, Recruiting and Program Building.
+
+## Dynasty mode (Year 1 = one full season)
+
+Built on the engine's Phase 7 world without engine changes (`dynasty.py`, module docstring): the schedule, the
+games each team drops and the cancellations are the season's own; every game is played with the engine's per-game
+seed, the user's games through `GameRunner` on the dynasty's engine and Decider (the manager screen), the rest with
+`PlayerGameEngine.play`; the conference tournaments, selection, bracket and NCAA tournament run through
+`engine.world.World` with a `play_game` that answers recorded results and pauses at the user's games (the pipeline
+is re-run from the start after each, so its committee draws repeat). `tests/test_app_dynasty.py` holds a dynasty
+to `engine.season.simulate_season` for the same seed, and a dynasty played through the API with decisions to the
+engine's loop with the same scripted controller.
+
+Screens (left nav on a desktop, bottom tabs on a phone): the hub (header with mark, year, record, conference
+record, RPI rank, date and week; the next game with probable starters, Play and Sim game; sim to the next game,
+week, end of the regular season, conference tournament, Selection Monday or end of season, as a background job
+with progress; recent results with box scores; conference standings; RPI top 25; news from the engine's results
+only), Schedule, Standings (every conference, RPI top 25 and 64), Stats (dense sortable tables with the season
+columns, national leaders at the NCAA qualifying floors), Roster (badges, position, season line, pitchers' last
+outings), Postseason (conference tournaments in their published formats, Selection Monday, regionals, supers,
+Omaha) and, when the season is over, Year in review with the offseason placeholder (transfer portal, MLB draft,
+recruiting, roster cuts, Year 2 plug in there).
+
+Saves: the server autosaves after every sim job and game (`CBS_SAVE_DIR`, default `saves/`; the free host's disk
+is ephemeral) and the browser mirrors the signed blob in IndexedDB; Continue restores from the mirror when the
+server has forgotten the dynasty. Sim cost on the free tier: `reports/dynasty_latency.md`.
+
+Not exposed by the engine (shown as dashes or left out, never faked): per-batter runs and RBI outside a logged game
+(simmed box scores have no R/RBI), stolen bases per player, pitcher wins, losses and saves, class or year,
+handedness (Phase 3), a pitcher-availability verdict (the AI's rest rule is internal; the roster shows the last
+outing's date and pitches), fielder positioning (no shift), the committee's at-large scores beyond the field
+(no "first four out").

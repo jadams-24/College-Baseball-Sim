@@ -23,8 +23,8 @@
 
 Sim jobs run in a thread holding the engine lock (one engine runs at a time); the page polls progress. A finished
 step autosaves to the server's save directory (CBS_SAVE_DIR, default saves/ next to app/; the free host's disk is
-ephemeral, which is why the browser keeps a mirror). At most two dynasties stay loaded; the least recently used is
-saved and dropped, and the engine's table caches (engine.tables, keyed by object id) are cleared so a later engine
+ephemeral, which is why the browser keeps a mirror). One dynasty stays loaded; the one in memory is
+saved and dropped when another is opened, and the engine's table caches (engine.tables, keyed by object id) are cleared so a later engine
 never meets a stale entry.
 """
 from __future__ import annotations
@@ -45,7 +45,7 @@ from engine import tables as engine_tables
 
 router = APIRouter()
 SAVE_DIR = Path(os.environ.get("CBS_SAVE_DIR", str(Path(__file__).resolve().parent.parent / "saves")))
-MAX_LOADED = 2
+MAX_LOADED = 1          # a season's engine state is a few hundred MB: one dynasty in memory on the 512 MB host
 _store = None       # set by app.api (the Store: world, games, lock, sign/verify)
 
 
