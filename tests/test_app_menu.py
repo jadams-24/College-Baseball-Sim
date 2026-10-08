@@ -66,6 +66,8 @@ def _check(r, items):
         assert kinds <= PITCHING_KINDS and not (kinds & BATTING_KINDS), items
     ids = [i["id"] for i in items]
     assert len(ids) == len(set(ids))
+    for i in items:
+        assert i["group"] == ("offense" if bats_next else ("pitching" if i["kind"] == "pre_pitch_defense" and not isinstance(i["value"], dict) and i["value"] != "mound_visit" else "defense")), i
     sb = cat.steal_base(st) if (bats_next and st.outs < 3) else 0
     assert ("steal" in ids) == bool(sb) and ("hit_and_run" in ids) == bool(sb)
     for i in items:
@@ -114,7 +116,7 @@ def test_menu_offers_only_legal_calls_for_the_users_side(world):
             r.step(TARGETS[int(rng.integers(0, len(TARGETS)))])
         assert r.turn()["phase"] == "over" and menu(r) == []
     assert checked > 200 and queued > 40
-    for must in ("swing", "bunt", "steal", "pinch_hit", "pitch", "ibb", "pitchout", "mound_visit", "pitching_change", "defensive_change"):
+    for must in ("swing", "bunt", "steal", "pinch_hit", "pitch", "pitch_around", "ibb", "pitchout", "mound_visit", "pitching_change", "defensive_change"):
         assert must in seen, must
 
 

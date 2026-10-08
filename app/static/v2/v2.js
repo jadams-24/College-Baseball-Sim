@@ -167,7 +167,7 @@
       const p = byPid[b.pid] || { ratings: {} };
       const r = p.ratings || {};
       return `<g class="runner" tabindex="0" data-name="${esc(b.name)}" data-pos="${p.pos || ""}" data-spd="${r.speed ?? "–"}" data-con="${r.contact ?? "–"}" data-pow="${r.power ?? "–"}" data-line="${esc(p.line_text || "0-0")}">
-        <circle cx="${x}" cy="${y}" r="12"/><text x="${x}" y="${y + 4}">${i + 1}</text>${((tag) => `<text class="tag" x="${tag[0]}" y="${tag[1]}" text-anchor="${tag[2]}">${esc(b.name)}</text>`)(TAG_AT[i + 1](x, y))}</g>`;
+        <circle cx="${x}" cy="${y}" r="12"/><text x="${x}" y="${y + 4}">${i + 1}</text>${((tag) => `<text class="tag" x="${tag[0]}" y="${tag[1]}" style="text-anchor:${tag[2]}">${esc(b.name)}</text>`)(TAG_AT[i + 1](x, y))}</g>`;
     };
     const lu = st.lineups[fside] || [];
     const who = Object.fromEntries(lu.filter((p) => p.pos !== "DH").map((p) => [p.pos, p]));
@@ -278,7 +278,7 @@
     const pregameNote = t.phase === "pregame" ? `<div class="why">Your batting order and starter are the AI's picks: change them in the Lineup panel${window.innerWidth <= 760 ? ' (<a href="#" data-goto="lineup">open it</a>)' : ""} before the first pitch.</div>` : "";
     const off = st.over || question || S.busy;
     $("#actions").innerHTML = `<div class="hdr">Strategy <span class="sub">${side} · ${when}</span></div>${pregameNote}${question ? questionBlock(t) : ""}
-      <div class="menu">${items.map((i) => `<button data-item="${i.id}" class="${i.default ? "default" : ""} ${i.queued ? "queued" : ""} ${openPick === i.id ? "open" : ""}" ${i.enabled ? "" : "disabled"}><span>${esc(i.label)}</span>${i.queued ? `<span class="key you">queued</span>` : i.reason ? `<span class="why">${esc(i.reason)}</span>` : i.default ? `<span class="key">default</span>` : i.pick ? `<span class="key">pick…</span>` : ""}</button>${openPick === i.id ? chooser(i, question).html : ""}`).join("")}
+      ${["pitching", "defense", "offense"].filter((g) => items.some((i) => i.group === g)).map((g) => `<div class="group"><div class="ghdr">${{ pitching: "Pitching", defense: "Defense", offense: "Offense" }[g]}</div><div class="menu">${items.filter((i) => i.group === g).map((i) => `<button data-item="${i.id}" class="${i.default ? "default" : ""} ${i.queued ? "queued" : ""} ${openPick === i.id ? "open" : ""}" ${i.enabled ? "" : "disabled"}><span>${esc(i.label)}</span>${i.queued ? `<span class="key you">queued</span>` : i.reason ? `<span class="why">${esc(i.reason)}</span>` : i.default ? `<span class="key">default</span>` : i.pick ? `<span class="key">pick…</span>` : ""}</button>${openPick === i.id ? chooser(i, question).html : ""}`).join("")}</div></div>`).join("")}
       ${anyQueued && !question ? `<div class="orders">${t.orders.map((o) => `<span>${esc(orderText(o))}</span>`).join("")} <button class="btn-ghost" data-clear-all="1">Clear</button></div>` : ""}
       <div class="coach"><div class="tools"><button class="btn-ghost" id="coach-btn">Ask bench coach</button><button class="btn-ghost" id="ask-btn">Ask me…</button><button class="btn-ghost" id="legend-btn">Rating legend</button></div><div id="coach-out" class="hidden"></div><div id="ask-panel" class="hidden"></div></div></div>`;
     renderSims(t, off);

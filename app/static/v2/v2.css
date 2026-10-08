@@ -256,3 +256,9 @@ body.busy .simbar button { opacity: .6; }
 .lu .season { display: none; }
 .lu.tbl tr.now td.nm::before { content: "▶ "; }
 .lu.tbl tr.deck td.nm::after { content: " ◦ deck"; }
+/* strategy sub-panels */
+.actions .group { margin: var(--pad) var(--pad) 0; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+.actions .group .ghdr { background: var(--panel2); color: var(--muted); font: var(--hdr-font); letter-spacing: .12em; text-transform: uppercase; padding: 4px var(--pad); border-bottom: 1px solid var(--line); font-size: 10px; }
+.actions .group .menu { padding: 5px; gap: 3px; }
+.actions .orders { margin-top: var(--pad); }
+.actions .coach { margin-top: var(--pad); }

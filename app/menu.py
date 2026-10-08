@@ -6,10 +6,11 @@ cannot, why. Batting items appear only when the user's team bats the coming pitc
 fields it. An enabled item's order validates against the engine's eligibility rules (app.catalogue.to_engine),
 which tests/test_app_menu.py checks on paused games.
 
-Items: {"id", "kind", "value", "label", "default", "enabled", "reason", "queued", "pick"}
+Items: {"id", "kind", "value", "label", "group", "default", "enabled", "reason", "queued", "pick"}
+  group: offense (batting calls) | pitching (the pitch itself) | defense (the fielding side's moves): the page's sub-panels.
   pick (when the order needs a player): {"what": bench | bullpen | sub, "options": [pid, ...]}; "sub" also needs
   a lineup slot. Steal items name the runner who goes (the engine's lead-runner rule, app.catalogue.steal_base);
-  there is no double steal in the engine, so the menu never offers one.
+  there is no double steal in the engine, so the menu never offers one; nor a shift: the engine has no fielder positioning.
 """
 from __future__ import annotations
 
@@ -46,8 +47,9 @@ def menu(runner) -> list:
     in_pa = runner.current.pa is not None
     names = {p.pid: p for t in st.team_obj.values() for p in t.batters + cat.staff(t)}
 
-    def item(id_, kind, value, label, enabled, reason="", default=False, pick=None, queued=None):
-        out.append({"id": id_, "kind": kind, "value": value, "label": label, "default": default, "enabled": bool(enabled),
+    def item(id_, kind, value, label, enabled, reason="", default=False, pick=None, queued=None, group=None):
+        out.append({"id": id_, "kind": kind, "value": value, "label": label, "group": group or ("offense" if bats_next else "pitching"),
+                    "default": default, "enabled": bool(enabled),
                     "reason": "" if enabled else reason, "pick": pick,
                     "queued": _queued(orders, kind, value) if queued is None else queued})
 
@@ -74,6 +76,7 @@ def menu(runner) -> list:
         picks = dfn.get("picks") or {}
         ok, why = dfn["legal"], dfn["reason"]
         item("pitch", "pre_pitch_defense", "none", "Pitch", ok, why, default=True)
+        item("pitch_around", "pre_pitch_defense", "intentional_ball", "Pitch around", ok, why)
         item("ibb", "pre_pitch_defense", "ibb", "Intentional walk", ok, why)
         runner_on = any(b is not None for b in st.bases)
         item("pitchout", "pre_pitch_defense", "pitchout", "Pitchout", ok and runner_on, why or "no runner on")
@@ -91,19 +94,19 @@ def menu(runner) -> list:
                 note = TEXT_9_4_B
             elif m["free"].get(user, 0) >= limit:
                 note = f"no free trips left ({m['free'].get(user, 0)} of {limit}): a trip removes him"
-        item("mound_visit", "pre_pitch_defense", "mound_visit", "Mound visit" + (f" · {note}" if note and visit_ok else ""), visit_ok, why or note)
+        item("mound_visit", "pre_pitch_defense", "mound_visit", "Mound visit" + (f" · {note}" if note and visit_ok else ""), visit_ok, why or note, group="defense")
         pen = picks.get("bullpen", [])
         if in_pa:
             item("pitching_change", "pre_pitch_defense", {"pitching_change": None}, "Pitching change (now)", ok and bool(pen), why or "no pitcher left",
-                 pick={"what": "bullpen", "options": pen}, queued=_queued(orders, "pre_pitch_defense", {"pitching_change": None}))
+                 pick={"what": "bullpen", "options": pen}, queued=_queued(orders, "pre_pitch_defense", {"pitching_change": None}), group="defense")
             bench = picks.get("bench", [])
             item("defensive_change", "pre_pitch_defense", {"defensive_sub": None}, "Defensive change (now)", ok and bool(bench), why or "no bench player left",
-                 pick={"what": "sub", "options": bench}, queued=_queued(orders, "pre_pitch_defense", {"defensive_sub": None}))
+                 pick={"what": "sub", "options": bench}, queued=_queued(orders, "pre_pitch_defense", {"defensive_sub": None}), group="defense")
         else:
             pc = turn_actions["pitching_change"]
             item("pitching_change", "pitching_change", {"yes": True, "reliever": None}, "Pitching change", pc["legal"], pc["reason"],
-                 pick={"what": "bullpen", "options": pc["options"]}, queued=_queued(orders, "pitching_change"))
+                 pick={"what": "bullpen", "options": pc["options"]}, queued=_queued(orders, "pitching_change"), group="defense")
             ds = turn_actions["defensive_subs"]
             item("defensive_change", "defensive_subs", None, "Defensive change", ds["legal"], ds["reason"],
-                 pick={"what": "sub", "options": ds["options"]}, queued=_queued(orders, "defensive_subs"))
+                 pick={"what": "sub", "options": ds["options"]}, queued=_queued(orders, "defensive_subs"), group="defense")
     return out
