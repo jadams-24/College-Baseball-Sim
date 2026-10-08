@@ -26,7 +26,7 @@ Output (default data/ncaa_2025/roster_aggregates/; tables and rules in data/READ
     linkage.csv                  roster-to-play-by-play name match rates, by side and tier
     pitcher_throws_by_role.csv   throws x role (starter / reliever / unmatched), by scope
     batter_bats_matched.csv      bats of roster batters matched to the play-by-play, with PA
-    platoon_league.csv           PA outcome counts by batter side x pitcher throws, by tier
+    platoon_league.csv           PA outcome counts by batter side x pitcher throws, by tier and by the batting or pitching conference
     platoon_spread.csv           individual platoon-split spread (method of moments), no individual rows
     hometown_by_school.csv       hometown state / province / country and Census region by school
     hometown_by_conference.csv   conference x Census division
@@ -820,7 +820,7 @@ def pitcher_role_table(pa, R, pit_map, stats) -> tuple[pd.DataFrame, pd.DataFram
     return df, bdf
 
 
-def hands_on_pa(pa, R, bat_map, pit_map, tier_of) -> pd.DataFrame:
+def hands_on_pa(pa, R, bat_map, pit_map, tier_of, conf_of=None) -> pd.DataFrame:
     bats = R.set_index("pid").bats_n
     throws = R.set_index("pid").throws_n
     bkey = [bat_map[(t, n)] for t, n in zip(pa.bat_team_id, pa.batter)]
@@ -835,15 +835,23 @@ def hands_on_pa(pa, R, bat_map, pit_map, tier_of) -> pd.DataFrame:
                          np.where((h.bats == "S") & h.throws.isin(["L", "R"]), h.throws.map(opp).fillna("unknown"), "unknown"))
     h["bat_tier"] = h.bat_team_id.map(tier_of).fillna("non_d1")
     h["pit_tier"] = h.pit_team_id.map(tier_of).fillna("non_d1")
+    if conf_of is not None:   # owner 2026-10-08: conference scopes, the clustering unit for intervals on the plate-appearance mix
+        h["bat_conference"] = h.bat_team_id.map(conf_of).fillna("non_d1")
+        h["pit_conference"] = h.pit_team_id.map(conf_of).fillna("non_d1")
     h["known"] = h.bats.isin(["L", "R", "S"]) & h.throws.isin(["L", "R"])
     return h
 
 
 def platoon_league_table(h: pd.DataFrame) -> pd.DataFrame:
+    """PA outcome counts by batter side (side used, or listed bats) x pitcher throws, plate appearances with both hands
+    known; scopes all, bat_tier, pit_tier and (when the conference columns exist) bat_conference and pit_conference, the
+    conference of the batting or the pitching team: the clustering unit for intervals on the plate-appearance mix (a
+    player's plate appearances share his hand; owner decision 2026-10-08)."""
     k = h[h.known]
     cats = list(RESULTS) + sorted(set(k.res) - set(RESULTS))
     out = []
-    for sc, val, g in scopes(k, ("bat_tier", "pit_tier")):
+    cols = ("bat_tier", "pit_tier") + tuple(c for c in ("bat_conference", "pit_conference") if c in k.columns)
+    for sc, val, g in scopes(k, cols):
         for basis, col in (("side_used", "side"), ("listed", "bats")):
             c = pd.crosstab([g[col], g.throws], g.res).reindex(columns=cats, fill_value=0)
             c.insert(0, "pa", c.sum(axis=1))
@@ -1376,7 +1384,8 @@ def aggregate(fetch_dir: Path, out_dir: Path, pa: pd.DataFrame | None = None, qu
     bat_map, pit_map = link(pa, R, parsed)
     linkage, stats = linkage_table(pa, R, bat_map, pit_map, tier_of)
     roles, batters = pitcher_role_table(pa, R, pit_map, stats)
-    h = hands_on_pa(pa, R, bat_map, pit_map, tier_of)
+    conf_of = dict(zip(pd.read_csv(TEAMS).ncaa_team_id, pd.read_csv(TEAMS).conference))
+    h = hands_on_pa(pa, R, bat_map, pit_map, tier_of, conf_of)
     extra = fetch_dates(state) + [("all", "all", "pbp_pa_total", len(h)), ("all", "all", "pbp_pa_both_hands_known", int(h.known.sum())),
              ("all", "all", "pbp_pa_both_hands_share", round(float(h.known.mean()), 4))]
     for t, g in h.groupby("bat_tier"):

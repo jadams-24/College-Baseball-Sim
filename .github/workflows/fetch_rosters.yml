@@ -11,8 +11,16 @@ name: fetch rosters
 # this job only: it is never committed, never uploaded as an artifact and never cached.
 # tools/aggregate_rosters.py turns it into count and share tables (it fails if a roster name
 # reaches any output), and only data/ncaa_2025/roster_aggregates/ (with failures.csv: team and
-# reason, no player data) is committed, to the branch the workflow was run on. No pull request is
-# opened.
+# reason, no player data) is committed.
+#
+# Owner decision 2026-10-08: the aggregates go to their own branch (roster-aggregates/run-<run id>,
+# from the branch the workflow was run on) and a pull request into that branch is opened, so no pull
+# request's head is ever a commit CI did not run on. Pushes and pull requests made with the default
+# GITHUB_TOKEN do not start workflows; with a ROSTER_PR_TOKEN secret (a token with contents and pull
+# request write access) the pull request is opened with it and CI runs on it. Without the secret CI
+# runs when the data pull request is merged into the base branch (a push by a person). GitHub Actions
+# must be allowed to create pull requests (repository settings) when the secret is absent; if it is
+# not, the branch is still pushed and the job summary links the comparison to open one by hand.
 
 on:
   workflow_dispatch:
@@ -24,6 +32,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   fetch:
@@ -108,31 +117,41 @@ jobs:
               print(f"| {m} | " + " | ".join(str(v) for v in row) + " |")
           EOF
 
-      - name: Commit the aggregates to the branch the workflow was run on (no pull request)
+      - name: Commit the aggregates to their own branch and open a pull request into the run's branch
         if: always() && steps.aggregate.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ secrets.ROSTER_PR_TOKEN || github.token }}
+          PUSH_TOKEN: ${{ secrets.ROSTER_PR_TOKEN }}
         run: |
           set -euo pipefail
-          branch="${GITHUB_REF_NAME}"
+          base="${GITHUB_REF_NAME}"
+          head="roster-aggregates/run-${{ github.run_id }}"
           stage="$RUNNER_TEMP/stage"
           rm -rf "$stage" && mkdir -p "$stage"
           cp -r "$AGG" "$stage/roster_aggregates"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          for attempt in 1 2 3 4; do
-            git reset --hard -q
-            git clean -fdq
-            git fetch --no-tags origin "+refs/heads/$branch:refs/remotes/origin/$branch"
-            git checkout -q -B "$branch" "origin/$branch"
-            rm -rf "$AGG" && mkdir -p "$(dirname "$AGG")"
-            cp -r "$stage/roster_aggregates" "$AGG"
-            git add -- "$AGG"
-            git diff --cached --quiet && { echo "no change"; exit 0; }
-            git commit -q -m "Roster aggregates 2025: fetch of $(date -u +%Y-%m-%d) by the fetch rosters workflow (run ${{ github.run_id }}); counts and shares only, no player rows or names (owner decision 2026-10-07)"
-            if git push origin "HEAD:$branch"; then
-              git log -1 --stat --format="%H %s"
-              echo "Committed the aggregates to \`$branch\`: ${{ github.server_url }}/${{ github.repository }}/tree/$branch/$AGG" >> "$GITHUB_STEP_SUMMARY"
-              exit 0
-            fi
-            sleep $((attempt * 15))
-          done
-          exit 1
+          if [ -n "$PUSH_TOKEN" ]; then
+            # pushes with the secret start CI on the data branch (pushes with GITHUB_TOKEN do not)
+            git remote set-url origin "https://x-access-token:${PUSH_TOKEN}@github.com/${{ github.repository }}.git"
+          fi
+          git reset --hard -q
+          git clean -fdq
+          git fetch --no-tags origin "+refs/heads/$base:refs/remotes/origin/$base"
+          git checkout -q -B "$head" "origin/$base"
+          rm -rf "$AGG" && mkdir -p "$(dirname "$AGG")"
+          cp -r "$stage/roster_aggregates" "$AGG"
+          git add -- "$AGG"
+          git diff --cached --quiet && { echo "no change"; exit 0; }
+          git commit -q -m "Roster aggregates 2025: fetch of $(date -u +%Y-%m-%d) by the fetch rosters workflow (run ${{ github.run_id }}); counts and shares only, no player rows or names (owner decision 2026-10-07)"
+          git push origin "HEAD:refs/heads/$head"
+          git log -1 --stat --format="%H %s"
+          body="Roster aggregates from the fetch rosters workflow, run ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}: counts and shares only, no player rows or names (owner decision 2026-10-07). Only data/ncaa_2025/roster_aggregates/ changes."
+          if [ -z "$PUSH_TOKEN" ]; then
+            body="$body CI does not run on this pull request (it was opened with the default workflow token); it runs on $base when this is merged."
+          fi
+          if url=$(gh pr create --base "$base" --head "$head" --title "Roster aggregates 2025 (fetch rosters run ${{ github.run_id }})" --body "$body"); then
+            echo "Opened $url (aggregates on \`$head\`, into \`$base\`)" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "Pushed \`$head\`; the pull request could not be opened from the workflow (allow GitHub Actions to create pull requests, or add ROSTER_PR_TOKEN). Open it: ${{ github.server_url }}/${{ github.repository }}/compare/$base...$head" >> "$GITHUB_STEP_SUMMARY"
+          fi

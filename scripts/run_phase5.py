@@ -9,7 +9,6 @@ from __future__ import annotations
 import argparse
 import json
 import pickle
-import subprocess
 import sys
 import time
 from concurrent.futures import ProcessPoolExecutor, as_completed
@@ -42,40 +41,43 @@ def one(seed: int) -> tuple:
     return season_metrics(res), season_extract4(res), season_extract5(res), season_extract6(res), season_extract7(res), season_extract3(res)
 
 
-def _code_id() -> str | None:
-    """The commit the simulation code comes from, or None when the code is not exactly a commit (uncommitted changes
-    to anything the seasons read: engine, config, scripts, data, benchmarks)."""
-    try:
-        head = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True, text=True, check=True).stdout.strip()
-        dirty = subprocess.run(["git", "status", "--porcelain", "--", "engine", "config", "scripts", "data", "benchmarks.json"],
-                               cwd=ROOT, capture_output=True, text=True, check=True).stdout.strip()
-    except (OSError, subprocess.CalledProcessError):
-        return None
-    return None if dirty else head
+# What the seasons read (owner decision 2026-10-08: checkpoints keyed on the code and inputs, not the git commit, so a
+# docs-only commit keeps finished seasons): the engine and config, the scripts the run and its extracts import, the
+# derived inputs and other data files the engine loads, and benchmarks.json (the Phase 3 extract reads its split weights).
+# Files only the report builders read (roster aggregates) stay out: reports are rebuilt from the saved aggregates.
+CODE_GLOBS = ("engine/*.py", "config/*.py", "scripts/*.py", "scripts/lib/*.py", "benchmarks.json", "data/ncaa_2025/derived/*",
+              "data/conf_tournaments/*", "data/ncaa_2025/pbp/teams_2025.csv")
+
+
+def _code_id() -> str:
+    """SHA-256 over the paths and contents of every file the seasons read (CODE_GLOBS), first 16 hex digits. Any change to
+    them changes the key, so a run never resumes from seasons of other code; documentation and reports do not enter."""
+    import hashlib
+    h = hashlib.sha256()
+    for f in sorted({p for g in CODE_GLOBS for p in ROOT.glob(g) if p.is_file()}):
+        h.update(str(f.relative_to(ROOT)).encode() + b"\0" + f.read_bytes() + b"\0")
+    return h.hexdigest()[:16]
 
 
 def run(seasons: int, seed: int, workers: int, checkpoint: bool = False) -> tuple:
     """Simulate the seasons. checkpoint (the command line's default): each finished season is saved under
-    runs/<commit>/ and a restart skips the seeds already there. Only when the code is exactly a commit; a run on
-    another commit, or on uncommitted code, never reads another run's seasons."""
+    runs/<code key>/ (_code_id: a hash of everything the seasons read) and a restart skips the seeds already there. A run
+    on other code or inputs has another key and never reads those seasons."""
     seeds = [seed + i for i in range(seasons)]
     done, cdir = {}, None
     if checkpoint:
         code = _code_id()
-        if code is None:
-            print("checkpoints off: uncommitted changes to the simulation code (commit them to make the run resumable)", flush=True)
-        else:
-            cdir = ROOT / "runs" / code
-            cdir.mkdir(parents=True, exist_ok=True)
-            others = [d.name for d in (ROOT / "runs").iterdir() if d.is_dir() and d.name != code]
-            if others:
-                print(f"not resuming from runs of other commits ({', '.join(o[:8] for o in others)}): the code changed", flush=True)
-            for sd in seeds:
-                f = cdir / f"season_{sd}.pkl"
-                if f.exists():
-                    done[sd] = pickle.loads(f.read_bytes())
-            if done:
-                print(f"resuming on {code[:8]}: {len(done)} of {len(seeds)} seasons already done", flush=True)
+        cdir = ROOT / "runs" / code
+        cdir.mkdir(parents=True, exist_ok=True)
+        others = [d.name for d in (ROOT / "runs").iterdir() if d.is_dir() and d.name != code]
+        if others:
+            print(f"not resuming from runs of other code ({', '.join(o[:8] for o in others)}): engine, config or inputs changed", flush=True)
+        for sd in seeds:
+            f = cdir / f"season_{sd}.pkl"
+            if f.exists():
+                done[sd] = pickle.loads(f.read_bytes())
+        if done:
+            print(f"resuming on code {code[:8]}: {len(done)} of {len(seeds)} seasons already done", flush=True)
     todo = [sd for sd in seeds if sd not in done]
     with ProcessPoolExecutor(max_workers=workers) as ex:
         futs = {ex.submit(one, sd): sd for sd in todo}
@@ -130,7 +132,7 @@ def main() -> None:
     ap.add_argument("--seasons", type=int, default=REPORT_SEASONS)
     ap.add_argument("--seed", type=int, default=REPORT_SEED)
     ap.add_argument("--workers", type=int, default=4)
-    ap.add_argument("--no-resume", action="store_true", help="do not save or reuse finished seasons (runs/<commit>/)")
+    ap.add_argument("--no-resume", action="store_true", help="do not save or reuse finished seasons (runs/<code key>/)")
     ap.add_argument("--from-reports", action="store_true",
                     help="rebuild every report from the aggregates saved in reports/*.json (no simulation): a change to a "
                          "report's rows or gating, on the committed run")
