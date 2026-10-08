@@ -5,7 +5,15 @@ Workstream: a browser-playable single game on top of the engine as it stands aft
 and `benchmarks.json` are not touched. Everything new lives in `app/` (connector layer, web API, static frontend),
 `tests/test_app_api.py` and the deploy files. The connector layer is designed to carry into Phase 12.
 
-Nothing below is built yet.
+Approved 2026-10-08 with these changes (owner): Render's Free plan serves both the API and the frontend (Vercel for the
+frontend is a possible later move, noted in `app/README.md`); the decision flow is non-blocking by default, every kind on AI
+autopilot, the legal decision buttons shown before every pitch, orders queued and the AI handling anything not queued,
+"ask me" per kind as a setting, AI moves for the user's team marked in the feed; the AI's pull probability is not shown
+(pitch count and the outing's line are, plus an "Ask bench coach" button); pinch runners are position players only;
+per-pitch and per-step latency measured for a 0.1 CPU / 512 MB host before building further (`reports/app_latency.md`);
+CLAUDE.md notes that snapshot-and-replay is a prototype workaround and that the final engine should pause natively at
+decision points. Built on branch `ui-prototype`; what was built is described in `app/README.md`.
+
 
 ## 1. What the engine offers today, and the one problem to solve
 

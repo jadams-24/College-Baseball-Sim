@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>College Baseball Sim</title>
+<meta name="description" content="Play one game of the college baseball simulation engine, pitch by pitch, managing either team.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">College Baseball Sim <span class="tag">prototype</span></div>
+  <nav id="topnav" class="hidden">
+    <button class="link" data-go="game">Game</button>
+    <button class="link" data-go="box">Box score</button>
+    <button class="link" data-go="picker">New game</button>
+  </nav>
+</header>
+
+<main>
+  <!-- team picker -->
+  <section id="picker" class="screen">
+    <h1>Pick a matchup</h1>
+    <div class="grid2">
+      <label>Home team
+        <input id="home-search" class="search" placeholder="search by name, conference or tier" autocomplete="off">
+        <select id="home" size="8"></select>
+      </label>
+      <label>Away team
+        <input id="away-search" class="search" placeholder="search by name, conference or tier" autocomplete="off">
+        <select id="away" size="8"></select>
+      </label>
+    </div>
+    <div class="row wrap">
+      <label class="inline"><input type="radio" name="side" value="home" checked> I manage the home team</label>
+      <label class="inline"><input type="radio" name="side" value="away"> I manage the away team</label>
+    </div>
+    <div class="row wrap">
+      <label class="inline">Seed <input id="seed" type="number" placeholder="random" class="short"></label>
+      <button id="random-matchup" class="secondary">Random matchup</button>
+      <button id="start" class="primary">Play ball</button>
+    </div>
+    <div id="picker-rosters" class="grid2 rosters"></div>
+    <h2>Saved games</h2>
+    <div id="saves" class="saves"></div>
+    <div class="row wrap">
+      <label class="inline">Load a save file <input id="load-file" type="file" accept=".cbs,.txt,application/octet-stream"></label>
+    </div>
+    <p class="muted small">The browser keeps the latest save of your game. If the server has been asleep (the free host naps after 15 idle minutes), the game resumes from that save automatically.</p>
+  </section>
+
+  <!-- pregame -->
+  <section id="pregame" class="screen hidden">
+    <h1>Pregame</h1>
+    <p class="muted" id="pregame-title"></p>
+    <div class="grid2">
+      <div>
+        <h2>Starting lineup <span class="muted small">(AI suggestion; move or swap)</span></h2>
+        <ol id="lineup-editor" class="lineup-editor"></ol>
+        <div class="row wrap"><button id="lineup-reset" class="secondary">Back to the AI's lineup</button></div>
+      </div>
+      <div>
+        <h2>Starting pitcher</h2>
+        <div id="sp-editor" class="list"></div>
+      </div>
+    </div>
+    <div class="row wrap">
+      <button id="pregame-play" class="primary">Play ball</button>
+      <button id="pregame-ai" class="secondary">Let the AI set everything</button>
+    </div>
+  </section>
+
+  <!-- the game -->
+  <section id="game" class="screen hidden">
+    <div class="game-grid">
+      <div class="col-main">
+        <div class="scoreboard card">
+          <table id="linescore"></table>
+          <div id="situation" class="situation"></div>
+        </div>
+        <div class="matchup">
+          <div id="batter-card" class="card player"></div>
+          <div id="pitcher-card" class="card player"></div>
+        </div>
+        <div id="question" class="card question hidden"></div>
+        <div class="card decisions">
+          <div class="row between">
+            <h2>Your calls <span id="decisions-hint" class="muted small"></span></h2>
+            <div class="row">
+              <button id="coach" class="secondary small">Ask bench coach</button>
+              <button id="settings" class="secondary small" title="Which decisions to be asked about">⚙</button>
+            </div>
+          </div>
+          <div id="actions" class="actions"></div>
+          <div id="orders" class="orders"></div>
+          <div id="coach-out" class="coach hidden"></div>
+          <div id="settings-panel" class="settings hidden"></div>
+        </div>
+        <div id="sheet" class="card sheet hidden"></div>
+        <div class="card tools row wrap">
+          <button id="save" class="secondary small">Save</button>
+          <button id="download" class="secondary small">Download save</button>
+          <button class="secondary small" data-go="box">Box score</button>
+          <span id="status" class="muted small"></span>
+        </div>
+      </div>
+      <div class="col-feed">
+        <div class="card feed-card">
+          <h2>Play by play</h2>
+          <div id="feed" class="feed"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- box score -->
+  <section id="box" class="screen hidden">
+    <h1 id="box-title">Box score</h1>
+    <div id="box-body"></div>
+    <div class="row wrap">
+      <button class="secondary" data-go="game">Back to the game</button>
+      <button class="secondary" data-go="picker">New game</button>
+    </div>
+  </section>
+</main>
+
+<div id="simbar" class="simbar hidden">
+  <button data-sim="pitch" class="sim">Next pitch</button>
+  <button data-sim="pa" class="sim">At-bat</button>
+  <button data-sim="half" class="sim">½ inn</button>
+  <button data-sim="inning" class="sim">Inning</button>
+  <button data-sim="three_innings" class="sim">3 inn</button>
+  <button data-sim="game" class="sim">End</button>
+</div>
+<div id="toast" class="toast hidden"></div>
+<script src="/static/app.js"></script>
+</body>
+</html>
