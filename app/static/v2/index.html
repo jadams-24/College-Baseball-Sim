@@ -3,13 +3,50 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Manager Screen</title>
-<meta name="description" content="College Baseball Sim manager screen, v2: scoreboard, matchup, field, action menu, lineup and play-by-play.">
+<title>College Baseball Sim</title>
+<meta name="description" content="Manage one game of the college baseball simulation engine pitch by pitch: scoreboard, matchup, field, calls, lineup and play-by-play.">
 <link rel="icon" href="data:,">
 <link rel="stylesheet" href="/static/v2/v2.css">
 </head>
 <body>
 <div id="app" class="app">
+  <header class="topbar">
+    <div class="brand">College Baseball Sim <span class="tag">prototype</span></div>
+    <nav id="topnav" class="hidden">
+      <button class="btn-ghost" id="nav-save">Save</button>
+      <button class="btn-ghost" id="nav-new">New game</button>
+    </nav>
+  </header>
+
+  <!-- the lobby: matchup, side, seed, saved games -->
+  <section id="lobby" class="lobby">
+    <h1>Pick a matchup</h1>
+    <div class="lobby-grid">
+      <label>Away team
+        <input id="away-search" class="search" placeholder="search by name, conference or tier" autocomplete="off">
+        <select id="away" size="8"></select>
+      </label>
+      <label>Home team
+        <input id="home-search" class="search" placeholder="search by name, conference or tier" autocomplete="off">
+        <select id="home" size="8"></select>
+      </label>
+    </div>
+    <div class="row">
+      <label class="inline"><input type="radio" name="side" value="home" checked> I manage the home team</label>
+      <label class="inline"><input type="radio" name="side" value="away"> I manage the away team</label>
+    </div>
+    <div class="row">
+      <label class="inline">Seed <input id="seed" type="number" placeholder="random" class="short"></label>
+      <button id="random-matchup" class="btn-ghost">Random matchup</button>
+      <button id="start" class="go">Play ball</button>
+    </div>
+    <h2>Saved games</h2>
+    <div id="saves" class="saves"></div>
+    <div class="row"><label class="inline">Load a save file <input id="load-file" type="file" accept=".cbs,.txt,application/octet-stream"></label></div>
+    <p class="muted">The browser keeps the latest save of your game. If the server has been asleep (the free host naps after 15 idle minutes), the game resumes from that save.</p>
+  </section>
+
+  <div id="game" class="game hidden">
   <!-- 1. scoreboard bar -->
   <header class="scorebar">
     <div class="sb-line">
@@ -45,13 +82,14 @@
     <button id="drawer-toggle" class="drawer-handle" aria-expanded="false"><span id="drawer-title">Play by play</span><span class="chev">▴</span></button>
     <div id="feed-body" class="drawer-body"></div>
   </section>
+  </div>
 
   <!-- 7. callout -->
   <div id="callout" class="callout hidden" role="status"></div>
   <div id="legend" class="legend hidden"></div>
   <div id="tip" class="tip hidden"></div>
+  <div id="toast" class="toast hidden"></div>
 </div>
-<script src="/static/v2/mock_data.js"></script>
 <script src="/static/v2/v2.js"></script>
 </body>
 </html>

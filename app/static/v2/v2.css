@@ -199,3 +199,33 @@ button:disabled { opacity: .45; cursor: not-allowed; }
   .legend { left: 10px; right: 10px; bottom: 80px; max-width: none; }
   .callout .big { font-size: 32px; }
 }
+
+/* ---- top bar, lobby, saves, toast (the wiring, 2026-10-08) ---- */
+.topbar { display: flex; justify-content: space-between; align-items: center; padding: 2px 0; }
+.topbar .brand { font-weight: 800; letter-spacing: .02em; }
+.topbar .tag { font-size: 11px; color: var(--muted); letter-spacing: .12em; text-transform: uppercase; margin-left: 6px; }
+.topbar nav { display: flex; gap: 6px; }
+.game { display: flex; flex-direction: column; gap: var(--gap); }
+.lobby { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 18px; max-width: 980px; }
+.lobby h1 { margin: 0 0 10px; font-size: 22px; }
+.lobby h2 { margin: 18px 0 6px; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.lobby-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
+.lobby label { display: block; font-size: 13px; color: var(--ink2); }
+.lobby label.inline { display: inline-flex; align-items: center; gap: 6px; }
+.lobby .search, .lobby select, .lobby input[type=number] { width: 100%; margin-top: 4px; background: var(--panel2); color: var(--ink); border: 1px solid var(--line2); border-radius: 8px; padding: 6px 8px; font: inherit; }
+.lobby select { height: 200px; }
+.lobby input.short { width: 7em; }
+.row { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; margin: 10px 0; }
+.go { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 800; }
+.muted { color: var(--muted); font-size: 13px; }
+.saves { display: flex; flex-direction: column; gap: 6px; }
+.save { display: flex; justify-content: space-between; align-items: center; gap: 10px; background: var(--panel2); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; font-size: 14px; }
+.toast { position: fixed; left: 50%; bottom: 100px; transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 10px 16px; border-radius: 10px; font-size: 14px; z-index: 30; max-width: 90vw; box-shadow: 0 8px 30px rgba(0,0,0,.4); }
+.question { background: var(--panel2); border: 1px solid var(--accent); border-radius: 10px; padding: 8px 10px; margin-bottom: 8px; font-size: 14px; }
+.question .why { color: var(--ink2); font-size: 12px; margin: 4px 0 8px; }
+body.busy .sims button { opacity: .6; }
+@media (max-width: 760px) {
+  .lobby-grid { grid-template-columns: 1fr; }
+  .lobby select { height: 150px; }
+  .phone-tabs.hidden { display: none !important; }
+}

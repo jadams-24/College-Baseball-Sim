@@ -13,7 +13,7 @@
     GET  /api/games/{id}/box         box score and the whole feed
     GET  /api/games/{id}/save        {save: base64} (signed; the browser keeps it)
     POST /api/games/load             {save} -> a game id and its turn
-    GET  /                           the frontend (app/static)
+    GET  /                           the frontend (app/static/v2; the first page at /static/index.html)
 
 A turn carries the state (app.timeline.state_json), the feed entries since the client's cursor, the pending
 question or boundary, the queued orders, the modes and the decision buttons. Saves are pickles signed with
@@ -279,4 +279,4 @@ if STATIC.exists():
 
     @app.get("/")
     def index():
-        return FileResponse(str(STATIC / "index.html"))
+        return FileResponse(str(STATIC / "v2" / "index.html"))      # the manager screen (v2); v1 stays at /static/index.html

@@ -1,12 +1,14 @@
-/* Manager screen v2 (mockup stage): every panel renders from a `turn` object of the API's shape
-   ({state, actions, orders, phase, user_side, events}). In the mockup the turn comes from window.MOCK
-   (?mode=batting|pitching, ?callout=TEXT, ?theme=light); wiring replaces `load()` with API calls. */
+/* Manager screen v2 (2026-10-08): every panel renders from the turn the API returns ({state, actions, orders,
+   phase, user_side, events}). The page never computes an outcome: it shows the engine's state and sends sim
+   targets, orders and answers. The latest save is mirrored to localStorage after every turn; when the server has
+   forgotten the game (a restart, the free host's nap) the page reloads it from that save. */
 (() => {
   "use strict";
   const $ = (s) => document.querySelector(s);
   const $$ = (s) => Array.from(document.querySelectorAll(s));
   const q = new URLSearchParams(location.search);
   if (q.get("theme") === "light") document.documentElement.dataset.theme = "light";
+  const LS_LATEST = "cbs.latest", LS_SAVES = "cbs.saves";
 
   const RATING = { contact: ["Con", "Contact"], gap: ["Gap", "Gap power (doubles, triples)"], power: ["Pow", "Power (home runs)"], eye: ["Eye", "Eye (walks)"],
                    avoid_k: ["AvK", "Avoid K (strikeouts)"], speed: ["Spd", "Speed (steals, extra bases)"], glove: ["Glv", "Glove (errors at his position)"],
@@ -17,6 +19,71 @@
   const RES = { "1B": ["1B", "hit"], "2B": ["2B", "hit"], "3B": ["3B", "hit"], "HR": ["HR", "hr"], "BB": ["BB", "walk"], "HBP": ["HBP", "walk"], "K": ["K", "k"],
                 "ROE": ["E", "walk"], "IP_OUT": ["OUT", "out"], "SF": ["SF", "out"], "SH": ["SAC", "out"], "FC": ["FC", "out"], "BUNT": ["BNT", "out"] };
 
+  const S = { league: null, decisions: null, game: null, events: [], busy: false };
+
+  // ---- storage ----
+  const ls = {
+    get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
+    set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* private mode: fine */ } },
+  };
+
+  // ---- API ----
+  async function raw(path, method = "GET", body) {
+    const r = await fetch(path, { method, headers: body ? { "Content-Type": "application/json" } : {}, body: body ? JSON.stringify(body) : undefined });
+    if (!r.ok) {
+      let msg = r.statusText;
+      try { msg = (await r.json()).detail || msg; } catch (e) { /* keep */ }
+      const err = new Error(msg); err.status = r.status; throw err;
+    }
+    return r.json();
+  }
+  async function gameCall(path, method, body) {
+    // a game endpoint; on 404 the server forgot the game: reload the latest save and retry once
+    try { return await raw(`/api/games/${S.game.id}${path}`, method, body); }
+    catch (e) {
+      if (e.status !== 404 || !S.game.save) throw e;
+      toast("The server had forgotten the game; resuming from your save.");
+      const t = await raw("/api/games/load", "POST", { save: S.game.save });
+      S.game.id = t.game_id; applyTurn(t, true);
+      return raw(`/api/games/${S.game.id}${path}`, method, body);
+    }
+  }
+  async function busy(fn) {
+    if (S.busy) return;
+    S.busy = true; document.body.classList.add("busy");
+    try { return await fn(); }
+    catch (e) { console.error(e); toast(e.message || String(e)); }
+    finally { S.busy = false; document.body.classList.remove("busy"); if (S.game) render(S.game.turn); }
+  }
+  function toast(msg) {
+    const t = $("#toast"); t.textContent = msg; t.classList.remove("hidden");
+    clearTimeout(t._h); t._h = setTimeout(() => t.classList.add("hidden"), 3500);
+  }
+
+  // ---- turns ----
+  function applyTurn(t, replaceEvents = false) {
+    S.game.turn = t; S.game.meta = t.meta;
+    if (t.error) toast("The engine refused that call: " + t.error);
+    S.events = replaceEvents ? t.events.slice() : S.events.concat(t.events);
+    mirrorSave();
+  }
+  let saveTimer = null;
+  function mirrorSave() {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(async () => {
+      try {
+        const sv = await raw(`/api/games/${S.game.id}/save`);
+        S.game.save = sv.save;
+        ls.set(LS_LATEST, { save: sv.save, meta: sv.meta, phase: sv.phase, title: gameTitle(), time: Date.now() });
+      } catch (e) { /* the next turn tries again */ }
+    }, 150);
+  }
+  function gameTitle() {
+    const st = S.game && S.game.turn && S.game.turn.state;
+    if (!st) return "game";
+    return `${st.teams.away.name} at ${st.teams.home.name} — ${st.score.away}-${st.score.home}, ${st.half === "T" ? "top" : "bottom"} ${st.inning}`;
+  }
+
   // ---- team marks: initials in a color from the team's name (original, fictional teams) ----
   function colorOf(name) {
     let h = 0; for (const c of name) h = (h * 31 + c.charCodeAt(0)) >>> 0;
@@ -24,7 +91,7 @@
     return `hsl(${hue} ${sat}% ${light}%)`;
   }
   function initials(name) { return name.split(/\s+/).map((w) => w[0]).join("").slice(0, 3).toUpperCase(); }
-  function mark(team) { return `<span class="mark" style="background:${colorOf(team.name)}" title="${team.name}">${initials(team.name)}</span>`; }
+  function mark(team) { return `<span class="mark" style="background:${colorOf(team.name)}" title="${esc(team.name)}">${initials(team.name)}</span>`; }
   function esc(s) { return String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
 
   // ---- 1. scoreboard bar ----
@@ -32,7 +99,8 @@
     const st = t.state, inns = st.line_score.innings;
     const row = (side) => `<tr class="${st.batting_side === side && !st.over ? "batting" : ""}"><td class="team">${mark(st.teams[side])}${esc(st.teams[side].name)}</td>${st.line_score[side].map((r) => `<td>${r === null ? "" : r}</td>`).join("")}<td class="tot r">${st.score[side]}</td><td class="tot">${st.hits[side]}</td><td class="tot">${st.errors[side]}</td></tr>`;
     $("#linescore").innerHTML = `<tr><th></th>${inns.map((i) => `<th>${i}</th>`).join("")}<th>R</th><th>H</th><th>E</th></tr>${row("away")}${row("home")}`;
-    $("#sb-inning").innerHTML = st.over ? `<div class="half">Final</div><div class="inn">${st.inning > 9 ? st.inning + " inn" : ""}</div>`
+    $("#sb-inning").innerHTML = st.over ? `<div class="half">Final${st.ended_by_run_rule ? " · run rule" : ""}</div><div class="inn">${st.inning !== 9 ? st.inning + " inn" : ""}</div>`
+      : t.phase === "pregame" ? `<div class="half">Pregame</div><div class="inn">${esc(st.teams.away.name)} at ${esc(st.teams.home.name)}</div>`
       : `<div class="half">${st.half === "T" ? "Top" : "Bottom"} of the</div><div class="inn"><span class="arrow">${st.half === "T" ? "▲" : "▼"}</span>${ORD(st.inning)}</div>`;
     const c = st.count || [0, 0];
     const counter = (lbl, n, max, cls) => `<div class="counter ${cls}"><div class="lbl">${lbl}</div><div class="num">${n}</div><div class="dots">${Array.from({ length: max }, (_, i) => `<i class="${i < n ? "on" : ""}"></i>`).join("")}</div></div>`;
@@ -138,11 +206,23 @@
     const items = menuItems(t);
     const st = t.state;
     const side = st.batting_side === t.user_side ? "You bat" : "You pitch";
-    $("#actions").innerHTML = `<h2>Calls <span class="sub">${side} · ${st.over ? "final" : st.count ? "before the next pitch" : "before the at-bat"}</span></h2>
-      <div class="menu">${items.map((i) => `<button data-k="${i.k}" class="${i.dflt ? "default" : ""} ${i.queued ? "queued" : ""}" ${i.on ? "" : "disabled"}><span>${i.label}</span>${i.why ? `<span class="why">${esc(i.why)}</span>` : i.dflt ? `<span class="key">default</span>` : ""}</button>`).join("")}
+    const when = st.over ? "final" : t.phase === "pregame" ? "pregame" : st.count ? "before the next pitch" : "before the at-bat";
+    let question = "";
+    if (t.phase === "question") {
+      const p = t.pending;
+      question = `<div class="question"><b>Your call: ${esc(p.label)}</b><div class="why">The engine is waiting for this decision (you asked to be asked).</div>
+        <button data-q-auto="${p.kind}">Let the AI decide this one</button></div>`;
+    }
+    const sims = t.phase === "pregame"
+      ? `<button class="go" data-sim="pitch">Play ball</button>`
+      : `<button class="go" data-sim="pitch">Next pitch</button><button data-sim="pa">At-bat</button><button data-sim="half">Half inning</button><button data-sim="inning">Inning</button><button data-sim="three_innings">3 innings</button><button data-sim="game">End of game</button>`;
+    const off = st.over || t.phase === "question" || S.busy;
+    $("#actions").innerHTML = `<h2>Calls <span class="sub">${side} · ${when}</span></h2>${question}
+      <div class="menu">${items.map((i) => `<button data-k="${i.k}" class="${i.dflt ? "default" : ""} ${i.queued ? "queued" : ""}" disabled title="calls go live in the next step"><span>${i.label}</span>${i.why ? `<span class="why">${esc(i.why)}</span>` : i.dflt ? `<span class="key">default</span>` : ""}</button>`).join("")}
       <div class="group">Sim</div>
-      <div class="sims"><button class="go" data-sim="pitch">Next pitch</button><button data-sim="pa">At-bat</button><button data-sim="half">Half inning</button><button data-sim="inning">Inning</button><button data-sim="three_innings">3 innings</button><button data-sim="game">End of game</button></div>
-      <div class="coach"><button class="btn-ghost" id="coach">Ask bench coach</button> <button class="btn-ghost" id="legend-btn">Rating legend</button></div></div>`;
+      <div class="sims">${sims}</div>
+      <div class="coach"><button class="btn-ghost" id="legend-btn">Rating legend</button></div></div>`;
+    $$("#actions [data-sim]").forEach((b) => (b.disabled = off));
     $("#legend-btn").addEventListener("click", () => $("#legend").classList.toggle("hidden"));
   }
 
@@ -220,17 +300,106 @@
 
   // ---- render a turn ----
   function render(t) {
-    renderScorebar(t); renderBanner(t); renderField(t); renderActions(t); renderLineup(t); renderFeed(t.events || [], t.user_side, t.state.teams); renderLegend();
+    renderScorebar(t); renderBanner(t); renderField(t); renderActions(t); renderLineup(t); renderFeed(S.events, t.user_side, t.state.teams); renderLegend();
   }
-  function load() {
-    const mode = q.get("mode") || "batting";
-    const m = window.MOCK[mode];
-    const t = Object.assign({}, m.turn, { state: m.state, events: m.feed });
-    render(t);
-    if (q.get("tab")) $(`#phone-tabs [data-tab="${q.get("tab")}"]`).click();
-    if (q.get("drawer")) $("#feed").setAttribute("open", "");
-    if (q.get("callout")) callout(q.get("callout"), q.get("sub") || "");
+
+  // ---- sim ----
+  async function sim(target) {
+    const t = S.game.turn;
+    if (t.phase === "question") return toast("Answer the pending question first.");
+    applyTurn(await gameCall("/sim", "POST", { target }));
+  }
+  $("#actions").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-sim]");
+    if (b && !b.disabled) busy(() => sim(b.dataset.sim));
+    const qa = e.target.closest("[data-q-auto]");
+    if (qa) busy(async () => applyTurn(await gameCall("/decide", "POST", { kind: qa.dataset.qAuto, value: "auto" })));
+  });
+  document.addEventListener("keydown", (e) => {
+    if (!S.game || e.target.tagName === "INPUT" || e.target.tagName === "SELECT") return;
+    const map = { " ": "pitch", n: "pitch", a: "pa", h: "half", i: "inning" };
+    if (map[e.key]) { e.preventDefault(); busy(() => sim(map[e.key])); }
+  });
+
+  // ---- lobby ----
+  function show(game) {
+    $("#lobby").classList.toggle("hidden", game);
+    $("#game").classList.toggle("hidden", !game);
+    $("#topnav").classList.toggle("hidden", !game);
+    $("#phone-tabs").classList.toggle("hidden", !game);
+    window.scrollTo(0, 0);
+  }
+  function fillTeams(sel, filter) {
+    const f = (filter || "").toLowerCase(), keep = sel.value;
+    sel.innerHTML = "";
+    const byConf = {};
+    S.league.teams.forEach((t) => { if (!f || `${t.name} ${t.conference} ${t.tier}`.toLowerCase().includes(f)) (byConf[t.conference] = byConf[t.conference] || []).push(t); });
+    Object.keys(byConf).sort().forEach((c) => {
+      const g = document.createElement("optgroup"); g.label = `${c} (${byConf[c][0].tier})`;
+      byConf[c].forEach((t) => { const o = document.createElement("option"); o.value = t.tid; o.textContent = t.name; g.appendChild(o); });
+      sel.appendChild(g);
+    });
+    if (keep) sel.value = keep;
+  }
+  $("#home-search").addEventListener("input", (e) => fillTeams($("#home"), e.target.value));
+  $("#away-search").addEventListener("input", (e) => fillTeams($("#away"), e.target.value));
+  $("#random-matchup").addEventListener("click", () => {
+    const n = S.league.teams.length;
+    let h = Math.floor(Math.random() * n), a = Math.floor(Math.random() * n);
+    if (a === h) a = (a + 1) % n;
+    $("#home-search").value = ""; $("#away-search").value = ""; fillTeams($("#home")); fillTeams($("#away"));
+    $("#home").value = h; $("#away").value = a;
+  });
+  $("#start").addEventListener("click", () => busy(async () => {
+    const home = +$("#home").value, away = +$("#away").value;
+    if (!$("#home").value || !$("#away").value) return toast("Pick both teams.");
+    if (home === away) return toast("Pick two different teams.");
+    const side = $('input[name="side"]:checked').value;
+    const seed = $("#seed").value ? +$("#seed").value : null;
+    const t = await raw("/api/games", "POST", { home, away, user_side: side, seed });
+    S.game = { id: t.game_id, turn: t, meta: t.meta, save: null };
+    applyTurn(t, true);
+    show(true); render(t);
+  }));
+  $("#nav-new").addEventListener("click", () => { show(false); renderSaves(); });
+
+  // ---- saves ----
+  $("#nav-save").addEventListener("click", () => busy(async () => {
+    const sv = await gameCall("/save");
+    const saves = ls.get(LS_SAVES, []);
+    const name = prompt("Name this save", gameTitle()) || gameTitle();
+    saves.unshift({ name, time: Date.now(), save: sv.save, meta: sv.meta });
+    ls.set(LS_SAVES, saves.slice(0, 20));
+    toast("Saved in this browser.");
+  }));
+  async function loadSave(save) {
+    const t = await raw("/api/games/load", "POST", { save });
+    S.game = { id: t.game_id, turn: t, meta: t.meta, save };
+    applyTurn(t, true);
+    show(true); render(t);
+  }
+  function renderSaves() {
+    const latest = ls.get(LS_LATEST, null), saves = ls.get(LS_SAVES, []);
+    const rows = [];
+    if (latest) rows.push(`<div class="save"><span>Latest: ${esc(latest.title || "game")} <span class="muted">${new Date(latest.time).toLocaleString()}</span></span><span><button class="btn-ghost" data-load="latest">Resume</button></span></div>`);
+    saves.forEach((s, i) => rows.push(`<div class="save"><span>${esc(s.name)} <span class="muted">${new Date(s.time).toLocaleString()}</span></span><span><button class="btn-ghost" data-load="${i}">Load</button> <button class="btn-ghost" data-del="${i}">Delete</button></span></div>`));
+    $("#saves").innerHTML = rows.join("") || "<div class='muted'>No saved games in this browser yet.</div>";
+    $$("#saves [data-load]").forEach((b) => b.addEventListener("click", () => busy(async () => loadSave(b.dataset.load === "latest" ? latest.save : saves[+b.dataset.load].save))));
+    $$("#saves [data-del]").forEach((b) => b.addEventListener("click", () => { saves.splice(+b.dataset.del, 1); ls.set(LS_SAVES, saves); renderSaves(); }));
+  }
+  $("#load-file").addEventListener("change", (e) => {
+    const f = e.target.files[0]; if (!f) return;
+    const rd = new FileReader(); rd.onload = () => busy(async () => loadSave(String(rd.result).trim())); rd.readAsText(f);
+  });
+
+  // ---- boot ----
+  async function boot() {
+    try { [S.league, S.decisions] = await Promise.all([raw("/api/league"), raw("/api/decisions")]); }
+    catch (e) { toast("The server is waking up; retrying in a few seconds."); return setTimeout(boot, 4000); }
+    fillTeams($("#home")); fillTeams($("#away"));
+    renderSaves();
+    show(false);
   }
   window.v2 = { render, callout, calloutFor, menuItems };
-  load();
+  boot();
 })();
