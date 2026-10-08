@@ -5,7 +5,7 @@ A short run of the current engine (DRIFT_SEEDS, disjoint from the report's and e
 does, whether each calibrated map still recovers its target:
   strength map   the scoreboard fit (scripts/build_phase2_teams.fit) on each simulated season, fitted o (d) regressed on the
                  drawn rating: fitted = a + b x + c x^2, targets b = 1, c = 0 (scripts/solve_phase2_game_scale.py); also the
-                 tier means of recovered minus drawn, the Phase 6 recovery rows
+                 tier means of recovered minus drawn (both centred over teams), the Phase 6 recovery rows
   home edge      the fitted home log ratio against the scoreboard's (its SE included)
   pitch chain    pitch events by count against the data's (scripts/solve_phase5_chain.py): chi-square over the counts x events
                  with the data's and the simulation's sampling error, and the largest per-cell z
@@ -56,9 +56,10 @@ def season(seed: int) -> dict:
         x = np.array([getattr(lg.teams[t], side) for t in names], float)
         y = np.asarray(f[side], float)
         out[f"b_{side}"], out[f"c_{side}"] = _quad(x, y)
+        xc = x - x.mean()        # the fit's ratings are centred over teams: the drawn ones too (engine/report6.py, recovery rows)
         for tr in ("p4", "mid", "low"):
             k = tier == tr
-            out[f"rec_{side}_{tr}"] = float(y[k].mean() - x[k].mean())
+            out[f"rec_{side}_{tr}"] = float(y[k].mean() - xc[k].mean())
     return out
 
 
@@ -70,6 +71,10 @@ def main() -> None:
     seeds = DRIFT_SEEDS[: a.seasons]
     with ProcessPoolExecutor(a.workers) as ex:
         runs = list(ex.map(season, seeds))
+    summarize(runs, seeds)
+
+
+def summarize(runs: list, seeds: tuple) -> None:
     n = len(runs)
     cfg = phase2.load()
     rows = []
