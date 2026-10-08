@@ -222,7 +222,66 @@ The recruiting screens (board, recruit card, visit weekend, signing day, draft d
 To be filled from the verification pass, with citations and grades.
 
 ### 12.2 Calibration data inventory
-To be filled from the data inventory, with grades.
+
+Checked 2026-10-08; nothing was downloaded in bulk.
+
+**Sites that blocked the check** (stopped at each, no workaround):
+- knightnewhousedata.org: 403
+- mlb.com/draft/tracker: 406
+- cccbca.com: 403
+- thebaseballcube.com: 403
+
+**Not blocks, but worth knowing:**
+- Old ncaa.org `.aspx` links (the 2022 transfer-portal dashboard) now redirect to the home page.
+- The Perfect Game commitments page returned a server error.
+- The EADA and NJCAA pages are JavaScript apps.
+
+| Target | Best source | Contents | Access and terms | Grade |
+|---|---|---|---|---|
+| Proximity | Repo `hometown_by_school.csv`, `hometown_by_conference.csv` | Hometown state (and census region) by school, tier and conference; 233 of 283 teams; 99.3% of hometowns located | Committed, own | A for in-state and region shares; state-level only |
+| | IPEDS directory (HD) / College Scorecard | Latitude and longitude of every institution, joinable by UNITID (also to EADA) | Free, public domain | A (school locations, not yet committed) |
+| | Census state centroids | For school-to-home-state distances (hometowns are state-level) | Free, public domain | B |
+| | Wikipedia, list of NCAA D1 baseball programs | State and conference of 304 programs | Free, CC BY-SA | B |
+| | Repo `pbp/parsed/games_meta_2025.csv` | Venue coordinates for 173 home teams | Committed | C (stadiums, not campuses) |
+| Flow rates | NCAA "Probability of Competing Beyond High School" (March 2026) | Baseball 2024-25: 472,598 HS players, 41,580 NCAA. HS to NCAA 8.8% (D1 2.7%, D2 2.6%, D3 3.5%). 2025 draft: 452 NCAA players drafted (431 D1); 15.3% of draft-eligible D1 players; 40.8% from the four P4 conferences | Free, official | A |
+| | NFHS participation; NCAA sports sponsorship report | HS participants by state; NCAA squad sizes by division | Free | A |
+| | Repo `origins_by_school.csv` | Roster origins by class, school and tier (Section 7) | Committed | A for stocks, not yearly flows |
+| | NCAA transfer research dashboards | DI transfer composition by sport and year | Free; embedded dashboards, no download | B |
+| | 64 Analytics | 2025 baseball portal: 6,255 entrants; 47.4% appeared in 2026 NCAA data | Free article (commercial firm) | C (NCAA landings only) |
+| | D1Baseball transfer tracker | Portal movers | Paywall | D |
+| | NJCAA / CCCBCA releases | "570+ NJCAA alumni" in the 2026 D1 tournament; about 185 Californian JUCO players to D1 a year | JS-rendered / blocked | C/D |
+| Draft signing | Baseball-Reference draft pages | Every pick since 1965: round, signed Y/N, bonus, HS/4Yr/JC | Free to browse; ToS forbids automated access and tools built on scraped data; 20 requests a minute | B if exported by hand, no script |
+| | Fan-compiled 2021–24 summary | HS picks sign about 100% in rounds 1–10, about 80% in 11–14, 50–60% in 15–18, 15–26% in 19–20; four-year college players about 97% | Message board, unsourced | C (to cross-check) |
+| | MLB.com tracker, Baseball America, The Baseball Cube | | Blocked / paywall | D |
+| Commit timing, decommits | NCAA GOALS 2025 instrument | Asks the grade of first contact and of commitment; sport-level answers not published (available on request from research@ncaa.org) | Free | C |
+| | 2017 DI SAAC survey (secondary reports) | Baseball: 23% had verbal offers by sophomore year; 46% of men committed by 10th grade enrolled elsewhere | Free | C (before the 2022 contact rule) |
+| | PBR "Data Dive: New Age Early Recruiting" (Indiana, Dec 2025) | Commit windows under the Aug 1 rule; 12.5% of early D1 commits decommitted (n = 32) | Free article | C |
+| | Perfect Game commitment lists | | Login / error; ToS forbids automated access | D |
+| Priority weights | NCAA GOALS 2025, DI slides | Factors in the choice, DI men (N = 2,990): chance to play 90%, academics 72%, liked the team 63%, cost 59%, facilities 56%, proximity 55%, the coach 55%, exposure 50%, pro-development reputation 40%, promised role 37%, NIL 23%. Transfer reasons: a higher level 46%, playing time 28%, coaching change 24% | Free, official | B (all DI men's sports; endorsement shares, not weights) |
+| Showcase measurables | Rapsodo averages by age; Eisenmann velocity percentiles (ages 13–18); PMC10071191 (age drafted pitchers reached 90/92/95 mph); PBR / PG leaderboards | Medians and percentiles of user bases, and top-end tails | Free (some email or paywall) | C; no free distribution by grade or for D1 commits; pop time not found |
+| Budgets, NIL | Dept. of Education EADA | Per institution and per sport (baseball): participants, revenue, expenses, yearly; Excel | Free, public domain | A |
+| | NCAA finances dashboard and reports | Medians by subdivision | Free | B |
+| | Knight-Newhouse | | Blocked | D |
+| | Revenue-share and NIL by sport | Scattered reports only (e.g. one school's baseball share of its pool) | | C/D |
+
+**Must be GUESS for now:**
+- yearly JUCO→D1 and D2→D1 flow rates (only roster stocks exist);
+- portal landing rates by destination level;
+- the commit-grade distribution and decommit rates under the 2022 contact rule;
+- baseball-specific priority weights;
+- showcase distributions by grade and level, and pop time;
+- baseball NIL and revenue-share amounts.
+
+**Owner's calls before any of this is committed as data:**
+- request the GOALS sport-level tables (commit timing; baseball priorities) from research@ncaa.org;
+- whether hand-exported Baseball-Reference round pages are acceptable for draft signing rates, within its terms (no script);
+- whether to commit IPEDS school coordinates (public domain) for real distances.
+
+**What the data says about the owner's priority instinct:**
+- **GOALS.** All DI men's sports, so endorsement shares, not weights. Playing time leads ("chance to play" 90%). Proximity (55%) sits with facilities (56%) and cost (59%). NIL is near the bottom (23%), and program tradition is not an item at all.
+- **2025 rosters.** About 45% in-state and 73% in-region in every tier (Section 2).
+- **Together.** They support Playing Time and Proximity as top priorities. They do not support Money as a top priority for most recruits; it may still be one for the top of a class, where asking prices live. Program Tradition is untested.
+
 
 ## 13. Phase mapping and proposed gates
 
