@@ -382,21 +382,36 @@
     if (pg.sp !== pg.aiSp) await order("starting_pitcher", pg.sp);
   }
 
-  // ---- 6. play-by-play ----
-  const HIDE = /no change|lineup set|no bunt|held off|runners may go|^Note:/i;
+  // ---- 6. play-by-play: newest first; non-events hidden (a call held off, a lineup set, a dropped order);
+  //      moves the AI made for your team tagged AI, yours YOU, the opponent's OPP; a box score tab ----
+  const HIDE = /no change|lineup set|no bunt|held off|runners may go|runners held|^Note:|the moment passed/i;
+  let feedTab = "plays";
   function renderFeed(events, me, teams) {
-    const rows = events.filter((e) => !(e.type === "decision" && HIDE.test(e.text))).slice(-300).reverse().map((e) => {
-      let badge = "";
-      let text = e.text;
+    const rows = events.filter((e) => !(e.type === "decision" && HIDE.test(e.text))).slice(-400).reverse().map((e) => {
+      let badge = "", text = e.text;
       if (e.type === "decision") {
-        const src = e.source;
         text = text.replace(/^(You|AUTO \(AI ran your team\)|.+? \(AI\)|Note): /, "");
-        badge = src === "auto" ? `<span class="badge ai">AI</span>` : src === "order" ? `<span class="badge you">YOU</span>` : src === "ai" ? `<span class="badge opp">OPP</span>` : "";
+        badge = e.source === "auto" ? `<span class="badge ai" title="the AI made this move for your team">AI</span>` : e.source === "order" ? `<span class="badge you">YOU</span>` : e.source === "ai" ? `<span class="badge opp">OPP</span>` : "";
       }
       return `<div class="ev ${e.type}">${badge}<span>${esc(text)}</span></div>`;
     });
-    $("#feed-body").innerHTML = rows.join("") || "<div class='ev'>Nothing yet.</div>";
-    $("#drawer-title").textContent = `Play by play (${events.length})`;
+    const n = rows.length;
+    $("#feed-body").innerHTML = `<div class="tabs"><button data-ftab="plays" class="${feedTab === "plays" ? "on" : ""}">Plays</button><button data-ftab="box" class="${feedTab === "box" ? "on" : ""}">Box score</button></div>
+      <div id="feed-plays" class="${feedTab === "plays" ? "" : "hidden"}">${rows.join("") || "<div class='ev'>Nothing yet.</div>"}</div><div id="feed-box" class="${feedTab === "box" ? "" : "hidden"}"></div>`;
+    $("#drawer-title").textContent = `Play by play (${n})`;
+    $$("#feed-body [data-ftab]").forEach((b) => b.addEventListener("click", () => { feedTab = b.dataset.ftab; renderFeed(events, me, teams); }));
+    if (feedTab === "box") renderBox();
+  }
+  async function renderBox() {
+    const el = $("#feed-box");
+    el.innerHTML = "<div class='muted'>Loading…</div>";
+    let b;
+    try { b = await gameCall("/box"); } catch (e) { el.innerHTML = `<div class='muted'>${esc(e.message)}</div>`; return; }
+    const batCols = ["ab", "r", "h", "rbi", "bb", "k", "hr"], pitCols = ["ip", "h", "r", "er", "bb", "k", "pitches"];
+    const sum = (rows, k) => rows.reduce((s, r) => s + (r.line[k] || 0), 0);
+    const bat = (side) => `<h3>${esc(b.teams[side])} batting</h3><table class="lu box"><tr><th>Batter</th><th>Pos</th>${batCols.map((c) => `<th>${c.toUpperCase()}</th>`).join("")}</tr>${b.batting[side].map((r) => `<tr><td class="nm">${r.starter ? "" : "&nbsp;&nbsp;"}${esc(r.name)}</td><td>${r.pos}</td>${batCols.map((c) => `<td>${r.line[c]}</td>`).join("")}</tr>`).join("")}<tr class="tot"><td>Totals</td><td></td>${batCols.map((c) => `<td>${sum(b.batting[side], c)}</td>`).join("")}</tr></table>`;
+    const pit = (side) => `<h3>${esc(b.teams[side])} pitching</h3><table class="lu box"><tr><th>Pitcher</th>${pitCols.map((c) => `<th>${c === "pitches" ? "P" : c.toUpperCase()}</th>`).join("")}</tr>${b.pitching[side].map((r) => `<tr><td class="nm">${esc(r.name)} <span class="muted">${r.role}</span></td>${pitCols.map((c) => `<td>${r.line[c]}</td>`).join("")}</tr>`).join("")}</table>`;
+    el.innerHTML = `<div class="box-grid"><div>${bat("away")}${pit("away")}</div><div>${bat("home")}${pit("home")}</div></div>`;
   }
 
   // ---- 7. callouts ----
