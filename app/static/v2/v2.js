@@ -113,21 +113,32 @@
   }
   function stat(k, v) { return `<span><span class="k">${k}</span><b>${v}</b></span>`; }
   function stamColor(f) { return f < .55 ? "var(--stam-hi)" : f < .8 ? "var(--stam-mid)" : "var(--stam-lo)"; }
+  function staminaBar(p) {
+    // the engine's fatigue state when it has one (state.pitcher.fatigue, 0 fresh to 1 spent); until then the
+    // outing's pitch count on the pull tables' range, labeled as such. Never the AI's pull odds.
+    const pitches = p.outing ? p.outing.pitches : p.line.pitches;
+    const hasFatigue = typeof p.fatigue === "number";
+    const f = hasFatigue ? Math.max(0, Math.min(1, p.fatigue)) : Math.min(1, pitches / PITCH_SCALE);
+    const label = hasFatigue ? "Fatigue" : "Pitch count";
+    const title = hasFatigue ? `The engine's fatigue state (${(f * 100).toFixed(0)}%); Stamina ${p.ratings.stamina}.`
+      : `Pitches this outing on the 0–${PITCH_SCALE} range of the AI's pull tables; Stamina ${p.ratings.stamina}. The engine has no fatigue state yet; this is not the AI's pull odds.`;
+    const ticks = hasFatigue ? [25, 50, 75] : [25, 50, 75, 100].map((x) => x / PITCH_SCALE * 100);
+    return `<div class="stamina" title="${esc(title)}"><span>${label}</span><div class="bar"><i style="width:${(f * 100).toFixed(0)}%;background:${stamColor(f)}"></i>${ticks.map((x) => `<s style="left:${x}%"></s>`).join("")}</div><span>${hasFatigue ? (f * 100).toFixed(0) + "%" : pitches + " pitches"}${p.outing ? `, ${p.outing.runs} R` : ""}</span></div>`;
+  }
   function renderBanner(t) {
     const st = t.state, me = t.user_side, b = st.batter, p = st.pitcher;
     const bside = st.batting_side, pside = bside === "home" ? "away" : "home";
     const order = b ? st.lineups[bside].findIndex((x) => x.pid === b.pid) + 1 : 0;
     $("#batter").innerHTML = b ? `${mark(st.teams[bside])}<div class="role">${st.count ? "At bat" : "Due up"} · ${esc(st.teams[bside].name)}${bside === me ? " (you)" : ""}</div>
-      <div class="name">${esc(b.name)}<small>${b.pos} · bats ${b.hand || "–"} · bats ${ORD(order)}</small></div>
+      <div class="name">${esc(b.name)}<small>${b.pos} · bats ${b.hand || "–"}${order ? ` · bats ${ORD(order)}` : ""}</small></div>
       <div class="today">${stat("AB", b.line.ab)}${stat("H", b.line.h)}${stat("RBI", b.line.rbi)}${stat("BB", b.line.bb)}${stat("K", b.line.k)}<span class="season">${stat("AVG", "")}${stat("HR", "")}${stat("SB", "")}</span></div>
-      ${chips(b)}` : "<div class='role'>No batter yet</div>";
-    const pitches = p && p.outing ? p.outing.pitches : (p ? p.line.pitches : 0);
-    const f = Math.min(1, pitches / PITCH_SCALE);
+      ${chips(b)}` : `<div class="role">${t.phase === "pregame" ? "Lineups are set when the game starts" : "No batter yet"}</div>`;
+    const pitches = p ? (p.outing ? p.outing.pitches : p.line.pitches) : 0;
     $("#pitcher").innerHTML = p ? `<div class="role">Pitching · ${esc(st.teams[pside].name)}${pside === me ? " (you)" : ""}</div>${mark(st.teams[pside])}
       <div class="name">${esc(p.name)}<small>${p.role} · throws ${p.hand || "–"}</small></div>
       <div class="today">${stat("IP", p.line.ip)}${stat("H", p.line.h)}${stat("R", p.line.r)}${stat("BB", p.line.bb)}${stat("K", p.line.k)}${stat("P", pitches)}<span class="season">${stat("W-L", "")}${stat("ERA", "")}${stat("IP", "")}</span></div>
-      <div class="stamina" title="Pitches thrown this outing on the pull tables' 0–${PITCH_SCALE} range; Stamina ${p.ratings.stamina}. Not the AI's pull odds."><span>Outing</span><div class="bar"><i style="width:${(f * 100).toFixed(0)}%;background:${stamColor(f)}"></i>${[25, 50, 75, 100].map((x) => `<s style="left:${x / PITCH_SCALE * 100}%"></s>`).join("")}</div><span>${pitches} pitches${p.outing ? `, ${p.outing.runs} R` : ""}</span></div>
-      ${chips(p)}` : "<div class='role'>No pitcher yet</div>";
+      ${staminaBar(p)}
+      ${chips(p)}` : `<div class="role">${t.phase === "pregame" ? "The starters are named when the game starts" : "No pitcher yet"}</div>`;
   }
 
   // ---- 3. field ----

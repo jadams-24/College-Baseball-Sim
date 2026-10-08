@@ -314,6 +314,9 @@ def state_json(runner) -> dict:
             o = st.outing.get(side)
             if o and st.pitcher.get(side) is p:
                 d["outing"] = {"pitches": o["pitches"], "runs": o["runs"], "outs": o["pa_outs"], "starter": o["starter"]}
+                # the engine has no fatigue state (the AI's pull hazard reads the outing's pitches and runs): the page
+                # labels the bar "pitch count"; a fatigue value here, once the engine has one, relabels it
+                d["fatigue"] = o.get("fatigue")
         return d
 
     # the batter: in a plate appearance, its batter; at a stop between plate appearances, the batter due
