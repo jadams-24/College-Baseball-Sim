@@ -80,6 +80,7 @@ Phases advance only when the gate passes. Do not build ahead of the current phas
   - Pitch types are a possible future display layer that never changes outcomes, unless real pitch-type data becomes available. Pitch calling by the user is out of scope.
   - Steal attempts by the AI manager depend on game state (score, inning, outs, count), fitted from the play-by-play.
 - **Engine is headless.** No UI code in the engine package. Reports are markdown/HTML written to `reports/`.
+- **Game UI prototype (2026-10-08, `app/`).** A browser-playable single game on the session interface: a connector, a thin web API and a static frontend (`app/README.md`). The connector works by snapshot and replay (the session is snapshotted before a pitch, the human's controller raises when the human must be consulted, the snapshot is restored and the pitch re-run with the answer as an order), because the session pauses only before a pitch while the engine asks its decisions between two pauses. This is a prototype workaround: the final engine should pause natively at decision points, a change that goes through the engine session with full gates (Phase 12). Engine, config and benchmarks are untouched by the app.
 - **Data is committed.** Scraped NCAA tables and play-by-play go in `data/` and are committed, not re-fetched each session. Record the fetch date and source URL in `data/README.md`.
 
 ## Stack

@@ -1,0 +1,16 @@
+# Render Blueprint (https://render.com/docs/blueprint-spec): one free web service serving the API and the
+# frontend (app/api.py). Deploy from the GitHub repo: Render dashboard -> New + -> Blueprint -> this repo.
+services:
+  - type: web
+    name: college-baseball-sim
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.api:app --host 0.0.0.0 --port $PORT --workers 1
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.9"
+      - key: CBS_SAVE_SECRET
+        generateValue: true          # signs the saves the browser holds; a new value invalidates old saves
