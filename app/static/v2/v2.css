@@ -229,3 +229,8 @@ body.busy .sims button { opacity: .6; }
   .lobby select { height: 150px; }
   .phone-tabs.hidden { display: none !important; }
 }
+.diamond .fielder .fname { fill: var(--ink2); opacity: .5; font-size: 8.5px; font-weight: 600; }
+.diamond .atbat circle { fill: var(--accent); opacity: .9; }
+.diamond .atbat text { fill: var(--ink); font-size: 11px; font-weight: 700; }
+.diamond .runner:focus { outline: none; }
+.diamond .runner:focus circle { stroke: var(--ink); stroke-width: 2.5; }

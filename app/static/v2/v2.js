@@ -141,44 +141,56 @@
       ${chips(p)}` : `<div class="role">${t.phase === "pregame" ? "The starters are named when the game starts" : "No pitcher yet"}</div>`;
   }
 
-  // ---- 3. field ----
+  // ---- 3. field: runners as markers (tap or hover: name, Speed, the ratings that matter on the bases), the
+  //      fielders' positions faintly, the batter at the plate ----
   const BASES = { 1: [250, 160], 2: [160, 70], 3: [70, 160] };
+  const FIELDERS = [["P", 160, 150], ["C", 160, 262], ["1B", 240, 125], ["2B", 190, 85], ["SS", 125, 85], ["3B", 78, 125], ["LF", 60, 40], ["CF", 160, 18], ["RF", 260, 40]];
   function renderField(t) {
-    const st = t.state, me = t.user_side, bside = st.batting_side;
+    const st = t.state, bside = st.batting_side, fside = bside === "home" ? "away" : "home";
+    const byPid = {};
+    ["lineups", "bench"].forEach((g) => ["away", "home"].forEach((s) => (st[g][s] || []).forEach((p) => (byPid[p.pid] = p))));
     const runner = (i, b) => {
       if (!b) return "";
       const [x, y] = BASES[i + 1];
-      const p = st.lineups[bside].find((x_) => x_.pid === b.pid) || {};
-      return `<g class="runner" data-pid="${b.pid}" data-name="${esc(b.name)}" data-spd="${p.ratings ? p.ratings.speed : "–"}" data-pos="${p.pos || ""}" data-line="${p.line_text || ""}" data-glv="${p.ratings ? p.ratings.glove : "–"}">
+      const p = byPid[b.pid] || { ratings: {} };
+      const r = p.ratings || {};
+      return `<g class="runner" tabindex="0" data-name="${esc(b.name)}" data-pos="${p.pos || ""}" data-spd="${r.speed ?? "–"}" data-con="${r.contact ?? "–"}" data-pow="${r.power ?? "–"}" data-line="${esc(p.line_text || "0-0")}">
         <circle cx="${x}" cy="${y}" r="13"/><text x="${x}" y="${y + 4}">${i + 1}</text><text class="tag" x="${x}" y="${y - 20}">${esc(b.name)}</text></g>`;
     };
-    const fielders = [["P", 160, 150], ["C", 160, 260], ["1B", 240, 125], ["2B", 190, 85], ["SS", 125, 85], ["3B", 78, 125], ["LF", 60, 40], ["CF", 160, 18], ["RF", 260, 40]];
-    $("#field").innerHTML = `<h2>Field <span class="sub">${st.bases.some(Boolean) ? "tap a runner for his ratings" : "bases empty"}</span></h2>
+    // the fielders by position, from the fielding side's lineup (the DH does not field; the pitcher is the one on the mound)
+    const lu = st.lineups[fside] || [];
+    const who = Object.fromEntries(lu.filter((p) => p.pos !== "DH").map((p) => [p.pos, p]));
+    if (st.pitcher) who.P = st.pitcher;
+    const fielder = ([n, x, y]) => `<g class="fielder"><text class="pos" x="${x}" y="${y}" text-anchor="middle">${n}</text>${who[n] ? `<text class="fname" x="${x}" y="${y + 11}" text-anchor="middle">${esc(who[n].name)}</text>` : ""}</g>`;
+    const on = st.bases.some(Boolean);
+    $("#field").innerHTML = `<h2>Field <span class="sub">${t.phase === "pregame" ? "" : on ? "tap a runner for his ratings" : "bases empty"}</span></h2>
       <svg class="diamond" viewBox="0 0 320 290" aria-label="diamond">
         <rect class="turf" x="0" y="0" width="320" height="290" rx="14"/>
         <path class="turf2" d="M160 250 L0 90 Q160 -70 320 90 Z"/>
         <polygon class="path" points="160,250 70,160 160,70 250,160"/>
         <circle class="path" cx="160" cy="150" r="14"/>
-        ${fielders.map(([n, x, y]) => `<text class="pos" x="${x}" y="${y}" text-anchor="middle">${n}</text>`).join("")}
+        ${FIELDERS.map(fielder).join("")}
         <rect class="base" x="241" y="151" width="18" height="18" transform="rotate(45 250 160)"/>
         <rect class="base" x="151" y="61" width="18" height="18" transform="rotate(45 160 70)"/>
         <rect class="base" x="61" y="151" width="18" height="18" transform="rotate(45 70 160)"/>
         <polygon class="base" points="151,243 169,243 169,251 160,259 151,251"/>
-        <circle class="batterbox" cx="160" cy="268" r="5"><title>${st.batter ? esc(st.batter.name) : ""}</title></circle>
+        ${st.batter && st.count ? `<g class="atbat"><circle cx="178" cy="268" r="5"/><text x="188" y="272">${esc(st.batter.name)}</text></g>` : ""}
         ${st.bases.map((b, i) => runner(i, b)).join("")}
       </svg>
       <div class="legend-line">${st.due_up.length ? "Due up: " + st.due_up.map(esc).join(", ") : ""}</div>`;
+    const tip = $("#tip");
+    const show = (g) => {
+      const d = g.dataset;
+      tip.innerHTML = `<b>${d.name}</b> ${d.pos}<br>Speed <b>${d.spd}</b> · Con ${d.con} · Pow ${d.pow}<br>Today ${d.line}`;
+      tip.classList.remove("hidden");
+      const r = g.getBoundingClientRect();
+      tip.style.left = Math.max(8, Math.min(window.innerWidth - 270, r.left - 60)) + "px"; tip.style.top = (r.bottom + 6) + "px";
+      tip._for = g;
+    };
     $$("#field .runner").forEach((g) => {
-      const show = (e) => {
-        const d = g.dataset;
-        const tip = $("#tip");
-        tip.innerHTML = `<b>${d.name}</b> ${d.pos}<br>Speed <b>${d.spd}</b> · Glove ${d.glv}<br>Today ${d.line || "0-0"}`;
-        tip.classList.remove("hidden");
-        const r = g.getBoundingClientRect();
-        tip.style.left = Math.min(window.innerWidth - 280, r.left) + "px"; tip.style.top = (r.bottom + 6) + "px";
-      };
-      g.addEventListener("mouseenter", show); g.addEventListener("click", show);
-      g.addEventListener("mouseleave", () => $("#tip").classList.add("hidden"));
+      g.addEventListener("mouseenter", () => show(g));
+      g.addEventListener("mouseleave", () => tip.classList.add("hidden"));
+      g.addEventListener("click", (e) => { e.stopPropagation(); if (!tip.classList.contains("hidden") && tip._for === g) tip.classList.add("hidden"); else show(g); });
     });
   }
 
@@ -307,6 +319,7 @@
     document.body.dataset.tab = tab;
     window.scrollTo(0, 0);
   }));
+  document.addEventListener("click", () => $("#tip").classList.add("hidden"));
   $("#drawer-toggle").addEventListener("click", () => { const d = $("#feed"); if (d.hasAttribute("open")) d.removeAttribute("open"); else d.setAttribute("open", ""); });
 
   // ---- render a turn ----
