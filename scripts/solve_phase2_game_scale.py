@@ -67,7 +67,9 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--warm", action="store_true", help="start from the current solved scale (a drift re-solve, scripts/check_drift.py)")
     ap.add_argument("--iters", type=int, default=ITERS)
+    ap.add_argument("--seasons", type=int, default=len(SEEDS), help="calibration seasons per iteration (910001 on)")
     args = ap.parse_args()
+    seeds = tuple(range(SEEDS[0], SEEDS[0] + args.seasons))
     cfg = phase2.load()
     h_real = cfg.team_talent["home_log_ratio"]
     rs = json.loads(phase2.RUN_SCALE.read_text())
@@ -78,7 +80,7 @@ def main() -> None:
     history = (prior.get("history", []) if args.warm and prior else [])
     for it in range(args.iters):
         with ProcessPoolExecutor(WORKERS) as ex:
-            out = list(ex.map(_season, [(scale, s) for s in SEEDS]))
+            out = list(ex.map(_season, [(scale, s) for s in seeds]))
         m = {"h": float(np.mean([x["h"] for x in out])), "phi": float(np.mean([x["phi"] for x in out]))}
         new = dict(scale)
         for side in ("o", "d"):
@@ -90,7 +92,7 @@ def main() -> None:
         history.append({"iteration": it, "scale": dict(scale), "fitted": m, **({"warm_start": dt.date.today().isoformat()} if args.warm else {})})
         print(it, {k: round(v, 4) for k, v in scale.items()}, {k: round(v, 4) for k, v in m.items()})
         scale = new
-    OUT.write_text(json.dumps({"_note": __doc__, "built": dt.date.today().isoformat(), "seeds": SEEDS, "h_scoreboard": h_real,
+    OUT.write_text(json.dumps({"_note": __doc__, "built": dt.date.today().isoformat(), "seeds": seeds, "h_scoreboard": h_real,
                                "scale": scale, "history": history}, indent=1) + "\n")
     print("scale:", {k: round(v, 4) for k, v in scale.items()})
 
