@@ -341,6 +341,15 @@ may be revised once the real shares are in.
 - `prb_inputs.json`: the AI's bunt and intentional-walk rates by game state, a called bunt's pitches and its outcome table, the pitcher's hold, pickoff scoring, and the gate benchmarks (`scripts/build_prb_decisions.py`, built 2026-10-07).
 - Both are built from `data/ncaa_2025/pbp/parsed/` only; nothing is fetched. Method and caveats: PHASE0_NOTES, "Decisions that change outcomes".
 
+
+## data/ncaa_2025/derived/ — Phase 3 inputs (handedness and platoon)
+
+- `phase3_inputs_2025.json` (built 2026-10-08 from `roster_aggregates/` and the engine):
+  - `hands_pitchers`, `hands_batters`, `hand_checks` (`scripts/build_phase3_hands.py`): P(throws L | role, true K-BB); throws by position group; bats L / R / S by position group, throws and true run value; the fit's checks (tier effect at equal talent, run-value sensitivity, the simulated players' spread over the table's bins).
+  - `usage` (`scripts/build_phase3_usage.py`): pull and pinch-hit multipliers by hand, the relief choice's and bench pick's platoon terms.
+  - `platoon` (`scripts/build_phase3_platoon.py`): the logit shifts by side used x pitcher's hand, net of who faced whom and centred on the league mix.
+  - The simulated populations behind the fits are seasons of the engine (seeds in `config/phase3.py`), cached under `runs/` (not committed).
+- `benchmark_changes_phase3.json`: the `handedness_platoon_2025` block added to `benchmarks.json` (`scripts/write_phase3_benchmarks.py`).
 ## data/ncaa_rules/ — NCAA baseball rules (PR B)
 
 Fetched 2026-10-07 from the NCAA's public document store:

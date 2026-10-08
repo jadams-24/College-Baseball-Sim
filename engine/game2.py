@@ -38,6 +38,7 @@ from config.phase5 import EVENTS as PITCH_EVENTS, MAX_PITCHES_HIST
 from config.phase5 import load as load_pitch, load_solved
 from engine.control import AIController, KIND as _KIND
 from engine.decider import Decision
+from config.phase3 import LATE_INNING
 from engine.matchup import OUTCOMES, matchup_probs
 from engine.pitch import N_SLOTS, SLOT_SYM, PitchModel, _DEST as SLOT_DEST_ARR
 from engine.rng import Categorical
@@ -60,6 +61,7 @@ TRIAL_KINDS = ("PA", "BIP", "HITS")       # BIP: balls in play other than reache
 EXP_RATES = ("K", "BB", "HR", "BABIP", "XBH")
 _HITS = frozenset(_CELL_IDX[r] for r in ("1B", "2B", "3B"))
 _OUT = _CELL_IDX["OUT"]
+_ONBASE = frozenset(_CELL_IDX[r] for r in ("BB", "HBP", "1B", "2B", "3B", "HR"))
 _EV6 = {e: i for i, e in enumerate("BKSFPH")}
 _EV7 = {e: i for i, e in enumerate("BKSFPHN")}            # config.phase5.EVENTS order
 SLOT_DEST = SLOT_DEST_ARR.tolist()                         # per count and forward slot: next count, or -1 - outcome
@@ -90,7 +92,7 @@ class GameState2:
                  "half_innings", "pa", "errors", "hits", "hr", "ab", "outs_pitched", "er_allowed",
                  "week", "day", "phantom", "p_phantom", "date", "pitch_log", "in_game", "subs", "batted",
                  "err_or", "catcher_arm", "of_arm", "pending_change", "sb_att", "sb_ok", "tournament",
-                 "ibb", "cur_slot", "mound")
+                 "ibb", "cur_slot", "mound", "last_pa_pitcher")
 
     def __init__(self, rng, home, away, weekend):
         self.rng = rng
@@ -126,6 +128,7 @@ class GameState2:
         self.ibb = {"away": 0, "home": 0}                # PR B: intentional walks received by the batting side
         self.cur_slot = 1                                # PR B: lineup slot (1-9) of the batter at the plate
         self.mound = {"free": {"away": 0, "home": 0}, "trips": {}, "batter": {}}   # PR B: coach trips (NCAA 9-4)
+        self.last_pa_pitcher = {}                        # Phase 3: each fielding side's pitcher at its previous plate appearance
         self.pending_change = {"away": False, "home": False}   # pulled at an inning's end: the reliever enters when the side next takes the field
         self.phantom = 0      # phantom outs this half-inning (errors that prevented an out)
         self.p_phantom = 0    # phantom outs since the current pitcher entered this half-inning
@@ -221,6 +224,25 @@ class PlayerGameEngine:
                 self.delta["ok_pitch"] = self._centre_success(smp["steals"] / smp["attempts"], f6["arm_c"]["sd_logit"])
             else:
                 self.delta["att_pitch"] = self.delta["ok_pitch"] = 0.0
+        # Phase 3 (config.phase3): platoon shifts on the batter's logit offsets by (side he bats from, pitcher's hand), in
+        # RATES order, fitted net of who faced whom and centred on the league's handedness mix
+        # (scripts/build_phase3_platoon.py); and the platoon records the report reads
+        from config import phase3 as _p3
+        self.hands_on = _p3.on("hands")
+        pl = _p3.load().get("platoon", {}).get("shift") if _p3.on("platoon") else None
+        self.platoon = {tuple(k.split("|")): np.array(v, float) for k, v in pl.items()} if pl else None
+        self.tier_idx = {"p4": 0, "mid": 1, "low": 2}
+        self.plat_used = np.zeros((3, 2, 2, len(CELL_RESULTS)), dtype=np.int64)     # batting tier x side used x pitcher hand
+        self.plat_listed = np.zeros((3, 3, 2, len(CELL_RESULTS)), dtype=np.int64)   # batting tier x bats listed (L, R, S) x hand
+        # usage by hand, as the roster aggregates count it (relief_by_hand, pinch_hit_by_hand): fielding (batting) tier x pitcher
+        # hand x bats (L, R, S) x inning bucket (1-6, 7+) x [plate appearances after the side's first, changes to L, to R];
+        # pinch hitters: batting tier x pitcher hand x bats due up x inning bucket x [opportunities, PH bats L, R, S]
+        self.relief_rec = np.zeros((3, 2, 3, 2, 3), dtype=np.int64)
+        # per player against each opposing hand (a batter: the pitcher's; a pitcher: the side the batter hits from), for the
+        # individual platoon spread (reported): rates K, BB, HR, on base, BABIP (hits in play over balls in play less ROE) x
+        # (successes, trials)
+        self.split_rec = np.zeros((n_players, 2, 5, 2), dtype=np.int32)
+        self.ph_rec = np.zeros((3, 2, 3, 2, 4), dtype=np.int64)
         zs = f6.get("of_zone_share", {"lf": 1 / 3, "cf": 1 / 3, "rf": 1 / 3})
         self.of_zone = list(zs)
         self.of_zone_cum = np.cumsum([zs[k] for k in self.of_zone]) / sum(zs.values())
@@ -247,6 +269,16 @@ class PlayerGameEngine:
                 break
         return d
 
+    @staticmethod
+    def side_used(batter, pitcher) -> str:
+        """Phase 3: the side a batter hits from against this pitcher (a switch hitter: opposite the pitcher's hand)."""
+        if batter.bats == "S":
+            return "R" if pitcher.throws == "L" else "L"
+        return batter.bats
+
+    def hands_known(self, batter, pitcher) -> bool:
+        return self.hands_on and bool(getattr(batter, "bats", "")) and bool(getattr(pitcher, "throws", ""))
+
     def _key(self, batter, pitcher, home_batting: bool) -> tuple:
         """Cache key of a matchup: the listed home side and whether the game is at a neutral site (Phase 7:
         no home edge for either side, a league-average park)."""
@@ -263,6 +295,8 @@ class PlayerGameEngine:
                 park = self.league.teams[(batter if home_batting else pitcher).team].park if hasattr(self.league, "teams") else None
             if park is not None:
                 zb = zb + park          # the home team's park, for both teams' plate appearances
+            if self.platoon is not None and self.hands_known(batter, pitcher):
+                zb = zb + self.platoon[(self.side_used(batter, pitcher), pitcher.throws)]
             p = matchup_probs(self.cfg, zb, zp, self.league.location)
             cat = Categorical(list(OUTCOMES), [p[o] for o in OUTCOMES])
             self.cache[key] = cat
@@ -573,6 +607,26 @@ class PlayerGameEngine:
         ci = _CELL_IDX.get(res, _OUT)
         btid, ptid, h = st.team_obj[bat].tid, st.team_obj[st.fielding_side].tid, int(bat == "home")
         self.team_cell[btid, ptid, h, ci] += 1
+        cur = st.pitcher[st.fielding_side]
+        prev = st.last_pa_pitcher.get(st.fielding_side)
+        st.last_pa_pitcher[st.fielding_side] = cur
+        if prev is not None and self.hands_known(batter, prev):
+            r = self.relief_rec[self.tier_idx[st.team_obj[st.fielding_side].tier], int(prev.throws == "R"), "LRS".index(batter.bats),
+                                int(st.inning >= LATE_INNING)]
+            r[0] += 1
+            if cur.pid != prev.pid and cur.throws:
+                r[1 + int(cur.throws == "R")] += 1
+        if self.hands_known(batter, pitcher):
+            ti, th = self.tier_idx[st.team_obj[bat].tier], int(pitcher.throws == "R")
+            su = int(self.side_used(batter, pitcher) == "R")
+            ob, bip = ci in _ONBASE, ci in _HITS or ci == _OUT
+            for pid, opp in ((batter.pid, th), (pitcher.pid, su)):
+                r = self.split_rec[pid, opp]
+                r[:4, 1] += 1
+                r[0, 0] += ci == _CELL_IDX["K"]; r[1, 0] += ci == _CELL_IDX["BB"]; r[2, 0] += ci == _CELL_IDX["HR"]; r[3, 0] += ob
+                r[4, 1] += bip; r[4, 0] += ci in _HITS
+            self.plat_used[ti, int(self.side_used(batter, pitcher) == "R"), th, ci] += 1
+            self.plat_listed[ti, "LRS".index(batter.bats), th, ci] += 1
         ot = self.opp_trials
         ot[batter.pid, ptid, h, 0] += 1
         ot[pitcher.pid, btid, h, 0] += 1
@@ -941,7 +995,14 @@ class GameSession:
         bat, fld = st.batting_side, st.fielding_side
         dec_on = eng.dec_on
         steal_base0 = self._steal_base()
-        eng._sub(st, bat, self.ask(bat, "pinch_hit", bat, st.slot[bat] % 9), st.slot[bat] % 9)
+        due, pit = st.lineup[bat][st.slot[bat] % 9], st.pitcher[fld]
+        ph = self.ask(bat, "pinch_hit", bat, st.slot[bat] % 9)
+        if eng.hands_known(due, pit):
+            r = eng.ph_rec[eng.tier_idx[st.team_obj[bat].tier], int(pit.throws == "R"), "LRS".index(due.bats), int(st.inning >= LATE_INNING)]
+            r[0] += 1
+            if ph is not None and ph.bats:
+                r[1 + "LRS".index(ph.bats)] += 1
+        eng._sub(st, bat, ph, st.slot[bat] % 9)
         batter = st.lineup[bat][st.slot[bat] % 9]
         st.cur_slot = st.slot[bat] % 9 + 1
         st.slot[bat] += 1

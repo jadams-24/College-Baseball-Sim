@@ -20,14 +20,18 @@
                     (scripts/build_phase6_usage.py): role (weekend rotation rank, midweek
                     starter, bullpen rank) x leverage (late and close, blowout, other) plus
                     the pitcher's rest (days since his last outing, its pitches, back to back),
-                    plus a platoon term that Phase 3 fills (platoon_utility). Without Phase 6
+                    plus the Phase 3 platoon terms (platoon_utility: the hand of the batter due up and of the
+                    pitcher being replaced; scripts/build_phase3_usage.py). Without Phase 6
                     inputs: an unused reliever by the real share of relief batters faced by rank.
   Phase 6 also: the midweek starter is chosen by the same kind of logit over the whole staff;
   the pull hazard carries a multiplier by tier and, for starters, season week; pinch hitters
   (per plate appearance), pinch runners (per batter reaching base) and defensive or blowout
   substitutions (per half-inning in the field) enter at the 2025 hazards by inning x margin, with a
   tier multiplier, the lineup spot by its real share, the bench player by bench rank.
-Steals, bunts and intentional walks stay at league rates.
+Phase 3 (config.phase3): the pull hazard is multiplied by the real change rate for the hands of the pitcher and
+of the batter due up (pull_mult), and the pinch-hit hazard by the rate for the pitcher's hand and the bats of the
+batter due up (ph_mult); the bench pick favours a pinch hitter with the platoon advantage (ph_platoon).
+PR B: steals, bunts and intentional walks are decided from the fitted models (engine.decisions).
 """
 from __future__ import annotations
 
@@ -120,6 +124,9 @@ class Manager(LeagueAverageDecider):
         mt = self.pull6.get("sp_midweek_table")
         self.spm_table, self.spm_back = (mt["table"], mt["backoff"]) if mt else (self.sp_table, self.sp_back)
         self.subs6 = phase6.load().get("subs6", {}) if phase6.on("subs") else {}
+        # Phase 3 (config.phase3): pitching changes and pinch hitters by hand (scripts/build_phase3_usage.py)
+        from config import phase3 as _p3
+        self.use3 = _p3.load().get("usage") if _p3.on("usage") else None
         bp = self.subs6.get("bench_pick_weight", {})
         n_b = N_REGULARS + N_BENCH
         self.start_markov = ([bp["start_after_start"][str(k + 1)] for k in range(n_b)], [bp["start_after_sit"][str(k + 1)] for k in range(n_b)]) \
@@ -178,14 +185,36 @@ class Manager(LeagueAverageDecider):
         cell, b2b = self._rest(pid, date)
         return coef.get(f"{role}|{ctx}", 0.0) + coef.get(f"rest|{cell}", 0.0) + coef.get("b2b", 0.0) * b2b
 
-    def platoon_utility(self, state, pitcher) -> float:
-        """Hook for Phase 3 (handedness): the extra utility of bringing in this pitcher against the
-        batters due up (e.g. a left-handed specialist for a run of left-handed hitters). No
-        handedness exists before Phase 3, so it adds nothing."""
-        return 0.0
+    @staticmethod
+    def _due(state):
+        """The batter due up against the fielding side (before any pinch hitter)."""
+        bat = state.batting_side
+        return state.lineup[bat][state.slot[bat] % 9]
 
-    def _choose(self, state, cands: list, coef: dict, ctx: str):
-        u = np.array([self._utility(coef, role, ctx, p.pid, state.date) + self.platoon_utility(state, p) for p, role in cands])
+    @staticmethod
+    def _bucket(state) -> str:
+        from config.phase3 import LATE_INNING
+        return "7+" if state.inning >= LATE_INNING else "1-6"
+
+    def platoon_utility(self, state, pitcher) -> float:
+        """Phase 3: the extra utility of bringing in this pitcher: against the batter due up, +g/2 for a pitcher of the
+        batter's hand, -g/2 for the other, 0 against a switch hitter (relief_platoon); and +f/2 for a pitcher of the
+        current pitcher's hand, -f/2 for the other (relief_same_hand); by inning bucket."""
+        if not self.use3 or not pitcher.throws:
+            return 0.0
+        b, u = self._bucket(state), 0.0
+        due, cur = self._due(state), state.pitcher[state.fielding_side]
+        if due.bats in ("L", "R"):
+            g = self.use3["relief_platoon"][b]
+            u += g / 2 if pitcher.throws == due.bats else -g / 2
+        if cur is not None and cur.throws:
+            f = self.use3["relief_same_hand"][b]
+            u += f / 2 if pitcher.throws == cur.throws else -f / 2
+        return u
+
+    def _choose(self, state, cands: list, coef: dict, ctx: str, relief: bool = False):
+        u = np.array([self._utility(coef, role, ctx, p.pid, state.date) + (self.platoon_utility(state, p) if relief else 0.0)
+                      for p, role in cands])
         w = np.exp(u - u.max())
         return cands[int(self._r(state).choice(len(cands), p=w / w.sum()))][0]
 
@@ -271,6 +300,11 @@ class Manager(LeagueAverageDecider):
         if h is None:  # no hazard cell has data (pitch counts past the sample's maximum): the data's maximum
             return Decision.YES if o["pitches"] >= 120 else Decision.NO
         pid = state.pitcher[state.fielding_side].pid
+        if self.use3:
+            # Phase 3: the hands of the pitcher and of the batter due up (pull_mult; 1 on average over the real mix)
+            due, cur = self._due(state), state.pitcher[state.fielding_side]
+            if due.bats and cur.throws:
+                h = min(h * self.use3["pull_mult"].get(f"{cur.throws}|{due.bats}|{self._bucket(state)}", 1.0), 1 - 1e-9)
         # context multiplier (tier, season week) folded into the baseline, so the pitcher's own
         # leash (Stamina) is estimated against the hazard he actually faced
         ctx = self._leash_ctx(state, o["starter"])
@@ -306,22 +340,32 @@ class Manager(LeagueAverageDecider):
         mb = int(np.searchsorted(self.sub_mb, margin, side="right") - 1)
         return s6["hazard"][kind].get(f"{ib}|{mb}", 0.0) * s6["tier_multiplier"].get(state.team_obj[team].tier, 1.0)
 
-    def _bench_pick(self, state, team: str, bench: list | None = None):
+    def _bench_pick(self, state, team: str, bench: list | None = None, vs=None):
         """A substitute among the players not in the game, in proportion to his start rank's
-        substitute entries per game not started (subs6 bench_pick_weight, 2025 play-by-play)."""
+        substitute entries per game not started (subs6 bench_pick_weight, 2025 play-by-play).
+        Phase 3, a pinch hitter (vs: the pitcher he faces): times exp(ph_platoon) with the platoon advantage."""
         if bench is None:
             bench = [p for p in state.team_obj[team].batters if p.pid not in state.in_game[team]]
         if not bench:
             return None
         bw = self.subs6.get("bench_pick_weight", {}).get("weight") if self.subs6 else None
         w = np.array([bw[str(p.order + 1)] if bw else self.start[p.order] for p in bench])
+        if vs is not None and self.use3 and vs.throws:
+            adv = np.array([p.bats == "S" or (bool(p.bats) and p.bats != vs.throws) for p in bench])
+            w = w * np.exp(self.use3["ph_platoon"] * adv)
         return bench[int(self._r(state).choice(len(bench), p=w / w.sum()))]
 
     def pinch_hit(self, state, team: str, slot: int):
         if not self.subs6:
             return None
         h = self._sub_rate(state, team, "ph") * self.subs6["ph_slot_factor"][str(slot + 1)]
-        return self._bench_pick(state, team) if self._r(state).random() < h else None
+        vs = None
+        if self.use3:
+            # Phase 3: the hands of the pitcher and of the batter due up (ph_mult; 1 on average over the real mix)
+            vs, due = state.pitcher["away" if team == "home" else "home"], state.lineup[team][slot]
+            if due.bats and vs.throws:
+                h *= self.use3["ph_mult"].get(f"{vs.throws}|{due.bats}|{self._bucket(state)}", 1.0)
+        return self._bench_pick(state, team, vs=vs) if self._r(state).random() < h else None
 
     def pinch_runner(self, state, team: str, slot: int):
         if not self.subs6:
@@ -363,7 +407,7 @@ class Manager(LeagueAverageDecider):
                 lev = "late_close"
             else:
                 lev = "other"
-            return self._choose(state, cands, self.relief_coef, lev)
+            return self._choose(state, cands, self.relief_coef, lev, relief=True)
         avail = [p for p in state.team_obj[team].relievers if p.pid not in state.used[team]]
         if not avail:
             return None
