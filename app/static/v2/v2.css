@@ -237,3 +237,10 @@ body.busy .simbar button { opacity: .6; }
   .lobby select { height: 150px; }
   .box-grid { grid-template-columns: 1fr; }
 }
+/* rating badges in the banner and pickers */
+.who .chips .rt { gap: 3px; }
+.picks button { flex-direction: row; justify-content: space-between; align-items: center; }
+.picks button .chips { display: inline-flex; gap: 6px; }
+.legend { padding: 0; overflow: hidden; }
+.legend dl, .legend .scale, .legend .muted { margin: 6px 10px; }
+.legend .scale { display: flex; gap: 4px; }

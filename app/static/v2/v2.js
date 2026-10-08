@@ -113,8 +113,12 @@
   }
 
   // ---- 2. matchup banner ----
+  // 20–80 badges on one color scale (system.css --r20..--r80): under 35 red, 35–45 orange, 45–55 yellow (D1 average),
+  // 55–65 light green, 65–75 green, 75+ blue. The legend explains the scale and each rating.
+  function band(v) { return v < 35 ? "r20" : v < 45 ? "r30" : v < 55 ? "r50" : v < 65 ? "r60" : v < 75 ? "r70" : "r80"; }
+  function badge(k, v) { const [ab, full] = RATING[k] || [k, k]; return `<span class="rt ${band(v)}" title="${esc(full)}: ${v} (20–80, 50 = D1 median)"><span class="k">${ab}</span><b>${v}</b></span>`; }
   function chips(p) {
-    return `<div class="chips">${Object.entries(p.ratings).map(([k, v]) => `<span class="chip ${v >= 70 ? "hi" : v <= 35 ? "lo" : ""}" title="${(RATING[k] || [k, k])[1]}: ${v}">${(RATING[k] || [k])[0]} <b>${v}</b></span>`).join("")}</div>`;
+    return `<div class="chips">${Object.entries(p.ratings).map(([k, v]) => badge(k, v)).join("")}</div>`;
   }
   function stat(k, v) { return `<span><span class="k">${k}</span><b>${v}</b></span>`; }
   function stamColor(f) { return f < .55 ? "var(--stam-hi)" : f < .8 ? "var(--stam-mid)" : "var(--stam-lo)"; }
@@ -211,8 +215,9 @@
   }
   function pickCard(p) {
     const r = p.ratings || {};
-    const meta = p.side === "pit" ? `${p.role} · Stf ${r.stuff} Ctl ${r.control} Mov ${r.movement} Sta ${r.stamina}` : `${p.pos} · Con ${r.contact} Pow ${r.power} Spd ${r.speed} Glv ${r.glove}${p.line_text ? " · today " + p.line_text : ""}`;
-    return `<button class="pick" data-pid="${p.pid}"><span>${esc(p.name)}</span><span class="why">${esc(meta)}</span></button>`;
+    const keys = p.side === "pit" ? ["stuff", "control", "movement", "stamina"] : ["contact", "power", "speed", "glove"];
+    const meta = `${p.side === "pit" ? p.role : p.pos}${p.line_text ? " · today " + p.line_text : ""}`;
+    return `<button class="pick" data-pid="${p.pid}"><span>${esc(p.name)} <span class="why">${esc(meta)}</span></span><span class="chips">${keys.map((k) => (r[k] != null ? badge(k, r[k]) : "")).join("")}</span></button>`;
   }
   function orderFor(item, pid, slot) {
     // the order an item sends once its player (and slot) is picked (app/menu.py's shapes)
@@ -458,7 +463,11 @@
 
   // ---- legend ----
   function renderLegend() {
-    $("#legend").innerHTML = `<b>Ratings (20–80, 50 = D1 median)</b><dl>${Object.values(RATING).map(([a, b]) => `<dt>${a}</dt><dd>${b}</dd>`).join("")}</dl><div style="margin-top:6px;color:var(--muted);font-size:12px">B = bats, T = throws: L/R/S once handedness is in the engine (Phase 3).</div>`;
+    const scale = [["r20", "<35"], ["r30", "35"], ["r50", "45"], ["r60", "55"], ["r70", "65"], ["r80", "75+"]];
+    $("#legend").innerHTML = `<div class="hdr">Ratings <span class="sub">20–80, 50 = D1 median, 10 per SD</span></div>
+      <div class="scale">${scale.map(([c, l]) => `<span class="rt ${c}"><b>${l}</b></span>`).join("")}</div>
+      <dl>${Object.values(RATING).map(([a, b]) => `<dt>${a}</dt><dd>${b}</dd>`).join("")}</dl>
+      <div class="muted">B = bats, T = throws: L/R/S once handedness is in the engine (Phase 3).</div>`;
   }
 
   // ---- phone tabs and drawer ----
