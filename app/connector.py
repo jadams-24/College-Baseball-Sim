@@ -265,7 +265,7 @@ class Snapshot:
 # few kilobytes. A save for the browser (GameRunner.save_bytes) is a full pickle and carries them.
 MANAGER_STATIC = ("start", "relw", "patterns", "pattern_w", "sp_table", "sp_back", "wr_table", "wr_back", "rp_table", "rp_back",
                   "relief_coef", "midweek_coef", "tourney_coef", "pull6", "stamina", "spm_table", "spm_back", "subs6", "start_markov",
-                  "sub_ib", "sub_mb", "def_slot")
+                  "sub_ib", "sub_mb", "def_slot", "_dm_cache")      # _dm_cache: PR B's decision models, static
 
 
 class _Pickler(pickle.Pickler):
