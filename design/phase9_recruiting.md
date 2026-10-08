@@ -78,8 +78,8 @@ Section 12 holds the rule verification and the data inventory (research tasks of
 **Hand draws.** Handedness follows engine Phase 3's draw, by talent and position, and must also carry the Phase 9 requirement of 2026-10-08: recruiting values handedness beyond talent. At equal talent, left-handed pitchers end up at P4 more than at low-tier programs by +1.19 ± .50 log-odds (PHASE0_NOTES, Phase 3). In the recruiting loop that requirement becomes a preference: schools value left-handed arms beyond their ratings. It is gated by the left-handers-by-tier rows that are a watch item since Phase 3.
 
 **Funnel.** Open → Top 8 → Top 5 → Top 3 → Verbal → Signed.
-- Verbals can flip at real-data rates: more for early verbals and after coaching changes.
-- Signed players are locked except for the MLB draft (but see Section 12.1, item 3: the signing instrument has changed).
+- Verbals can flip at real-data rates: more for early verbals and after coaching changes. A verbal is non-binding by rule: written aid offers are not allowed before August 1 of the senior year.
+- Signed players are locked against other schools' contact, except through the MLB draft and the release conditions of Section 12.1, item 3: aid reduced, the head coach leaving (30 days), the school's release.
 
 ## 4. Scouting and information
 
@@ -194,18 +194,22 @@ From the 2025–26 NCAA D1 baseball recruiting calendar; each year's official ca
 | When | Period | Game content |
 |---|---|---|
 | Aug 1–17 | Contact | August 1 rush, a live event: the new junior class opens; offers and calls fly |
-| Aug 18 – Sept 11 | Quiet | Campus visits; roster cuts to 34 |
+| Aug 18 – Sept 11 | Quiet | Campus visits (official and unofficial visits open September 1 of the junior year) |
 | Sept 12 – Oct 12 | Contact | Fall ball plus the main recruiting window: official and home visits, fall showcases |
-| Oct 13 – Feb 28 | Quiet, with exceptions | Nov 10–13 Dead (signing week); Nov 25–30 and Dec 22–27 (label to be verified); Jan 8–11 Dead. Winter: staff hiring, budget allocation, facility projects, NIL / revenue-share renewals |
+| Oct 13 – Feb 28 | Quiet, with exceptions | Nov 10–13 Dead (signing week; signing opens the second Wednesday of November); Nov 25–30 and Dec 22–27 Recruiting Shutdown (nothing allowed, not even calls); Jan 8–11 Dead (ABCA convention). December portal window Dec 1–15. Rosters due at 34 the day before the first counted contest or December 1, whichever is earlier, so cuts happen in late fall. Winter: staff hiring, budget allocation, facility projects, NIL / revenue-share renewals |
 | Mid-February | Opening day | |
 | Mar 1 – Jul 31 | Contact, with exceptions | May 25 – Jun 1, Jun 20–22 and Jul 3–5 Dead. Reduced recruiting hours in season; home series are visit weekends |
-| June | | Postseason; the portal window (dates to be verified), with Omaha teams recruiting the portal while playing; the coaching carousel |
+| June | | Postseason; the spring portal window (30 days from seven days after selections: June 1–30 in 2026, June 7 – July 6 in 2027), with Omaha teams recruiting the portal while playing; the coaching carousel |
 | July | | MLB draft (live event) and signing deadline; summer travel ball and showcases: gem season for sophomores you can watch but not contact |
 
-**Rules to enforce** (wording to be checked against the official rules, Section 12.1, item 2):
-- No recruiting communication before August 1 before the recruit's junior year of high school; watching only before then.
-- Unofficial visits with recruiting talk from the date the rules allow.
-- One official visit per school per recruit.
+**Rules to enforce** (verified, Section 12.1, items 1–3 and 7):
+- Calls and messages: from August 1 at the start of the junior year of high school. Before that, watching only.
+- Off-campus contact, official visits and unofficial visits with athletics: from September 1 of the junior year.
+- Written aid offers: from August 1 of the senior year. Earlier "offers" are verbal and non-binding, which is why early verbals flip.
+- Official visits: one per school before October 15 after high school (one more if the head coach changes); no total cap.
+- Signing: from the second Wednesday of November.
+- Shutdown periods allow nothing; dead periods allow calls and correspondence.
+- The calendar is generated from the Bylaw 13.17.1 formulas each year.
 
 **Turns.**
 - Weekly turns all year, with fast-forward through quiet stretches.
@@ -219,7 +223,99 @@ The recruiting screens (board, recruit card, visit weekend, signing day, draft d
 ## 12. Research (2026-10-08)
 
 ### 12.1 Rule verification
-To be filled from the verification pass, with citations and grades.
+
+Checked 2026-10-08. The main source is the 2026-27 NCAA Division I Manual (LSDBi, https://web3.ncaa.org/lsdbi/reports/getReport/90008), whose bylaw revision dates show what applied in 2025-26. Grades as above.
+
+mlb.com refused the fetches (HTTP 406, not worked around), so the MLB items rest on Baseball America and AP reporting. stats.ncaa.org and web.archive.org were not used.
+
+**1. The 2025-26 recruiting calendar is confirmed as drafted (A).**
+- Source: "2025-26 NCAA Recruiting Calendar, Division I Baseball", https://ncaaorg.s3.amazonaws.com/compliance/recruiting/calendar/2025-26/2025-26D1Rec_MBARecruitingCalendar.pdf; both text and grid were read.
+- Nov 25–30 and Dec 22–27 are **Recruiting Shutdown**, a separate period type. During a shutdown nothing is allowed: no contacts, evaluations, visits, correspondence or calls. A dead period still allows calls and correspondence.
+- The periods follow formulas in Bylaw 13.17.1, so future years can be generated (the 2026-27 calendar follows the same formulas):
+  - signing week, Monday to Thursday;
+  - Tuesday before Thanksgiving through Sunday;
+  - the ABCA convention;
+  - last Monday in May through the next Monday;
+  - Saturday before Father's Day through the Monday after.
+
+**2. Visits, contact and offers (A).**
+- **Official visits:** not before September 1 of the junior year in high school (13.6.2.1.2). August 1 is the rule for other sports; secondary guides that say August 1 for baseball are wrong.
+- **Unofficial visits** involving athletics: September 1 of the junior year (13.7.1.2).
+- **Calls and electronic correspondence:** both ways from August 1 at the start of the junior year (13.1.3.1.1, 13.4.1.1; adopted 4/26/23).
+- **Off-campus in-person contact:** September 1 of the junior year (13.1.1.1.1).
+- **Written offers of athletics aid:** not before August 1 of the senior year (13.9.3.1).
+- **Official visits per school:** one per school before October 15 after finishing high school and one after that (13.6.2.2), plus one more if the head coach changes. There is no cap on total official visits (removed 7/1/23).
+
+**3. Signing (A).**
+- The National Letter of Intent was replaced on October 8–9, 2024 by signing rules and written offers of athletics aid (Council proposal 2024-55).
+- From 10/8/25 a revenue-share contract can be signed on the same dates.
+- Baseball signing opens the second Wednesday in November at 7 a.m. (Nov 12, 2025; Nov 11, 2026) and stays open (13.02.13.1). Undergraduate transfers can sign from their window's first day; graduate transfers from October 1.
+- **What a signature binds:** every other D1 or D2 school giving athletics aid must stop all contact (13.1.1.2). That ends only if:
+  - the aid is reduced or cancelled;
+  - the player becomes academically ineligible;
+  - the player does not enroll full time;
+  - the player asks for a release within 30 days of the head coach leaving; or
+  - the school grants a release. It must answer a request within two business days, or the release is granted by default.
+
+**4. Roster limit, aid and revenue sharing under the House settlement (A unless noted).**
+- **Roster limit:** baseball 34 (Bylaw 17.2, effective 7/1/25), for the five defendant conferences and schools that opt in.
+  - Rosters are due the day before the first contest counted for selection, or December 1, whichever is earlier.
+  - Replacements after the deadline are allowed only for: injury before the first contest, exhausted eligibility, permanent ineligibility, or a player entering a professional draft.
+  - Exempt from the limit:
+    - designated student-athletes (those cut or at risk in 2025-26, reported by July 6, 2025), for as long as their eligibility lasts;
+    - season-ending injuries before the deadline and medical disqualifications;
+    - from 1/16/26, aid kept after a head coach leaves.
+- **Scholarship limits:** sport-specific scholarship limits are gone (Board, June 23, 2025), so the 11.7 limit no longer exists. Aid above a sport's 2024-25 limit counts against the revenue-share cap, up to $2.5M (16.13.1.5).
+- **Revenue-share cap:**
+  - 22% of average Power 5 revenue (media, tickets, sponsorship): about **$21.58M per school in 2026-27**, +4% expected in 2027-28, then recalculated every three years (collegesportscommission.org). 2025-26: $20.5M (B).
+  - No per-sport allocation rule. Every payment needs a written agreement entered in the College Athlete Payment System within five business days.
+  - Non-opt-in schools: no roster limit under 17.2, and revenue sharing is for participating schools only (B/C).
+- **NIL:** every D1 athlete must report third-party deals of $600 or more to NIL Go, run by the College Sports Commission (Bylaw 22.2.2).
+
+**5. Eligibility: an age-based clock from August 1, 2026 (A for the rule, B for the litigation).**
+- Adopted by the D1 Cabinet on 6/23–24/26, effective 8/1/26 (Manual 12.6; ncaa.org news 2026-06-23).
+- The clock: five years from the earlier of first full-time college enrollment (including JUCO) or the academic year after the 19th birthday.
+- No pause for a redshirt, transfer or time off; no four-seasons cap; no waivers except military service, religious missions and pregnancy.
+- Transition:
+  - mandatory for students first enrolling in fall 2027;
+  - current athletes and fall-2026 enrollees get whichever rules favour them;
+  - athletes whose eligibility ran out in 2025-26 get nothing more.
+- Litigation (Pavia v. NCAA):
+  - injunctions and a Board waiver in December 2024;
+  - the Sixth Circuit dismissed the NCAA's appeal as moot on October 1, 2025;
+  - the merits are pending; later 2026 rulings are reported but not verified (D).
+
+**6. MLB draft (B; mlb.com refused).**
+- **Eligibility:**
+  - high school graduates who have not attended college;
+  - four-year college players after the junior year, or at age 21 within 45 days of the draft;
+  - junior college players in any year.
+  Rule 4 itself was not read.
+- **Format:** 20 rounds between June 1 and July 20, under the labor agreement that expires December 1, 2026.
+- **Bonus pools:**
+  - Rounds 1–10 carry slot values that sum to each team's pool.
+  - In rounds 11–20, bonuses up to $150,000 don't count against the pool.
+  - 2026: No. 1 slot $11,350,600, pools about $358.7M in total. 2025: No. 1 slot $11,075,900, pools $350.4M.
+- **Overage penalties:** up to 5% over the pool, a 75% tax; more than 5%, at least a future first-round pick (higher tiers not verified).
+- **Signing deadline 2026:** July 27, 5 p.m. ET.
+- **Unsigned picks:** an unsigned second-rounder (No. 59) gave the team No. 60 the next year; the other compensation rules are not verified.
+- **Lottery:** the top six picks among the 18 non-playoff teams; the three worst teams each have 16.5% at No. 1, with limits on repeat top-six picks.
+- **Prospect Promotion Incentive:** a team earns a pick after round 1 when an eligible top prospect is on its Opening Day roster and meets the service-time and award conditions.
+- **NCAA side:** MLB may pay a prospect's combine expenses (12.2.1.2.1). Players may not have an agent after enrolling; prospects enrolling from 8/1/26 may before.
+- **Pending (a proposal, not a rule):** in June 2026 MLB proposed a 12-round draft from 2027 with no high school or junior college players and hard slots totalling $200M (AP). The new labor agreement could change the draft fundamentally (Section 14, item 13).
+
+**7. Transfer portal (A).**
+- **Windows:** two a year for baseball. Dec 1–15, and 30 days starting seven days after championship selections (13.1.1.4.1(h)).
+  - 2025-26: Dec 1–15, 2025 and June 1–30, 2026.
+  - 2026-27: Dec 1–15, 2026 and June 7–July 6, 2027.
+  - The 45-day window of 2022 was cut to 30 days in October 2023.
+- **Exceptions:**
+  - head coach leaves or announces it: 30 days;
+  - aid reduced, cancelled or not renewed: 30 days (from 1/14/26);
+  - sport discontinued: any time;
+  - graduate transfers: from October 1 to the end of the last window.
+  - No exception was found for players cut because of the roster limit (D).
+- **After the draft:** baseball has no draft declaration and no draft-based portal exception. The June window closes before the draft, so a drafted player who doesn't sign can move only through one of the exceptions above (B/C, inferred).
 
 ### 12.2 Calibration data inventory
 
@@ -362,13 +458,13 @@ The UI, as already planned: the recruiting screens are designed separately.
 
 ## 14. Open issues: internal consistency and data risk
 
-1. **"No communication before Aug 1 of junior year."** The NCAA rule reads "August 1 before the prospect's junior year in high school", that is, rising juniors. The spec's calendar ("August 1 rush: the new junior class opens") already uses that meaning. The wording should say "before the junior year" so the code doesn't wait a year.
-2. **"Signed players are locked except for the MLB draft."** National Letters of Intent were replaced by athletic aid agreements, which changes what a signature binds (Section 12.1, item 3). "Locked" may need to become "locked unless the school releases him or the head coach leaves", per the current rules.
+1. **Resolved: first contact.** Calls and messages open August 1 at the start of the junior year; visits and off-campus contact open September 1 (Section 12.1, item 2). The calendar and rules above now say so. The spec's "official visits" in the August 1 rush move to September 1.
+2. **Resolved: signing.** Letters of intent no longer exist. A signature locks the player against other schools' contact, with defined releases (aid reduced, the head coach leaving, the school's release), and the funnel says so.
 3. **"Home visit (once)."** The NCAA limits in-person, off-campus recruiting contacts per prospect; the limit isn't necessarily one home visit. The game should use the real contact limit (Section 12.1, item 2) rather than "once".
 4. **"Official visits hosted on home-series weekends."** The main visit window in the calendar is September 12 – October 12, during fall ball, when there are no home series. Proposal:
    - fall visits feature fall ball, scrimmages and facilities;
    - spring visits feature a home series, where Ballpark Atmosphere and the weekend's results matter.
-5. **"Roster cuts to 34" in the August–September quiet period.** When the 34-man limit applies (a date, or the first contest) is to be verified (Section 12.1, item 4). If it binds only at the first spring contest, fall rosters can be larger and the cut moves to winter.
+5. **Resolved: roster cuts.** The 34-man roster is due the day before the first counted contest or December 1, whichever is earlier. Fall rosters can be larger, and cuts happen in late fall rather than August. The limit binds only at opted-in schools, so non-opt-in programs in the simulated world need their own roster model (Phase 8).
 6. **NIL in offers versus "NIL collective: not directly spendable".** An offer that names NIL dollars is a promise the school cannot make directly. Under the NIL clearinghouse rules a deal needs a valid business purpose. Proposal:
    - the NIL part of an offer is a collective commitment, drawn from the collective's capacity, which the school influences but does not control;
    - it can fall through (a renewal risk) and is not counted in the school's cap.
@@ -381,5 +477,9 @@ The UI, as already planned: the recruiting screens are designed separately.
     - The repository has no D2 or JUCO play-by-play or box scores. The on-field model for those levels would be the D1 engine on a lower talent scale, which is a GUESS until D2/JUCO data is found.
     - The quick-sim must be validated against the full engine at those levels, as planned.
 11. **Real MLB team names.** Fine for a personal-use project, as the owner states. It must stay names only, with no logos or official artwork, and no other real people (the game never uses real players).
-12. **Calendar labels and dates** are pending verification (Section 12.1); a few came from a hard-to-read PDF. Each year's official calendar is to be loaded as data (`data/`), not hard-coded.
+12. **Resolved: calendar labels.** Confirmed, with the two holiday periods as Recruiting Shutdown. Each year's calendar is generated from the bylaw formulas and checked against the official PDF, stored as data, not hard-coded.
+13. **The MLB draft may change in 2027.** The labor agreement expires December 1, 2026. MLB has proposed a 12-round draft with no high school or JUCO players. If adopted, the high school draft decision, JUCO draft eligibility and much of the draft-day drama would change. The spec should treat draft rules as data (rounds, eligible pools, slot tables) and follow whatever the new agreement says.
+14. **Eligibility is now an age-based five-year clock** (from 8/1/26): no seasons cap, no redshirt, no waivers, with JUCO time counting. That replaces class-year bookkeeping in Phase 8. "Some return for a senior year" becomes a question of how many years are left on the player's clock.
+15. **Revenue sharing has no per-sport rule.** A school's baseball share is its own choice out of an athletics-wide cap (about $21.6M in 2026-27). The game's revenue-share pool for baseball is an allocation decision by the athletic department, a GUESS by program type (Section 12.2: no public per-sport figures).
+16. **"No AI tampering" holds by rule.** Signing locks out other schools' contact, and the portal has fixed windows.
 
