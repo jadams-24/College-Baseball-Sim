@@ -16,8 +16,8 @@ every file it wrote for roster names (it fails if it finds one).
 Input (the fetcher's output, never committed): rosters_2025.csv, state.json, failures.csv.
 Repository data read: data/ncaa_2025/pbp/teams_2025.csv (conference, tier; joined on
 team_ncaa_id = ncaa_team_id), data/ncaa_2025/ncaa_d1_teams_2025.csv (D1 names),
-tools/roster_teams.csv (the teams the fetcher tries), and
-data/ncaa_2025/pbp/parsed/pa_events_2025.csv.gz (the play-by-play).
+tools/roster_teams.csv (the teams the fetcher tries), and the play-by-play:
+data/ncaa_2025/pbp/parsed/pa_events_2025.csv.gz, subs_2025.csv.gz, games_2025.csv (final scores).
 
 Output (default data/ncaa_2025/roster_aggregates/; tables and rules in data/README.md):
     coverage.csv                 teams attempted / parsed / failed by reason class, fields filled, by tier
@@ -32,6 +32,11 @@ Output (default data/ncaa_2025/roster_aggregates/; tables and rules in data/READ
     hometown_by_conference.csv   conference x Census division
     origins_by_school.csv        class x origin category (high school, JUCO, D1 transfer, other) by school
     origins_rules.csv            which classification rule fired, by origin and tier (for grading the rules)
+    linear_weights.csv           run value of each PA result: OLS of team-game runs on team-game event counts
+    hand_by_talent_pitchers.csv  matched pitchers by role x talent bin (quintiles of an adjusted index) x throws
+    hand_by_talent_batters.csv   matched batters by position group x talent bin x throws x bats
+    relief_by_hand.csv           pitching changes by current pitcher's throws x batter due up's bats x inning
+    pinch_hit_by_hand.csv        pinch hitters by pitcher faced x replaced batter's bats x own bats, with opportunities
 
 Linkage: the play-by-play's batter_id and pitcher_id are WMT game_player_id values, unique
 to one game (checked: every id appears in exactly one game), so they cannot equal the
@@ -67,6 +72,8 @@ TEAMS = ROOT / "data/ncaa_2025/pbp/teams_2025.csv"
 D1_TEAMS = ROOT / "data/ncaa_2025/ncaa_d1_teams_2025.csv"
 ROSTER_TEAMS = ROOT / "tools/roster_teams.csv"
 PA_EVENTS = ROOT / "data/ncaa_2025/pbp/parsed/pa_events_2025.csv.gz"
+SUBS = ROOT / "data/ncaa_2025/pbp/parsed/subs_2025.csv.gz"
+GAMES = ROOT / "data/ncaa_2025/pbp/parsed/games_2025.csv"
 OUT = ROOT / "data/ncaa_2025/roster_aggregates"
 
 MIN_SPLIT_PA = 50          # GUESS: PA (BF for pitchers) needed against each hand to enter platoon_spread
@@ -74,6 +81,11 @@ MIN_CELL_PLAYERS = 5       # GUESS: platoon_spread cells with fewer players prin
 STARTER_SHARE = 0.5        # GUESS: a pitcher is a starter when at least this share of his appearances are starts
 TRUNCATED_LEN = 12         # WMT check names are cut at 12 characters (2026-10-07: 99.9% of names are <= 12)
 LEAK_MIN_LAST = 6          # last names this long or longer are searched for in the outputs (owner spec)
+K_SHRINK = 50              # GUESS: opponent adjustment of a talent index is shrunk by n / (n + K_SHRINK) PA
+MIN_BF_BIN = 30            # GUESS: pitchers with fewer BF go to talent bin lt30 (quintile edges use the rest)
+MIN_PA_BIN = 50            # GUESS: batters with fewer PA go to talent bin lt50 (quintile edges use the rest)
+N_BINS = 5                 # quintiles (Phase 3 plan, owner-approved 2026-10-08)
+LATE_INNING = 7            # inning buckets 1-6 / 7+ (Phase 3 plan)
 
 HIT = ("1B", "2B", "3B")
 BIP_NOROE = ("1B", "2B", "3B", "FO", "GO", "GIDP", "DP", "SF", "SH", "FC")   # scripts/build_phase2_benchmarks.py
@@ -622,7 +634,7 @@ def load_fetch(fetch_dir: Path) -> tuple[pd.DataFrame, dict, pd.DataFrame]:
 
 
 def load_pa() -> pd.DataFrame:
-    cols = ["game_id", "group_id", "bat_team_id", "pit_team_id", "batter", "pitcher", "result"]
+    cols = ["game_id", "group_id", "inning", "bat_team_id", "pit_team_id", "batter", "pitcher", "result"]
     pa = pd.read_csv(PA_EVENTS, usecols=cols, dtype={"batter": str, "pitcher": str}, low_memory=False)
     pa = pa.sort_values(["game_id", "group_id"]).reset_index(drop=True)
     pa["res"] = pa.result.map(lambda r: RES_MAP.get(r, r))
@@ -754,19 +766,29 @@ def linkage_table(pa, R, bat_map, pit_map, tier_of) -> tuple[pd.DataFrame, pd.Da
     return pd.DataFrame(rows), stats
 
 
-def pitcher_role_table(pa, R, pit_map, stats) -> tuple[pd.DataFrame, pd.DataFrame]:
+def pitcher_usage(pa, pit_map) -> pd.DataFrame:
+    """Appearances, starts and BF per matched roster pitcher (index pid); a start is being the
+    first pitcher of his team in a game."""
     first = pa.groupby(["game_id", "pit_team_id"], sort=False).head(1)
     st = first.groupby(["pit_team_id", "pitcher"]).size()
     apps = pa.groupby(["pit_team_id", "pitcher"]).game_id.nunique()
     bf = pa.groupby(["pit_team_id", "pitcher"]).size()
     ident = pd.DataFrame({"apps": apps, "starts": st, "bf": bf}).fillna(0).reset_index()
     ident["pid"] = [pit_map[(t, n)][1] if pit_map[(t, n)][0] == "matched" else -1 for t, n in zip(ident.pit_team_id, ident.pitcher)]
-    per = ident[ident.pid >= 0].groupby("pid")[["apps", "starts", "bf"]].sum()
+    return ident[ident.pid >= 0].groupby("pid")[["apps", "starts", "bf"]].sum()
+
+
+def pitcher_role(apps: pd.Series, starts: pd.Series) -> np.ndarray:
+    return np.where(apps == 0, "unmatched", np.where(starts / apps.clip(lower=1) >= STARTER_SHARE, "starter", "reliever"))
+
+
+def pitcher_role_table(pa, R, pit_map, stats) -> tuple[pd.DataFrame, pd.DataFrame]:
+    per = pitcher_usage(pa, pit_map)
     P = R.set_index("pid")
     pit = P.loc[P.index.isin(per.index) | P.pos_group.isin(["P", "two-way"]).values].copy()
     pit = pit.join(per, how="left")
     pit[["apps", "starts", "bf"]] = pit[["apps", "starts", "bf"]].fillna(0)
-    pit["role"] = np.where(pit.apps == 0, "unmatched", np.where(pit.starts / pit.apps.clip(lower=1) >= STARTER_SHARE, "starter", "reliever"))
+    pit["role"] = pitcher_role(pit.apps, pit.starts)
     out = []
     for sc, val, g in scopes(pit.reset_index()):
         c = g.groupby(["role", "throws_n"]).agg(pitchers=("pid", "size"), appearances=("apps", "sum"),
@@ -939,6 +961,290 @@ def platoon_spread_table(h: pd.DataFrame, null_draws: int = 20, seed: int = 2026
     return pd.DataFrame(rows).reindex(columns=cols).round(5)
 
 
+# ------------------------------------------------------------------ Phase 3: hand by talent, relief and pinch-hit usage
+LW_TERMS = ("1B", "2B", "3B", "HR", "BB", "HBP", "ROE", "out")
+LW_CLASS = {"1B": "1B", "2B": "2B", "3B": "3B", "HR": "HR", "BB": "BB", "HBP": "HBP", "ROE": "ROE",   # engine result class -> term
+            "K": "out", "IP_OUT": "out", "SF": "out", "SH": "out", "FC": "out"}
+ON_BASE_RES = ("1B", "2B", "3B", "HR", "BB", "HBP")   # engine classes: BB includes IBB, HBP includes CI
+HANDS_T = ("L", "R")
+HANDS_B = ("L", "R", "S")
+INNING_BUCKETS = ("1-6", "7+")
+PITCHER_INDEXES = ("k_minus_bb", "run_value")   # primary first
+BATTER_INDEXES = ("run_value", "on_base")
+ROLES = ("starter", "reliever")
+
+
+def inning_bucket(inning: pd.Series) -> np.ndarray:
+    return np.where(inning >= LATE_INNING, INNING_BUCKETS[1], INNING_BUCKETS[0])
+
+
+def linear_weights(pa: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
+    """Run value of each PA result from the play-by-play itself: OLS of a team-game's runs (final
+    score, games_2025.csv) on its counts of 1B, 2B, 3B, HR, BB (incl. IBB), HBP (incl. CI), ROE and
+    outs (K, FO/GO/GIDP/DP, SF, SH, FC), intercept free. Team-games whose parsed PA count differs
+    from the box score's PA are left out (play-by-play incomplete there)."""
+    g = pd.read_csv(GAMES, usecols=["game_id", "home_team_id", "home_score", "home_pa", "away_team_id", "away_score", "away_pa"])
+    tg = pd.concat([g[["game_id", f"{s}_team_id", f"{s}_score", f"{s}_pa"]].set_axis(["game_id", "team", "runs", "box_pa"], axis=1)
+                    for s in ("home", "away")], ignore_index=True)
+    cls = pa.res.map(LW_CLASS)
+    if cls.isna().any():
+        raise ValueError(f"result classes without a linear-weights term: {sorted(set(pa.res[cls.isna()]))}")
+    c = pd.crosstab([pa.game_id, pa.bat_team_id], cls).reindex(columns=list(LW_TERMS), fill_value=0)
+    c.index = c.index.set_names(["game_id", "team"])
+    m = tg.merge(c.reset_index(), on=["game_id", "team"], how="inner")
+    m = m[(m[list(LW_TERMS)].sum(axis=1) == m.box_pa) & m.runs.notna()]
+    X = np.column_stack([np.ones(len(m)), m[list(LW_TERMS)].to_numpy(float)])
+    y = m.runs.to_numpy(float)
+    beta = np.linalg.lstsq(X, y, rcond=None)[0]
+    resid = y - X @ beta
+    s2 = float(resid @ resid) / max(len(y) - X.shape[1], 1)
+    se = np.sqrt(np.diag(s2 * np.linalg.inv(X.T @ X)))
+    r2 = 1 - float(resid @ resid) / float(((y - y.mean()) ** 2).sum())
+    tab = pd.DataFrame({"term": ("intercept",) + LW_TERMS, "run_value": beta.round(4), "se": se.round(4),
+                        "events": [len(m)] + [int(m[t].sum()) for t in LW_TERMS]})
+    tab["team_games"] = len(m)
+    tab["r2"] = round(r2, 4)
+    tab["rmse"] = round(math.sqrt(s2), 4)
+    return tab, dict(zip(LW_TERMS, beta[1:]))
+
+
+def adjusted_index(h: pd.DataFrame, y: pd.Series, own: str, opp_cols: list) -> pd.DataFrame:
+    """n and mean, per roster player (column own, pid >= 0), of y minus the opponent adjustment
+    minus the platoon adjustment. Opponent adjustment: the opponent's mean y over all his PA minus
+    the league mean, times n / (n + K_SHRINK); opponents are keyed by team and play-by-play name
+    (opp_cols), so unmatched opponents count too. Platoon adjustment: the league mean y in the PA's
+    (batter side used, pitcher throws) cell minus the league mean over PA with both hands known;
+    0 when either hand is unknown (so a left-hander's index is not moved by platoon effects)."""
+    grp = y.groupby([h[c] for c in opp_cols])
+    n = grp.transform("size")
+    opp_adj = (grp.transform("mean") - y.mean()) * n / (n + K_SHRINK)
+    plat = pd.Series(0.0, index=h.index)
+    k = h.known
+    if k.any():
+        plat[k] = y[k].groupby([h.side[k], h.throws[k]]).transform("mean") - y[k].mean()
+    adj = y - opp_adj - plat
+    sel = h[own] >= 0
+    return adj[sel].groupby(h[own][sel]).agg(["size", "mean"])
+
+
+def _talent_cells(P: pd.DataFrame, indexes, group_col: str, groups, hand_cols: list, hand_levels: list, n_col: str,
+                  min_n: int, edges_by_group: bool, count_name: str, sum_name: str) -> pd.DataFrame:
+    """Counts and index moments by scope x index x group x talent bin x hands. Bins: quintiles of
+    the index among players with n >= min_n on D1 teams (all scopes pooled, so every scope has
+    the same edges; within group when edges_by_group), and lt<min_n for the rest. The outer edges
+    are left blank (open), so no edge is one player's value; cells with fewer than
+    MIN_CELL_PLAYERS players print counts only."""
+    small = f"lt{min_n}"
+    bins = [f"q{i}" for i in range(1, N_BINS + 1)] + [small]
+    out = []
+    for ix in indexes:
+        Q = P.copy()
+        Q["bin"] = small
+        edges = {}
+        for gname in (groups if edges_by_group else ("*",)):
+            gmask = (Q[group_col] == gname) if edges_by_group else pd.Series(True, index=Q.index)
+            qual = gmask & (Q[n_col] >= min_n) & Q[ix].notna()
+            base = Q.loc[qual & (Q.tier != "non_d1"), ix]
+            e = np.quantile(base, [i / N_BINS for i in range(1, N_BINS)]) if len(base) >= N_BINS else np.array([])
+            Q.loc[qual, "bin"] = ["q" + str(int(b) + 1) for b in np.searchsorted(e, Q.loc[qual, ix], side="right")]
+            full = [np.nan] + list(e) + [np.nan] if len(e) else [np.nan] * (N_BINS + 1)
+            for gg in (groups if not edges_by_group else (gname,)):
+                for i in range(N_BINS):
+                    edges[(gg, f"q{i + 1}")] = (full[i], full[i + 1])
+                edges[(gg, small)] = (np.nan, np.nan)
+        for sc, val, g in scopes(Q.reset_index(), ("tier",)):
+            c = g.groupby([group_col, "bin"] + hand_cols).agg(**{count_name: ("pid", "size"), sum_name: (n_col, "sum"),
+                                                                 "index_mean": (ix, "mean"), "index_sd": (ix, "std")})
+            grid = pd.MultiIndex.from_product([list(groups), bins] + [list(lv) for lv in hand_levels],
+                                              names=[group_col, "bin"] + hand_cols)
+            c = c.reindex(grid).reset_index()
+            c[[count_name, sum_name]] = c[[count_name, sum_name]].fillna(0).astype(int)
+            few = c[count_name] < MIN_CELL_PLAYERS
+            c.loc[few, ["index_mean", "index_sd"]] = np.nan
+            c.insert(2, "bin_lo", [edges[(a, b)][0] for a, b in zip(c[group_col], c.bin)])
+            c.insert(3, "bin_hi", [edges[(a, b)][1] for a, b in zip(c[group_col], c.bin)])
+            c.insert(0, "index", ix)
+            c.insert(0, "scope_value", val)
+            c.insert(0, "scope", sc)
+            out.append(c)
+    df = pd.concat(out, ignore_index=True)
+    for col in ("bin_lo", "bin_hi", "index_mean", "index_sd"):
+        df[col] = df[col].astype(float).round(5)
+    return df
+
+
+def run_values(h: pd.DataFrame, weights: dict) -> pd.Series:
+    return h.res.map(LW_CLASS).map(weights).astype(float)
+
+
+def pitcher_talent_table(pa, h, R, pit_map, weights) -> pd.DataFrame:
+    """Matched pitchers (throws L or R) by role x talent bin x throws. Indexes: k_minus_bb (primary;
+    per PA 1[K] - 1[BB], BB incl. IBB; higher is better) and run_value (linear-weights runs per PA;
+    lower is better), each adjusted for the batters faced and for platoon (adjusted_index)."""
+    P = pitcher_usage(pa, pit_map).join(R.set_index("pid")[["tier", "throws_n"]]).rename(columns={"throws_n": "throws"})
+    P["role"] = pitcher_role(P.apps, P.starts)
+    P = P[P.throws.isin(HANDS_T) & P.role.isin(ROLES)].copy()
+    ys = {"k_minus_bb": (h.res == "K").astype(float) - (h.res == "BB").astype(float), "run_value": run_values(h, weights)}
+    for ix in PITCHER_INDEXES:
+        P[ix] = adjusted_index(h, ys[ix], "ppid", ["bat_team_id", "batter"])["mean"].reindex(P.index)
+    P.index.name = "pid"
+    return _talent_cells(P, PITCHER_INDEXES, "role", ROLES, ["throws"], [HANDS_T], "bf", MIN_BF_BIN, True,
+                         "pitchers", "bf_sum")
+
+
+def batter_talent_table(h, R, weights) -> pd.DataFrame:
+    """Matched batters (bats L/R/S, throws L/R) by position group x talent bin x throws x bats.
+    Indexes: run_value (primary; linear-weights runs per PA) and on_base (1[H, BB, IBB, HBP or CI]),
+    each adjusted for the pitchers faced and for platoon (adjusted_index). Bins pooled over positions."""
+    sel = h.bpid >= 0
+    B = R.set_index("pid")[["tier", "pos_group", "throws_n", "bats_n"]].rename(
+        columns={"pos_group": "position_group", "throws_n": "throws", "bats_n": "bats"})
+    B = B.join(h.bpid[sel].value_counts().rename("pa"), how="inner")
+    B = B[B.throws.isin(HANDS_T) & B.bats.isin(HANDS_B)].copy()
+    ys = {"run_value": run_values(h, weights), "on_base": h.res.isin(ON_BASE_RES).astype(float)}
+    for ix in BATTER_INDEXES:
+        B[ix] = adjusted_index(h, ys[ix], "bpid", ["pit_team_id", "pitcher"])["mean"].reindex(B.index)
+    B.index.name = "pid"
+    return _talent_cells(B, BATTER_INDEXES, "position_group", POS_GROUPS, ["throws", "bats"], [HANDS_T, HANDS_B], "pa",
+                         MIN_PA_BIN, False, "batters", "pa_sum")
+
+
+def relief_table(h: pd.DataFrame) -> pd.DataFrame:
+    """Pitching changes by hand. For each fielding team, every PA after its first in a game is an
+    opportunity; a change happens when its pitcher (play-by-play name) differs from the pitcher of
+    that team's previous PA. cur_throws is the previous PA's pitcher's, batter_bats the listed bats
+    of the batter due up, the inning bucket the PA's; changes are split by the new pitcher's throws.
+    Scope tier: the fielding team's."""
+    d = h.sort_values(["game_id", "group_id"])
+    g = d.groupby(["game_id", "pit_team_id"], sort=False)
+    d = d.assign(prev=g.pitcher.shift(), cur_throws=g.throws.shift())
+    d = d[d.prev.notna()].copy()
+    d["chg"] = (d.pitcher != d.prev).astype(int)
+    for hand in ("L", "R", "unknown"):
+        d[f"to_{hand}"] = (d.chg.astype(bool) & (d.throws == hand)).astype(int)
+    d["inning_bucket"] = inning_bucket(d.inning)
+    d["tier"] = d.pit_tier
+    keys = ["cur_throws", "batter_bats", "inning_bucket"]
+    d = d.rename(columns={"bats": "batter_bats"})
+    out = []
+    for sc, val, gg in scopes(d, ("tier",)):
+        c = gg.groupby(keys).agg(pas=("chg", "size"), changes=("chg", "sum"), changes_to_L=("to_L", "sum"),
+                                 changes_to_R=("to_R", "sum"), changes_to_unknown=("to_unknown", "sum"))
+        grid = pd.MultiIndex.from_product([HANDS_T + ("unknown",), HANDS_B + ("unknown",), INNING_BUCKETS], names=keys)
+        c = c.reindex(grid, fill_value=0).reset_index()
+        c.insert(0, "scope_value", val)
+        c.insert(0, "scope", sc)
+        out.append(c)
+    df = pd.concat(out, ignore_index=True)
+    for col in ("pas", "changes", "changes_to_L", "changes_to_R", "changes_to_unknown"):
+        df[col] = df[col].astype(int)
+    return df
+
+
+def pinch_hit_table(h: pd.DataFrame, R: pd.DataFrame, parsed_teams: set, tier_of: dict) -> tuple[pd.DataFrame, dict]:
+    """Pinch hitters by hand. Events: subs_2025 rows kind 'in' at position 'ph' (the pinch hitter)
+    and the 'out' row at the same play_by_play_id, team and lineup spot (the replaced batter); both
+    names matched to the batting team's roster as in link(). play_by_play_id is the id of the
+    substitution's play group, from the same per-game action sequence as pa_events' group_id (the id
+    of a PA's play group; scripts/wmt_parse.py, scripts/build_phase6_events.py), so ids order subs
+    and PA within a game. The pitcher he faces is the pitcher of his team's first PA with group_id
+    > play_by_play_id; subs with no later PA of the team are dropped. Opportunities: every PA by
+    pitcher throws, listed bats of the batter due up and inning bucket (ph_bats 'opportunity')."""
+    s = pd.read_csv(SUBS, usecols=["game_id", "team_id", "play_by_play_id", "kind", "name", "position", "lineup_spot"])
+    keys = ["game_id", "team_id", "play_by_play_id", "lineup_spot"]
+    ph = s[(s.kind == "in") & (s.position == "ph")].drop_duplicates(keys)
+    rep = s[s.kind == "out"].drop_duplicates(keys)[keys + ["name"]].rename(columns={"name": "replaced"})
+    m = ph.merge(rep, on=keys, how="left")
+    nxt = h[["game_id", "group_id", "bat_team_id", "throws", "inning"]].rename(columns={"bat_team_id": "team_id"})
+    m = pd.merge_asof(m.sort_values("play_by_play_id"), nxt.sort_values("group_id"), left_on="play_by_play_id",
+                      right_on="group_id", by=["game_id", "team_id"], direction="forward", allow_exact_matches=False)
+    info = {"ph_subs": len(ph), "ph_with_replaced_row": int(m.replaced.notna().sum()),
+            "ph_with_next_pa": int(m.group_id.notna().sum())}
+    m = m[m.group_id.notna()].copy()
+    idx = build_name_index(R)
+    bats = R.set_index("pid").bats_n
+    cache: dict = {}
+
+    def bats_of(tid, nm):
+        if not isinstance(nm, str) or tid not in parsed_teams:
+            return "unknown"
+        if (tid, nm) not in cache:
+            st, pid = match_name(nm, idx.get(tid, []))
+            cache[(tid, nm)] = bats.get(pid, "unknown") if st == "matched" else "unknown"
+        return cache[(tid, nm)]
+
+    m["ph_bats"] = [bats_of(t, n) for t, n in zip(m.team_id, m.name)]
+    m["replaced_bats"] = [bats_of(t, n) for t, n in zip(m.team_id, m.replaced)]
+    m["pitcher_throws"] = m.throws
+    m["inning_bucket"] = inning_bucket(m.inning)
+    m["tier"] = m.team_id.map(tier_of).fillna("non_d1")
+    info["ph_bats_known"] = int(m.ph_bats.isin(HANDS_B).sum())
+    opp = h.assign(pitcher_throws=h.throws, replaced_bats=h.bats, ph_bats="opportunity", tier=h.bat_tier,
+                   inning_bucket=inning_bucket(h.inning))
+    keys = ["inning_bucket", "pitcher_throws", "replaced_bats", "ph_bats"]
+    tl, bl = HANDS_T + ("unknown",), HANDS_B + ("unknown",)
+    out = []
+    for frame, ph_levels in ((m, bl), (opp, ("opportunity",))):
+        for sc, val, g in scopes(frame, ("tier",)):
+            c = g.groupby(keys).size().rename("n")
+            c = c.reindex(pd.MultiIndex.from_product([INNING_BUCKETS, tl, bl, ph_levels], names=keys), fill_value=0).reset_index()
+            c.insert(0, "scope_value", val)
+            c.insert(0, "scope", sc)
+            out.append(c)
+    df = pd.concat(out, ignore_index=True)
+    df["n"] = df.n.astype(int)
+    return df, info
+
+
+# The new tables' columns, and the only labels their text columns may hold (checked before writing,
+# so no cell can hold a name; numbers only elsewhere).
+NEW_TABLE_COLUMNS = {
+    "linear_weights.csv": ["term", "run_value", "se", "events", "team_games", "r2", "rmse"],
+    "hand_by_talent_pitchers.csv": ["scope", "scope_value", "index", "role", "bin", "bin_lo", "bin_hi", "throws", "pitchers",
+                                    "bf_sum", "index_mean", "index_sd"],
+    "hand_by_talent_batters.csv": ["scope", "scope_value", "index", "position_group", "bin", "bin_lo", "bin_hi", "throws",
+                                   "bats", "batters", "pa_sum", "index_mean", "index_sd"],
+    "relief_by_hand.csv": ["scope", "scope_value", "cur_throws", "batter_bats", "inning_bucket", "pas", "changes",
+                           "changes_to_L", "changes_to_R", "changes_to_unknown"],
+    "pinch_hit_by_hand.csv": ["scope", "scope_value", "inning_bucket", "pitcher_throws", "replaced_bats", "ph_bats", "n"],
+}
+TIER_LABELS = {"all", "p4", "mid", "low", "non_d1"}
+NEW_TABLE_LABELS = {
+    "linear_weights.csv": {"term": {"intercept", *LW_TERMS}},
+    "hand_by_talent_pitchers.csv": {"scope": {"all", "tier"}, "scope_value": TIER_LABELS, "index": set(PITCHER_INDEXES),
+                                    "role": set(ROLES), "bin": {f"q{i}" for i in range(1, N_BINS + 1)} | {f"lt{MIN_BF_BIN}"},
+                                    "throws": set(HANDS_T)},
+    "hand_by_talent_batters.csv": {"scope": {"all", "tier"}, "scope_value": TIER_LABELS, "index": set(BATTER_INDEXES),
+                                   "position_group": set(POS_GROUPS),
+                                   "bin": {f"q{i}" for i in range(1, N_BINS + 1)} | {f"lt{MIN_PA_BIN}"},
+                                   "throws": set(HANDS_T), "bats": set(HANDS_B)},
+    "relief_by_hand.csv": {"scope": {"all", "tier"}, "scope_value": TIER_LABELS, "cur_throws": {"L", "R", "unknown"},
+                           "batter_bats": {"L", "R", "S", "unknown"}, "inning_bucket": set(INNING_BUCKETS)},
+    "pinch_hit_by_hand.csv": {"scope": {"all", "tier"}, "scope_value": TIER_LABELS, "inning_bucket": set(INNING_BUCKETS),
+                              "pitcher_throws": {"L", "R", "unknown"}, "replaced_bats": {"L", "R", "S", "unknown"},
+                              "ph_bats": {"L", "R", "S", "unknown", "opportunity"}},
+}
+
+
+def label_check(tables: dict) -> list[tuple[str, str]]:
+    """(file, column) of every new-table column that holds a value outside its fixed labels, or a
+    non-numeric value in a column that must be numeric."""
+    bad = []
+    for name, spec in NEW_TABLE_LABELS.items():
+        df = tables.get(name)
+        if df is None:
+            continue
+        if list(df.columns) != NEW_TABLE_COLUMNS[name]:
+            bad.append((name, "<columns>"))
+        for col in df.columns:
+            if col in spec:
+                if not set(df[col].astype(str)) <= spec[col]:
+                    bad.append((name, col))
+            elif not pd.api.types.is_numeric_dtype(df[col]):
+                bad.append((name, col))
+    return bad
+
+
 def hometown_tables(R: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
     keys = ["team_ncaa_id", "team", "conference", "tier", "area", "area_type", "census_region", "census_division"]
     by_school = R.groupby(keys).size().rename("count").reset_index().rename(columns={"area": "hometown_area"})
@@ -968,7 +1274,9 @@ OUTPUT_LABELS = {   # fixed labels the tables write (some are surnames too: Pitc
     "blank_previous_school", "no_previous_school_field_on_page", "previous_is_high_school", "juco_marker",
     "juco_list", "d1_name", "four_year_keyword", "residual_unclassified", "freshman_residual_as_high_school", "Northeast", "Midwest", "South", "West",
     "New England", "Middle Atlantic", "East North Central", "West North Central", "South Atlantic",
-    "East South Central", "West South Central", "Mountain", "Pacific", "US territory"}
+    "East South Central", "West South Central", "Mountain", "Pacific", "US territory",
+    "k_minus_bb", "run_value", "on_base", "q1", "q2", "q3", "q4", "q5", "lt30", "lt50", "1-6", "7+", "opportunity",
+    "intercept", "out"}
 def allowed_vocabulary(teams: pd.DataFrame) -> set[str]:
     """Strings the outputs may legitimately hold: team, conference and place names, labels."""
     words = set(teams.team) | set(teams.conference) | set(pd.read_csv(D1_TEAMS).team) | set(pd.read_csv(TEAMS).team)
@@ -976,6 +1284,7 @@ def allowed_vocabulary(teams: pd.DataFrame) -> set[str]:
     words |= {n for line in STATES.splitlines() for n in line.split("|")[1].split(";")}
     words |= {r for line in STATES.splitlines() for r in line.split("|")[2:]}
     words |= set(POS_GROUPS) | set(ORIGINS) | set(REASONS) | set(RESULTS) | set(SPLIT_RATES) | OUTPUT_LABELS
+    words |= {c for cols in NEW_TABLE_COLUMNS.values() for c in cols}
     out = set()
     for w in words:
         out |= {fold(w), letters(w)}
@@ -1084,6 +1393,15 @@ def aggregate(fetch_dir: Path, out_dir: Path, pa: pd.DataFrame | None = None, qu
     }
     tables["hometown_by_school.csv"], tables["hometown_by_conference.csv"] = hometown_tables(R)
     tables["origins_by_school.csv"], tables["origins_rules.csv"] = origin_tables(R)
+    # Phase 3 plan (owner-approved 2026-10-08): hands by talent, relief and pinch-hit usage by hand
+    tables["linear_weights.csv"], weights = linear_weights(pa)
+    tables["hand_by_talent_pitchers.csv"] = pitcher_talent_table(pa, h, R, pit_map, weights)
+    tables["hand_by_talent_batters.csv"] = batter_talent_table(h, R, weights)
+    tables["relief_by_hand.csv"] = relief_table(h)
+    tables["pinch_hit_by_hand.csv"], ph_info = pinch_hit_table(h, R, parsed, tier_of)
+    bad = label_check(tables)
+    if bad:   # a text cell outside the fixed labels: write nothing
+        raise AssertionError(f"unexpected values in {bad}; nothing may be committed")
     for name, df in tables.items():
         df.to_csv(out_dir / name, index=False)
     hits = leak_check(out_dir, R, allowed_vocabulary(teams))
@@ -1096,7 +1414,7 @@ def aggregate(fetch_dir: Path, out_dir: Path, pa: pd.DataFrame | None = None, qu
                "players": len(R), "tables": {k: len(v) for k, v in tables.items()},
                "batter_pa_matched": float(linkage.query("scope == 'all' and side == 'batter'").share_pa_or_bf_matched.iloc[0]),
                "pitcher_bf_matched": float(linkage.query("scope == 'all' and side == 'pitcher'").share_pa_or_bf_matched.iloc[0]),
-               "pa_both_hands_share": round(float(h.known.mean()), 4)}
+               "pa_both_hands_share": round(float(h.known.mean()), 4), **ph_info}
     if not quiet:   # counts only; never a name
         print(json.dumps(summary, indent=1))
         print(f"leak check passed: no roster name in {len(tables)} files ({out_dir})")
@@ -1241,6 +1559,71 @@ def _unit_checks(d1keys: set) -> list[str]:
     return bad
 
 
+def _chi2_homogeneity(counts: np.ndarray) -> float:
+    """Pearson chi-square of a bins x 2 table (rows with no players dropped)."""
+    c = counts[counts.sum(axis=1) > 0].astype(float)
+    exp = c.sum(axis=1, keepdims=True) * c.sum(axis=0, keepdims=True) / c.sum()
+    return float(((c - exp) ** 2 / np.where(exp > 0, exp, 1)).sum())
+
+
+CHI2_4DF_P001 = 18.47   # chi-square critical value, 4 df, p = .001 (selftest check only)
+
+
+def _phase3_checks(out: Path, pa: pd.DataFrame, s: dict) -> bool:
+    """Selftest checks of the Phase 3 tables on synthetic rosters (fake hands, independent of talent)."""
+    ok = True
+    lw = pd.read_csv(out / "linear_weights.csv").set_index("term").run_value
+    print("  linear weights (runs per event): " + ", ".join(f"{t} {lw[t]:+.3f}" for t in lw.index)
+          + f"  ({int(pd.read_csv(out / 'linear_weights.csv').team_games.iloc[0])} team-games)")
+    order = lw[["HR", "3B", "2B", "1B", "BB"]].to_numpy()
+    good = bool((np.diff(order) < 0).all() and lw["BB"] > 0 > lw["out"])
+    print(f"  linear weights ordered HR > 3B > 2B > 1B > BB > 0 > out: {good}")
+    ok &= good
+    q = [f"q{i}" for i in range(1, N_BINS + 1)]
+    tp = pd.read_csv(out / "hand_by_talent_pitchers.csv", keep_default_na=False)
+    for ix in PITCHER_INDEXES:
+        for role in ROLES:
+            a = tp[(tp.scope == "all") & (tp["index"] == ix) & (tp.role == role)]
+            ct = a.pivot_table(index="bin", columns="throws", values="pitchers", aggfunc="sum").reindex(q + [f"lt{MIN_BF_BIN}"])
+            sh = ct.L / ct.sum(axis=1)
+            chi = _chi2_homogeneity(ct.loc[q].to_numpy())
+            print(f"  LHP share by talent bin, {ix:10} {role:8}: " + " ".join(f"{b} {sh[b]:.3f}" for b in sh.index)
+                  + f"  (chi2 over q1-q5 {chi:.1f}, flat if < {CHI2_4DF_P001})")
+            ok &= chi < CHI2_4DF_P001
+    tb = pd.read_csv(out / "hand_by_talent_batters.csv", keep_default_na=False)
+    for ix in BATTER_INDEXES:
+        a = tb[(tb.scope == "all") & (tb["index"] == ix)]
+        ct = a.assign(lb=np.where(a.bats == "L", "L", "notL")).pivot_table(index="bin", columns="lb", values="batters", aggfunc="sum")
+        ct = ct.reindex(q + [f"lt{MIN_PA_BIN}"])
+        sh = ct.L / ct.sum(axis=1)
+        chi = _chi2_homogeneity(ct.loc[q].to_numpy())
+        print(f"  LHB share by talent bin, {ix:10}: " + " ".join(f"{b} {sh[b]:.3f}" for b in sh.index)
+              + f"  (chi2 {chi:.1f}, flat if < {CHI2_4DF_P001}); bins: "
+              + " ".join(f"{b} {int(ct.loc[b].sum())}" for b in ct.index))
+        ok &= chi < CHI2_4DF_P001
+    roles = pd.read_csv(out / "pitcher_throws_by_role.csv", keep_default_na=False)
+    n_roles = int(roles[(roles.scope == "all") & roles.role.isin(ROLES) & roles.throws.isin(HANDS_T)].pitchers.sum())
+    n_tal = int(tp[(tp.scope == "all") & (tp["index"] == PITCHER_INDEXES[0])].pitchers.sum())
+    print(f"  pitchers in hand_by_talent_pitchers {n_tal}, in pitcher_throws_by_role (starter/reliever, L/R) {n_roles}")
+    ok &= n_tal == n_roles
+    rb = pd.read_csv(out / "relief_by_hand.csv", keep_default_na=False)
+    ra = rb[rb.scope == "all"]
+    opp_expected = len(pa) - pa.groupby(["game_id", "pit_team_id"]).ngroups
+    print(f"  relief_by_hand: {int(ra.pas.sum())} opportunities (expected {opp_expected}), {int(ra.changes.sum())} changes "
+          f"(to L {int(ra.changes_to_L.sum())}, R {int(ra.changes_to_R.sum())}, unknown {int(ra.changes_to_unknown.sum())}); "
+          f"change rate 1-6 {ra[ra.inning_bucket == '1-6'].changes.sum() / ra[ra.inning_bucket == '1-6'].pas.sum():.3f}, "
+          f"7+ {ra[ra.inning_bucket == '7+'].changes.sum() / ra[ra.inning_bucket == '7+'].pas.sum():.3f}")
+    ok &= int(ra.pas.sum()) == opp_expected and ra.changes.sum() > 0
+    ok &= bool((ra.changes == ra.changes_to_L + ra.changes_to_R + ra.changes_to_unknown).all())
+    ph = pd.read_csv(out / "pinch_hit_by_hand.csv", keep_default_na=False)
+    pe, po = ph[(ph.scope == "all") & (ph.ph_bats != "opportunity")], ph[(ph.scope == "all") & (ph.ph_bats == "opportunity")]
+    print(f"  pinch_hit_by_hand: {s['ph_subs']} ph subs, {s['ph_with_replaced_row']} with a replaced-batter row, "
+          f"{s['ph_with_next_pa']} with a next PA (events {int(pe.n.sum())}), ph bats known {s['ph_bats_known']}; "
+          f"opportunities {int(po.n.sum())} (PA {len(pa)}); ph in 7+ {pe[pe.inning_bucket == '7+'].n.sum() / max(pe.n.sum(), 1):.3f}")
+    ok &= int(pe.n.sum()) == s["ph_with_next_pa"] > 0 and int(po.n.sum()) == len(pa)
+    return ok
+
+
 def selftest(keep: str | None = None) -> int:
     ok = True
     teams = load_teams()
@@ -1294,6 +1677,7 @@ def selftest(keep: str | None = None) -> int:
         dev = (sp.obs_var - sp.null_obs_var).abs() / sp.obs_var_se
         print(f"  |observed - permutation null| / SE on fake hands, max over all cells: {dev.max():.2f} (should be < 3)")
         ok &= bool(dev.max() < 3)
+        ok &= _phase3_checks(out, pa, s)
         oc = pd.read_csv(out / "origins_rules.csv", keep_default_na=False)
         print("  origins (all):", ", ".join(f"{o} {oc[(oc.scope == 'all') & (oc.origin == o)]['count'].sum()}" for o in ORIGINS))
         hb = pd.read_csv(out / "hometown_by_school.csv", keep_default_na=False)
@@ -1318,6 +1702,18 @@ def selftest(keep: str | None = None) -> int:
             caught = bool(leak_check(probe, R, allowed))
             print(f"  leak check catches an injected {label}: {caught}")
             ok &= caught
+        for name in NEW_TABLE_COLUMNS:   # the new tables: a name in a text cell, and in a numeric column
+            shutil.rmtree(probe, ignore_errors=True)
+            shutil.copytree(out, probe)
+            df = pd.read_csv(probe / name, keep_default_na=False)
+            row = df.iloc[[0]].astype(object).copy()
+            row.iloc[0, 0] = R.name.iloc[7]    # a text column
+            row.iloc[0, -1] = R.name.iloc[9]   # a numeric column
+            pd.concat([df.astype(object), row]).to_csv(probe / name, index=False)
+            caught = leak_check(probe, R, allowed)
+            lab = label_check({name: pd.concat([df, row], ignore_index=True)})
+            print(f"  leak check catches a name injected in {name}: {bool(caught)}; label check: {bool(lab)}")
+            ok &= bool(caught) and bool(lab)
         print("  leak check on the real selftest outputs:", "clean" if not leak_check(out, R, allowed) else "LEAK")
         if keep:
             shutil.copytree(tmp, keep, dirs_exist_ok=True, ignore=shutil.ignore_patterns("leakprobe"))

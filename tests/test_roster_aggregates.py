@@ -1,7 +1,8 @@
 """tools/aggregate_rosters.py on synthetic rosters built from the committed play-by-play names
 (fake hands, hometowns, classes and origins): every table is built, the name match recovers
-the synthetic players, the platoon noise model fits fake (outcome-independent) hands, and the
-name-leak check passes on the outputs and catches injected names (owner decision 2026-10-07)."""
+the synthetic players, the platoon noise model fits fake (outcome-independent) hands, the Phase 3
+tables are consistent (linear weights ordered, LHP share flat across talent bins on fake hands,
+relief and pinch-hit counts add up), and the name-leak and label checks passes on the outputs and catches injected names (owner decision 2026-10-07)."""
 import sys
 from pathlib import Path
 
