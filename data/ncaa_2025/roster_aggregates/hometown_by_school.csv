@@ -1,4 +1,13 @@
 team_ncaa_id,team,conference,tier,hometown_area,area_type,census_region,census_division,count
+596417,St. Thomas (MN),Summit League,low,CA,us_state,West,Pacific,1
+596417,St. Thomas (MN),Summit League,low,CO,us_state,West,Mountain,2
+596417,St. Thomas (MN),Summit League,low,IA,us_state,Midwest,West North Central,1
+596417,St. Thomas (MN),Summit League,low,IL,us_state,Midwest,East North Central,2
+596417,St. Thomas (MN),Summit League,low,MN,us_state,Midwest,West North Central,22
+596417,St. Thomas (MN),Summit League,low,NE,us_state,Midwest,West North Central,1
+596417,St. Thomas (MN),Summit League,low,SD,us_state,Midwest,West North Central,1
+596417,St. Thomas (MN),Summit League,low,TX,us_state,South,West South Central,1
+596417,St. Thomas (MN),Summit League,low,WI,us_state,Midwest,East North Central,9
 596418,Utah Tech,WAC,mid,AR,us_state,South,West South Central,1
 596418,Utah Tech,WAC,mid,CA,us_state,West,Pacific,9
 596418,Utah Tech,WAC,mid,ID,us_state,West,Mountain,4
@@ -72,6 +81,25 @@ team_ncaa_id,team,conference,tier,hometown_area,area_type,census_region,census_d
 596425,Texas,SEC,p4,TX,us_state,South,West South Central,26
 596425,Texas,SEC,p4,VA,us_state,South,South Atlantic,1
 596425,Texas,SEC,p4,WI,us_state,Midwest,East North Central,1
+596427,Toledo,MAC,mid,AZ,us_state,West,Mountain,2
+596427,Toledo,MAC,mid,Canada,international,international,international,1
+596427,Toledo,MAC,mid,GA,us_state,South,South Atlantic,1
+596427,Toledo,MAC,mid,IL,us_state,Midwest,East North Central,2
+596427,Toledo,MAC,mid,MI,us_state,Midwest,East North Central,4
+596427,Toledo,MAC,mid,NV,us_state,West,Mountain,1
+596427,Toledo,MAC,mid,NY,us_state,Northeast,Middle Atlantic,1
+596427,Toledo,MAC,mid,OH,us_state,Midwest,East North Central,24
+596427,Toledo,MAC,mid,UT,us_state,West,Mountain,1
+596427,Toledo,MAC,mid,VA,us_state,South,South Atlantic,1
+596428,Towson,CAA,mid,CA,us_state,West,Pacific,1
+596428,Towson,CAA,mid,FL,us_state,South,South Atlantic,1
+596428,Towson,CAA,mid,IL,us_state,Midwest,East North Central,1
+596428,Towson,CAA,mid,MD,us_state,South,South Atlantic,17
+596428,Towson,CAA,mid,NC,us_state,South,South Atlantic,2
+596428,Towson,CAA,mid,NJ,us_state,Northeast,Middle Atlantic,5
+596428,Towson,CAA,mid,NY,us_state,Northeast,Middle Atlantic,2
+596428,Towson,CAA,mid,PA,us_state,Northeast,Middle Atlantic,3
+596428,Towson,CAA,mid,VA,us_state,South,South Atlantic,5
 596429,Troy,Sun Belt,mid,AL,us_state,South,East South Central,10
 596429,Troy,Sun Belt,mid,Australia,international,international,international,1
 596429,Troy,Sun Belt,mid,Canada,international,international,international,1
@@ -153,6 +181,18 @@ team_ncaa_id,team,conference,tier,hometown_area,area_type,census_region,census_d
 596433,Valparaiso,MVC,mid,OH,us_state,Midwest,East North Central,2
 596433,Valparaiso,MVC,mid,TN,us_state,South,East South Central,1
 596433,Valparaiso,MVC,mid,WI,us_state,Midwest,East North Central,4
+596435,Villanova,Big East,mid,CA,us_state,West,Pacific,2
+596435,Villanova,Big East,mid,CO,us_state,West,Mountain,1
+596435,Villanova,Big East,mid,CT,us_state,Northeast,New England,1
+596435,Villanova,Big East,mid,DC,us_state,South,South Atlantic,1
+596435,Villanova,Big East,mid,FL,us_state,South,South Atlantic,3
+596435,Villanova,Big East,mid,GA,us_state,South,South Atlantic,2
+596435,Villanova,Big East,mid,MA,us_state,Northeast,New England,4
+596435,Villanova,Big East,mid,NJ,us_state,Northeast,Middle Atlantic,10
+596435,Villanova,Big East,mid,NY,us_state,Northeast,Middle Atlantic,4
+596435,Villanova,Big East,mid,PA,us_state,Northeast,Middle Atlantic,4
+596435,Villanova,Big East,mid,VA,us_state,South,South Atlantic,2
+596435,Villanova,Big East,mid,VT,us_state,Northeast,New England,1
 596436,VCU,Atlantic 10,mid,AZ,us_state,West,Mountain,1
 596436,VCU,Atlantic 10,mid,CA,us_state,West,Pacific,3
 596436,VCU,Atlantic 10,mid,CO,us_state,West,Mountain,1
@@ -169,6 +209,12 @@ team_ncaa_id,team,conference,tier,hometown_area,area_type,census_region,census_d
 596436,VCU,Atlantic 10,mid,TX,us_state,South,West South Central,1
 596436,VCU,Atlantic 10,mid,VA,us_state,South,South Atlantic,14
 596436,VCU,Atlantic 10,mid,WA,us_state,West,Pacific,1
+596437,VMI,SoCon,mid,FL,us_state,South,South Atlantic,1
+596437,VMI,SoCon,mid,NC,us_state,South,South Atlantic,2
+596437,VMI,SoCon,mid,OH,us_state,Midwest,East North Central,1
+596437,VMI,SoCon,mid,PA,us_state,Northeast,Middle Atlantic,1
+596437,VMI,SoCon,mid,SC,us_state,South,South Atlantic,1
+596437,VMI,SoCon,mid,VA,us_state,South,South Atlantic,27
 596438,Virginia Tech,ACC,p4,CA,us_state,West,Pacific,1
 596438,Virginia Tech,ACC,p4,CT,us_state,Northeast,New England,1
 596438,Virginia Tech,ACC,p4,FL,us_state,South,South Atlantic,2
@@ -233,6 +279,19 @@ team_ncaa_id,team,conference,tier,hometown_area,area_type,census_region,census_d
 596444,West Virginia,Big 12,p4,SC,us_state,South,South Atlantic,2
 596444,West Virginia,Big 12,p4,VA,us_state,South,South Atlantic,5
 596444,West Virginia,Big 12,p4,WV,us_state,South,South Atlantic,6
+596445,Western Caro.,SoCon,mid,CA,us_state,West,Pacific,1
+596445,Western Caro.,SoCon,mid,Canada,international,international,international,1
+596445,Western Caro.,SoCon,mid,FL,us_state,South,South Atlantic,1
+596445,Western Caro.,SoCon,mid,GA,us_state,South,South Atlantic,7
+596445,Western Caro.,SoCon,mid,IL,us_state,Midwest,East North Central,1
+596445,Western Caro.,SoCon,mid,KS,us_state,Midwest,West North Central,1
+596445,Western Caro.,SoCon,mid,NC,us_state,South,South Atlantic,23
+596445,Western Caro.,SoCon,mid,NY,us_state,Northeast,Middle Atlantic,1
+596445,Western Caro.,SoCon,mid,PA,us_state,Northeast,Middle Atlantic,1
+596445,Western Caro.,SoCon,mid,SC,us_state,South,South Atlantic,2
+596445,Western Caro.,SoCon,mid,TN,us_state,South,East South Central,1
+596445,Western Caro.,SoCon,mid,VA,us_state,South,South Atlantic,1
+596445,Western Caro.,SoCon,mid,unrecognized,unrecognized,unknown,unknown,2
 596446,Western Ill.,OVC,low,IL,us_state,Midwest,East North Central,3
 596446,Western Ill.,OVC,low,IN,us_state,Midwest,East North Central,1
 596446,Western Ill.,OVC,low,OH,us_state,Midwest,East North Central,1
@@ -257,6 +316,15 @@ team_ncaa_id,team,conference,tier,hometown_area,area_type,census_region,census_d
 596449,Wichita St.,The American,mid,OK,us_state,South,West South Central,2
 596449,Wichita St.,The American,mid,TX,us_state,South,West South Central,10
 596449,Wichita St.,The American,mid,WI,us_state,Midwest,East North Central,4
+596450,William & Mary,CAA,mid,AZ,us_state,West,Mountain,1
+596450,William & Mary,CAA,mid,CA,us_state,West,Pacific,1
+596450,William & Mary,CAA,mid,CT,us_state,Northeast,New England,1
+596450,William & Mary,CAA,mid,Canada,international,international,international,1
+596450,William & Mary,CAA,mid,NC,us_state,South,South Atlantic,2
+596450,William & Mary,CAA,mid,NJ,us_state,Northeast,Middle Atlantic,2
+596450,William & Mary,CAA,mid,NY,us_state,Northeast,Middle Atlantic,2
+596450,William & Mary,CAA,mid,PA,us_state,Northeast,Middle Atlantic,3
+596450,William & Mary,CAA,mid,VA,us_state,South,South Atlantic,26
 596451,Winthrop,Big South,mid,AZ,us_state,West,Mountain,1
 596451,Winthrop,Big South,mid,Australia,international,international,international,1
 596451,Winthrop,Big South,mid,CA,us_state,West,Pacific,2
@@ -313,6 +381,45 @@ team_ncaa_id,team,conference,tier,hometown_area,area_type,census_region,census_d
 596456,Youngstown St.,Horizon,low,UT,us_state,West,Mountain,1
 596456,Youngstown St.,Horizon,low,WA,us_state,West,Pacific,3
 596456,Youngstown St.,Horizon,low,WI,us_state,Midwest,East North Central,1
+596457,Central Ark.,ASUN,mid,AR,us_state,South,West South Central,23
+596457,Central Ark.,ASUN,mid,CA,us_state,West,Pacific,7
+596457,Central Ark.,ASUN,mid,Canada,international,international,international,1
+596457,Central Ark.,ASUN,mid,KS,us_state,Midwest,West North Central,1
+596457,Central Ark.,ASUN,mid,MO,us_state,Midwest,West North Central,4
+596457,Central Ark.,ASUN,mid,OK,us_state,South,West South Central,1
+596457,Central Ark.,ASUN,mid,TX,us_state,South,West South Central,4
+596460,Elon,CAA,mid,CA,us_state,West,Pacific,1
+596460,Elon,CAA,mid,CT,us_state,Northeast,New England,1
+596460,Elon,CAA,mid,GA,us_state,South,South Atlantic,2
+596460,Elon,CAA,mid,IL,us_state,Midwest,East North Central,1
+596460,Elon,CAA,mid,KY,us_state,South,East South Central,1
+596460,Elon,CAA,mid,MA,us_state,Northeast,New England,2
+596460,Elon,CAA,mid,NC,us_state,South,South Atlantic,7
+596460,Elon,CAA,mid,NH,us_state,Northeast,New England,1
+596460,Elon,CAA,mid,NJ,us_state,Northeast,Middle Atlantic,8
+596460,Elon,CAA,mid,NY,us_state,Northeast,Middle Atlantic,4
+596460,Elon,CAA,mid,PA,us_state,Northeast,Middle Atlantic,9
+596460,Elon,CAA,mid,TN,us_state,South,East South Central,1
+596460,Elon,CAA,mid,TX,us_state,South,West South Central,1
+596460,Elon,CAA,mid,VA,us_state,South,South Atlantic,2
+596461,Gardner-Webb,Big South,mid,AR,us_state,South,West South Central,1
+596461,Gardner-Webb,Big South,mid,CA,us_state,West,Pacific,3
+596461,Gardner-Webb,Big South,mid,CO,us_state,West,Mountain,1
+596461,Gardner-Webb,Big South,mid,FL,us_state,South,South Atlantic,8
+596461,Gardner-Webb,Big South,mid,IL,us_state,Midwest,East North Central,4
+596461,Gardner-Webb,Big South,mid,Japan,international,international,international,1
+596461,Gardner-Webb,Big South,mid,KY,us_state,South,East South Central,1
+596461,Gardner-Webb,Big South,mid,MA,us_state,Northeast,New England,1
+596461,Gardner-Webb,Big South,mid,MI,us_state,Midwest,East North Central,1
+596461,Gardner-Webb,Big South,mid,NC,us_state,South,South Atlantic,8
+596461,Gardner-Webb,Big South,mid,NJ,us_state,Northeast,Middle Atlantic,2
+596461,Gardner-Webb,Big South,mid,NY,us_state,Northeast,Middle Atlantic,3
+596461,Gardner-Webb,Big South,mid,PA,us_state,Northeast,Middle Atlantic,4
+596461,Gardner-Webb,Big South,mid,SC,us_state,South,South Atlantic,1
+596461,Gardner-Webb,Big South,mid,TN,us_state,South,East South Central,1
+596461,Gardner-Webb,Big South,mid,TX,us_state,South,West South Central,1
+596461,Gardner-Webb,Big South,mid,VA,us_state,South,South Atlantic,3
+596461,Gardner-Webb,Big South,mid,WA,us_state,West,Pacific,1
 596462,Grand Canyon,WAC,mid,AZ,us_state,West,Mountain,24
 596462,Grand Canyon,WAC,mid,CA,us_state,West,Pacific,8
 596462,Grand Canyon,WAC,mid,CO,us_state,West,Mountain,1
@@ -361,6 +468,10 @@ team_ncaa_id,team,conference,tier,hometown_area,area_type,census_region,census_d
 596467,North Florida,ASUN,mid,TN,us_state,South,East South Central,2
 596467,North Florida,ASUN,mid,TX,us_state,South,West South Central,2
 596467,North Florida,ASUN,mid,Venezuela,international,international,international,1
+596468,UIW,Southland,low,AZ,us_state,West,Mountain,1
+596468,UIW,Southland,low,Canada,international,international,international,1
+596468,UIW,Southland,low,MS,us_state,South,East South Central,1
+596468,UIW,Southland,low,TX,us_state,South,West South Central,3
 596469,USC Upstate,Big South,mid,AZ,us_state,West,Mountain,3
 596469,USC Upstate,Big South,mid,Canada,international,international,international,2
 596469,USC Upstate,Big South,mid,FL,us_state,South,South Atlantic,2
@@ -471,6 +582,31 @@ team_ncaa_id,team,conference,tier,hometown_area,area_type,census_region,census_d
 596480,Alabama,SEC,p4,OH,us_state,Midwest,East North Central,1
 596480,Alabama,SEC,p4,TN,us_state,South,East South Central,2
 596480,Alabama,SEC,p4,TX,us_state,South,West South Central,2
+596483,Alcorn,SWAC,low,AZ,us_state,West,Mountain,1
+596483,Alcorn,SWAC,low,Canada,international,international,international,1
+596483,Alcorn,SWAC,low,FL,us_state,South,South Atlantic,2
+596483,Alcorn,SWAC,low,GA,us_state,South,South Atlantic,7
+596483,Alcorn,SWAC,low,KY,us_state,South,East South Central,1
+596483,Alcorn,SWAC,low,MD,us_state,South,South Atlantic,1
+596483,Alcorn,SWAC,low,MS,us_state,South,East South Central,5
+596483,Alcorn,SWAC,low,Panama,international,international,international,1
+596483,Alcorn,SWAC,low,Puerto Rico,us_territory,US territory,US territory,2
+596483,Alcorn,SWAC,low,TN,us_state,South,East South Central,2
+596483,Alcorn,SWAC,low,TX,us_state,South,West South Central,8
+596483,Alcorn,SWAC,low,VA,us_state,South,South Atlantic,1
+596483,Alcorn,SWAC,low,WY,us_state,West,Mountain,2
+596484,App State,Sun Belt,mid,FL,us_state,South,South Atlantic,9
+596484,App State,Sun Belt,mid,IL,us_state,Midwest,East North Central,1
+596484,App State,Sun Belt,mid,MD,us_state,South,South Atlantic,1
+596484,App State,Sun Belt,mid,MI,us_state,Midwest,East North Central,3
+596484,App State,Sun Belt,mid,MO,us_state,Midwest,West North Central,1
+596484,App State,Sun Belt,mid,NC,us_state,South,South Atlantic,17
+596484,App State,Sun Belt,mid,NY,us_state,Northeast,Middle Atlantic,1
+596484,App State,Sun Belt,mid,OH,us_state,Midwest,East North Central,1
+596484,App State,Sun Belt,mid,PA,us_state,Northeast,Middle Atlantic,1
+596484,App State,Sun Belt,mid,SC,us_state,South,South Atlantic,1
+596484,App State,Sun Belt,mid,TN,us_state,South,East South Central,1
+596484,App State,Sun Belt,mid,VA,us_state,South,South Atlantic,1
 596485,Arizona St.,Big 12,p4,AZ,us_state,West,Mountain,13
 596485,Arizona St.,Big 12,p4,CA,us_state,West,Pacific,9
 596485,Arizona St.,Big 12,p4,FL,us_state,South,South Atlantic,1
@@ -485,6 +621,22 @@ team_ncaa_id,team,conference,tier,hometown_area,area_type,census_region,census_d
 596485,Arizona St.,Big 12,p4,TX,us_state,South,West South Central,5
 596485,Arizona St.,Big 12,p4,UT,us_state,West,Mountain,1
 596485,Arizona St.,Big 12,p4,WA,us_state,West,Pacific,1
+596486,Arkansas St.,Sun Belt,mid,AL,us_state,South,East South Central,1
+596486,Arkansas St.,Sun Belt,mid,AR,us_state,South,West South Central,10
+596486,Arkansas St.,Sun Belt,mid,Canada,international,international,international,1
+596486,Arkansas St.,Sun Belt,mid,FL,us_state,South,South Atlantic,3
+596486,Arkansas St.,Sun Belt,mid,IL,us_state,Midwest,East North Central,3
+596486,Arkansas St.,Sun Belt,mid,IN,us_state,Midwest,East North Central,1
+596486,Arkansas St.,Sun Belt,mid,LA,us_state,South,West South Central,2
+596486,Arkansas St.,Sun Belt,mid,MN,us_state,Midwest,West North Central,1
+596486,Arkansas St.,Sun Belt,mid,MO,us_state,Midwest,West North Central,4
+596486,Arkansas St.,Sun Belt,mid,MS,us_state,South,East South Central,3
+596486,Arkansas St.,Sun Belt,mid,Netherlands,international,international,international,1
+596486,Arkansas St.,Sun Belt,mid,OH,us_state,Midwest,East North Central,1
+596486,Arkansas St.,Sun Belt,mid,Puerto Rico,us_territory,US territory,US territory,1
+596486,Arkansas St.,Sun Belt,mid,TN,us_state,South,East South Central,2
+596486,Arkansas St.,Sun Belt,mid,TX,us_state,South,West South Central,6
+596486,Arkansas St.,Sun Belt,mid,WA,us_state,West,Pacific,1
 596490,Austin Peay,ASUN,mid,AZ,us_state,West,Mountain,1
 596490,Austin Peay,ASUN,mid,CA,us_state,West,Pacific,2
 596490,Austin Peay,ASUN,mid,CO,us_state,West,Mountain,1
@@ -501,6 +653,40 @@ team_ncaa_id,team,conference,tier,hometown_area,area_type,census_region,census_d
 596490,Austin Peay,ASUN,mid,TN,us_state,South,East South Central,10
 596490,Austin Peay,ASUN,mid,TX,us_state,South,West South Central,5
 596490,Austin Peay,ASUN,mid,unrecognized,unrecognized,unknown,unknown,2
+596491,Ball St.,MAC,mid,AR,us_state,South,West South Central,1
+596491,Ball St.,MAC,mid,CA,us_state,West,Pacific,6
+596491,Ball St.,MAC,mid,Canada,international,international,international,1
+596491,Ball St.,MAC,mid,IL,us_state,Midwest,East North Central,1
+596491,Ball St.,MAC,mid,IN,us_state,Midwest,East North Central,8
+596491,Ball St.,MAC,mid,LA,us_state,South,West South Central,1
+596491,Ball St.,MAC,mid,MD,us_state,South,South Atlantic,1
+596491,Ball St.,MAC,mid,MI,us_state,Midwest,East North Central,4
+596491,Ball St.,MAC,mid,MO,us_state,Midwest,West North Central,2
+596491,Ball St.,MAC,mid,OH,us_state,Midwest,East North Central,8
+596491,Ball St.,MAC,mid,TN,us_state,South,East South Central,1
+596491,Ball St.,MAC,mid,VA,us_state,South,South Atlantic,1
+596491,Ball St.,MAC,mid,WI,us_state,Midwest,East North Central,2
+596492,Charleston So.,Big South,mid,AR,us_state,South,West South Central,2
+596492,Charleston So.,Big South,mid,CA,us_state,West,Pacific,4
+596492,Charleston So.,Big South,mid,Canada,international,international,international,1
+596492,Charleston So.,Big South,mid,FL,us_state,South,South Atlantic,3
+596492,Charleston So.,Big South,mid,IL,us_state,Midwest,East North Central,2
+596492,Charleston So.,Big South,mid,KS,us_state,Midwest,West North Central,1
+596492,Charleston So.,Big South,mid,MD,us_state,South,South Atlantic,1
+596492,Charleston So.,Big South,mid,MI,us_state,Midwest,East North Central,1
+596492,Charleston So.,Big South,mid,MN,us_state,Midwest,West North Central,1
+596492,Charleston So.,Big South,mid,MO,us_state,Midwest,West North Central,1
+596492,Charleston So.,Big South,mid,NC,us_state,South,South Atlantic,5
+596492,Charleston So.,Big South,mid,NJ,us_state,Northeast,Middle Atlantic,2
+596492,Charleston So.,Big South,mid,NY,us_state,Northeast,Middle Atlantic,5
+596492,Charleston So.,Big South,mid,OK,us_state,South,West South Central,1
+596492,Charleston So.,Big South,mid,PA,us_state,Northeast,Middle Atlantic,3
+596492,Charleston So.,Big South,mid,SC,us_state,South,South Atlantic,5
+596492,Charleston So.,Big South,mid,TN,us_state,South,East South Central,2
+596492,Charleston So.,Big South,mid,TX,us_state,South,West South Central,2
+596492,Charleston So.,Big South,mid,VA,us_state,South,South Atlantic,1
+596492,Charleston So.,Big South,mid,WA,us_state,West,Pacific,1
+596492,Charleston So.,Big South,mid,WI,us_state,Midwest,East North Central,1
 596493,Baylor,Big 12,p4,AZ,us_state,West,Mountain,1
 596493,Baylor,Big 12,p4,FL,us_state,South,South Atlantic,1
 596493,Baylor,Big 12,p4,IA,us_state,Midwest,West North Central,1
@@ -509,6 +695,13 @@ team_ncaa_id,team,conference,tier,hometown_area,area_type,census_region,census_d
 596493,Baylor,Big 12,p4,MS,us_state,South,East South Central,1
 596493,Baylor,Big 12,p4,Netherlands,international,international,international,1
 596493,Baylor,Big 12,p4,TX,us_state,South,West South Central,34
+596494,Bethune-Cookman,SWAC,low,AL,us_state,South,East South Central,1
+596494,Bethune-Cookman,SWAC,low,Colombia,international,international,international,1
+596494,Bethune-Cookman,SWAC,low,FL,us_state,South,South Atlantic,24
+596494,Bethune-Cookman,SWAC,low,MS,us_state,South,East South Central,1
+596494,Bethune-Cookman,SWAC,low,PA,us_state,Northeast,Middle Atlantic,1
+596494,Bethune-Cookman,SWAC,low,Puerto Rico,us_territory,US territory,US territory,9
+596494,Bethune-Cookman,SWAC,low,Venezuela,international,international,international,2
 596495,Binghamton,America East,low,CT,us_state,Northeast,New England,1
 596495,Binghamton,America East,low,FL,us_state,South,South Atlantic,1
 596495,Binghamton,America East,low,MA,us_state,Northeast,New England,2
@@ -532,6 +725,12 @@ team_ncaa_id,team,conference,tier,hometown_area,area_type,census_region,census_d
 596496,Boston College,ACC,p4,UT,us_state,West,Mountain,1
 596496,Boston College,ACC,p4,VA,us_state,South,South Atlantic,1
 596496,Boston College,ACC,p4,Venezuela,international,international,international,1
+596497,Bowling Green,MAC,mid,AZ,us_state,West,Mountain,1
+596497,Bowling Green,MAC,mid,CA,us_state,West,Pacific,1
+596497,Bowling Green,MAC,mid,Canada,international,international,international,1
+596497,Bowling Green,MAC,mid,MI,us_state,Midwest,East North Central,6
+596497,Bowling Green,MAC,mid,OH,us_state,Midwest,East North Central,25
+596497,Bowling Green,MAC,mid,OR,us_state,West,Pacific,1
 596502,Bucknell,Patriot,low,CA,us_state,West,Pacific,3
 596502,Bucknell,Patriot,low,FL,us_state,South,South Atlantic,2
 596502,Bucknell,Patriot,low,IL,us_state,Midwest,East North Central,1
@@ -545,6 +744,23 @@ team_ncaa_id,team,conference,tier,hometown_area,area_type,census_region,census_d
 596502,Bucknell,Patriot,low,PA,us_state,Northeast,Middle Atlantic,9
 596502,Bucknell,Patriot,low,TN,us_state,South,East South Central,1
 596502,Bucknell,Patriot,low,VA,us_state,South,South Atlantic,3
+596503,Butler,Big East,mid,CA,us_state,West,Pacific,4
+596503,Butler,Big East,mid,CO,us_state,West,Mountain,3
+596503,Butler,Big East,mid,Canada,international,international,international,1
+596503,Butler,Big East,mid,FL,us_state,South,South Atlantic,1
+596503,Butler,Big East,mid,IL,us_state,Midwest,East North Central,4
+596503,Butler,Big East,mid,IN,us_state,Midwest,East North Central,8
+596503,Butler,Big East,mid,MD,us_state,South,South Atlantic,1
+596503,Butler,Big East,mid,MI,us_state,Midwest,East North Central,4
+596503,Butler,Big East,mid,MN,us_state,Midwest,West North Central,2
+596503,Butler,Big East,mid,MO,us_state,Midwest,West North Central,1
+596503,Butler,Big East,mid,NE,us_state,Midwest,West North Central,1
+596503,Butler,Big East,mid,NY,us_state,Northeast,Middle Atlantic,2
+596503,Butler,Big East,mid,OH,us_state,Midwest,East North Central,3
+596503,Butler,Big East,mid,PA,us_state,Northeast,Middle Atlantic,1
+596503,Butler,Big East,mid,TX,us_state,South,West South Central,1
+596503,Butler,Big East,mid,VA,us_state,South,South Atlantic,1
+596503,Butler,Big East,mid,WI,us_state,Midwest,East North Central,4
 596504,Cal Poly,Big West,mid,CA,us_state,West,Pacific,29
 596504,Cal Poly,Big West,mid,HI,us_state,West,Pacific,1
 596504,Cal Poly,Big West,mid,NV,us_state,West,Mountain,1
@@ -706,6 +922,22 @@ team_ncaa_id,team,conference,tier,hometown_area,area_type,census_region,census_d
 596526,UConn,Big East,mid,VT,us_state,Northeast,New England,1
 596526,UConn,Big East,mid,WA,us_state,West,Pacific,1
 596526,UConn,Big East,mid,WI,us_state,Midwest,East North Central,1
+596527,Coppin St.,NEC,low,AL,us_state,South,East South Central,1
+596527,Coppin St.,NEC,low,CA,us_state,West,Pacific,5
+596527,Coppin St.,NEC,low,FL,us_state,South,South Atlantic,2
+596527,Coppin St.,NEC,low,GA,us_state,South,South Atlantic,2
+596527,Coppin St.,NEC,low,IN,us_state,Midwest,East North Central,1
+596527,Coppin St.,NEC,low,MD,us_state,South,South Atlantic,4
+596527,Coppin St.,NEC,low,MI,us_state,Midwest,East North Central,1
+596527,Coppin St.,NEC,low,MO,us_state,Midwest,West North Central,1
+596527,Coppin St.,NEC,low,NJ,us_state,Northeast,Middle Atlantic,6
+596527,Coppin St.,NEC,low,NV,us_state,West,Mountain,2
+596527,Coppin St.,NEC,low,NY,us_state,Northeast,Middle Atlantic,1
+596527,Coppin St.,NEC,low,OH,us_state,Midwest,East North Central,1
+596527,Coppin St.,NEC,low,PA,us_state,Northeast,Middle Atlantic,2
+596527,Coppin St.,NEC,low,VA,us_state,South,South Atlantic,1
+596527,Coppin St.,NEC,low,WA,us_state,West,Pacific,1
+596527,Coppin St.,NEC,low,unrecognized,unrecognized,unknown,unknown,1
 596529,Creighton,Big East,mid,AZ,us_state,West,Mountain,1
 596529,Creighton,Big East,mid,CA,us_state,West,Pacific,1
 596529,Creighton,Big East,mid,CO,us_state,West,Mountain,1
@@ -795,6 +1027,17 @@ team_ncaa_id,team,conference,tier,hometown_area,area_type,census_region,census_d
 596536,ETSU,SoCon,mid,TN,us_state,South,East South Central,10
 596536,ETSU,SoCon,mid,TX,us_state,South,West South Central,1
 596536,ETSU,SoCon,mid,VA,us_state,South,South Atlantic,2
+596537,Eastern Ill.,OVC,low,CA,us_state,West,Pacific,1
+596537,Eastern Ill.,OVC,low,CO,us_state,West,Mountain,1
+596537,Eastern Ill.,OVC,low,Canada,international,international,international,1
+596537,Eastern Ill.,OVC,low,IL,us_state,Midwest,East North Central,12
+596537,Eastern Ill.,OVC,low,IN,us_state,Midwest,East North Central,2
+596537,Eastern Ill.,OVC,low,MI,us_state,Midwest,East North Central,1
+596537,Eastern Ill.,OVC,low,MO,us_state,Midwest,West North Central,2
+596537,Eastern Ill.,OVC,low,ND,us_state,Midwest,West North Central,1
+596537,Eastern Ill.,OVC,low,NE,us_state,Midwest,West North Central,1
+596537,Eastern Ill.,OVC,low,NY,us_state,Northeast,Middle Atlantic,1
+596537,Eastern Ill.,OVC,low,OK,us_state,South,West South Central,1
 596538,Eastern Ky.,ASUN,mid,AL,us_state,South,East South Central,1
 596538,Eastern Ky.,ASUN,mid,Australia,international,international,international,1
 596538,Eastern Ky.,ASUN,mid,FL,us_state,South,South Atlantic,7
@@ -810,6 +1053,42 @@ team_ncaa_id,team,conference,tier,hometown_area,area_type,census_region,census_d
 596538,Eastern Ky.,ASUN,mid,TN,us_state,South,East South Central,1
 596538,Eastern Ky.,ASUN,mid,VA,us_state,South,South Atlantic,1
 596538,Eastern Ky.,ASUN,mid,Venezuela,international,international,international,2
+596539,Eastern Mich.,MAC,mid,AL,us_state,South,East South Central,1
+596539,Eastern Mich.,MAC,mid,Canada,international,international,international,4
+596539,Eastern Mich.,MAC,mid,IL,us_state,Midwest,East North Central,1
+596539,Eastern Mich.,MAC,mid,IN,us_state,Midwest,East North Central,2
+596539,Eastern Mich.,MAC,mid,KS,us_state,Midwest,West North Central,1
+596539,Eastern Mich.,MAC,mid,MD,us_state,South,South Atlantic,1
+596539,Eastern Mich.,MAC,mid,MI,us_state,Midwest,East North Central,9
+596539,Eastern Mich.,MAC,mid,OH,us_state,Midwest,East North Central,15
+596539,Eastern Mich.,MAC,mid,PA,us_state,Northeast,Middle Atlantic,3
+596539,Eastern Mich.,MAC,mid,TN,us_state,South,East South Central,3
+596539,Eastern Mich.,MAC,mid,TX,us_state,South,West South Central,1
+596540,Fairfield,MAAC,low,CA,us_state,West,Pacific,1
+596540,Fairfield,MAAC,low,CT,us_state,Northeast,New England,7
+596540,Fairfield,MAAC,low,Canada,international,international,international,2
+596540,Fairfield,MAAC,low,MA,us_state,Northeast,New England,5
+596540,Fairfield,MAAC,low,NH,us_state,Northeast,New England,1
+596540,Fairfield,MAAC,low,NJ,us_state,Northeast,Middle Atlantic,8
+596540,Fairfield,MAAC,low,NY,us_state,Northeast,Middle Atlantic,3
+596540,Fairfield,MAAC,low,PA,us_state,Northeast,Middle Atlantic,4
+596540,Fairfield,MAAC,low,VT,us_state,Northeast,New England,2
+596541,FDU,NEC,low,CT,us_state,Northeast,New England,1
+596541,FDU,NEC,low,FL,us_state,South,South Atlantic,1
+596541,FDU,NEC,low,IL,us_state,Midwest,East North Central,1
+596541,FDU,NEC,low,KS,us_state,Midwest,West North Central,1
+596541,FDU,NEC,low,MD,us_state,South,South Atlantic,1
+596541,FDU,NEC,low,NH,us_state,Northeast,New England,1
+596541,FDU,NEC,low,NJ,us_state,Northeast,Middle Atlantic,10
+596541,FDU,NEC,low,NY,us_state,Northeast,Middle Atlantic,9
+596541,FDU,NEC,low,PA,us_state,Northeast,Middle Atlantic,4
+596541,FDU,NEC,low,TN,us_state,South,East South Central,1
+596541,FDU,NEC,low,VA,us_state,South,South Atlantic,1
+596541,FDU,NEC,low,VT,us_state,Northeast,New England,2
+596542,Florida A&M,SWAC,low,FL,us_state,South,South Atlantic,29
+596542,Florida A&M,SWAC,low,GA,us_state,South,South Atlantic,4
+596542,Florida A&M,SWAC,low,IL,us_state,Midwest,East North Central,1
+596542,Florida A&M,SWAC,low,TX,us_state,South,West South Central,1
 596543,Fla. Atlantic,The American,mid,CA,us_state,West,Pacific,1
 596543,Fla. Atlantic,The American,mid,CT,us_state,Northeast,New England,1
 596543,Fla. Atlantic,The American,mid,Canada,international,international,international,2
@@ -849,6 +1128,17 @@ team_ncaa_id,team,conference,tier,hometown_area,area_type,census_region,census_d
 596546,Florida,SEC,p4,GA,us_state,South,South Atlantic,4
 596546,Florida,SEC,p4,NJ,us_state,Northeast,Middle Atlantic,1
 596546,Florida,SEC,p4,SC,us_state,South,South Atlantic,2
+596547,Fordham,Atlantic 10,mid,CA,us_state,West,Pacific,6
+596547,Fordham,Atlantic 10,mid,CT,us_state,Northeast,New England,10
+596547,Fordham,Atlantic 10,mid,HI,us_state,West,Pacific,1
+596547,Fordham,Atlantic 10,mid,MA,us_state,Northeast,New England,5
+596547,Fordham,Atlantic 10,mid,MD,us_state,South,South Atlantic,1
+596547,Fordham,Atlantic 10,mid,ME,us_state,Northeast,New England,2
+596547,Fordham,Atlantic 10,mid,NC,us_state,South,South Atlantic,1
+596547,Fordham,Atlantic 10,mid,NJ,us_state,Northeast,Middle Atlantic,4
+596547,Fordham,Atlantic 10,mid,NY,us_state,Northeast,Middle Atlantic,5
+596547,Fordham,Atlantic 10,mid,PA,us_state,Northeast,Middle Atlantic,3
+596547,Fordham,Atlantic 10,mid,TX,us_state,South,West South Central,2
 596550,Georgetown,Big East,mid,CA,us_state,West,Pacific,5
 596550,Georgetown,Big East,mid,CO,us_state,West,Mountain,1
 596550,Georgetown,Big East,mid,DC,us_state,South,South Atlantic,1
@@ -962,6 +1252,15 @@ team_ncaa_id,team,conference,tier,hometown_area,area_type,census_region,census_d
 596561,Houston,Big 12,p4,NY,us_state,Northeast,Middle Atlantic,1
 596561,Houston,Big 12,p4,RI,us_state,Northeast,New England,1
 596561,Houston,Big 12,p4,TX,us_state,South,West South Central,18
+596562,Illinois St.,MVC,mid,CA,us_state,West,Pacific,3
+596562,Illinois St.,MVC,mid,Canada,international,international,international,5
+596562,Illinois St.,MVC,mid,IA,us_state,Midwest,West North Central,1
+596562,Illinois St.,MVC,mid,IL,us_state,Midwest,East North Central,21
+596562,Illinois St.,MVC,mid,IN,us_state,Midwest,East North Central,2
+596562,Illinois St.,MVC,mid,MN,us_state,Midwest,West North Central,1
+596562,Illinois St.,MVC,mid,MO,us_state,Midwest,West North Central,1
+596562,Illinois St.,MVC,mid,Puerto Rico,us_territory,US territory,US territory,1
+596562,Illinois St.,MVC,mid,WI,us_state,Midwest,East North Central,2
 596563,Illinois,Big Ten,p4,Canada,international,international,international,3
 596563,Illinois,Big Ten,p4,FL,us_state,South,South Atlantic,1
 596563,Illinois,Big Ten,p4,IA,us_state,Midwest,West North Central,1
@@ -1020,6 +1319,24 @@ team_ncaa_id,team,conference,tier,hometown_area,area_type,census_region,census_d
 596567,Purdue Fort Wayne,Horizon,low,MN,us_state,Midwest,West North Central,1
 596567,Purdue Fort Wayne,Horizon,low,OH,us_state,Midwest,East North Central,3
 596567,Purdue Fort Wayne,Horizon,low,OK,us_state,South,West South Central,1
+596570,Jackson St.,SWAC,low,AL,us_state,South,East South Central,3
+596570,Jackson St.,SWAC,low,Aruba,international,international,international,2
+596570,Jackson St.,SWAC,low,CA,us_state,West,Pacific,1
+596570,Jackson St.,SWAC,low,Canada,international,international,international,1
+596570,Jackson St.,SWAC,low,Curacao,international,international,international,2
+596570,Jackson St.,SWAC,low,Dominican Republic,international,international,international,2
+596570,Jackson St.,SWAC,low,Ecuador,international,international,international,1
+596570,Jackson St.,SWAC,low,FL,us_state,South,South Atlantic,2
+596570,Jackson St.,SWAC,low,GA,us_state,South,South Atlantic,4
+596570,Jackson St.,SWAC,low,IL,us_state,Midwest,East North Central,3
+596570,Jackson St.,SWAC,low,MD,us_state,South,South Atlantic,1
+596570,Jackson St.,SWAC,low,MO,us_state,Midwest,West North Central,1
+596570,Jackson St.,SWAC,low,MS,us_state,South,East South Central,2
+596570,Jackson St.,SWAC,low,NE,us_state,Midwest,West North Central,1
+596570,Jackson St.,SWAC,low,OH,us_state,Midwest,East North Central,1
+596570,Jackson St.,SWAC,low,Puerto Rico,us_territory,US territory,US territory,2
+596570,Jackson St.,SWAC,low,SC,us_state,South,South Atlantic,1
+596570,Jackson St.,SWAC,low,TN,us_state,South,East South Central,1
 596571,Jacksonville St.,CUSA,mid,AL,us_state,South,East South Central,12
 596571,Jacksonville St.,CUSA,mid,Canada,international,international,international,1
 596571,Jacksonville St.,CUSA,mid,GA,us_state,South,South Atlantic,8
@@ -1087,6 +1404,35 @@ team_ncaa_id,team,conference,tier,hometown_area,area_type,census_region,census_d
 596575,Kansas,Big 12,p4,TX,us_state,South,West South Central,2
 596575,Kansas,Big 12,p4,VA,us_state,South,South Atlantic,1
 596575,Kansas,Big 12,p4,WI,us_state,Midwest,East North Central,4
+596578,Lafayette,Patriot,low,CA,us_state,West,Pacific,3
+596578,Lafayette,Patriot,low,CT,us_state,Northeast,New England,4
+596578,Lafayette,Patriot,low,FL,us_state,South,South Atlantic,2
+596578,Lafayette,Patriot,low,GA,us_state,South,South Atlantic,3
+596578,Lafayette,Patriot,low,IL,us_state,Midwest,East North Central,1
+596578,Lafayette,Patriot,low,MA,us_state,Northeast,New England,2
+596578,Lafayette,Patriot,low,MD,us_state,South,South Atlantic,1
+596578,Lafayette,Patriot,low,MI,us_state,Midwest,East North Central,1
+596578,Lafayette,Patriot,low,NJ,us_state,Northeast,Middle Atlantic,10
+596578,Lafayette,Patriot,low,NY,us_state,Northeast,Middle Atlantic,4
+596578,Lafayette,Patriot,low,OH,us_state,Midwest,East North Central,1
+596578,Lafayette,Patriot,low,PA,us_state,Northeast,Middle Atlantic,9
+596578,Lafayette,Patriot,low,TX,us_state,South,West South Central,2
+596578,Lafayette,Patriot,low,VA,us_state,South,South Atlantic,1
+596578,Lafayette,Patriot,low,WI,us_state,Midwest,East North Central,1
+596579,Lamar University,Southland,low,Australia,international,international,international,1
+596579,Lamar University,Southland,low,LA,us_state,South,West South Central,1
+596579,Lamar University,Southland,low,MD,us_state,South,South Atlantic,1
+596579,Lamar University,Southland,low,NJ,us_state,Northeast,Middle Atlantic,1
+596579,Lamar University,Southland,low,TX,us_state,South,West South Central,14
+596580,Lehigh,Patriot,low,CA,us_state,West,Pacific,2
+596580,Lehigh,Patriot,low,CT,us_state,Northeast,New England,2
+596580,Lehigh,Patriot,low,IL,us_state,Midwest,East North Central,2
+596580,Lehigh,Patriot,low,IN,us_state,Midwest,East North Central,1
+596580,Lehigh,Patriot,low,MD,us_state,South,South Atlantic,1
+596580,Lehigh,Patriot,low,NJ,us_state,Northeast,Middle Atlantic,12
+596580,Lehigh,Patriot,low,NY,us_state,Northeast,Middle Atlantic,1
+596580,Lehigh,Patriot,low,PA,us_state,Northeast,Middle Atlantic,19
+596580,Lehigh,Patriot,low,VA,us_state,South,South Atlantic,1
 596581,Liberty,CUSA,mid,AR,us_state,South,West South Central,1
 596581,Liberty,CUSA,mid,CO,us_state,West,Mountain,2
 596581,Liberty,CUSA,mid,Canada,international,international,international,1
@@ -1100,6 +1446,18 @@ team_ncaa_id,team,conference,tier,hometown_area,area_type,census_region,census_d
 596581,Liberty,CUSA,mid,SC,us_state,South,South Atlantic,5
 596581,Liberty,CUSA,mid,TX,us_state,South,West South Central,1
 596581,Liberty,CUSA,mid,VA,us_state,South,South Atlantic,13
+596582,Longwood,Big South,mid,CO,us_state,West,Mountain,1
+596582,Longwood,Big South,mid,FL,us_state,South,South Atlantic,1
+596582,Longwood,Big South,mid,IL,us_state,Midwest,East North Central,2
+596582,Longwood,Big South,mid,KY,us_state,South,East South Central,1
+596582,Longwood,Big South,mid,MA,us_state,Northeast,New England,2
+596582,Longwood,Big South,mid,MD,us_state,South,South Atlantic,1
+596582,Longwood,Big South,mid,NC,us_state,South,South Atlantic,4
+596582,Longwood,Big South,mid,NJ,us_state,Northeast,Middle Atlantic,1
+596582,Longwood,Big South,mid,NY,us_state,Northeast,Middle Atlantic,2
+596582,Longwood,Big South,mid,PA,us_state,Northeast,Middle Atlantic,1
+596582,Longwood,Big South,mid,SC,us_state,South,South Atlantic,1
+596582,Longwood,Big South,mid,VA,us_state,South,South Atlantic,23
 596583,LSU,SEC,p4,CA,us_state,West,Pacific,3
 596583,LSU,SEC,p4,FL,us_state,South,South Atlantic,2
 596583,LSU,SEC,p4,GA,us_state,South,South Atlantic,2
@@ -1116,6 +1474,15 @@ team_ncaa_id,team,conference,tier,hometown_area,area_type,census_region,census_d
 596583,LSU,SEC,p4,TX,us_state,South,West South Central,8
 596583,LSU,SEC,p4,UT,us_state,West,Mountain,1
 596583,LSU,SEC,p4,WA,us_state,West,Pacific,1
+596584,Louisiana Tech,CUSA,mid,AR,us_state,South,West South Central,2
+596584,Louisiana Tech,CUSA,mid,FL,us_state,South,South Atlantic,1
+596584,Louisiana Tech,CUSA,mid,LA,us_state,South,West South Central,20
+596584,Louisiana Tech,CUSA,mid,MA,us_state,Northeast,New England,1
+596584,Louisiana Tech,CUSA,mid,MO,us_state,Midwest,West North Central,1
+596584,Louisiana Tech,CUSA,mid,MS,us_state,South,East South Central,8
+596584,Louisiana Tech,CUSA,mid,NE,us_state,Midwest,West North Central,1
+596584,Louisiana Tech,CUSA,mid,TX,us_state,South,West South Central,9
+596584,Louisiana Tech,CUSA,mid,VA,us_state,South,South Atlantic,1
 596585,Louisville,ACC,p4,CA,us_state,West,Pacific,2
 596585,Louisville,ACC,p4,IL,us_state,Midwest,East North Central,9
 596585,Louisville,ACC,p4,IN,us_state,Midwest,East North Central,3
@@ -1141,6 +1508,11 @@ team_ncaa_id,team,conference,tier,hometown_area,area_type,census_region,census_d
 596587,LMU (CA),WCC,mid,TX,us_state,South,West South Central,2
 596587,LMU (CA),WCC,mid,WA,us_state,West,Pacific,2
 596587,LMU (CA),WCC,mid,unrecognized,unrecognized,unknown,unknown,3
+596589,Manhattan,MAAC,low,AL,us_state,South,East South Central,1
+596589,Manhattan,MAAC,low,CA,us_state,West,Pacific,2
+596589,Manhattan,MAAC,low,MA,us_state,Northeast,New England,1
+596589,Manhattan,MAAC,low,NJ,us_state,Northeast,Middle Atlantic,2
+596589,Manhattan,MAAC,low,PA,us_state,Northeast,Middle Atlantic,1
 596591,Marshall,Sun Belt,mid,FL,us_state,South,South Atlantic,4
 596591,Marshall,Sun Belt,mid,KY,us_state,South,East South Central,4
 596591,Marshall,Sun Belt,mid,MI,us_state,Midwest,East North Central,1
@@ -1153,6 +1525,18 @@ team_ncaa_id,team,conference,tier,hometown_area,area_type,census_region,census_d
 596591,Marshall,Sun Belt,mid,VA,us_state,South,South Atlantic,1
 596591,Marshall,Sun Belt,mid,WA,us_state,West,Pacific,2
 596591,Marshall,Sun Belt,mid,WV,us_state,South,South Atlantic,2
+596592,UMBC,America East,low,CT,us_state,Northeast,New England,1
+596592,UMBC,America East,low,DE,us_state,South,South Atlantic,2
+596592,UMBC,America East,low,IN,us_state,Midwest,East North Central,1
+596592,UMBC,America East,low,MA,us_state,Northeast,New England,1
+596592,UMBC,America East,low,MD,us_state,South,South Atlantic,14
+596592,UMBC,America East,low,MI,us_state,Midwest,East North Central,1
+596592,UMBC,America East,low,NH,us_state,Northeast,New England,1
+596592,UMBC,America East,low,NJ,us_state,Northeast,Middle Atlantic,5
+596592,UMBC,America East,low,NY,us_state,Northeast,Middle Atlantic,2
+596592,UMBC,America East,low,PA,us_state,Northeast,Middle Atlantic,4
+596592,UMBC,America East,low,VA,us_state,South,South Atlantic,1
+596592,UMBC,America East,low,WV,us_state,South,South Atlantic,1
 596597,Memphis,The American,mid,AR,us_state,South,West South Central,2
 596597,Memphis,The American,mid,CA,us_state,West,Pacific,4
 596597,Memphis,The American,mid,CO,us_state,West,Mountain,1
@@ -1274,6 +1658,11 @@ team_ncaa_id,team,conference,tier,hometown_area,area_type,census_region,census_d
 596608,Missouri,SEC,p4,TN,us_state,South,East South Central,2
 596608,Missouri,SEC,p4,TX,us_state,South,West South Central,2
 596608,Missouri,SEC,p4,WI,us_state,Midwest,East North Central,1
+596609,Monmouth,CAA,mid,CT,us_state,Northeast,New England,2
+596609,Monmouth,CAA,mid,NJ,us_state,Northeast,Middle Atlantic,12
+596609,Monmouth,CAA,mid,NY,us_state,Northeast,Middle Atlantic,4
+596609,Monmouth,CAA,mid,PA,us_state,Northeast,Middle Atlantic,11
+596609,Monmouth,CAA,mid,VA,us_state,South,South Atlantic,1
 596610,Morehead St.,OVC,low,CA,us_state,West,Pacific,1
 596610,Morehead St.,OVC,low,Canada,international,international,international,5
 596610,Morehead St.,OVC,low,IN,us_state,Midwest,East North Central,2
@@ -1300,6 +1689,16 @@ team_ncaa_id,team,conference,tier,hometown_area,area_type,census_region,census_d
 596612,Murray St.,MVC,mid,NY,us_state,Northeast,Middle Atlantic,1
 596612,Murray St.,MVC,mid,TN,us_state,South,East South Central,4
 596612,Murray St.,MVC,mid,WI,us_state,Midwest,East North Central,1
+596613,UNC Asheville,Big South,mid,AL,us_state,South,East South Central,1
+596613,UNC Asheville,Big South,mid,CA,us_state,West,Pacific,1
+596613,UNC Asheville,Big South,mid,CT,us_state,Northeast,New England,1
+596613,UNC Asheville,Big South,mid,FL,us_state,South,South Atlantic,3
+596613,UNC Asheville,Big South,mid,KY,us_state,South,East South Central,1
+596613,UNC Asheville,Big South,mid,NC,us_state,South,South Atlantic,28
+596613,UNC Asheville,Big South,mid,NJ,us_state,Northeast,Middle Atlantic,1
+596613,UNC Asheville,Big South,mid,SC,us_state,South,South Atlantic,1
+596613,UNC Asheville,Big South,mid,TX,us_state,South,West South Central,1
+596613,UNC Asheville,Big South,mid,UT,us_state,West,Mountain,1
 596614,North Carolina,ACC,p4,FL,us_state,South,South Atlantic,2
 596614,North Carolina,ACC,p4,GA,us_state,South,South Atlantic,2
 596614,North Carolina,ACC,p4,IL,us_state,Midwest,East North Central,1
@@ -1328,6 +1727,21 @@ team_ncaa_id,team,conference,tier,hometown_area,area_type,census_region,census_d
 596615,Charlotte,The American,mid,TN,us_state,South,East South Central,2
 596615,Charlotte,The American,mid,TX,us_state,South,West South Central,1
 596615,Charlotte,The American,mid,VA,us_state,South,South Atlantic,3
+596616,UNC Greensboro,SoCon,mid,Canada,international,international,international,1
+596616,UNC Greensboro,SoCon,mid,FL,us_state,South,South Atlantic,2
+596616,UNC Greensboro,SoCon,mid,NC,us_state,South,South Atlantic,22
+596616,UNC Greensboro,SoCon,mid,NJ,us_state,Northeast,Middle Atlantic,2
+596616,UNC Greensboro,SoCon,mid,NM,us_state,West,Mountain,1
+596616,UNC Greensboro,SoCon,mid,NY,us_state,Northeast,Middle Atlantic,1
+596616,UNC Greensboro,SoCon,mid,PA,us_state,Northeast,Middle Atlantic,2
+596616,UNC Greensboro,SoCon,mid,SC,us_state,South,South Atlantic,2
+596616,UNC Greensboro,SoCon,mid,VA,us_state,South,South Atlantic,4
+596617,UNCW,CAA,mid,Czech Republic,international,international,international,1
+596617,UNCW,CAA,mid,IN,us_state,Midwest,East North Central,1
+596617,UNCW,CAA,mid,NC,us_state,South,South Atlantic,36
+596617,UNCW,CAA,mid,NJ,us_state,Northeast,Middle Atlantic,1
+596617,UNCW,CAA,mid,SC,us_state,South,South Atlantic,2
+596617,UNCW,CAA,mid,TN,us_state,South,East South Central,1
 596618,Omaha,Summit League,low,CO,us_state,West,Mountain,1
 596618,Omaha,Summit League,low,Canada,international,international,international,2
 596618,Omaha,Summit League,low,IA,us_state,Midwest,West North Central,1
@@ -1362,6 +1776,30 @@ team_ncaa_id,team,conference,tier,hometown_area,area_type,census_region,census_d
 596622,New Mexico St.,CUSA,mid,UT,us_state,West,Mountain,1
 596622,New Mexico St.,CUSA,mid,WA,us_state,West,Pacific,3
 596622,New Mexico St.,CUSA,mid,unrecognized,unrecognized,unknown,unknown,1
+596624,LSU New Orleans,Southland,low,AL,us_state,South,East South Central,2
+596624,LSU New Orleans,Southland,low,Dominican Republic,international,international,international,1
+596624,LSU New Orleans,Southland,low,FL,us_state,South,South Atlantic,11
+596624,LSU New Orleans,Southland,low,GA,us_state,South,South Atlantic,2
+596624,LSU New Orleans,Southland,low,LA,us_state,South,West South Central,11
+596624,LSU New Orleans,Southland,low,MS,us_state,South,East South Central,2
+596624,LSU New Orleans,Southland,low,NY,us_state,Northeast,Middle Atlantic,1
+596624,LSU New Orleans,Southland,low,OR,us_state,West,Pacific,1
+596624,LSU New Orleans,Southland,low,Puerto Rico,us_territory,US territory,US territory,1
+596624,LSU New Orleans,Southland,low,TX,us_state,South,West South Central,3
+596624,LSU New Orleans,Southland,low,U.S. Virgin Islands,us_territory,US territory,US territory,2
+596626,Norfolk St.,NEC,low,AZ,us_state,West,Mountain,1
+596626,Norfolk St.,NEC,low,CA,us_state,West,Pacific,1
+596626,Norfolk St.,NEC,low,MD,us_state,South,South Atlantic,1
+596626,Norfolk St.,NEC,low,MI,us_state,Midwest,East North Central,1
+596626,Norfolk St.,NEC,low,NC,us_state,South,South Atlantic,4
+596626,Norfolk St.,NEC,low,NJ,us_state,Northeast,Middle Atlantic,1
+596626,Norfolk St.,NEC,low,NY,us_state,Northeast,Middle Atlantic,1
+596626,Norfolk St.,NEC,low,TX,us_state,South,West South Central,1
+596626,Norfolk St.,NEC,low,VA,us_state,South,South Atlantic,16
+596627,N.C. A&T,CAA,mid,CA,us_state,West,Pacific,1
+596627,N.C. A&T,CAA,mid,GA,us_state,South,South Atlantic,1
+596627,N.C. A&T,CAA,mid,NC,us_state,South,South Atlantic,2
+596627,N.C. A&T,CAA,mid,VA,us_state,South,South Atlantic,1
 596628,NC State,ACC,p4,CA,us_state,West,Pacific,1
 596628,NC State,ACC,p4,FL,us_state,South,South Atlantic,8
 596628,NC State,ACC,p4,GA,us_state,South,South Atlantic,1
@@ -1424,6 +1862,41 @@ team_ncaa_id,team,conference,tier,hometown_area,area_type,census_region,census_d
 596632,Northern Colo.,Summit League,low,TX,us_state,South,West South Central,2
 596632,Northern Colo.,Summit League,low,WA,us_state,West,Pacific,3
 596632,Northern Colo.,Summit League,low,WY,us_state,West,Mountain,1
+596633,NIU,MAC,mid,IL,us_state,Midwest,East North Central,23
+596633,NIU,MAC,mid,IN,us_state,Midwest,East North Central,4
+596633,NIU,MAC,mid,MN,us_state,Midwest,West North Central,2
+596633,NIU,MAC,mid,MO,us_state,Midwest,West North Central,3
+596633,NIU,MAC,mid,WI,us_state,Midwest,East North Central,7
+596634,Northern Ky.,Horizon,low,AZ,us_state,West,Mountain,2
+596634,Northern Ky.,Horizon,low,CA,us_state,West,Pacific,5
+596634,Northern Ky.,Horizon,low,Canada,international,international,international,2
+596634,Northern Ky.,Horizon,low,IN,us_state,Midwest,East North Central,2
+596634,Northern Ky.,Horizon,low,KY,us_state,South,East South Central,2
+596634,Northern Ky.,Horizon,low,NV,us_state,West,Mountain,1
+596634,Northern Ky.,Horizon,low,OH,us_state,Midwest,East North Central,12
+596635,Northwestern St.,Southland,low,AR,us_state,South,West South Central,1
+596635,Northwestern St.,Southland,low,AZ,us_state,West,Mountain,2
+596635,Northwestern St.,Southland,low,Australia,international,international,international,1
+596635,Northwestern St.,Southland,low,CO,us_state,West,Mountain,1
+596635,Northwestern St.,Southland,low,Canada,international,international,international,1
+596635,Northwestern St.,Southland,low,LA,us_state,South,West South Central,22
+596635,Northwestern St.,Southland,low,MS,us_state,South,East South Central,1
+596635,Northwestern St.,Southland,low,NE,us_state,Midwest,West North Central,1
+596635,Northwestern St.,Southland,low,OK,us_state,South,West South Central,1
+596635,Northwestern St.,Southland,low,TX,us_state,South,West South Central,15
+596635,Northwestern St.,Southland,low,UT,us_state,West,Mountain,1
+596638,Oakland,Horizon,low,AZ,us_state,West,Mountain,2
+596638,Oakland,Horizon,low,CA,us_state,West,Pacific,2
+596638,Oakland,Horizon,low,IA,us_state,Midwest,West North Central,1
+596638,Oakland,Horizon,low,IL,us_state,Midwest,East North Central,2
+596638,Oakland,Horizon,low,IN,us_state,Midwest,East North Central,2
+596638,Oakland,Horizon,low,MD,us_state,South,South Atlantic,1
+596638,Oakland,Horizon,low,MI,us_state,Midwest,East North Central,15
+596638,Oakland,Horizon,low,OH,us_state,Midwest,East North Central,6
+596638,Oakland,Horizon,low,OK,us_state,South,West South Central,1
+596638,Oakland,Horizon,low,PA,us_state,Northeast,Middle Atlantic,1
+596638,Oakland,Horizon,low,TX,us_state,South,West South Central,1
+596638,Oakland,Horizon,low,WI,us_state,Midwest,East North Central,3
 596639,Ohio St.,Big Ten,p4,AL,us_state,South,East South Central,1
 596639,Ohio St.,Big Ten,p4,CA,us_state,West,Pacific,2
 596639,Ohio St.,Big Ten,p4,Canada,international,international,international,1
@@ -1486,6 +1959,14 @@ team_ncaa_id,team,conference,tier,hometown_area,area_type,census_region,census_d
 596645,Pacific,WCC,mid,OH,us_state,Midwest,East North Central,1
 596645,Pacific,WCC,mid,TX,us_state,South,West South Central,1
 596645,Pacific,WCC,mid,UT,us_state,West,Mountain,1
+596646,UTRGV,Southland,low,CA,us_state,West,Pacific,2
+596646,UTRGV,Southland,low,GA,us_state,South,South Atlantic,1
+596646,UTRGV,Southland,low,Guatemala,international,international,international,1
+596646,UTRGV,Southland,low,KS,us_state,Midwest,West North Central,1
+596646,UTRGV,Southland,low,MO,us_state,Midwest,West North Central,1
+596646,UTRGV,Southland,low,Mexico,international,international,international,1
+596646,UTRGV,Southland,low,NM,us_state,West,Mountain,1
+596646,UTRGV,Southland,low,TX,us_state,South,West South Central,27
 596648,Pepperdine,WCC,mid,AZ,us_state,West,Mountain,1
 596648,Pepperdine,WCC,mid,CA,us_state,West,Pacific,24
 596648,Pepperdine,WCC,mid,CO,us_state,West,Mountain,2
@@ -1517,6 +1998,12 @@ team_ncaa_id,team,conference,tier,hometown_area,area_type,census_region,census_d
 596650,Portland,WCC,mid,OR,us_state,West,Pacific,13
 596650,Portland,WCC,mid,VA,us_state,South,South Atlantic,1
 596650,Portland,WCC,mid,WA,us_state,West,Pacific,13
+596651,Prairie View,SWAC,low,FL,us_state,South,South Atlantic,5
+596651,Prairie View,SWAC,low,KY,us_state,South,East South Central,1
+596651,Prairie View,SWAC,low,LA,us_state,South,West South Central,2
+596651,Prairie View,SWAC,low,MD,us_state,South,South Atlantic,1
+596651,Prairie View,SWAC,low,MO,us_state,Midwest,West North Central,1
+596651,Prairie View,SWAC,low,TX,us_state,South,West South Central,33
 596652,Princeton,Ivy League,low,AZ,us_state,West,Mountain,1
 596652,Princeton,Ivy League,low,CA,us_state,West,Pacific,4
 596652,Princeton,Ivy League,low,Canada,international,international,international,1
@@ -1551,6 +2038,26 @@ team_ncaa_id,team,conference,tier,hometown_area,area_type,census_region,census_d
 596653,Purdue,Big Ten,p4,TN,us_state,South,East South Central,1
 596653,Purdue,Big Ten,p4,TX,us_state,South,West South Central,1
 596653,Purdue,Big Ten,p4,WI,us_state,Midwest,East North Central,1
+596654,Quinnipiac,MAAC,low,CT,us_state,Northeast,New England,11
+596654,Quinnipiac,MAAC,low,IN,us_state,Midwest,East North Central,1
+596654,Quinnipiac,MAAC,low,MA,us_state,Northeast,New England,3
+596654,Quinnipiac,MAAC,low,NJ,us_state,Northeast,Middle Atlantic,7
+596654,Quinnipiac,MAAC,low,NY,us_state,Northeast,Middle Atlantic,2
+596654,Quinnipiac,MAAC,low,PA,us_state,Northeast,Middle Atlantic,4
+596654,Quinnipiac,MAAC,low,RI,us_state,Northeast,New England,1
+596654,Quinnipiac,MAAC,low,TN,us_state,South,East South Central,1
+596655,Radford,Big South,mid,DE,us_state,South,South Atlantic,1
+596655,Radford,Big South,mid,FL,us_state,South,South Atlantic,2
+596655,Radford,Big South,mid,GA,us_state,South,South Atlantic,1
+596655,Radford,Big South,mid,MD,us_state,South,South Atlantic,2
+596655,Radford,Big South,mid,NC,us_state,South,South Atlantic,4
+596655,Radford,Big South,mid,NY,us_state,Northeast,Middle Atlantic,3
+596655,Radford,Big South,mid,PA,us_state,Northeast,Middle Atlantic,2
+596655,Radford,Big South,mid,SC,us_state,South,South Atlantic,5
+596655,Radford,Big South,mid,TN,us_state,South,East South Central,1
+596655,Radford,Big South,mid,VA,us_state,South,South Atlantic,14
+596655,Radford,Big South,mid,WA,us_state,West,Pacific,1
+596655,Radford,Big South,mid,WV,us_state,South,South Atlantic,2
 596656,Rhode Island,Atlantic 10,mid,CT,us_state,Northeast,New England,3
 596656,Rhode Island,Atlantic 10,mid,FL,us_state,South,South Atlantic,1
 596656,Rhode Island,Atlantic 10,mid,IL,us_state,Midwest,East North Central,1
@@ -1573,6 +2080,27 @@ team_ncaa_id,team,conference,tier,hometown_area,area_type,census_region,census_d
 596657,Rice,The American,mid,Puerto Rico,us_territory,US territory,US territory,2
 596657,Rice,The American,mid,TN,us_state,South,East South Central,1
 596657,Rice,The American,mid,TX,us_state,South,West South Central,22
+596658,Richmond,Atlantic 10,mid,AR,us_state,South,West South Central,1
+596658,Richmond,Atlantic 10,mid,CA,us_state,West,Pacific,2
+596658,Richmond,Atlantic 10,mid,CT,us_state,Northeast,New England,3
+596658,Richmond,Atlantic 10,mid,Canada,international,international,international,1
+596658,Richmond,Atlantic 10,mid,DE,us_state,South,South Atlantic,1
+596658,Richmond,Atlantic 10,mid,FL,us_state,South,South Atlantic,2
+596658,Richmond,Atlantic 10,mid,GA,us_state,South,South Atlantic,1
+596658,Richmond,Atlantic 10,mid,KS,us_state,Midwest,West North Central,2
+596658,Richmond,Atlantic 10,mid,MA,us_state,Northeast,New England,4
+596658,Richmond,Atlantic 10,mid,MD,us_state,South,South Atlantic,1
+596658,Richmond,Atlantic 10,mid,NC,us_state,South,South Atlantic,1
+596658,Richmond,Atlantic 10,mid,NJ,us_state,Northeast,Middle Atlantic,6
+596658,Richmond,Atlantic 10,mid,NY,us_state,Northeast,Middle Atlantic,6
+596658,Richmond,Atlantic 10,mid,PA,us_state,Northeast,Middle Atlantic,6
+596658,Richmond,Atlantic 10,mid,TX,us_state,South,West South Central,2
+596658,Richmond,Atlantic 10,mid,VA,us_state,South,South Atlantic,3
+596659,Rider,MAAC,low,MD,us_state,South,South Atlantic,3
+596659,Rider,MAAC,low,NJ,us_state,Northeast,Middle Atlantic,20
+596659,Rider,MAAC,low,OH,us_state,Midwest,East North Central,1
+596659,Rider,MAAC,low,PA,us_state,Northeast,Middle Atlantic,6
+596659,Rider,MAAC,low,VA,us_state,South,South Atlantic,1
 596660,Rutgers,Big Ten,p4,AL,us_state,South,East South Central,1
 596660,Rutgers,Big Ten,p4,CO,us_state,West,Mountain,1
 596660,Rutgers,Big Ten,p4,CT,us_state,Northeast,New England,2
@@ -1586,6 +2114,16 @@ team_ncaa_id,team,conference,tier,hometown_area,area_type,census_region,census_d
 596660,Rutgers,Big Ten,p4,Puerto Rico,us_territory,US territory,US territory,1
 596660,Rutgers,Big Ten,p4,TX,us_state,South,West South Central,1
 596660,Rutgers,Big Ten,p4,unrecognized,unrecognized,unknown,unknown,1
+596661,Sacred Heart,MAAC,low,CT,us_state,Northeast,New England,11
+596661,Sacred Heart,MAAC,low,MA,us_state,Northeast,New England,2
+596661,Sacred Heart,MAAC,low,MN,us_state,Midwest,West North Central,1
+596661,Sacred Heart,MAAC,low,NH,us_state,Northeast,New England,1
+596661,Sacred Heart,MAAC,low,NJ,us_state,Northeast,Middle Atlantic,7
+596661,Sacred Heart,MAAC,low,NY,us_state,Northeast,Middle Atlantic,8
+596661,Sacred Heart,MAAC,low,PA,us_state,Northeast,Middle Atlantic,3
+596661,Sacred Heart,MAAC,low,RI,us_state,Northeast,New England,2
+596661,Sacred Heart,MAAC,low,VA,us_state,South,South Atlantic,1
+596661,Sacred Heart,MAAC,low,unrecognized,unrecognized,unknown,unknown,1
 596662,St. Bonaventure,Atlantic 10,mid,Australia,international,international,international,1
 596662,St. Bonaventure,Atlantic 10,mid,CO,us_state,West,Mountain,3
 596662,St. Bonaventure,Atlantic 10,mid,Canada,international,international,international,3
@@ -1634,6 +2172,30 @@ team_ncaa_id,team,conference,tier,hometown_area,area_type,census_region,census_d
 596673,Santa Clara,WCC,mid,OR,us_state,West,Pacific,4
 596673,Santa Clara,WCC,mid,WA,us_state,West,Pacific,2
 596673,Santa Clara,WCC,mid,unrecognized,unrecognized,unknown,unknown,3
+596674,Seton Hall,Big East,mid,CT,us_state,Northeast,New England,2
+596674,Seton Hall,Big East,mid,MA,us_state,Northeast,New England,2
+596674,Seton Hall,Big East,mid,MD,us_state,South,South Atlantic,1
+596674,Seton Hall,Big East,mid,NJ,us_state,Northeast,Middle Atlantic,19
+596674,Seton Hall,Big East,mid,NY,us_state,Northeast,Middle Atlantic,6
+596674,Seton Hall,Big East,mid,PA,us_state,Northeast,Middle Atlantic,5
+596674,Seton Hall,Big East,mid,RI,us_state,Northeast,New England,2
+596675,Siena,MAAC,low,CA,us_state,West,Pacific,2
+596675,Siena,MAAC,low,CT,us_state,Northeast,New England,5
+596675,Siena,MAAC,low,FL,us_state,South,South Atlantic,1
+596675,Siena,MAAC,low,IL,us_state,Midwest,East North Central,1
+596675,Siena,MAAC,low,MA,us_state,Northeast,New England,2
+596675,Siena,MAAC,low,NJ,us_state,Northeast,Middle Atlantic,8
+596675,Siena,MAAC,low,NY,us_state,Northeast,Middle Atlantic,13
+596675,Siena,MAAC,low,RI,us_state,Northeast,New England,1
+596675,Siena,MAAC,low,VA,us_state,South,South Atlantic,2
+596675,Siena,MAAC,low,WI,us_state,Midwest,East North Central,1
+596676,South Alabama,Sun Belt,mid,AL,us_state,South,East South Central,6
+596676,South Alabama,Sun Belt,mid,CA,us_state,West,Pacific,1
+596676,South Alabama,Sun Belt,mid,FL,us_state,South,South Atlantic,2
+596676,South Alabama,Sun Belt,mid,LA,us_state,South,West South Central,2
+596676,South Alabama,Sun Belt,mid,MS,us_state,South,East South Central,4
+596676,South Alabama,Sun Belt,mid,OH,us_state,Midwest,East North Central,1
+596676,South Alabama,Sun Belt,mid,WA,us_state,West,Pacific,1
 596677,South Carolina,SEC,p4,Canada,international,international,international,1
 596677,South Carolina,SEC,p4,FL,us_state,South,South Atlantic,5
 596677,South Carolina,SEC,p4,GA,us_state,South,South Atlantic,5
@@ -1651,6 +2213,17 @@ team_ncaa_id,team,conference,tier,hometown_area,area_type,census_region,census_d
 596677,South Carolina,SEC,p4,TN,us_state,South,East South Central,1
 596677,South Carolina,SEC,p4,TX,us_state,South,West South Central,1
 596677,South Carolina,SEC,p4,VA,us_state,South,South Atlantic,1
+596678,South Dakota St.,Summit League,low,CO,us_state,West,Mountain,1
+596678,South Dakota St.,Summit League,low,Canada,international,international,international,1
+596678,South Dakota St.,Summit League,low,IA,us_state,Midwest,West North Central,5
+596678,South Dakota St.,Summit League,low,MN,us_state,Midwest,West North Central,13
+596678,South Dakota St.,Summit League,low,MT,us_state,West,Mountain,2
+596678,South Dakota St.,Summit League,low,ND,us_state,Midwest,West North Central,1
+596678,South Dakota St.,Summit League,low,NE,us_state,Midwest,West North Central,7
+596678,South Dakota St.,Summit League,low,SD,us_state,Midwest,West North Central,7
+596678,South Dakota St.,Summit League,low,TX,us_state,South,West South Central,1
+596678,South Dakota St.,Summit League,low,WA,us_state,West,Pacific,1
+596678,South Dakota St.,Summit League,low,WI,us_state,Midwest,East North Central,1
 596679,South Fla.,The American,mid,Canada,international,international,international,1
 596679,South Fla.,The American,mid,FL,us_state,South,South Atlantic,25
 596679,South Fla.,The American,mid,GA,us_state,South,South Atlantic,2
@@ -1662,6 +2235,15 @@ team_ncaa_id,team,conference,tier,hometown_area,area_type,census_region,census_d
 596679,South Fla.,The American,mid,TN,us_state,South,East South Central,2
 596679,South Fla.,The American,mid,TX,us_state,South,West South Central,2
 596679,South Fla.,The American,mid,Venezuela,international,international,international,1
+596680,Southeastern La.,Southland,low,AL,us_state,South,East South Central,2
+596680,Southeastern La.,Southland,low,Canada,international,international,international,1
+596680,Southeastern La.,Southland,low,FL,us_state,South,South Atlantic,1
+596680,Southeastern La.,Southland,low,GA,us_state,South,South Atlantic,1
+596680,Southeastern La.,Southland,low,LA,us_state,South,West South Central,27
+596680,Southeastern La.,Southland,low,MS,us_state,South,East South Central,5
+596680,Southeastern La.,Southland,low,OH,us_state,Midwest,East North Central,1
+596680,Southeastern La.,Southland,low,TN,us_state,South,East South Central,1
+596680,Southeastern La.,Southland,low,TX,us_state,South,West South Central,5
 596681,Southern California,Big Ten,p4,CA,us_state,West,Pacific,32
 596681,Southern California,Big Ten,p4,MI,us_state,Midwest,East North Central,1
 596681,Southern California,Big Ten,p4,NV,us_state,West,Mountain,3
@@ -1679,6 +2261,16 @@ team_ncaa_id,team,conference,tier,hometown_area,area_type,census_region,census_d
 596683,SIUE,OVC,low,MO,us_state,Midwest,West North Central,6
 596683,SIUE,OVC,low,OH,us_state,Midwest,East North Central,1
 596683,SIUE,OVC,low,WI,us_state,Midwest,East North Central,1
+596684,Southern U.,SWAC,low,GA,us_state,South,South Atlantic,9
+596684,Southern U.,SWAC,low,IL,us_state,Midwest,East North Central,7
+596684,Southern U.,SWAC,low,KS,us_state,Midwest,West North Central,1
+596684,Southern U.,SWAC,low,LA,us_state,South,West South Central,9
+596684,Southern U.,SWAC,low,MD,us_state,South,South Atlantic,1
+596684,Southern U.,SWAC,low,MI,us_state,Midwest,East North Central,2
+596684,Southern U.,SWAC,low,MS,us_state,South,East South Central,5
+596684,Southern U.,SWAC,low,PA,us_state,Northeast,Middle Atlantic,1
+596684,Southern U.,SWAC,low,TX,us_state,South,West South Central,7
+596684,Southern U.,SWAC,low,U.S. Virgin Islands,us_territory,US territory,US territory,1
 596685,Missouri St.,MVC,mid,CO,us_state,West,Mountain,2
 596685,Missouri St.,MVC,mid,Canada,international,international,international,6
 596685,Missouri St.,MVC,mid,FL,us_state,South,South Atlantic,2
@@ -1799,6 +2391,51 @@ team_ncaa_id,team,conference,tier,hometown_area,area_type,census_region,census_d
 596701,Tulane,The American,mid,SC,us_state,South,South Atlantic,1
 596701,Tulane,The American,mid,TN,us_state,South,East South Central,1
 596701,Tulane,The American,mid,UT,us_state,West,Mountain,1
+596702,Army West Point,Patriot,low,AL,us_state,South,East South Central,1
+596702,Army West Point,Patriot,low,AR,us_state,South,West South Central,1
+596702,Army West Point,Patriot,low,AZ,us_state,West,Mountain,2
+596702,Army West Point,Patriot,low,CA,us_state,West,Pacific,5
+596702,Army West Point,Patriot,low,CT,us_state,Northeast,New England,1
+596702,Army West Point,Patriot,low,FL,us_state,South,South Atlantic,4
+596702,Army West Point,Patriot,low,GA,us_state,South,South Atlantic,2
+596702,Army West Point,Patriot,low,KY,us_state,South,East South Central,1
+596702,Army West Point,Patriot,low,LA,us_state,South,West South Central,1
+596702,Army West Point,Patriot,low,MA,us_state,Northeast,New England,3
+596702,Army West Point,Patriot,low,MD,us_state,South,South Atlantic,1
+596702,Army West Point,Patriot,low,MI,us_state,Midwest,East North Central,1
+596702,Army West Point,Patriot,low,NC,us_state,South,South Atlantic,3
+596702,Army West Point,Patriot,low,NY,us_state,Northeast,Middle Atlantic,6
+596702,Army West Point,Patriot,low,PA,us_state,Northeast,Middle Atlantic,2
+596702,Army West Point,Patriot,low,SC,us_state,South,South Atlantic,1
+596702,Army West Point,Patriot,low,TN,us_state,South,East South Central,1
+596702,Army West Point,Patriot,low,TX,us_state,South,West South Central,7
+596704,Wofford,SoCon,mid,CA,us_state,West,Pacific,1
+596704,Wofford,SoCon,mid,CO,us_state,West,Mountain,2
+596704,Wofford,SoCon,mid,DE,us_state,South,South Atlantic,1
+596704,Wofford,SoCon,mid,FL,us_state,South,South Atlantic,2
+596704,Wofford,SoCon,mid,GA,us_state,South,South Atlantic,15
+596704,Wofford,SoCon,mid,IN,us_state,Midwest,East North Central,2
+596704,Wofford,SoCon,mid,Japan,international,international,international,1
+596704,Wofford,SoCon,mid,MA,us_state,Northeast,New England,1
+596704,Wofford,SoCon,mid,MI,us_state,Midwest,East North Central,1
+596704,Wofford,SoCon,mid,NC,us_state,South,South Atlantic,5
+596704,Wofford,SoCon,mid,NJ,us_state,Northeast,Middle Atlantic,2
+596704,Wofford,SoCon,mid,NY,us_state,Northeast,Middle Atlantic,1
+596704,Wofford,SoCon,mid,SC,us_state,South,South Atlantic,8
+596704,Wofford,SoCon,mid,TN,us_state,South,East South Central,3
+596704,Wofford,SoCon,mid,TX,us_state,South,West South Central,1
+596704,Wofford,SoCon,mid,VA,us_state,South,South Atlantic,1
+596704,Wofford,SoCon,mid,WA,us_state,West,Pacific,1
+596705,High Point,Big South,mid,AL,us_state,South,East South Central,1
+596705,High Point,Big South,mid,FL,us_state,South,South Atlantic,2
+596705,High Point,Big South,mid,MD,us_state,South,South Atlantic,1
+596705,High Point,Big South,mid,NC,us_state,South,South Atlantic,3
+596705,High Point,Big South,mid,NJ,us_state,Northeast,Middle Atlantic,1
+596705,High Point,Big South,mid,OH,us_state,Midwest,East North Central,1
+596705,High Point,Big South,mid,PA,us_state,Northeast,Middle Atlantic,2
+596705,High Point,Big South,mid,SC,us_state,South,South Atlantic,1
+596705,High Point,Big South,mid,TX,us_state,South,West South Central,1
+596705,High Point,Big South,mid,VA,us_state,South,South Atlantic,2
 596707,Fresno St.,Mountain West,mid,CA,us_state,West,Pacific,35
 596707,Fresno St.,Mountain West,mid,NV,us_state,West,Mountain,1
 596707,Fresno St.,Mountain West,mid,WA,us_state,West,Pacific,1
@@ -1830,6 +2467,26 @@ team_ncaa_id,team,conference,tier,hometown_area,area_type,census_region,census_d
 596709,Evansville,MVC,mid,MO,us_state,Midwest,West North Central,5
 596709,Evansville,MVC,mid,WI,us_state,Midwest,East North Central,1
 596709,Evansville,MVC,mid,WY,us_state,West,Mountain,1
+596710,Grambling,SWAC,low,AL,us_state,South,East South Central,1
+596710,Grambling,SWAC,low,AR,us_state,South,West South Central,2
+596710,Grambling,SWAC,low,CO,us_state,West,Mountain,1
+596710,Grambling,SWAC,low,Canada,international,international,international,1
+596710,Grambling,SWAC,low,Dominican Republic,international,international,international,1
+596710,Grambling,SWAC,low,FL,us_state,South,South Atlantic,1
+596710,Grambling,SWAC,low,GA,us_state,South,South Atlantic,2
+596710,Grambling,SWAC,low,IL,us_state,Midwest,East North Central,1
+596710,Grambling,SWAC,low,IN,us_state,Midwest,East North Central,1
+596710,Grambling,SWAC,low,LA,us_state,South,West South Central,7
+596710,Grambling,SWAC,low,MI,us_state,Midwest,East North Central,1
+596710,Grambling,SWAC,low,MS,us_state,South,East South Central,4
+596710,Grambling,SWAC,low,NC,us_state,South,South Atlantic,1
+596710,Grambling,SWAC,low,NE,us_state,Midwest,West North Central,1
+596710,Grambling,SWAC,low,NJ,us_state,Northeast,Middle Atlantic,1
+596710,Grambling,SWAC,low,NY,us_state,Northeast,Middle Atlantic,1
+596710,Grambling,SWAC,low,RI,us_state,Northeast,New England,1
+596710,Grambling,SWAC,low,TX,us_state,South,West South Central,7
+596710,Grambling,SWAC,low,VA,us_state,South,South Atlantic,1
+596710,Grambling,SWAC,low,unrecognized,unrecognized,unknown,unknown,1
 596712,Nebraska,Big Ten,p4,AZ,us_state,West,Mountain,1
 596712,Nebraska,Big Ten,p4,CO,us_state,West,Mountain,2
 596712,Nebraska,Big Ten,p4,Canada,international,international,international,3
@@ -1874,6 +2531,29 @@ team_ncaa_id,team,conference,tier,hometown_area,area_type,census_region,census_d
 596714,Oklahoma St.,Big 12,p4,TX,us_state,South,West South Central,2
 596714,Oklahoma St.,Big 12,p4,WI,us_state,Midwest,East North Central,1
 596714,Oklahoma St.,Big 12,p4,unrecognized,unrecognized,unknown,unknown,1
+596716,Penn,Ivy League,low,CA,us_state,West,Pacific,2
+596716,Penn,Ivy League,low,DE,us_state,South,South Atlantic,1
+596716,Penn,Ivy League,low,FL,us_state,South,South Atlantic,1
+596716,Penn,Ivy League,low,GA,us_state,South,South Atlantic,1
+596716,Penn,Ivy League,low,IL,us_state,Midwest,East North Central,1
+596716,Penn,Ivy League,low,IN,us_state,Midwest,East North Central,1
+596716,Penn,Ivy League,low,MA,us_state,Northeast,New England,2
+596716,Penn,Ivy League,low,MD,us_state,South,South Atlantic,1
+596716,Penn,Ivy League,low,MI,us_state,Midwest,East North Central,1
+596716,Penn,Ivy League,low,NJ,us_state,Northeast,Middle Atlantic,6
+596716,Penn,Ivy League,low,PA,us_state,Northeast,Middle Atlantic,5
+596716,Penn,Ivy League,low,TN,us_state,South,East South Central,1
+596716,Penn,Ivy League,low,TX,us_state,South,West South Central,2
+596716,Penn,Ivy League,low,VA,us_state,South,South Atlantic,1
+596716,Penn,Ivy League,low,WA,us_state,West,Pacific,1
+596717,St. John's (NY),Big East,mid,CA,us_state,West,Pacific,1
+596717,St. John's (NY),Big East,mid,CT,us_state,Northeast,New England,3
+596717,St. John's (NY),Big East,mid,IN,us_state,Midwest,East North Central,1
+596717,St. John's (NY),Big East,mid,MA,us_state,Northeast,New England,1
+596717,St. John's (NY),Big East,mid,NJ,us_state,Northeast,Middle Atlantic,6
+596717,St. John's (NY),Big East,mid,NY,us_state,Northeast,Middle Atlantic,20
+596717,St. John's (NY),Big East,mid,PA,us_state,Northeast,Middle Atlantic,3
+596717,St. John's (NY),Big East,mid,WI,us_state,Midwest,East North Central,1
 596718,Southeast Mo. St.,OVC,low,AR,us_state,South,West South Central,1
 596718,Southeast Mo. St.,OVC,low,CA,us_state,West,Pacific,8
 596718,Southeast Mo. St.,OVC,low,CO,us_state,West,Mountain,1
@@ -1930,3 +2610,24 @@ team_ncaa_id,team,conference,tier,hometown_area,area_type,census_region,census_d
 596721,Tennessee,SEC,p4,TX,us_state,South,West South Central,4
 596721,Tennessee,SEC,p4,VA,us_state,South,South Atlantic,1
 596721,Tennessee,SEC,p4,WI,us_state,Midwest,East North Central,2
+596947,West Ga.,ASUN,mid,AL,us_state,South,East South Central,3
+596947,West Ga.,ASUN,mid,CA,us_state,West,Pacific,1
+596947,West Ga.,ASUN,mid,FL,us_state,South,South Atlantic,6
+596947,West Ga.,ASUN,mid,GA,us_state,South,South Atlantic,20
+596947,West Ga.,ASUN,mid,NC,us_state,South,South Atlantic,1
+596947,West Ga.,ASUN,mid,NY,us_state,Northeast,Middle Atlantic,1
+596947,West Ga.,ASUN,mid,OH,us_state,Midwest,East North Central,1
+596947,West Ga.,ASUN,mid,Puerto Rico,us_territory,US territory,US territory,1
+596947,West Ga.,ASUN,mid,TN,us_state,South,East South Central,1
+596947,West Ga.,ASUN,mid,TX,us_state,South,West South Central,2
+596947,West Ga.,ASUN,mid,VA,us_state,South,South Atlantic,1
+597318,Loras,non-D1,non_d1,AZ,us_state,West,Mountain,2
+597318,Loras,non-D1,non_d1,CA,us_state,West,Pacific,1
+597318,Loras,non-D1,non_d1,Colombia,international,international,international,1
+597318,Loras,non-D1,non_d1,FL,us_state,South,South Atlantic,1
+597318,Loras,non-D1,non_d1,IA,us_state,Midwest,West North Central,3
+597318,Loras,non-D1,non_d1,IL,us_state,Midwest,East North Central,29
+597318,Loras,non-D1,non_d1,MO,us_state,Midwest,West North Central,1
+597318,Loras,non-D1,non_d1,TX,us_state,South,West South Central,1
+597318,Loras,non-D1,non_d1,WA,us_state,West,Pacific,1
+597318,Loras,non-D1,non_d1,WI,us_state,Midwest,East North Central,3

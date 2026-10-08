@@ -1,22 +1,26 @@
 scope,scope_value,status,bats,batters,pa,share_batters,share_pa
-all,all,matched,L,785,43918,0.3425,0.3952
-all,all,matched,R,1405,61966,0.613,0.5575
-all,all,matched,S,102,5256,0.0445,0.0473
-all,all,roster_unmatched,L,288,0,0.3225,0.0
-all,all,roster_unmatched,R,567,0,0.6349,0.0
-all,all,roster_unmatched,S,38,0,0.0426,0.0
-tier,low,matched,L,95,1360,0.2836,0.3128
-tier,low,matched,R,232,2896,0.6925,0.6661
-tier,low,matched,S,8,92,0.0239,0.0212
-tier,low,roster_unmatched,L,55,0,0.3293,0.0
-tier,low,roster_unmatched,R,109,0,0.6527,0.0
-tier,low,roster_unmatched,S,3,0,0.018,0.0
-tier,mid,matched,L,392,13354,0.3336,0.3793
-tier,mid,matched,R,730,20496,0.6213,0.5822
-tier,mid,matched,S,53,1354,0.0451,0.0385
-tier,mid,roster_unmatched,L,158,0,0.3129,0.0
-tier,mid,roster_unmatched,R,321,0,0.6356,0.0
-tier,mid,roster_unmatched,S,26,0,0.0515,0.0
+all,all,matched,L,978,45123,0.3354,0.3925
+all,all,matched,R,1820,64476,0.6241,0.5608
+all,all,matched,S,118,5366,0.0405,0.0467
+all,all,roster_unmatched,L,463,0,0.3076,0.0
+all,all,roster_unmatched,R,980,0,0.6512,0.0
+all,all,roster_unmatched,S,62,0,0.0412,0.0
+tier,low,matched,L,174,1835,0.2825,0.3058
+tier,low,matched,R,425,4010,0.6899,0.6682
+tier,low,matched,S,17,156,0.0276,0.026
+tier,low,roster_unmatched,L,140,0,0.307,0.0
+tier,low,roster_unmatched,R,302,0,0.6623,0.0
+tier,low,roster_unmatched,S,14,0,0.0307,0.0
+tier,mid,matched,L,503,14074,0.334,0.3769
+tier,mid,matched,R,943,21869,0.6262,0.5856
+tier,mid,matched,S,60,1400,0.0398,0.0375
+tier,mid,roster_unmatched,L,245,0,0.3014,0.0
+tier,mid,roster_unmatched,R,529,0,0.6507,0.0
+tier,mid,roster_unmatched,S,39,0,0.048,0.0
+tier,non_d1,matched,L,3,10,0.25,0.303
+tier,non_d1,matched,R,9,23,0.75,0.697
+tier,non_d1,roster_unmatched,L,3,0,0.2,0.0
+tier,non_d1,roster_unmatched,R,12,0,0.8,0.0
 tier,p4,matched,L,298,29204,0.3811,0.4079
 tier,p4,matched,R,443,38574,0.5665,0.5388
 tier,p4,matched,S,41,3810,0.0524,0.0532
@@ -29,40 +33,40 @@ conference,ACC,matched,S,14,828,0.0782,0.0615
 conference,ACC,roster_unmatched,L,23,0,0.377,0.0
 conference,ACC,roster_unmatched,R,35,0,0.5738,0.0
 conference,ACC,roster_unmatched,S,3,0,0.0492,0.0
-conference,ASUN,matched,L,20,301,0.2985,0.2473
-conference,ASUN,matched,R,44,887,0.6567,0.7288
-conference,ASUN,matched,S,3,29,0.0448,0.0238
-conference,ASUN,roster_unmatched,L,22,0,0.386,0.0
-conference,ASUN,roster_unmatched,R,30,0,0.5263,0.0
-conference,ASUN,roster_unmatched,S,5,0,0.0877,0.0
-conference,America East,matched,L,4,54,0.2857,0.27
-conference,America East,matched,R,9,125,0.6429,0.625
-conference,America East,matched,S,1,21,0.0714,0.105
-conference,America East,roster_unmatched,L,2,0,0.4,0.0
-conference,America East,roster_unmatched,R,3,0,0.6,0.0
-conference,Atlantic 10,matched,L,21,262,0.3134,0.2994
-conference,Atlantic 10,matched,R,46,613,0.6866,0.7006
-conference,Atlantic 10,roster_unmatched,L,8,0,0.2424,0.0
-conference,Atlantic 10,roster_unmatched,R,24,0,0.7273,0.0
-conference,Atlantic 10,roster_unmatched,S,1,0,0.0303,0.0
+conference,ASUN,matched,L,25,357,0.3125,0.267
+conference,ASUN,matched,R,52,951,0.65,0.7113
+conference,ASUN,matched,S,3,29,0.0375,0.0217
+conference,ASUN,roster_unmatched,L,30,0,0.3614,0.0
+conference,ASUN,roster_unmatched,R,46,0,0.5542,0.0
+conference,ASUN,roster_unmatched,S,7,0,0.0843,0.0
+conference,America East,matched,L,4,54,0.16,0.2045
+conference,America East,matched,R,20,189,0.8,0.7159
+conference,America East,matched,S,1,21,0.04,0.0795
+conference,America East,roster_unmatched,L,3,0,0.25,0.0
+conference,America East,roster_unmatched,R,9,0,0.75,0.0
+conference,Atlantic 10,matched,L,26,292,0.2857,0.288
+conference,Atlantic 10,matched,R,65,722,0.7143,0.712
+conference,Atlantic 10,roster_unmatched,L,12,0,0.2609,0.0
+conference,Atlantic 10,roster_unmatched,R,32,0,0.6957,0.0
+conference,Atlantic 10,roster_unmatched,S,2,0,0.0435,0.0
 conference,Big 12,matched,L,74,6431,0.3854,0.4365
 conference,Big 12,matched,R,112,7915,0.5833,0.5372
 conference,Big 12,matched,S,6,388,0.0312,0.0263
 conference,Big 12,roster_unmatched,L,14,0,0.3684,0.0
 conference,Big 12,roster_unmatched,R,23,0,0.6053,0.0
 conference,Big 12,roster_unmatched,S,1,0,0.0263,0.0
-conference,Big East,matched,L,17,364,0.2742,0.268
-conference,Big East,matched,R,40,946,0.6452,0.6966
-conference,Big East,matched,S,5,48,0.0806,0.0353
-conference,Big East,roster_unmatched,L,4,0,0.3333,0.0
-conference,Big East,roster_unmatched,R,7,0,0.5833,0.0
-conference,Big East,roster_unmatched,S,1,0,0.0833,0.0
-conference,Big South,matched,L,15,183,0.3261,0.3134
-conference,Big South,matched,R,30,386,0.6522,0.661
-conference,Big South,matched,S,1,15,0.0217,0.0257
-conference,Big South,roster_unmatched,L,3,0,0.2308,0.0
-conference,Big South,roster_unmatched,R,9,0,0.6923,0.0
-conference,Big South,roster_unmatched,S,1,0,0.0769,0.0
+conference,Big East,matched,L,32,445,0.3265,0.2851
+conference,Big East,matched,R,60,1066,0.6122,0.6829
+conference,Big East,matched,S,6,50,0.0612,0.032
+conference,Big East,roster_unmatched,L,14,0,0.2593,0.0
+conference,Big East,roster_unmatched,R,38,0,0.7037,0.0
+conference,Big East,roster_unmatched,S,2,0,0.037,0.0
+conference,Big South,matched,L,36,285,0.3077,0.2929
+conference,Big South,matched,R,76,645,0.6496,0.6629
+conference,Big South,matched,S,5,43,0.0427,0.0442
+conference,Big South,roster_unmatched,L,16,0,0.254,0.0
+conference,Big South,roster_unmatched,R,44,0,0.6984,0.0
+conference,Big South,roster_unmatched,S,3,0,0.0476,0.0
 conference,Big Ten,matched,L,74,6645,0.3834,0.4565
 conference,Big Ten,matched,R,112,7428,0.5803,0.5103
 conference,Big Ten,matched,S,7,484,0.0363,0.0332
@@ -75,93 +79,102 @@ conference,Big West,matched,S,5,312,0.0329,0.0543
 conference,Big West,roster_unmatched,L,11,0,0.2821,0.0
 conference,Big West,roster_unmatched,R,27,0,0.6923,0.0
 conference,Big West,roster_unmatched,S,1,0,0.0256,0.0
-conference,CAA,matched,L,9,170,0.2903,0.2962
-conference,CAA,matched,R,21,388,0.6774,0.676
-conference,CAA,matched,S,1,16,0.0323,0.0279
-conference,CAA,roster_unmatched,L,3,0,0.3333,0.0
-conference,CAA,roster_unmatched,R,6,0,0.6667,0.0
-conference,CUSA,matched,L,22,403,0.4151,0.4909
-conference,CUSA,matched,R,25,320,0.4717,0.3898
-conference,CUSA,matched,S,6,98,0.1132,0.1194
-conference,CUSA,roster_unmatched,L,20,0,0.2941,0.0
-conference,CUSA,roster_unmatched,R,47,0,0.6912,0.0
-conference,CUSA,roster_unmatched,S,1,0,0.0147,0.0
+conference,CAA,matched,L,23,284,0.3108,0.3302
+conference,CAA,matched,R,50,560,0.6757,0.6512
+conference,CAA,matched,S,1,16,0.0135,0.0186
+conference,CAA,roster_unmatched,L,15,0,0.2206,0.0
+conference,CAA,roster_unmatched,R,52,0,0.7647,0.0
+conference,CAA,roster_unmatched,S,1,0,0.0147,0.0
+conference,CUSA,matched,L,28,436,0.4118,0.4839
+conference,CUSA,matched,R,34,367,0.5,0.4073
+conference,CUSA,matched,S,6,98,0.0882,0.1088
+conference,CUSA,roster_unmatched,L,25,0,0.3247,0.0
+conference,CUSA,roster_unmatched,R,51,0,0.6623,0.0
+conference,CUSA,roster_unmatched,S,1,0,0.013,0.0
 conference,DI Independent,matched,L,4,151,0.25,0.1612
 conference,DI Independent,matched,R,12,786,0.75,0.8388
 conference,DI Independent,roster_unmatched,R,1,0,1.0,0.0
-conference,Horizon,matched,L,10,118,0.3226,0.4322
-conference,Horizon,matched,R,18,144,0.5806,0.5275
-conference,Horizon,matched,S,3,11,0.0968,0.0403
-conference,Horizon,roster_unmatched,L,8,0,0.3333,0.0
-conference,Horizon,roster_unmatched,R,14,0,0.5833,0.0
-conference,Horizon,roster_unmatched,S,2,0,0.0833,0.0
-conference,Ivy League,matched,L,14,148,0.2373,0.2475
-conference,Ivy League,matched,R,44,428,0.7458,0.7157
-conference,Ivy League,matched,S,1,22,0.0169,0.0368
-conference,Ivy League,roster_unmatched,L,2,0,0.1818,0.0
-conference,Ivy League,roster_unmatched,R,9,0,0.8182,0.0
-conference,MAAC,matched,L,3,25,0.2727,0.2604
-conference,MAAC,matched,R,8,71,0.7273,0.7396
-conference,MAAC,roster_unmatched,L,6,0,0.5,0.0
-conference,MAAC,roster_unmatched,R,6,0,0.5,0.0
-conference,MAC,matched,L,17,223,0.3778,0.3905
-conference,MAC,matched,R,25,287,0.5556,0.5026
-conference,MAC,matched,S,3,61,0.0667,0.1068
-conference,MAC,roster_unmatched,L,1,0,0.125,0.0
-conference,MAC,roster_unmatched,R,6,0,0.75,0.0
-conference,MAC,roster_unmatched,S,1,0,0.125,0.0
-conference,MVC,matched,L,34,811,0.3953,0.4587
-conference,MVC,matched,R,50,938,0.5814,0.5305
-conference,MVC,matched,S,2,19,0.0233,0.0107
-conference,MVC,roster_unmatched,L,14,0,0.3415,0.0
-conference,MVC,roster_unmatched,R,27,0,0.6585,0.0
+conference,Horizon,matched,L,14,139,0.2979,0.4064
+conference,Horizon,matched,R,30,192,0.6383,0.5614
+conference,Horizon,matched,S,3,11,0.0638,0.0322
+conference,Horizon,roster_unmatched,L,17,0,0.3953,0.0
+conference,Horizon,roster_unmatched,R,24,0,0.5581,0.0
+conference,Horizon,roster_unmatched,S,2,0,0.0465,0.0
+conference,Ivy League,matched,L,14,148,0.2333,0.2446
+conference,Ivy League,matched,R,45,435,0.75,0.719
+conference,Ivy League,matched,S,1,22,0.0167,0.0364
+conference,Ivy League,roster_unmatched,L,6,0,0.2308,0.0
+conference,Ivy League,roster_unmatched,R,20,0,0.7692,0.0
+conference,MAAC,matched,L,17,78,0.2742,0.1985
+conference,MAAC,matched,R,45,315,0.7258,0.8015
+conference,MAAC,roster_unmatched,L,17,0,0.3542,0.0
+conference,MAAC,roster_unmatched,R,31,0,0.6458,0.0
+conference,MAC,matched,L,37,347,0.3663,0.368
+conference,MAC,matched,R,60,532,0.5941,0.5642
+conference,MAC,matched,S,4,64,0.0396,0.0679
+conference,MAC,roster_unmatched,L,11,0,0.2391,0.0
+conference,MAC,roster_unmatched,R,32,0,0.6957,0.0
+conference,MAC,roster_unmatched,S,3,0,0.0652,0.0
+conference,MVC,matched,L,34,811,0.3864,0.4538
+conference,MVC,matched,R,52,957,0.5909,0.5355
+conference,MVC,matched,S,2,19,0.0227,0.0106
+conference,MVC,roster_unmatched,L,20,0,0.3571,0.0
+conference,MVC,roster_unmatched,R,36,0,0.6429,0.0
 conference,Mountain West,matched,L,19,2720,0.2836,0.3125
 conference,Mountain West,matched,R,47,5956,0.7015,0.6842
 conference,Mountain West,matched,S,1,29,0.0149,0.0033
 conference,Mountain West,roster_unmatched,L,8,0,0.2424,0.0
 conference,Mountain West,roster_unmatched,R,24,0,0.7273,0.0
 conference,Mountain West,roster_unmatched,S,1,0,0.0303,0.0
-conference,OVC,matched,L,20,288,0.2667,0.2531
-conference,OVC,matched,R,55,850,0.7333,0.7469
-conference,OVC,roster_unmatched,L,11,0,0.3143,0.0
-conference,OVC,roster_unmatched,R,24,0,0.6857,0.0
-conference,Patriot,matched,L,9,91,0.2903,0.3297
-conference,Patriot,matched,R,20,166,0.6452,0.6014
-conference,Patriot,matched,S,2,19,0.0645,0.0688
-conference,Patriot,roster_unmatched,L,7,0,0.3333,0.0
-conference,Patriot,roster_unmatched,R,14,0,0.6667,0.0
+conference,NEC,matched,L,7,47,0.3182,0.2938
+conference,NEC,matched,R,14,109,0.6364,0.6812
+conference,NEC,matched,S,1,4,0.0455,0.025
+conference,NEC,roster_unmatched,L,14,0,0.5,0.0
+conference,NEC,roster_unmatched,R,12,0,0.4286,0.0
+conference,NEC,roster_unmatched,S,2,0,0.0714,0.0
+conference,OVC,matched,L,20,288,0.2632,0.2502
+conference,OVC,matched,R,56,863,0.7368,0.7498
+conference,OVC,roster_unmatched,L,14,0,0.2979,0.0
+conference,OVC,roster_unmatched,R,33,0,0.7021,0.0
+conference,Patriot,matched,L,18,160,0.2609,0.2941
+conference,Patriot,matched,R,47,343,0.6812,0.6305
+conference,Patriot,matched,S,4,41,0.058,0.0754
+conference,Patriot,roster_unmatched,L,18,0,0.375,0.0
+conference,Patriot,roster_unmatched,R,30,0,0.625,0.0
 conference,SEC,matched,L,83,10650,0.4109,0.3819
 conference,SEC,matched,R,105,15128,0.5198,0.5425
 conference,SEC,matched,S,14,2110,0.0693,0.0757
 conference,SEC,roster_unmatched,L,9,0,0.2195,0.0
 conference,SEC,roster_unmatched,R,30,0,0.7317,0.0
 conference,SEC,roster_unmatched,S,2,0,0.0488,0.0
-conference,SWAC,matched,L,7,71,0.2188,0.2011
-conference,SWAC,matched,R,25,282,0.7812,0.7989
-conference,SWAC,roster_unmatched,L,6,0,0.3529,0.0
-conference,SWAC,roster_unmatched,R,11,0,0.6471,0.0
-conference,SoCon,matched,L,13,204,0.2203,0.2227
-conference,SoCon,matched,R,44,657,0.7458,0.7172
-conference,SoCon,matched,S,2,55,0.0339,0.06
-conference,SoCon,roster_unmatched,L,4,0,0.2857,0.0
-conference,SoCon,roster_unmatched,R,9,0,0.6429,0.0
-conference,SoCon,roster_unmatched,S,1,0,0.0714,0.0
-conference,Southland,matched,L,9,132,0.2903,0.3587
-conference,Southland,matched,R,22,236,0.7097,0.6413
-conference,Southland,roster_unmatched,L,10,0,0.2703,0.0
-conference,Southland,roster_unmatched,R,26,0,0.7027,0.0
-conference,Southland,roster_unmatched,S,1,0,0.027,0.0
-conference,Summit League,matched,L,19,433,0.3725,0.414
-conference,Summit League,matched,R,31,594,0.6078,0.5679
-conference,Summit League,matched,S,1,19,0.0196,0.0182
-conference,Summit League,roster_unmatched,L,3,0,0.6,0.0
-conference,Summit League,roster_unmatched,R,2,0,0.4,0.0
-conference,Sun Belt,matched,L,42,963,0.3443,0.3601
-conference,Sun Belt,matched,R,74,1536,0.6066,0.5744
-conference,Sun Belt,matched,S,6,175,0.0492,0.0654
-conference,Sun Belt,roster_unmatched,L,24,0,0.4444,0.0
-conference,Sun Belt,roster_unmatched,R,27,0,0.5,0.0
-conference,Sun Belt,roster_unmatched,S,3,0,0.0556,0.0
+conference,SWAC,matched,L,24,171,0.2143,0.2162
+conference,SWAC,matched,R,82,582,0.7321,0.7358
+conference,SWAC,matched,S,6,38,0.0536,0.048
+conference,SWAC,roster_unmatched,L,17,0,0.2024,0.0
+conference,SWAC,roster_unmatched,R,63,0,0.75,0.0
+conference,SWAC,roster_unmatched,S,4,0,0.0476,0.0
+conference,SoCon,matched,L,34,343,0.3036,0.2665
+conference,SoCon,matched,R,76,889,0.6786,0.6908
+conference,SoCon,matched,S,2,55,0.0179,0.0427
+conference,SoCon,roster_unmatched,L,12,0,0.2791,0.0
+conference,SoCon,roster_unmatched,R,28,0,0.6512,0.0
+conference,SoCon,roster_unmatched,S,3,0,0.0698,0.0
+conference,Southland,matched,L,22,191,0.3385,0.3694
+conference,Southland,matched,R,43,326,0.6615,0.6306
+conference,Southland,roster_unmatched,L,28,0,0.2692,0.0
+conference,Southland,roster_unmatched,R,70,0,0.6731,0.0
+conference,Southland,roster_unmatched,S,6,0,0.0577,0.0
+conference,Summit League,matched,L,34,559,0.4359,0.453
+conference,Summit League,matched,R,43,656,0.5513,0.5316
+conference,Summit League,matched,S,1,19,0.0128,0.0154
+conference,Summit League,roster_unmatched,L,6,0,0.375,0.0
+conference,Summit League,roster_unmatched,R,10,0,0.625,0.0
+conference,Sun Belt,matched,L,46,1004,0.3286,0.3543
+conference,Sun Belt,matched,R,87,1642,0.6214,0.5794
+conference,Sun Belt,matched,S,7,188,0.05,0.0663
+conference,Sun Belt,roster_unmatched,L,35,0,0.4321,0.0
+conference,Sun Belt,roster_unmatched,R,41,0,0.5062,0.0
+conference,Sun Belt,roster_unmatched,S,5,0,0.0617,0.0
 conference,The American,matched,L,31,566,0.3523,0.3143
 conference,The American,matched,R,51,1107,0.5795,0.6147
 conference,The American,matched,S,6,128,0.0682,0.0711
@@ -180,3 +193,7 @@ conference,WCC,matched,S,5,101,0.0397,0.0466
 conference,WCC,roster_unmatched,L,11,0,0.3333,0.0
 conference,WCC,roster_unmatched,R,21,0,0.6364,0.0
 conference,WCC,roster_unmatched,S,1,0,0.0303,0.0
+conference,non-D1,matched,L,3,10,0.25,0.303
+conference,non-D1,matched,R,9,23,0.75,0.697
+conference,non-D1,roster_unmatched,L,3,0,0.2,0.0
+conference,non-D1,roster_unmatched,R,12,0,0.8,0.0

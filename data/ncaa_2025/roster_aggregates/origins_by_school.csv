@@ -1,4 +1,13 @@
 team_ncaa_id,team,conference,tier,class,origin,count
+596417,St. Thomas (MN),Summit League,low,Fr,high_school_only,9
+596417,St. Thomas (MN),Summit League,low,Gr,d1_transfer,2
+596417,St. Thomas (MN),Summit League,low,Gr,high_school_only,1
+596417,St. Thomas (MN),Summit League,low,Jr,d1_transfer,2
+596417,St. Thomas (MN),Summit League,low,Jr,high_school_only,5
+596417,St. Thomas (MN),Summit League,low,So,high_school_only,11
+596417,St. Thomas (MN),Summit League,low,Sr,high_school_only,8
+596417,St. Thomas (MN),Summit League,low,Sr,juco,1
+596417,St. Thomas (MN),Summit League,low,Sr,other_four_year,1
 596418,Utah Tech,WAC,mid,Fr,high_school_only,11
 596418,Utah Tech,WAC,mid,Jr,d1_transfer,5
 596418,Utah Tech,WAC,mid,Jr,high_school_only,4
@@ -65,6 +74,30 @@ team_ncaa_id,team,conference,tier,class,origin,count
 596425,Texas,SEC,p4,So,juco,3
 596425,Texas,SEC,p4,Sr,d1_transfer,2
 596425,Texas,SEC,p4,Sr,high_school_only,2
+596427,Toledo,MAC,mid,Fr,d1_transfer,1
+596427,Toledo,MAC,mid,Fr,high_school_only,8
+596427,Toledo,MAC,mid,Jr,d1_transfer,1
+596427,Toledo,MAC,mid,Jr,high_school_only,3
+596427,Toledo,MAC,mid,Jr,juco,2
+596427,Toledo,MAC,mid,Jr,other_four_year,1
+596427,Toledo,MAC,mid,So,d1_transfer,1
+596427,Toledo,MAC,mid,So,high_school_only,8
+596427,Toledo,MAC,mid,So,other_four_year,1
+596427,Toledo,MAC,mid,Sr,d1_transfer,7
+596427,Toledo,MAC,mid,Sr,high_school_only,4
+596427,Toledo,MAC,mid,Sr,juco,1
+596428,Towson,CAA,mid,Fr,d1_transfer,1
+596428,Towson,CAA,mid,Fr,high_school_only,7
+596428,Towson,CAA,mid,Jr,d1_transfer,1
+596428,Towson,CAA,mid,Jr,high_school_only,6
+596428,Towson,CAA,mid,Jr,juco,4
+596428,Towson,CAA,mid,Jr,other_four_year,3
+596428,Towson,CAA,mid,So,d1_transfer,2
+596428,Towson,CAA,mid,So,high_school_only,3
+596428,Towson,CAA,mid,So,juco,1
+596428,Towson,CAA,mid,Sr,d1_transfer,6
+596428,Towson,CAA,mid,Sr,high_school_only,2
+596428,Towson,CAA,mid,Sr,juco,1
 596429,Troy,Sun Belt,mid,Fr,high_school_only,8
 596429,Troy,Sun Belt,mid,Gr,other_four_year,1
 596429,Troy,Sun Belt,mid,Jr,d1_transfer,3
@@ -103,10 +136,23 @@ team_ncaa_id,team,conference,tier,class,origin,count
 596433,Valparaiso,MVC,mid,Jr,unknown,10
 596433,Valparaiso,MVC,mid,So,unknown,7
 596433,Valparaiso,MVC,mid,Sr,unknown,2
+596435,Villanova,Big East,mid,Fr,high_school_only,13
+596435,Villanova,Big East,mid,Gr,d1_transfer,4
+596435,Villanova,Big East,mid,Gr,other_four_year,1
+596435,Villanova,Big East,mid,Jr,d1_transfer,1
+596435,Villanova,Big East,mid,Jr,high_school_only,5
+596435,Villanova,Big East,mid,So,high_school_only,7
+596435,Villanova,Big East,mid,Sr,high_school_only,4
 596436,VCU,Atlantic 10,mid,unknown,d1_transfer,11
 596436,VCU,Atlantic 10,mid,unknown,high_school_only,18
 596436,VCU,Atlantic 10,mid,unknown,juco,7
 596436,VCU,Atlantic 10,mid,unknown,other_four_year,5
+596437,VMI,SoCon,mid,Fr,high_school_only,12
+596437,VMI,SoCon,mid,Jr,high_school_only,9
+596437,VMI,SoCon,mid,So,d1_transfer,1
+596437,VMI,SoCon,mid,So,high_school_only,4
+596437,VMI,SoCon,mid,So,other_four_year,1
+596437,VMI,SoCon,mid,Sr,high_school_only,6
 596438,Virginia Tech,ACC,p4,Fr,high_school_only,16
 596438,Virginia Tech,ACC,p4,Gr,d1_transfer,2
 596438,Virginia Tech,ACC,p4,Gr,other_four_year,2
@@ -155,6 +201,17 @@ team_ncaa_id,team,conference,tier,class,origin,count
 596444,West Virginia,Big 12,p4,Sr,high_school_only,1
 596444,West Virginia,Big 12,p4,Sr,juco,1
 596444,West Virginia,Big 12,p4,Sr,other_four_year,1
+596445,Western Caro.,SoCon,mid,Fr,high_school_only,17
+596445,Western Caro.,SoCon,mid,Gr,other_four_year,1
+596445,Western Caro.,SoCon,mid,Jr,high_school_only,3
+596445,Western Caro.,SoCon,mid,Jr,juco,2
+596445,Western Caro.,SoCon,mid,Jr,other_four_year,4
+596445,Western Caro.,SoCon,mid,So,high_school_only,7
+596445,Western Caro.,SoCon,mid,So,juco,1
+596445,Western Caro.,SoCon,mid,Sr,d1_transfer,2
+596445,Western Caro.,SoCon,mid,Sr,high_school_only,1
+596445,Western Caro.,SoCon,mid,Sr,juco,2
+596445,Western Caro.,SoCon,mid,Sr,other_four_year,3
 596446,Western Ill.,OVC,low,Fr,high_school_only,1
 596446,Western Ill.,OVC,low,Jr,juco,2
 596446,Western Ill.,OVC,low,Sr,juco,2
@@ -178,6 +235,16 @@ team_ncaa_id,team,conference,tier,class,origin,count
 596449,Wichita St.,The American,mid,Sr,d1_transfer,6
 596449,Wichita St.,The American,mid,Sr,high_school_only,1
 596449,Wichita St.,The American,mid,Sr,juco,7
+596450,William & Mary,CAA,mid,Fr,high_school_only,9
+596450,William & Mary,CAA,mid,Gr,d1_transfer,1
+596450,William & Mary,CAA,mid,Gr,other_four_year,6
+596450,William & Mary,CAA,mid,Jr,d1_transfer,1
+596450,William & Mary,CAA,mid,Jr,high_school_only,6
+596450,William & Mary,CAA,mid,Jr,other_four_year,2
+596450,William & Mary,CAA,mid,So,high_school_only,9
+596450,William & Mary,CAA,mid,Sr,d1_transfer,1
+596450,William & Mary,CAA,mid,Sr,high_school_only,3
+596450,William & Mary,CAA,mid,Sr,juco,1
 596451,Winthrop,Big South,mid,Fr,d1_transfer,1
 596451,Winthrop,Big South,mid,Fr,high_school_only,7
 596451,Winthrop,Big South,mid,Fr,juco,1
@@ -225,6 +292,37 @@ team_ncaa_id,team,conference,tier,class,origin,count
 596456,Youngstown St.,Horizon,low,Sr,high_school_only,1
 596456,Youngstown St.,Horizon,low,Sr,juco,1
 596456,Youngstown St.,Horizon,low,Sr,other_four_year,2
+596457,Central Ark.,ASUN,mid,Fr,high_school_only,15
+596457,Central Ark.,ASUN,mid,Jr,high_school_only,4
+596457,Central Ark.,ASUN,mid,Jr,juco,9
+596457,Central Ark.,ASUN,mid,Jr,other_four_year,3
+596457,Central Ark.,ASUN,mid,So,high_school_only,2
+596457,Central Ark.,ASUN,mid,Sr,d1_transfer,1
+596457,Central Ark.,ASUN,mid,Sr,high_school_only,1
+596457,Central Ark.,ASUN,mid,Sr,juco,4
+596457,Central Ark.,ASUN,mid,Sr,other_four_year,2
+596460,Elon,CAA,mid,Fr,high_school_only,15
+596460,Elon,CAA,mid,Gr,d1_transfer,1
+596460,Elon,CAA,mid,Gr,high_school_only,1
+596460,Elon,CAA,mid,Jr,d1_transfer,3
+596460,Elon,CAA,mid,Jr,high_school_only,6
+596460,Elon,CAA,mid,Jr,juco,1
+596460,Elon,CAA,mid,Jr,other_four_year,3
+596460,Elon,CAA,mid,So,d1_transfer,2
+596460,Elon,CAA,mid,So,high_school_only,7
+596460,Elon,CAA,mid,Sr,d1_transfer,1
+596460,Elon,CAA,mid,Sr,high_school_only,1
+596461,Gardner-Webb,Big South,mid,Fr,high_school_only,7
+596461,Gardner-Webb,Big South,mid,Jr,d1_transfer,3
+596461,Gardner-Webb,Big South,mid,Jr,high_school_only,3
+596461,Gardner-Webb,Big South,mid,Jr,juco,6
+596461,Gardner-Webb,Big South,mid,Jr,other_four_year,2
+596461,Gardner-Webb,Big South,mid,So,d1_transfer,4
+596461,Gardner-Webb,Big South,mid,So,high_school_only,6
+596461,Gardner-Webb,Big South,mid,Sr,d1_transfer,6
+596461,Gardner-Webb,Big South,mid,Sr,high_school_only,2
+596461,Gardner-Webb,Big South,mid,Sr,juco,2
+596461,Gardner-Webb,Big South,mid,Sr,other_four_year,4
 596462,Grand Canyon,WAC,mid,Fr,high_school_only,8
 596462,Grand Canyon,WAC,mid,Gr,juco,1
 596462,Grand Canyon,WAC,mid,Jr,high_school_only,6
@@ -276,6 +374,11 @@ team_ncaa_id,team,conference,tier,class,origin,count
 596467,North Florida,ASUN,mid,Sr,high_school_only,3
 596467,North Florida,ASUN,mid,Sr,juco,4
 596467,North Florida,ASUN,mid,Sr,other_four_year,1
+596468,UIW,Southland,low,Jr,d1_transfer,1
+596468,UIW,Southland,low,Jr,juco,1
+596468,UIW,Southland,low,Sr,d1_transfer,2
+596468,UIW,Southland,low,Sr,high_school_only,1
+596468,UIW,Southland,low,Sr,juco,1
 596469,USC Upstate,Big South,mid,Fr,high_school_only,5
 596469,USC Upstate,Big South,mid,Jr,d1_transfer,2
 596469,USC Upstate,Big South,mid,Jr,high_school_only,2
@@ -369,6 +472,32 @@ team_ncaa_id,team,conference,tier,class,origin,count
 596480,Alabama,SEC,p4,Sr,d1_transfer,8
 596480,Alabama,SEC,p4,Sr,high_school_only,2
 596480,Alabama,SEC,p4,Sr,juco,2
+596483,Alcorn,SWAC,low,Fr,high_school_only,8
+596483,Alcorn,SWAC,low,Gr,d1_transfer,1
+596483,Alcorn,SWAC,low,Gr,other_four_year,1
+596483,Alcorn,SWAC,low,Jr,high_school_only,2
+596483,Alcorn,SWAC,low,Jr,juco,7
+596483,Alcorn,SWAC,low,Jr,other_four_year,2
+596483,Alcorn,SWAC,low,So,d1_transfer,1
+596483,Alcorn,SWAC,low,So,high_school_only,3
+596483,Alcorn,SWAC,low,So,juco,1
+596483,Alcorn,SWAC,low,So,other_four_year,1
+596483,Alcorn,SWAC,low,Sr,high_school_only,5
+596483,Alcorn,SWAC,low,Sr,juco,1
+596483,Alcorn,SWAC,low,Sr,other_four_year,1
+596484,App State,Sun Belt,mid,Fr,high_school_only,9
+596484,App State,Sun Belt,mid,Gr,d1_transfer,1
+596484,App State,Sun Belt,mid,Gr,other_four_year,1
+596484,App State,Sun Belt,mid,Jr,d1_transfer,4
+596484,App State,Sun Belt,mid,Jr,high_school_only,4
+596484,App State,Sun Belt,mid,Jr,juco,3
+596484,App State,Sun Belt,mid,So,d1_transfer,4
+596484,App State,Sun Belt,mid,So,high_school_only,4
+596484,App State,Sun Belt,mid,So,other_four_year,2
+596484,App State,Sun Belt,mid,Sr,d1_transfer,2
+596484,App State,Sun Belt,mid,Sr,high_school_only,1
+596484,App State,Sun Belt,mid,Sr,juco,2
+596484,App State,Sun Belt,mid,Sr,other_four_year,1
 596485,Arizona St.,Big 12,p4,Fr,high_school_only,10
 596485,Arizona St.,Big 12,p4,Gr,d1_transfer,2
 596485,Arizona St.,Big 12,p4,Jr,d1_transfer,3
@@ -379,6 +508,18 @@ team_ncaa_id,team,conference,tier,class,origin,count
 596485,Arizona St.,Big 12,p4,So,high_school_only,11
 596485,Arizona St.,Big 12,p4,Sr,d1_transfer,5
 596485,Arizona St.,Big 12,p4,Sr,high_school_only,1
+596486,Arkansas St.,Sun Belt,mid,Fr,d1_transfer,1
+596486,Arkansas St.,Sun Belt,mid,Fr,high_school_only,8
+596486,Arkansas St.,Sun Belt,mid,Jr,d1_transfer,1
+596486,Arkansas St.,Sun Belt,mid,Jr,high_school_only,10
+596486,Arkansas St.,Sun Belt,mid,Jr,juco,4
+596486,Arkansas St.,Sun Belt,mid,Jr,other_four_year,1
+596486,Arkansas St.,Sun Belt,mid,So,high_school_only,2
+596486,Arkansas St.,Sun Belt,mid,So,juco,1
+596486,Arkansas St.,Sun Belt,mid,So,other_four_year,1
+596486,Arkansas St.,Sun Belt,mid,Sr,d1_transfer,2
+596486,Arkansas St.,Sun Belt,mid,Sr,high_school_only,7
+596486,Arkansas St.,Sun Belt,mid,Sr,other_four_year,3
 596490,Austin Peay,ASUN,mid,Fr,d1_transfer,2
 596490,Austin Peay,ASUN,mid,Fr,high_school_only,4
 596490,Austin Peay,ASUN,mid,Gr,d1_transfer,4
@@ -392,6 +533,27 @@ team_ncaa_id,team,conference,tier,class,origin,count
 596490,Austin Peay,ASUN,mid,Sr,d1_transfer,5
 596490,Austin Peay,ASUN,mid,Sr,high_school_only,2
 596490,Austin Peay,ASUN,mid,Sr,juco,4
+596491,Ball St.,MAC,mid,Fr,high_school_only,9
+596491,Ball St.,MAC,mid,Gr,other_four_year,2
+596491,Ball St.,MAC,mid,Jr,high_school_only,3
+596491,Ball St.,MAC,mid,Jr,juco,3
+596491,Ball St.,MAC,mid,Jr,other_four_year,3
+596491,Ball St.,MAC,mid,So,d1_transfer,1
+596491,Ball St.,MAC,mid,So,high_school_only,4
+596491,Ball St.,MAC,mid,So,other_four_year,1
+596491,Ball St.,MAC,mid,Sr,d1_transfer,2
+596491,Ball St.,MAC,mid,Sr,high_school_only,2
+596491,Ball St.,MAC,mid,Sr,juco,3
+596491,Ball St.,MAC,mid,Sr,other_four_year,4
+596492,Charleston So.,Big South,mid,Fr,high_school_only,11
+596492,Charleston So.,Big South,mid,Gr,other_four_year,3
+596492,Charleston So.,Big South,mid,Jr,d1_transfer,1
+596492,Charleston So.,Big South,mid,Jr,high_school_only,1
+596492,Charleston So.,Big South,mid,Jr,juco,15
+596492,Charleston So.,Big South,mid,Jr,other_four_year,2
+596492,Charleston So.,Big South,mid,So,high_school_only,1
+596492,Charleston So.,Big South,mid,Sr,juco,8
+596492,Charleston So.,Big South,mid,Sr,other_four_year,3
 596493,Baylor,Big 12,p4,Fr,high_school_only,11
 596493,Baylor,Big 12,p4,Jr,high_school_only,2
 596493,Baylor,Big 12,p4,Jr,juco,3
@@ -402,6 +564,19 @@ team_ncaa_id,team,conference,tier,class,origin,count
 596493,Baylor,Big 12,p4,Sr,high_school_only,2
 596493,Baylor,Big 12,p4,Sr,juco,9
 596493,Baylor,Big 12,p4,Sr,other_four_year,1
+596494,Bethune-Cookman,SWAC,low,Fr,d1_transfer,1
+596494,Bethune-Cookman,SWAC,low,Fr,high_school_only,3
+596494,Bethune-Cookman,SWAC,low,Gr,high_school_only,1
+596494,Bethune-Cookman,SWAC,low,Gr,juco,1
+596494,Bethune-Cookman,SWAC,low,Jr,d1_transfer,1
+596494,Bethune-Cookman,SWAC,low,Jr,high_school_only,1
+596494,Bethune-Cookman,SWAC,low,Jr,juco,10
+596494,Bethune-Cookman,SWAC,low,Jr,other_four_year,2
+596494,Bethune-Cookman,SWAC,low,So,high_school_only,6
+596494,Bethune-Cookman,SWAC,low,So,other_four_year,2
+596494,Bethune-Cookman,SWAC,low,Sr,high_school_only,3
+596494,Bethune-Cookman,SWAC,low,Sr,juco,6
+596494,Bethune-Cookman,SWAC,low,Sr,other_four_year,2
 596495,Binghamton,America East,low,Fr,d1_transfer,1
 596495,Binghamton,America East,low,Fr,high_school_only,14
 596495,Binghamton,America East,low,Gr,other_four_year,2
@@ -414,10 +589,31 @@ team_ncaa_id,team,conference,tier,class,origin,count
 596496,Boston College,ACC,p4,Jr,unknown,9
 596496,Boston College,ACC,p4,So,unknown,7
 596496,Boston College,ACC,p4,Sr,unknown,6
+596497,Bowling Green,MAC,mid,Fr,high_school_only,12
+596497,Bowling Green,MAC,mid,Jr,d1_transfer,1
+596497,Bowling Green,MAC,mid,Jr,high_school_only,8
+596497,Bowling Green,MAC,mid,Jr,juco,1
+596497,Bowling Green,MAC,mid,So,d1_transfer,1
+596497,Bowling Green,MAC,mid,So,high_school_only,5
+596497,Bowling Green,MAC,mid,Sr,d1_transfer,2
+596497,Bowling Green,MAC,mid,Sr,high_school_only,4
+596497,Bowling Green,MAC,mid,Sr,juco,1
 596502,Bucknell,Patriot,low,Fr,unknown,11
 596502,Bucknell,Patriot,low,Jr,unknown,8
 596502,Bucknell,Patriot,low,So,unknown,10
 596502,Bucknell,Patriot,low,Sr,unknown,8
+596503,Butler,Big East,mid,Fr,d1_transfer,1
+596503,Butler,Big East,mid,Fr,high_school_only,9
+596503,Butler,Big East,mid,Gr,other_four_year,1
+596503,Butler,Big East,mid,Jr,d1_transfer,2
+596503,Butler,Big East,mid,Jr,high_school_only,6
+596503,Butler,Big East,mid,Jr,juco,3
+596503,Butler,Big East,mid,Jr,other_four_year,1
+596503,Butler,Big East,mid,So,d1_transfer,2
+596503,Butler,Big East,mid,So,high_school_only,10
+596503,Butler,Big East,mid,Sr,d1_transfer,3
+596503,Butler,Big East,mid,Sr,high_school_only,1
+596503,Butler,Big East,mid,Sr,juco,3
 596504,Cal Poly,Big West,mid,Fr,unknown,12
 596504,Cal Poly,Big West,mid,Jr,unknown,8
 596504,Cal Poly,Big West,mid,So,unknown,11
@@ -599,6 +795,17 @@ team_ncaa_id,team,conference,tier,class,origin,count
 596526,UConn,Big East,mid,Jr,unknown,7
 596526,UConn,Big East,mid,So,unknown,9
 596526,UConn,Big East,mid,Sr,unknown,5
+596527,Coppin St.,NEC,low,Fr,high_school_only,8
+596527,Coppin St.,NEC,low,Gr,other_four_year,2
+596527,Coppin St.,NEC,low,Jr,d1_transfer,1
+596527,Coppin St.,NEC,low,Jr,high_school_only,1
+596527,Coppin St.,NEC,low,Jr,juco,4
+596527,Coppin St.,NEC,low,Jr,other_four_year,5
+596527,Coppin St.,NEC,low,So,high_school_only,6
+596527,Coppin St.,NEC,low,So,other_four_year,1
+596527,Coppin St.,NEC,low,Sr,d1_transfer,1
+596527,Coppin St.,NEC,low,Sr,juco,1
+596527,Coppin St.,NEC,low,Sr,other_four_year,2
 596529,Creighton,Big East,mid,Fr,d1_transfer,1
 596529,Creighton,Big East,mid,Fr,high_school_only,5
 596529,Creighton,Big East,mid,Gr,d1_transfer,5
@@ -645,6 +852,16 @@ team_ncaa_id,team,conference,tier,class,origin,count
 596536,ETSU,SoCon,mid,Jr,high_school_only,11
 596536,ETSU,SoCon,mid,So,high_school_only,6
 596536,ETSU,SoCon,mid,Sr,high_school_only,9
+596537,Eastern Ill.,OVC,low,Fr,d1_transfer,1
+596537,Eastern Ill.,OVC,low,Jr,high_school_only,2
+596537,Eastern Ill.,OVC,low,Jr,juco,2
+596537,Eastern Ill.,OVC,low,Jr,other_four_year,1
+596537,Eastern Ill.,OVC,low,So,high_school_only,5
+596537,Eastern Ill.,OVC,low,So,juco,1
+596537,Eastern Ill.,OVC,low,Sr,d1_transfer,1
+596537,Eastern Ill.,OVC,low,Sr,high_school_only,3
+596537,Eastern Ill.,OVC,low,Sr,juco,5
+596537,Eastern Ill.,OVC,low,Sr,other_four_year,3
 596538,Eastern Ky.,ASUN,mid,Fr,high_school_only,9
 596538,Eastern Ky.,ASUN,mid,Fr,juco,1
 596538,Eastern Ky.,ASUN,mid,Jr,d1_transfer,1
@@ -657,6 +874,44 @@ team_ncaa_id,team,conference,tier,class,origin,count
 596538,Eastern Ky.,ASUN,mid,Sr,d1_transfer,1
 596538,Eastern Ky.,ASUN,mid,Sr,juco,8
 596538,Eastern Ky.,ASUN,mid,Sr,other_four_year,1
+596539,Eastern Mich.,MAC,mid,Fr,high_school_only,10
+596539,Eastern Mich.,MAC,mid,Gr,other_four_year,1
+596539,Eastern Mich.,MAC,mid,Jr,d1_transfer,8
+596539,Eastern Mich.,MAC,mid,Jr,high_school_only,2
+596539,Eastern Mich.,MAC,mid,Jr,juco,6
+596539,Eastern Mich.,MAC,mid,Jr,other_four_year,1
+596539,Eastern Mich.,MAC,mid,So,d1_transfer,2
+596539,Eastern Mich.,MAC,mid,So,high_school_only,3
+596539,Eastern Mich.,MAC,mid,Sr,d1_transfer,3
+596539,Eastern Mich.,MAC,mid,Sr,high_school_only,2
+596539,Eastern Mich.,MAC,mid,Sr,juco,2
+596539,Eastern Mich.,MAC,mid,Sr,other_four_year,1
+596540,Fairfield,MAAC,low,Fr,high_school_only,7
+596540,Fairfield,MAAC,low,Gr,d1_transfer,1
+596540,Fairfield,MAAC,low,Gr,high_school_only,1
+596540,Fairfield,MAAC,low,Gr,other_four_year,3
+596540,Fairfield,MAAC,low,Jr,d1_transfer,1
+596540,Fairfield,MAAC,low,Jr,high_school_only,7
+596540,Fairfield,MAAC,low,Jr,other_four_year,1
+596540,Fairfield,MAAC,low,So,high_school_only,6
+596540,Fairfield,MAAC,low,Sr,high_school_only,6
+596541,FDU,NEC,low,Fr,high_school_only,10
+596541,FDU,NEC,low,Gr,high_school_only,1
+596541,FDU,NEC,low,Gr,other_four_year,3
+596541,FDU,NEC,low,Jr,high_school_only,7
+596541,FDU,NEC,low,Jr,juco,1
+596541,FDU,NEC,low,Jr,other_four_year,3
+596541,FDU,NEC,low,So,high_school_only,5
+596541,FDU,NEC,low,So,other_four_year,1
+596541,FDU,NEC,low,Sr,high_school_only,1
+596541,FDU,NEC,low,Sr,other_four_year,1
+596542,Florida A&M,SWAC,low,Fr,high_school_only,12
+596542,Florida A&M,SWAC,low,Gr,high_school_only,2
+596542,Florida A&M,SWAC,low,Jr,high_school_only,10
+596542,Florida A&M,SWAC,low,So,high_school_only,3
+596542,Florida A&M,SWAC,low,Sr,high_school_only,6
+596542,Florida A&M,SWAC,low,Sr,juco,1
+596542,Florida A&M,SWAC,low,Sr,other_four_year,1
 596543,Fla. Atlantic,The American,mid,Fr,d1_transfer,1
 596543,Fla. Atlantic,The American,mid,Fr,high_school_only,10
 596543,Fla. Atlantic,The American,mid,Gr,d1_transfer,1
@@ -700,6 +955,11 @@ team_ncaa_id,team,conference,tier,class,origin,count
 596546,Florida,SEC,p4,So,juco,2
 596546,Florida,SEC,p4,Sr,d1_transfer,1
 596546,Florida,SEC,p4,Sr,high_school_only,1
+596547,Fordham,Atlantic 10,mid,Fr,unknown,12
+596547,Fordham,Atlantic 10,mid,Gr,unknown,8
+596547,Fordham,Atlantic 10,mid,Jr,unknown,5
+596547,Fordham,Atlantic 10,mid,So,unknown,6
+596547,Fordham,Atlantic 10,mid,Sr,unknown,9
 596550,Georgetown,Big East,mid,Fr,high_school_only,8
 596550,Georgetown,Big East,mid,Gr,d1_transfer,3
 596550,Georgetown,Big East,mid,Gr,other_four_year,6
@@ -808,6 +1068,10 @@ team_ncaa_id,team,conference,tier,class,origin,count
 596561,Houston,Big 12,p4,Sr,d1_transfer,4
 596561,Houston,Big 12,p4,Sr,juco,1
 596561,Houston,Big 12,p4,Sr,other_four_year,1
+596562,Illinois St.,MVC,mid,Fr,unknown,9
+596562,Illinois St.,MVC,mid,Jr,unknown,10
+596562,Illinois St.,MVC,mid,So,unknown,8
+596562,Illinois St.,MVC,mid,Sr,unknown,10
 596563,Illinois,Big Ten,p4,Fr,high_school_only,5
 596563,Illinois,Big Ten,p4,Gr,juco,1
 596563,Illinois,Big Ten,p4,Gr,other_four_year,2
@@ -869,6 +1133,18 @@ team_ncaa_id,team,conference,tier,class,origin,count
 596567,Purdue Fort Wayne,Horizon,low,Sr,high_school_only,2
 596567,Purdue Fort Wayne,Horizon,low,Sr,juco,3
 596567,Purdue Fort Wayne,Horizon,low,Sr,other_four_year,2
+596570,Jackson St.,SWAC,low,Fr,high_school_only,4
+596570,Jackson St.,SWAC,low,Gr,d1_transfer,3
+596570,Jackson St.,SWAC,low,Jr,high_school_only,1
+596570,Jackson St.,SWAC,low,Jr,juco,2
+596570,Jackson St.,SWAC,low,Jr,other_four_year,5
+596570,Jackson St.,SWAC,low,So,d1_transfer,1
+596570,Jackson St.,SWAC,low,So,high_school_only,6
+596570,Jackson St.,SWAC,low,So,juco,1
+596570,Jackson St.,SWAC,low,Sr,d1_transfer,2
+596570,Jackson St.,SWAC,low,Sr,high_school_only,1
+596570,Jackson St.,SWAC,low,Sr,juco,3
+596570,Jackson St.,SWAC,low,Sr,other_four_year,2
 596571,Jacksonville St.,CUSA,mid,Fr,high_school_only,8
 596571,Jacksonville St.,CUSA,mid,Jr,d1_transfer,3
 596571,Jacksonville St.,CUSA,mid,Jr,high_school_only,1
@@ -909,10 +1185,30 @@ team_ncaa_id,team,conference,tier,class,origin,count
 596575,Kansas,Big 12,p4,Sr,d1_transfer,10
 596575,Kansas,Big 12,p4,Sr,juco,1
 596575,Kansas,Big 12,p4,Sr,other_four_year,2
+596578,Lafayette,Patriot,low,Fr,unknown,13
+596578,Lafayette,Patriot,low,Jr,unknown,10
+596578,Lafayette,Patriot,low,So,unknown,13
+596578,Lafayette,Patriot,low,Sr,unknown,9
+596579,Lamar University,Southland,low,unknown,unknown,18
+596580,Lehigh,Patriot,low,Fr,unknown,10
+596580,Lehigh,Patriot,low,Jr,unknown,15
+596580,Lehigh,Patriot,low,So,unknown,9
+596580,Lehigh,Patriot,low,Sr,unknown,7
 596581,Liberty,CUSA,mid,Fr,unknown,9
 596581,Liberty,CUSA,mid,Jr,unknown,15
 596581,Liberty,CUSA,mid,So,unknown,8
 596581,Liberty,CUSA,mid,Sr,unknown,7
+596582,Longwood,Big South,mid,Fr,high_school_only,15
+596582,Longwood,Big South,mid,Gr,d1_transfer,1
+596582,Longwood,Big South,mid,Gr,juco,1
+596582,Longwood,Big South,mid,Gr,other_four_year,5
+596582,Longwood,Big South,mid,Jr,d1_transfer,4
+596582,Longwood,Big South,mid,Jr,high_school_only,2
+596582,Longwood,Big South,mid,Jr,other_four_year,2
+596582,Longwood,Big South,mid,So,d1_transfer,2
+596582,Longwood,Big South,mid,So,high_school_only,4
+596582,Longwood,Big South,mid,Sr,d1_transfer,3
+596582,Longwood,Big South,mid,Sr,other_four_year,1
 596583,LSU,SEC,p4,Fr,high_school_only,11
 596583,LSU,SEC,p4,Jr,d1_transfer,10
 596583,LSU,SEC,p4,Jr,high_school_only,3
@@ -921,6 +1217,19 @@ team_ncaa_id,team,conference,tier,class,origin,count
 596583,LSU,SEC,p4,So,high_school_only,8
 596583,LSU,SEC,p4,Sr,d1_transfer,3
 596583,LSU,SEC,p4,Sr,high_school_only,1
+596584,Louisiana Tech,CUSA,mid,Fr,high_school_only,10
+596584,Louisiana Tech,CUSA,mid,Gr,d1_transfer,1
+596584,Louisiana Tech,CUSA,mid,Gr,juco,1
+596584,Louisiana Tech,CUSA,mid,Gr,other_four_year,2
+596584,Louisiana Tech,CUSA,mid,Jr,d1_transfer,5
+596584,Louisiana Tech,CUSA,mid,Jr,high_school_only,2
+596584,Louisiana Tech,CUSA,mid,Jr,juco,3
+596584,Louisiana Tech,CUSA,mid,Jr,other_four_year,1
+596584,Louisiana Tech,CUSA,mid,So,d1_transfer,2
+596584,Louisiana Tech,CUSA,mid,So,high_school_only,9
+596584,Louisiana Tech,CUSA,mid,Sr,d1_transfer,2
+596584,Louisiana Tech,CUSA,mid,Sr,high_school_only,3
+596584,Louisiana Tech,CUSA,mid,Sr,juco,3
 596585,Louisville,ACC,p4,Fr,high_school_only,15
 596585,Louisville,ACC,p4,Jr,d1_transfer,2
 596585,Louisville,ACC,p4,Jr,high_school_only,6
@@ -944,6 +1253,10 @@ team_ncaa_id,team,conference,tier,class,origin,count
 596587,LMU (CA),WCC,mid,Sr,high_school_only,3
 596587,LMU (CA),WCC,mid,Sr,juco,2
 596587,LMU (CA),WCC,mid,Sr,other_four_year,1
+596589,Manhattan,MAAC,low,Fr,high_school_only,3
+596589,Manhattan,MAAC,low,Jr,d1_transfer,1
+596589,Manhattan,MAAC,low,Jr,high_school_only,1
+596589,Manhattan,MAAC,low,Jr,other_four_year,2
 596591,Marshall,Sun Belt,mid,Fr,high_school_only,6
 596591,Marshall,Sun Belt,mid,Gr,d1_transfer,2
 596591,Marshall,Sun Belt,mid,Gr,high_school_only,1
@@ -957,6 +1270,15 @@ team_ncaa_id,team,conference,tier,class,origin,count
 596591,Marshall,Sun Belt,mid,Sr,juco,1
 596591,Marshall,Sun Belt,mid,Sr,other_four_year,2
 596591,Marshall,Sun Belt,mid,unknown,high_school_only,1
+596592,UMBC,America East,low,Fr,high_school_only,7
+596592,UMBC,America East,low,Gr,d1_transfer,1
+596592,UMBC,America East,low,Jr,d1_transfer,1
+596592,UMBC,America East,low,Jr,high_school_only,3
+596592,UMBC,America East,low,Jr,juco,4
+596592,UMBC,America East,low,So,high_school_only,12
+596592,UMBC,America East,low,So,other_four_year,1
+596592,UMBC,America East,low,Sr,high_school_only,4
+596592,UMBC,America East,low,Sr,juco,1
 596597,Memphis,The American,mid,Fr,high_school_only,7
 596597,Memphis,The American,mid,Jr,d1_transfer,3
 596597,Memphis,The American,mid,Jr,high_school_only,4
@@ -1051,6 +1373,16 @@ team_ncaa_id,team,conference,tier,class,origin,count
 596608,Missouri,SEC,p4,Sr,high_school_only,1
 596608,Missouri,SEC,p4,Sr,juco,2
 596608,Missouri,SEC,p4,Sr,other_four_year,1
+596609,Monmouth,CAA,mid,Fr,high_school_only,2
+596609,Monmouth,CAA,mid,Gr,d1_transfer,1
+596609,Monmouth,CAA,mid,Gr,high_school_only,3
+596609,Monmouth,CAA,mid,Gr,other_four_year,1
+596609,Monmouth,CAA,mid,Jr,d1_transfer,1
+596609,Monmouth,CAA,mid,Jr,high_school_only,5
+596609,Monmouth,CAA,mid,Jr,juco,2
+596609,Monmouth,CAA,mid,So,high_school_only,8
+596609,Monmouth,CAA,mid,Sr,high_school_only,5
+596609,Monmouth,CAA,mid,Sr,other_four_year,2
 596610,Morehead St.,OVC,low,Fr,high_school_only,14
 596610,Morehead St.,OVC,low,Gr,d1_transfer,2
 596610,Morehead St.,OVC,low,Gr,high_school_only,2
@@ -1075,6 +1407,15 @@ team_ncaa_id,team,conference,tier,class,origin,count
 596612,Murray St.,MVC,mid,Sr,high_school_only,1
 596612,Murray St.,MVC,mid,Sr,juco,6
 596612,Murray St.,MVC,mid,Sr,other_four_year,2
+596613,UNC Asheville,Big South,mid,Fr,high_school_only,12
+596613,UNC Asheville,Big South,mid,Jr,high_school_only,5
+596613,UNC Asheville,Big South,mid,Jr,juco,4
+596613,UNC Asheville,Big South,mid,Jr,other_four_year,2
+596613,UNC Asheville,Big South,mid,So,high_school_only,6
+596613,UNC Asheville,Big South,mid,So,juco,2
+596613,UNC Asheville,Big South,mid,Sr,d1_transfer,2
+596613,UNC Asheville,Big South,mid,Sr,high_school_only,4
+596613,UNC Asheville,Big South,mid,Sr,juco,2
 596614,North Carolina,ACC,p4,Fr,high_school_only,18
 596614,North Carolina,ACC,p4,Gr,d1_transfer,2
 596614,North Carolina,ACC,p4,Gr,high_school_only,1
@@ -1091,6 +1432,20 @@ team_ncaa_id,team,conference,tier,class,origin,count
 596615,Charlotte,The American,mid,unknown,high_school_only,9
 596615,Charlotte,The American,mid,unknown,juco,10
 596615,Charlotte,The American,mid,unknown,other_four_year,4
+596616,UNC Greensboro,SoCon,mid,Fr,unknown,10
+596616,UNC Greensboro,SoCon,mid,Jr,unknown,12
+596616,UNC Greensboro,SoCon,mid,So,unknown,7
+596616,UNC Greensboro,SoCon,mid,Sr,unknown,8
+596617,UNCW,CAA,mid,Fr,high_school_only,12
+596617,UNCW,CAA,mid,Jr,d1_transfer,1
+596617,UNCW,CAA,mid,Jr,high_school_only,9
+596617,UNCW,CAA,mid,Jr,juco,2
+596617,UNCW,CAA,mid,Jr,other_four_year,1
+596617,UNCW,CAA,mid,So,high_school_only,8
+596617,UNCW,CAA,mid,So,other_four_year,1
+596617,UNCW,CAA,mid,Sr,high_school_only,3
+596617,UNCW,CAA,mid,Sr,juco,3
+596617,UNCW,CAA,mid,Sr,other_four_year,2
 596618,Omaha,Summit League,low,Fr,high_school_only,7
 596618,Omaha,Summit League,low,Gr,juco,3
 596618,Omaha,Summit League,low,Jr,d1_transfer,1
@@ -1126,6 +1481,31 @@ team_ncaa_id,team,conference,tier,class,origin,count
 596622,New Mexico St.,CUSA,mid,So,juco,1
 596622,New Mexico St.,CUSA,mid,Sr,d1_transfer,1
 596622,New Mexico St.,CUSA,mid,Sr,juco,4
+596624,LSU New Orleans,Southland,low,Fr,d1_transfer,1
+596624,LSU New Orleans,Southland,low,Fr,high_school_only,5
+596624,LSU New Orleans,Southland,low,Jr,d1_transfer,1
+596624,LSU New Orleans,Southland,low,Jr,high_school_only,2
+596624,LSU New Orleans,Southland,low,Jr,juco,13
+596624,LSU New Orleans,Southland,low,So,high_school_only,2
+596624,LSU New Orleans,Southland,low,Sr,d1_transfer,3
+596624,LSU New Orleans,Southland,low,Sr,juco,9
+596624,LSU New Orleans,Southland,low,Sr,other_four_year,1
+596626,Norfolk St.,NEC,low,Fr,high_school_only,4
+596626,Norfolk St.,NEC,low,Gr,other_four_year,1
+596626,Norfolk St.,NEC,low,Jr,d1_transfer,1
+596626,Norfolk St.,NEC,low,Jr,high_school_only,5
+596626,Norfolk St.,NEC,low,Jr,juco,1
+596626,Norfolk St.,NEC,low,Jr,other_four_year,3
+596626,Norfolk St.,NEC,low,So,high_school_only,6
+596626,Norfolk St.,NEC,low,So,other_four_year,2
+596626,Norfolk St.,NEC,low,Sr,high_school_only,1
+596626,Norfolk St.,NEC,low,Sr,juco,2
+596626,Norfolk St.,NEC,low,Sr,other_four_year,1
+596627,N.C. A&T,CAA,mid,Fr,high_school_only,1
+596627,N.C. A&T,CAA,mid,So,high_school_only,1
+596627,N.C. A&T,CAA,mid,So,juco,1
+596627,N.C. A&T,CAA,mid,So,other_four_year,1
+596627,N.C. A&T,CAA,mid,Sr,other_four_year,1
 596628,NC State,ACC,p4,Fr,high_school_only,10
 596628,NC State,ACC,p4,Gr,high_school_only,1
 596628,NC State,ACC,p4,Jr,high_school_only,11
@@ -1177,6 +1557,54 @@ team_ncaa_id,team,conference,tier,class,origin,count
 596632,Northern Colo.,Summit League,low,Sr,high_school_only,3
 596632,Northern Colo.,Summit League,low,Sr,juco,5
 596632,Northern Colo.,Summit League,low,Sr,other_four_year,2
+596633,NIU,MAC,mid,Fr,high_school_only,9
+596633,NIU,MAC,mid,Jr,high_school_only,1
+596633,NIU,MAC,mid,Jr,juco,5
+596633,NIU,MAC,mid,Jr,other_four_year,5
+596633,NIU,MAC,mid,So,high_school_only,6
+596633,NIU,MAC,mid,So,juco,1
+596633,NIU,MAC,mid,Sr,d1_transfer,6
+596633,NIU,MAC,mid,Sr,high_school_only,3
+596633,NIU,MAC,mid,Sr,juco,2
+596633,NIU,MAC,mid,Sr,other_four_year,1
+596634,Northern Ky.,Horizon,low,Fr,d1_transfer,1
+596634,Northern Ky.,Horizon,low,Fr,high_school_only,4
+596634,Northern Ky.,Horizon,low,Gr,high_school_only,1
+596634,Northern Ky.,Horizon,low,Gr,juco,1
+596634,Northern Ky.,Horizon,low,Gr,other_four_year,1
+596634,Northern Ky.,Horizon,low,Jr,d1_transfer,1
+596634,Northern Ky.,Horizon,low,Jr,high_school_only,1
+596634,Northern Ky.,Horizon,low,Jr,juco,3
+596634,Northern Ky.,Horizon,low,Jr,other_four_year,1
+596634,Northern Ky.,Horizon,low,So,d1_transfer,1
+596634,Northern Ky.,Horizon,low,So,high_school_only,4
+596634,Northern Ky.,Horizon,low,So,other_four_year,2
+596634,Northern Ky.,Horizon,low,Sr,d1_transfer,2
+596634,Northern Ky.,Horizon,low,Sr,high_school_only,1
+596634,Northern Ky.,Horizon,low,Sr,juco,1
+596634,Northern Ky.,Horizon,low,Sr,other_four_year,1
+596635,Northwestern St.,Southland,low,Fr,high_school_only,9
+596635,Northwestern St.,Southland,low,Jr,d1_transfer,1
+596635,Northwestern St.,Southland,low,Jr,high_school_only,3
+596635,Northwestern St.,Southland,low,Jr,juco,11
+596635,Northwestern St.,Southland,low,Jr,other_four_year,2
+596635,Northwestern St.,Southland,low,So,d1_transfer,1
+596635,Northwestern St.,Southland,low,So,high_school_only,8
+596635,Northwestern St.,Southland,low,So,juco,1
+596635,Northwestern St.,Southland,low,Sr,high_school_only,2
+596635,Northwestern St.,Southland,low,Sr,juco,7
+596635,Northwestern St.,Southland,low,Sr,other_four_year,2
+596638,Oakland,Horizon,low,Fr,high_school_only,8
+596638,Oakland,Horizon,low,Gr,other_four_year,1
+596638,Oakland,Horizon,low,Jr,high_school_only,3
+596638,Oakland,Horizon,low,Jr,juco,3
+596638,Oakland,Horizon,low,So,d1_transfer,1
+596638,Oakland,Horizon,low,So,high_school_only,8
+596638,Oakland,Horizon,low,So,juco,3
+596638,Oakland,Horizon,low,Sr,d1_transfer,1
+596638,Oakland,Horizon,low,Sr,high_school_only,4
+596638,Oakland,Horizon,low,Sr,juco,3
+596638,Oakland,Horizon,low,Sr,other_four_year,2
 596639,Ohio St.,Big Ten,p4,Fr,d1_transfer,1
 596639,Ohio St.,Big Ten,p4,Fr,high_school_only,10
 596639,Ohio St.,Big Ten,p4,Gr,d1_transfer,2
@@ -1229,6 +1657,11 @@ team_ncaa_id,team,conference,tier,class,origin,count
 596645,Pacific,WCC,mid,Sr,high_school_only,1
 596645,Pacific,WCC,mid,Sr,juco,2
 596645,Pacific,WCC,mid,Sr,other_four_year,6
+596646,UTRGV,Southland,low,Fr,high_school_only,3
+596646,UTRGV,Southland,low,Gr,high_school_only,6
+596646,UTRGV,Southland,low,Jr,high_school_only,12
+596646,UTRGV,Southland,low,So,high_school_only,4
+596646,UTRGV,Southland,low,Sr,high_school_only,10
 596648,Pepperdine,WCC,mid,Fr,d1_transfer,1
 596648,Pepperdine,WCC,mid,Fr,high_school_only,11
 596648,Pepperdine,WCC,mid,Gr,d1_transfer,1
@@ -1258,6 +1691,22 @@ team_ncaa_id,team,conference,tier,class,origin,count
 596650,Portland,WCC,mid,So,high_school_only,6
 596650,Portland,WCC,mid,Sr,high_school_only,7
 596650,Portland,WCC,mid,unknown,high_school_only,1
+596651,Prairie View,SWAC,low,Fr,d1_transfer,1
+596651,Prairie View,SWAC,low,Fr,high_school_only,5
+596651,Prairie View,SWAC,low,Fr,juco,1
+596651,Prairie View,SWAC,low,Fr,other_four_year,2
+596651,Prairie View,SWAC,low,Gr,d1_transfer,1
+596651,Prairie View,SWAC,low,Gr,high_school_only,1
+596651,Prairie View,SWAC,low,Gr,other_four_year,1
+596651,Prairie View,SWAC,low,Jr,high_school_only,1
+596651,Prairie View,SWAC,low,Jr,juco,6
+596651,Prairie View,SWAC,low,Jr,other_four_year,4
+596651,Prairie View,SWAC,low,So,d1_transfer,1
+596651,Prairie View,SWAC,low,So,high_school_only,10
+596651,Prairie View,SWAC,low,So,juco,1
+596651,Prairie View,SWAC,low,So,other_four_year,1
+596651,Prairie View,SWAC,low,Sr,high_school_only,2
+596651,Prairie View,SWAC,low,Sr,juco,5
 596652,Princeton,Ivy League,low,Fr,unknown,7
 596652,Princeton,Ivy League,low,Jr,unknown,5
 596652,Princeton,Ivy League,low,So,unknown,10
@@ -1271,6 +1720,31 @@ team_ncaa_id,team,conference,tier,class,origin,count
 596653,Purdue,Big Ten,p4,Sr,d1_transfer,7
 596653,Purdue,Big Ten,p4,Sr,high_school_only,2
 596653,Purdue,Big Ten,p4,Sr,juco,3
+596654,Quinnipiac,MAAC,low,Fr,d1_transfer,2
+596654,Quinnipiac,MAAC,low,Fr,high_school_only,6
+596654,Quinnipiac,MAAC,low,Gr,d1_transfer,1
+596654,Quinnipiac,MAAC,low,Gr,high_school_only,1
+596654,Quinnipiac,MAAC,low,Gr,other_four_year,3
+596654,Quinnipiac,MAAC,low,Jr,d1_transfer,2
+596654,Quinnipiac,MAAC,low,Jr,high_school_only,5
+596654,Quinnipiac,MAAC,low,So,high_school_only,3
+596654,Quinnipiac,MAAC,low,So,juco,1
+596654,Quinnipiac,MAAC,low,Sr,d1_transfer,1
+596654,Quinnipiac,MAAC,low,Sr,high_school_only,3
+596654,Quinnipiac,MAAC,low,Sr,other_four_year,2
+596655,Radford,Big South,mid,Fr,high_school_only,12
+596655,Radford,Big South,mid,Fr,other_four_year,1
+596655,Radford,Big South,mid,Gr,other_four_year,1
+596655,Radford,Big South,mid,Jr,d1_transfer,1
+596655,Radford,Big South,mid,Jr,high_school_only,2
+596655,Radford,Big South,mid,Jr,juco,1
+596655,Radford,Big South,mid,So,d1_transfer,2
+596655,Radford,Big South,mid,So,high_school_only,6
+596655,Radford,Big South,mid,Sr,d1_transfer,1
+596655,Radford,Big South,mid,Sr,high_school_only,1
+596655,Radford,Big South,mid,Sr,juco,7
+596655,Radford,Big South,mid,Sr,other_four_year,1
+596655,Radford,Big South,mid,unknown,high_school_only,2
 596656,Rhode Island,Atlantic 10,mid,Fr,high_school_only,10
 596656,Rhode Island,Atlantic 10,mid,Gr,high_school_only,1
 596656,Rhode Island,Atlantic 10,mid,Gr,other_four_year,2
@@ -1292,11 +1766,39 @@ team_ncaa_id,team,conference,tier,class,origin,count
 596657,Rice,The American,mid,Sr,d1_transfer,4
 596657,Rice,The American,mid,Sr,high_school_only,4
 596657,Rice,The American,mid,Sr,juco,1
+596658,Richmond,Atlantic 10,mid,Fr,high_school_only,10
+596658,Richmond,Atlantic 10,mid,Gr,d1_transfer,2
+596658,Richmond,Atlantic 10,mid,Gr,high_school_only,2
+596658,Richmond,Atlantic 10,mid,Gr,other_four_year,5
+596658,Richmond,Atlantic 10,mid,Jr,d1_transfer,2
+596658,Richmond,Atlantic 10,mid,Jr,high_school_only,2
+596658,Richmond,Atlantic 10,mid,Jr,juco,1
+596658,Richmond,Atlantic 10,mid,So,d1_transfer,2
+596658,Richmond,Atlantic 10,mid,So,high_school_only,8
+596658,Richmond,Atlantic 10,mid,Sr,d1_transfer,3
+596658,Richmond,Atlantic 10,mid,Sr,high_school_only,4
+596658,Richmond,Atlantic 10,mid,Sr,other_four_year,1
+596659,Rider,MAAC,low,Fr,high_school_only,7
+596659,Rider,MAAC,low,Gr,high_school_only,1
+596659,Rider,MAAC,low,Jr,high_school_only,13
+596659,Rider,MAAC,low,So,d1_transfer,1
+596659,Rider,MAAC,low,So,high_school_only,6
+596659,Rider,MAAC,low,So,other_four_year,1
+596659,Rider,MAAC,low,Sr,high_school_only,2
 596660,Rutgers,Big Ten,p4,Fr,unknown,17
 596660,Rutgers,Big Ten,p4,Gr,unknown,4
 596660,Rutgers,Big Ten,p4,Jr,unknown,8
 596660,Rutgers,Big Ten,p4,So,unknown,4
 596660,Rutgers,Big Ten,p4,Sr,unknown,5
+596661,Sacred Heart,MAAC,low,Fr,high_school_only,8
+596661,Sacred Heart,MAAC,low,Gr,d1_transfer,1
+596661,Sacred Heart,MAAC,low,Jr,d1_transfer,1
+596661,Sacred Heart,MAAC,low,Jr,high_school_only,4
+596661,Sacred Heart,MAAC,low,Jr,other_four_year,1
+596661,Sacred Heart,MAAC,low,So,high_school_only,10
+596661,Sacred Heart,MAAC,low,Sr,high_school_only,8
+596661,Sacred Heart,MAAC,low,Sr,juco,3
+596661,Sacred Heart,MAAC,low,Sr,other_four_year,1
 596662,St. Bonaventure,Atlantic 10,mid,Fr,high_school_only,8
 596662,St. Bonaventure,Atlantic 10,mid,Jr,d1_transfer,1
 596662,St. Bonaventure,Atlantic 10,mid,Jr,high_school_only,4
@@ -1356,6 +1858,32 @@ team_ncaa_id,team,conference,tier,class,origin,count
 596673,Santa Clara,WCC,mid,Sr,high_school_only,2
 596673,Santa Clara,WCC,mid,Sr,juco,3
 596673,Santa Clara,WCC,mid,Sr,other_four_year,1
+596674,Seton Hall,Big East,mid,Fr,high_school_only,10
+596674,Seton Hall,Big East,mid,Gr,d1_transfer,2
+596674,Seton Hall,Big East,mid,Gr,other_four_year,3
+596674,Seton Hall,Big East,mid,Jr,high_school_only,5
+596674,Seton Hall,Big East,mid,So,d1_transfer,3
+596674,Seton Hall,Big East,mid,So,high_school_only,10
+596674,Seton Hall,Big East,mid,Sr,d1_transfer,1
+596674,Seton Hall,Big East,mid,Sr,high_school_only,2
+596674,Seton Hall,Big East,mid,Sr,other_four_year,1
+596675,Siena,MAAC,low,Fr,d1_transfer,1
+596675,Siena,MAAC,low,Fr,high_school_only,3
+596675,Siena,MAAC,low,Gr,d1_transfer,1
+596675,Siena,MAAC,low,Gr,other_four_year,3
+596675,Siena,MAAC,low,Jr,d1_transfer,1
+596675,Siena,MAAC,low,Jr,high_school_only,6
+596675,Siena,MAAC,low,Jr,other_four_year,5
+596675,Siena,MAAC,low,So,d1_transfer,3
+596675,Siena,MAAC,low,So,high_school_only,5
+596675,Siena,MAAC,low,Sr,d1_transfer,2
+596675,Siena,MAAC,low,Sr,high_school_only,3
+596675,Siena,MAAC,low,Sr,juco,2
+596675,Siena,MAAC,low,Sr,other_four_year,1
+596676,South Alabama,Sun Belt,mid,So,high_school_only,4
+596676,South Alabama,Sun Belt,mid,Sr,d1_transfer,5
+596676,South Alabama,Sun Belt,mid,Sr,high_school_only,2
+596676,South Alabama,Sun Belt,mid,Sr,juco,6
 596677,South Carolina,SEC,p4,Fr,high_school_only,8
 596677,South Carolina,SEC,p4,Jr,d1_transfer,6
 596677,South Carolina,SEC,p4,Jr,high_school_only,2
@@ -1368,6 +1896,13 @@ team_ncaa_id,team,conference,tier,class,origin,count
 596677,South Carolina,SEC,p4,Sr,d1_transfer,5
 596677,South Carolina,SEC,p4,Sr,high_school_only,3
 596677,South Carolina,SEC,p4,Sr,juco,1
+596678,South Dakota St.,Summit League,low,Fr,high_school_only,14
+596678,South Dakota St.,Summit League,low,Gr,juco,1
+596678,South Dakota St.,Summit League,low,Jr,high_school_only,6
+596678,South Dakota St.,Summit League,low,Jr,juco,4
+596678,South Dakota St.,Summit League,low,So,high_school_only,4
+596678,South Dakota St.,Summit League,low,Sr,high_school_only,8
+596678,South Dakota St.,Summit League,low,Sr,juco,3
 596679,South Fla.,The American,mid,Fr,high_school_only,6
 596679,South Fla.,The American,mid,Jr,d1_transfer,3
 596679,South Fla.,The American,mid,Jr,high_school_only,4
@@ -1381,6 +1916,14 @@ team_ncaa_id,team,conference,tier,class,origin,count
 596679,South Fla.,The American,mid,Sr,high_school_only,3
 596679,South Fla.,The American,mid,Sr,juco,4
 596679,South Fla.,The American,mid,Sr,other_four_year,1
+596680,Southeastern La.,Southland,low,Fr,high_school_only,11
+596680,Southeastern La.,Southland,low,Jr,d1_transfer,1
+596680,Southeastern La.,Southland,low,Jr,high_school_only,3
+596680,Southeastern La.,Southland,low,Jr,juco,8
+596680,Southeastern La.,Southland,low,So,high_school_only,6
+596680,Southeastern La.,Southland,low,Sr,d1_transfer,5
+596680,Southeastern La.,Southland,low,Sr,high_school_only,2
+596680,Southeastern La.,Southland,low,Sr,juco,8
 596681,Southern California,Big Ten,p4,Fr,high_school_only,17
 596681,Southern California,Big Ten,p4,Gr,d1_transfer,1
 596681,Southern California,Big Ten,p4,Jr,d1_transfer,2
@@ -1403,6 +1946,16 @@ team_ncaa_id,team,conference,tier,class,origin,count
 596683,SIUE,OVC,low,Sr,high_school_only,1
 596683,SIUE,OVC,low,Sr,juco,8
 596683,SIUE,OVC,low,Sr,other_four_year,1
+596684,Southern U.,SWAC,low,Fr,high_school_only,12
+596684,Southern U.,SWAC,low,Gr,other_four_year,1
+596684,Southern U.,SWAC,low,Jr,d1_transfer,6
+596684,Southern U.,SWAC,low,Jr,high_school_only,6
+596684,Southern U.,SWAC,low,Jr,juco,1
+596684,Southern U.,SWAC,low,So,d1_transfer,3
+596684,Southern U.,SWAC,low,So,high_school_only,4
+596684,Southern U.,SWAC,low,Sr,d1_transfer,5
+596684,Southern U.,SWAC,low,Sr,high_school_only,3
+596684,Southern U.,SWAC,low,Sr,other_four_year,2
 596685,Missouri St.,MVC,mid,Fr,high_school_only,10
 596685,Missouri St.,MVC,mid,Fr,other_four_year,1
 596685,Missouri St.,MVC,mid,Gr,high_school_only,1
@@ -1506,6 +2059,26 @@ team_ncaa_id,team,conference,tier,class,origin,count
 596701,Tulane,The American,mid,So,juco,4
 596701,Tulane,The American,mid,Sr,d1_transfer,3
 596701,Tulane,The American,mid,Sr,juco,1
+596702,Army West Point,Patriot,low,Fr,unknown,15
+596702,Army West Point,Patriot,low,Jr,unknown,9
+596702,Army West Point,Patriot,low,So,unknown,9
+596702,Army West Point,Patriot,low,Sr,unknown,10
+596704,Wofford,SoCon,mid,Fr,high_school_only,19
+596704,Wofford,SoCon,mid,Jr,d1_transfer,3
+596704,Wofford,SoCon,mid,Jr,high_school_only,6
+596704,Wofford,SoCon,mid,Jr,juco,2
+596704,Wofford,SoCon,mid,Jr,other_four_year,1
+596704,Wofford,SoCon,mid,So,d1_transfer,1
+596704,Wofford,SoCon,mid,So,high_school_only,9
+596704,Wofford,SoCon,mid,Sr,d1_transfer,2
+596704,Wofford,SoCon,mid,Sr,high_school_only,2
+596704,Wofford,SoCon,mid,Sr,juco,2
+596704,Wofford,SoCon,mid,Sr,other_four_year,1
+596705,High Point,Big South,mid,Gr,d1_transfer,1
+596705,High Point,Big South,mid,Jr,high_school_only,4
+596705,High Point,Big South,mid,So,high_school_only,8
+596705,High Point,Big South,mid,Sr,high_school_only,1
+596705,High Point,Big South,mid,Sr,other_four_year,1
 596707,Fresno St.,Mountain West,mid,Fr,high_school_only,10
 596707,Fresno St.,Mountain West,mid,Jr,d1_transfer,1
 596707,Fresno St.,Mountain West,mid,Jr,high_school_only,4
@@ -1535,6 +2108,18 @@ team_ncaa_id,team,conference,tier,class,origin,count
 596709,Evansville,MVC,mid,So,high_school_only,8
 596709,Evansville,MVC,mid,Sr,d1_transfer,1
 596709,Evansville,MVC,mid,Sr,juco,3
+596710,Grambling,SWAC,low,Fr,high_school_only,3
+596710,Grambling,SWAC,low,Gr,d1_transfer,2
+596710,Grambling,SWAC,low,Gr,juco,4
+596710,Grambling,SWAC,low,Jr,d1_transfer,1
+596710,Grambling,SWAC,low,Jr,high_school_only,1
+596710,Grambling,SWAC,low,Jr,juco,9
+596710,Grambling,SWAC,low,Jr,other_four_year,2
+596710,Grambling,SWAC,low,So,high_school_only,5
+596710,Grambling,SWAC,low,Sr,d1_transfer,4
+596710,Grambling,SWAC,low,Sr,high_school_only,2
+596710,Grambling,SWAC,low,Sr,juco,2
+596710,Grambling,SWAC,low,Sr,other_four_year,2
 596712,Nebraska,Big Ten,p4,Fr,high_school_only,10
 596712,Nebraska,Big Ten,p4,Jr,d1_transfer,2
 596712,Nebraska,Big Ten,p4,Jr,high_school_only,3
@@ -1567,6 +2152,21 @@ team_ncaa_id,team,conference,tier,class,origin,count
 596714,Oklahoma St.,Big 12,p4,Sr,d1_transfer,1
 596714,Oklahoma St.,Big 12,p4,Sr,high_school_only,2
 596714,Oklahoma St.,Big 12,p4,Sr,juco,2
+596716,Penn,Ivy League,low,Fr,unknown,5
+596716,Penn,Ivy League,low,Jr,unknown,5
+596716,Penn,Ivy League,low,So,unknown,9
+596716,Penn,Ivy League,low,Sr,unknown,8
+596717,St. John's (NY),Big East,mid,Fr,high_school_only,14
+596717,St. John's (NY),Big East,mid,Gr,high_school_only,1
+596717,St. John's (NY),Big East,mid,Gr,other_four_year,2
+596717,St. John's (NY),Big East,mid,Jr,high_school_only,3
+596717,St. John's (NY),Big East,mid,Jr,juco,1
+596717,St. John's (NY),Big East,mid,Jr,other_four_year,1
+596717,St. John's (NY),Big East,mid,So,d1_transfer,2
+596717,St. John's (NY),Big East,mid,So,high_school_only,7
+596717,St. John's (NY),Big East,mid,Sr,high_school_only,2
+596717,St. John's (NY),Big East,mid,Sr,juco,1
+596717,St. John's (NY),Big East,mid,Sr,other_four_year,2
 596718,Southeast Mo. St.,OVC,low,Fr,high_school_only,4
 596718,Southeast Mo. St.,OVC,low,Gr,high_school_only,1
 596718,Southeast Mo. St.,OVC,low,Gr,juco,1
@@ -1612,3 +2212,18 @@ team_ncaa_id,team,conference,tier,class,origin,count
 596721,Tennessee,SEC,p4,So,juco,2
 596721,Tennessee,SEC,p4,Sr,high_school_only,1
 596721,Tennessee,SEC,p4,Sr,juco,1
+596947,West Ga.,ASUN,mid,Fr,high_school_only,4
+596947,West Ga.,ASUN,mid,Gr,other_four_year,1
+596947,West Ga.,ASUN,mid,Jr,juco,11
+596947,West Ga.,ASUN,mid,Jr,other_four_year,6
+596947,West Ga.,ASUN,mid,So,d1_transfer,3
+596947,West Ga.,ASUN,mid,So,high_school_only,2
+596947,West Ga.,ASUN,mid,So,juco,1
+596947,West Ga.,ASUN,mid,So,other_four_year,1
+596947,West Ga.,ASUN,mid,Sr,d1_transfer,3
+596947,West Ga.,ASUN,mid,Sr,juco,5
+596947,West Ga.,ASUN,mid,Sr,other_four_year,1
+597318,Loras,non-D1,non_d1,Fr,unknown,12
+597318,Loras,non-D1,non_d1,Jr,unknown,7
+597318,Loras,non-D1,non_d1,So,unknown,14
+597318,Loras,non-D1,non_d1,Sr,unknown,10
