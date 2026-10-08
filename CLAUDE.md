@@ -76,6 +76,7 @@ Phases advance only when the gate passes. Do not build ahead of the current phas
   - A multi-class recruit board with a funnel to signing. Scouting by the coaching staff, with blind spots. A weekly hours budget on the real NCAA calendar.
   - One roster budget (scholarship, revenue share, NIL collective).
   - Full player flow (HS, MLB draft, D1/D2/JUCO, portal) at real rates; the 34-man limit; the MLB draft with signability.
+  - Seeded school report cards (2026-10-08): `data/schools/report_cards.csv` (A+ to F per category, raw inputs, source and confidence; percentile cutoffs and GUESS weights in `config/report_cards.py`; spec Section 15) and the real school identity of every sim team in `data/schools/schools.csv` (names only, no logos or mascots; players stay fictional). Display and recruiting only: never read by the engine or any gated row (`tests/test_report_cards.py`).
   - Phase mapping: 8 roster rules, 9 recruiting, 10 development, 11 program, facilities and career. Each phase gates on reproducing the engine's calibrated talent and team-strength distributions in steady state, plus its own rows (spec, Section 13).
 
 ## Architecture constraints

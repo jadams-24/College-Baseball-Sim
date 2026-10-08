@@ -50,6 +50,8 @@ EADA = ROOT / "data/eada/baseball_eada_2024_25.csv"
 NOAA = ROOT / "data/noaa/climate_normals_by_school.csv"
 IPEDS = ROOT / "data/ipeds"
 REFERENCE_SEED = 20251000
+EXAMPLES = ("LSU", "Vanderbilt", "Stanford", "Oregon St.", "Nebraska", "Coastal Carolina", "DBU", "Murray St.", "Wright St.",
+            "Army West Point", "Alabama A&M")
 LAST = 2025
 RPI_SEASONS = (2021, 2022, 2023, 2024, 2025)
 # bracket spellings of programs whose 2025 name differs beyond the general rules (scripts/lib/brackets.py name_map)
@@ -64,7 +66,7 @@ def w(season: int) -> float:
 def ipeds(name: str) -> pd.DataFrame:
     z = zipfile.ZipFile(IPEDS / f"{name}.zip")
     d = pd.read_csv(z.open([n for n in z.namelist() if n.lower().endswith(".csv")][0]), encoding="latin-1", low_memory=False)
-    d.columns = [c.strip() for c in d.columns]
+    d.columns = [c.replace("ï»¿", "").replace("\ufeff", "").strip() for c in d.columns]   # HD2024 starts with a byte-order mark
     return d.set_index("UNITID")
 
 
@@ -215,8 +217,7 @@ def main() -> None:
 
     # Academic Prestige
     gr, adm, ef = ipeds("DRVGR2023"), ipeds("DRVADM2023"), ipeds("DRVEF2023")
-    hdz = zipfile.ZipFile(IPEDS / "HD2024.zip")
-    hd = pd.read_csv(hdz.open([n for n in hdz.namelist() if n.lower().endswith(".csv")][0]), encoding="latin-1", low_memory=False).set_index("UNITID")
+    hd = ipeds("HD2024")
     uid = s.set_index("school").unitid
     card["grad_rate_6yr"] = card.index.map(lambda t: pd.to_numeric(gr.GBA6RTT.get(uid[t]), errors="coerce"))
     card["admit_rate"] = card.index.map(lambda t: pd.to_numeric(adm.DVADM01.get(uid[t]), errors="coerce"))
@@ -321,6 +322,22 @@ def report(out: pd.DataFrame, unmatched: list) -> None:
     good = set(rc.GRADES[:6])
     for cat in rc.CATEGORIES[:11]:
         lines.append(f"| {cat.replace('_', ' ').title()} | " + " | ".join(f"{out[out.tier == t][f'{cat}_grade'].isin(good).mean():.2f}" for t in ("p4", "mid", "low")) + " |")
+    short = {"program_tradition": "Trad", "conference_prestige": "Conf", "omaha_contender": "Omaha", "academic_prestige": "Acad",
+             "campus_life": "Campus", "climate": "Climate", "money": "Money", "facilities": "Facil", "ballpark_atmosphere": "Atmos",
+             "brand_exposure": "Brand", "draft_development": "Draft", "coach_prestige": "Coach", "coach_stability": "Stab"}
+    ex = out.set_index("school").loc[[e for e in EXAMPLES if e in set(out.school)]]
+    lines += ["", "## Example report cards", "", "Omaha Contender is the reference world's draw (a dynasty regrades it from its own). Money for the "
+              "service academies is imputed (no EADA filing; confidence D). Oregon St. is an independent: Conference Prestige neutral.", "",
+              "| School | Conf | Tier | " + " | ".join(short.values()) + " |", "|---|---|---|" + "---|" * len(short)]
+    for sch, r in ex.iterrows():
+        lines.append(f"| {sch} | {r.conference} | {r.tier} | " + " | ".join(r[f"{k}_grade"] for k in short) + " |")
+    lines += ["", "| School | Field / hosts / Omaha / titles 2015-25 | Conf. RPI | Sim o+d | Grad rate | Admit rate | Enrollment | Locale | "
+              "Feb-May °F | Precip days | Baseball expenses |", "|---|---|---|---|---|---|---|---|---|---|---|"]
+    for sch, r in ex.iterrows():
+        lines.append(f"| {sch} | {r.n_field_2015_2025} / {r.n_host_2015_2025} / {r.n_omaha_2015_2025} / {r.n_title_2015_2025} | "
+                     f"{'—' if pd.isna(r.conf_rpi_mean) else f'{r.conf_rpi_mean:.3f}'} | {r.sim_strength_o_plus_d:+.2f} | {r.grad_rate_6yr:.0f}% | "
+                     f"{r.admit_rate:.0f}% | {int(r.enrollment):,} | {r.locale_code} | {r.tavg_feb_may_f:.1f} | {r.precip_days_feb_may:.1f} | "
+                     f"${r.baseball_expenses_2024_25 / 1e6:.2f}M{' (imputed)' if r.money_imputed else ''} |")
     if unmatched:
         lines += ["", f"Bracket teams not among the 307 programs (left D1 or not matched): {', '.join(unmatched)}."]
     (ROOT / "reports/report_cards.md").write_text("\n".join(lines) + "\n")
