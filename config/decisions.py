@@ -31,6 +31,7 @@ BUNT_TWO_STRIKES = "swing"      # GUESS: at two strikes a called bunt is taken o
 HIT_AND_RUN_RUNNER_EXTRA = True # GUESS: on a hit-and-run ball in play the runner from first takes third on a single
                                 # and is safe at second on an out (no double play)
 MOUND_VISIT_EFFECT = None       # GUESS: a mound visit changes no probability (no data); the rules limits apply
+BUNT_CALL_MAX = 0.95            # GUESS: cap on the AI's bunt-call probability (data's bunt rate / chance a called bunt is put in play)
 
 
 def on(name: str) -> bool:

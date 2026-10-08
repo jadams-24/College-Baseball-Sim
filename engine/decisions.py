@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import numpy as np
 
+from config.decisions import BUNT_CALL_MAX
 from engine.rng import Categorical
 
 COUNTS = [(b, s) for b in range(4) for s in range(3)]
@@ -162,7 +163,7 @@ class DecisionModels:
         (bunt_prob), divided by the chance a called bunt ends in one here (some are walked, struck out, or reach two
         strikes and swing away)."""
         _, q = self.bunt_law(st.outs, st.base_code)
-        return min(self.bunt_prob(st, slot) / max(q, 1e-9), 0.95)
+        return min(self.bunt_prob(st, slot) / max(q, 1e-9), BUNT_CALL_MAX)
 
     _H = None
 
