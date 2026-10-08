@@ -114,9 +114,9 @@
   }
 
   // ---- 2. matchup banner ----
-  // 20–80 badges on one color scale (system.css --r20..--r80): under 35 red, 35–45 orange, 45–55 yellow (D1 average),
-  // 55–65 light green, 65–75 green, 75+ blue. The legend explains the scale and each rating.
-  function band(v) { return v < 35 ? "r20" : v < 45 ? "r30" : v < 55 ? "r50" : v < 65 ? "r60" : v < 75 ? "r70" : "r80"; }
+  // 20–80 badges on one color scale (system.css --r20..--r80): 20–39 red, 40–49 orange, 50–59 amber (the D1 average
+  // band), 60–69 green, 70–79 elite green, 80 blue. The legend explains the scale and each rating.
+  function band(v) { return v < 40 ? "r20" : v < 50 ? "r40" : v < 60 ? "r50" : v < 70 ? "r60" : v < 80 ? "r70" : "r80"; }
   function badge(k, v) { const [ab, full] = RATING[k] || [k, k]; return `<span class="rt ${band(v)}" title="${esc(full)}: ${v} (20–80, 50 = D1 median)"><span class="k">${ab}</span><b>${v}</b></span>`; }
   function chips(p) {
     return `<div class="chips">${Object.entries(p.ratings).map(([k, v]) => badge(k, v)).join("")}</div>`;
@@ -480,7 +480,7 @@
 
   // ---- legend ----
   function renderLegend() {
-    const scale = [["r20", "<35"], ["r30", "35"], ["r50", "45"], ["r60", "55"], ["r70", "65"], ["r80", "75+"]];
+    const scale = [["r20", "20–39"], ["r40", "40–49"], ["r50", "50–59"], ["r60", "60–69"], ["r70", "70–79"], ["r80", "80"]];
     $("#legend").innerHTML = `<div class="hdr">Ratings <span class="sub">20–80, 50 = D1 median, 10 per SD</span></div>
       <div class="scale">${scale.map(([c, l]) => `<span class="rt ${c}"><b>${l}</b></span>`).join("")}</div>
       <dl>${Object.values(RATING).map(([a, b]) => `<dt>${a}</dt><dd>${b}</dd>`).join("")}</dl>

@@ -82,7 +82,7 @@
 .diamond .dirt { fill: var(--dirt); }
 .diamond .track { fill: var(--track); }
 .diamond .fence { stroke: var(--line-strong); stroke-width: 1.5; }
-.diamond .foul { stroke: var(--base); stroke-width: 1.2; opacity: .8; }
+.diamond .foul { stroke: var(--base); stroke-width: 1.2; }
 .diamond .base { fill: var(--base); stroke: var(--dirt2); stroke-width: 1; }
 .diamond .rubber { fill: var(--base); }
 .diamond .fielder rect { fill: var(--hdr); stroke: var(--line-strong); stroke-width: .8; opacity: .85; }
@@ -133,7 +133,7 @@ label.ask { display: flex; gap: 6px; align-items: center; }
 .lu tr.onbase td.nm .ob { font-size: 9px; color: var(--accent); border: 1px solid var(--accent); border-radius: 2px; padding: 0 3px; margin-left: 4px; vertical-align: middle; }
 .lu .res { display: inline-flex; gap: 2px; }
 .lu .res i { display: inline-grid; place-items: center; min-width: 20px; height: 15px; border-radius: 2px; font-size: 9.5px; font-style: normal; font-weight: 800; padding: 0 3px; color: #fff; }
-.lu .res i.hit { background: var(--good); color: #0b1d13; } .lu .res i.walk { background: var(--walk); color: #0b1d2a; } .lu .res i.out { background: var(--out); } .lu .res i.k { background: #3c4a44; } .lu .res i.hr { background: var(--accent); color: var(--accent-ink); }
+.lu .res i.hit { background: var(--good); color: #12151C; } .lu .res i.walk { background: var(--walk); color: #12151C; } .lu .res i.out { background: var(--out); } .lu .res i.k { background: #343B4D; } .lu .res i.hr { background: var(--accent); color: var(--accent-ink); }
 .lu td.hab { text-align: right; }
 .lu td.hand { color: var(--muted); }
 .bp td.avail { color: var(--muted); }
