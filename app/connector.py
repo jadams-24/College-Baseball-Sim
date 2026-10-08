@@ -27,6 +27,7 @@ teams and the AI manager's static tables by reference) and the engine's accumula
 """
 from __future__ import annotations
 
+import copy
 import io
 import pickle
 from dataclasses import dataclass
@@ -258,11 +259,37 @@ class Snapshot:
     blob: bytes
     rows: dict              # pid -> (batting row, pitching row) of the engine's accumulators
     app_len: tuple          # lengths of the shared marks and records lists at the snapshot
+    mgr_state: dict         # the Decider's mutable season state (containers copied) at the snapshot
+
+
+def _copy_state(v):
+    """A copy of the containers in a value (dicts, lists, sets), leaving other objects (players) by reference."""
+    if isinstance(v, dict):
+        return {k: _copy_state(x) for k, x in v.items()}
+    if isinstance(v, list):
+        return [_copy_state(x) for x in v]
+    if isinstance(v, set):
+        return set(v)
+    return v
+
+
+def mgr_state(mgr) -> dict:
+    """The Decider's season state beyond its fitted tables: rest history, series plans, midweek counts, rankings,
+    last lineups, diagnostics. A dynasty's games change it, so a snapshot carries a copy and a restore puts it back."""
+    return {k: _copy_state(v) for k, v in vars(mgr).items() if k not in MANAGER_STATIC}
+
+
+def put_mgr_state(mgr, state: dict) -> None:
+    for k, v in state.items():
+        setattr(mgr, k, _copy_state(v))
 
 
 # The AI manager's tables never change during a game; the two teams' objects never change either. A snapshot
 # leaves them out (pickle persistent ids) and a restore reattaches the live objects, which makes a snapshot a
-# few kilobytes. A save for the browser (GameRunner.save_bytes) is a full pickle and carries them.
+# few kilobytes. The Decider object itself is also left out and reattached, so every run of the game, replays
+# included, moves the one live Decider (a dynasty's season state: rest history, rotation plans), and the snapshot
+# carries a copy of its mutable state so a restore rolls the abandoned pitch's changes back exactly. A save for
+# the browser (GameRunner.save_bytes) is a full pickle and carries everything.
 MANAGER_STATIC = ("start", "relw", "patterns", "pattern_w", "sp_table", "sp_back", "wr_table", "wr_back", "rp_table", "rp_back",
                   "relief_coef", "midweek_coef", "tourney_coef", "pull6", "stamina", "spm_table", "spm_back", "subs6", "start_markov",
                   "sub_ib", "sub_mb", "def_slot", "_dm_cache")      # _dm_cache: PR B's decision models, static
@@ -380,6 +407,7 @@ class GameRunner:
         sess = self.base
         objs = {"home": sess.st.team_obj["home"], "away": sess.st.team_obj["away"], "app": sess.app}
         mgr = sess.book
+        objs["mgr"] = mgr
         for name in MANAGER_STATIC:
             v = getattr(mgr, name, None)
             if v is not None and not isinstance(v, (int, float, str, bool)):
@@ -398,7 +426,7 @@ class GameRunner:
         finally:
             sess.eng = eng
         app = sess.app
-        return Snapshot(f.getvalue(), self._rows(self.eng, self.pids), (len(app["marks"]), len(app["records"])))
+        return Snapshot(f.getvalue(), self._rows(self.eng, self.pids), (len(app["marks"]), len(app["records"])), mgr_state(sess.book))
 
     def restore(self, snap: Snapshot) -> tuple:
         """The session at the snapshot (a new object, attached), and the marks and records cut off the shared
@@ -406,6 +434,7 @@ class GameRunner:
         objs = self._externals()
         sess = _Unpickler(io.BytesIO(snap.blob), objs).load()
         self._put_rows(snap.rows)
+        put_mgr_state(objs["mgr"], snap.mgr_state)           # the abandoned pitch's Decider changes rolled back
         app = sess.app
         n_m, n_r = snap.app_len
         tail = (app["marks"][n_m:], app["records"][n_r:])
@@ -553,6 +582,9 @@ class GameRunner:
         snap = self.snapshot()
         objs = self._externals()
         objs["app"] = {"marks": [], "records": [], "last": None}       # the dry run's own lists
+        dry = copy.copy(objs["mgr"])                                   # the dry run's own Decider state (the live one untouched)
+        put_mgr_state(dry, snap.mgr_state)
+        objs["mgr"] = dry
         sess = _Unpickler(io.BytesIO(snap.blob), objs).load()
         sess.eng = self.eng
         for c in sess.ctrl.values():
