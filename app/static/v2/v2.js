@@ -226,7 +226,7 @@
     return { html, send: (pid, slot) => (question ? decide(item.kind, orderFor(item, pid, slot)) : order(item.kind, orderFor(item, pid, slot))) };
   }
   async function order(kind, value) { applyTurn(await gameCall("/orders", "POST", { kind, value })); }
-  async function decide(kind, value) { applyTurn(await gameCall("/decide", "POST", { kind, value })); }
+  async function decide(kind, value) { applyTurn(await gameCall("/decide", "POST", { kind, value })); calloutFor(S.game.turn.events, "pa"); }
   let openPick = null;                 // the item whose picker is open
   function questionBlock(t) {
     // a kind on "ask me": the engine waits for this answer; the menu items of that kind answer it, other kinds
@@ -414,7 +414,8 @@
     el.innerHTML = `<div class="box-grid"><div>${bat("away")}${pit("away")}</div><div>${bat("home")}${pit("home")}</div></div>`;
   }
 
-  // ---- 7. callouts ----
+  // ---- 7. callouts: a brief overlay for the big moments of the events a turn brought (runs, home runs,
+  //      strikeouts, double plays, pitching changes, the final), auto-dismissing, a tap skips it ----
   function callout(big, sub) {
     const c = $("#callout");
     c.innerHTML = `<div class="box"><div class="big">${esc(big)}</div>${sub ? `<div class="sub">${esc(sub)}</div>` : ""}<div class="hint">tap to skip</div></div>`;
@@ -422,15 +423,26 @@
     clearTimeout(c._h); c._h = setTimeout(() => c.classList.add("hidden"), 1800);
     c.onclick = () => c.classList.add("hidden");
   }
-  function calloutFor(events) {
-    // the last play, if it is a big moment: used by the wiring after each turn
-    const last = [...events].reverse().find((e) => e.type === "pa" || e.type === "run" || e.type === "decision");
-    if (!last) return;
-    if (last.type === "pa" && last.runs >= 2) return callout(`${last.runs} RUNS SCORE`, last.text);
-    if (last.type === "pa" && last.res === "HR") return callout("HOME RUN", last.text);
-    if (last.type === "pa" && last.res === "K") return callout("STRIKEOUT", last.text);
-    if (last.type === "pa" && /double play/i.test(last.text)) return callout("DOUBLE PLAY", last.text);
-    if (last.type === "decision" && /comes in to pitch/.test(last.text)) return callout("PITCHING CHANGE", last.text);
+  function moment(e) {
+    if (e.type === "final") return ["FINAL", e.text.replace(/^Final: /, "")];
+    if (e.type === "pa" && e.runs >= 2) return [`${e.runs} RUNS SCORE`, e.text];
+    if (e.type === "pa" && e.res === "HR") return ["HOME RUN", e.text];
+    if (e.type === "pa" && e.runs === 1) return ["RUN SCORES", e.text];
+    if (e.type === "pa" && /double play/i.test(e.text)) return ["DOUBLE PLAY", e.text];
+    if (e.type === "pa" && e.res === "K") return ["STRIKEOUT", e.text];
+    if (e.type === "run" && /^Stolen base/.test(e.text)) return ["STOLEN BASE", e.text];
+    if (e.type === "run" && /^Caught stealing/.test(e.text)) return ["CAUGHT STEALING", e.text];
+    if (e.type === "decision" && /comes in to pitch|comes in for/.test(e.text)) return ["PITCHING CHANGE", e.text.replace(/^.+?: /, "")];
+    return null;
+  }
+  function calloutFor(events, target) {
+    // one callout per turn: the final above all, else the last big moment; after a long sim only the
+    // moments worth a stop (runs, the final), the rest is in the feed
+    const fin = events.find((e) => e.type === "final");
+    if (fin) return callout(...moment(fin));
+    const short = !target || target === "pitch" || target === "pa";
+    const big = [...events].reverse().map(moment).find((m) => m && (short || /RUN|FINAL/.test(m[0])));
+    if (big) callout(...big);
   }
 
   // ---- legend ----
@@ -461,6 +473,7 @@
     S.coach = null;
     if (t.phase === "pregame") await sendPregame();
     applyTurn(await gameCall("/sim", "POST", { target }));
+    calloutFor(S.game.turn.events, target);
   }
   $("#actions").addEventListener("click", (e) => {
     const b = e.target.closest("[data-sim]");

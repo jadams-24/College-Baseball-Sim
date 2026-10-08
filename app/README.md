@@ -12,12 +12,54 @@ and `benchmarks.json` are untouched by this workstream.
 | `catalogue.py` | the decision catalogue built from `engine.control.DECISIONS`: who is asked, when, the answer's shape, validation against the engine's eligibility rules, feed text; a kind without a specific descriptor gets a generic one, so a decision PR B adds appears in the UI on merge |
 | `connector.py` | `HumanController` (orders, autopilot, "ask me"), `RecordingAI` (the opponent, recorded for the feed), `GameRunner` (snapshot and replay, sim targets, the bench coach, save and load) |
 | `timeline.py` | play-by-play and box score from the event log, the marks taken at every ask, and the engine's accumulator rows |
+| `menu.py` | the action menu of the manager screen: the calls legal now for the user's side, built on the server from the turn and the engine state so the page never decides legality |
 | `api.py` | FastAPI: league, rosters, catalogue, games, sim, orders, questions, modes, coach, box, save, load; serves `static/` |
-| `static/` | the frontend: team picker, pregame (lineup and starter, the AI's suggestion prefilled), the game screen, pickers, play-by-play, box score, saves |
+| `static/v2/` | the manager screen (v2, served at `/`): lobby, scoreboard bar, matchup banner, field, action menu, lineup panel with the pregame editor, play-by-play drawer with the box score, callouts |
+| `static/` (root) | the first frontend (v1), still served at `/static/index.html`: the same API, plainer screens |
 
 Run locally: `pip install -r requirements.txt && uvicorn app.api:app --reload`, then open http://127.0.0.1:8000.
-Tests: `pytest tests/test_app_connector.py tests/test_app_api.py` (about a minute). Latency: `python3 scripts/bench_app.py`
-writes `reports/app_latency.md`.
+Tests: `pytest tests/test_app_connector.py tests/test_app_api.py tests/test_app_menu.py` (a few minutes). Latency:
+`python3 scripts/bench_app.py` writes `reports/app_latency.md`.
+
+Workflow (owner decision 2026-10-08): `ui-prototype` is the single live branch; Render auto-deploys every push. The
+app tests and the API-vs-engine equality tests run before every push (never push a failing build). CI runs only the
+app tests for changes under `app/`, its tests, docs and deploy files (`.github/workflows/app.yml`); engine and
+config changes run the full gates (`tests.yml`). Engine PRs merged to `main` are merged into `ui-prototype`
+promptly; `ui-prototype` goes back into `main` through a PR at natural checkpoints.
+
+## The manager screen (v2)
+
+The layout follows a quick-manage structure (scoreboard, matchup, field, calls, lineup, play-by-play); the visual
+design is original (an evening-ballpark palette, team marks as initials in a color hashed from the team's name,
+fictional teams). Zones, top to bottom on a phone, three columns on a desktop:
+
+1. **Scoreboard bar**: line score with R/H/E; inning and half; balls, strikes and outs as separate counters.
+2. **Matchup banner**: the batter (position, bats L/R once Phase 3 lands, batting-order ordinal, today's
+   AB/H/RBI/BB/K) and the pitcher (role, throws, IP/H/R/BB/K, pitch count) with his 20–80 ratings. The bar under
+   the pitcher is labeled **pitch count**: the engine has no fatigue state (the AI's pull hazard reads the
+   outing's pitches and runs, `engine/manager.py`); if the pitcher card ever carries `fatigue`, the page shows and
+   labels that instead. It is never the AI's pull probability. Season stats (AVG/HR/SB, W-L/ERA/IP) have their
+   slots in the banner, hidden until season play exists: never faked.
+3. **Field**: runners as markers (tap or hover: name, Speed, Contact, Power, today's line), the fielders by
+   position faintly, the batter at the plate, due up.
+4. **Action menu** (`menu.py`): only the calls legal now for the side you are on. Batting: swing away (default),
+   bunt, steal and hit-and-run (only when the engine's lead-runner rule allows a steal; the label names the runner
+   who goes; the engine has no double steal, so none is offered), pinch hit, pinch run per runner on base.
+   Pitching: pitch (default), intentional walk, pitchout (a runner on), mound visit (greyed with the NCAA 9-4
+   reason when a second trip with the same batter at bat would be refused), pitching change and defensive change
+   (now, mid at-bat, through the pre-pitch call; or after the at-bat, through the window's decision). Tapping
+   queues the order (tap again to cancel); the sim buttons proceed with the AI handling anything not queued. A kind
+   switched to "ask me" stops with its question, answered in place. "Ask bench coach" shows the AI's next calls for
+   your team. `tests/test_app_menu.py`: every offered call validates against the engine's eligibility rules on
+   paused games, batting calls only when the user's team bats the coming pitch, pitching calls only when it fields.
+5. **Lineup panel**: your batting order with position, bats, today's results color-coded and H-AB, the batter up
+   and on deck marked; the opponent's lineup; the bullpen with each pitcher's status and Stamina. Before the game
+   the panel is the lineup and starter editor (the AI's picks prefilled; Play ball sends them).
+6. **Play-by-play** drawer (a tab on a phone), newest first, non-events hidden (a call held off, a lineup set, a
+   dropped order); moves the AI made for your team carry an **AI** badge, yours **YOU**, the opponent's **OPP**; a
+   box score tab.
+7. **Callouts**: a brief overlay for the turn's big moment (runs, home run, strikeout, double play, stolen base,
+   pitching change, the final), auto-dismissing, a tap skips it; after a long sim only runs and the final.
 
 ## How a decision reaches the engine
 
