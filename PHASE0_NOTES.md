@@ -571,6 +571,8 @@ Measured on committed data, no simulation (`scripts/diag_sizes.py`, `reports/dia
 
 **The Phase 4 forward test with decisions.** A plate appearance's expected K, BB, HR, BABIP and extra-base share are those of the law it played: the swing-away law, a called bunt's law (called as the plate appearance began), or a walk for an intentional walk. This follows the same principle as "the forward test's expectation includes the defense faced" (Phase 6). Bunt outcomes do not depend on the batter, and the swing-away law is not his season law. Measured against the matchup law, the second 40-season run failed three rows: Contact BABIP intercept +.0032 (tolerance ±.0023), Control BB intercept −.0060 (±.0029), Stuff K slope 1.006 (±.005).
 
+**Plate appearances cut off by a caught stealing (Phase 4 test).** A caught stealing for the third out during a plate appearance ends it unrecorded; the batter leads off next inning. Steals are tried more at two strikes, so the cut-off plate appearances are more often ones headed for a strikeout, and the completed ones are selected: Avoid K intercept −.0024 ± .0022 against −.0009 in the PR A run, of which −.0009 is this (3,000-game check: .25% of plate appearances cut off; their ex-ante K .193, K probability at the count reached .250). The forward test's expectation is made exact: each cut-off plate appearance adds its ex-ante K, BB and HR minus their probabilities at the count it was cut off at (the forward chain's outcome law at that count averages to the ex-ante law). Bookkeeping only; play unchanged (identical game logs).
+
 **Calls with no data (GUESSES.md):** pitchout, hit-and-run, intentional ball and mound visit. Only a human makes them; the AI never does, so no gated row moves. The NCAA limits apply (`data/ncaa_rules/`, 2025-26 rules book): three free coach trips a game (one more in extra innings), a second trip to the same pitcher in an inning removes him, no second trip while the same batter is up (9-4); an intentional walk without pitches (8-2-b); a walk after a pitching change at 2-0, 2-1, 3-0, 3-1 or 3-2 is the previous pitcher's (10-22-b); a foul bunt with two strikes is a strikeout (10-23).
 
 **Data-based or guess:**
@@ -582,6 +584,36 @@ Measured on committed data, no simulation (`scripts/diag_sizes.py`, `reports/dia
 - The first-event sample stays as a diagnostic. It leaves out the plate appearances in which a wild pitch, passed ball, pickoff or balk came first, which are more often long ones; the engine draws those events before the pitches, so the sim has no such selection. On the play-by-play the selection raises the attempt rate at 7 pitches from .170 to .193.
 - Steal attempts per team-game and the success rate stay gated.
 - In the Phase 5 "PA-level outcomes unchanged from Phase 4" block, runs per team-game and ERA are moved on purpose by the decisions (sacrifice bunts, intentional walks, steals) with every rate unchanged. They are gated against real data instead, as Phase 6 did for PA per team-game, errors and earned share: runs per team-game in the Phase 2 report and ERA in the Phase 6 report (`league_totals_2025.era`, 6.08 ± .30).
+
+**Where the runs went (owner request 2026-10-07: decompose the drop before merging).**
+- The 40-season run has 6.64 runs per team-game against the frozen Phase 4 baseline's 6.74. Of that gap, −.027 was already in PR A (6.715).
+- Decomposition: seven variants on the same 8 seasons (seeds 20251000–07; same leagues and schedules), paired differences in runs per team-game:
+  - PR A code against PR B code with decisions off (pinch hitter, intentional walk and bunt asked at the start of the plate appearance): −.0005 ± .0018.
+  - The Phase 5 chain re-solved on the PR B engine: +.025 ± .014.
+  - Steals decided before each pitch: −.058 ± .012 before the fix below, −.028 ± .015 after.
+  - Called bunts: −.042 ± .009.
+  - Intentional walks: −.015 ± .007.
+  - Interaction: +.014 ± .019.
+  - Total from PR A: −.047 ± .014.
+- **A bug, fixed.** In the data, an opportunity that held a steal was followed by another, where a wild pitch, passed ball, pickoff or balk could come next. With steals moved to the pitches, a steal drawn from the pre-PA table ended the draws, and those later events were lost: wild pitches .782 per team-game against .823, other events 4–5% low, and fewer runs on singles and sacrifice flies. Now the steal draw is skipped and the draws go on, which restores those events (wild pitches .837).
+- **The rest is legitimate.**
+  - Steals: the per-pitch steals' own run value is lower (by the sim's run expectancy, +.018 per team-game against +.038 for the table's). The attempts are spread over counts and outs as the play-by-play has them, while the table drew them all before the first pitch.
+  - Bunts: a sacrifice trades an out for a base, at the data's rate in the data's situations.
+  - Intentional walks: called where they lower the run expectancy.
+  - Every rate is unchanged (Phase 5 block), and bunts, sacrifice hits, bunt hits, intentional walks, steals and success match the play-by-play (Phase 6 report).
+- Script: `scripts/decompose_decisions.py` (one season per variant, via `config.decisions.FEATURES`).
+
+**The steal-path tails (owner request 2026-10-07: test "runner goes on the full-count pitch with two outs").**
+- On the selection-free sample, the sim has too many attempts in short plate appearances and too few in long ones and at final count 3-2.
+- The hypothesis: real runners go on the 3-2 pitch with two outs. Test: the steals written into the plate appearance's own line (on its last pitch, count known), by outs.
+- A two-out strikeout ends the inning and is not scored as a steal, and ball four forces a runner on first, so two-out last-pitch steals are almost absent (11 at 3-2, against 134 with one out and 70 with none).
+- Attempts per plate appearance ending 3-2, by outs at its start, real against sim (3,000 games):
+  - 0 outs: .145 against .126; on the last pitch .028 against .010.
+  - 1 out: .171 against .150; on the last pitch .037 against .012.
+  - 2 outs: .134 against .109; on the last pitch .003 against .003.
+- So the two-out gap is earlier in the plate appearance, not on the payoff pitch: the hypothesis does not explain it. With fewer than two outs, the 3-2 gap is the runner going on the payoff pitch (strike-'em-out, throw-'em-out). The steal model has outs and count effects but no count x outs interaction, so it makes about a third of those.
+- Per the owner's rule, the tail rows (attempts in 2-, 6- and 7-pitch plate appearances and at final count 3-2) move to the watch item "steal timing within the plate appearance". Overall attempts per eligible plate appearance, success and the other path rows stay gated.
+- Proposed for approval: a 3-2 x outs term in the attempt model, fitted from the last-pitch steals whose count is known. It addresses the 0-1-out part only; the earlier-in-the-PA part (all outs) has no observable pitch.
 
 **Benchmarks (2026-10-07).**
 - `league_totals_2025.sb_attempts_per_team_game` gets a tolerance, 0.131: the stolen-base row's relative tolerance (0.1 / 1.098) on the same box-score sample. It was reported, not gated, before.

@@ -1148,6 +1148,7 @@ class GameSession:
         if attempt and sym in "BKS":
             res_out = self._resolve_steal(attempt, sym, ends)
             if res_out == "abort":
+                pa["b"], pa["s"] = divmod(d, 3)          # the count it was cut off at (the Phase 4 test's correction)
                 return "abort"
         if hnr and sym == "P":
             pa["hnr"] = True
@@ -1214,6 +1215,21 @@ class GameSession:
         n = len(pa["seq"]) - pa.get("pitches_charged", 0)
         st.outing[fld]["pitches"] += n
         eng.pstats[pa["pitcher"].pid][P_PITCH] += n
+        law = pa.get("law")
+        if eng.dec_on and law is not None and not pa["ibb"]:
+            # The Phase 4 forward test counts completed plate appearances only. A plate appearance cut off here is
+            # more often one headed for a strikeout (steals are tried more at two strikes), so the completed ones are
+            # selected. The expectation over completed plate appearances is exact when each cut-off one adds its
+            # ex-ante K, BB and HR minus their probabilities from the count it was cut off at (the forward chain's
+            # outcome law at that count averages to the ex-ante law).
+            qs, h = eng._matchup_chain(pa["batter"], pa["pitcher"], bat == "home")
+            w = np.divide(law, h[0], out=np.zeros_like(law), where=h[0] > 0)
+            c = pa["b"] * 3 + pa["s"]
+            cond = w * h[c]
+            cond = cond / cond.sum()
+            adj = _rates_of(law)[:3] - _rates_of(cond)[:3]
+            eng.exp_trials[pa["batter"].pid, :3, 0] += adj
+            eng.exp_trials[pa["pitcher"].pid, :3, 0] += adj
         st.slot[bat] -= 1
         self.pa = None
         return "half_end"

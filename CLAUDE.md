@@ -37,6 +37,11 @@ Phases advance only when the gate passes. Do not build ahead of the current phas
   - steal attempts per team-game;
   - bunts, sacrifice hits, bunt hits and intentional walks per team-game;
   - steal attempts and success by observed pitch path (the sample free of selection; the first-event sample is a diagnostic).
+  **Watch item "steal timing within the plate appearance"** (owner decision 2026-10-07), reported and not gated:
+  - Rows: steal attempts in 2-, 6- and 7-pitch plate appearances and at final count 3-2 (selection-free sample). Real attempts come later in the plate appearance than the per-pitch count model gives.
+  - Fewer than two outs: the 3-2 gap is the runner going on the payoff pitch; proposed fix, a 3-2 x outs term fitted from the last-pitch steals.
+  - Two outs: the gap is earlier in the plate appearance, with no observable pitch.
+  - Details in PHASE0_NOTES.
   Runs per team-game and ERA, moved by the decisions with every rate unchanged, are gated against real data (Phase 2 and Phase 6 reports) instead of against the Phase 4 run. Owner decision 2026-10-07; details in PHASE0_NOTES, "Decisions that change outcomes".
 
   PA per team-game is gated against real data in the Phase 6 report (40.31 ± 1.0), not against the Phase 4 run: the per-opportunity base running (2026-10-04) has fewer caught-stealing and pickoff outs, so more plate appearances. Errors and earned share are gated the same way, because Phase 6 fielding moves them.
