@@ -1,0 +1,308 @@
+ncaa_team_id,team,unitid,instnm,city,state,latitude,longitude,match
+596471,A&M-Corpus Christi,224147,Texas A & M University-Corpus Christi,Corpus Christi,TX,27.713723,-97.32395,override
+596477,Abilene Christian,222178,Abilene Christian University,Abilene,TX,32.468943,-99.709797,name
+596430,Air Force,128328,United States Air Force Academy,USAF Academy,CO,39.010957,-104.891358,override
+596419,Akron,200800,University of Akron Main Campus,Akron,OH,41.075923,-81.511167,name
+596480,Alabama,100751,The University of Alabama,Tuscaloosa,AL,33.211875,-87.545978,name
+596478,Alabama A&M,100654,Alabama A & M University,Normal,AL,34.783368,-86.568502,name
+596479,Alabama St.,100724,Alabama State University,Montgomery,AL,32.364317,-86.295677,name
+596483,Alcorn,175342,Alcorn State University,Alcorn State,MS,31.877216,-91.142854,override
+596484,App State,197869,Appalachian State University,Boone,NC,36.215536,-81.680583,override
+596706,Arizona,104179,University of Arizona,Tucson,AZ,32.232672,-110.950815,name
+596485,Arizona St.,104151,Arizona State University Campus Immersion,Tempe,AZ,33.417721,-111.934383,override
+596466,Ark.-Pine Bluff,106412,University of Arkansas at Pine Bluff,Pine Bluff,AR,34.244031,-92.018683,name
+596487,Arkansas,106397,University of Arkansas,Fayetteville,AR,36.070009,-94.176981,name
+596486,Arkansas St.,106458,Arkansas State University,Jonesboro,AR,35.842388,-90.679988,name
+596702,Army West Point,197036,United States Military Academy,West  Point,NY,41.388988,-73.956772,override
+596489,Auburn,100858,Auburn University,Auburn,AL,32.599378,-85.488258,name
+596490,Austin Peay,219602,Austin Peay State University,Clarksville,TN,36.533319,-87.354081,override
+596499,BYU,230038,Brigham Young University,Provo,UT,40.250851,-111.649281,name
+596491,Ball St.,150136,Ball State University,Muncie,IN,40.203431,-85.409043,name
+596493,Baylor,223232,Baylor University,Waco,TX,31.546872,-97.121041,name
+596693,Bellarmine,156286,Bellarmine University,Louisville,KY,38.219279,-85.704997,name
+596470,Belmont,219709,Belmont University,Nashville,TN,36.135589,-86.794807,name
+596494,Bethune-Cookman,132602,Bethune-Cookman University,Daytona Beach,FL,29.207195,-81.032946,name
+596495,Binghamton,196079,Binghamton University,Vestal,NY,42.087868,-75.966889,name
+596496,Boston College,164924,Boston College,Chestnut Hill,MA,42.336213,-71.169242,override
+596497,Bowling Green,201441,Bowling Green State University-Main Campus,Bowling Green,OH,41.375513,-83.640896,override
+596498,Bradley,143358,Bradley University,Peoria,IL,40.696896,-89.616786,name
+596500,Brown,217156,Brown University,Providence,RI,41.82617,-71.40385,name
+596501,Bryant,217165,Bryant University,Smithfield,RI,41.920092,-71.539547,name
+596502,Bucknell,211291,Bucknell University,Lewisburg,PA,40.954317,-76.882616,name
+596503,Butler,150163,Butler University,Indianapolis,IN,39.8374,-86.172167,name
+596505,CSU Bakersfield,110486,California State University-Bakersfield,Bakersfield,CA,35.350005,-119.104711,name
+596508,CSUN,110608,California State University-Northridge,Northridge,CA,34.240126,-118.529319,name
+596504,Cal Poly,110422,California Polytechnic State University-San Luis Obispo,San Luis Obispo,CA,35.299513,-120.657311,name
+596506,Cal St. Fullerton,110565,California State University-Fullerton,Fullerton,CA,33.881506,-117.885446,name
+596511,California,110635,University of California-Berkeley,Berkeley,CA,37.871918,-122.260463,override
+596476,California Baptist,110361,California Baptist University,Riverside,CA,33.929321,-117.425619,name
+596516,Campbell,198136,Campbell University,Buies Creek,NC,35.409149,-78.738238,name
+596517,Canisius,189705,Canisius University,Buffalo,NY,42.925206,-78.852577,name
+596457,Central Ark.,106704,University of Central Arkansas,Conway,AR,35.077945,-92.457672,name
+596518,Central Conn. St.,128771,Central Connecticut State University,New Britain,CT,41.692502,-72.765991,name
+596520,Central Mich.,169248,Central Michigan University,Mount Pleasant,MI,43.591203,-84.77525,name
+596492,Charleston So.,217688,Charleston Southern University,Charleston,SC,32.983047,-80.072587,name
+596615,Charlotte,199139,University of North Carolina at Charlotte,Charlotte,NC,35.306022,-80.730919,override
+596521,Cincinnati,201885,University of Cincinnati-Main Campus,Cincinnati,OH,39.131159,-84.51428,name
+596523,Clemson,217882,Clemson University,Clemson,SC,34.679381,-82.835114,name
+596524,Coastal Carolina,218724,Coastal Carolina University,Conway,SC,33.794995,-79.011767,name
+596459,Col. of Charleston,217819,College of Charleston,Charleston,SC,32.784225,-79.939794,override
+596525,Columbia,190150,Columbia University in the City of New York,New York,NY,40.808286,-73.961885,override
+596527,Coppin St.,162283,Coppin State University,Baltimore,MD,39.311258,-76.658687,name
+596528,Cornell,190415,Cornell University,Ithaca,NY,42.4472,-76.483084,override
+596529,Creighton,181002,Creighton University,Omaha,NE,41.265361,-95.947811,name
+596703,DBU,224226,Dallas Baptist University,Dallas,TX,32.710017,-96.947006,name
+596530,Dartmouth,182670,Dartmouth College,Hanover,NH,43.704115,-72.289949,name
+596531,Davidson,198385,Davidson College,Davidson,NC,35.499767,-80.843979,name
+596532,Dayton,202480,University of Dayton,Dayton,OH,39.739547,-84.176113,name
+596534,Delaware,130943,University of Delaware,Newark,DE,39.679577,-75.752822,name
+596533,Delaware St.,130934,Delaware State University,Dover,DE,39.187173,-75.54053,name
+596708,Duke,198419,Duke University,Durham,NC,36.001135,-78.937624,name
+596536,ETSU,220075,East Tennessee State University,Johnson City,TN,36.301643,-82.366954,name
+596535,East Carolina,198464,East Carolina University,Greenville,NC,35.607186,-77.368291,name
+596537,Eastern Ill.,144892,Eastern Illinois University,Charleston,IL,39.479843,-88.175658,name
+596538,Eastern Ky.,156620,Eastern Kentucky University,Richmond,KY,37.740845,-84.300796,name
+596539,Eastern Mich.,169798,Eastern Michigan University,Ypsilanti,MI,42.251675,-83.627443,name
+596460,Elon,198516,Elon University,Elon,NC,36.104148,-79.50344,name
+596709,Evansville,150534,University of Evansville,Evansville,IN,37.971549,-87.531644,name
+596541,FDU,184603,Fairleigh Dickinson University-Metropolitan Campus,Teaneck,NJ,40.897209,-74.028986,name
+596473,FGCU,433660,Florida Gulf Coast University,Fort Myers,FL,26.463638,-81.7726,override
+596544,FIU,133951,Florida International University,Miami,FL,25.75732,-80.373928,name
+596540,Fairfield,129242,Fairfield University,Fairfield,CT,41.157673,-73.255903,name
+596543,Fla. Atlantic,133669,Florida Atlantic University,Boca Raton,FL,26.372421,-80.102978,name
+596546,Florida,133809,Florida College,Temple Terrace,FL,28.034936,-82.383289,name
+596542,Florida A&M,133650,Florida Agricultural and Mechanical University,Tallahassee,FL,30.428504,-84.290226,name
+596545,Florida St.,134097,Florida State University,Tallahassee,FL,30.443147,-84.295064,name
+596547,Fordham,191241,Fordham University,Bronx,NY,40.859354,-73.882705,name
+596707,Fresno St.,110556,California State University-Fresno,Fresno,CA,36.811154,-119.744569,override
+596551,Ga. Southern,139931,Georgia Southern University,Statesboro,GA,32.426153,-81.784045,name
+596461,Gardner-Webb,198561,Gardner-Webb University,Boiling Springs,NC,35.24732,-81.668141,name
+596548,George Mason,232186,George Mason University,Fairfax,VA,38.83195,-77.307063,name
+596549,George Washington,131469,George Washington University,Washington,DC,38.89923,-77.048363,name
+596550,Georgetown,131496,Georgetown University,Washington,DC,38.908809,-77.073463,override
+596554,Georgia,139861,Georgia College & State University,Milledgeville,GA,33.082787,-83.231962,name
+596552,Georgia St.,139940,Georgia State University,Atlanta,GA,33.7527,-84.38667,name
+596553,Georgia Tech,139755,Georgia Institute of Technology-Main Campus,Atlanta,GA,33.77242,-84.394832,name
+596555,Gonzaga,235316,Gonzaga University,Spokane,WA,47.666531,-117.400625,name
+596710,Grambling,159009,Grambling State University,Grambling,LA,32.523797,-92.713245,name
+596462,Grand Canyon,104717,Grand Canyon University,Phoenix,AZ,33.513231,-112.129929,name
+596556,Harvard,166027,Harvard University,Cambridge,MA,42.374471,-71.118313,name
+596557,Hawaii,141574,University of Hawaii at Manoa,Honolulu,HI,21.298598,-157.818979,override
+596705,High Point,198695,High Point University,High Point,NC,35.972035,-79.994675,name
+596558,Hofstra,191649,Hofstra University,Hempstead,NY,40.715959,-73.60078,name
+596559,Holy Cross,166124,College of the Holy Cross,Worcester,MA,42.23752,-71.808214,override
+596561,Houston,225511,University of Houston,Houston,TX,29.720393,-95.343537,name
+596560,Houston Christian,225399,Houston Christian University,Houston,TX,29.693819,-95.515954,name
+596563,Illinois,145637,University of Illinois Urbana-Champaign,Champaign,IL,40.104718,-88.229114,override
+596562,Illinois St.,145813,Illinois State University,Normal,IL,40.509403,-88.990058,name
+596566,Indiana,151351,Indiana University-Bloomington,Bloomington,IN,39.16609,-86.526559,override
+596565,Indiana St.,151324,Indiana State University,Terre Haute,IN,39.469073,-87.407846,name
+596568,Iona,191931,Iona University,New Rochelle,NY,40.925725,-73.788046,name
+596569,Iowa,153658,University of Iowa,Iowa City,IA,41.661935,-91.536425,name
+596570,Jackson St.,175856,Jackson State University,Jackson,MS,32.296105,-90.207405,name
+596572,Jacksonville,134945,Jacksonville University,Jacksonville,FL,30.353227,-81.60458,name
+596571,Jacksonville St.,101480,Jacksonville State University,Jacksonville,AL,33.822938,-85.765321,name
+596573,James Madison,232423,James Madison University,Harrisonburg,VA,38.436311,-78.870484,name
+596575,Kansas,155317,University of Kansas,Lawrence,KS,38.958549,-95.247567,name
+596574,Kansas St.,155399,Kansas State University,Manhattan,KS,39.188648,-96.581077,name
+596463,Kennesaw St.,486840,Kennesaw State University,Kennesaw,GA,34.038807,-84.583052,name
+596576,Kent St.,203517,Kent State University at Kent,Kent,OH,41.146653,-81.342533,override
+596577,Kentucky,157085,University of Kentucky,Lexington,KY,38.038911,-84.504747,name
+596711,LIU,192448,Long Island University,Brookville,NY,40.820714,-73.593678,override
+596587,LMU (CA),117946,Loyola Marymount University,Los Angeles,CA,33.97085,-118.415744,override
+596583,LSU,159391,Louisiana State University and Agricultural & Mechanical College,Baton Rouge,LA,30.414986,-91.178921,name
+596624,LSU New Orleans,159939,University of New Orleans,New Orleans,LA,30.027704,-90.067142,override
+596578,Lafayette,213385,Lafayette College,Easton,PA,40.69956,-75.209786,name
+596579,Lamar University,226091,Lamar University,Beaumont,TX,30.042738,-94.072244,name
+596699,Le Moyne,192323,Le Moyne College,Syracuse,NY,43.049192,-76.090435,name
+596580,Lehigh,213543,Lehigh University,Bethlehem,PA,40.606822,-75.380236,name
+596581,Liberty,232557,Liberty University,Lynchburg,VA,37.350232,-79.18222,name
+596695,Lindenwood,177968,Lindenwood University,Saint Charles,MO,38.785425,-90.501286,name
+596472,Lipscomb,219976,Lipscomb University,Nashville,TN,36.106253,-86.799791,name
+596488,Little Rock,106245,University of Arkansas at Little Rock,Little Rock,AR,34.723254,-92.339778,override
+596507,Long Beach St.,110583,California State University-Long Beach,Long Beach,CA,33.782818,-118.11204,override
+596582,Longwood,232566,Longwood University,Farmville,VA,37.297975,-78.396987,name
+596687,Louisiana,160658,University of Louisiana at Lafayette,Lafayette,LA,30.212191,-92.020165,override
+596584,Louisiana Tech,159647,Louisiana Tech University,Ruston,LA,32.528297,-92.649963,name
+596585,Louisville,157289,University of Louisville,Louisville,KY,38.216862,-85.760412,name
+596588,Maine,161253,University of Maine,Orono,ME,44.899257,-68.669332,name
+596589,Manhattan,192703,Manhattan University,Riverdale,NY,40.889756,-73.901893,name
+596590,Marist,192819,Marist University,Poughkeepsie,NY,41.720937,-73.935484,name
+596591,Marshall,237525,Marshall University,Huntington,WV,38.422482,-82.428964,name
+596593,Maryland,163286,University of Maryland-College Park,College Park,MD,38.988178,-76.944721,override
+596595,Massachusetts,166629,University of Massachusetts-Amherst,Amherst,MA,42.385999,-72.526728,override
+596596,McNeese,159717,McNeese State University,Lake Charles,LA,30.178187,-93.217222,name
+596597,Memphis,220862,University of Memphis,Memphis,TN,35.118878,-89.938068,name
+596598,Mercer,140447,Mercer University,Macon,GA,32.829134,-83.649392,name
+596906,Mercyhurst,213987,Mercyhurst University,Erie,PA,42.10578,-80.053412,name
+596458,Merrimack,166850,Merrimack College,North Andover,MA,42.668344,-71.124216,name
+596600,Miami (FL),135726,University of Miami,Coral Gables,FL,25.72126,-80.278662,override
+596599,Miami (OH),204024,Miami University-Oxford,Oxford,OH,39.507757,-84.732954,override
+596602,Michigan,170976,University of Michigan-Ann Arbor,Ann Arbor,MI,42.278374,-83.73481,override
+596601,Michigan St.,171100,Michigan State University,East Lansing,MI,42.73212,-84.476111,name
+596603,Middle Tenn.,220978,Middle Tennessee State University,Murfreesboro,TN,35.848005,-86.360618,override
+596452,Milwaukee,240453,University of Wisconsin-Milwaukee,Milwaukee,WI,43.076848,-87.880488,override
+596604,Minnesota,174066,University of Minnesota-Twin Cities,Minneapolis,MN,44.972851,-93.235464,override
+596605,Mississippi St.,176080,Mississippi State University,Mississippi State,MS,33.454852,-88.790139,name
+596606,Mississippi Val.,176044,Mississippi Valley State University,Itta Bena,MS,33.514142,-90.341274,override
+596608,Missouri,178396,University of Missouri-Columbia,Columbia,MO,38.94531,-92.328843,override
+596685,Missouri St.,179566,Missouri State University-Springfield,Springfield,MO,37.199258,-93.281281,override
+596609,Monmouth,185572,Monmouth University,West Long Branch,NJ,40.280066,-74.006447,override
+596610,Morehead St.,157386,Morehead State University,Morehead,KY,38.186768,-83.434021,name
+596611,Mount St. Mary's,163462,Mount St. Mary's University,Emmitsburg,MD,39.681705,-77.351887,name
+596612,Murray St.,157401,Murray State University,Murray,KY,36.612419,-88.323629,override
+596627,N.C. A&T,199102,North Carolina A & T State University,Greensboro,NC,36.07282,-79.773375,override
+596628,NC State,199193,North Carolina State University at Raleigh,Raleigh,NC,35.785111,-78.674517,name
+596633,NIU,147703,Northern Illinois University,Dekalb,IL,41.933869,-88.766428,override
+596621,NJIT,185828,New Jersey Institute of Technology,Newark,NJ,40.741997,-74.177113,name
+596431,Navy,164155,United States Naval Academy,Annapolis,MD,38.980507,-76.481692,name
+596712,Nebraska,181464,University of Nebraska-Lincoln,Lincoln,NE,40.817598,-96.700508,override
+596620,Nevada,182290,University of Nevada-Reno,Reno,NV,39.543642,-119.815377,override
+596623,New Mexico,187985,University of New Mexico-Main Campus,Albuquerque,NM,35.083868,-106.620155,name
+596622,New Mexico St.,188030,New Mexico State University-Main Campus,Las Cruces,NM,32.281568,-106.752069,name
+596625,Niagara,193973,Niagara University,Niagara University,NY,43.137279,-79.036689,name
+596713,Nicholls,159966,Nicholls State University,Thibodaux,LA,29.794486,-90.801571,override
+596626,Norfolk St.,232937,Norfolk State University,Norfolk,VA,36.848429,-76.261375,name
+596475,North Ala.,101879,University of North Alabama,Florence,AL,34.80731,-87.680407,name
+596614,North Carolina,199120,University of North Carolina at Chapel Hill,Chapel Hill,NC,35.911769,-79.050969,override
+596629,North Dakota St.,200332,North Dakota State University-Main Campus,Fargo,ND,46.893127,-96.800838,name
+596467,North Florida,136145,North Florida College,Madison,FL,30.473841,-83.420732,name
+596631,Northeastern,167358,Northeastern University,Boston,MA,42.339992,-71.088782,name
+596632,Northern Colo.,127741,University of Northern Colorado,Greeley,CO,40.410855,-104.692777,name
+596634,Northern Ky.,157447,Northern Kentucky University,Highland Heights,KY,39.029714,-84.463483,name
+596636,Northwestern,147767,Northwestern University,Evanston,IL,42.050356,-87.679858,override
+596635,Northwestern St.,160038,Northwestern State University of Louisiana,Natchitoches,LA,31.750666,-93.097797,name
+596637,Notre Dame,152080,University of Notre Dame,Notre Dame,IN,41.703058,-86.238959,override
+596638,Oakland,171571,Oakland University,Rochester Hills,MI,42.674573,-83.216418,name
+596640,Ohio,204857,Ohio University-Main Campus,Athens,OH,39.326798,-82.100985,name
+596639,Ohio St.,204796,Ohio State University-Main Campus,Columbus,OH,39.999803,-83.007525,name
+596641,Oklahoma,207500,University of Oklahoma-Norman Campus,Norman,OK,35.209407,-97.444211,name
+596714,Oklahoma St.,207388,Oklahoma State University-Main Campus,Stillwater,OK,36.123085,-97.069743,name
+596642,Old Dominion,232982,Old Dominion University,Norfolk,VA,36.886418,-76.30666,name
+596607,Ole Miss,176017,University of Mississippi,University,MS,34.365529,-89.537434,name
+596618,Omaha,181394,University of Nebraska at Omaha,Omaha,NE,41.258769,-96.008516,override
+596715,Oral Roberts,207582,Oral Roberts University,Tulsa,OK,36.049129,-95.952547,name
+596644,Oregon,209551,University of Oregon,Eugene,OR,44.045146,-123.075792,name
+596643,Oregon St.,209542,Oregon State University,Corvallis,OR,44.56395,-123.274723,name
+596645,Pacific,120883,University of the Pacific,Stockton,CA,37.981424,-121.312301,override
+596716,Penn,215062,University of Pennsylvania,Philadelphia,PA,39.950929,-75.19391,name
+596647,Penn St.,214777,Pennsylvania State University-Main Campus,University Park,PA,40.7965,-77.862848,override
+596648,Pepperdine,121150,Pepperdine University,Malibu,CA,34.037786,-118.707077,name
+596649,Pittsburgh,215293,University of Pittsburgh-Pittsburgh Campus,Pittsburgh,PA,40.444388,-79.953254,override
+596650,Portland,209825,University of Portland,Portland,OR,45.572724,-122.726691,name
+596651,Prairie View,227526,Prairie View A & M University,Prairie View,TX,30.092425,-95.989475,override
+596464,Presbyterian,218539,Presbyterian College,Clinton,SC,34.465834,-81.87448,name
+596652,Princeton,186131,Princeton University,Princeton,NJ,40.348732,-74.659365,name
+596653,Purdue,243780,Purdue University-Main Campus,West Lafayette,IN,40.428206,-86.914435,name
+596567,Purdue Fort Wayne,151102,Purdue University Fort Wayne,Fort Wayne,IN,41.117278,-85.108962,name
+596696,Queens (NC),199412,Queens University of Charlotte,Charlotte,NC,35.189051,-80.833509,override
+596654,Quinnipiac,130226,Quinnipiac University,Hamden,CT,41.418915,-72.894117,name
+596655,Radford,233277,Radford University,Radford,VA,37.136907,-80.549728,name
+596656,Rhode Island,217420,Rhode Island College,Providence,RI,41.842415,-71.46556,name
+596657,Rice,227757,Rice University,Houston,TX,29.717897,-95.402035,name
+596658,Richmond,233374,University of Richmond,University of Richmond,VA,37.577393,-77.538806,name
+596659,Rider,186283,Rider University,Lawrenceville,NJ,40.278796,-74.737833,name
+596660,Rutgers,186380,Rutgers University-New Brunswick,New Brunswick,NJ,40.498769,-74.446251,override
+596689,SFA,228431,Stephen F Austin State University,Nacogdoches,TX,31.621056,-94.64908,name
+596683,SIUE,149231,Southern Illinois University Edwardsville,Edwardsville,IL,38.793949,-89.997779,name
+596509,Sacramento St.,110617,California State University-Sacramento,Sacramento,CA,38.559415,-121.423549,name
+596661,Sacred Heart,130253,Sacred Heart University,Fairfield,CT,41.220893,-73.243332,name
+596663,Saint Joseph's,215770,Saint Joseph's University - Philadelphia,Philadelphia,PA,39.994442,-75.238343,override
+596664,Saint Louis,179159,Saint Louis University,Saint Louis,MO,38.636801,-90.2351,name
+596665,Saint Mary's (CA),123554,Saint Mary's College of California,Moraga,CA,37.840731,-122.109031,override
+596666,Saint Peter's,186432,Saint Peter's University,Jersey City,NJ,40.727105,-74.071541,name
+596667,Sam Houston,227881,Sam Houston State University,Huntsville,TX,30.714738,-95.546205,override
+596668,Samford,102049,Samford University,Birmingham,AL,33.464128,-86.791799,name
+596670,San Diego,122436,University of San Diego,San Diego,CA,32.770816,-117.192073,name
+596669,San Diego St.,122409,San Diego State University,San Diego,CA,32.77525,-117.071228,name
+596671,San Francisco,122612,University of San Francisco,San Francisco,CA,37.776618,-122.450477,override
+596672,San Jose St.,122755,San Jose State University,San Jose,CA,37.336569,-121.880621,name
+596673,Santa Clara,122931,Santa Clara University,Santa Clara,CA,37.348362,-121.93784,name
+596465,Seattle U,236595,Seattle University,Seattle,WA,47.608859,-122.318851,name
+596674,Seton Hall,186584,Seton Hall University,South Orange,NJ,40.742336,-74.246027,name
+596675,Siena,195474,Siena College,Loudonville,NY,42.717602,-73.7526,name
+596676,South Alabama,102094,University of South Alabama,Mobile,AL,30.696033,-88.178711,name
+596677,South Carolina,218663,University of South Carolina-Columbia,Columbia,SC,33.996788,-81.026935,override
+596678,South Dakota St.,219356,South Dakota State University,Brookings,SD,44.317485,-96.782139,name
+596679,South Fla.,137351,University of South Florida,Tampa,FL,28.061458,-82.413232,name
+596718,Southeast Mo. St.,179557,Southeast Missouri State University,Cape Girardeau,MO,37.311107,-89.531187,name
+596680,Southeastern La.,160612,Southeastern Louisiana University,Hammond,LA,30.514652,-90.468676,name
+596681,Southern California,123961,University of Southern California,Los Angeles,CA,34.021281,-118.284169,name
+596682,Southern Ill.,149222,Southern Illinois University-Carbondale,Carbondale,IL,37.714193,-89.217273,override
+596697,Southern Ind.,151306,University of Southern Indiana,Evansville,IN,37.962374,-87.677214,name
+596719,Southern Miss.,176372,University of Southern Mississippi,Hattiesburg,MS,31.32661,-89.331236,name
+596684,Southern U.,160621,Southern University and A & M College,Baton Rouge,LA,30.524558,-91.190105,override
+596662,St. Bonaventure,195164,St Bonaventure University,Saint Bonaventure,NY,42.080191,-78.481107,name
+596717,St. John's (NY),195809,St. John's University-New York,Queens,NY,40.722523,-73.796104,override
+596417,St. Thomas (MN),174914,University of St Thomas,Saint Paul,MN,44.943439,-93.188986,override
+596688,Stanford,243744,Stanford University,Stanford,CA,37.429434,-122.167359,name
+596720,Stetson,137546,Stetson University,DeLand,FL,29.035475,-81.300746,name
+596698,Stonehill,167996,Stonehill College,Easton,MA,42.05905,-71.080632,name
+596690,Stony Brook,196097,Stony Brook University,Stony Brook,NY,40.91476,-73.12046,name
+596421,TCU,228875,Texas Christian University,Fort Worth,TX,32.70961,-97.364758,name
+596700,Tarleton St.,228529,Tarleton State University,Stephenville,TX,32.217805,-98.219039,name
+596721,Tennessee,221759,The University of Tennessee-Knoxville,Knoxville,TN,35.952082,-83.925852,override
+596691,Tennessee Tech,221847,Tennessee Technological University,Cookeville,TN,36.174754,-85.504039,name
+596425,Texas,228778,The University of Texas at Austin,Austin,TX,30.282825,-97.738273,override
+596420,Texas A&M,228723,Texas A&M University-College Station,College Station,TX,30.618726,-96.336475,name
+596422,Texas Southern,229063,Texas Southern University,Houston,TX,29.721046,-95.361113,name
+596686,Texas St.,228459,Texas State University,San Marcos,TX,29.888885,-97.943029,name
+596423,Texas Tech,229115,Texas Tech University,Lubbock,TX,33.583448,-101.874783,name
+596522,The Citadel,217864,Citadel Military College of South Carolina,Charleston,SC,32.797183,-79.958775,override
+596427,Toledo,206084,University of Toledo,Toledo,OH,41.660572,-83.614714,name
+596428,Towson,164076,Towson University,Towson,MD,39.393622,-76.611164,name
+596429,Troy,102368,Troy University,Troy,AL,31.799583,-85.95802,name
+596701,Tulane,160755,Tulane University of Louisiana,New Orleans,LA,29.940069,-90.122144,name
+596481,UAB,100663,University of Alabama at Birmingham,Birmingham,AL,33.505697,-86.799345,name
+596482,UAlbany,196060,University at Albany,Albany,NY,42.685489,-73.824662,name
+596512,UC Davis,110644,University of California-Davis,Davis,CA,38.539667,-121.749567,name
+596513,UC Irvine,110653,University of California-Irvine,Irvine,CA,33.648434,-117.841248,override
+596515,UC Riverside,110671,University of California-Riverside,Riverside,CA,33.97246,-117.32741,name
+596694,UC San Diego,110680,University of California-San Diego,La Jolla,CA,32.877749,-117.235866,override
+596510,UC Santa Barbara,110705,University of California-Santa Barbara,Santa Barbara,CA,34.416297,-119.846426,override
+596519,UCF,132903,University of Central Florida,Orlando,FL,28.602159,-81.200889,name
+596514,UCLA,110662,University of California-Los Angeles,Los Angeles,CA,34.07178,-118.442179,name
+596526,UConn,129020,University of Connecticut,Storrs,CT,41.809098,-72.249948,override
+596564,UIC,145600,University of Illinois Chicago,Chicago,IL,41.871837,-87.650503,name
+596468,UIW,225627,University of the Incarnate Word,San Antonio,TX,29.46708,-98.46583,name
+596630,ULM,159993,University of Louisiana at Monroe,Monroe,LA,32.527748,-92.07374,name
+596592,UMBC,163268,University of Maryland-Baltimore County,Baltimore,MD,39.256686,-76.711607,name
+596594,UMES,163338,University of Maryland Eastern Shore,Princess Anne,MD,38.207386,-75.686852,name
+596586,UMass Lowell,166513,University of Massachusetts-Lowell,Lowell,MA,42.652864,-71.326809,override
+596613,UNC Asheville,199111,University of North Carolina Asheville,Asheville,NC,35.617068,-82.565392,name
+596616,UNC Greensboro,199148,University of North Carolina at Greensboro,Greensboro,NC,36.068236,-79.809414,override
+596617,UNCW,199218,University of North Carolina Wilmington,Wilmington,NC,34.225223,-77.875527,name
+596619,UNLV,182281,University of Nevada-Las Vegas,Las Vegas,NV,36.106047,-115.138462,name
+596469,USC Upstate,218742,University of South Carolina-Upstate,Spartanburg,SC,34.996403,-81.970583,override
+596424,UT Arlington,228769,The University of Texas at Arlington,Arlington,TX,32.729718,-97.11296,name
+596692,UT Martin,221768,The University of Tennessee-Martin,Martin,TN,36.340338,-88.864211,name
+596646,UTRGV,227368,The University of Texas Rio Grande Valley,Edinburg,TX,26.306759,-98.173567,name
+596426,UTSA,229027,The University of Texas at San Antonio,San Antonio,TX,29.583709,-98.620657,name
+596432,Utah,230764,University of Utah,Salt Lake City,UT,40.762484,-111.846044,name
+596418,Utah Tech,230171,Utah Tech University,Saint George,UT,37.102769,-113.565903,name
+596474,Utah Valley,230737,Utah Valley University,Orem,UT,40.281078,-111.716456,name
+596436,VCU,234030,Virginia Commonwealth University,Richmond,VA,37.54962,-77.452697,name
+596437,VMI,234085,Virginia Military Institute,Lexington,VA,37.7896,-79.437067,name
+596433,Valparaiso,152600,Valparaiso University,Valparaiso,IN,41.462239,-87.040172,name
+596434,Vanderbilt,221999,Vanderbilt University,Nashville,TN,36.14659,-86.803369,name
+596435,Villanova,216597,Villanova University,Villanova,PA,40.036463,-75.340502,name
+596439,Virginia,234076,University of Virginia-Main Campus,Charlottesville,VA,38.035665,-78.503428,name
+596438,Virginia Tech,233921,Virginia Polytechnic Institute and State University,Blacksburg,VA,37.229012,-80.423675,name
+596440,Wagner,197197,Wagner College,Staten Island,NY,40.615588,-74.092913,name
+596441,Wake Forest,199847,Wake Forest University,Winston-Salem,NC,36.133609,-80.277446,name
+596443,Washington,236948,University of Washington-Seattle Campus,Seattle,WA,47.65538,-122.30514,override
+596442,Washington St.,236939,Washington State University,Pullman,WA,46.730448,-117.158168,override
+596947,West Ga.,141334,University of West Georgia,Carrollton,GA,33.573621,-85.097762,name
+596444,West Virginia,238032,West Virginia University,Morgantown,WV,39.634371,-79.954391,name
+596445,Western Caro.,200004,Western Carolina University,Cullowhee,NC,35.308979,-83.186258,name
+596446,Western Ill.,149772,Western Illinois University,Macomb,IL,40.468086,-90.686899,name
+596447,Western Ky.,157951,Western Kentucky University,Bowling Green,KY,36.985035,-86.456828,name
+596448,Western Mich.,172699,Western Michigan University,Kalamazoo,MI,42.282194,-85.613759,name
+596449,Wichita St.,156125,Wichita State University,Wichita,KS,37.718882,-97.292361,name
+596450,William & Mary,231624,William & Mary,Williamsburg,VA,37.269489,-76.708214,name
+596451,Winthrop,218964,Winthrop University,Rock Hill,SC,34.941515,-81.031404,name
+596704,Wofford,218973,Wofford College,Spartanburg,SC,34.959411,-81.933568,name
+596453,Wright St.,206604,Wright State University-Main Campus,Dayton,OH,39.780634,-84.064881,name
+596454,Xavier,206622,Xavier University,Cincinnati,OH,39.149547,-84.47465,name
+596455,Yale,130794,Yale University,New Haven,CT,41.311158,-72.926688,name
+596456,Youngstown St.,206695,Youngstown State University,Youngstown,OH,41.104928,-80.64659,name

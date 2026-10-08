@@ -27,6 +27,7 @@ Section 12 holds the rule verification and the data inventory (research tasks of
   - XP comes from wins, signings and draft picks.
   - XP unlocks recruiting hours, pitch effectiveness, regional bonuses and development boosts.
   - AI coaches use the same tree and the same effects, so human and AI recruit on equal terms. This extends the engine's rule that human and AI decisions resolve with the same probabilities.
+  - **Development boosts are bounded and centred** (owner decision 2026-10-08): a coach's boost moves his players relative to the league, and the league-wide development rate stays calibrated (Phase 10 gate), so levelling up across all coaches cannot inflate talent over the years.
 
 ## 2. School grade card (A+ to F, CFB-style)
 
@@ -51,14 +52,34 @@ Section 12 holds the rule verification and the data inventory (research tasks of
 - The owner's instinct for the top priorities: Program Tradition, Money, Facilities, Omaha Contender, Playing Time.
 - The weights are calibrated to data where possible, and the spec reports where the data disagrees with the instinct.
 
-**First evidence on Proximity** (`data/ncaa_2025/roster_aggregates/hometown_by_school.csv`, 232 of 277 D1 teams, 2025 rosters):
-- About 45% of D1 roster players come from their school's state, and the share barely moves by tier: P4 .449, mid .475, low .418 (mean over schools).
-- About 73% come from the school's census region: P4 .724, mid .771, low .720.
-- Foreign players: P4 .030, mid .039, low .048.
-- Grade C. No school locations are committed, so a school's state here is its most common hometown state; real distances need school coordinates (Section 12.2).
-- **This disagrees with the owner's instinct in two ways:**
-  - Proximity looks like a top-tier priority for most recruits. It is not in the instinct's top five.
-  - "Blue bloods recruit nationally; small schools mine their region" is not visible at the state or region level. P4 rosters are as local as low-tier rosters. P4 schools may still recruit more nationally at the very top of a class; the distance-by-ranking test needs school coordinates and recruit rankings.
+**Priority weights follow the data, not the first instinct** (owner decision 2026-10-08).
+- **Playing Time and Proximity are the strongest priorities for most recruits; Money is weak overall.**
+- Weights vary by recruit tier: draft-level recruits weight Money and Draft Development more.
+- Calibrated where data allows:
+  - GOALS endorsement shares (Section 12.2), and the baseball-level tables once received;
+  - the 2025 roster geography below;
+  - commit and portal behaviour as later data allows.
+  The rest is GUESS, graded.
+
+**Proximity, 2025 rosters** (`reports/proximity_2025.md`, `scripts/proximity_by_tier.py`, grade B):
+- Data: hometown states from the roster aggregates; school locations from IPEDS (`data/ncaa_2025/school_locations_2025.csv`); out-of-state distances to the home state's Census centre of population.
+
+| Tier | Schools | In-state | Within 300 mi | Within 500 mi | Within 1000 mi | Foreign | Mean miles, out-of-state players |
+|---|---|---|---|---|---|---|---|
+| P4 | 50 | .429 ± .221 | .586 ± .183 | .696 ± .166 | .869 ± .105 | .030 | 715 |
+| Mid | 122 | .451 ± .260 | .640 ± .231 | .747 ± .192 | .876 ± .123 | .039 | 651 |
+| Low | 60 | .386 ± .234 | .645 ± .227 | .721 ± .194 | .839 ± .136 | .048 | 612 |
+
+- **Most rosters are regional at every tier.** About 60–65% of players come from within 300 miles and 84–88% from within 1,000.
+- **P4 reaches modestly further:**
+  - .586 within 300 miles against .64;
+  - out-of-state players from 715 miles against 612.
+- **School-to-school spread is wide in every tier** (SD about .2), so pipelines are school-specific.
+
+**Pipelines (owner decision 2026-10-08).**
+- Regional pipelines are central to recruiting at every tier.
+- Blue bloods reach further only for the very top recruits. That reach is calibrated to the distance rows above: the P4 shortfall within 300 miles and the longer out-of-state distances.
+- A distance-by-recruit-rank test needs recruit rankings, which are not public as data (Section 12.2).
 
 ## 3. The recruit
 
@@ -116,7 +137,9 @@ Section 12 holds the rule verification and the data inventory (research tasks of
 - camp invite;
 - home visit (contact periods only; the number allowed follows the NCAA off-campus contact rules: from September 1 of the junior year, in contact periods; the per-prospect contact limit is not yet verified);
 - unofficial visit;
-- official visit: one per school per recruit, hosted on a home-series weekend, so Ballpark Atmosphere and that weekend's results matter (but see Section 14, item 4: fall visits);
+- official visit: one per school per recruit (owner decision 2026-10-08):
+  - **fall visits** (September to the fall-ball window) happen during fall ball: scrimmages and campus events, with facilities and campus life to the fore;
+  - **spring visits** use home-series weekends, where Ballpark Atmosphere and that weekend's results matter;
 - offer.
 
 **Pitches (CFB-style).**
@@ -129,11 +152,15 @@ Section 12 holds the rule verification and the data inventory (research tasks of
 
 **Three pools:**
 - **Scholarship dollars.** Capacity is school-specific; out-of-state costs more than in-state.
-- **Revenue-share allocation.** Grows with revenue, attendance and winning.
-- **NIL collective.** Grows with winning, Brand Exposure and facilities. The school cannot spend it directly (Section 14, item 6).
+- **Revenue-share allocation.** No per-sport rule exists (Section 12.1, item 4). Each athletic director's baseball allocation is school-specific, out of the athletics-wide cap (about $21.6M in 2026-27). It is scaled by the school's EADA baseball budget, and grows with revenue, attendance and winning. Graded GUESS (owner decision 2026-10-08).
+- **NIL collective.** Grows with winning, Brand Exposure and facilities. The school cannot spend it directly.
 
 **Offers.**
-- An offer is a dollar package: scholarship % + revenue-share $ + NIL $.
+- An offer is a dollar package: scholarship % + revenue-share $ + an NIL collective commitment (owner decision 2026-10-08).
+  - The NIL part is a commitment drawn from the collective's capacity, which the school influences but does not control.
+  - It can fall through: a renewal and retention risk, more likely after losing seasons or a shrinking collective.
+  - It is not counted in the school's cap.
+  - Real deals are reported to NIL Go.
 - Top recruits have asking prices tied to their ranking and draft projection.
 - Money's pull depends on whether Money is one of his priorities.
 
@@ -150,7 +177,8 @@ Section 12 holds the rule verification and the data inventory (research tasks of
 - HS → MLB draft (sign pro or go to college) → D1 / D2 / JUCO. No NAIA.
 - **JUCO:** draft-eligible every year; transfers to D1 or D2 after 1–2 years. A hired JUCO coach brings his pipeline.
 - **D2:** fully simulated, so its stats are real and scoutable; breakout players portal up to D1.
-- **D1:** draft-eligible after the junior year or at age 21. Some players return for their senior year, often for NIL.
+- **D1:** draft-eligible after the junior year or at age 21. Some players return for another year, often for NIL.
+- **Eligibility** (owner decision 2026-10-08, as verified, Section 12.1, item 5): the five-year age-based clock from the earlier of first full-time college enrollment or the year after the 19th birthday. JUCO time counts; there are no redshirts and no seasons cap. Returning for "a senior year" is a question of years left on the clock.
 
 **Transfer portal.**
 - Opens at the real window dates, with the coaching-change and scholarship-change exceptions (Section 12.1, item 7).
@@ -171,10 +199,25 @@ Grade B: roster-listed previous schools, classified by rules in `origins_rules.c
 
 **Other levels.** The JUCO and D2 worlds are fully simulated on the same talent scale. For the levels the user isn't coaching, plan a quick-sim, validated against the full engine. The user's own games always use the full engine.
 
+**On-field data for D2 and JUCO** (search of 2026-10-08):
+- **D2: scores only, grade B.**
+  - The data.ncaa.com scoreboard feed works for D2 with the same pattern as the D1 pulls (no robots file). About 135 requests per season.
+  - Final scores, records, conferences and extra-inning markers; no box scores.
+  - A scoreboard strength fit of D1 and D2 together places D2 on the one talent scale through crossover games. It gives D2 run distributions, home edge, extra-inning and run-rule rates.
+  - League rates (K%, BB%, HR%) need box scores or season stats. Those are on www.ncaa.com, whose robots.txt now disallows AI agents, or on stats.ncaa.org (excluded). Not fetched; a hand export by the owner is possible.
+- **JUCO: no usable source from here, grade D.**
+  - NJCAA stats sit behind a client-rendered app on an undocumented API with unreadable terms.
+  - The California and NJCAA region stats sites (Presto) return 403 to this environment; nothing was worked around.
+  - JUCO is placed on the talent scale from the roster origin data (JUCO transfers' shares by tier, Section 7) plus documented guesses. Graded D and marked for replacement (owner decision 2026-10-08).
+  - Options for the owner: a hand export of the NJCAA composite team stats, or asking the NJCAA for a data file.
+
 ## 8. MLB draft
 
 - **Teams.** The 30 real MLB team names (personal-use project: names only, no logos or official artwork). Each has its own draft board, needs and bonus pool.
-- **Rules.** Real draft rules: rounds, eligibility, bonus values by pick (Section 12.1, item 6).
+- **Rules: a selectable ruleset, stored as data** (owner decision 2026-10-08):
+  - **"current"** (the default): 20 rounds; HS, JUCO and eligible four-year players; bonus pools with slot values for rounds 1–10 and the $150,000 rule after; the July signing deadline; the lottery (Section 12.1, item 6);
+  - **"proposed"**: MLB's June 2026 proposal of 12 rounds, no high school or junior college players, hard slots.
+  - The default is updated when the new labor agreement is signed.
 - **Signability.** His projected round, and his number against the pick's value. The relationship, the NIL package and the school's Draft Development grade can lower his number.
 - **Draft day.** A live event the user can watch.
 
@@ -185,7 +228,7 @@ Grade B: roster-listed previous schools, classified by rules in `origins_rules.c
 - **AI programs.**
   - Distinct personalities: analytics, old-school, JUCO-heavy, portal-heavy, regional loyalist.
   - Distinct budgets.
-  - Blue bloods recruit nationally and small schools mine their region. The 2025 rosters do not yet show this at the state level (Section 2); it is to be tested by distance and recruit ranking.
+  - Regional pipelines are central at every tier; blue bloods reach further only for the very top recruits (Section 2: P4 rosters draw modestly further, .586 within 300 miles against .64).
 
 ## 10. The annual calendar
 
@@ -375,7 +418,7 @@ Checked 2026-10-08; nothing was downloaded in bulk.
 
 **What the data says about the owner's priority instinct:**
 - **GOALS.** All DI men's sports, so endorsement shares, not weights. Playing time leads ("chance to play" 90%). Proximity (55%) sits with facilities (56%) and cost (59%). NIL is near the bottom (23%), and program tradition is not an item at all.
-- **2025 rosters.** About 45% in-state and 73% in-region in every tier (Section 2).
+- **2025 rosters.** 39–45% in-state and 59–65% within 300 miles in every tier (Section 2, real distances).
 - **Together.** They support Playing Time and Proximity as top priorities. They do not support Money as a top priority for most recruits; it may still be one for the top of a class, where asking prices live. Program Tradition is untested.
 
 
@@ -461,25 +504,20 @@ The UI, as already planned: the recruiting screens are designed separately.
 1. **Resolved: first contact.** Calls and messages open August 1 at the start of the junior year; visits and off-campus contact open September 1 (Section 12.1, item 2). The calendar and rules above now say so. The spec's "official visits" in the August 1 rush move to September 1.
 2. **Resolved: signing.** Letters of intent no longer exist. A signature locks the player against other schools' contact, with defined releases (aid reduced, the head coach leaving, the school's release), and the funnel says so.
 3. **"Home visit (once)."** The NCAA limits in-person, off-campus recruiting contacts per prospect; the limit isn't necessarily one home visit. The game should use the real contact limit (Section 12.1, item 2) rather than "once".
-4. **"Official visits hosted on home-series weekends."** The main visit window in the calendar is September 12 – October 12, during fall ball, when there are no home series. Proposal:
-   - fall visits feature fall ball, scrimmages and facilities;
-   - spring visits feature a home series, where Ballpark Atmosphere and the weekend's results matter.
+4. **Resolved (owner 2026-10-08): fall visits in fall ball, spring visits on home series** (Section 5).
 5. **Resolved: roster cuts.** The 34-man roster is due the day before the first counted contest or December 1, whichever is earlier. Fall rosters can be larger, and cuts happen in late fall rather than August. The limit binds only at opted-in schools, so non-opt-in programs in the simulated world need their own roster model (Phase 8).
-6. **NIL in offers versus "NIL collective: not directly spendable".** An offer that names NIL dollars is a promise the school cannot make directly. Under the NIL clearinghouse rules a deal needs a valid business purpose. Proposal:
-   - the NIL part of an offer is a collective commitment, drawn from the collective's capacity, which the school influences but does not control;
-   - it can fall through (a renewal risk) and is not counted in the school's cap.
-7. **Proximity as a priority.** The 2025 rosters (Section 2) suggest Proximity matters more than the owner's top five: about 45% in-state and 73% in-region in every tier. They also show "blue bloods recruit nationally" weakly or not at all at the state level. Calibrate before fixing the weights; distances need school coordinates.
-8. **Coach skill-tree boosts against calibration.**
+6. **Resolved (owner 2026-10-08): NIL in an offer is a collective commitment that can fall through** (Section 6).
+7. **Resolved (owner 2026-10-08): priorities follow the data.** Playing Time and Proximity are strongest; Money is weak overall and stronger for draft-level recruits; regional pipelines are central. Real distances (IPEDS) show P4 reaching modestly further (Section 2).
+8. **Resolved (owner 2026-10-08): coach skill-tree boosts are bounded and centred.** The original concern, kept for the build:
    - Development boosts and pitch effectiveness from XP must be bounded and centred: if every coach levels up, league-wide development cannot drift upward year over year. The engine rule against silent drift applies (CLAUDE.md, drift check).
    - AI coaches carry the same tree, so the effects are a distribution across programs, not a bonus for the user.
 9. **Makeup, the relationship, pitch effectiveness, the hard-sell backfire, service biases and scout blind spots** have no data (grade D). They are GUESS by construction. They should be tuned only against the observable gates they move (decommit rates, portal rates, commit timing), never by feel.
-10. **D2 and JUCO "fully simulated, stats real and scoutable".**
-    - The repository has no D2 or JUCO play-by-play or box scores. The on-field model for those levels would be the D1 engine on a lower talent scale, which is a GUESS until D2/JUCO data is found.
-    - The quick-sim must be validated against the full engine at those levels, as planned.
+10. **D2 and JUCO on-field data.** D2 has scores (data.ncaa.com, B) for a joint strength fit; JUCO has no usable source (D), so it is placed from roster origins and documented guesses (Section 7). Both levels' league rates are D1 engine rates at their talent level, a GUESS until box scores or season stats are available.
 11. **Real MLB team names.** Fine for a personal-use project, as the owner states. It must stay names only, with no logos or official artwork, and no other real people (the game never uses real players).
 12. **Resolved: calendar labels.** Confirmed, with the two holiday periods as Recruiting Shutdown. Each year's calendar is generated from the bylaw formulas and checked against the official PDF, stored as data, not hard-coded.
-13. **The MLB draft may change in 2027.** The labor agreement expires December 1, 2026. MLB has proposed a 12-round draft with no high school or JUCO players. If adopted, the high school draft decision, JUCO draft eligibility and much of the draft-day drama would change. The spec should treat draft rules as data (rounds, eligible pools, slot tables) and follow whatever the new agreement says.
+13. **Resolved (owner 2026-10-08): draft rules are a selectable ruleset** ("current" default, "proposed" option), updated when the new labor agreement is signed (Section 8).
 14. **Eligibility is now an age-based five-year clock** (from 8/1/26): no seasons cap, no redshirt, no waivers, with JUCO time counting. That replaces class-year bookkeeping in Phase 8. "Some return for a senior year" becomes a question of how many years are left on the player's clock.
-15. **Revenue sharing has no per-sport rule.** A school's baseball share is its own choice out of an athletics-wide cap (about $21.6M in 2026-27). The game's revenue-share pool for baseball is an allocation decision by the athletic department, a GUESS by program type (Section 12.2: no public per-sport figures).
+15. **Resolved (owner 2026-10-08): revenue share is a school-specific baseball allocation, scaled by EADA baseball budgets, graded GUESS** (Section 6).
 16. **"No AI tampering" holds by rule.** Signing locks out other schools' contact, and the portal has fixed windows.
+17. **www.ncaa.com disallows AI agents in its robots.txt** (found 2026-10-08). The project fetched its RPI page on 2026-10-05 (`data/README.md`). Nothing more is fetched from www.ncaa.com; data.ncaa.com (no robots file) is unaffected. The owner decides whether the committed copy stays.
 

@@ -404,3 +404,14 @@ Used for the limits on in-game calls (`config/decisions.py`): coach trips to the
   WarrenNolan calls conference-tournament games at a participant's park and
   some alternate-site "home" games neutral where the NCAA counts home/road.
   Non-D1 records differ for 11 schools (WarrenNolan omits some non-D1 games).
+
+## data/ipeds/, data/census/ and the school locations (Phase 9 spec, owner approval 2026-10-08)
+
+- `ipeds/HD2024.zip`: the IPEDS institutional directory, 2024 (U.S. Department of Education, NCES; public domain). Fetched 2026-10-08 from https://nces.ed.gov/ipeds/datacenter/data/HD2024.zip; robots.txt allows the path.
+- `census/CenPop2020_Mean_ST.txt`: Census 2020 state centres of population (U.S. Census Bureau; public domain). Fetched 2026-10-08 from https://www2.census.gov/geo/docs/reference/cenpop2020/CenPop2020_Mean_ST.txt.
+- `ncaa_2025/school_locations_2025.csv` (`scripts/build_school_locations.py`): IPEDS unit id, institution, city, state and coordinates for the 307 D1 baseball programs.
+  - 230 matched by name and 77 by explicit override.
+  - Each match was checked against the school's most common roster hometown state; the 51 schools whose rosters lean elsewhere were each checked by hand.
+- `reports/proximity_2025.md` (`scripts/proximity_by_tier.py`): roster geography by tier, for the Phase 9 spec.
+- **Note (2026-10-08):** www.ncaa.com's robots.txt now disallows AI agents (ClaudeBot and others). Nothing more is fetched from www.ncaa.com. data.ncaa.com has no robots file and is unaffected.
+
