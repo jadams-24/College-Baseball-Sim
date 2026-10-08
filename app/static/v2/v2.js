@@ -151,10 +151,12 @@
       ${chips(p)}</div>` : `<div class="body empty">${t.phase === "pregame" ? "The starters are named when the game starts" : "No pitcher yet"}</div>`);
   }
 
-  // ---- 3. field: runners as markers (tap or hover: name, Speed, the ratings that matter on the bases), the
-  //      fielders' positions faintly, the batter at the plate ----
+  // ---- 3. field: an original vector diamond (mown stripes, dirt infield arc, warning track), fielders as small
+  //      position badges with names, runners lit on the bases (tap or hover for ratings). The batter is in the
+  //      banner, not on the grass. ----
   const BASES = { 1: [250, 160], 2: [160, 70], 3: [70, 160] };
-  const FIELDERS = [["P", 160, 150], ["C", 132, 266], ["1B", 240, 125], ["2B", 190, 85], ["SS", 125, 85], ["3B", 78, 125], ["LF", 60, 40], ["CF", 160, 18], ["RF", 260, 40]];
+  const TAG_AT = { 1: (x, y) => [x, y + 27, "middle"], 2: (x, y) => [x + 17, y + 4, "start"], 3: (x, y) => [x, y + 27, "middle"] };
+  const FIELDERS = [["P", 160, 168], ["C", 160, 280], ["1B", 236, 128], ["2B", 198, 98], ["SS", 122, 98], ["3B", 84, 128], ["LF", 68, 52], ["CF", 160, 26], ["RF", 252, 52]];
   function renderField(t) {
     const st = t.state, bside = st.batting_side, fside = bside === "home" ? "away" : "home";
     const byPid = {};
@@ -165,35 +167,44 @@
       const p = byPid[b.pid] || { ratings: {} };
       const r = p.ratings || {};
       return `<g class="runner" tabindex="0" data-name="${esc(b.name)}" data-pos="${p.pos || ""}" data-spd="${r.speed ?? "–"}" data-con="${r.contact ?? "–"}" data-pow="${r.power ?? "–"}" data-line="${esc(p.line_text || "0-0")}">
-        <circle cx="${x}" cy="${y}" r="13"/><text x="${x}" y="${y + 4}">${i + 1}</text><text class="tag" x="${x}" y="${y - 20}">${esc(b.name)}</text></g>`;
+        <circle cx="${x}" cy="${y}" r="12"/><text x="${x}" y="${y + 4}">${i + 1}</text>${((tag) => `<text class="tag" x="${tag[0]}" y="${tag[1]}" text-anchor="${tag[2]}">${esc(b.name)}</text>`)(TAG_AT[i + 1](x, y))}</g>`;
     };
-    // the fielders by position, from the fielding side's lineup (the DH does not field; the pitcher is the one on the mound)
     const lu = st.lineups[fside] || [];
     const who = Object.fromEntries(lu.filter((p) => p.pos !== "DH").map((p) => [p.pos, p]));
     if (st.pitcher) who.P = st.pitcher;
-    const fielder = ([n, x, y]) => `<g class="fielder"><text class="pos" x="${x}" y="${y}" text-anchor="middle">${n}</text>${who[n] ? `<text class="fname" x="${x}" y="${y + 11}" text-anchor="middle">${esc(who[n].name)}</text>` : ""}</g>`;
+    const fielder = ([n, x, y]) => `<g class="fielder"><rect x="${x - 13}" y="${y - 8}" width="26" height="14" rx="2"/><text class="pos" x="${x}" y="${y + 3}" text-anchor="middle">${n}</text>${who[n] ? `<text class="fname" x="${x}" y="${y + 17}" text-anchor="middle">${esc(who[n].name)}</text>` : ""}</g>`;
     const on = st.bases.some(Boolean);
     $("#field").innerHTML = `<div class="hdr">Field <span class="sub">${t.phase === "pregame" ? "" : on ? "tap a runner for his ratings" : ""}</span></div>
-      <svg class="diamond" viewBox="0 0 320 290" aria-label="diamond">
-        <rect class="turf" x="0" y="0" width="320" height="290" rx="14"/>
-        <path class="turf2" d="M160 250 L0 90 Q160 -70 320 90 Z"/>
-        <polygon class="path" points="160,250 70,160 160,70 250,160"/>
-        <circle class="path" cx="160" cy="150" r="14"/>
+      <svg class="diamond" viewBox="0 0 320 300" aria-label="diamond">
+        <defs>
+          <clipPath id="fan"><path d="M160 262 L4 106 Q160 -70 316 106 Z"/></clipPath>
+        </defs>
+        <rect class="turf" x="0" y="0" width="320" height="300"/>
+        <g clip-path="url(#fan)">
+          <rect class="turf" x="0" y="0" width="320" height="300"/>
+          ${[0, 1, 2, 3, 4, 5, 6].map((i) => `<rect class="stripe" x="0" y="${i * 40}" width="320" height="20"/>`).join("")}
+          <path class="track" d="M4 106 Q160 -70 316 106 L306 114 Q160 -50 14 114 Z"/>
+          <path class="fence" d="M4 106 Q160 -70 316 106" fill="none"/>
+          <circle class="dirt" cx="160" cy="166" r="104"/>
+          <polygon class="turf-in" points="160,228 228,160 160,92 92,160"/>
+          <circle class="dirt" cx="160" cy="166" r="12"/>
+          <circle class="dirt" cx="160" cy="252" r="20"/>
+        </g>
+        <line class="foul" x1="160" y1="252" x2="4" y2="106"/><line class="foul" x1="160" y1="252" x2="316" y2="106"/>
+        <rect class="base" x="243" y="153" width="14" height="14" transform="rotate(45 250 160)"/>
+        <rect class="base" x="153" y="63" width="14" height="14" transform="rotate(45 160 70)"/>
+        <rect class="base" x="63" y="153" width="14" height="14" transform="rotate(45 70 160)"/>
+        <polygon class="base" points="153,246 167,246 167,252 160,258 153,252"/>
+        <rect class="rubber" x="156" y="164" width="8" height="3"/>
         ${FIELDERS.map(fielder).join("")}
-        <rect class="base" x="241" y="151" width="18" height="18" transform="rotate(45 250 160)"/>
-        <rect class="base" x="151" y="61" width="18" height="18" transform="rotate(45 160 70)"/>
-        <rect class="base" x="61" y="151" width="18" height="18" transform="rotate(45 70 160)"/>
-        <polygon class="base" points="151,243 169,243 169,251 160,259 151,251"/>
-        ${st.batter && st.count ? `<g class="atbat"><circle cx="184" cy="268" r="5"/><text x="194" y="272">${esc(st.batter.name)}</text></g>` : ""}
         ${st.bases.map((b, i) => runner(i, b)).join("")}
-      </svg>
-`;
+      </svg>`;
     const due = st.due_up.map((n) => esc(n));
     $("#ondeck").innerHTML = `<span class="k">On deck</span><b>${due[0] || "—"}</b><span class="k">In the hole</span><b>${due[1] || "—"}</b>`;
     const tip = $("#tip");
     const show = (g) => {
       const d = g.dataset;
-      tip.innerHTML = `<b>${d.name}</b> ${d.pos}<br>Speed <b>${d.spd}</b> · Con ${d.con} · Pow ${d.pow}<br>Today ${d.line}`;
+      tip.innerHTML = `<b>${d.name}</b> ${d.pos}<br>${badge("speed", +d.spd)} ${badge("contact", +d.con)} ${badge("power", +d.pow)}<br>Today ${d.line}`;
       tip.classList.remove("hidden");
       const r = g.getBoundingClientRect();
       tip.style.left = Math.max(8, Math.min(window.innerWidth - 270, r.left - 60)) + "px"; tip.style.top = (r.bottom + 6) + "px";
