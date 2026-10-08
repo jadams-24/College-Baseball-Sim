@@ -4,7 +4,15 @@ name: fetch rosters
 # Fetches the 2025 baseball rosters (bats/throws, hometown, high school, previous school) for the
 # teams in tools/roster_teams.csv with tools/fetch_rosters.py: robots.txt obeyed, at least 3 s
 # between requests to a site, one request at a time. Sites behind bot protection are logged and
-# skipped, never worked around. The result goes to a new branch with a pull request.
+# skipped, never worked around.
+#
+# Owner decision 2026-10-07: rosters are used only for aggregate distributions. The raw fetch
+# (rosters_2025.csv with player names, raw/ pages, state.json, the log) lives in $RUNNER_TEMP for
+# this job only: it is never committed, never uploaded as an artifact and never cached.
+# tools/aggregate_rosters.py turns it into count and share tables (it fails if a roster name
+# reaches any output), and only data/ncaa_2025/roster_aggregates/ (with failures.csv: team and
+# reason, no player data) is committed, to the branch the workflow was run on. No pull request is
+# opened.
 
 on:
   workflow_dispatch:
@@ -16,14 +24,14 @@ on:
 
 permissions:
   contents: write
-  pull-requests: write
 
 jobs:
   fetch:
     runs-on: ubuntu-latest
-    timeout-minutes: 180
+    timeout-minutes: 345
     env:
       DELAY: ${{ inputs.delay }}
+      AGG: data/ncaa_2025/roster_aggregates
     steps:
       - uses: actions/checkout@v4
 
@@ -32,53 +40,99 @@ jobs:
           python-version: "3.11"
           cache: pip
 
-      - name: Install requests
-        run: pip install "$(grep '^requests==' requirements.txt)"
+      - name: Install requirements
+        run: pip install -r requirements.txt
 
-      - name: Parser self-test
-        run: python tools/fetch_rosters.py --selftest
+      - name: Working directory for the raw fetch (outside the repository)
+        run: echo "WORK=$RUNNER_TEMP/rosters" >> "$GITHUB_ENV"
+
+      - name: Self-tests (fetcher parsers; aggregation and name-leak check on synthetic rosters)
+        run: |
+          python tools/fetch_rosters.py --selftest
+          python tools/aggregate_rosters.py --selftest
 
       - name: Probe 5 roster pages (Sidearm, WMT, Presto)
-        run: |
-          python tools/fetch_rosters.py --probe 5 --delay "$DELAY"
-          cat data/ncaa_2025/rosters/probe.md >> "$GITHUB_STEP_SUMMARY"
-
-      - name: Fetch all rosters
-        # Stops itself 10 minutes before the job limit so the partial result is still committed;
-        # the fetcher saves progress after every team and a later run resumes from it.
+        timeout-minutes: 10
         continue-on-error: true
         run: |
-          timeout --signal=INT 165m python tools/fetch_rosters.py --delay "$DELAY"
-
-      - name: Summarize
-        if: always()
-        run: |
+          python tools/fetch_rosters.py --probe 5 --delay "$DELAY" --out "$WORK"
           python - <<'EOF' >> "$GITHUB_STEP_SUMMARY"
-          import csv, json, pathlib
-          d = pathlib.Path("data/ncaa_2025/rosters")
-          st = json.loads((d / "state.json").read_text()) if (d / "state.json").exists() else {"done": {}, "failed": {}}
-          n = sum(1 for _ in csv.DictReader(open(d / "rosters_2025.csv"))) if (d / "rosters_2025.csv").exists() else 0
-          print(f"\n## Fetch\n\n{len(st['done'])} teams parsed ({n} players), {len(st['failed'])} failed.\n")
-          blocked = {k: v for k, v in st["failed"].items() if "bot challenge" in v["reason"] or "HTTP 403" in v["reason"]}
-          print(f"Blocked by bot protection or HTTP 403: {len(blocked)} teams (logged in failures.csv, skipped).")
+          import collections, json, os, pathlib
+          p = pathlib.Path(os.environ["WORK"]) / "probe.json"
+          res = json.loads(p.read_text()) if p.exists() else []
+          c = collections.Counter((r["platform"], r["status"].split(":")[0]) for r in res)
+          print("## Probe\n\n| Platform | Status | Teams |\n|---|---|---|")
+          for (plat, st), n in sorted(c.items()):
+              print(f"| {plat} | {st} | {n} |")
           EOF
 
-      - name: Commit to a new branch and open a pull request
-        if: always()
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - name: Fetch all rosters
+        # Stops itself well before the job limit so the partial result is still aggregated and
+        # committed (coverage.csv then counts the teams not attempted). The fetcher saves its
+        # progress (state.json) after every team and resumes from it within this job's working
+        # directory; nothing raw survives the job, so a later run fetches everything again.
+        continue-on-error: true
         run: |
-          d=data/ncaa_2025/rosters
-          if [ ! -d "$d" ]; then echo "nothing fetched"; exit 1; fi
-          branch="rosters/fetch-$(date -u +%Y-%m-%d)-${{ github.run_id }}"
+          timeout --signal=INT 300m python tools/fetch_rosters.py --delay "$DELAY" --out "$WORK"
+
+      - name: Aggregate (counts and shares only; fails if a roster name reaches an output)
+        id: aggregate
+        if: always()
+        run: |
+          if [ ! -f "$WORK/state.json" ]; then echo "nothing fetched"; exit 1; fi
+          python tools/aggregate_rosters.py --in "$WORK" --out "$AGG"
+          # the probe's result per team (platform, status, reason; no URLs, no player data)
+          python - <<'EOF'
+          import csv, json, os, pathlib
+          p = pathlib.Path(os.environ["WORK"]) / "probe.json"
+          res = json.loads(p.read_text()) if p.exists() else []
+          with open(pathlib.Path(os.environ["AGG"]) / "probe.csv", "w", newline="") as fh:
+              w = csv.writer(fh)
+              w.writerow(["team_ncaa_id", "team", "domain", "platform", "status", "reason"])
+              for r in res:
+                  w.writerow([r["team_ncaa_id"], r["team"], r["domain"], r["platform"], r["status"], r["detail"][:300]])
+          EOF
+
+      - name: Summarize coverage (counts only, no names)
+        if: always() && steps.aggregate.outcome == 'success'
+        run: |
+          python - <<'EOF' >> "$GITHUB_STEP_SUMMARY"
+          import os
+          import pandas as pd
+          c = pd.read_csv(os.path.join(os.environ["AGG"], "coverage.csv"), keep_default_na=False)
+          t = c.pivot_table(index="metric", columns="scope_value", values="value", aggfunc="first", sort=False).fillna("")
+          print("\n## Coverage\n")
+          print("| metric | " + " | ".join(t.columns) + " |")
+          print("|---|" + "---|" * len(t.columns))
+          for m, row in t.iterrows():
+              print(f"| {m} | " + " | ".join(str(v) for v in row) + " |")
+          EOF
+
+      - name: Commit the aggregates to the branch the workflow was run on (no pull request)
+        if: always() && steps.aggregate.outcome == 'success'
+        run: |
+          set -euo pipefail
+          branch="${GITHUB_REF_NAME}"
+          stage="$RUNNER_TEMP/stage"
+          rm -rf "$stage" && mkdir -p "$stage"
+          cp -r "$AGG" "$stage/roster_aggregates"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git checkout -b "$branch"
-          git add "$d"
-          git commit -m "Rosters 2025: fetched $(date -u +%Y-%m-%d) by the fetch rosters workflow (run ${{ github.run_id }})"
-          git push -u origin "$branch"
-          body="Fetched $(date -u +%Y-%m-%d) by [workflow run ${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) with \`tools/fetch_rosters.py\` (robots.txt obeyed, delay $DELAY s). Probe, counts and blocked sites: see the run summary, \`$d/probe.md\` and \`$d/failures.csv\`."
-          if ! gh pr create --base main --head "$branch" --title "Rosters 2025 (bats/throws, origins): fetch of $(date -u +%Y-%m-%d)" --body "$body"; then
-            echo "Could not open the pull request (Settings -> Actions -> General -> 'Allow GitHub Actions to create and approve pull requests' may be off). The branch is pushed: ${{ github.server_url }}/${{ github.repository }}/compare/main...$branch" | tee -a "$GITHUB_STEP_SUMMARY"
-            exit 1
-          fi
+          for attempt in 1 2 3 4; do
+            git reset --hard -q
+            git clean -fdq
+            git fetch --no-tags origin "+refs/heads/$branch:refs/remotes/origin/$branch"
+            git checkout -q -B "$branch" "origin/$branch"
+            rm -rf "$AGG" && mkdir -p "$(dirname "$AGG")"
+            cp -r "$stage/roster_aggregates" "$AGG"
+            git add -- "$AGG"
+            git diff --cached --quiet && { echo "no change"; exit 0; }
+            git commit -q -m "Roster aggregates 2025: fetch of $(date -u +%Y-%m-%d) by the fetch rosters workflow (run ${{ github.run_id }}); counts and shares only, no player rows or names (owner decision 2026-10-07)"
+            if git push origin "HEAD:$branch"; then
+              git log -1 --stat --format="%H %s"
+              echo "Committed the aggregates to \`$branch\`: ${{ github.server_url }}/${{ github.repository }}/tree/$branch/$AGG" >> "$GITHUB_STEP_SUMMARY"
+              exit 0
+            fi
+            sleep $((attempt * 15))
+          done
+          exit 1

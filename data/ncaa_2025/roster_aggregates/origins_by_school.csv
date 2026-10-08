@@ -1,0 +1,2229 @@
+team_ncaa_id,team,conference,tier,class,origin,count
+596417,St. Thomas (MN),Summit League,low,Fr,high_school_only,9
+596417,St. Thomas (MN),Summit League,low,Gr,d1_transfer,2
+596417,St. Thomas (MN),Summit League,low,Gr,high_school_only,1
+596417,St. Thomas (MN),Summit League,low,Jr,d1_transfer,2
+596417,St. Thomas (MN),Summit League,low,Jr,high_school_only,5
+596417,St. Thomas (MN),Summit League,low,So,high_school_only,11
+596417,St. Thomas (MN),Summit League,low,Sr,high_school_only,8
+596417,St. Thomas (MN),Summit League,low,Sr,juco,1
+596417,St. Thomas (MN),Summit League,low,Sr,other_four_year,1
+596418,Utah Tech,WAC,mid,Fr,high_school_only,11
+596418,Utah Tech,WAC,mid,Jr,d1_transfer,5
+596418,Utah Tech,WAC,mid,Jr,high_school_only,4
+596418,Utah Tech,WAC,mid,Jr,juco,8
+596418,Utah Tech,WAC,mid,Jr,other_four_year,1
+596418,Utah Tech,WAC,mid,So,d1_transfer,1
+596418,Utah Tech,WAC,mid,So,high_school_only,4
+596418,Utah Tech,WAC,mid,Sr,d1_transfer,2
+596418,Utah Tech,WAC,mid,Sr,high_school_only,2
+596418,Utah Tech,WAC,mid,Sr,other_four_year,2
+596419,Akron,MAC,mid,Fr,unknown,10
+596419,Akron,MAC,mid,Gr,unknown,3
+596419,Akron,MAC,mid,Jr,unknown,5
+596419,Akron,MAC,mid,So,unknown,9
+596419,Akron,MAC,mid,Sr,unknown,8
+596420,Texas A&M,SEC,p4,Fr,high_school_only,15
+596420,Texas A&M,SEC,p4,Gr,d1_transfer,3
+596420,Texas A&M,SEC,p4,Jr,d1_transfer,6
+596420,Texas A&M,SEC,p4,Jr,high_school_only,5
+596420,Texas A&M,SEC,p4,Jr,juco,1
+596420,Texas A&M,SEC,p4,So,d1_transfer,1
+596420,Texas A&M,SEC,p4,So,high_school_only,7
+596420,Texas A&M,SEC,p4,So,juco,1
+596420,Texas A&M,SEC,p4,Sr,d1_transfer,3
+596420,Texas A&M,SEC,p4,Sr,high_school_only,1
+596421,TCU,Big 12,p4,Fr,d1_transfer,2
+596421,TCU,Big 12,p4,Fr,high_school_only,14
+596421,TCU,Big 12,p4,Jr,high_school_only,9
+596421,TCU,Big 12,p4,Jr,juco,2
+596421,TCU,Big 12,p4,Jr,other_four_year,1
+596421,TCU,Big 12,p4,So,d1_transfer,5
+596421,TCU,Big 12,p4,So,high_school_only,4
+596421,TCU,Big 12,p4,So,other_four_year,1
+596421,TCU,Big 12,p4,Sr,d1_transfer,2
+596421,TCU,Big 12,p4,Sr,high_school_only,1
+596422,Texas Southern,SWAC,low,Fr,high_school_only,9
+596422,Texas Southern,SWAC,low,Gr,d1_transfer,1
+596422,Texas Southern,SWAC,low,Gr,other_four_year,3
+596422,Texas Southern,SWAC,low,Jr,d1_transfer,2
+596422,Texas Southern,SWAC,low,Jr,juco,14
+596422,Texas Southern,SWAC,low,Jr,other_four_year,2
+596422,Texas Southern,SWAC,low,So,juco,1
+596422,Texas Southern,SWAC,low,So,other_four_year,1
+596422,Texas Southern,SWAC,low,Sr,d1_transfer,1
+596422,Texas Southern,SWAC,low,Sr,juco,4
+596422,Texas Southern,SWAC,low,Sr,other_four_year,2
+596423,Texas Tech,Big 12,p4,Fr,high_school_only,10
+596423,Texas Tech,Big 12,p4,Jr,d1_transfer,1
+596423,Texas Tech,Big 12,p4,Jr,high_school_only,6
+596423,Texas Tech,Big 12,p4,Jr,juco,7
+596423,Texas Tech,Big 12,p4,So,d1_transfer,3
+596423,Texas Tech,Big 12,p4,So,high_school_only,5
+596423,Texas Tech,Big 12,p4,So,juco,2
+596423,Texas Tech,Big 12,p4,Sr,d1_transfer,2
+596423,Texas Tech,Big 12,p4,Sr,high_school_only,1
+596423,Texas Tech,Big 12,p4,Sr,juco,2
+596423,Texas Tech,Big 12,p4,Sr,other_four_year,1
+596425,Texas,SEC,p4,Fr,high_school_only,12
+596425,Texas,SEC,p4,Gr,d1_transfer,1
+596425,Texas,SEC,p4,Jr,d1_transfer,5
+596425,Texas,SEC,p4,Jr,high_school_only,6
+596425,Texas,SEC,p4,So,d1_transfer,3
+596425,Texas,SEC,p4,So,high_school_only,6
+596425,Texas,SEC,p4,So,juco,3
+596425,Texas,SEC,p4,Sr,d1_transfer,2
+596425,Texas,SEC,p4,Sr,high_school_only,2
+596427,Toledo,MAC,mid,Fr,d1_transfer,1
+596427,Toledo,MAC,mid,Fr,high_school_only,8
+596427,Toledo,MAC,mid,Jr,d1_transfer,1
+596427,Toledo,MAC,mid,Jr,high_school_only,3
+596427,Toledo,MAC,mid,Jr,juco,2
+596427,Toledo,MAC,mid,Jr,other_four_year,1
+596427,Toledo,MAC,mid,So,d1_transfer,1
+596427,Toledo,MAC,mid,So,high_school_only,8
+596427,Toledo,MAC,mid,So,other_four_year,1
+596427,Toledo,MAC,mid,Sr,d1_transfer,7
+596427,Toledo,MAC,mid,Sr,high_school_only,4
+596427,Toledo,MAC,mid,Sr,juco,1
+596428,Towson,CAA,mid,Fr,d1_transfer,1
+596428,Towson,CAA,mid,Fr,high_school_only,7
+596428,Towson,CAA,mid,Jr,d1_transfer,1
+596428,Towson,CAA,mid,Jr,high_school_only,6
+596428,Towson,CAA,mid,Jr,juco,4
+596428,Towson,CAA,mid,Jr,other_four_year,3
+596428,Towson,CAA,mid,So,d1_transfer,2
+596428,Towson,CAA,mid,So,high_school_only,3
+596428,Towson,CAA,mid,So,juco,1
+596428,Towson,CAA,mid,Sr,d1_transfer,6
+596428,Towson,CAA,mid,Sr,high_school_only,2
+596428,Towson,CAA,mid,Sr,juco,1
+596429,Troy,Sun Belt,mid,Fr,high_school_only,8
+596429,Troy,Sun Belt,mid,Gr,other_four_year,1
+596429,Troy,Sun Belt,mid,Jr,d1_transfer,3
+596429,Troy,Sun Belt,mid,Jr,high_school_only,1
+596429,Troy,Sun Belt,mid,Jr,juco,5
+596429,Troy,Sun Belt,mid,So,high_school_only,5
+596429,Troy,Sun Belt,mid,So,juco,3
+596429,Troy,Sun Belt,mid,Sr,d1_transfer,6
+596429,Troy,Sun Belt,mid,Sr,high_school_only,2
+596429,Troy,Sun Belt,mid,Sr,juco,9
+596429,Troy,Sun Belt,mid,Sr,other_four_year,1
+596430,Air Force,Mountain West,mid,Fr,unknown,13
+596430,Air Force,Mountain West,mid,Jr,unknown,5
+596430,Air Force,Mountain West,mid,So,unknown,12
+596430,Air Force,Mountain West,mid,Sr,unknown,6
+596431,Navy,Patriot,low,Fr,high_school_only,13
+596431,Navy,Patriot,low,Jr,d1_transfer,1
+596431,Navy,Patriot,low,Jr,high_school_only,7
+596431,Navy,Patriot,low,So,high_school_only,13
+596431,Navy,Patriot,low,Sr,high_school_only,5
+596432,Utah,Big 12,p4,Fr,d1_transfer,1
+596432,Utah,Big 12,p4,Fr,high_school_only,13
+596432,Utah,Big 12,p4,Gr,d1_transfer,1
+596432,Utah,Big 12,p4,Gr,other_four_year,2
+596432,Utah,Big 12,p4,Jr,d1_transfer,1
+596432,Utah,Big 12,p4,Jr,high_school_only,3
+596432,Utah,Big 12,p4,Jr,juco,6
+596432,Utah,Big 12,p4,So,high_school_only,6
+596432,Utah,Big 12,p4,So,juco,1
+596432,Utah,Big 12,p4,Sr,d1_transfer,1
+596432,Utah,Big 12,p4,Sr,high_school_only,1
+596432,Utah,Big 12,p4,Sr,juco,2
+596432,Utah,Big 12,p4,Sr,other_four_year,1
+596433,Valparaiso,MVC,mid,Fr,unknown,11
+596433,Valparaiso,MVC,mid,Gr,unknown,6
+596433,Valparaiso,MVC,mid,Jr,unknown,10
+596433,Valparaiso,MVC,mid,So,unknown,7
+596433,Valparaiso,MVC,mid,Sr,unknown,2
+596435,Villanova,Big East,mid,Fr,high_school_only,13
+596435,Villanova,Big East,mid,Gr,d1_transfer,4
+596435,Villanova,Big East,mid,Gr,other_four_year,1
+596435,Villanova,Big East,mid,Jr,d1_transfer,1
+596435,Villanova,Big East,mid,Jr,high_school_only,5
+596435,Villanova,Big East,mid,So,high_school_only,7
+596435,Villanova,Big East,mid,Sr,high_school_only,4
+596436,VCU,Atlantic 10,mid,unknown,d1_transfer,11
+596436,VCU,Atlantic 10,mid,unknown,high_school_only,18
+596436,VCU,Atlantic 10,mid,unknown,juco,7
+596436,VCU,Atlantic 10,mid,unknown,other_four_year,5
+596437,VMI,SoCon,mid,Fr,high_school_only,12
+596437,VMI,SoCon,mid,Jr,high_school_only,9
+596437,VMI,SoCon,mid,So,d1_transfer,1
+596437,VMI,SoCon,mid,So,high_school_only,4
+596437,VMI,SoCon,mid,So,other_four_year,1
+596437,VMI,SoCon,mid,Sr,high_school_only,6
+596438,Virginia Tech,ACC,p4,Fr,high_school_only,16
+596438,Virginia Tech,ACC,p4,Gr,d1_transfer,2
+596438,Virginia Tech,ACC,p4,Gr,other_four_year,2
+596438,Virginia Tech,ACC,p4,Jr,d1_transfer,3
+596438,Virginia Tech,ACC,p4,Jr,high_school_only,6
+596438,Virginia Tech,ACC,p4,Jr,juco,2
+596438,Virginia Tech,ACC,p4,Jr,other_four_year,1
+596438,Virginia Tech,ACC,p4,So,high_school_only,8
+596438,Virginia Tech,ACC,p4,Sr,d1_transfer,2
+596438,Virginia Tech,ACC,p4,Sr,high_school_only,1
+596438,Virginia Tech,ACC,p4,Sr,other_four_year,1
+596441,Wake Forest,ACC,p4,Fr,unknown,13
+596441,Wake Forest,ACC,p4,Gr,unknown,2
+596441,Wake Forest,ACC,p4,Jr,unknown,12
+596441,Wake Forest,ACC,p4,So,unknown,6
+596441,Wake Forest,ACC,p4,Sr,unknown,1
+596442,Washington St.,Mountain West,mid,Fr,high_school_only,9
+596442,Washington St.,Mountain West,mid,Fr,juco,1
+596442,Washington St.,Mountain West,mid,Jr,d1_transfer,4
+596442,Washington St.,Mountain West,mid,Jr,high_school_only,3
+596442,Washington St.,Mountain West,mid,Jr,juco,11
+596442,Washington St.,Mountain West,mid,So,high_school_only,2
+596442,Washington St.,Mountain West,mid,So,juco,4
+596442,Washington St.,Mountain West,mid,Sr,d1_transfer,1
+596442,Washington St.,Mountain West,mid,Sr,high_school_only,1
+596442,Washington St.,Mountain West,mid,Sr,juco,2
+596443,Washington,Big Ten,p4,Fr,d1_transfer,2
+596443,Washington,Big Ten,p4,Fr,high_school_only,11
+596443,Washington,Big Ten,p4,Gr,d1_transfer,1
+596443,Washington,Big Ten,p4,Gr,other_four_year,1
+596443,Washington,Big Ten,p4,Jr,d1_transfer,3
+596443,Washington,Big Ten,p4,Jr,high_school_only,5
+596443,Washington,Big Ten,p4,So,d1_transfer,1
+596443,Washington,Big Ten,p4,So,high_school_only,7
+596443,Washington,Big Ten,p4,Sr,d1_transfer,4
+596443,Washington,Big Ten,p4,Sr,high_school_only,4
+596443,Washington,Big Ten,p4,Sr,juco,2
+596443,Washington,Big Ten,p4,Sr,other_four_year,1
+596444,West Virginia,Big 12,p4,Fr,high_school_only,14
+596444,West Virginia,Big 12,p4,Gr,d1_transfer,1
+596444,West Virginia,Big 12,p4,Jr,d1_transfer,2
+596444,West Virginia,Big 12,p4,Jr,high_school_only,10
+596444,West Virginia,Big 12,p4,Jr,other_four_year,1
+596444,West Virginia,Big 12,p4,So,high_school_only,6
+596444,West Virginia,Big 12,p4,Sr,d1_transfer,2
+596444,West Virginia,Big 12,p4,Sr,high_school_only,1
+596444,West Virginia,Big 12,p4,Sr,juco,1
+596444,West Virginia,Big 12,p4,Sr,other_four_year,1
+596445,Western Caro.,SoCon,mid,Fr,high_school_only,17
+596445,Western Caro.,SoCon,mid,Gr,other_four_year,1
+596445,Western Caro.,SoCon,mid,Jr,high_school_only,3
+596445,Western Caro.,SoCon,mid,Jr,juco,2
+596445,Western Caro.,SoCon,mid,Jr,other_four_year,4
+596445,Western Caro.,SoCon,mid,So,high_school_only,7
+596445,Western Caro.,SoCon,mid,So,juco,1
+596445,Western Caro.,SoCon,mid,Sr,d1_transfer,2
+596445,Western Caro.,SoCon,mid,Sr,high_school_only,1
+596445,Western Caro.,SoCon,mid,Sr,juco,2
+596445,Western Caro.,SoCon,mid,Sr,other_four_year,3
+596446,Western Ill.,OVC,low,Fr,high_school_only,1
+596446,Western Ill.,OVC,low,Jr,juco,2
+596446,Western Ill.,OVC,low,Sr,juco,2
+596448,Western Mich.,MAC,mid,Fr,high_school_only,7
+596448,Western Mich.,MAC,mid,Gr,other_four_year,2
+596448,Western Mich.,MAC,mid,Jr,d1_transfer,1
+596448,Western Mich.,MAC,mid,Jr,juco,2
+596448,Western Mich.,MAC,mid,Jr,other_four_year,8
+596448,Western Mich.,MAC,mid,So,high_school_only,1
+596448,Western Mich.,MAC,mid,So,other_four_year,4
+596448,Western Mich.,MAC,mid,Sr,d1_transfer,2
+596448,Western Mich.,MAC,mid,Sr,juco,2
+596448,Western Mich.,MAC,mid,Sr,other_four_year,3
+596449,Wichita St.,The American,mid,Fr,d1_transfer,1
+596449,Wichita St.,The American,mid,Fr,high_school_only,5
+596449,Wichita St.,The American,mid,Jr,high_school_only,2
+596449,Wichita St.,The American,mid,Jr,juco,9
+596449,Wichita St.,The American,mid,So,d1_transfer,1
+596449,Wichita St.,The American,mid,So,high_school_only,8
+596449,Wichita St.,The American,mid,So,juco,1
+596449,Wichita St.,The American,mid,Sr,d1_transfer,6
+596449,Wichita St.,The American,mid,Sr,high_school_only,1
+596449,Wichita St.,The American,mid,Sr,juco,7
+596450,William & Mary,CAA,mid,Fr,high_school_only,9
+596450,William & Mary,CAA,mid,Gr,d1_transfer,1
+596450,William & Mary,CAA,mid,Gr,other_four_year,6
+596450,William & Mary,CAA,mid,Jr,d1_transfer,1
+596450,William & Mary,CAA,mid,Jr,high_school_only,6
+596450,William & Mary,CAA,mid,Jr,other_four_year,2
+596450,William & Mary,CAA,mid,So,high_school_only,9
+596450,William & Mary,CAA,mid,Sr,d1_transfer,1
+596450,William & Mary,CAA,mid,Sr,high_school_only,3
+596450,William & Mary,CAA,mid,Sr,juco,1
+596451,Winthrop,Big South,mid,Fr,d1_transfer,1
+596451,Winthrop,Big South,mid,Fr,high_school_only,7
+596451,Winthrop,Big South,mid,Fr,juco,1
+596451,Winthrop,Big South,mid,Gr,d1_transfer,1
+596451,Winthrop,Big South,mid,Jr,high_school_only,1
+596451,Winthrop,Big South,mid,Jr,juco,6
+596451,Winthrop,Big South,mid,Jr,other_four_year,1
+596451,Winthrop,Big South,mid,So,d1_transfer,2
+596451,Winthrop,Big South,mid,So,high_school_only,6
+596451,Winthrop,Big South,mid,So,juco,1
+596451,Winthrop,Big South,mid,Sr,d1_transfer,4
+596451,Winthrop,Big South,mid,Sr,high_school_only,1
+596451,Winthrop,Big South,mid,Sr,other_four_year,2
+596452,Milwaukee,Horizon,low,Fr,high_school_only,8
+596452,Milwaukee,Horizon,low,Gr,other_four_year,2
+596452,Milwaukee,Horizon,low,Jr,d1_transfer,1
+596452,Milwaukee,Horizon,low,Jr,high_school_only,3
+596452,Milwaukee,Horizon,low,Jr,other_four_year,7
+596452,Milwaukee,Horizon,low,So,d1_transfer,2
+596452,Milwaukee,Horizon,low,So,high_school_only,4
+596452,Milwaukee,Horizon,low,So,other_four_year,1
+596452,Milwaukee,Horizon,low,Sr,d1_transfer,2
+596452,Milwaukee,Horizon,low,Sr,high_school_only,3
+596452,Milwaukee,Horizon,low,Sr,juco,3
+596452,Milwaukee,Horizon,low,Sr,other_four_year,2
+596454,Xavier,Big East,mid,Fr,high_school_only,13
+596454,Xavier,Big East,mid,Gr,high_school_only,2
+596454,Xavier,Big East,mid,Gr,other_four_year,2
+596454,Xavier,Big East,mid,Jr,d1_transfer,3
+596454,Xavier,Big East,mid,Jr,high_school_only,6
+596454,Xavier,Big East,mid,Jr,other_four_year,1
+596454,Xavier,Big East,mid,So,d1_transfer,2
+596454,Xavier,Big East,mid,So,high_school_only,8
+596454,Xavier,Big East,mid,Sr,d1_transfer,1
+596454,Xavier,Big East,mid,Sr,high_school_only,3
+596454,Xavier,Big East,mid,Sr,other_four_year,1
+596456,Youngstown St.,Horizon,low,Fr,high_school_only,9
+596456,Youngstown St.,Horizon,low,Jr,d1_transfer,4
+596456,Youngstown St.,Horizon,low,Jr,high_school_only,6
+596456,Youngstown St.,Horizon,low,Jr,juco,5
+596456,Youngstown St.,Horizon,low,So,d1_transfer,1
+596456,Youngstown St.,Horizon,low,So,high_school_only,5
+596456,Youngstown St.,Horizon,low,So,juco,1
+596456,Youngstown St.,Horizon,low,Sr,d1_transfer,5
+596456,Youngstown St.,Horizon,low,Sr,high_school_only,1
+596456,Youngstown St.,Horizon,low,Sr,juco,1
+596456,Youngstown St.,Horizon,low,Sr,other_four_year,2
+596457,Central Ark.,ASUN,mid,Fr,high_school_only,15
+596457,Central Ark.,ASUN,mid,Jr,high_school_only,4
+596457,Central Ark.,ASUN,mid,Jr,juco,9
+596457,Central Ark.,ASUN,mid,Jr,other_four_year,3
+596457,Central Ark.,ASUN,mid,So,high_school_only,2
+596457,Central Ark.,ASUN,mid,Sr,d1_transfer,1
+596457,Central Ark.,ASUN,mid,Sr,high_school_only,1
+596457,Central Ark.,ASUN,mid,Sr,juco,4
+596457,Central Ark.,ASUN,mid,Sr,other_four_year,2
+596460,Elon,CAA,mid,Fr,high_school_only,15
+596460,Elon,CAA,mid,Gr,d1_transfer,1
+596460,Elon,CAA,mid,Gr,high_school_only,1
+596460,Elon,CAA,mid,Jr,d1_transfer,3
+596460,Elon,CAA,mid,Jr,high_school_only,6
+596460,Elon,CAA,mid,Jr,juco,1
+596460,Elon,CAA,mid,Jr,other_four_year,3
+596460,Elon,CAA,mid,So,d1_transfer,2
+596460,Elon,CAA,mid,So,high_school_only,7
+596460,Elon,CAA,mid,Sr,d1_transfer,1
+596460,Elon,CAA,mid,Sr,high_school_only,1
+596461,Gardner-Webb,Big South,mid,Fr,high_school_only,7
+596461,Gardner-Webb,Big South,mid,Jr,d1_transfer,3
+596461,Gardner-Webb,Big South,mid,Jr,high_school_only,3
+596461,Gardner-Webb,Big South,mid,Jr,juco,6
+596461,Gardner-Webb,Big South,mid,Jr,other_four_year,2
+596461,Gardner-Webb,Big South,mid,So,d1_transfer,4
+596461,Gardner-Webb,Big South,mid,So,high_school_only,6
+596461,Gardner-Webb,Big South,mid,Sr,d1_transfer,6
+596461,Gardner-Webb,Big South,mid,Sr,high_school_only,2
+596461,Gardner-Webb,Big South,mid,Sr,juco,2
+596461,Gardner-Webb,Big South,mid,Sr,other_four_year,4
+596462,Grand Canyon,WAC,mid,Fr,high_school_only,8
+596462,Grand Canyon,WAC,mid,Gr,juco,1
+596462,Grand Canyon,WAC,mid,Jr,high_school_only,6
+596462,Grand Canyon,WAC,mid,Jr,juco,11
+596462,Grand Canyon,WAC,mid,Jr,other_four_year,2
+596462,Grand Canyon,WAC,mid,So,d1_transfer,2
+596462,Grand Canyon,WAC,mid,So,high_school_only,8
+596462,Grand Canyon,WAC,mid,So,juco,1
+596462,Grand Canyon,WAC,mid,Sr,d1_transfer,3
+596462,Grand Canyon,WAC,mid,Sr,high_school_only,1
+596462,Grand Canyon,WAC,mid,Sr,juco,1
+596463,Kennesaw St.,CUSA,mid,Fr,high_school_only,12
+596463,Kennesaw St.,CUSA,mid,Gr,high_school_only,1
+596463,Kennesaw St.,CUSA,mid,Jr,high_school_only,8
+596463,Kennesaw St.,CUSA,mid,So,d1_transfer,2
+596463,Kennesaw St.,CUSA,mid,So,high_school_only,9
+596463,Kennesaw St.,CUSA,mid,So,juco,1
+596463,Kennesaw St.,CUSA,mid,Sr,high_school_only,5
+596463,Kennesaw St.,CUSA,mid,Sr,juco,1
+596464,Presbyterian,Big South,mid,Fr,high_school_only,9
+596464,Presbyterian,Big South,mid,Gr,juco,1
+596464,Presbyterian,Big South,mid,Jr,d1_transfer,1
+596464,Presbyterian,Big South,mid,Jr,high_school_only,10
+596464,Presbyterian,Big South,mid,So,high_school_only,10
+596464,Presbyterian,Big South,mid,Sr,d1_transfer,1
+596464,Presbyterian,Big South,mid,Sr,high_school_only,3
+596464,Presbyterian,Big South,mid,Sr,juco,3
+596465,Seattle U,WAC,mid,Fr,high_school_only,8
+596465,Seattle U,WAC,mid,Jr,high_school_only,4
+596465,Seattle U,WAC,mid,Jr,other_four_year,4
+596465,Seattle U,WAC,mid,So,d1_transfer,1
+596465,Seattle U,WAC,mid,So,high_school_only,6
+596465,Seattle U,WAC,mid,So,juco,1
+596465,Seattle U,WAC,mid,So,other_four_year,1
+596465,Seattle U,WAC,mid,Sr,d1_transfer,1
+596465,Seattle U,WAC,mid,Sr,high_school_only,4
+596465,Seattle U,WAC,mid,Sr,juco,2
+596465,Seattle U,WAC,mid,Sr,other_four_year,1
+596467,North Florida,ASUN,mid,Fr,high_school_only,6
+596467,North Florida,ASUN,mid,Jr,d1_transfer,3
+596467,North Florida,ASUN,mid,Jr,high_school_only,4
+596467,North Florida,ASUN,mid,Jr,juco,5
+596467,North Florida,ASUN,mid,Jr,other_four_year,2
+596467,North Florida,ASUN,mid,So,d1_transfer,3
+596467,North Florida,ASUN,mid,So,high_school_only,5
+596467,North Florida,ASUN,mid,So,juco,1
+596467,North Florida,ASUN,mid,So,other_four_year,1
+596467,North Florida,ASUN,mid,Sr,d1_transfer,2
+596467,North Florida,ASUN,mid,Sr,high_school_only,3
+596467,North Florida,ASUN,mid,Sr,juco,4
+596467,North Florida,ASUN,mid,Sr,other_four_year,1
+596468,UIW,Southland,low,Jr,d1_transfer,1
+596468,UIW,Southland,low,Jr,juco,1
+596468,UIW,Southland,low,Sr,d1_transfer,2
+596468,UIW,Southland,low,Sr,high_school_only,1
+596468,UIW,Southland,low,Sr,juco,1
+596469,USC Upstate,Big South,mid,Fr,high_school_only,5
+596469,USC Upstate,Big South,mid,Jr,d1_transfer,2
+596469,USC Upstate,Big South,mid,Jr,high_school_only,2
+596469,USC Upstate,Big South,mid,Jr,juco,11
+596469,USC Upstate,Big South,mid,Jr,other_four_year,1
+596469,USC Upstate,Big South,mid,So,d1_transfer,1
+596469,USC Upstate,Big South,mid,So,high_school_only,6
+596469,USC Upstate,Big South,mid,So,juco,4
+596469,USC Upstate,Big South,mid,So,other_four_year,2
+596469,USC Upstate,Big South,mid,Sr,d1_transfer,1
+596469,USC Upstate,Big South,mid,Sr,juco,1
+596470,Belmont,MVC,mid,Fr,high_school_only,13
+596470,Belmont,MVC,mid,Gr,d1_transfer,1
+596470,Belmont,MVC,mid,Jr,d1_transfer,1
+596470,Belmont,MVC,mid,Jr,high_school_only,4
+596470,Belmont,MVC,mid,Jr,juco,4
+596470,Belmont,MVC,mid,Jr,other_four_year,1
+596470,Belmont,MVC,mid,So,high_school_only,7
+596470,Belmont,MVC,mid,So,juco,1
+596470,Belmont,MVC,mid,Sr,d1_transfer,1
+596470,Belmont,MVC,mid,Sr,high_school_only,3
+596470,Belmont,MVC,mid,Sr,juco,1
+596471,A&M-Corpus Christi,Southland,low,Fr,high_school_only,1
+596471,A&M-Corpus Christi,Southland,low,Jr,juco,2
+596471,A&M-Corpus Christi,Southland,low,So,d1_transfer,1
+596471,A&M-Corpus Christi,Southland,low,So,other_four_year,1
+596471,A&M-Corpus Christi,Southland,low,Sr,juco,1
+596472,Lipscomb,ASUN,mid,Fr,high_school_only,8
+596472,Lipscomb,ASUN,mid,Gr,d1_transfer,3
+596472,Lipscomb,ASUN,mid,Gr,juco,2
+596472,Lipscomb,ASUN,mid,Gr,other_four_year,3
+596472,Lipscomb,ASUN,mid,Jr,d1_transfer,1
+596472,Lipscomb,ASUN,mid,Jr,juco,9
+596472,Lipscomb,ASUN,mid,So,high_school_only,6
+596472,Lipscomb,ASUN,mid,So,other_four_year,1
+596472,Lipscomb,ASUN,mid,Sr,d1_transfer,3
+596472,Lipscomb,ASUN,mid,Sr,juco,2
+596472,Lipscomb,ASUN,mid,Sr,other_four_year,1
+596473,FGCU,ASUN,mid,Fr,high_school_only,12
+596473,FGCU,ASUN,mid,Gr,d1_transfer,1
+596473,FGCU,ASUN,mid,Gr,high_school_only,1
+596473,FGCU,ASUN,mid,Gr,other_four_year,2
+596473,FGCU,ASUN,mid,Jr,high_school_only,2
+596473,FGCU,ASUN,mid,Jr,juco,9
+596473,FGCU,ASUN,mid,Jr,other_four_year,3
+596473,FGCU,ASUN,mid,So,d1_transfer,3
+596473,FGCU,ASUN,mid,So,high_school_only,3
+596473,FGCU,ASUN,mid,Sr,d1_transfer,1
+596473,FGCU,ASUN,mid,Sr,high_school_only,1
+596473,FGCU,ASUN,mid,Sr,juco,1
+596474,Utah Valley,WAC,mid,Fr,high_school_only,7
+596474,Utah Valley,WAC,mid,Jr,d1_transfer,3
+596474,Utah Valley,WAC,mid,Jr,high_school_only,2
+596474,Utah Valley,WAC,mid,Jr,juco,9
+596474,Utah Valley,WAC,mid,Jr,other_four_year,3
+596474,Utah Valley,WAC,mid,So,high_school_only,2
+596474,Utah Valley,WAC,mid,So,juco,3
+596474,Utah Valley,WAC,mid,Sr,d1_transfer,4
+596474,Utah Valley,WAC,mid,Sr,juco,6
+596474,Utah Valley,WAC,mid,Sr,other_four_year,1
+596477,Abilene Christian,WAC,mid,Fr,high_school_only,8
+596477,Abilene Christian,WAC,mid,Gr,d1_transfer,2
+596477,Abilene Christian,WAC,mid,Gr,juco,1
+596477,Abilene Christian,WAC,mid,Jr,d1_transfer,3
+596477,Abilene Christian,WAC,mid,Jr,high_school_only,3
+596477,Abilene Christian,WAC,mid,Jr,juco,7
+596477,Abilene Christian,WAC,mid,Jr,other_four_year,2
+596477,Abilene Christian,WAC,mid,So,d1_transfer,1
+596477,Abilene Christian,WAC,mid,So,high_school_only,4
+596477,Abilene Christian,WAC,mid,So,juco,1
+596477,Abilene Christian,WAC,mid,Sr,d1_transfer,2
+596477,Abilene Christian,WAC,mid,Sr,high_school_only,1
+596477,Abilene Christian,WAC,mid,Sr,juco,5
+596479,Alabama St.,SWAC,low,Fr,high_school_only,12
+596479,Alabama St.,SWAC,low,Jr,d1_transfer,1
+596479,Alabama St.,SWAC,low,Jr,high_school_only,4
+596479,Alabama St.,SWAC,low,Jr,juco,7
+596479,Alabama St.,SWAC,low,Jr,other_four_year,2
+596479,Alabama St.,SWAC,low,So,high_school_only,8
+596479,Alabama St.,SWAC,low,So,other_four_year,2
+596479,Alabama St.,SWAC,low,Sr,d1_transfer,3
+596479,Alabama St.,SWAC,low,Sr,high_school_only,1
+596479,Alabama St.,SWAC,low,Sr,juco,2
+596479,Alabama St.,SWAC,low,Sr,other_four_year,1
+596480,Alabama,SEC,p4,Fr,high_school_only,13
+596480,Alabama,SEC,p4,Gr,d1_transfer,1
+596480,Alabama,SEC,p4,Jr,d1_transfer,3
+596480,Alabama,SEC,p4,Jr,high_school_only,2
+596480,Alabama,SEC,p4,Jr,juco,5
+596480,Alabama,SEC,p4,So,high_school_only,12
+596480,Alabama,SEC,p4,Sr,d1_transfer,8
+596480,Alabama,SEC,p4,Sr,high_school_only,2
+596480,Alabama,SEC,p4,Sr,juco,2
+596483,Alcorn,SWAC,low,Fr,high_school_only,8
+596483,Alcorn,SWAC,low,Gr,d1_transfer,1
+596483,Alcorn,SWAC,low,Gr,other_four_year,1
+596483,Alcorn,SWAC,low,Jr,high_school_only,2
+596483,Alcorn,SWAC,low,Jr,juco,7
+596483,Alcorn,SWAC,low,Jr,other_four_year,2
+596483,Alcorn,SWAC,low,So,d1_transfer,1
+596483,Alcorn,SWAC,low,So,high_school_only,3
+596483,Alcorn,SWAC,low,So,juco,1
+596483,Alcorn,SWAC,low,So,other_four_year,1
+596483,Alcorn,SWAC,low,Sr,high_school_only,5
+596483,Alcorn,SWAC,low,Sr,juco,1
+596483,Alcorn,SWAC,low,Sr,other_four_year,1
+596484,App State,Sun Belt,mid,Fr,high_school_only,9
+596484,App State,Sun Belt,mid,Gr,d1_transfer,1
+596484,App State,Sun Belt,mid,Gr,other_four_year,1
+596484,App State,Sun Belt,mid,Jr,d1_transfer,4
+596484,App State,Sun Belt,mid,Jr,high_school_only,4
+596484,App State,Sun Belt,mid,Jr,juco,3
+596484,App State,Sun Belt,mid,So,d1_transfer,4
+596484,App State,Sun Belt,mid,So,high_school_only,4
+596484,App State,Sun Belt,mid,So,other_four_year,2
+596484,App State,Sun Belt,mid,Sr,d1_transfer,2
+596484,App State,Sun Belt,mid,Sr,high_school_only,1
+596484,App State,Sun Belt,mid,Sr,juco,2
+596484,App State,Sun Belt,mid,Sr,other_four_year,1
+596485,Arizona St.,Big 12,p4,Fr,high_school_only,10
+596485,Arizona St.,Big 12,p4,Gr,d1_transfer,2
+596485,Arizona St.,Big 12,p4,Jr,d1_transfer,3
+596485,Arizona St.,Big 12,p4,Jr,high_school_only,3
+596485,Arizona St.,Big 12,p4,Jr,juco,3
+596485,Arizona St.,Big 12,p4,Jr,other_four_year,2
+596485,Arizona St.,Big 12,p4,So,d1_transfer,1
+596485,Arizona St.,Big 12,p4,So,high_school_only,11
+596485,Arizona St.,Big 12,p4,Sr,d1_transfer,5
+596485,Arizona St.,Big 12,p4,Sr,high_school_only,1
+596486,Arkansas St.,Sun Belt,mid,Fr,d1_transfer,1
+596486,Arkansas St.,Sun Belt,mid,Fr,high_school_only,8
+596486,Arkansas St.,Sun Belt,mid,Jr,d1_transfer,1
+596486,Arkansas St.,Sun Belt,mid,Jr,high_school_only,10
+596486,Arkansas St.,Sun Belt,mid,Jr,juco,4
+596486,Arkansas St.,Sun Belt,mid,Jr,other_four_year,1
+596486,Arkansas St.,Sun Belt,mid,So,high_school_only,2
+596486,Arkansas St.,Sun Belt,mid,So,juco,1
+596486,Arkansas St.,Sun Belt,mid,So,other_four_year,1
+596486,Arkansas St.,Sun Belt,mid,Sr,d1_transfer,2
+596486,Arkansas St.,Sun Belt,mid,Sr,high_school_only,7
+596486,Arkansas St.,Sun Belt,mid,Sr,other_four_year,3
+596490,Austin Peay,ASUN,mid,Fr,d1_transfer,2
+596490,Austin Peay,ASUN,mid,Fr,high_school_only,4
+596490,Austin Peay,ASUN,mid,Gr,d1_transfer,4
+596490,Austin Peay,ASUN,mid,Gr,juco,1
+596490,Austin Peay,ASUN,mid,Jr,d1_transfer,4
+596490,Austin Peay,ASUN,mid,Jr,juco,4
+596490,Austin Peay,ASUN,mid,Jr,other_four_year,1
+596490,Austin Peay,ASUN,mid,So,d1_transfer,2
+596490,Austin Peay,ASUN,mid,So,high_school_only,4
+596490,Austin Peay,ASUN,mid,So,juco,2
+596490,Austin Peay,ASUN,mid,Sr,d1_transfer,5
+596490,Austin Peay,ASUN,mid,Sr,high_school_only,2
+596490,Austin Peay,ASUN,mid,Sr,juco,4
+596491,Ball St.,MAC,mid,Fr,high_school_only,9
+596491,Ball St.,MAC,mid,Gr,other_four_year,2
+596491,Ball St.,MAC,mid,Jr,high_school_only,3
+596491,Ball St.,MAC,mid,Jr,juco,3
+596491,Ball St.,MAC,mid,Jr,other_four_year,3
+596491,Ball St.,MAC,mid,So,d1_transfer,1
+596491,Ball St.,MAC,mid,So,high_school_only,4
+596491,Ball St.,MAC,mid,So,other_four_year,1
+596491,Ball St.,MAC,mid,Sr,d1_transfer,2
+596491,Ball St.,MAC,mid,Sr,high_school_only,2
+596491,Ball St.,MAC,mid,Sr,juco,3
+596491,Ball St.,MAC,mid,Sr,other_four_year,4
+596492,Charleston So.,Big South,mid,Fr,high_school_only,11
+596492,Charleston So.,Big South,mid,Gr,other_four_year,3
+596492,Charleston So.,Big South,mid,Jr,d1_transfer,1
+596492,Charleston So.,Big South,mid,Jr,high_school_only,1
+596492,Charleston So.,Big South,mid,Jr,juco,15
+596492,Charleston So.,Big South,mid,Jr,other_four_year,2
+596492,Charleston So.,Big South,mid,So,high_school_only,1
+596492,Charleston So.,Big South,mid,Sr,juco,8
+596492,Charleston So.,Big South,mid,Sr,other_four_year,3
+596493,Baylor,Big 12,p4,Fr,high_school_only,11
+596493,Baylor,Big 12,p4,Jr,high_school_only,2
+596493,Baylor,Big 12,p4,Jr,juco,3
+596493,Baylor,Big 12,p4,So,d1_transfer,3
+596493,Baylor,Big 12,p4,So,high_school_only,3
+596493,Baylor,Big 12,p4,So,juco,3
+596493,Baylor,Big 12,p4,Sr,d1_transfer,4
+596493,Baylor,Big 12,p4,Sr,high_school_only,2
+596493,Baylor,Big 12,p4,Sr,juco,9
+596493,Baylor,Big 12,p4,Sr,other_four_year,1
+596494,Bethune-Cookman,SWAC,low,Fr,d1_transfer,1
+596494,Bethune-Cookman,SWAC,low,Fr,high_school_only,3
+596494,Bethune-Cookman,SWAC,low,Gr,high_school_only,1
+596494,Bethune-Cookman,SWAC,low,Gr,juco,1
+596494,Bethune-Cookman,SWAC,low,Jr,d1_transfer,1
+596494,Bethune-Cookman,SWAC,low,Jr,high_school_only,1
+596494,Bethune-Cookman,SWAC,low,Jr,juco,10
+596494,Bethune-Cookman,SWAC,low,Jr,other_four_year,2
+596494,Bethune-Cookman,SWAC,low,So,high_school_only,6
+596494,Bethune-Cookman,SWAC,low,So,other_four_year,2
+596494,Bethune-Cookman,SWAC,low,Sr,high_school_only,3
+596494,Bethune-Cookman,SWAC,low,Sr,juco,6
+596494,Bethune-Cookman,SWAC,low,Sr,other_four_year,2
+596495,Binghamton,America East,low,Fr,d1_transfer,1
+596495,Binghamton,America East,low,Fr,high_school_only,14
+596495,Binghamton,America East,low,Gr,other_four_year,2
+596495,Binghamton,America East,low,Jr,high_school_only,1
+596495,Binghamton,America East,low,Jr,other_four_year,4
+596495,Binghamton,America East,low,So,other_four_year,6
+596495,Binghamton,America East,low,Sr,other_four_year,5
+596496,Boston College,ACC,p4,Fr,unknown,11
+596496,Boston College,ACC,p4,Gr,unknown,10
+596496,Boston College,ACC,p4,Jr,unknown,9
+596496,Boston College,ACC,p4,So,unknown,7
+596496,Boston College,ACC,p4,Sr,unknown,6
+596497,Bowling Green,MAC,mid,Fr,high_school_only,12
+596497,Bowling Green,MAC,mid,Jr,d1_transfer,1
+596497,Bowling Green,MAC,mid,Jr,high_school_only,8
+596497,Bowling Green,MAC,mid,Jr,juco,1
+596497,Bowling Green,MAC,mid,So,d1_transfer,1
+596497,Bowling Green,MAC,mid,So,high_school_only,5
+596497,Bowling Green,MAC,mid,Sr,d1_transfer,2
+596497,Bowling Green,MAC,mid,Sr,high_school_only,4
+596497,Bowling Green,MAC,mid,Sr,juco,1
+596502,Bucknell,Patriot,low,Fr,unknown,11
+596502,Bucknell,Patriot,low,Jr,unknown,8
+596502,Bucknell,Patriot,low,So,unknown,10
+596502,Bucknell,Patriot,low,Sr,unknown,8
+596503,Butler,Big East,mid,Fr,d1_transfer,1
+596503,Butler,Big East,mid,Fr,high_school_only,9
+596503,Butler,Big East,mid,Gr,other_four_year,1
+596503,Butler,Big East,mid,Jr,d1_transfer,2
+596503,Butler,Big East,mid,Jr,high_school_only,6
+596503,Butler,Big East,mid,Jr,juco,3
+596503,Butler,Big East,mid,Jr,other_four_year,1
+596503,Butler,Big East,mid,So,d1_transfer,2
+596503,Butler,Big East,mid,So,high_school_only,10
+596503,Butler,Big East,mid,Sr,d1_transfer,3
+596503,Butler,Big East,mid,Sr,high_school_only,1
+596503,Butler,Big East,mid,Sr,juco,3
+596504,Cal Poly,Big West,mid,Fr,unknown,12
+596504,Cal Poly,Big West,mid,Jr,unknown,8
+596504,Cal Poly,Big West,mid,So,unknown,11
+596504,Cal Poly,Big West,mid,Sr,unknown,7
+596505,CSU Bakersfield,Big West,mid,Fr,high_school_only,2
+596505,CSU Bakersfield,Big West,mid,Fr,other_four_year,1
+596505,CSU Bakersfield,Big West,mid,Jr,d1_transfer,2
+596505,CSU Bakersfield,Big West,mid,Jr,high_school_only,1
+596505,CSU Bakersfield,Big West,mid,Jr,juco,4
+596505,CSU Bakersfield,Big West,mid,Jr,other_four_year,2
+596505,CSU Bakersfield,Big West,mid,So,d1_transfer,1
+596505,CSU Bakersfield,Big West,mid,So,high_school_only,1
+596505,CSU Bakersfield,Big West,mid,Sr,d1_transfer,2
+596505,CSU Bakersfield,Big West,mid,Sr,high_school_only,1
+596505,CSU Bakersfield,Big West,mid,Sr,juco,2
+596506,Cal St. Fullerton,Big West,mid,Fr,high_school_only,12
+596506,Cal St. Fullerton,Big West,mid,Jr,d1_transfer,2
+596506,Cal St. Fullerton,Big West,mid,Jr,high_school_only,3
+596506,Cal St. Fullerton,Big West,mid,Jr,juco,7
+596506,Cal St. Fullerton,Big West,mid,So,high_school_only,9
+596506,Cal St. Fullerton,Big West,mid,So,juco,2
+596506,Cal St. Fullerton,Big West,mid,So,other_four_year,1
+596506,Cal St. Fullerton,Big West,mid,Sr,d1_transfer,1
+596506,Cal St. Fullerton,Big West,mid,Sr,juco,3
+596506,Cal St. Fullerton,Big West,mid,Sr,other_four_year,1
+596507,Long Beach St.,Big West,mid,Fr,high_school_only,11
+596507,Long Beach St.,Big West,mid,Gr,juco,1
+596507,Long Beach St.,Big West,mid,Jr,d1_transfer,1
+596507,Long Beach St.,Big West,mid,Jr,high_school_only,4
+596507,Long Beach St.,Big West,mid,Jr,juco,4
+596507,Long Beach St.,Big West,mid,Jr,other_four_year,3
+596507,Long Beach St.,Big West,mid,So,d1_transfer,1
+596507,Long Beach St.,Big West,mid,So,high_school_only,6
+596507,Long Beach St.,Big West,mid,So,juco,1
+596507,Long Beach St.,Big West,mid,Sr,d1_transfer,6
+596507,Long Beach St.,Big West,mid,Sr,juco,1
+596507,Long Beach St.,Big West,mid,Sr,other_four_year,1
+596508,CSUN,Big West,mid,Fr,high_school_only,8
+596508,CSUN,Big West,mid,Jr,d1_transfer,3
+596508,CSUN,Big West,mid,Jr,high_school_only,2
+596508,CSUN,Big West,mid,Jr,juco,4
+596508,CSUN,Big West,mid,Jr,other_four_year,2
+596508,CSUN,Big West,mid,So,d1_transfer,1
+596508,CSUN,Big West,mid,So,high_school_only,8
+596508,CSUN,Big West,mid,So,juco,1
+596508,CSUN,Big West,mid,So,other_four_year,1
+596508,CSUN,Big West,mid,Sr,d1_transfer,2
+596508,CSUN,Big West,mid,Sr,juco,2
+596508,CSUN,Big West,mid,Sr,other_four_year,2
+596509,Sacramento St.,WAC,mid,Fr,high_school_only,12
+596509,Sacramento St.,WAC,mid,Jr,d1_transfer,2
+596509,Sacramento St.,WAC,mid,Jr,high_school_only,3
+596509,Sacramento St.,WAC,mid,Jr,juco,4
+596509,Sacramento St.,WAC,mid,Jr,other_four_year,3
+596509,Sacramento St.,WAC,mid,So,high_school_only,6
+596509,Sacramento St.,WAC,mid,So,other_four_year,2
+596509,Sacramento St.,WAC,mid,Sr,d1_transfer,2
+596509,Sacramento St.,WAC,mid,Sr,high_school_only,3
+596509,Sacramento St.,WAC,mid,Sr,juco,2
+596510,UC Santa Barbara,Big West,mid,Fr,high_school_only,14
+596510,UC Santa Barbara,Big West,mid,Gr,other_four_year,1
+596510,UC Santa Barbara,Big West,mid,Jr,d1_transfer,1
+596510,UC Santa Barbara,Big West,mid,Jr,high_school_only,5
+596510,UC Santa Barbara,Big West,mid,Jr,juco,4
+596510,UC Santa Barbara,Big West,mid,Jr,other_four_year,2
+596510,UC Santa Barbara,Big West,mid,So,d1_transfer,2
+596510,UC Santa Barbara,Big West,mid,So,high_school_only,7
+596510,UC Santa Barbara,Big West,mid,Sr,d1_transfer,1
+596510,UC Santa Barbara,Big West,mid,Sr,high_school_only,2
+596510,UC Santa Barbara,Big West,mid,Sr,juco,2
+596511,California,ACC,p4,Fr,d1_transfer,1
+596511,California,ACC,p4,Fr,high_school_only,11
+596511,California,ACC,p4,Jr,d1_transfer,2
+596511,California,ACC,p4,Jr,high_school_only,2
+596511,California,ACC,p4,Jr,juco,1
+596511,California,ACC,p4,Jr,other_four_year,1
+596511,California,ACC,p4,So,d1_transfer,1
+596511,California,ACC,p4,So,high_school_only,8
+596511,California,ACC,p4,So,juco,1
+596511,California,ACC,p4,So,other_four_year,1
+596511,California,ACC,p4,Sr,d1_transfer,2
+596511,California,ACC,p4,Sr,high_school_only,4
+596511,California,ACC,p4,Sr,juco,3
+596511,California,ACC,p4,Sr,other_four_year,3
+596512,UC Davis,Big West,mid,Fr,high_school_only,14
+596512,UC Davis,Big West,mid,Jr,high_school_only,6
+596512,UC Davis,Big West,mid,Jr,juco,2
+596512,UC Davis,Big West,mid,Jr,other_four_year,1
+596512,UC Davis,Big West,mid,So,high_school_only,8
+596512,UC Davis,Big West,mid,Sr,high_school_only,4
+596512,UC Davis,Big West,mid,Sr,juco,3
+596512,UC Davis,Big West,mid,Sr,other_four_year,2
+596513,UC Irvine,Big West,mid,Fr,high_school_only,12
+596513,UC Irvine,Big West,mid,Jr,d1_transfer,1
+596513,UC Irvine,Big West,mid,Jr,high_school_only,5
+596513,UC Irvine,Big West,mid,Jr,juco,3
+596513,UC Irvine,Big West,mid,Jr,other_four_year,1
+596513,UC Irvine,Big West,mid,So,d1_transfer,2
+596513,UC Irvine,Big West,mid,So,high_school_only,9
+596513,UC Irvine,Big West,mid,So,juco,1
+596513,UC Irvine,Big West,mid,Sr,d1_transfer,3
+596513,UC Irvine,Big West,mid,Sr,high_school_only,2
+596513,UC Irvine,Big West,mid,Sr,juco,1
+596514,UCLA,Big Ten,p4,Fr,high_school_only,10
+596514,UCLA,Big Ten,p4,Gr,d1_transfer,2
+596514,UCLA,Big Ten,p4,Jr,d1_transfer,1
+596514,UCLA,Big Ten,p4,Jr,high_school_only,8
+596514,UCLA,Big Ten,p4,Jr,other_four_year,1
+596514,UCLA,Big Ten,p4,So,high_school_only,13
+596514,UCLA,Big Ten,p4,unknown,high_school_only,4
+596514,UCLA,Big Ten,p4,unknown,other_four_year,1
+596515,UC Riverside,Big West,mid,Fr,d1_transfer,1
+596515,UC Riverside,Big West,mid,Fr,high_school_only,7
+596515,UC Riverside,Big West,mid,Gr,juco,1
+596515,UC Riverside,Big West,mid,Gr,other_four_year,2
+596515,UC Riverside,Big West,mid,Jr,d1_transfer,5
+596515,UC Riverside,Big West,mid,Jr,juco,5
+596515,UC Riverside,Big West,mid,Jr,other_four_year,6
+596515,UC Riverside,Big West,mid,So,d1_transfer,2
+596515,UC Riverside,Big West,mid,So,high_school_only,3
+596515,UC Riverside,Big West,mid,So,juco,1
+596515,UC Riverside,Big West,mid,Sr,high_school_only,3
+596515,UC Riverside,Big West,mid,Sr,other_four_year,1
+596517,Canisius,MAAC,low,Fr,unknown,9
+596517,Canisius,MAAC,low,Gr,unknown,1
+596517,Canisius,MAAC,low,Jr,unknown,5
+596517,Canisius,MAAC,low,So,unknown,4
+596517,Canisius,MAAC,low,Sr,unknown,5
+596519,UCF,Big 12,p4,Fr,high_school_only,6
+596519,UCF,Big 12,p4,Jr,d1_transfer,6
+596519,UCF,Big 12,p4,Jr,high_school_only,1
+596519,UCF,Big 12,p4,Jr,juco,8
+596519,UCF,Big 12,p4,So,d1_transfer,7
+596519,UCF,Big 12,p4,So,high_school_only,2
+596519,UCF,Big 12,p4,So,other_four_year,1
+596519,UCF,Big 12,p4,Sr,d1_transfer,5
+596519,UCF,Big 12,p4,Sr,high_school_only,3
+596519,UCF,Big 12,p4,Sr,other_four_year,1
+596521,Cincinnati,Big 12,p4,Fr,high_school_only,13
+596521,Cincinnati,Big 12,p4,Jr,d1_transfer,4
+596521,Cincinnati,Big 12,p4,Jr,high_school_only,5
+596521,Cincinnati,Big 12,p4,Jr,juco,1
+596521,Cincinnati,Big 12,p4,So,d1_transfer,2
+596521,Cincinnati,Big 12,p4,So,high_school_only,3
+596521,Cincinnati,Big 12,p4,Sr,d1_transfer,4
+596521,Cincinnati,Big 12,p4,Sr,high_school_only,3
+596521,Cincinnati,Big 12,p4,Sr,juco,2
+596521,Cincinnati,Big 12,p4,Sr,other_four_year,5
+596522,The Citadel,SoCon,mid,Fr,high_school_only,2
+596522,The Citadel,SoCon,mid,Gr,high_school_only,2
+596522,The Citadel,SoCon,mid,Jr,high_school_only,5
+596522,The Citadel,SoCon,mid,Jr,juco,4
+596522,The Citadel,SoCon,mid,Jr,other_four_year,1
+596522,The Citadel,SoCon,mid,So,d1_transfer,1
+596522,The Citadel,SoCon,mid,So,high_school_only,2
+596522,The Citadel,SoCon,mid,Sr,d1_transfer,1
+596522,The Citadel,SoCon,mid,Sr,high_school_only,9
+596523,Clemson,ACC,p4,Fr,unknown,14
+596523,Clemson,ACC,p4,Jr,unknown,14
+596523,Clemson,ACC,p4,So,unknown,5
+596523,Clemson,ACC,p4,Sr,unknown,7
+596524,Coastal Carolina,Sun Belt,mid,Fr,high_school_only,9
+596524,Coastal Carolina,Sun Belt,mid,Jr,d1_transfer,1
+596524,Coastal Carolina,Sun Belt,mid,Jr,high_school_only,6
+596524,Coastal Carolina,Sun Belt,mid,Jr,juco,1
+596524,Coastal Carolina,Sun Belt,mid,Jr,other_four_year,3
+596524,Coastal Carolina,Sun Belt,mid,So,d1_transfer,3
+596524,Coastal Carolina,Sun Belt,mid,So,high_school_only,9
+596524,Coastal Carolina,Sun Belt,mid,So,juco,1
+596524,Coastal Carolina,Sun Belt,mid,Sr,d1_transfer,4
+596524,Coastal Carolina,Sun Belt,mid,Sr,high_school_only,2
+596524,Coastal Carolina,Sun Belt,mid,Sr,juco,1
+596525,Columbia,Ivy League,low,Fr,unknown,10
+596525,Columbia,Ivy League,low,Jr,unknown,8
+596525,Columbia,Ivy League,low,So,unknown,11
+596525,Columbia,Ivy League,low,Sr,unknown,11
+596526,UConn,Big East,mid,Fr,unknown,14
+596526,UConn,Big East,mid,Gr,unknown,7
+596526,UConn,Big East,mid,Jr,unknown,7
+596526,UConn,Big East,mid,So,unknown,9
+596526,UConn,Big East,mid,Sr,unknown,5
+596527,Coppin St.,NEC,low,Fr,high_school_only,8
+596527,Coppin St.,NEC,low,Gr,other_four_year,2
+596527,Coppin St.,NEC,low,Jr,d1_transfer,1
+596527,Coppin St.,NEC,low,Jr,high_school_only,1
+596527,Coppin St.,NEC,low,Jr,juco,4
+596527,Coppin St.,NEC,low,Jr,other_four_year,5
+596527,Coppin St.,NEC,low,So,high_school_only,6
+596527,Coppin St.,NEC,low,So,other_four_year,1
+596527,Coppin St.,NEC,low,Sr,d1_transfer,1
+596527,Coppin St.,NEC,low,Sr,juco,1
+596527,Coppin St.,NEC,low,Sr,other_four_year,2
+596529,Creighton,Big East,mid,Fr,d1_transfer,1
+596529,Creighton,Big East,mid,Fr,high_school_only,5
+596529,Creighton,Big East,mid,Gr,d1_transfer,5
+596529,Creighton,Big East,mid,Gr,juco,1
+596529,Creighton,Big East,mid,Gr,other_four_year,2
+596529,Creighton,Big East,mid,Jr,d1_transfer,2
+596529,Creighton,Big East,mid,Jr,high_school_only,3
+596529,Creighton,Big East,mid,Jr,juco,2
+596529,Creighton,Big East,mid,So,high_school_only,9
+596529,Creighton,Big East,mid,So,juco,2
+596529,Creighton,Big East,mid,Sr,d1_transfer,1
+596529,Creighton,Big East,mid,Sr,high_school_only,1
+596529,Creighton,Big East,mid,Sr,juco,2
+596530,Dartmouth,Ivy League,low,Fr,unknown,8
+596530,Dartmouth,Ivy League,low,Jr,unknown,7
+596530,Dartmouth,Ivy League,low,So,unknown,7
+596530,Dartmouth,Ivy League,low,Sr,unknown,9
+596531,Davidson,Atlantic 10,mid,Fr,high_school_only,13
+596531,Davidson,Atlantic 10,mid,Jr,d1_transfer,1
+596531,Davidson,Atlantic 10,mid,Jr,high_school_only,8
+596531,Davidson,Atlantic 10,mid,Jr,juco,1
+596531,Davidson,Atlantic 10,mid,So,high_school_only,11
+596531,Davidson,Atlantic 10,mid,So,other_four_year,1
+596531,Davidson,Atlantic 10,mid,Sr,high_school_only,6
+596531,Davidson,Atlantic 10,mid,unknown,high_school_only,2
+596532,Dayton,Atlantic 10,mid,Fr,d1_transfer,1
+596532,Dayton,Atlantic 10,mid,Fr,high_school_only,6
+596532,Dayton,Atlantic 10,mid,Jr,juco,2
+596532,Dayton,Atlantic 10,mid,Jr,other_four_year,2
+596532,Dayton,Atlantic 10,mid,So,d1_transfer,3
+596532,Dayton,Atlantic 10,mid,So,high_school_only,3
+596532,Dayton,Atlantic 10,mid,Sr,high_school_only,2
+596532,Dayton,Atlantic 10,mid,Sr,juco,1
+596532,Dayton,Atlantic 10,mid,Sr,other_four_year,1
+596535,East Carolina,The American,mid,Fr,high_school_only,1
+596535,East Carolina,The American,mid,Gr,d1_transfer,1
+596535,East Carolina,The American,mid,Jr,high_school_only,5
+596535,East Carolina,The American,mid,So,high_school_only,6
+596535,East Carolina,The American,mid,Sr,d1_transfer,2
+596535,East Carolina,The American,mid,Sr,high_school_only,5
+596535,East Carolina,The American,mid,Sr,juco,1
+596535,East Carolina,The American,mid,Sr,other_four_year,1
+596536,ETSU,SoCon,mid,Fr,high_school_only,10
+596536,ETSU,SoCon,mid,Jr,high_school_only,11
+596536,ETSU,SoCon,mid,So,high_school_only,6
+596536,ETSU,SoCon,mid,Sr,high_school_only,9
+596537,Eastern Ill.,OVC,low,Fr,d1_transfer,1
+596537,Eastern Ill.,OVC,low,Jr,high_school_only,2
+596537,Eastern Ill.,OVC,low,Jr,juco,2
+596537,Eastern Ill.,OVC,low,Jr,other_four_year,1
+596537,Eastern Ill.,OVC,low,So,high_school_only,5
+596537,Eastern Ill.,OVC,low,So,juco,1
+596537,Eastern Ill.,OVC,low,Sr,d1_transfer,1
+596537,Eastern Ill.,OVC,low,Sr,high_school_only,3
+596537,Eastern Ill.,OVC,low,Sr,juco,5
+596537,Eastern Ill.,OVC,low,Sr,other_four_year,3
+596538,Eastern Ky.,ASUN,mid,Fr,high_school_only,9
+596538,Eastern Ky.,ASUN,mid,Fr,juco,1
+596538,Eastern Ky.,ASUN,mid,Jr,d1_transfer,1
+596538,Eastern Ky.,ASUN,mid,Jr,high_school_only,3
+596538,Eastern Ky.,ASUN,mid,Jr,juco,7
+596538,Eastern Ky.,ASUN,mid,Jr,other_four_year,3
+596538,Eastern Ky.,ASUN,mid,So,d1_transfer,3
+596538,Eastern Ky.,ASUN,mid,So,high_school_only,7
+596538,Eastern Ky.,ASUN,mid,So,juco,2
+596538,Eastern Ky.,ASUN,mid,Sr,d1_transfer,1
+596538,Eastern Ky.,ASUN,mid,Sr,juco,8
+596538,Eastern Ky.,ASUN,mid,Sr,other_four_year,1
+596539,Eastern Mich.,MAC,mid,Fr,high_school_only,10
+596539,Eastern Mich.,MAC,mid,Gr,other_four_year,1
+596539,Eastern Mich.,MAC,mid,Jr,d1_transfer,8
+596539,Eastern Mich.,MAC,mid,Jr,high_school_only,2
+596539,Eastern Mich.,MAC,mid,Jr,juco,6
+596539,Eastern Mich.,MAC,mid,Jr,other_four_year,1
+596539,Eastern Mich.,MAC,mid,So,d1_transfer,2
+596539,Eastern Mich.,MAC,mid,So,high_school_only,3
+596539,Eastern Mich.,MAC,mid,Sr,d1_transfer,3
+596539,Eastern Mich.,MAC,mid,Sr,high_school_only,2
+596539,Eastern Mich.,MAC,mid,Sr,juco,2
+596539,Eastern Mich.,MAC,mid,Sr,other_four_year,1
+596540,Fairfield,MAAC,low,Fr,high_school_only,7
+596540,Fairfield,MAAC,low,Gr,d1_transfer,1
+596540,Fairfield,MAAC,low,Gr,high_school_only,1
+596540,Fairfield,MAAC,low,Gr,other_four_year,3
+596540,Fairfield,MAAC,low,Jr,d1_transfer,1
+596540,Fairfield,MAAC,low,Jr,high_school_only,7
+596540,Fairfield,MAAC,low,Jr,other_four_year,1
+596540,Fairfield,MAAC,low,So,high_school_only,6
+596540,Fairfield,MAAC,low,Sr,high_school_only,6
+596541,FDU,NEC,low,Fr,high_school_only,10
+596541,FDU,NEC,low,Gr,high_school_only,1
+596541,FDU,NEC,low,Gr,other_four_year,3
+596541,FDU,NEC,low,Jr,high_school_only,7
+596541,FDU,NEC,low,Jr,juco,1
+596541,FDU,NEC,low,Jr,other_four_year,3
+596541,FDU,NEC,low,So,high_school_only,5
+596541,FDU,NEC,low,So,other_four_year,1
+596541,FDU,NEC,low,Sr,high_school_only,1
+596541,FDU,NEC,low,Sr,other_four_year,1
+596542,Florida A&M,SWAC,low,Fr,high_school_only,12
+596542,Florida A&M,SWAC,low,Gr,high_school_only,2
+596542,Florida A&M,SWAC,low,Jr,high_school_only,10
+596542,Florida A&M,SWAC,low,So,high_school_only,3
+596542,Florida A&M,SWAC,low,Sr,high_school_only,6
+596542,Florida A&M,SWAC,low,Sr,juco,1
+596542,Florida A&M,SWAC,low,Sr,other_four_year,1
+596543,Fla. Atlantic,The American,mid,Fr,d1_transfer,1
+596543,Fla. Atlantic,The American,mid,Fr,high_school_only,10
+596543,Fla. Atlantic,The American,mid,Gr,d1_transfer,1
+596543,Fla. Atlantic,The American,mid,Gr,high_school_only,1
+596543,Fla. Atlantic,The American,mid,Jr,d1_transfer,2
+596543,Fla. Atlantic,The American,mid,Jr,juco,5
+596543,Fla. Atlantic,The American,mid,Jr,other_four_year,4
+596543,Fla. Atlantic,The American,mid,So,d1_transfer,2
+596543,Fla. Atlantic,The American,mid,So,high_school_only,3
+596543,Fla. Atlantic,The American,mid,So,juco,1
+596543,Fla. Atlantic,The American,mid,So,other_four_year,1
+596543,Fla. Atlantic,The American,mid,Sr,d1_transfer,1
+596543,Fla. Atlantic,The American,mid,Sr,high_school_only,5
+596543,Fla. Atlantic,The American,mid,Sr,juco,1
+596543,Fla. Atlantic,The American,mid,Sr,other_four_year,1
+596544,FIU,CUSA,mid,Fr,high_school_only,9
+596544,FIU,CUSA,mid,Gr,d1_transfer,4
+596544,FIU,CUSA,mid,Jr,d1_transfer,2
+596544,FIU,CUSA,mid,Jr,high_school_only,1
+596544,FIU,CUSA,mid,Jr,juco,8
+596544,FIU,CUSA,mid,So,d1_transfer,1
+596544,FIU,CUSA,mid,So,high_school_only,3
+596544,FIU,CUSA,mid,Sr,d1_transfer,3
+596544,FIU,CUSA,mid,Sr,high_school_only,1
+596544,FIU,CUSA,mid,Sr,juco,8
+596545,Florida St.,ACC,p4,Fr,high_school_only,13
+596545,Florida St.,ACC,p4,Jr,d1_transfer,10
+596545,Florida St.,ACC,p4,Jr,high_school_only,2
+596545,Florida St.,ACC,p4,Jr,juco,3
+596545,Florida St.,ACC,p4,So,d1_transfer,2
+596545,Florida St.,ACC,p4,So,high_school_only,4
+596545,Florida St.,ACC,p4,So,juco,2
+596545,Florida St.,ACC,p4,Sr,d1_transfer,3
+596545,Florida St.,ACC,p4,Sr,juco,1
+596546,Florida,SEC,p4,Fr,high_school_only,14
+596546,Florida,SEC,p4,Jr,d1_transfer,6
+596546,Florida,SEC,p4,Jr,high_school_only,3
+596546,Florida,SEC,p4,Jr,juco,1
+596546,Florida,SEC,p4,So,d1_transfer,2
+596546,Florida,SEC,p4,So,high_school_only,8
+596546,Florida,SEC,p4,So,juco,2
+596546,Florida,SEC,p4,Sr,d1_transfer,1
+596546,Florida,SEC,p4,Sr,high_school_only,1
+596547,Fordham,Atlantic 10,mid,Fr,unknown,12
+596547,Fordham,Atlantic 10,mid,Gr,unknown,8
+596547,Fordham,Atlantic 10,mid,Jr,unknown,5
+596547,Fordham,Atlantic 10,mid,So,unknown,6
+596547,Fordham,Atlantic 10,mid,Sr,unknown,9
+596550,Georgetown,Big East,mid,Fr,high_school_only,8
+596550,Georgetown,Big East,mid,Gr,d1_transfer,3
+596550,Georgetown,Big East,mid,Gr,other_four_year,6
+596550,Georgetown,Big East,mid,Jr,high_school_only,7
+596550,Georgetown,Big East,mid,So,d1_transfer,2
+596550,Georgetown,Big East,mid,So,high_school_only,6
+596550,Georgetown,Big East,mid,Sr,high_school_only,7
+596551,Ga. Southern,Sun Belt,mid,Fr,d1_transfer,1
+596551,Ga. Southern,Sun Belt,mid,Fr,high_school_only,8
+596551,Ga. Southern,Sun Belt,mid,Gr,juco,1
+596551,Ga. Southern,Sun Belt,mid,Gr,other_four_year,1
+596551,Ga. Southern,Sun Belt,mid,Jr,d1_transfer,3
+596551,Ga. Southern,Sun Belt,mid,Jr,high_school_only,4
+596551,Ga. Southern,Sun Belt,mid,Jr,juco,2
+596551,Ga. Southern,Sun Belt,mid,Jr,other_four_year,1
+596551,Ga. Southern,Sun Belt,mid,So,d1_transfer,3
+596551,Ga. Southern,Sun Belt,mid,So,high_school_only,1
+596551,Ga. Southern,Sun Belt,mid,So,other_four_year,1
+596551,Ga. Southern,Sun Belt,mid,Sr,d1_transfer,3
+596551,Ga. Southern,Sun Belt,mid,Sr,high_school_only,2
+596551,Ga. Southern,Sun Belt,mid,Sr,juco,8
+596551,Ga. Southern,Sun Belt,mid,Sr,other_four_year,2
+596554,Georgia,SEC,p4,Fr,high_school_only,5
+596554,Georgia,SEC,p4,Gr,d1_transfer,5
+596554,Georgia,SEC,p4,Gr,high_school_only,4
+596554,Georgia,SEC,p4,Jr,d1_transfer,10
+596554,Georgia,SEC,p4,Jr,high_school_only,4
+596554,Georgia,SEC,p4,Jr,juco,1
+596554,Georgia,SEC,p4,Jr,other_four_year,2
+596554,Georgia,SEC,p4,So,d1_transfer,3
+596554,Georgia,SEC,p4,So,high_school_only,4
+596554,Georgia,SEC,p4,So,other_four_year,1
+596554,Georgia,SEC,p4,Sr,d1_transfer,4
+596554,Georgia,SEC,p4,Sr,juco,1
+596554,Georgia,SEC,p4,Sr,other_four_year,1
+596555,Gonzaga,WCC,mid,Fr,high_school_only,10
+596555,Gonzaga,WCC,mid,Gr,d1_transfer,1
+596555,Gonzaga,WCC,mid,Gr,other_four_year,1
+596555,Gonzaga,WCC,mid,Jr,d1_transfer,4
+596555,Gonzaga,WCC,mid,Jr,high_school_only,2
+596555,Gonzaga,WCC,mid,Jr,juco,4
+596555,Gonzaga,WCC,mid,So,high_school_only,6
+596555,Gonzaga,WCC,mid,So,juco,2
+596555,Gonzaga,WCC,mid,So,other_four_year,2
+596555,Gonzaga,WCC,mid,Sr,d1_transfer,3
+596555,Gonzaga,WCC,mid,Sr,high_school_only,1
+596555,Gonzaga,WCC,mid,Sr,juco,2
+596555,Gonzaga,WCC,mid,Sr,other_four_year,1
+596556,Harvard,Ivy League,low,Fr,high_school_only,7
+596556,Harvard,Ivy League,low,Jr,d1_transfer,1
+596556,Harvard,Ivy League,low,Jr,high_school_only,6
+596556,Harvard,Ivy League,low,So,high_school_only,8
+596556,Harvard,Ivy League,low,So,other_four_year,1
+596556,Harvard,Ivy League,low,Sr,high_school_only,7
+596557,Hawaii,Big West,mid,Fr,high_school_only,8
+596557,Hawaii,Big West,mid,Gr,d1_transfer,1
+596557,Hawaii,Big West,mid,Jr,d1_transfer,2
+596557,Hawaii,Big West,mid,Jr,high_school_only,2
+596557,Hawaii,Big West,mid,Jr,juco,7
+596557,Hawaii,Big West,mid,Jr,other_four_year,2
+596557,Hawaii,Big West,mid,So,d1_transfer,1
+596557,Hawaii,Big West,mid,So,high_school_only,5
+596557,Hawaii,Big West,mid,Sr,d1_transfer,6
+596557,Hawaii,Big West,mid,Sr,high_school_only,1
+596557,Hawaii,Big West,mid,Sr,juco,4
+596557,Hawaii,Big West,mid,unknown,high_school_only,1
+596558,Hofstra,CAA,mid,Fr,high_school_only,18
+596558,Hofstra,CAA,mid,Gr,high_school_only,2
+596558,Hofstra,CAA,mid,Jr,d1_transfer,1
+596558,Hofstra,CAA,mid,Jr,high_school_only,4
+596558,Hofstra,CAA,mid,Jr,juco,1
+596558,Hofstra,CAA,mid,Jr,other_four_year,3
+596558,Hofstra,CAA,mid,So,high_school_only,4
+596558,Hofstra,CAA,mid,Sr,d1_transfer,4
+596559,Holy Cross,Patriot,low,Fr,d1_transfer,1
+596559,Holy Cross,Patriot,low,Fr,high_school_only,8
+596559,Holy Cross,Patriot,low,Jr,d1_transfer,1
+596559,Holy Cross,Patriot,low,Jr,high_school_only,4
+596559,Holy Cross,Patriot,low,Jr,juco,1
+596559,Holy Cross,Patriot,low,Jr,other_four_year,1
+596559,Holy Cross,Patriot,low,So,d1_transfer,2
+596559,Holy Cross,Patriot,low,So,high_school_only,10
+596559,Holy Cross,Patriot,low,Sr,high_school_only,7
+596559,Holy Cross,Patriot,low,Sr,other_four_year,1
+596560,Houston Christian,Southland,low,Fr,high_school_only,3
+596560,Houston Christian,Southland,low,Jr,d1_transfer,3
+596560,Houston Christian,Southland,low,Jr,high_school_only,1
+596560,Houston Christian,Southland,low,Jr,juco,14
+596560,Houston Christian,Southland,low,So,d1_transfer,1
+596560,Houston Christian,Southland,low,So,high_school_only,1
+596560,Houston Christian,Southland,low,So,juco,1
+596560,Houston Christian,Southland,low,So,other_four_year,1
+596560,Houston Christian,Southland,low,Sr,d1_transfer,3
+596560,Houston Christian,Southland,low,Sr,juco,10
+596560,Houston Christian,Southland,low,Sr,other_four_year,2
+596561,Houston,Big 12,p4,Fr,d1_transfer,1
+596561,Houston,Big 12,p4,Fr,high_school_only,8
+596561,Houston,Big 12,p4,Gr,d1_transfer,3
+596561,Houston,Big 12,p4,Jr,d1_transfer,6
+596561,Houston,Big 12,p4,Jr,high_school_only,3
+596561,Houston,Big 12,p4,Jr,juco,5
+596561,Houston,Big 12,p4,Jr,other_four_year,1
+596561,Houston,Big 12,p4,So,d1_transfer,2
+596561,Houston,Big 12,p4,So,high_school_only,4
+596561,Houston,Big 12,p4,So,juco,3
+596561,Houston,Big 12,p4,Sr,d1_transfer,4
+596561,Houston,Big 12,p4,Sr,juco,1
+596561,Houston,Big 12,p4,Sr,other_four_year,1
+596562,Illinois St.,MVC,mid,Fr,unknown,9
+596562,Illinois St.,MVC,mid,Jr,unknown,10
+596562,Illinois St.,MVC,mid,So,unknown,8
+596562,Illinois St.,MVC,mid,Sr,unknown,10
+596563,Illinois,Big Ten,p4,Fr,high_school_only,5
+596563,Illinois,Big Ten,p4,Gr,juco,1
+596563,Illinois,Big Ten,p4,Gr,other_four_year,2
+596563,Illinois,Big Ten,p4,Jr,d1_transfer,4
+596563,Illinois,Big Ten,p4,Jr,high_school_only,4
+596563,Illinois,Big Ten,p4,Jr,juco,2
+596563,Illinois,Big Ten,p4,Jr,other_four_year,4
+596563,Illinois,Big Ten,p4,So,d1_transfer,1
+596563,Illinois,Big Ten,p4,So,high_school_only,5
+596563,Illinois,Big Ten,p4,So,juco,1
+596563,Illinois,Big Ten,p4,Sr,d1_transfer,2
+596563,Illinois,Big Ten,p4,Sr,high_school_only,1
+596563,Illinois,Big Ten,p4,Sr,juco,1
+596563,Illinois,Big Ten,p4,Sr,other_four_year,2
+596564,UIC,MVC,mid,Fr,high_school_only,7
+596564,UIC,MVC,mid,Fr,other_four_year,1
+596564,UIC,MVC,mid,Gr,d1_transfer,1
+596564,UIC,MVC,mid,Jr,d1_transfer,3
+596564,UIC,MVC,mid,Jr,high_school_only,4
+596564,UIC,MVC,mid,Jr,juco,3
+596564,UIC,MVC,mid,Jr,other_four_year,4
+596564,UIC,MVC,mid,So,high_school_only,4
+596564,UIC,MVC,mid,Sr,d1_transfer,3
+596564,UIC,MVC,mid,Sr,high_school_only,4
+596564,UIC,MVC,mid,Sr,juco,4
+596564,UIC,MVC,mid,Sr,other_four_year,1
+596565,Indiana St.,MVC,mid,Fr,high_school_only,10
+596565,Indiana St.,MVC,mid,Gr,d1_transfer,1
+596565,Indiana St.,MVC,mid,Jr,d1_transfer,1
+596565,Indiana St.,MVC,mid,Jr,high_school_only,2
+596565,Indiana St.,MVC,mid,Jr,juco,7
+596565,Indiana St.,MVC,mid,Jr,other_four_year,3
+596565,Indiana St.,MVC,mid,So,d1_transfer,3
+596565,Indiana St.,MVC,mid,So,high_school_only,2
+596565,Indiana St.,MVC,mid,So,other_four_year,1
+596565,Indiana St.,MVC,mid,Sr,d1_transfer,6
+596565,Indiana St.,MVC,mid,Sr,juco,1
+596565,Indiana St.,MVC,mid,Sr,other_four_year,2
+596566,Indiana,Big Ten,p4,Fr,high_school_only,12
+596566,Indiana,Big Ten,p4,Gr,d1_transfer,3
+596566,Indiana,Big Ten,p4,Jr,d1_transfer,3
+596566,Indiana,Big Ten,p4,Jr,high_school_only,4
+596566,Indiana,Big Ten,p4,Jr,other_four_year,1
+596566,Indiana,Big Ten,p4,So,d1_transfer,3
+596566,Indiana,Big Ten,p4,So,high_school_only,8
+596566,Indiana,Big Ten,p4,Sr,d1_transfer,4
+596566,Indiana,Big Ten,p4,Sr,high_school_only,2
+596566,Indiana,Big Ten,p4,Sr,other_four_year,1
+596567,Purdue Fort Wayne,Horizon,low,Fr,high_school_only,12
+596567,Purdue Fort Wayne,Horizon,low,Gr,high_school_only,1
+596567,Purdue Fort Wayne,Horizon,low,Gr,other_four_year,1
+596567,Purdue Fort Wayne,Horizon,low,Jr,high_school_only,3
+596567,Purdue Fort Wayne,Horizon,low,Jr,juco,5
+596567,Purdue Fort Wayne,Horizon,low,Jr,other_four_year,1
+596567,Purdue Fort Wayne,Horizon,low,So,d1_transfer,1
+596567,Purdue Fort Wayne,Horizon,low,So,high_school_only,3
+596567,Purdue Fort Wayne,Horizon,low,So,juco,2
+596567,Purdue Fort Wayne,Horizon,low,So,other_four_year,1
+596567,Purdue Fort Wayne,Horizon,low,Sr,high_school_only,2
+596567,Purdue Fort Wayne,Horizon,low,Sr,juco,3
+596567,Purdue Fort Wayne,Horizon,low,Sr,other_four_year,2
+596570,Jackson St.,SWAC,low,Fr,high_school_only,4
+596570,Jackson St.,SWAC,low,Gr,d1_transfer,3
+596570,Jackson St.,SWAC,low,Jr,high_school_only,1
+596570,Jackson St.,SWAC,low,Jr,juco,2
+596570,Jackson St.,SWAC,low,Jr,other_four_year,5
+596570,Jackson St.,SWAC,low,So,d1_transfer,1
+596570,Jackson St.,SWAC,low,So,high_school_only,6
+596570,Jackson St.,SWAC,low,So,juco,1
+596570,Jackson St.,SWAC,low,Sr,d1_transfer,2
+596570,Jackson St.,SWAC,low,Sr,high_school_only,1
+596570,Jackson St.,SWAC,low,Sr,juco,3
+596570,Jackson St.,SWAC,low,Sr,other_four_year,2
+596571,Jacksonville St.,CUSA,mid,Fr,high_school_only,8
+596571,Jacksonville St.,CUSA,mid,Jr,d1_transfer,3
+596571,Jacksonville St.,CUSA,mid,Jr,high_school_only,1
+596571,Jacksonville St.,CUSA,mid,Jr,juco,16
+596571,Jacksonville St.,CUSA,mid,Jr,other_four_year,2
+596571,Jacksonville St.,CUSA,mid,So,d1_transfer,2
+596571,Jacksonville St.,CUSA,mid,So,high_school_only,4
+596571,Jacksonville St.,CUSA,mid,So,juco,2
+596571,Jacksonville St.,CUSA,mid,Sr,d1_transfer,2
+596573,James Madison,Sun Belt,mid,Fr,high_school_only,15
+596573,James Madison,Sun Belt,mid,Gr,d1_transfer,1
+596573,James Madison,Sun Belt,mid,Jr,d1_transfer,3
+596573,James Madison,Sun Belt,mid,Jr,high_school_only,5
+596573,James Madison,Sun Belt,mid,Jr,juco,1
+596573,James Madison,Sun Belt,mid,So,d1_transfer,2
+596573,James Madison,Sun Belt,mid,So,high_school_only,7
+596573,James Madison,Sun Belt,mid,Sr,high_school_only,4
+596573,James Madison,Sun Belt,mid,Sr,other_four_year,2
+596574,Kansas St.,Big 12,p4,Fr,high_school_only,9
+596574,Kansas St.,Big 12,p4,Gr,d1_transfer,2
+596574,Kansas St.,Big 12,p4,Gr,other_four_year,1
+596574,Kansas St.,Big 12,p4,Jr,d1_transfer,2
+596574,Kansas St.,Big 12,p4,Jr,high_school_only,4
+596574,Kansas St.,Big 12,p4,Jr,juco,11
+596574,Kansas St.,Big 12,p4,So,d1_transfer,2
+596574,Kansas St.,Big 12,p4,So,high_school_only,5
+596574,Kansas St.,Big 12,p4,Sr,d1_transfer,3
+596574,Kansas St.,Big 12,p4,Sr,high_school_only,2
+596574,Kansas St.,Big 12,p4,Sr,juco,1
+596575,Kansas,Big 12,p4,Fr,high_school_only,4
+596575,Kansas,Big 12,p4,Gr,other_four_year,1
+596575,Kansas,Big 12,p4,Jr,d1_transfer,2
+596575,Kansas,Big 12,p4,Jr,juco,12
+596575,Kansas,Big 12,p4,Jr,other_four_year,1
+596575,Kansas,Big 12,p4,So,d1_transfer,1
+596575,Kansas,Big 12,p4,So,high_school_only,4
+596575,Kansas,Big 12,p4,So,juco,1
+596575,Kansas,Big 12,p4,Sr,d1_transfer,10
+596575,Kansas,Big 12,p4,Sr,juco,1
+596575,Kansas,Big 12,p4,Sr,other_four_year,2
+596578,Lafayette,Patriot,low,Fr,unknown,13
+596578,Lafayette,Patriot,low,Jr,unknown,10
+596578,Lafayette,Patriot,low,So,unknown,13
+596578,Lafayette,Patriot,low,Sr,unknown,9
+596579,Lamar University,Southland,low,unknown,unknown,18
+596580,Lehigh,Patriot,low,Fr,unknown,10
+596580,Lehigh,Patriot,low,Jr,unknown,15
+596580,Lehigh,Patriot,low,So,unknown,9
+596580,Lehigh,Patriot,low,Sr,unknown,7
+596581,Liberty,CUSA,mid,Fr,unknown,9
+596581,Liberty,CUSA,mid,Jr,unknown,15
+596581,Liberty,CUSA,mid,So,unknown,8
+596581,Liberty,CUSA,mid,Sr,unknown,7
+596582,Longwood,Big South,mid,Fr,high_school_only,15
+596582,Longwood,Big South,mid,Gr,d1_transfer,1
+596582,Longwood,Big South,mid,Gr,juco,1
+596582,Longwood,Big South,mid,Gr,other_four_year,5
+596582,Longwood,Big South,mid,Jr,d1_transfer,4
+596582,Longwood,Big South,mid,Jr,high_school_only,2
+596582,Longwood,Big South,mid,Jr,other_four_year,2
+596582,Longwood,Big South,mid,So,d1_transfer,2
+596582,Longwood,Big South,mid,So,high_school_only,4
+596582,Longwood,Big South,mid,Sr,d1_transfer,3
+596582,Longwood,Big South,mid,Sr,other_four_year,1
+596583,LSU,SEC,p4,Fr,high_school_only,11
+596583,LSU,SEC,p4,Jr,d1_transfer,10
+596583,LSU,SEC,p4,Jr,high_school_only,3
+596583,LSU,SEC,p4,Jr,juco,3
+596583,LSU,SEC,p4,So,d1_transfer,1
+596583,LSU,SEC,p4,So,high_school_only,8
+596583,LSU,SEC,p4,Sr,d1_transfer,3
+596583,LSU,SEC,p4,Sr,high_school_only,1
+596584,Louisiana Tech,CUSA,mid,Fr,high_school_only,10
+596584,Louisiana Tech,CUSA,mid,Gr,d1_transfer,1
+596584,Louisiana Tech,CUSA,mid,Gr,juco,1
+596584,Louisiana Tech,CUSA,mid,Gr,other_four_year,2
+596584,Louisiana Tech,CUSA,mid,Jr,d1_transfer,5
+596584,Louisiana Tech,CUSA,mid,Jr,high_school_only,2
+596584,Louisiana Tech,CUSA,mid,Jr,juco,3
+596584,Louisiana Tech,CUSA,mid,Jr,other_four_year,1
+596584,Louisiana Tech,CUSA,mid,So,d1_transfer,2
+596584,Louisiana Tech,CUSA,mid,So,high_school_only,9
+596584,Louisiana Tech,CUSA,mid,Sr,d1_transfer,2
+596584,Louisiana Tech,CUSA,mid,Sr,high_school_only,3
+596584,Louisiana Tech,CUSA,mid,Sr,juco,3
+596585,Louisville,ACC,p4,Fr,high_school_only,15
+596585,Louisville,ACC,p4,Jr,d1_transfer,2
+596585,Louisville,ACC,p4,Jr,high_school_only,6
+596585,Louisville,ACC,p4,Jr,juco,3
+596585,Louisville,ACC,p4,Jr,other_four_year,1
+596585,Louisville,ACC,p4,So,high_school_only,9
+596585,Louisville,ACC,p4,Sr,d1_transfer,4
+596585,Louisville,ACC,p4,Sr,high_school_only,1
+596585,Louisville,ACC,p4,Sr,juco,1
+596587,LMU (CA),WCC,mid,Fr,high_school_only,11
+596587,LMU (CA),WCC,mid,Gr,d1_transfer,2
+596587,LMU (CA),WCC,mid,Gr,high_school_only,2
+596587,LMU (CA),WCC,mid,Gr,juco,1
+596587,LMU (CA),WCC,mid,Jr,d1_transfer,2
+596587,LMU (CA),WCC,mid,Jr,high_school_only,2
+596587,LMU (CA),WCC,mid,Jr,juco,7
+596587,LMU (CA),WCC,mid,Jr,other_four_year,1
+596587,LMU (CA),WCC,mid,So,d1_transfer,1
+596587,LMU (CA),WCC,mid,So,high_school_only,3
+596587,LMU (CA),WCC,mid,Sr,d1_transfer,3
+596587,LMU (CA),WCC,mid,Sr,high_school_only,3
+596587,LMU (CA),WCC,mid,Sr,juco,2
+596587,LMU (CA),WCC,mid,Sr,other_four_year,1
+596589,Manhattan,MAAC,low,Fr,high_school_only,3
+596589,Manhattan,MAAC,low,Jr,d1_transfer,1
+596589,Manhattan,MAAC,low,Jr,high_school_only,1
+596589,Manhattan,MAAC,low,Jr,other_four_year,2
+596591,Marshall,Sun Belt,mid,Fr,high_school_only,6
+596591,Marshall,Sun Belt,mid,Gr,d1_transfer,2
+596591,Marshall,Sun Belt,mid,Gr,high_school_only,1
+596591,Marshall,Sun Belt,mid,Gr,juco,1
+596591,Marshall,Sun Belt,mid,Jr,d1_transfer,2
+596591,Marshall,Sun Belt,mid,Jr,high_school_only,6
+596591,Marshall,Sun Belt,mid,Jr,juco,2
+596591,Marshall,Sun Belt,mid,So,high_school_only,5
+596591,Marshall,Sun Belt,mid,Sr,d1_transfer,4
+596591,Marshall,Sun Belt,mid,Sr,high_school_only,2
+596591,Marshall,Sun Belt,mid,Sr,juco,1
+596591,Marshall,Sun Belt,mid,Sr,other_four_year,2
+596591,Marshall,Sun Belt,mid,unknown,high_school_only,1
+596592,UMBC,America East,low,Fr,high_school_only,7
+596592,UMBC,America East,low,Gr,d1_transfer,1
+596592,UMBC,America East,low,Jr,d1_transfer,1
+596592,UMBC,America East,low,Jr,high_school_only,3
+596592,UMBC,America East,low,Jr,juco,4
+596592,UMBC,America East,low,So,high_school_only,12
+596592,UMBC,America East,low,So,other_four_year,1
+596592,UMBC,America East,low,Sr,high_school_only,4
+596592,UMBC,America East,low,Sr,juco,1
+596597,Memphis,The American,mid,Fr,high_school_only,7
+596597,Memphis,The American,mid,Jr,d1_transfer,3
+596597,Memphis,The American,mid,Jr,high_school_only,4
+596597,Memphis,The American,mid,Jr,juco,8
+596597,Memphis,The American,mid,Jr,other_four_year,2
+596597,Memphis,The American,mid,So,d1_transfer,1
+596597,Memphis,The American,mid,So,high_school_only,2
+596597,Memphis,The American,mid,So,juco,1
+596597,Memphis,The American,mid,Sr,d1_transfer,5
+596597,Memphis,The American,mid,Sr,high_school_only,1
+596597,Memphis,The American,mid,Sr,juco,4
+596597,Memphis,The American,mid,Sr,other_four_year,1
+596598,Mercer,SoCon,mid,Fr,high_school_only,13
+596598,Mercer,SoCon,mid,Gr,d1_transfer,1
+596598,Mercer,SoCon,mid,Gr,other_four_year,1
+596598,Mercer,SoCon,mid,Jr,d1_transfer,2
+596598,Mercer,SoCon,mid,Jr,high_school_only,3
+596598,Mercer,SoCon,mid,Jr,juco,7
+596598,Mercer,SoCon,mid,Jr,other_four_year,1
+596598,Mercer,SoCon,mid,So,d1_transfer,2
+596598,Mercer,SoCon,mid,So,high_school_only,5
+596598,Mercer,SoCon,mid,So,juco,1
+596598,Mercer,SoCon,mid,So,other_four_year,1
+596598,Mercer,SoCon,mid,Sr,d1_transfer,3
+596598,Mercer,SoCon,mid,Sr,high_school_only,1
+596598,Mercer,SoCon,mid,Sr,other_four_year,1
+596599,Miami (OH),MAC,mid,Fr,high_school_only,10
+596599,Miami (OH),MAC,mid,Jr,d1_transfer,4
+596599,Miami (OH),MAC,mid,Jr,high_school_only,4
+596599,Miami (OH),MAC,mid,Jr,juco,5
+596599,Miami (OH),MAC,mid,Jr,other_four_year,1
+596599,Miami (OH),MAC,mid,So,d1_transfer,1
+596599,Miami (OH),MAC,mid,So,high_school_only,3
+596599,Miami (OH),MAC,mid,Sr,d1_transfer,4
+596599,Miami (OH),MAC,mid,Sr,high_school_only,4
+596599,Miami (OH),MAC,mid,Sr,juco,2
+596599,Miami (OH),MAC,mid,Sr,other_four_year,2
+596601,Michigan St.,Big Ten,p4,Fr,high_school_only,5
+596601,Michigan St.,Big Ten,p4,Gr,d1_transfer,2
+596601,Michigan St.,Big Ten,p4,Gr,other_four_year,3
+596601,Michigan St.,Big Ten,p4,Jr,d1_transfer,2
+596601,Michigan St.,Big Ten,p4,Jr,high_school_only,6
+596601,Michigan St.,Big Ten,p4,Jr,juco,1
+596601,Michigan St.,Big Ten,p4,So,d1_transfer,2
+596601,Michigan St.,Big Ten,p4,So,high_school_only,8
+596601,Michigan St.,Big Ten,p4,Sr,d1_transfer,1
+596601,Michigan St.,Big Ten,p4,Sr,high_school_only,2
+596601,Michigan St.,Big Ten,p4,Sr,juco,2
+596601,Michigan St.,Big Ten,p4,Sr,other_four_year,2
+596602,Michigan,Big Ten,p4,Fr,unknown,13
+596602,Michigan,Big Ten,p4,Gr,unknown,6
+596602,Michigan,Big Ten,p4,Jr,unknown,7
+596602,Michigan,Big Ten,p4,So,unknown,12
+596602,Michigan,Big Ten,p4,Sr,unknown,4
+596604,Minnesota,Big Ten,p4,Fr,high_school_only,6
+596604,Minnesota,Big Ten,p4,Jr,d1_transfer,2
+596604,Minnesota,Big Ten,p4,Jr,high_school_only,5
+596604,Minnesota,Big Ten,p4,Jr,juco,2
+596604,Minnesota,Big Ten,p4,Jr,other_four_year,1
+596604,Minnesota,Big Ten,p4,So,d1_transfer,3
+596604,Minnesota,Big Ten,p4,So,high_school_only,7
+596604,Minnesota,Big Ten,p4,So,juco,1
+596604,Minnesota,Big Ten,p4,Sr,d1_transfer,2
+596604,Minnesota,Big Ten,p4,Sr,high_school_only,3
+596604,Minnesota,Big Ten,p4,Sr,other_four_year,1
+596605,Mississippi St.,SEC,p4,Fr,unknown,9
+596605,Mississippi St.,SEC,p4,Gr,unknown,2
+596605,Mississippi St.,SEC,p4,Jr,unknown,10
+596605,Mississippi St.,SEC,p4,So,unknown,6
+596605,Mississippi St.,SEC,p4,Sr,unknown,13
+596607,Ole Miss,SEC,p4,Fr,high_school_only,12
+596607,Ole Miss,SEC,p4,Jr,d1_transfer,3
+596607,Ole Miss,SEC,p4,Jr,high_school_only,6
+596607,Ole Miss,SEC,p4,Jr,juco,2
+596607,Ole Miss,SEC,p4,So,d1_transfer,1
+596607,Ole Miss,SEC,p4,So,high_school_only,5
+596607,Ole Miss,SEC,p4,So,juco,1
+596607,Ole Miss,SEC,p4,Sr,d1_transfer,5
+596607,Ole Miss,SEC,p4,Sr,high_school_only,2
+596607,Ole Miss,SEC,p4,Sr,juco,2
+596607,Ole Miss,SEC,p4,Sr,other_four_year,1
+596608,Missouri,SEC,p4,Fr,high_school_only,10
+596608,Missouri,SEC,p4,Gr,d1_transfer,2
+596608,Missouri,SEC,p4,Gr,high_school_only,1
+596608,Missouri,SEC,p4,Jr,d1_transfer,4
+596608,Missouri,SEC,p4,Jr,high_school_only,5
+596608,Missouri,SEC,p4,Jr,juco,6
+596608,Missouri,SEC,p4,So,d1_transfer,1
+596608,Missouri,SEC,p4,So,high_school_only,6
+596608,Missouri,SEC,p4,So,other_four_year,1
+596608,Missouri,SEC,p4,Sr,d1_transfer,2
+596608,Missouri,SEC,p4,Sr,high_school_only,1
+596608,Missouri,SEC,p4,Sr,juco,2
+596608,Missouri,SEC,p4,Sr,other_four_year,1
+596609,Monmouth,CAA,mid,Fr,high_school_only,2
+596609,Monmouth,CAA,mid,Gr,d1_transfer,1
+596609,Monmouth,CAA,mid,Gr,high_school_only,3
+596609,Monmouth,CAA,mid,Gr,other_four_year,1
+596609,Monmouth,CAA,mid,Jr,d1_transfer,1
+596609,Monmouth,CAA,mid,Jr,high_school_only,5
+596609,Monmouth,CAA,mid,Jr,juco,2
+596609,Monmouth,CAA,mid,So,high_school_only,8
+596609,Monmouth,CAA,mid,Sr,high_school_only,5
+596609,Monmouth,CAA,mid,Sr,other_four_year,2
+596610,Morehead St.,OVC,low,Fr,high_school_only,14
+596610,Morehead St.,OVC,low,Gr,d1_transfer,2
+596610,Morehead St.,OVC,low,Gr,high_school_only,2
+596610,Morehead St.,OVC,low,Jr,high_school_only,3
+596610,Morehead St.,OVC,low,Jr,juco,2
+596610,Morehead St.,OVC,low,Jr,other_four_year,2
+596610,Morehead St.,OVC,low,So,high_school_only,5
+596610,Morehead St.,OVC,low,Sr,high_school_only,2
+596610,Morehead St.,OVC,low,Sr,juco,2
+596610,Morehead St.,OVC,low,Sr,other_four_year,1
+596612,Murray St.,MVC,mid,Fr,high_school_only,3
+596612,Murray St.,MVC,mid,Fr,juco,1
+596612,Murray St.,MVC,mid,Gr,d1_transfer,1
+596612,Murray St.,MVC,mid,Gr,juco,1
+596612,Murray St.,MVC,mid,Gr,other_four_year,1
+596612,Murray St.,MVC,mid,Jr,d1_transfer,2
+596612,Murray St.,MVC,mid,Jr,high_school_only,4
+596612,Murray St.,MVC,mid,Jr,juco,4
+596612,Murray St.,MVC,mid,So,high_school_only,5
+596612,Murray St.,MVC,mid,So,juco,2
+596612,Murray St.,MVC,mid,Sr,d1_transfer,3
+596612,Murray St.,MVC,mid,Sr,high_school_only,1
+596612,Murray St.,MVC,mid,Sr,juco,6
+596612,Murray St.,MVC,mid,Sr,other_four_year,2
+596613,UNC Asheville,Big South,mid,Fr,high_school_only,12
+596613,UNC Asheville,Big South,mid,Jr,high_school_only,5
+596613,UNC Asheville,Big South,mid,Jr,juco,4
+596613,UNC Asheville,Big South,mid,Jr,other_four_year,2
+596613,UNC Asheville,Big South,mid,So,high_school_only,6
+596613,UNC Asheville,Big South,mid,So,juco,2
+596613,UNC Asheville,Big South,mid,Sr,d1_transfer,2
+596613,UNC Asheville,Big South,mid,Sr,high_school_only,4
+596613,UNC Asheville,Big South,mid,Sr,juco,2
+596614,North Carolina,ACC,p4,Fr,high_school_only,18
+596614,North Carolina,ACC,p4,Gr,d1_transfer,2
+596614,North Carolina,ACC,p4,Gr,high_school_only,1
+596614,North Carolina,ACC,p4,Gr,juco,1
+596614,North Carolina,ACC,p4,Gr,other_four_year,4
+596614,North Carolina,ACC,p4,Jr,d1_transfer,1
+596614,North Carolina,ACC,p4,Jr,high_school_only,6
+596614,North Carolina,ACC,p4,Jr,other_four_year,1
+596614,North Carolina,ACC,p4,So,d1_transfer,1
+596614,North Carolina,ACC,p4,So,high_school_only,8
+596614,North Carolina,ACC,p4,Sr,juco,1
+596614,North Carolina,ACC,p4,Sr,other_four_year,1
+596615,Charlotte,The American,mid,unknown,d1_transfer,12
+596615,Charlotte,The American,mid,unknown,high_school_only,9
+596615,Charlotte,The American,mid,unknown,juco,10
+596615,Charlotte,The American,mid,unknown,other_four_year,4
+596616,UNC Greensboro,SoCon,mid,Fr,unknown,10
+596616,UNC Greensboro,SoCon,mid,Jr,unknown,12
+596616,UNC Greensboro,SoCon,mid,So,unknown,7
+596616,UNC Greensboro,SoCon,mid,Sr,unknown,8
+596617,UNCW,CAA,mid,Fr,high_school_only,12
+596617,UNCW,CAA,mid,Jr,d1_transfer,1
+596617,UNCW,CAA,mid,Jr,high_school_only,9
+596617,UNCW,CAA,mid,Jr,juco,2
+596617,UNCW,CAA,mid,Jr,other_four_year,1
+596617,UNCW,CAA,mid,So,high_school_only,8
+596617,UNCW,CAA,mid,So,other_four_year,1
+596617,UNCW,CAA,mid,Sr,high_school_only,3
+596617,UNCW,CAA,mid,Sr,juco,3
+596617,UNCW,CAA,mid,Sr,other_four_year,2
+596618,Omaha,Summit League,low,Fr,high_school_only,7
+596618,Omaha,Summit League,low,Gr,juco,3
+596618,Omaha,Summit League,low,Jr,d1_transfer,1
+596618,Omaha,Summit League,low,Jr,juco,13
+596618,Omaha,Summit League,low,Jr,other_four_year,1
+596618,Omaha,Summit League,low,So,high_school_only,2
+596618,Omaha,Summit League,low,Sr,d1_transfer,3
+596618,Omaha,Summit League,low,Sr,juco,4
+596618,Omaha,Summit League,low,Sr,other_four_year,1
+596619,UNLV,Mountain West,mid,Fr,high_school_only,4
+596619,UNLV,Mountain West,mid,Jr,d1_transfer,3
+596619,UNLV,Mountain West,mid,Jr,juco,6
+596619,UNLV,Mountain West,mid,So,d1_transfer,4
+596619,UNLV,Mountain West,mid,So,juco,5
+596619,UNLV,Mountain West,mid,So,other_four_year,1
+596619,UNLV,Mountain West,mid,Sr,d1_transfer,4
+596619,UNLV,Mountain West,mid,Sr,high_school_only,2
+596619,UNLV,Mountain West,mid,Sr,juco,4
+596619,UNLV,Mountain West,mid,Sr,other_four_year,1
+596620,Nevada,Mountain West,mid,Fr,high_school_only,1
+596620,Nevada,Mountain West,mid,Jr,juco,1
+596620,Nevada,Mountain West,mid,So,high_school_only,1
+596620,Nevada,Mountain West,mid,Sr,d1_transfer,1
+596620,Nevada,Mountain West,mid,Sr,juco,1
+596622,New Mexico St.,CUSA,mid,Fr,d1_transfer,1
+596622,New Mexico St.,CUSA,mid,Fr,high_school_only,11
+596622,New Mexico St.,CUSA,mid,Jr,d1_transfer,2
+596622,New Mexico St.,CUSA,mid,Jr,high_school_only,2
+596622,New Mexico St.,CUSA,mid,Jr,juco,12
+596622,New Mexico St.,CUSA,mid,Jr,other_four_year,1
+596622,New Mexico St.,CUSA,mid,So,d1_transfer,1
+596622,New Mexico St.,CUSA,mid,So,high_school_only,1
+596622,New Mexico St.,CUSA,mid,So,juco,1
+596622,New Mexico St.,CUSA,mid,Sr,d1_transfer,1
+596622,New Mexico St.,CUSA,mid,Sr,juco,4
+596624,LSU New Orleans,Southland,low,Fr,d1_transfer,1
+596624,LSU New Orleans,Southland,low,Fr,high_school_only,5
+596624,LSU New Orleans,Southland,low,Jr,d1_transfer,1
+596624,LSU New Orleans,Southland,low,Jr,high_school_only,2
+596624,LSU New Orleans,Southland,low,Jr,juco,13
+596624,LSU New Orleans,Southland,low,So,high_school_only,2
+596624,LSU New Orleans,Southland,low,Sr,d1_transfer,3
+596624,LSU New Orleans,Southland,low,Sr,juco,9
+596624,LSU New Orleans,Southland,low,Sr,other_four_year,1
+596626,Norfolk St.,NEC,low,Fr,high_school_only,4
+596626,Norfolk St.,NEC,low,Gr,other_four_year,1
+596626,Norfolk St.,NEC,low,Jr,d1_transfer,1
+596626,Norfolk St.,NEC,low,Jr,high_school_only,5
+596626,Norfolk St.,NEC,low,Jr,juco,1
+596626,Norfolk St.,NEC,low,Jr,other_four_year,3
+596626,Norfolk St.,NEC,low,So,high_school_only,6
+596626,Norfolk St.,NEC,low,So,other_four_year,2
+596626,Norfolk St.,NEC,low,Sr,high_school_only,1
+596626,Norfolk St.,NEC,low,Sr,juco,2
+596626,Norfolk St.,NEC,low,Sr,other_four_year,1
+596627,N.C. A&T,CAA,mid,Fr,high_school_only,1
+596627,N.C. A&T,CAA,mid,So,high_school_only,1
+596627,N.C. A&T,CAA,mid,So,juco,1
+596627,N.C. A&T,CAA,mid,So,other_four_year,1
+596627,N.C. A&T,CAA,mid,Sr,other_four_year,1
+596628,NC State,ACC,p4,Fr,high_school_only,10
+596628,NC State,ACC,p4,Gr,high_school_only,1
+596628,NC State,ACC,p4,Jr,high_school_only,11
+596628,NC State,ACC,p4,So,high_school_only,15
+596628,NC State,ACC,p4,Sr,high_school_only,2
+596629,North Dakota St.,Summit League,low,Fr,d1_transfer,2
+596629,North Dakota St.,Summit League,low,Fr,high_school_only,9
+596629,North Dakota St.,Summit League,low,Jr,d1_transfer,2
+596629,North Dakota St.,Summit League,low,Jr,high_school_only,4
+596629,North Dakota St.,Summit League,low,Jr,juco,2
+596629,North Dakota St.,Summit League,low,Jr,other_four_year,1
+596629,North Dakota St.,Summit League,low,So,high_school_only,5
+596629,North Dakota St.,Summit League,low,Sr,d1_transfer,3
+596629,North Dakota St.,Summit League,low,Sr,juco,6
+596629,North Dakota St.,Summit League,low,Sr,other_four_year,1
+596629,North Dakota St.,Summit League,low,unknown,d1_transfer,1
+596629,North Dakota St.,Summit League,low,unknown,high_school_only,4
+596630,ULM,Sun Belt,mid,Fr,high_school_only,11
+596630,ULM,Sun Belt,mid,Gr,d1_transfer,1
+596630,ULM,Sun Belt,mid,Jr,d1_transfer,2
+596630,ULM,Sun Belt,mid,Jr,high_school_only,6
+596630,ULM,Sun Belt,mid,Jr,juco,9
+596630,ULM,Sun Belt,mid,Jr,other_four_year,1
+596630,ULM,Sun Belt,mid,So,high_school_only,2
+596630,ULM,Sun Belt,mid,So,juco,1
+596630,ULM,Sun Belt,mid,Sr,d1_transfer,1
+596630,ULM,Sun Belt,mid,Sr,high_school_only,1
+596630,ULM,Sun Belt,mid,Sr,juco,4
+596630,ULM,Sun Belt,mid,Sr,other_four_year,2
+596631,Northeastern,CAA,mid,Fr,high_school_only,16
+596631,Northeastern,CAA,mid,Gr,d1_transfer,1
+596631,Northeastern,CAA,mid,Gr,high_school_only,2
+596631,Northeastern,CAA,mid,Gr,other_four_year,3
+596631,Northeastern,CAA,mid,Jr,d1_transfer,2
+596631,Northeastern,CAA,mid,Jr,high_school_only,8
+596631,Northeastern,CAA,mid,So,high_school_only,4
+596631,Northeastern,CAA,mid,Sr,d1_transfer,1
+596631,Northeastern,CAA,mid,Sr,high_school_only,3
+596631,Northeastern,CAA,mid,Sr,other_four_year,1
+596632,Northern Colo.,Summit League,low,Fr,high_school_only,5
+596632,Northern Colo.,Summit League,low,Gr,d1_transfer,3
+596632,Northern Colo.,Summit League,low,Gr,juco,1
+596632,Northern Colo.,Summit League,low,Jr,high_school_only,3
+596632,Northern Colo.,Summit League,low,Jr,juco,6
+596632,Northern Colo.,Summit League,low,Jr,other_four_year,3
+596632,Northern Colo.,Summit League,low,So,d1_transfer,2
+596632,Northern Colo.,Summit League,low,So,high_school_only,4
+596632,Northern Colo.,Summit League,low,Sr,d1_transfer,1
+596632,Northern Colo.,Summit League,low,Sr,high_school_only,3
+596632,Northern Colo.,Summit League,low,Sr,juco,5
+596632,Northern Colo.,Summit League,low,Sr,other_four_year,2
+596633,NIU,MAC,mid,Fr,high_school_only,9
+596633,NIU,MAC,mid,Jr,high_school_only,1
+596633,NIU,MAC,mid,Jr,juco,5
+596633,NIU,MAC,mid,Jr,other_four_year,5
+596633,NIU,MAC,mid,So,high_school_only,6
+596633,NIU,MAC,mid,So,juco,1
+596633,NIU,MAC,mid,Sr,d1_transfer,6
+596633,NIU,MAC,mid,Sr,high_school_only,3
+596633,NIU,MAC,mid,Sr,juco,2
+596633,NIU,MAC,mid,Sr,other_four_year,1
+596634,Northern Ky.,Horizon,low,Fr,d1_transfer,1
+596634,Northern Ky.,Horizon,low,Fr,high_school_only,4
+596634,Northern Ky.,Horizon,low,Gr,high_school_only,1
+596634,Northern Ky.,Horizon,low,Gr,juco,1
+596634,Northern Ky.,Horizon,low,Gr,other_four_year,1
+596634,Northern Ky.,Horizon,low,Jr,d1_transfer,1
+596634,Northern Ky.,Horizon,low,Jr,high_school_only,1
+596634,Northern Ky.,Horizon,low,Jr,juco,3
+596634,Northern Ky.,Horizon,low,Jr,other_four_year,1
+596634,Northern Ky.,Horizon,low,So,d1_transfer,1
+596634,Northern Ky.,Horizon,low,So,high_school_only,4
+596634,Northern Ky.,Horizon,low,So,other_four_year,2
+596634,Northern Ky.,Horizon,low,Sr,d1_transfer,2
+596634,Northern Ky.,Horizon,low,Sr,high_school_only,1
+596634,Northern Ky.,Horizon,low,Sr,juco,1
+596634,Northern Ky.,Horizon,low,Sr,other_four_year,1
+596635,Northwestern St.,Southland,low,Fr,high_school_only,9
+596635,Northwestern St.,Southland,low,Jr,d1_transfer,1
+596635,Northwestern St.,Southland,low,Jr,high_school_only,3
+596635,Northwestern St.,Southland,low,Jr,juco,11
+596635,Northwestern St.,Southland,low,Jr,other_four_year,2
+596635,Northwestern St.,Southland,low,So,d1_transfer,1
+596635,Northwestern St.,Southland,low,So,high_school_only,8
+596635,Northwestern St.,Southland,low,So,juco,1
+596635,Northwestern St.,Southland,low,Sr,high_school_only,2
+596635,Northwestern St.,Southland,low,Sr,juco,7
+596635,Northwestern St.,Southland,low,Sr,other_four_year,2
+596638,Oakland,Horizon,low,Fr,high_school_only,8
+596638,Oakland,Horizon,low,Gr,other_four_year,1
+596638,Oakland,Horizon,low,Jr,high_school_only,3
+596638,Oakland,Horizon,low,Jr,juco,3
+596638,Oakland,Horizon,low,So,d1_transfer,1
+596638,Oakland,Horizon,low,So,high_school_only,8
+596638,Oakland,Horizon,low,So,juco,3
+596638,Oakland,Horizon,low,Sr,d1_transfer,1
+596638,Oakland,Horizon,low,Sr,high_school_only,4
+596638,Oakland,Horizon,low,Sr,juco,3
+596638,Oakland,Horizon,low,Sr,other_four_year,2
+596639,Ohio St.,Big Ten,p4,Fr,d1_transfer,1
+596639,Ohio St.,Big Ten,p4,Fr,high_school_only,10
+596639,Ohio St.,Big Ten,p4,Gr,d1_transfer,2
+596639,Ohio St.,Big Ten,p4,Jr,d1_transfer,1
+596639,Ohio St.,Big Ten,p4,Jr,high_school_only,2
+596639,Ohio St.,Big Ten,p4,Jr,juco,4
+596639,Ohio St.,Big Ten,p4,Jr,other_four_year,1
+596639,Ohio St.,Big Ten,p4,So,d1_transfer,4
+596639,Ohio St.,Big Ten,p4,So,high_school_only,5
+596639,Ohio St.,Big Ten,p4,So,other_four_year,1
+596639,Ohio St.,Big Ten,p4,Sr,d1_transfer,3
+596639,Ohio St.,Big Ten,p4,Sr,high_school_only,2
+596639,Ohio St.,Big Ten,p4,Sr,juco,2
+596641,Oklahoma,SEC,p4,Fr,high_school_only,14
+596641,Oklahoma,SEC,p4,Gr,d1_transfer,1
+596641,Oklahoma,SEC,p4,Jr,d1_transfer,1
+596641,Oklahoma,SEC,p4,Jr,high_school_only,1
+596641,Oklahoma,SEC,p4,Jr,juco,10
+596641,Oklahoma,SEC,p4,Jr,other_four_year,1
+596641,Oklahoma,SEC,p4,So,d1_transfer,2
+596641,Oklahoma,SEC,p4,So,high_school_only,4
+596641,Oklahoma,SEC,p4,So,juco,3
+596641,Oklahoma,SEC,p4,Sr,d1_transfer,1
+596641,Oklahoma,SEC,p4,Sr,juco,3
+596643,Oregon St.,DI Independent,p4,Fr,unknown,10
+596643,Oregon St.,DI Independent,p4,Jr,unknown,13
+596643,Oregon St.,DI Independent,p4,So,unknown,7
+596643,Oregon St.,DI Independent,p4,Sr,unknown,4
+596644,Oregon,Big Ten,p4,Fr,high_school_only,14
+596644,Oregon,Big Ten,p4,Jr,d1_transfer,3
+596644,Oregon,Big Ten,p4,Jr,high_school_only,7
+596644,Oregon,Big Ten,p4,Jr,juco,1
+596644,Oregon,Big Ten,p4,Jr,other_four_year,1
+596644,Oregon,Big Ten,p4,So,high_school_only,7
+596644,Oregon,Big Ten,p4,So,juco,1
+596644,Oregon,Big Ten,p4,Sr,d1_transfer,3
+596644,Oregon,Big Ten,p4,Sr,high_school_only,1
+596644,Oregon,Big Ten,p4,Sr,juco,1
+596644,Oregon,Big Ten,p4,Sr,other_four_year,1
+596645,Pacific,WCC,mid,Fr,high_school_only,6
+596645,Pacific,WCC,mid,Gr,d1_transfer,1
+596645,Pacific,WCC,mid,Gr,juco,1
+596645,Pacific,WCC,mid,Jr,d1_transfer,1
+596645,Pacific,WCC,mid,Jr,high_school_only,7
+596645,Pacific,WCC,mid,Jr,juco,2
+596645,Pacific,WCC,mid,So,d1_transfer,1
+596645,Pacific,WCC,mid,So,high_school_only,6
+596645,Pacific,WCC,mid,So,juco,3
+596645,Pacific,WCC,mid,Sr,d1_transfer,1
+596645,Pacific,WCC,mid,Sr,high_school_only,1
+596645,Pacific,WCC,mid,Sr,juco,2
+596645,Pacific,WCC,mid,Sr,other_four_year,6
+596646,UTRGV,Southland,low,Fr,high_school_only,3
+596646,UTRGV,Southland,low,Gr,high_school_only,6
+596646,UTRGV,Southland,low,Jr,high_school_only,12
+596646,UTRGV,Southland,low,So,high_school_only,4
+596646,UTRGV,Southland,low,Sr,high_school_only,10
+596648,Pepperdine,WCC,mid,Fr,d1_transfer,1
+596648,Pepperdine,WCC,mid,Fr,high_school_only,11
+596648,Pepperdine,WCC,mid,Gr,d1_transfer,1
+596648,Pepperdine,WCC,mid,Gr,other_four_year,2
+596648,Pepperdine,WCC,mid,Jr,d1_transfer,1
+596648,Pepperdine,WCC,mid,Jr,high_school_only,1
+596648,Pepperdine,WCC,mid,Jr,other_four_year,3
+596648,Pepperdine,WCC,mid,So,d1_transfer,3
+596648,Pepperdine,WCC,mid,So,high_school_only,6
+596648,Pepperdine,WCC,mid,So,other_four_year,2
+596648,Pepperdine,WCC,mid,Sr,d1_transfer,1
+596648,Pepperdine,WCC,mid,Sr,high_school_only,6
+596648,Pepperdine,WCC,mid,Sr,juco,2
+596649,Pittsburgh,ACC,p4,Fr,d1_transfer,1
+596649,Pittsburgh,ACC,p4,Fr,high_school_only,6
+596649,Pittsburgh,ACC,p4,Jr,d1_transfer,8
+596649,Pittsburgh,ACC,p4,Jr,high_school_only,2
+596649,Pittsburgh,ACC,p4,Jr,juco,3
+596649,Pittsburgh,ACC,p4,So,d1_transfer,1
+596649,Pittsburgh,ACC,p4,So,high_school_only,7
+596649,Pittsburgh,ACC,p4,So,juco,3
+596649,Pittsburgh,ACC,p4,Sr,d1_transfer,4
+596649,Pittsburgh,ACC,p4,Sr,high_school_only,1
+596649,Pittsburgh,ACC,p4,Sr,juco,1
+596650,Portland,WCC,mid,Fr,high_school_only,17
+596650,Portland,WCC,mid,Jr,high_school_only,7
+596650,Portland,WCC,mid,So,high_school_only,6
+596650,Portland,WCC,mid,Sr,high_school_only,7
+596650,Portland,WCC,mid,unknown,high_school_only,1
+596651,Prairie View,SWAC,low,Fr,d1_transfer,1
+596651,Prairie View,SWAC,low,Fr,high_school_only,5
+596651,Prairie View,SWAC,low,Fr,juco,1
+596651,Prairie View,SWAC,low,Fr,other_four_year,2
+596651,Prairie View,SWAC,low,Gr,d1_transfer,1
+596651,Prairie View,SWAC,low,Gr,high_school_only,1
+596651,Prairie View,SWAC,low,Gr,other_four_year,1
+596651,Prairie View,SWAC,low,Jr,high_school_only,1
+596651,Prairie View,SWAC,low,Jr,juco,6
+596651,Prairie View,SWAC,low,Jr,other_four_year,4
+596651,Prairie View,SWAC,low,So,d1_transfer,1
+596651,Prairie View,SWAC,low,So,high_school_only,10
+596651,Prairie View,SWAC,low,So,juco,1
+596651,Prairie View,SWAC,low,So,other_four_year,1
+596651,Prairie View,SWAC,low,Sr,high_school_only,2
+596651,Prairie View,SWAC,low,Sr,juco,5
+596652,Princeton,Ivy League,low,Fr,unknown,7
+596652,Princeton,Ivy League,low,Jr,unknown,5
+596652,Princeton,Ivy League,low,So,unknown,10
+596652,Princeton,Ivy League,low,Sr,unknown,9
+596653,Purdue,Big Ten,p4,Fr,high_school_only,9
+596653,Purdue,Big Ten,p4,Gr,d1_transfer,3
+596653,Purdue,Big Ten,p4,Gr,other_four_year,1
+596653,Purdue,Big Ten,p4,Jr,d1_transfer,4
+596653,Purdue,Big Ten,p4,Jr,juco,10
+596653,Purdue,Big Ten,p4,So,high_school_only,5
+596653,Purdue,Big Ten,p4,Sr,d1_transfer,7
+596653,Purdue,Big Ten,p4,Sr,high_school_only,2
+596653,Purdue,Big Ten,p4,Sr,juco,3
+596654,Quinnipiac,MAAC,low,Fr,d1_transfer,2
+596654,Quinnipiac,MAAC,low,Fr,high_school_only,6
+596654,Quinnipiac,MAAC,low,Gr,d1_transfer,1
+596654,Quinnipiac,MAAC,low,Gr,high_school_only,1
+596654,Quinnipiac,MAAC,low,Gr,other_four_year,3
+596654,Quinnipiac,MAAC,low,Jr,d1_transfer,2
+596654,Quinnipiac,MAAC,low,Jr,high_school_only,5
+596654,Quinnipiac,MAAC,low,So,high_school_only,3
+596654,Quinnipiac,MAAC,low,So,juco,1
+596654,Quinnipiac,MAAC,low,Sr,d1_transfer,1
+596654,Quinnipiac,MAAC,low,Sr,high_school_only,3
+596654,Quinnipiac,MAAC,low,Sr,other_four_year,2
+596655,Radford,Big South,mid,Fr,high_school_only,12
+596655,Radford,Big South,mid,Fr,other_four_year,1
+596655,Radford,Big South,mid,Gr,other_four_year,1
+596655,Radford,Big South,mid,Jr,d1_transfer,1
+596655,Radford,Big South,mid,Jr,high_school_only,2
+596655,Radford,Big South,mid,Jr,juco,1
+596655,Radford,Big South,mid,So,d1_transfer,2
+596655,Radford,Big South,mid,So,high_school_only,6
+596655,Radford,Big South,mid,Sr,d1_transfer,1
+596655,Radford,Big South,mid,Sr,high_school_only,1
+596655,Radford,Big South,mid,Sr,juco,7
+596655,Radford,Big South,mid,Sr,other_four_year,1
+596655,Radford,Big South,mid,unknown,high_school_only,2
+596656,Rhode Island,Atlantic 10,mid,Fr,high_school_only,10
+596656,Rhode Island,Atlantic 10,mid,Gr,high_school_only,1
+596656,Rhode Island,Atlantic 10,mid,Gr,other_four_year,2
+596656,Rhode Island,Atlantic 10,mid,Jr,high_school_only,8
+596656,Rhode Island,Atlantic 10,mid,So,d1_transfer,4
+596656,Rhode Island,Atlantic 10,mid,So,high_school_only,10
+596656,Rhode Island,Atlantic 10,mid,Sr,high_school_only,4
+596656,Rhode Island,Atlantic 10,mid,Sr,juco,1
+596657,Rice,The American,mid,Fr,d1_transfer,2
+596657,Rice,The American,mid,Fr,high_school_only,9
+596657,Rice,The American,mid,Gr,d1_transfer,1
+596657,Rice,The American,mid,Gr,high_school_only,1
+596657,Rice,The American,mid,Gr,other_four_year,1
+596657,Rice,The American,mid,Jr,d1_transfer,2
+596657,Rice,The American,mid,Jr,high_school_only,5
+596657,Rice,The American,mid,Jr,juco,5
+596657,Rice,The American,mid,Jr,other_four_year,1
+596657,Rice,The American,mid,So,high_school_only,3
+596657,Rice,The American,mid,Sr,d1_transfer,4
+596657,Rice,The American,mid,Sr,high_school_only,4
+596657,Rice,The American,mid,Sr,juco,1
+596658,Richmond,Atlantic 10,mid,Fr,high_school_only,10
+596658,Richmond,Atlantic 10,mid,Gr,d1_transfer,2
+596658,Richmond,Atlantic 10,mid,Gr,high_school_only,2
+596658,Richmond,Atlantic 10,mid,Gr,other_four_year,5
+596658,Richmond,Atlantic 10,mid,Jr,d1_transfer,2
+596658,Richmond,Atlantic 10,mid,Jr,high_school_only,2
+596658,Richmond,Atlantic 10,mid,Jr,juco,1
+596658,Richmond,Atlantic 10,mid,So,d1_transfer,2
+596658,Richmond,Atlantic 10,mid,So,high_school_only,8
+596658,Richmond,Atlantic 10,mid,Sr,d1_transfer,3
+596658,Richmond,Atlantic 10,mid,Sr,high_school_only,4
+596658,Richmond,Atlantic 10,mid,Sr,other_four_year,1
+596659,Rider,MAAC,low,Fr,high_school_only,7
+596659,Rider,MAAC,low,Gr,high_school_only,1
+596659,Rider,MAAC,low,Jr,high_school_only,13
+596659,Rider,MAAC,low,So,d1_transfer,1
+596659,Rider,MAAC,low,So,high_school_only,6
+596659,Rider,MAAC,low,So,other_four_year,1
+596659,Rider,MAAC,low,Sr,high_school_only,2
+596660,Rutgers,Big Ten,p4,Fr,unknown,17
+596660,Rutgers,Big Ten,p4,Gr,unknown,4
+596660,Rutgers,Big Ten,p4,Jr,unknown,8
+596660,Rutgers,Big Ten,p4,So,unknown,4
+596660,Rutgers,Big Ten,p4,Sr,unknown,5
+596661,Sacred Heart,MAAC,low,Fr,high_school_only,8
+596661,Sacred Heart,MAAC,low,Gr,d1_transfer,1
+596661,Sacred Heart,MAAC,low,Jr,d1_transfer,1
+596661,Sacred Heart,MAAC,low,Jr,high_school_only,4
+596661,Sacred Heart,MAAC,low,Jr,other_four_year,1
+596661,Sacred Heart,MAAC,low,So,high_school_only,10
+596661,Sacred Heart,MAAC,low,Sr,high_school_only,8
+596661,Sacred Heart,MAAC,low,Sr,juco,3
+596661,Sacred Heart,MAAC,low,Sr,other_four_year,1
+596662,St. Bonaventure,Atlantic 10,mid,Fr,high_school_only,8
+596662,St. Bonaventure,Atlantic 10,mid,Jr,d1_transfer,1
+596662,St. Bonaventure,Atlantic 10,mid,Jr,high_school_only,4
+596662,St. Bonaventure,Atlantic 10,mid,Jr,juco,6
+596662,St. Bonaventure,Atlantic 10,mid,Jr,other_four_year,1
+596662,St. Bonaventure,Atlantic 10,mid,So,d1_transfer,2
+596662,St. Bonaventure,Atlantic 10,mid,So,high_school_only,5
+596662,St. Bonaventure,Atlantic 10,mid,Sr,d1_transfer,2
+596662,St. Bonaventure,Atlantic 10,mid,Sr,high_school_only,2
+596662,St. Bonaventure,Atlantic 10,mid,Sr,juco,3
+596662,St. Bonaventure,Atlantic 10,mid,Sr,other_four_year,4
+596665,Saint Mary's (CA),WCC,mid,Fr,d1_transfer,1
+596665,Saint Mary's (CA),WCC,mid,Fr,high_school_only,16
+596665,Saint Mary's (CA),WCC,mid,Gr,juco,1
+596665,Saint Mary's (CA),WCC,mid,Gr,other_four_year,1
+596665,Saint Mary's (CA),WCC,mid,Jr,d1_transfer,4
+596665,Saint Mary's (CA),WCC,mid,Jr,high_school_only,7
+596665,Saint Mary's (CA),WCC,mid,Jr,juco,1
+596665,Saint Mary's (CA),WCC,mid,So,high_school_only,4
+596665,Saint Mary's (CA),WCC,mid,So,juco,2
+596665,Saint Mary's (CA),WCC,mid,Sr,d1_transfer,1
+596665,Saint Mary's (CA),WCC,mid,Sr,high_school_only,2
+596665,Saint Mary's (CA),WCC,mid,Sr,juco,1
+596665,Saint Mary's (CA),WCC,mid,Sr,other_four_year,1
+596667,Sam Houston,CUSA,mid,Fr,unknown,11
+596667,Sam Houston,CUSA,mid,Jr,unknown,11
+596667,Sam Houston,CUSA,mid,So,unknown,12
+596667,Sam Houston,CUSA,mid,Sr,unknown,2
+596668,Samford,SoCon,mid,Fr,high_school_only,9
+596668,Samford,SoCon,mid,Gr,other_four_year,1
+596668,Samford,SoCon,mid,Jr,high_school_only,5
+596668,Samford,SoCon,mid,Jr,juco,7
+596668,Samford,SoCon,mid,Jr,other_four_year,1
+596668,Samford,SoCon,mid,So,d1_transfer,1
+596668,Samford,SoCon,mid,So,high_school_only,6
+596668,Samford,SoCon,mid,So,other_four_year,1
+596668,Samford,SoCon,mid,Sr,d1_transfer,2
+596668,Samford,SoCon,mid,Sr,high_school_only,4
+596668,Samford,SoCon,mid,Sr,juco,2
+596668,Samford,SoCon,mid,Sr,other_four_year,1
+596669,San Diego St.,Mountain West,mid,Fr,high_school_only,17
+596669,San Diego St.,Mountain West,mid,Gr,high_school_only,1
+596669,San Diego St.,Mountain West,mid,Jr,d1_transfer,1
+596669,San Diego St.,Mountain West,mid,Jr,high_school_only,5
+596669,San Diego St.,Mountain West,mid,Jr,juco,1
+596669,San Diego St.,Mountain West,mid,Jr,other_four_year,1
+596669,San Diego St.,Mountain West,mid,So,high_school_only,9
+596669,San Diego St.,Mountain West,mid,Sr,high_school_only,3
+596673,Santa Clara,WCC,mid,Fr,high_school_only,12
+596673,Santa Clara,WCC,mid,Gr,other_four_year,1
+596673,Santa Clara,WCC,mid,Jr,d1_transfer,3
+596673,Santa Clara,WCC,mid,Jr,high_school_only,4
+596673,Santa Clara,WCC,mid,Jr,juco,4
+596673,Santa Clara,WCC,mid,Jr,other_four_year,1
+596673,Santa Clara,WCC,mid,So,d1_transfer,1
+596673,Santa Clara,WCC,mid,So,high_school_only,9
+596673,Santa Clara,WCC,mid,Sr,high_school_only,2
+596673,Santa Clara,WCC,mid,Sr,juco,3
+596673,Santa Clara,WCC,mid,Sr,other_four_year,1
+596674,Seton Hall,Big East,mid,Fr,high_school_only,10
+596674,Seton Hall,Big East,mid,Gr,d1_transfer,2
+596674,Seton Hall,Big East,mid,Gr,other_four_year,3
+596674,Seton Hall,Big East,mid,Jr,high_school_only,5
+596674,Seton Hall,Big East,mid,So,d1_transfer,3
+596674,Seton Hall,Big East,mid,So,high_school_only,10
+596674,Seton Hall,Big East,mid,Sr,d1_transfer,1
+596674,Seton Hall,Big East,mid,Sr,high_school_only,2
+596674,Seton Hall,Big East,mid,Sr,other_four_year,1
+596675,Siena,MAAC,low,Fr,d1_transfer,1
+596675,Siena,MAAC,low,Fr,high_school_only,3
+596675,Siena,MAAC,low,Gr,d1_transfer,1
+596675,Siena,MAAC,low,Gr,other_four_year,3
+596675,Siena,MAAC,low,Jr,d1_transfer,1
+596675,Siena,MAAC,low,Jr,high_school_only,6
+596675,Siena,MAAC,low,Jr,other_four_year,5
+596675,Siena,MAAC,low,So,d1_transfer,3
+596675,Siena,MAAC,low,So,high_school_only,5
+596675,Siena,MAAC,low,Sr,d1_transfer,2
+596675,Siena,MAAC,low,Sr,high_school_only,3
+596675,Siena,MAAC,low,Sr,juco,2
+596675,Siena,MAAC,low,Sr,other_four_year,1
+596676,South Alabama,Sun Belt,mid,So,high_school_only,4
+596676,South Alabama,Sun Belt,mid,Sr,d1_transfer,5
+596676,South Alabama,Sun Belt,mid,Sr,high_school_only,2
+596676,South Alabama,Sun Belt,mid,Sr,juco,6
+596677,South Carolina,SEC,p4,Fr,high_school_only,8
+596677,South Carolina,SEC,p4,Jr,d1_transfer,6
+596677,South Carolina,SEC,p4,Jr,high_school_only,2
+596677,South Carolina,SEC,p4,Jr,juco,3
+596677,South Carolina,SEC,p4,Jr,other_four_year,1
+596677,South Carolina,SEC,p4,So,d1_transfer,2
+596677,South Carolina,SEC,p4,So,high_school_only,6
+596677,South Carolina,SEC,p4,So,juco,1
+596677,South Carolina,SEC,p4,So,other_four_year,1
+596677,South Carolina,SEC,p4,Sr,d1_transfer,5
+596677,South Carolina,SEC,p4,Sr,high_school_only,3
+596677,South Carolina,SEC,p4,Sr,juco,1
+596678,South Dakota St.,Summit League,low,Fr,high_school_only,14
+596678,South Dakota St.,Summit League,low,Gr,juco,1
+596678,South Dakota St.,Summit League,low,Jr,high_school_only,6
+596678,South Dakota St.,Summit League,low,Jr,juco,4
+596678,South Dakota St.,Summit League,low,So,high_school_only,4
+596678,South Dakota St.,Summit League,low,Sr,high_school_only,8
+596678,South Dakota St.,Summit League,low,Sr,juco,3
+596679,South Fla.,The American,mid,Fr,high_school_only,6
+596679,South Fla.,The American,mid,Jr,d1_transfer,3
+596679,South Fla.,The American,mid,Jr,high_school_only,4
+596679,South Fla.,The American,mid,Jr,juco,5
+596679,South Fla.,The American,mid,Jr,other_four_year,2
+596679,South Fla.,The American,mid,So,d1_transfer,3
+596679,South Fla.,The American,mid,So,high_school_only,5
+596679,South Fla.,The American,mid,So,juco,1
+596679,South Fla.,The American,mid,So,other_four_year,1
+596679,South Fla.,The American,mid,Sr,d1_transfer,2
+596679,South Fla.,The American,mid,Sr,high_school_only,3
+596679,South Fla.,The American,mid,Sr,juco,4
+596679,South Fla.,The American,mid,Sr,other_four_year,1
+596680,Southeastern La.,Southland,low,Fr,high_school_only,11
+596680,Southeastern La.,Southland,low,Jr,d1_transfer,1
+596680,Southeastern La.,Southland,low,Jr,high_school_only,3
+596680,Southeastern La.,Southland,low,Jr,juco,8
+596680,Southeastern La.,Southland,low,So,high_school_only,6
+596680,Southeastern La.,Southland,low,Sr,d1_transfer,5
+596680,Southeastern La.,Southland,low,Sr,high_school_only,2
+596680,Southeastern La.,Southland,low,Sr,juco,8
+596681,Southern California,Big Ten,p4,Fr,high_school_only,17
+596681,Southern California,Big Ten,p4,Gr,d1_transfer,1
+596681,Southern California,Big Ten,p4,Jr,d1_transfer,2
+596681,Southern California,Big Ten,p4,Jr,high_school_only,2
+596681,Southern California,Big Ten,p4,Jr,juco,1
+596681,Southern California,Big Ten,p4,So,d1_transfer,3
+596681,Southern California,Big Ten,p4,So,high_school_only,10
+596681,Southern California,Big Ten,p4,So,juco,1
+596681,Southern California,Big Ten,p4,Sr,d1_transfer,1
+596681,Southern California,Big Ten,p4,Sr,high_school_only,1
+596681,Southern California,Big Ten,p4,Sr,juco,1
+596683,SIUE,OVC,low,Fr,high_school_only,6
+596683,SIUE,OVC,low,Gr,d1_transfer,1
+596683,SIUE,OVC,low,Jr,d1_transfer,1
+596683,SIUE,OVC,low,Jr,high_school_only,3
+596683,SIUE,OVC,low,Jr,juco,6
+596683,SIUE,OVC,low,So,d1_transfer,1
+596683,SIUE,OVC,low,So,high_school_only,6
+596683,SIUE,OVC,low,Sr,d1_transfer,2
+596683,SIUE,OVC,low,Sr,high_school_only,1
+596683,SIUE,OVC,low,Sr,juco,8
+596683,SIUE,OVC,low,Sr,other_four_year,1
+596684,Southern U.,SWAC,low,Fr,high_school_only,12
+596684,Southern U.,SWAC,low,Gr,other_four_year,1
+596684,Southern U.,SWAC,low,Jr,d1_transfer,6
+596684,Southern U.,SWAC,low,Jr,high_school_only,6
+596684,Southern U.,SWAC,low,Jr,juco,1
+596684,Southern U.,SWAC,low,So,d1_transfer,3
+596684,Southern U.,SWAC,low,So,high_school_only,4
+596684,Southern U.,SWAC,low,Sr,d1_transfer,5
+596684,Southern U.,SWAC,low,Sr,high_school_only,3
+596684,Southern U.,SWAC,low,Sr,other_four_year,2
+596685,Missouri St.,MVC,mid,Fr,high_school_only,10
+596685,Missouri St.,MVC,mid,Fr,other_four_year,1
+596685,Missouri St.,MVC,mid,Gr,high_school_only,1
+596685,Missouri St.,MVC,mid,Jr,high_school_only,6
+596685,Missouri St.,MVC,mid,Jr,other_four_year,1
+596685,Missouri St.,MVC,mid,So,high_school_only,5
+596685,Missouri St.,MVC,mid,So,other_four_year,1
+596685,Missouri St.,MVC,mid,Sr,high_school_only,4
+596686,Texas St.,Sun Belt,mid,Fr,high_school_only,7
+596686,Texas St.,Sun Belt,mid,Gr,d1_transfer,1
+596686,Texas St.,Sun Belt,mid,Jr,d1_transfer,4
+596686,Texas St.,Sun Belt,mid,Jr,high_school_only,4
+596686,Texas St.,Sun Belt,mid,Jr,juco,16
+596686,Texas St.,Sun Belt,mid,So,d1_transfer,1
+596686,Texas St.,Sun Belt,mid,So,high_school_only,3
+596686,Texas St.,Sun Belt,mid,So,other_four_year,1
+596686,Texas St.,Sun Belt,mid,Sr,d1_transfer,2
+596686,Texas St.,Sun Belt,mid,Sr,juco,3
+596686,Texas St.,Sun Belt,mid,Sr,other_four_year,1
+596687,Louisiana,Sun Belt,mid,Fr,high_school_only,10
+596687,Louisiana,Sun Belt,mid,Jr,d1_transfer,1
+596687,Louisiana,Sun Belt,mid,Jr,high_school_only,3
+596687,Louisiana,Sun Belt,mid,Jr,juco,1
+596687,Louisiana,Sun Belt,mid,Jr,other_four_year,1
+596687,Louisiana,Sun Belt,mid,So,d1_transfer,3
+596687,Louisiana,Sun Belt,mid,So,high_school_only,6
+596687,Louisiana,Sun Belt,mid,So,juco,1
+596687,Louisiana,Sun Belt,mid,Sr,d1_transfer,1
+596687,Louisiana,Sun Belt,mid,Sr,high_school_only,1
+596687,Louisiana,Sun Belt,mid,Sr,juco,2
+596687,Louisiana,Sun Belt,mid,Sr,other_four_year,1
+596688,Stanford,ACC,p4,Fr,high_school_only,11
+596688,Stanford,ACC,p4,Jr,d1_transfer,3
+596688,Stanford,ACC,p4,Jr,high_school_only,8
+596688,Stanford,ACC,p4,So,high_school_only,9
+596688,Stanford,ACC,p4,Sr,high_school_only,7
+596689,SFA,Southland,low,unknown,d1_transfer,8
+596689,SFA,Southland,low,unknown,high_school_only,2
+596689,SFA,Southland,low,unknown,juco,26
+596689,SFA,Southland,low,unknown,other_four_year,5
+596692,UT Martin,OVC,low,Fr,high_school_only,6
+596692,UT Martin,OVC,low,Jr,high_school_only,2
+596692,UT Martin,OVC,low,Jr,juco,12
+596692,UT Martin,OVC,low,So,high_school_only,4
+596692,UT Martin,OVC,low,So,juco,2
+596692,UT Martin,OVC,low,Sr,d1_transfer,1
+596692,UT Martin,OVC,low,Sr,high_school_only,1
+596692,UT Martin,OVC,low,Sr,juco,4
+596692,UT Martin,OVC,low,Sr,other_four_year,1
+596695,Lindenwood,OVC,low,Fr,d1_transfer,1
+596695,Lindenwood,OVC,low,Fr,high_school_only,10
+596695,Lindenwood,OVC,low,Gr,high_school_only,1
+596695,Lindenwood,OVC,low,Jr,d1_transfer,1
+596695,Lindenwood,OVC,low,Jr,high_school_only,4
+596695,Lindenwood,OVC,low,Jr,juco,6
+596695,Lindenwood,OVC,low,Jr,other_four_year,2
+596695,Lindenwood,OVC,low,So,high_school_only,1
+596695,Lindenwood,OVC,low,Sr,d1_transfer,1
+596695,Lindenwood,OVC,low,Sr,high_school_only,4
+596695,Lindenwood,OVC,low,Sr,juco,6
+596696,Queens (NC),ASUN,mid,Fr,high_school_only,3
+596696,Queens (NC),ASUN,mid,Jr,high_school_only,1
+596696,Queens (NC),ASUN,mid,Jr,juco,1
+596696,Queens (NC),ASUN,mid,So,high_school_only,1
+596696,Queens (NC),ASUN,mid,Sr,d1_transfer,2
+596696,Queens (NC),ASUN,mid,Sr,high_school_only,1
+596697,Southern Ind.,OVC,low,Fr,high_school_only,4
+596697,Southern Ind.,OVC,low,Gr,other_four_year,1
+596697,Southern Ind.,OVC,low,Jr,high_school_only,1
+596697,Southern Ind.,OVC,low,Jr,juco,13
+596697,Southern Ind.,OVC,low,Jr,other_four_year,4
+596697,Southern Ind.,OVC,low,So,d1_transfer,2
+596697,Southern Ind.,OVC,low,So,high_school_only,6
+596697,Southern Ind.,OVC,low,So,juco,2
+596697,Southern Ind.,OVC,low,So,other_four_year,2
+596697,Southern Ind.,OVC,low,Sr,d1_transfer,2
+596697,Southern Ind.,OVC,low,Sr,juco,1
+596697,Southern Ind.,OVC,low,Sr,other_four_year,3
+596700,Tarleton St.,WAC,mid,Fr,high_school_only,6
+596700,Tarleton St.,WAC,mid,Jr,d1_transfer,3
+596700,Tarleton St.,WAC,mid,Jr,high_school_only,1
+596700,Tarleton St.,WAC,mid,Jr,juco,11
+596700,Tarleton St.,WAC,mid,Jr,other_four_year,4
+596700,Tarleton St.,WAC,mid,So,d1_transfer,1
+596700,Tarleton St.,WAC,mid,So,high_school_only,2
+596700,Tarleton St.,WAC,mid,So,other_four_year,1
+596700,Tarleton St.,WAC,mid,Sr,d1_transfer,2
+596700,Tarleton St.,WAC,mid,Sr,high_school_only,2
+596700,Tarleton St.,WAC,mid,Sr,juco,6
+596700,Tarleton St.,WAC,mid,Sr,other_four_year,1
+596700,Tarleton St.,WAC,mid,unknown,high_school_only,1
+596701,Tulane,The American,mid,Fr,d1_transfer,1
+596701,Tulane,The American,mid,Fr,high_school_only,4
+596701,Tulane,The American,mid,Gr,d1_transfer,2
+596701,Tulane,The American,mid,Jr,d1_transfer,2
+596701,Tulane,The American,mid,Jr,high_school_only,3
+596701,Tulane,The American,mid,Jr,juco,9
+596701,Tulane,The American,mid,Jr,other_four_year,1
+596701,Tulane,The American,mid,So,d1_transfer,2
+596701,Tulane,The American,mid,So,high_school_only,2
+596701,Tulane,The American,mid,So,juco,4
+596701,Tulane,The American,mid,Sr,d1_transfer,3
+596701,Tulane,The American,mid,Sr,juco,1
+596702,Army West Point,Patriot,low,Fr,unknown,15
+596702,Army West Point,Patriot,low,Jr,unknown,9
+596702,Army West Point,Patriot,low,So,unknown,9
+596702,Army West Point,Patriot,low,Sr,unknown,10
+596704,Wofford,SoCon,mid,Fr,high_school_only,19
+596704,Wofford,SoCon,mid,Jr,d1_transfer,3
+596704,Wofford,SoCon,mid,Jr,high_school_only,6
+596704,Wofford,SoCon,mid,Jr,juco,2
+596704,Wofford,SoCon,mid,Jr,other_four_year,1
+596704,Wofford,SoCon,mid,So,d1_transfer,1
+596704,Wofford,SoCon,mid,So,high_school_only,9
+596704,Wofford,SoCon,mid,Sr,d1_transfer,2
+596704,Wofford,SoCon,mid,Sr,high_school_only,2
+596704,Wofford,SoCon,mid,Sr,juco,2
+596704,Wofford,SoCon,mid,Sr,other_four_year,1
+596705,High Point,Big South,mid,Gr,d1_transfer,1
+596705,High Point,Big South,mid,Jr,high_school_only,4
+596705,High Point,Big South,mid,So,high_school_only,8
+596705,High Point,Big South,mid,Sr,high_school_only,1
+596705,High Point,Big South,mid,Sr,other_four_year,1
+596707,Fresno St.,Mountain West,mid,Fr,high_school_only,10
+596707,Fresno St.,Mountain West,mid,Jr,d1_transfer,1
+596707,Fresno St.,Mountain West,mid,Jr,high_school_only,4
+596707,Fresno St.,Mountain West,mid,Jr,juco,5
+596707,Fresno St.,Mountain West,mid,So,high_school_only,5
+596707,Fresno St.,Mountain West,mid,So,juco,3
+596707,Fresno St.,Mountain West,mid,Sr,d1_transfer,2
+596707,Fresno St.,Mountain West,mid,Sr,high_school_only,2
+596707,Fresno St.,Mountain West,mid,Sr,juco,5
+596708,Duke,ACC,p4,Fr,high_school_only,12
+596708,Duke,ACC,p4,Fr,other_four_year,2
+596708,Duke,ACC,p4,Gr,d1_transfer,8
+596708,Duke,ACC,p4,Gr,other_four_year,2
+596708,Duke,ACC,p4,Jr,other_four_year,8
+596708,Duke,ACC,p4,So,d1_transfer,1
+596708,Duke,ACC,p4,So,high_school_only,2
+596708,Duke,ACC,p4,So,other_four_year,4
+596708,Duke,ACC,p4,Sr,d1_transfer,1
+596708,Duke,ACC,p4,Sr,high_school_only,1
+596708,Duke,ACC,p4,Sr,other_four_year,2
+596709,Evansville,MVC,mid,Fr,high_school_only,10
+596709,Evansville,MVC,mid,Fr,other_four_year,1
+596709,Evansville,MVC,mid,Gr,d1_transfer,1
+596709,Evansville,MVC,mid,Jr,d1_transfer,1
+596709,Evansville,MVC,mid,Jr,high_school_only,2
+596709,Evansville,MVC,mid,Jr,juco,4
+596709,Evansville,MVC,mid,So,high_school_only,8
+596709,Evansville,MVC,mid,Sr,d1_transfer,1
+596709,Evansville,MVC,mid,Sr,juco,3
+596710,Grambling,SWAC,low,Fr,high_school_only,3
+596710,Grambling,SWAC,low,Gr,d1_transfer,2
+596710,Grambling,SWAC,low,Gr,juco,4
+596710,Grambling,SWAC,low,Jr,d1_transfer,1
+596710,Grambling,SWAC,low,Jr,high_school_only,1
+596710,Grambling,SWAC,low,Jr,juco,9
+596710,Grambling,SWAC,low,Jr,other_four_year,2
+596710,Grambling,SWAC,low,So,high_school_only,5
+596710,Grambling,SWAC,low,Sr,d1_transfer,4
+596710,Grambling,SWAC,low,Sr,high_school_only,2
+596710,Grambling,SWAC,low,Sr,juco,2
+596710,Grambling,SWAC,low,Sr,other_four_year,2
+596712,Nebraska,Big Ten,p4,Fr,high_school_only,10
+596712,Nebraska,Big Ten,p4,Jr,d1_transfer,2
+596712,Nebraska,Big Ten,p4,Jr,high_school_only,3
+596712,Nebraska,Big Ten,p4,Jr,juco,6
+596712,Nebraska,Big Ten,p4,So,high_school_only,7
+596712,Nebraska,Big Ten,p4,So,juco,1
+596712,Nebraska,Big Ten,p4,Sr,d1_transfer,4
+596712,Nebraska,Big Ten,p4,Sr,high_school_only,4
+596712,Nebraska,Big Ten,p4,Sr,juco,2
+596712,Nebraska,Big Ten,p4,Sr,other_four_year,1
+596713,Nicholls,Southland,low,Fr,high_school_only,9
+596713,Nicholls,Southland,low,Jr,d1_transfer,3
+596713,Nicholls,Southland,low,Jr,high_school_only,1
+596713,Nicholls,Southland,low,Jr,juco,13
+596713,Nicholls,Southland,low,Jr,other_four_year,4
+596713,Nicholls,Southland,low,So,d1_transfer,1
+596713,Nicholls,Southland,low,So,juco,1
+596713,Nicholls,Southland,low,So,other_four_year,1
+596713,Nicholls,Southland,low,Sr,d1_transfer,4
+596713,Nicholls,Southland,low,Sr,high_school_only,1
+596713,Nicholls,Southland,low,Sr,juco,2
+596714,Oklahoma St.,Big 12,p4,Fr,high_school_only,13
+596714,Oklahoma St.,Big 12,p4,Jr,d1_transfer,3
+596714,Oklahoma St.,Big 12,p4,Jr,high_school_only,5
+596714,Oklahoma St.,Big 12,p4,Jr,juco,2
+596714,Oklahoma St.,Big 12,p4,Jr,other_four_year,1
+596714,Oklahoma St.,Big 12,p4,So,d1_transfer,2
+596714,Oklahoma St.,Big 12,p4,So,high_school_only,4
+596714,Oklahoma St.,Big 12,p4,So,juco,1
+596714,Oklahoma St.,Big 12,p4,Sr,d1_transfer,1
+596714,Oklahoma St.,Big 12,p4,Sr,high_school_only,2
+596714,Oklahoma St.,Big 12,p4,Sr,juco,2
+596716,Penn,Ivy League,low,Fr,unknown,5
+596716,Penn,Ivy League,low,Jr,unknown,5
+596716,Penn,Ivy League,low,So,unknown,9
+596716,Penn,Ivy League,low,Sr,unknown,8
+596717,St. John's (NY),Big East,mid,Fr,high_school_only,14
+596717,St. John's (NY),Big East,mid,Gr,high_school_only,1
+596717,St. John's (NY),Big East,mid,Gr,other_four_year,2
+596717,St. John's (NY),Big East,mid,Jr,high_school_only,3
+596717,St. John's (NY),Big East,mid,Jr,juco,1
+596717,St. John's (NY),Big East,mid,Jr,other_four_year,1
+596717,St. John's (NY),Big East,mid,So,d1_transfer,2
+596717,St. John's (NY),Big East,mid,So,high_school_only,7
+596717,St. John's (NY),Big East,mid,Sr,high_school_only,2
+596717,St. John's (NY),Big East,mid,Sr,juco,1
+596717,St. John's (NY),Big East,mid,Sr,other_four_year,2
+596718,Southeast Mo. St.,OVC,low,Fr,high_school_only,4
+596718,Southeast Mo. St.,OVC,low,Gr,high_school_only,1
+596718,Southeast Mo. St.,OVC,low,Gr,juco,1
+596718,Southeast Mo. St.,OVC,low,Gr,other_four_year,1
+596718,Southeast Mo. St.,OVC,low,Jr,high_school_only,3
+596718,Southeast Mo. St.,OVC,low,Jr,juco,13
+596718,Southeast Mo. St.,OVC,low,Jr,other_four_year,2
+596718,Southeast Mo. St.,OVC,low,So,high_school_only,1
+596718,Southeast Mo. St.,OVC,low,So,juco,1
+596718,Southeast Mo. St.,OVC,low,Sr,high_school_only,2
+596718,Southeast Mo. St.,OVC,low,Sr,juco,4
+596718,Southeast Mo. St.,OVC,low,Sr,other_four_year,2
+596719,Southern Miss.,Sun Belt,mid,Fr,d1_transfer,1
+596719,Southern Miss.,Sun Belt,mid,Fr,high_school_only,12
+596719,Southern Miss.,Sun Belt,mid,Gr,d1_transfer,1
+596719,Southern Miss.,Sun Belt,mid,Gr,high_school_only,1
+596719,Southern Miss.,Sun Belt,mid,Jr,d1_transfer,2
+596719,Southern Miss.,Sun Belt,mid,Jr,high_school_only,7
+596719,Southern Miss.,Sun Belt,mid,Jr,juco,1
+596719,Southern Miss.,Sun Belt,mid,So,high_school_only,8
+596719,Southern Miss.,Sun Belt,mid,Sr,d1_transfer,1
+596719,Southern Miss.,Sun Belt,mid,Sr,high_school_only,2
+596719,Southern Miss.,Sun Belt,mid,Sr,juco,3
+596720,Stetson,ASUN,mid,Fr,d1_transfer,1
+596720,Stetson,ASUN,mid,Fr,high_school_only,8
+596720,Stetson,ASUN,mid,Jr,d1_transfer,5
+596720,Stetson,ASUN,mid,Jr,high_school_only,7
+596720,Stetson,ASUN,mid,Jr,juco,2
+596720,Stetson,ASUN,mid,Jr,other_four_year,1
+596720,Stetson,ASUN,mid,So,d1_transfer,3
+596720,Stetson,ASUN,mid,So,high_school_only,5
+596720,Stetson,ASUN,mid,So,juco,2
+596720,Stetson,ASUN,mid,Sr,d1_transfer,2
+596720,Stetson,ASUN,mid,Sr,high_school_only,3
+596720,Stetson,ASUN,mid,Sr,other_four_year,1
+596721,Tennessee,SEC,p4,Fr,high_school_only,27
+596721,Tennessee,SEC,p4,Gr,juco,1
+596721,Tennessee,SEC,p4,Jr,d1_transfer,7
+596721,Tennessee,SEC,p4,Jr,high_school_only,4
+596721,Tennessee,SEC,p4,Jr,juco,3
+596721,Tennessee,SEC,p4,So,d1_transfer,1
+596721,Tennessee,SEC,p4,So,high_school_only,6
+596721,Tennessee,SEC,p4,So,juco,2
+596721,Tennessee,SEC,p4,Sr,high_school_only,1
+596721,Tennessee,SEC,p4,Sr,juco,1
+596947,West Ga.,ASUN,mid,Fr,high_school_only,4
+596947,West Ga.,ASUN,mid,Gr,other_four_year,1
+596947,West Ga.,ASUN,mid,Jr,juco,11
+596947,West Ga.,ASUN,mid,Jr,other_four_year,6
+596947,West Ga.,ASUN,mid,So,d1_transfer,3
+596947,West Ga.,ASUN,mid,So,high_school_only,2
+596947,West Ga.,ASUN,mid,So,juco,1
+596947,West Ga.,ASUN,mid,So,other_four_year,1
+596947,West Ga.,ASUN,mid,Sr,d1_transfer,3
+596947,West Ga.,ASUN,mid,Sr,juco,5
+596947,West Ga.,ASUN,mid,Sr,other_four_year,1
+597318,Loras,non-D1,non_d1,Fr,unknown,12
+597318,Loras,non-D1,non_d1,Jr,unknown,7
+597318,Loras,non-D1,non_d1,So,unknown,14
+597318,Loras,non-D1,non_d1,Sr,unknown,10

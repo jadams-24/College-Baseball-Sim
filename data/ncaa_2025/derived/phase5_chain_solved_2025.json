@@ -1,6 +1,6 @@
 {
  "_note": "Solve the league base chain of the pitch model so that the simulated league's pitch events by\ncount equal the data's.\n\nThe data's per-count event shares (data/ncaa_2025/derived/phase5_pitch_2025.json, chain.by_count)\nare pooled over every pitcher and batter, weighted by who reaches each count. The engine tilts the\nbase chain for each matchup along the measured player directions (engine/pitch.py), and the\npooled result of those tilted chains is not the base chain: deep-count pitches come\ndisproportionately from wild pitchers and patient batters, and tilting the pooled shares a second\ntime skews the aggregate (fewer pitches per PA than the data). So the base chain is found by\nfixed-point iteration on simulated seasons, every count and event at once:\n    q0(c, e) <- q0(c, e) * data(c, e) / sim(c, e), renormalised per count.\nNothing else is matched: pitches per PA, count reach, outcomes by count and starter pitch counts are\nthe gate, not targets. PA outcomes are untouched (each PA's outcome is drawn first). Calibration\nseeds (950000+) are disjoint from gate and other calibration seeds.\nOutput: data/ncaa_2025/derived/phase5_chain_solved_2025.json\n",
- "built": "2026-10-01",
+ "built": "2026-10-07",
  "seeds": [
   950001,
   950002,
@@ -10,23 +10,23 @@
  "iterations": [
   {
    "iter": 0,
-   "max_abs_gap": 0.01654,
-   "pitches": 10405952
+   "max_abs_gap": 0.01427,
+   "pitches": 9683484
   },
   {
    "iter": 1,
-   "max_abs_gap": 0.00292,
-   "pitches": 10560988
+   "max_abs_gap": 0.00308,
+   "pitches": 9871084
   },
   {
    "iter": 2,
-   "max_abs_gap": 0.00215,
-   "pitches": 10562952
+   "max_abs_gap": 0.00246,
+   "pitches": 9870124
   },
   {
    "iter": 3,
-   "max_abs_gap": 0.00217,
-   "pitches": 10566548
+   "max_abs_gap": 0.0023,
+   "pitches": 9872617
   }
  ],
  "events": [
@@ -40,112 +40,112 @@
  ],
  "by_count": {
   "0-0": [
-   0.410412,
-   0.270625,
-   0.068488,
-   0.113507,
-   0.122628,
-   0.007615,
-   0.006726
+   0.420874,
+   0.272848,
+   0.069134,
+   0.110812,
+   0.111892,
+   0.007595,
+   0.006846
   ],
   "0-1": [
-   0.411295,
-   0.143262,
-   0.098697,
-   0.159581,
-   0.175898,
-   0.006892,
-   0.004375
+   0.420966,
+   0.143912,
+   0.100651,
+   0.158532,
+   0.164893,
+   0.006659,
+   0.004386
   ],
   "0-2": [
-   0.470589,
-   0.045291,
-   0.123201,
-   0.161982,
-   0.184783,
-   0.010888,
-   0.003265
+   0.478733,
+   0.044537,
+   0.123798,
+   0.159614,
+   0.179871,
+   0.010372,
+   0.003074
   ],
   "1-0": [
-   0.361248,
-   0.240242,
-   0.087046,
-   0.139948,
-   0.157696,
-   0.006739,
-   0.007081
+   0.372271,
+   0.24128,
+   0.087614,
+   0.135779,
+   0.149412,
+   0.006433,
+   0.007211
   ],
   "1-1": [
-   0.365484,
-   0.139597,
-   0.109671,
-   0.174183,
-   0.197956,
-   0.007849,
-   0.005261
+   0.376191,
+   0.139952,
+   0.110595,
+   0.171377,
+   0.188577,
+   0.00793,
+   0.005379
   ],
   "1-2": [
-   0.389929,
-   0.049652,
-   0.134506,
-   0.19794,
-   0.211511,
-   0.01056,
-   0.005903
+   0.399326,
+   0.048712,
+   0.134986,
+   0.194668,
+   0.206219,
+   0.010299,
+   0.00579
   ],
   "2-0": [
-   0.339696,
-   0.280768,
-   0.066514,
-   0.142513,
-   0.159749,
-   0.004951,
-   0.00581
+   0.350338,
+   0.280201,
+   0.066632,
+   0.138691,
+   0.153281,
+   0.005048,
+   0.005809
   ],
   "2-1": [
-   0.324452,
-   0.148428,
-   0.100526,
-   0.191197,
-   0.221126,
-   0.007774,
-   0.006496
+   0.333924,
+   0.149845,
+   0.101599,
+   0.188234,
+   0.211914,
+   0.007792,
+   0.006693
   ],
   "2-2": [
-   0.312196,
-   0.052769,
-   0.129489,
-   0.23643,
-   0.250171,
-   0.011868,
-   0.007078
+   0.321272,
+   0.052699,
+   0.128566,
+   0.234198,
+   0.244764,
+   0.011604,
+   0.006898
   ],
   "3-0": [
-   0.373419,
-   0.570239,
-   0.009834,
-   0.018139,
-   0.017355,
-   0.00859,
-   0.002424
+   0.381348,
+   0.563111,
+   0.00994,
+   0.01824,
+   0.016056,
+   0.008748,
+   0.002559
   ],
   "3-1": [
-   0.317382,
-   0.189602,
-   0.077865,
-   0.183705,
-   0.219503,
-   0.006955,
-   0.004988
+   0.327936,
+   0.19041,
+   0.078303,
+   0.180321,
+   0.211161,
+   0.006882,
+   0.004987
   ],
   "3-2": [
-   0.255528,
-   0.066927,
-   0.117476,
-   0.254599,
-   0.289156,
-   0.010609,
-   0.005705
+   0.2647,
+   0.065613,
+   0.116911,
+   0.252431,
+   0.283912,
+   0.010382,
+   0.00605
   ]
  }
 }

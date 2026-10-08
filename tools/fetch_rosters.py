@@ -21,6 +21,10 @@ Writes to data/ncaa_2025/rosters/ (change with --out):
     fetch_rosters.log    one line per request
     state.json           progress; rerunning skips teams already done (resumable)
 
+None of this is committed (owner decision 2026-10-07; the folder is git-ignored): it holds
+player names. tools/aggregate_rosters.py turns it into count and share tables in
+data/ncaa_2025/roster_aggregates/, the only roster data the repository keeps.
+
 Politeness: robots.txt is read for every domain and obeyed (including Crawl-delay);
 at least 3 seconds between requests to any site (--delay, never below 3); one
 request at a time; a descriptive User-Agent. Standard library plus requests only.
@@ -46,6 +50,11 @@ HERE = Path(__file__).resolve().parent
 UA = "CollegeBaseballSim-roster-fetcher/1.0 (personal research project; one request every few seconds)"
 MIN_DELAY = 3.0
 PROBE_MAX_TRIES = 25      # teams the probe may try while looking for each platform
+MAX_CRAWL_DELAY = 60.0    # a host whose robots.txt asks for a longer Crawl-delay is skipped (logged), not fetched faster
+RESPONSE_DEADLINE = 90.0  # seconds for a whole response; a server that trickles bytes past it is treated as a block
+HOST_STOP = ("request error", "response not complete", "robots.txt unreachable", "bot challenge", "HTTP 403", "HTTP 429",
+             "Crawl-delay")       # a host that answers so on one roster path is not tried on the others
+STOP_AFTER_BLOCKED = 20   # consecutive teams failing only so: the runner is blocked; stop and aggregate what there is
 MIN_PLAYERS = 10          # a parsed page with fewer players carrying bats/throws is treated as a miss
 ORIGIN = ["hometown_city", "hometown_state", "high_school", "previous_school"]
 FIELDS = ["team_ncaa_id", "team", "name", "jersey", "position", "class", "bats", "throws", *ORIGIN, "source_url", "wmt_person_id"]
@@ -442,8 +451,8 @@ class Fetcher:
             for attempt in range(3):
                 self._wait(host, MIN_DELAY * (attempt + 1))
                 try:
-                    r = self.s.get(f"https://{host}/robots.txt", timeout=30)
-                except requests.RequestException as e:
+                    r = self._fetch(f"https://{host}/robots.txt", 30)
+                except (requests.RequestException, TimeoutError) as e:
                     note = f"robots.txt unreachable ({e.__class__.__name__})"
                     continue
                 if r.status_code >= 500:
@@ -461,6 +470,22 @@ class Fetcher:
             self.robots[host] = (rp, note)
         return self.robots[host]
 
+    def _fetch(self, url: str, timeout: float):
+        """GET with a per-read timeout and a deadline on the whole response (streamed, so a slow drip is cut off)."""
+        start = time.monotonic()
+        r = self.s.get(url, timeout=timeout, allow_redirects=True, stream=True)
+        chunks = []
+        try:
+            for chunk in r.iter_content(65536):
+                chunks.append(chunk)
+                if time.monotonic() - start > RESPONSE_DEADLINE:
+                    raise TimeoutError(url)
+        finally:
+            r.close()
+        r._content = b"".join(chunks)
+        r._content_consumed = True
+        return r
+
     def get(self, host: str, path: str):
         rp, note = self.robot(host)
         url = f"https://{host}{path}"
@@ -469,11 +494,15 @@ class Fetcher:
         if not rp.can_fetch(UA, url):
             return url, None, "disallowed by robots.txt"
         cd = float(rp.crawl_delay(UA) or 0)
+        if cd > MAX_CRAWL_DELAY:
+            return url, None, f"robots.txt Crawl-delay {cd:.0f} s (over {MAX_CRAWL_DELAY:.0f} s): skipped"
         r = None
         for attempt in range(3):  # network errors and 5xx retried with a growing pause
             self._wait(host, max(cd, MIN_DELAY * (attempt + 1)))
             try:
-                r = self.s.get(url, timeout=45, allow_redirects=True)
+                r = self._fetch(url, 45)
+            except TimeoutError:
+                return url, None, f"response not complete in {RESPONSE_DEADLINE:.0f} s (treated as a block, not retried)"
             except requests.RequestException as e:
                 err = f"request error: {e.__class__.__name__}"
                 r = None
@@ -512,6 +541,8 @@ def fetch_team(fetcher: "Fetcher", t: dict, out: Path) -> tuple[list[dict], str,
                 g.write(f"<!-- source: {url} fetched {time.strftime('%Y-%m-%d')} -->\n" + page)
         if err:
             reasons.append(f"{path}: {err}")
+            if any(err.startswith(m) or m in err for m in HOST_STOP):
+                break
             continue
         rows, how = parse_page(page)
         if len(rows) >= MIN_PLAYERS:
@@ -645,6 +676,7 @@ def main() -> int:
             w.writeheader()
         if ff.tell() == 0:
             wf.writerow(["team_ncaa_id", "team", "domain", "reason", "last_url", "when"])
+        blocked_run = 0
         for i, t in enumerate(teams):
             tid = t["team_ncaa_id"]
             if tid in state["done"] or (tid in state["failed"] and not a.retry_failed and not a.only):
@@ -668,6 +700,11 @@ def main() -> int:
                 ff.flush()
                 logging.warning("FAILED %s %s: %s", tid, t["team"], reason)
             state_path.write_text(json.dumps(state, indent=1))
+            blocked_run = 0 if rows else blocked_run + (bool(reason) and all(any(m in part for m in HOST_STOP) for part in reason.split("; ")))
+            if blocked_run >= STOP_AFTER_BLOCKED:
+                print(f"stopping: {blocked_run} teams in a row failed on network errors or blocks (the runner looks blocked)", flush=True)
+                logging.warning("stopped after %d consecutive blocked or unreachable teams", blocked_run)
+                break
     print(f"done: {len(state['done'])} teams parsed, {len(state['failed'])} failed (see {fail_path})")
     return 0
 
