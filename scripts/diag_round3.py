@@ -332,5 +332,103 @@ def main() -> None:
     print(json.dumps({k: v for k, v in res.items() if k != "per_season"}, indent=1, default=float))
 
 
-if __name__ == "__main__":
+if __name__ == "__main__" and "--report" not in sys.argv:
     main()
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+# report (python3 scripts/diag_round3.py --report: reads reports/diagnosis_sizes_round3.json and round 2's json)
+# ----------------------------------------------------------------------------------------------------------------------
+
+def _ms(per, f):
+    a = np.array([f(p) for p in per], float)
+    return float(a.mean()), float(a.std(ddof=1) / math.sqrt(len(a)))
+
+
+def report() -> str:
+    r3 = json.loads(OUT_JSON.read_text()); P = r3["per_season"]
+    r2 = json.loads(SIZES.read_text())
+    phi, phi_se = _ms(P, lambda p: p["phi"])
+    miss = REAL_PHI - phi
+    real_tto = r2["item5_tto"]["regressions"]["team_game_fe"]["rv"]
+    rt = np.array([real_tto[f"tto{k}"]["b"] for k in (2, 3, 4)]); rt_se = np.array([real_tto[f"tto{k}"]["se"] for k in (2, 3, 4)])
+    st = [_ms(P, lambda p, k=k: p["tto_sim"][k]) for k in range(3)]
+    add, add_se = _ms(P, lambda p: p["tto_dphi_added"]["dphi"])
+    add_se = math.hypot(add_se, abs(add) * float(np.mean(rt_se / np.maximum(rt - np.array([s[0] for s in st]), 1e-9))))
+    real_m = r2["item6_mopup"]["dphi"]; bm = r2["item6_mopup"]["by_margin"]
+    mop = {}
+    for v in ("blowout_5plus", "blowout_7plus_engine_bin", "all_relief"):
+        s, se = _ms(P, lambda p, v=v: p["mopup"][v]["dphi_noise_corrected"])
+        rv, rse = real_m[v]["dphi_noise_corrected"], real_m[v]["se"]["dphi_noise_corrected"]
+        mop[v] = {"sim": s, "sim_se": se, "real": rv, "real_se": rse, "gap": rv - s, "gap_se": math.hypot(rse, se),
+                  "sim_corr": _ms(P, lambda p, v=v: p["mopup"][v]["corr_t_rest"])[0], "real_corr": real_m[v]["corr_t_rest"],
+                  "sim_gap_pa": _ms(P, lambda p, v=v: p["mopup"][v]["mean_gap_per_pa"])[0]}
+    pl_real, pl_real_se = r3["real_pa_length"]["delta"], r3["real_pa_length"]["se"]
+    pl_sim, pl_sim_se = _ms(P, lambda p: p["pa_length_sim"])
+    pl_d, pl_d_se = _ms(P, lambda p: p["pa_length_size"]["dphi"])
+    xp = _ms(P, lambda p: p["pa_length_size"]["extra_pitches_per_start"])[0]
+    mv = _ms(P, lambda p: p["pa_length_size"]["batters_moved_per_start"])[0]
+    lu = _ms(P, lambda p: p["lineups"]["dL_share_vsR_minus_vsL"])
+    adv = _ms(P, lambda p: p["adv_share_all_pa"])
+    rows1 = {r["candidate"]: r for r in r2["running_total"]["rows"]}
+    cands = [("11. Starter day-to-day form (5+ starts)", rows1["11"]["dphi"], rows1["11"]["se"], "not measured (the engine has no start-level form: about 0)"),
+             ("12. Errors clustering in half-innings", rows1["12"]["dphi"], rows1["12"]["se"], "not measured (errors independent by play: about 0)"),
+             ("3. Times through the order: the remaining penalty", add, add_se, f"the engine already has {st[0][0]:+.3f} / {st[1][0]:+.3f} / {st[2][0]:+.3f} runs per PA (2nd / 3rd / 4th+) against {rt[0]:+.3f} / {rt[1]:+.3f} / {rt[2]:+.3f}"),
+             ("4. Mop-up: relief entries at a margin of 5+", mop["blowout_5plus"]["gap"], mop["blowout_5plus"]["gap_se"], f"engine {mop['blowout_5plus']['sim']:+.3f} ± {mop['blowout_5plus']['sim_se']:.3f} against real {mop['blowout_5plus']['real']:+.3f} ± {mop['blowout_5plus']['real_se']:.3f}"),
+             ("5. Plate-appearance length by base state", pl_d, pl_d_se, f"pitches per PA with runners on minus empty, within result: real {pl_real:+.3f} ± {pl_real_se:.3f}, engine {pl_sim:+.3f} ± {pl_sim_se:.3f}"),
+             ("6. Platoon lineups", None, None, "real side waits on the roster workflow's lineup table (tools/aggregate_rosters.py lineup_by_starter_hand.csv)")]
+    L = ["# Diagnosis sizes, round 3: the sim side on the final engine (variance stage)", "",
+         f"2026-10-09. Owner (2026-10-08): \"size times through the order, mop-up pitching, PA length by base state and platoon lineups (sizes only), with the running total\". "
+         f"Scripts: `scripts/diag_round3_sim.py` (an instrumented play-by-play of {r3['seasons']} simulated seasons, seeds 980001+; the instrumentation draws nothing: "
+         "an instrumented season equals the uninstrumented checkpoint on every metric) and `scripts/diag_round3.py` (round 2's estimators on the simulated play-by-play). "
+         "JSON: `reports/diagnosis_sizes_round3.json`. Nothing was changed in the engine.", "",
+         "Round 2 sized each mechanism on real data only (an upper bound on what it could add). Round 3 measures the same quantity on the current engine, "
+         "so **real minus engine** is what building the mechanism could add.", "",
+         f"**The gap now.** Dispersion of runs per team-game around the scoreboard fit: engine {phi:.3f} ± {phi_se:.3f} (8 seasons; the 40-season Phase 6 report: 2.209) "
+         f"against real {REAL_PHI}; missing {miss:.3f}.", "",
+         "## Sized list and running total (dispersion units, Δφ; what a fix could add to the engine)", "",
+         "| Candidate | Real minus engine | SE | Share of the missing | Running total (share) | Notes |", "|---|---|---|---|---|---|"]
+    run, run_v = 0.0, 0.0
+    for name, v, se, note in cands:
+        if v is None:
+            L.append(f"| {name} | pending | | | | {note} |"); continue
+        run += v; run_v += se ** 2
+        L.append(f"| {name} | {v:+.3f} | {se:.3f} | {100 * v / miss:+.0f}% | {run:+.3f} ± {math.sqrt(run_v):.3f} ({100 * run / miss:+.0f}%) | {note} |")
+    pos = sum(v for _, v, _, _ in cands if v is not None and v > 0)
+    L += ["", f"- Sources that add variance (positive rows): {pos:+.3f}, {100 * pos / miss:.0f}% of the missing. Times through the order would narrow it further, as round 2 found with the real hook.",
+          "", "## Bullpen deployment: the main lead", "",
+          "| Relief entries | Engine | Real | Real minus engine | Corr. with the rest of the team-game (engine / real) | Entering pitcher minus team relief mean, rv per PA (engine / real) |",
+          "|---|---|---|---|---|---|"]
+    real_gap = {"blowout_5plus": bm["blowout_5plus"]["q_rv_minus_team"], "blowout_7plus_engine_bin": bm["engine_blowout_7plus"]["q_rv_minus_team"], "all_relief": None}
+    for v, lab in (("blowout_5plus", "Margin 5+"), ("blowout_7plus_engine_bin", "Margin 7+ (the engine's blowout bin)"), ("all_relief", "All")):
+        m = mop[v]; rg = real_gap[v]
+        L.append(f"| {lab} | {m['sim']:+.3f} ± {m['sim_se']:.3f} | {m['real']:+.3f} ± {m['real_se']:.3f} | {m['gap']:+.3f} ± {m['gap_se']:.3f} | {m['sim_corr']:+.3f} / {m['real_corr']:+.3f} | "
+                 f"{m['sim_gap_pa']:+.4f} / {'—' if rg is None else f'{rg:+.4f}'} |")
+    L += ["", "- Blowout relievers in the engine are only a little worse than their team's relief mean (+.004 at 5+, +.008 at 7+ runs per PA) against real +.018 and +.026: "
+          "real teams hand blowouts to clearly worse arms, the engine's relief choice much less so.",
+          f"- Across all relief entries the engine's quality component is strongly anti-correlated with the rest of the game ({mop['all_relief']['sim_corr']:+.2f} against {mop['all_relief']['real_corr']:+.2f}): "
+          "its relief choice sorts the best relievers into close games and the worst out of them much more sharply than real teams do, which damps game-to-game variance. "
+          f"Real minus engine on all relief entries: {mop['all_relief']['gap']:+.3f} ± {mop['all_relief']['gap_se']:.3f} ({100 * mop['all_relief']['gap'] / miss:.0f}% of the missing); "
+          "the 5+ row above is part of it, not additional.",
+          "- Caveat: the real side counts the 50 full-season staffs (P4-heavy); the engine side counts every team. A P4-only engine comparison is the next check before any fix.",
+          "", "## Plate-appearance length by base state", "",
+          f"- Real plate appearances with runners on are not longer: within the result they are {pl_real:+.3f} ± {pl_real_se:.3f} pitches shorter (pickoff throws are not pitches). "
+          f"The engine's are {pl_sim:+.3f} ± {pl_sim_se:.3f} shorter already (steals and pitchouts end some).",
+          f"- The difference moves {xp:+.2f} pitches and {mv:+.3f} batters per start from the starter to the bullpen: Δφ {pl_d:+.4f}. Negligible; and it does not explain the steal-timing watch item (real attempts come later in the plate appearance).",
+          "", "## Platoon lineups", "",
+          f"- Engine: the starting nine's left-handed share against right-handed minus left-handed starters, within team: {lu[0]:+.4f} ± {lu[1]:.4f} (the lineup ignores the starter's hand: GUESSES.md). "
+          f"Platoon-advantage share of all plate appearances {adv[0]:.3f} ± {adv[1]:.3f} (real .480).",
+          "- Real: the roster aggregator now builds `lineup_by_starter_hand.csv` (starting nine by listed bats against the starter's hand, by team, counts only); it needs one workflow run. "
+          "Then: the real within-team response, the advantage share it adds (closing part of .464 against .480), its run value and its Δφ and margin-SD effect on the engine's team-games.",
+          "", "## Phase 3's measured variance link (40 seasons, against PR B's run)", "",
+          "| Row | Real | PR B | Phase 3 | Change | Gap closed |", "|---|---|---|---|---|---|"]
+    md = (ROOT / "reports/phase3.md").read_text().splitlines()
+    i = next(k for k, line in enumerate(md) if line.startswith("## Platoon effects"))
+    rows = [line for line in md[i + 1:] if line.startswith("| ") and not line.startswith("| Row")]
+    L += [r for r in rows if not set(r) <= set("|- ")]
+    return "\n".join(L) + "\n"
+
+
+if __name__ == "__main__" and "--report" in sys.argv:
+    OUT_MD.write_text(report())
+    print(OUT_MD.read_text())

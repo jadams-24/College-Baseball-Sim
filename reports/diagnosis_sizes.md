@@ -26,6 +26,8 @@ These are real-data sizes of each mechanism, so they are upper bounds on what ea
 
 Round 2 (2026-10-07, `scripts/diag_tto_mopup.py`): candidates 3 (times through the order) and 4 (mop-up pitching) and the updated running total are in the section "Round 2" at the end.
 
+Round 3 (2026-10-09, `scripts/diag_round3.py`): the same estimators on the final engine's own play-by-play, so real minus engine is what a fix could add; plate-appearance length by base state and platoon lineups added. `reports/diagnosis_sizes_round3.md`.
+
 Context from item 3: in the real play-by-play, the covariance between different half-innings of one team-game is worth 0.42 ± 0.05 dispersion units. Two of the starter's innings covary about as much as one of his innings and a bullpen inning of the same game, so it is a game-level part (G = 0.078 ± 0.021 in log variance), not starter-specific. Its sim counterpart is the first thing to measure on the new engine.
 
 Candidate 10 (fielding independent of pitching), in its own units:
