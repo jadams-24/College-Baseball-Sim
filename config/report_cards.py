@@ -25,17 +25,30 @@ TRADITION_POINTS = {"field": 1.0, "host": 1.0, "super": 2.0, "omaha": 3.0, "fina
 TRADITION_WINPCT_WEIGHT = 1.0
 # Conference Prestige: members' mean RPI and NCAA bids per member, seasons 2021-2025 on the 2025 map   # GUESS (weights)
 CONFERENCE_WEIGHTS = {"rpi": 0.5, "bids": 0.5}
-# Academic Prestige: six-year bachelor's graduation rate and selectivity (1 - admission rate)   # GUESS (weights)
-ACADEMIC_WEIGHTS = {"grad_rate": 0.5, "selectivity": 0.5}
+# Academic Prestige: selectivity (1 - admission rate) weighted over the six-year bachelor's graduation rate (owner calibration
+# 2026-10-09: Stanford, Vanderbilt, Duke, Rice and the Ivies at the top)   # GUESS (weights)
+ACADEMIC_WEIGHTS = {"grad_rate": 0.25, "selectivity": 0.75}
 # Campus Life: total enrollment (log) and IPEDS locale   # GUESS (weights and locale scores)
 CAMPUS_WEIGHTS = {"enrollment": 0.6, "locale": 0.4}
 LOCALE_SCORE = {11: 1.0, 12: 0.9, 13: 0.8, 21: 0.75, 22: 0.65, 23: 0.55, 31: 0.45, 32: 0.4, 33: 0.35, 41: 0.3, 42: 0.2, 43: 0.1}
-# Climate: Feb-May mean temperature (warmer better) and Feb-May days with 0.01"+ precipitation (fewer better)   # GUESS (weights)
-CLIMATE_WEIGHTS = {"temperature": 0.7, "dry_days": 0.3}
+# Climate (owner calibration 2026-10-09: a comfortable band, not "warmer is better"): each month Feb-May, the normal daily high's
+# distance below CLIMATE_BAND_F[0] or above CLIMATE_BAND_F[1] (heat counted at CLIMATE_HEAT_WEIGHT per degree), averaged over the
+# four months (less is better); and Feb-May days with 0.01"+ precipitation (fewer better)   # GUESS (band, heat weight, weights)
+CLIMATE_BAND_F = (65.0, 85.0)
+CLIMATE_HEAT_WEIGHT = 1.0
+CLIMATE_WEIGHTS = {"comfort": 0.7, "dry_days": 0.3}
 # proxies until real data replaces them (graded D confidence, marked for replacement)   # GUESS (all four)
 FACILITIES_WEIGHTS = {"money": 0.5, "hosting": 0.3, "conference": 0.2}
 ATMOSPHERE_WEIGHTS = {"hosting": 0.4, "enrollment": 0.3, "conference": 0.3}
-EXPOSURE_WEIGHTS = {"conference": 0.5, "omaha": 0.5}
+# Brand Exposure (owner calibration 2026-10-09: a low-tier school should not outrank most P4 programs): the conference's media
+# footprint (national network or streaming reach, by conference: GUESS until TV and streaming appearance counts replace it),
+# NCAA tournament appearances 2015-2025 and Omaha / super regional history (percentiles)   # GUESS (all)
+EXPOSURE_WEIGHTS = {"media": 0.5, "field": 0.25, "omaha": 0.25}
+MEDIA_FOOTPRINT = {"SEC": 1.0, "ACC": 0.95, "Big Ten": 0.95, "Big 12": 0.9, "DI Independent": 0.7,
+                   "The American": 0.5, "Sun Belt": 0.5, "CUSA": 0.5, "Big East": 0.5, "Mountain West": 0.45, "WCC": 0.45,
+                   "Big West": 0.4, "ASUN": 0.4, "CAA": 0.4, "MVC": 0.4, "SoCon": 0.4, "Atlantic 10": 0.4, "MAC": 0.4,
+                   "Big South": 0.35, "WAC": 0.35, "Ivy League": 0.25}
+MEDIA_DEFAULT = 0.2      # the other low-tier conferences
 DRAFT_WEIGHTS = {"tradition": 0.4, "money": 0.3, "conference": 0.3}
 
 CATEGORIES = ("program_tradition", "conference_prestige", "omaha_contender", "academic_prestige", "campus_life", "climate", "money",

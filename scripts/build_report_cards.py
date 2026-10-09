@@ -18,11 +18,14 @@ Inputs (all committed; sources and fetch dates in data/README.md)
   Omaha Contender      the sim's drawn team strength (o + d, log runs) in a reference world (REFERENCE_SEED, the report's first
                        seed); a dynasty regrades it from its own draw (config.report_cards.grade_values)
   Academic Prestige    IPEDS DRVGR2023 (GBA6RTT, six-year bachelor's graduation rate) and DRVADM2023 (DVADM01, percent admitted;
-                       none reported: open admission, 100%)
+                       none reported: open admission, 100%); selectivity weighted 3:1 over graduation (owner calibration 2026-10-09)
   Campus Life          IPEDS DRVEF2023 (ENRTOT, total enrollment) and HD2024 (LOCALE)
-  Climate              NOAA 1991-2020 monthly normals at the nearest normals station (data/noaa/climate_normals_by_school.csv)
+  Climate              NOAA 1991-2020 monthly normals at the nearest normals station (data/noaa/climate_normals_by_school.csv):
+                       Feb-May daily highs against a comfortable band (cold and heat both penalized) and precipitation days
+                       (owner calibration 2026-10-09)
   Money                EADA 2024-25 (data/eada/baseball_eada_2024_25.csv): baseball total expenses
-  Facilities, Ballpark Atmosphere, Brand Exposure, Draft Development: GUESS proxies of the above (confidence D)
+  Facilities, Ballpark Atmosphere, Brand Exposure, Draft Development: GUESS proxies (confidence D, marked for replacement); Brand
+                       Exposure from the conference's media footprint, NCAA tournament appearances and Omaha / super history
   Coach Prestige, Coach Stability: the neutral baseline for a new coach
     python3 scripts/build_report_cards.py
 """
@@ -241,7 +244,12 @@ def main() -> None:
     card["precip_days_feb_may"] = card.index.map(cl.precip_days_feb_may)
     card["climate_station"] = card.index.map(cl.station)
     card["climate_station_miles"] = card.index.map(cl.miles)
-    k = pd.DataFrame({"temperature": rc.percentile(card.tavg_feb_may_f.fillna(card.tavg_feb_may_f.median())),
+    lo, hi = rc.CLIMATE_BAND_F
+    tx = np.column_stack([card.index.map(cl[f"tmax_{m}"]).astype(float) for m in ("02", "03", "04", "05")])
+    disc = np.mean(np.clip(lo - tx, 0, None) + rc.CLIMATE_HEAT_WEIGHT * np.clip(tx - hi, 0, None), axis=1)
+    card["tmax_feb_may_f"] = card.index.map(cl.tmax_feb_may)
+    card["climate_discomfort"] = np.round(disc, 3)
+    k = pd.DataFrame({"comfort": rc.percentile(-pd.Series(disc, index=card.index).fillna(np.nanmedian(disc))),
                       "dry_days": rc.percentile(-card.precip_days_feb_may.fillna(card.precip_days_feb_may.median()))}, index=card.index)
     pct["climate"] = rc.percentile(blend(k, rc.CLIMATE_WEIGHTS))
 
@@ -257,7 +265,9 @@ def main() -> None:
     pp = pct.rename(columns={"conference_prestige": "conference", "program_tradition": "tradition", "omaha_hist": "omaha"})
     pct["facilities"] = rc.percentile(blend(pp, rc.FACILITIES_WEIGHTS))
     pct["ballpark_atmosphere"] = rc.percentile(blend(pp, rc.ATMOSPHERE_WEIGHTS))
-    pct["brand_exposure"] = rc.percentile(blend(pp, rc.EXPOSURE_WEIGHTS))
+    be = pd.DataFrame({"media": card.conference.map(rc.MEDIA_FOOTPRINT).fillna(rc.MEDIA_DEFAULT).values,
+                       "field": rc.percentile(card.n_field_2015_2025), "omaha": pct["omaha_hist"].values}, index=card.index)
+    pct["brand_exposure"] = rc.percentile(blend(be, rc.EXPOSURE_WEIGHTS))
     pct["draft_development"] = rc.percentile(blend(pp, rc.DRAFT_WEIGHTS))
 
     src = {"program_tradition": ("NCAA tournament brackets 2015-2025 (Wikipedia pages, data/ncaa_brackets) + D1 win pct 2021-2025 (data.ncaa.com scoreboards)", "B"),
@@ -265,11 +275,13 @@ def main() -> None:
            "omaha_contender": (f"the sim's drawn team strength o + d, reference world seed {REFERENCE_SEED}; a dynasty regrades it from its own draw", "A"),
            "academic_prestige": ("IPEDS 2023 DRVGR (GBA6RTT) and DRVADM (DVADM01), NCES", "A"),
            "campus_life": ("IPEDS 2023 DRVEF (ENRTOT) and HD2024 (LOCALE), NCES; weighting GUESS", "C"),
-           "climate": ("NOAA NCEI 1991-2020 monthly normals, nearest station with temperature and precipitation days", "A"),
+           "climate": ("NOAA NCEI 1991-2020 monthly normals, nearest station: daily highs against a comfortable band (GUESS) and "
+                       "precipitation days", "A"),
            "money": ("EADA 2024-25, baseball total expenses (U.S. Department of Education)", "A"),
            "facilities": ("GUESS proxy: baseball expenses, regional hosting, conference", "D"),
            "ballpark_atmosphere": ("GUESS proxy: regional hosting, enrollment, conference", "D"),
-           "brand_exposure": ("GUESS proxy: conference, Omaha and super regional history", "D"),
+           "brand_exposure": ("GUESS proxy, to be replaced by TV and streaming appearance counts: conference media footprint "
+                              "(config MEDIA_FOOTPRINT), NCAA tournament appearances, Omaha and super regional history", "D"),
            "draft_development": ("GUESS proxy: program tradition, baseball expenses, conference", "D"),
            "coach_prestige": ("neutral baseline for a new coach", "D"),
            "coach_stability": ("neutral baseline for a new coach", "D")}
@@ -285,7 +297,7 @@ def main() -> None:
     # rows whose input was imputed carry a lower confidence
     card.loc[card.money_imputed, "money_confidence"] = "D"
     card.loc[~card.admit_rate_reported, "academic_prestige_confidence"] = "B"
-    card.loc[card.tavg_feb_may_f.isna(), "climate_confidence"] = "D"
+    card.loc[card.tmax_feb_may_f.isna(), "climate_confidence"] = "D"
     card.loc[ind, "conference_prestige_grade"] = rc.NEUTRAL
     card.loc[ind, "conference_prestige_confidence"] = "D"
     card.loc[ind, "conference_prestige_source"] = "independent (no conference): neutral baseline"
@@ -293,7 +305,7 @@ def main() -> None:
     raw = ["tradition_points", "hosting_points", "n_field_2015_2025", "n_host_2015_2025", "n_super_2015_2025", "n_omaha_2015_2025",
            "n_title_2015_2025", "d1_winpct_2021_2025", "program_tradition_score", "conf_rpi_mean", "conf_bids_per_member",
            "sim_strength_o_plus_d", "grad_rate_6yr", "admit_rate", "admit_rate_reported", "enrollment", "locale_code", "tavg_feb_may_f",
-           "precip_days_feb_may", "climate_station", "climate_station_miles", "baseball_expenses_2024_25", "money_imputed"]
+           "precip_days_feb_may", "tmax_feb_may_f", "climate_discomfort", "climate_station", "climate_station_miles", "baseball_expenses_2024_25", "money_imputed"]
     cols = ["tid", "ncaa_team_id", "school", "conference", "tier"]
     for cat in rc.CATEGORIES:
         cols += [f"{cat}_grade", f"{cat}_score", f"{cat}_confidence"]
