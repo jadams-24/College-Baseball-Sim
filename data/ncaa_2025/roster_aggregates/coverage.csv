@@ -109,8 +109,8 @@ tier,p4,share_previous_school_filled,0.4183
 tier,p4,share_origin_classified,0.8658
 tier,p4,share_wmt_person_id_filled,0.1629
 tier,p4,teams_listing_previous_school,43
-all,all,fetch_first_date,2026-10-08
-all,all,fetch_last_date,2026-10-08
+all,all,fetch_first_date,2026-10-09
+all,all,fetch_last_date,2026-10-09
 all,all,pbp_pa_total,178073
 all,all,pbp_pa_both_hands_known,73393
 all,all,pbp_pa_both_hands_share,0.4122

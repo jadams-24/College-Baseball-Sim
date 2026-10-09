@@ -15,7 +15,7 @@ Round 2 sized each mechanism on real data only (an upper bound on what it could 
 | 3. Times through the order: the remaining penalty | -0.042 | 0.008 | -10% | -0.062 ± 0.056 (-15%) | the engine already has +0.008 / +0.014 / +0.011 runs per PA (2nd / 3rd / 4th+) against +0.032 / +0.053 / +0.078 |
 | 4. Mop-up: relief entries at a margin of 5+ | +0.130 | 0.019 | +32% | +0.068 ± 0.059 (+17%) | engine -0.064 ± 0.003 against real +0.066 ± 0.019 |
 | 5. Plate-appearance length by base state | +0.001 | 0.000 | +0% | +0.068 ± 0.059 (+17%) | pitches per PA with runners on minus empty, within result: real -0.036 ± 0.008, engine -0.019 ± 0.001 |
-| 6. Platoon lineups | pending | | | | real side waits on the roster workflow's lineup table (tools/aggregate_rosters.py lineup_by_starter_hand.csv) |
+| 6. Platoon lineups | -0.000 | 0.000 | -0% | +0.068 ± 0.059 (+17%) | real lineups add +0.020 to the platoon-advantage share; +0.0041 runs per team-game |
 
 - Sources that add variance (positive rows): +0.142, 35% of the missing. Times through the order would narrow it further, as round 2 found with the real hook.
 
@@ -29,7 +29,8 @@ Round 2 sized each mechanism on real data only (an upper bound on what it could 
 
 - Blowout relievers in the engine are only a little worse than their team's relief mean (+.004 at 5+, +.008 at 7+ runs per PA) against real +.018 and +.026: real teams hand blowouts to clearly worse arms, the engine's relief choice much less so.
 - Across all relief entries the engine's quality component is strongly anti-correlated with the rest of the game (-0.20 against -0.01): its relief choice sorts the best relievers into close games and the worst out of them much more sharply than real teams do, which damps game-to-game variance. Real minus engine on all relief entries: +0.186 ± 0.025 (46% of the missing); the 5+ row above is part of it, not additional.
-- Caveat: the real side counts the 50 full-season staffs (P4-heavy); the engine side counts every team. A P4-only engine comparison is the next check before any fix.
+- P4-only comparison (2026-10-09, `scripts/diag_bullpen_p4.py`, `reports/diagnosis_bullpen_p4.json`): the gap holds on the 36 P4 staffs against the engine's P4 staffs (margin 5+: +.126 ± .024; all relief entries: +.208 ± .033).
+- Mechanism check (2026-10-09, `scripts/diag_bullpen_feedback.py`): the reading above, that the engine sorts relievers too sharply, does not hold. Real staffs have no wider reliever talent spread than the engine's, yet real workload tracks observed quality twice as steeply (lowest workload third +.033, highest -.031 runs per PA against the staff mean; engine +.019 / -.013), and real relief usage reacts to results: per run of value allowed in an outing, the reliever's next entry is a blowout (7+) 1.8 points more often (P4, ± .5; engine 0 ± .2). Part of the real mop-up gap is therefore selection on noise (relievers who were hit elsewhere pitch the blowouts), which the leave-game-out estimator reads as quality. Fix design to the owner before building.
 
 ## Plate-appearance length by base state
 
@@ -39,7 +40,8 @@ Round 2 sized each mechanism on real data only (an upper bound on what it could 
 ## Platoon lineups
 
 - Engine: the starting nine's left-handed share against right-handed minus left-handed starters, within team: +0.0025 ± 0.0004 (the lineup ignores the starter's hand: GUESSES.md). Platoon-advantage share of all plate appearances 0.462 ± 0.002 (real .480).
-- Real: the roster aggregator now builds `lineup_by_starter_hand.csv` (starting nine by listed bats against the starter's hand, by team, counts only); it needs one workflow run. Then: the real within-team response, the advantage share it adds (closing part of .464 against .480), its run value and its Δφ and margin-SD effect on the engine's team-games.
+- Real (`data/ncaa_2025/roster_aggregates/lineup_by_starter_hand.csv`, roster run 37878486296, 169 teams with starters of both hands): the starting nine's left-handed share is +0.047 higher against right-handed starters (P4 +0.050, mid +0.044, low +0.024), and the right-handed share +0.048 higher against left-handers. Against a fixed lineup that adds +0.020 to the platoon-advantage share of the starting nine: engine .462 + .020 is about the real .480, so platoon lineups close that gap. The lineup's quality cost is nil (-0.0007 ± 0.0006 runs per starter PA, against left- minus right-handed starters).
+- Size on the engine's team-games (8 seasons): the advantage is worth +0.0084 runs per PA (batter-demeaned), so the response adds +0.0041 runs per team-game, Δφ -0.0001 ± 0.0000 (correlation with the rest of the game -0.024): nothing for dispersion or margins. Worth building for the platoon-advantage share (Phase 3's reported row), not for the watch item.
 
 ## Phase 3's measured variance link (40 seasons, against PR B's run)
 

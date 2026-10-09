@@ -901,5 +901,142 @@
    "runners": 3.8091361065498996
   }
  },
- "real_lineups": null
+ "real_lineups": {
+  "all": {
+   "dL_share_vsR_minus_vsL": 0.04686088883409961,
+   "dR_share_vsL_minus_vsR": 0.047875797399296795,
+   "adv_gain_vs_fixed_lineup": 0.01957837432999567,
+   "n_teams": 169,
+   "share_vs_LHP": 0.3215339233038348
+  },
+  "low": {
+   "dL_share_vsR_minus_vsL": 0.023622007261279106,
+   "dR_share_vsL_minus_vsR": 0.025967958971234155,
+   "adv_gain_vs_fixed_lineup": 0.009640290610439861,
+   "n_teams": 24,
+   "share_vs_LHP": 0.3208955223880597
+  },
+  "mid": {
+   "dL_share_vsR_minus_vsL": 0.04407136938202921,
+   "dR_share_vsL_minus_vsR": 0.044510541742807434,
+   "adv_gain_vs_fixed_lineup": 0.01738293508650189,
+   "n_teams": 82,
+   "share_vs_LHP": 0.30472636815920395
+  },
+  "p4": {
+   "dL_share_vsR_minus_vsL": 0.049636674909082225,
+   "dR_share_vsL_minus_vsR": 0.050800698206897754,
+   "adv_gain_vs_fixed_lineup": 0.021324054358287364,
+   "n_teams": 63,
+   "share_vs_LHP": 0.32919954904171367
+  },
+  "quality_vsL_minus_vsR_per_starter": -0.0007097944230657151,
+  "quality_se": 0.0005554753382662969
+ },
+ "lineup_size": [
+  {
+   "dphi": -0.00014146163134917423,
+   "var_part": 4.44409497442525e-06,
+   "cov_part": -0.00014590572632359948,
+   "cov_part_starter_innings": -0.00010871842112001622,
+   "cov_part_relief_innings": -3.718730520358327e-05,
+   "sd_t": 0.00516185023104667,
+   "corr_t_rest": -0.026032802802534873,
+   "d_rv_advantage": 0.008651974804119281,
+   "gain_vs_R": 0.015067365436332913,
+   "gain_vs_L": 0.032482104430201365,
+   "mean_runs_per_team_game": 0.004048248663405457
+  },
+  {
+   "dphi": -6.12601063265292e-05,
+   "var_part": 4.472307539991387e-06,
+   "cov_part": -6.573241386652059e-05,
+   "cov_part_starter_innings": -3.506112743030708e-05,
+   "cov_part_relief_innings": -3.06712864362135e-05,
+   "sd_t": 0.0051765250791171065,
+   "corr_t_rest": -0.01433455366430179,
+   "d_rv_advantage": 0.007208738573554871,
+   "gain_vs_R": 0.015067365436332913,
+   "gain_vs_L": 0.032482104430201365,
+   "mean_runs_per_team_game": 0.0038222659371246683
+  },
+  {
+   "dphi": -0.00017325674098069057,
+   "var_part": 4.343038086067558e-06,
+   "cov_part": -0.00017759977906675812,
+   "cov_part_starter_innings": -0.00014928148506808923,
+   "cov_part_relief_innings": -2.8318293998668854e-05,
+   "sd_t": 0.005079335320117181,
+   "corr_t_rest": -0.031859919713995946,
+   "d_rv_advantage": 0.00936500186582433,
+   "gain_vs_R": 0.015067365436332913,
+   "gain_vs_L": 0.032482104430201365,
+   "mean_runs_per_team_game": 0.004414240757859951
+  },
+  {
+   "dphi": -9.289465988559598e-05,
+   "var_part": 4.644344180497349e-06,
+   "cov_part": -9.753900406609333e-05,
+   "cov_part_starter_innings": -4.039971449033555e-05,
+   "cov_part_relief_innings": -5.713928957575776e-05,
+   "sd_t": 0.005186358746276203,
+   "corr_t_rest": -0.023107569209178714,
+   "d_rv_advantage": 0.008477708609667194,
+   "gain_vs_R": 0.015067365436332913,
+   "gain_vs_L": 0.032482104430201365,
+   "mean_runs_per_team_game": 0.004105206176610819
+  },
+  {
+   "dphi": -0.00016079364456710217,
+   "var_part": 4.238330014639323e-06,
+   "cov_part": -0.00016503197458174148,
+   "cov_part_starter_innings": -0.00010289632010010425,
+   "cov_part_relief_innings": -6.213565448163726e-05,
+   "sd_t": 0.005021980815881473,
+   "corr_t_rest": -0.03532984065502537,
+   "d_rv_advantage": 0.008935555676451825,
+   "gain_vs_R": 0.015067365436332913,
+   "gain_vs_L": 0.032482104430201365,
+   "mean_runs_per_team_game": 0.004343104621716078
+  },
+  {
+   "dphi": -0.00011046349023531459,
+   "var_part": 4.470123989473943e-06,
+   "cov_part": -0.00011493361422478852,
+   "cov_part_starter_innings": -5.836509182041803e-05,
+   "cov_part_relief_innings": -5.65685224043705e-05,
+   "sd_t": 0.005201714930936323,
+   "corr_t_rest": -0.018759370070664954,
+   "d_rv_advantage": 0.006939032130595227,
+   "gain_vs_R": 0.015067365436332913,
+   "gain_vs_L": 0.032482104430201365,
+   "mean_runs_per_team_game": 0.0036816135458088246
+  },
+  {
+   "dphi": -0.00019267043775721547,
+   "var_part": 4.459574673689884e-06,
+   "cov_part": -0.00019713001243090535,
+   "cov_part_starter_innings": -0.00012566172109930825,
+   "cov_part_relief_innings": -7.146829133159711e-05,
+   "sd_t": 0.005181705465260017,
+   "corr_t_rest": -0.03241185231410676,
+   "d_rv_advantage": 0.008740468199590325,
+   "gain_vs_R": 0.015067365436332913,
+   "gain_vs_L": 0.032482104430201365,
+   "mean_runs_per_team_game": 0.004052204112078215
+  },
+  {
+   "dphi": -7.889399839333736e-05,
+   "var_part": 4.51591636970321e-06,
+   "cov_part": -8.340991476304057e-05,
+   "cov_part_starter_innings": -5.182761733724608e-05,
+   "cov_part_relief_innings": -3.158229742579451e-05,
+   "sd_t": 0.00516365053362909,
+   "corr_t_rest": -0.013873452929933755,
+   "d_rv_advantage": 0.008506638199100022,
+   "gain_vs_R": 0.015067365436332913,
+   "gain_vs_L": 0.032482104430201365,
+   "mean_runs_per_team_game": 0.00403152792491555
+  }
+ ]
 }

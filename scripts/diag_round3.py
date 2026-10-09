@@ -266,6 +266,30 @@ def season_sizes(r: dict, real: dict, real_pa_delta: float) -> dict:
     return out, pa, tg
 
 
+def lineup_size(r: dict, lw: dict, lu: dict) -> dict:
+    """Platoon lineups on the engine's team-games (sizes only): each team-game's plate appearances against the opposing
+    starter gain the real lineup response in platoon-advantage share (against a right-handed starter the left-handed share
+    rises by the within-team dL times the share of games against left-handers, and against a left-hander the right-handed
+    share by dR times the share against right-handers: the shift around a team's pooled mix), worth the engine's run value
+    of the platoon advantage per plate appearance (advantage minus none, batter-demeaned), minus the real lineup quality
+    cost per starter plate appearance. Δφ and the correlation with the rest of the game (dphi_component)."""
+    pa, g = frames(r, lw)
+    tg, _ = team_games(pa, g)
+    adv = (pa.side != pa.throws) & pa.side.isin(["L", "R"]) & pa.throws.isin(["L", "R"])
+    known = pa.side.isin(["L", "R"]) & pa.throws.isin(["L", "R"])
+    k = pa[known]
+    rv_d = k.rv - k.groupby("batter").rv.transform("mean")
+    d_rv = float(rv_d[adv[known]].mean() - rv_d[~adv[known]].mean())
+    sL = lu["all"]["share_vs_LHP"]
+    gain = {"R": lu["all"]["dL_share_vsR_minus_vsL"] * sL, "L": lu["all"]["dR_share_vsL_minus_vsR"] * (1 - sL)}
+    sp = pa[pa.is_sp]
+    per = sp.groupby(["gid", "bat_team"]).agg(n=("rv", "size"), h=("throws", "first"))
+    t = per.n * (per.h.map(gain).fillna(0.0) * d_rv + lu["quality_vsL_minus_vsR_per_starter"] * np.where(per.h == "L", 1 - sL, -sL))
+    c = dphi_component(tg, t.reindex(tg.index).fillna(0.0).values)
+    c.update(d_rv_advantage=d_rv, gain_vs_R=gain["R"], gain_vs_L=gain["L"], mean_runs_per_team_game=float(t.mean()))
+    return c
+
+
 def mean_se(vals) -> tuple:
     a = np.array(vals, float)
     return float(a.mean()), float(a.std(ddof=1) / math.sqrt(len(a))) if len(a) > 1 else float("nan")
@@ -328,6 +352,9 @@ def main() -> None:
     res = {"seasons": len(per), "dir": str(a.dir.relative_to(ROOT)), "per_season": per}
     res["real_pa_length"] = rpl
     res["real_lineups"] = real_lineups()
+    if res["real_lineups"] is not None:
+        lw = real["lw"]
+        res["lineup_size"] = [lineup_size(pickle.loads(f.read_bytes()), lw, res["real_lineups"]) for f in sorted(a.dir.glob("season_*.pkl"))]
     OUT_JSON.write_text(json.dumps(res, indent=1, default=float) + "\n")
     print(json.dumps({k: v for k, v in res.items() if k != "per_season"}, indent=1, default=float))
 
@@ -371,12 +398,19 @@ def report() -> str:
     lu = _ms(P, lambda p: p["lineups"]["dL_share_vsR_minus_vsL"])
     adv = _ms(P, lambda p: p["adv_share_all_pa"])
     rows1 = {r["candidate"]: r for r in r2["running_total"]["rows"]}
+    rl = r3.get("real_lineups")
+    LS = r3.get("lineup_size") or []
+    if LS:
+        ls_d = (float(np.mean([x["dphi"] for x in LS])), float(np.std([x["dphi"] for x in LS], ddof=1) / math.sqrt(len(LS))))
+        ls_m = {k: float(np.mean([x[k] for x in LS])) for k in ("corr_t_rest", "d_rv_advantage", "gain_vs_R", "gain_vs_L", "mean_runs_per_team_game")}
     cands = [("11. Starter day-to-day form (5+ starts)", rows1["11"]["dphi"], rows1["11"]["se"], "not measured (the engine has no start-level form: about 0)"),
              ("12. Errors clustering in half-innings", rows1["12"]["dphi"], rows1["12"]["se"], "not measured (errors independent by play: about 0)"),
              ("3. Times through the order: the remaining penalty", add, add_se, f"the engine already has {st[0][0]:+.3f} / {st[1][0]:+.3f} / {st[2][0]:+.3f} runs per PA (2nd / 3rd / 4th+) against {rt[0]:+.3f} / {rt[1]:+.3f} / {rt[2]:+.3f}"),
              ("4. Mop-up: relief entries at a margin of 5+", mop["blowout_5plus"]["gap"], mop["blowout_5plus"]["gap_se"], f"engine {mop['blowout_5plus']['sim']:+.3f} ± {mop['blowout_5plus']['sim_se']:.3f} against real {mop['blowout_5plus']['real']:+.3f} ± {mop['blowout_5plus']['real_se']:.3f}"),
              ("5. Plate-appearance length by base state", pl_d, pl_d_se, f"pitches per PA with runners on minus empty, within result: real {pl_real:+.3f} ± {pl_real_se:.3f}, engine {pl_sim:+.3f} ± {pl_sim_se:.3f}"),
-             ("6. Platoon lineups", None, None, "real side waits on the roster workflow's lineup table (tools/aggregate_rosters.py lineup_by_starter_hand.csv)")]
+             ("6. Platoon lineups", None, None, "real side waits on the roster workflow's lineup table (tools/aggregate_rosters.py lineup_by_starter_hand.csv)")
+             if not LS else ("6. Platoon lineups", ls_d[0], ls_d[1], f"real lineups add {rl['all']['adv_gain_vs_fixed_lineup']:+.3f} to the platoon-advantage share; "
+                             f"{ls_m['mean_runs_per_team_game']:+.4f} runs per team-game")]
     L = ["# Diagnosis sizes, round 3: the sim side on the final engine (variance stage)", "",
          f"2026-10-09. Owner (2026-10-08): \"size times through the order, mop-up pitching, PA length by base state and platoon lineups (sizes only), with the running total\". "
          f"Scripts: `scripts/diag_round3_sim.py` (an instrumented play-by-play of {r3['seasons']} simulated seasons, seeds 980001+; the instrumentation draws nothing: "
@@ -410,7 +444,13 @@ def report() -> str:
           "its relief choice sorts the best relievers into close games and the worst out of them much more sharply than real teams do, which damps game-to-game variance. "
           f"Real minus engine on all relief entries: {mop['all_relief']['gap']:+.3f} ± {mop['all_relief']['gap_se']:.3f} ({100 * mop['all_relief']['gap'] / miss:.0f}% of the missing); "
           "the 5+ row above is part of it, not additional.",
-          "- Caveat: the real side counts the 50 full-season staffs (P4-heavy); the engine side counts every team. A P4-only engine comparison is the next check before any fix.",
+          "- P4-only comparison (2026-10-09, `scripts/diag_bullpen_p4.py`, `reports/diagnosis_bullpen_p4.json`): the gap holds on the 36 P4 staffs against the engine's P4 staffs "
+          "(margin 5+: +.126 ± .024; all relief entries: +.208 ± .033).",
+          "- Mechanism check (2026-10-09, `scripts/diag_bullpen_feedback.py`): the reading above, that the engine sorts relievers too sharply, does not hold. Real staffs have no wider "
+          "reliever talent spread than the engine's, yet real workload tracks observed quality twice as steeply (lowest workload third +.033, highest -.031 runs per PA against the "
+          "staff mean; engine +.019 / -.013), and real relief usage reacts to results: per run of value allowed in an outing, the reliever's next entry is a blowout (7+) "
+          "1.8 points more often (P4, ± .5; engine 0 ± .2). Part of the real mop-up gap is therefore selection on noise (relievers who were hit elsewhere pitch the blowouts), "
+          "which the leave-game-out estimator reads as quality. Fix design to the owner before building.",
           "", "## Plate-appearance length by base state", "",
           f"- Real plate appearances with runners on are not longer: within the result they are {pl_real:+.3f} ± {pl_real_se:.3f} pitches shorter (pickoff throws are not pitches). "
           f"The engine's are {pl_sim:+.3f} ± {pl_sim_se:.3f} shorter already (steals and pitchouts end some).",
@@ -418,8 +458,18 @@ def report() -> str:
           "", "## Platoon lineups", "",
           f"- Engine: the starting nine's left-handed share against right-handed minus left-handed starters, within team: {lu[0]:+.4f} ± {lu[1]:.4f} (the lineup ignores the starter's hand: GUESSES.md). "
           f"Platoon-advantage share of all plate appearances {adv[0]:.3f} ± {adv[1]:.3f} (real .480).",
-          "- Real: the roster aggregator now builds `lineup_by_starter_hand.csv` (starting nine by listed bats against the starter's hand, by team, counts only); it needs one workflow run. "
-          "Then: the real within-team response, the advantage share it adds (closing part of .464 against .480), its run value and its Δφ and margin-SD effect on the engine's team-games.",
+          ("- Real: the roster aggregator now builds `lineup_by_starter_hand.csv` (starting nine by listed bats against the starter's hand, by team, counts only); it needs one workflow run. "
+           "Then: the real within-team response, the advantage share it adds (closing part of .464 against .480), its run value and its Δφ and margin-SD effect on the engine's team-games.")
+          if not LS else
+          (f"- Real (`data/ncaa_2025/roster_aggregates/lineup_by_starter_hand.csv`, roster run 37878486296, {rl['all']['n_teams']} teams with starters of both hands): the starting nine's "
+           f"left-handed share is {rl['all']['dL_share_vsR_minus_vsL']:+.3f} higher against right-handed starters (P4 {rl['p4']['dL_share_vsR_minus_vsL']:+.3f}, mid {rl['mid']['dL_share_vsR_minus_vsL']:+.3f}, "
+           f"low {rl['low']['dL_share_vsR_minus_vsL']:+.3f}), and the right-handed share {rl['all']['dR_share_vsL_minus_vsR']:+.3f} higher against left-handers. Against a fixed lineup that adds "
+           f"{rl['all']['adv_gain_vs_fixed_lineup']:+.3f} to the platoon-advantage share of the starting nine: engine .462 + .020 is about the real .480, so platoon lineups close that gap. "
+           f"The lineup's quality cost is nil ({rl['quality_vsL_minus_vsR_per_starter']:+.4f} ± {rl['quality_se']:.4f} runs per starter PA, against left- minus right-handed starters)."),
+          ("" if not LS else
+           f"- Size on the engine's team-games (8 seasons): the advantage is worth {ls_m['d_rv_advantage']:+.4f} runs per PA (batter-demeaned), so the response adds "
+           f"{ls_m['mean_runs_per_team_game']:+.4f} runs per team-game, Δφ {ls_d[0]:+.4f} ± {ls_d[1]:.4f} (correlation with the rest of the game {ls_m['corr_t_rest']:+.3f}): "
+           "nothing for dispersion or margins. Worth building for the platoon-advantage share (Phase 3's reported row), not for the watch item."),
           "", "## Phase 3's measured variance link (40 seasons, against PR B's run)", "",
           "| Row | Real | PR B | Phase 3 | Change | Gap closed |", "|---|---|---|---|---|---|"]
     md = (ROOT / "reports/phase3.md").read_text().splitlines()
