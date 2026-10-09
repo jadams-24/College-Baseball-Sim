@@ -1,5 +1,5 @@
 {
- "_note": "Bullpen form (variance stage, owner decision 2026-10-09, option A): relief usage reacts to the reliever's recent results.\n\nFrom the 2025 play-by-play, full-season teams (scripts/build_phase6_usage.py), writes\ndata/ncaa_2025/derived/bullpen_form_2025.json:\n\n  relief_form  the relief choice's conditional logit refitted with recent-form terms by leverage, on the same choice\n               events as usage6 relief (role x leverage, rest cells, back-to-back) plus, per alternative and leverage\n               (late and close / blowout / other): his runs allowed in his last outing (runs scored on plate-appearance\n               plays while he was in, capped at FORM_CAP), the mean of the same over his three outings before that, and a\n               no-outing-yet indicator. The engine's AI uses these coefficients after scaling solved in the engine\n               (scripts/solve_bullpen_form.py), so its within-pitcher slopes match the real ones below.\n  gate         the gate values (engine/bullpen_metrics.py on the real outings; SE by a bootstrap over teams), for P4\n               staffs and all full-season staffs: the next entry's blowout share and |margin| per run allowed in the\n               previous outing (relief-only pitchers, within pitcher), and runs per batter faced against the staff mean by\n               workload third.\n    python3 scripts/build_bullpen_form.py\n",
+ "_note": "Bullpen form (variance stage, owner decision 2026-10-09, option A): relief usage reacts to the reliever's recent results.\n\nFrom the 2025 play-by-play, full-season teams (scripts/build_phase6_usage.py), writes\ndata/ncaa_2025/derived/bullpen_form_2025.json:\n\n  relief_form  the relief choice's conditional logit refitted with recent-form terms by leverage, on the same choice\n               events as usage6 relief (role x leverage, rest cells, back-to-back) plus, per alternative and leverage\n               (late and close / blowout / other): his runs allowed in his last outing (runs scored on plate-appearance\n               plays while he was in, capped at FORM_CAP), the mean of the same over his three outings before that, and a\n               no-outing-yet indicator. The engine's AI uses these coefficients after scaling solved in the engine\n               (scripts/solve_bullpen_form.py), so its within-pitcher slopes match the real ones below.\n  gate         the gate values (engine/bullpen_metrics.py on the real outings; SE by a bootstrap over teams), for P4\n               staffs and all full-season staffs: the next entry's blowout share and |margin| per run allowed in the\n               previous outing (relief-only pitchers, within pitcher), runs per batter faced against the staff mean by\n               workload third, and relief-entry quality by entry margin (the entering pitcher's runs per batter faced in his\n               other games minus the staff's relief rate).\n    python3 scripts/build_bullpen_form.py\n",
  "built": "2026-10-09",
  "form_cap": 5,
  "form_prior_n": 3,
@@ -161,6 +161,26 @@
    "low_minus_high": {
     "value": 0.0311,
     "se": 0.01186
+   },
+   "entry_0-1": {
+    "value": -0.0057,
+    "se": 0.00145
+   },
+   "entry_2-3": {
+    "value": -0.00365,
+    "se": 0.00169
+   },
+   "entry_4": {
+    "value": -0.00343,
+    "se": 0.0023
+   },
+   "entry_5-7": {
+    "value": 0.00342,
+    "se": 0.0018
+   },
+   "entry_8+": {
+    "value": 0.01272,
+    "se": 0.00333
    }
   },
   "all_full_season": {
@@ -190,6 +210,26 @@
    "low_minus_high": {
     "value": 0.03068,
     "se": 0.01046
+   },
+   "entry_0-1": {
+    "value": -0.00568,
+    "se": 0.00117
+   },
+   "entry_2-3": {
+    "value": -0.00502,
+    "se": 0.00132
+   },
+   "entry_4": {
+    "value": -0.00287,
+    "se": 0.00209
+   },
+   "entry_5-7": {
+    "value": 0.00423,
+    "se": 0.00144
+   },
+   "entry_8+": {
+    "value": 0.01285,
+    "se": 0.00256
    }
   }
  },

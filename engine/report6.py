@@ -149,6 +149,8 @@ def season_extract6(res: dict) -> dict:
             out[f"bp_{name}_next_blowout_per_run"], out[f"bp_{name}_next_margin_per_run"] = f_["blow"], f_["absm"]
             for t_ in ("low", "mid", "high"):
                 out[f"bp_{name}_workload_{t_}"] = w_[t_]
+            for b_, v_ in bpm.entry_quality(sub).items():
+                out[f"bp_{name}_entry_{b_}"] = v_
     out.update({"app_max_national": float(gp[by_app[0]]), "app_50th_national": float(gp[by_app[49]]),
                 "top50_app_with_60ip": float((ip[by_app[:50]] >= 60).sum()), "relief_ip_max": float(ip[rel].max()),
                 "relievers_60ip": float((rel & (ip >= 60)).sum()), "ip_leader_is_reliever": float(rel[np.argmax(ip)])})
@@ -216,6 +218,10 @@ def build_report6(agg: dict, agg2: dict, agg5: dict, seeds: list, st2: dict, st4
                                ("workload_high", "Runs per BF against staff mean, highest workload third (P4 relief-only)", 4)):
             row("bullpen", f"bp_{key}", label, m[f"bp_p4_{key}"], se[f"bp_p4_{key}"], bf_[key]["value"], bf_[key]["tol"], nd,
                 f"all teams {m[f'bp_all_{key}']:+.{nd}f}")
+        for b_ in ("0-1", "2-3", "4", "5-7", "8+"):
+            e_ = bf_["entry_quality_by_margin"][b_]
+            row("bullpen", f"bp_entry_{b_}", f"Relief-entry quality at a margin of {b_}: runs per BF elsewhere minus staff relief rate (P4)",
+                m[f"bp_p4_entry_{b_}"], se[f"bp_p4_entry_{b_}"], e_["value"], e_["tol"], 4, f"all teams {m[f'bp_all_entry_{b_}']:+.4f}")
     row("usage", "p6_batters_per_team_game", "Distinct batters per team-game", m["batters_per_team_game"], se["batters_per_team_game"],
         u6["batters_per_team_game"]["value"], u6["batters_per_team_game"]["tol"], 3)
     # rows deferred from Phases 2 and 5

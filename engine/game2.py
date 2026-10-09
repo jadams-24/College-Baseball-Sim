@@ -196,6 +196,7 @@ class PlayerGameEngine:
         self.outings: list = []                                       # (pitcher, started, outs, weekday) of every outing
         self.outing_lines: list = []                                  # (pitcher, started, BF, K, BB, HBP, H, HR, R) of every outing
         self.bullpen_rows: list = []                                  # engine/bullpen_metrics.py COLUMNS, every outing (diagnostics)
+        self.n_games = 0                                              # games begun on this engine (the bullpen rows' game id)
         self.fielding_on, self.speed_on = phase6.on("fielding"), phase6.on("speed")
         f6 = phase6.load().get("fielding6", {})
         self.err_share = f6.get("team_error", {}).get("error_share", {})
@@ -408,7 +409,7 @@ class PlayerGameEngine:
             if self.diag:
                 # bullpen gate rows (engine/bullpen_metrics.py): team, pitcher, order, start, BF, runs while in, entry margin and inning
                 self.bullpen_rows.append((st.team_obj[side].tid, st.pitcher[side].pid, len(self.bullpen_rows), int(o["starter"]),
-                                          ps[P_BF] - o["ps0"][0], o["runs"], o["entry"][0], o["entry"][1]))
+                                          ps[P_BF] - o["ps0"][0], o["runs"], o["entry"][0], o["entry"][1], self.n_games))
         if o is not None and o["starter"]:
             self.starts.append((o["pitches"], o["pa_outs"], bool(st.weekend), st.pitcher[side].pid))
 
@@ -984,6 +985,7 @@ class GameSession:
 
     def _pregame(self):
         eng, st = self.eng, self.st
+        eng.n_games += 1
         eng.q_cache.clear()          # matchup chains are rebuilt per game (memory); the tilts stay cached
         eng.fwd_cache.clear()
         rng = self.engine_stream.at(0, 0)

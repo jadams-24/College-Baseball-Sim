@@ -72,7 +72,7 @@ def simulate_season(cfg: Phase2Config, seed: int) -> dict:
                                                                "split": eng.split_rec.copy()}}
     if world:
         res["post"] = _postseason(cfg, league, eng, mgr, reg_games, max(g.date for g in schedule), s_post, team_games, bstats, pstats)
-    res["bullpen_rows"] = np.array(eng.bullpen_rows, dtype=np.int32).reshape(-1, 8)   # engine/bullpen_metrics.py COLUMNS
+    res["bullpen_rows"] = np.array(eng.bullpen_rows, dtype=np.int32).reshape(-1, 9)   # engine/bullpen_metrics.py COLUMNS
     return res
 
 

@@ -11,8 +11,9 @@ data/ncaa_2025/derived/bullpen_form_2025.json:
                (scripts/solve_bullpen_form.py), so its within-pitcher slopes match the real ones below.
   gate         the gate values (engine/bullpen_metrics.py on the real outings; SE by a bootstrap over teams), for P4
                staffs and all full-season staffs: the next entry's blowout share and |margin| per run allowed in the
-               previous outing (relief-only pitchers, within pitcher), and runs per batter faced against the staff mean by
-               workload third.
+               previous outing (relief-only pitchers, within pitcher), runs per batter faced against the staff mean by
+               workload third, and relief-entry quality by entry margin (the entering pitcher's runs per batter faced in his
+               other games minus the staff's relief rate).
     python3 scripts/build_bullpen_form.py
 """
 from __future__ import annotations
@@ -49,12 +50,12 @@ def outings(pa: pd.DataFrame) -> pd.DataFrame:
 def metric_frame(a: pd.DataFrame) -> pd.DataFrame:
     return pd.DataFrame({"team": a.pit_team_id.values, "pid": (a.pit_team_id.astype(str) + "|" + a.pkey).values,
                          "seq": a.seq.values, "starter": a.start.values, "bf": a.bf.values, "runs": a.runs.values,
-                         "margin": a.margin.values, "inning": a.inning.values})
+                         "margin": a.margin.values, "inning": a.inning.values, "game": a.game_id.values})
 
 
 def gate_values(o: pd.DataFrame, teams: set, rng) -> dict:
     o = o[o.team.isin(teams)]
-    f, t = bm.feedback_slopes(o), bm.workload_terciles(o)
+    f, t, q = bm.feedback_slopes(o), bm.workload_terciles(o), bm.entry_quality(o)
     tl = np.array(sorted(teams))
     by = {k: g for k, g in o.groupby("team")}
     boot = []
@@ -62,14 +63,14 @@ def gate_values(o: pd.DataFrame, teams: set, rng) -> dict:
         pick = rng.choice(tl, len(tl))
         parts = []
         for i, k in enumerate(pick):        # a team drawn twice counts as two teams (distinct ids)
-            g = by[k].copy(); g["team"] = f"{k}#{i}"; g["pid"] = g.pid + f"#{i}"
+            g = by[k].copy(); g["team"] = f"{k}#{i}"; g["pid"] = g.pid + f"#{i}"; g["game"] = g.game.astype(str) + f"#{i}"
             parts.append(g)
         b = pd.concat(parts)
-        fb, tb = bm.feedback_slopes(b), bm.workload_terciles(b)
-        boot.append([fb["blow"], fb["absm"], tb["low"], tb["mid"], tb["high"], tb["low_minus_high"]])
-    se = np.array(boot).std(0, ddof=1)
-    keys = ["blow", "absm", "low", "mid", "high", "low_minus_high"]
-    val = [f["blow"], f["absm"], t["low"], t["mid"], t["high"], t["low_minus_high"]]
+        fb, tb, qb = bm.feedback_slopes(b), bm.workload_terciles(b), bm.entry_quality(b)
+        boot.append([fb["blow"], fb["absm"], tb["low"], tb["mid"], tb["high"], tb["low_minus_high"]] + [qb[k] for k, *_ in bm.ENTRY_BUCKETS])
+    se = np.nanstd(np.array(boot), 0, ddof=1)
+    keys = ["blow", "absm", "low", "mid", "high", "low_minus_high"] + [f"entry_{k}" for k, *_ in bm.ENTRY_BUCKETS]
+    val = [f["blow"], f["absm"], t["low"], t["mid"], t["high"], t["low_minus_high"]] + [q[k] for k, *_ in bm.ENTRY_BUCKETS]
     return {"n_staffs": int(len(teams)), "n_pairs": f["n_pairs"], "n_pitchers": t["n_pitchers"],
             **{k: {"value": round(float(v), 5), "se": round(float(s), 5)} for k, v, s in zip(keys, val, se)}}
 
@@ -194,6 +195,9 @@ def main() -> None:
     rf = fit(choice_events(af, role))
     out = {"_note": __doc__, "built": dt.date.today().isoformat(), "form_cap": FORM_CAP, "form_prior_n": FORM_PRIOR_N,
            "relief_form": rf, "gate": gate}
+    if OUT.exists():                 # keep the engine solves (scripts/solve_bullpen_form.py) of an earlier build
+        prev = json.loads(OUT.read_text())
+        out.update({k: v for k, v in prev.items() if k.startswith("solve") or k.startswith("quality")})
     OUT.write_text(json.dumps(out, indent=1, default=float) + "\n")
     print(json.dumps(gate, indent=1))
     print({n: f"{b:+.3f}±{rf['se'][n]:.3f}" for n, b in rf["coef"].items() if n.startswith("form")})
