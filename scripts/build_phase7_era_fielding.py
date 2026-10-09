@@ -2,10 +2,11 @@
 is a team's run prevention from pitching correlated with its fielding, and how many errors do the best run-prevention
 teams make?
 
-Pages (data/ncaa_leaders/raw_team_all/, fetched 2026-10-05, all pages, every Division I team):
+Tables (data/ncaa_leaders/team_era_2025.csv and team_fielding_2025.csv): extracted from the NCAA.com team pages
 https://www.ncaa.com/stats/baseball/d1/2024/team/211[/pN] (team ERA: G, IP, R, ER, ERA) and .../team/212[/pN]
-(fielding percentage: G, PO, A, E, PCT). URL year 2024 is the 2025 season (scripts/parse_ncaa_leaders.py). Full
-seasons, postseason included, every game (non-Division I opponents included).
+(fielding percentage: G, PO, A, E, PCT), every page, every Division I team, fetched 2026-10-05. URL year 2024 is the
+2025 season. Full seasons, postseason included, every game (non-Division I opponents included). The raw pages were removed
+on 2026-10-08 (www.ncaa.com now disallows AI agents; owner decision: extracted tables only, never refetched).
 
 Rows: correlation across teams of ERA with errors per game and with fielding percentage; errors per game and
 earned share for the 50 best run-prevention teams (by runs allowed per game, and by ERA) against all teams.
@@ -25,17 +26,12 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT)); sys.path.insert(0, str(ROOT / "scripts"))
 from engine.report7 import era_fielding_measures as measures  # noqa: E402
-from parse_ncaa_leaders import table  # noqa: E402
-
-RAW = ROOT / "data/ncaa_leaders/raw_team_all"
+TABLES = {211: ROOT / "data/ncaa_leaders/team_era_2025.csv", 212: ROOT / "data/ncaa_leaders/team_fielding_2025.csv"}
 BENCH = ROOT / "data/ncaa_2025/derived/phase7_benchmarks.json"
 
 
 def pages(stat: int) -> pd.DataFrame:
-    rows = []
-    for f in sorted(RAW.glob(f"s{stat}_2024_p*.html.gz"), key=lambda p: int(p.stem.split("_p")[1].split(".")[0])):
-        rows += table(f)
-    d = pd.DataFrame(rows).drop_duplicates("Team")
+    d = pd.read_csv(TABLES[stat], dtype=str, keep_default_na=False).drop_duplicates("Team")
     for c in d.columns:
         if c not in ("Team", "Rank"):
             d[c] = pd.to_numeric(d[c].str.replace(",", ""), errors="coerce")

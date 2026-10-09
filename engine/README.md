@@ -61,3 +61,15 @@ Derived inputs: `build_phase4_inputs.py`, `build_phase4_scale.py`, `write_phase4
 
 Run: `python3 scripts/run_phase5.py` simulates the report's 20 seasons once and writes `reports/phase2.md`, `phase4.md` and `phase5.md`.
 Derived inputs: `build_phase5_benchmarks.py`, `solve_phase5_chain.py`, `write_phase5_benchmarks.py`.
+
+## Phase 3 — handedness and platoon splits
+
+| Module | Role |
+|---|---|
+| `league.py` | `_hands`: every player's throwing hand, and batters' bats (L / R / switch), drawn from his own stream after every other draw, from talent and role (pitchers: logistic on true K-BB within role) or position group and talent (batters). No tier enters: the tier gradient is a check |
+| `game2.py` | the platoon shift on the batter's six logit offsets by (side he hits from, pitcher's hand), a switch hitter on the side opposite the pitcher; records platoon cells, usage by hand and per-player splits |
+| `manager.py` | pull and pinch-hit hazards by the hands of the pitcher and the batter due up; the relief choice's platoon terms (batter due up, hand of the pitcher replaced); the bench pick's platoon term |
+| `report3.py` | handedness shares, the tier-gradient check, platoon splits, usage by hand, individual spread and the variance link (reported) |
+
+Derived inputs, in this order: `build_phase3_hands.py` (needs `runs/phase3_pop.pkl` or simulates it), `build_phase3_usage.py`, `build_phase3_platoon.py`
+(then `--iterate --seasons runs/phase3_platoon_iter1.pkl`), `write_phase3_benchmarks.py`. Run: `python3 scripts/run_phase5.py` writes every report, `reports/phase3.md` among them.

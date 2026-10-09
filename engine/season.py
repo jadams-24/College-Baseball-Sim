@@ -65,7 +65,9 @@ def simulate_season(cfg: Phase2Config, seed: int) -> dict:
            "pitch_rec": copy.deepcopy(eng.pitch_rec), "sb": list(eng.sb), "decisions": _decision_counts(eng), "outings": np.array(eng.outings, dtype=np.int32),
            "outing_lines": np.array(eng.outing_lines, dtype=np.int32), "player_pitch": eng.player_pitch.copy(), "starts": np.array(eng.starts, dtype=float),
            "scheduled_games": Counter([g.home for i, g in enumerate(schedule) if not dropped[i]] + [g.away for i, g in enumerate(schedule) if not dropped[i]]),
-           "canceled": int(canceled.sum())}
+           "canceled": int(canceled.sum()), "platoon": {"used": eng.plat_used.copy(), "listed": eng.plat_listed.copy(),
+                                                               "relief": eng.relief_rec.copy(), "ph": eng.ph_rec.copy(),
+                                                               "split": eng.split_rec.copy()}}
     if world:
         res["post"] = _postseason(cfg, league, eng, mgr, reg_games, max(g.date for g in schedule), s_post, team_games, bstats, pstats)
     return res

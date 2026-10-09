@@ -1,4 +1,4 @@
-"""One simulated run shared by the Phase 2, Phase 4, Phase 5, Phase 6 and Phase 7 gate tests: the reports' own
+"""One simulated run shared by the Phase 2, Phase 3, Phase 4, Phase 5, Phase 6 and Phase 7 gate tests: the reports' own
 seeds (scripts/run_phase5.py: 40 seasons, seed 20251000). This run must pass every gate on its own, and
 its numbers must agree with the committed reports within sampling error (tests/agreement.py): the
 simulation is deterministic per machine but not across machines."""
@@ -17,6 +17,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 def gate_run() -> dict:
     from run_phase2 import REPORT_SEASONS, REPORT_SEED
     from run_phase5 import reports, run
-    agg2, agg4, agg5, agg6, agg7, seeds = run(REPORT_SEASONS, REPORT_SEED, workers=min(4, os.cpu_count() or 1))
-    (_, st2), (_, st4), (_, st5), (_, st6), (_, st7) = reports(agg2, agg4, agg5, agg6, agg7, seeds)
-    return {"phase2": st2, "phase4": st4, "phase5": st5, "phase6": st6, "phase7": st7}
+    agg2, agg4, agg5, agg6, agg7, agg3, seeds = run(REPORT_SEASONS, REPORT_SEED, workers=min(4, os.cpu_count() or 1))
+    (_, st2), (_, st4), (_, st5), (_, st6), (_, st7), (_, st3) = reports(agg2, agg4, agg5, agg6, agg7, agg3, seeds)
+    return {"phase2": st2, "phase4": st4, "phase5": st5, "phase6": st6, "phase7": st7, "phase3": st3}

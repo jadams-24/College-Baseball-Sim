@@ -76,6 +76,8 @@ class Player:
     arm: float = 0.0
     hold: float = 0.0         # PR B (pitchers): hold / time to plate, standard-normal z; runners attempt less against a high
                               # hold (config.decisions, prb_inputs.json pitcher_hold); the rating is 50 + 10 z
+    throws: str = ""          # Phase 3: "L" or "R" (every player); drawn per player from talent and role or position (_hands)
+    bats: str = ""            # Phase 3 (batters): "L", "R" or "S" (a switch hitter bats from the side opposite the pitcher)
 
 
 @dataclass
@@ -168,6 +170,7 @@ def build_league(cfg: Phase2Config, rng: np.random.Generator) -> League:
     rng_field = np.random.Generator(np.random.PCG64(rng.bit_generator.seed_seq.spawn(1)[0]))
     rng_pt = np.random.Generator(np.random.PCG64(rng.bit_generator.seed_seq.spawn(1)[0]))
     rng_hold = np.random.Generator(np.random.PCG64(rng.bit_generator.seed_seq.spawn(1)[0]))   # PR B; spawned last, so the rest is unchanged
+    rng_hands = np.random.Generator(np.random.PCG64(rng.bit_generator.seed_seq.spawn(1)[0]))  # Phase 3; spawned after PR B's, same reason
     pt_rho = phase6.load().get("subs6", {}).get("bench_pick_weight", {}).get("playing_time_rho", {}).get("value") if phase6.on("subs") else None
     fl6 = phase6.load().get("fielding6") if phase6.on("fielding") else None
     phi_field = phase6.load().get("fielding_scale", {}).get("phi_engine") if fl6 else None
@@ -308,7 +311,40 @@ def build_league(cfg: Phase2Config, rng: np.random.Generator) -> League:
         if p.side == "pit":
             p.hold = float(rng_hold.standard_normal())
             p.ratings["hold"] = 50 + 10 * p.hold
+    _hands(cfg, league, rng_hands)
     return league
+
+
+def _hands(cfg, league, rng) -> None:
+    """Phase 3: each player's hands (config.phase3; scripts/build_phase3_hands.py), drawn from his talent and role
+    (pitchers) or position (batters) and nothing else: no tier enters (owner rule 2026-10-08), so the share of
+    left-handers by tier comes out of where the talent is. Pitchers: P(throws L) = expit(a[role] + b[role] s), s his
+    true K-BB against an average batter, standardized within role. Batters: throws L at his position group's roster
+    share; bats L / R / S by a multinomial logit on his position group and throws plus his standardized true run value
+    per PA against an average pitcher. Players are taken in league order, one uniform per hand."""
+    from config import phase3
+    if not phase3.on("hands"):
+        return
+    h3 = phase3.load()
+    hp, hb = h3["hands_pitchers"], h3["hands_batters"]
+    lw = hb["run_weights"]
+    zero = np.zeros(len(RATES))
+    for p in league.players:
+        if p.side == "pit":
+            role = "reliever" if p.group == "rp" else "starter"
+            pr = matchup_probs(cfg, zero, p.z, league.location)
+            sc = hp["s_scale"][role]
+            s = (pr["K"] - pr["BB"] - sc["mean"]) / sc["sd"]
+            p.throws = "L" if rng.random() < _expit(hp["a"][role] + hp["b"][role] * s) else "R"
+            continue
+        g = phase3.POS_GROUP.get(p.pos, "UT/DH")
+        p.throws = "L" if rng.random() < hb["throws_L"][g] else "R"
+        pr = matchup_probs(cfg, p.z, zero, league.location)
+        s = (sum(pr[o] * lw[o] for o in pr) - hb["s_scale"]["mean"]) / hb["s_scale"]["sd"]
+        base = hb["base"][f"{g}|{p.throws}"]
+        eL, eS = np.exp(base["L"] + hb["bL"] * s), np.exp(base["S"] + hb["bS"] * s)
+        u = rng.random() * (1 + eL + eS)
+        p.bats = "L" if u < eL else ("S" if u < eL + eS else "R")
 
 
 def _fielding(fl6: dict, t, regs: list, bench: list, rng) -> None:

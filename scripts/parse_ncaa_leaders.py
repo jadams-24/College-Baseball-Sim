@@ -1,5 +1,10 @@
 """Parse the NCAA.com national leader pages (data/ncaa_leaders/raw/) into ncaa_leaders.json.
 
+HISTORICAL (2026-10-08): the raw pages this script read were removed from the repository. www.ncaa.com's robots.txt now
+disallows AI agents, and the owner decided to keep only the extracted tables and never refetch. Its output,
+data/ncaa_leaders/ncaa_leaders.json, is committed and is what the Phase 2 gates read (scripts/write_leader_benchmarks.py).
+The script cannot be rerun; it stays as the record of how the JSON was made. table() is kept for that record.
+
 Pages: https://www.ncaa.com/stats/baseball/d1/{year}/individual/{stat}, page 1 (the top 50
 and ties). NCAA.com labels a season by the academic year it starts: /2023/ is the 2024
 season, /2024/ is 2025, /2025/ is 2026. Stats: 470 home runs, 200 batting average,
