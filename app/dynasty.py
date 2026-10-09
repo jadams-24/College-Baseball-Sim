@@ -255,6 +255,9 @@ class Dynasty:
             out.append(i)
         return out
 
+    def my_games(self) -> list:
+        return [i for i, g in enumerate(self.schedule) if self.mine(g) and not self.skip[i]]
+
     def _week_of(self, date: int) -> int:
         return int(date) // 7
 
