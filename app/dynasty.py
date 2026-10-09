@@ -229,27 +229,31 @@ class Dynasty:
 
     def background_plan(self) -> list:
         """The games to sim while the user plays the pending one: the rest of that week's games that follow it in
-        schedule order and do not involve the user's team. Games of disjoint teams do not depend on each other
-        (per-game seeds; the engine's accumulators and the Decider's rest history, rotation plans and counters are
-        per player or per team), so playing them before the user's game finishes gives the engine's results
+        schedule order and do not depend on it. A game depends on the pending game when one of its teams plays in
+        the pending game, or in any earlier game that is itself deferred (the chain: the opponent's next game, the
+        opponent of that game's next game, and so on). Everything else involves teams whose state the pending game
+        cannot touch (per-game seeds; the engine's accumulators and the Decider's rest history, rotation plans and
+        counters are per player or per team), so playing it ahead gives the engine's results
         (tests/test_app_dynasty.py plays the user's games with the background sim running). Postseason games are
         never simmed ahead: a bracket's later games depend on its earlier ones."""
         if self.pending is None or self.pending["stage"] != "regular" or self.stage != "regular":
             return []
         i0 = self.pending["i"]
-        week = self._week_of(self.schedule[i0].date)
+        g0 = self.schedule[i0]
+        week = self._week_of(g0.date)
+        waiting = {g0.home, g0.away}            # teams with a deferred game behind them
         out = []
         for i in range(i0 + 1, len(self.schedule)):
             g = self.schedule[i]
             if self._week_of(g.date) != week:
                 break
-            if self.skip[i] or i in self.results or self.mine(g):
+            if self.skip[i] or i in self.results:
+                continue
+            if g.home in waiting or g.away in waiting:
+                waiting.update((g.home, g.away))
                 continue
             out.append(i)
         return out
-
-    def my_games(self) -> list:
-        return [i for i, g in enumerate(self.schedule) if self.mine(g) and not self.skip[i]]
 
     def _week_of(self, date: int) -> int:
         return int(date) // 7
