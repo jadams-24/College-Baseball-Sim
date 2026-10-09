@@ -249,9 +249,10 @@ def main() -> None:
     disc = np.mean(np.clip(lo - tx, 0, None) + rc.CLIMATE_HEAT_WEIGHT * np.clip(tx - hi, 0, None), axis=1)
     card["tmax_feb_may_f"] = card.index.map(cl.tmax_feb_may)
     card["climate_discomfort"] = np.round(disc, 3)
-    k = pd.DataFrame({"comfort": rc.percentile(-pd.Series(disc, index=card.index).fillna(np.nanmedian(disc))),
-                      "dry_days": rc.percentile(-card.precip_days_feb_may.fillna(card.precip_days_feb_may.median()))}, index=card.index)
-    pct["climate"] = rc.percentile(blend(k, rc.CLIMATE_WEIGHTS))
+    pen = (pd.Series(disc, index=card.index).fillna(np.nanmedian(disc))
+           + rc.CLIMATE_RAIN_F_PER_DAY * card.precip_days_feb_may.fillna(card.precip_days_feb_may.median()))
+    card["climate_penalty_f"] = pen.round(3)
+    pct["climate"] = rc.percentile(-pen.values)
 
     # Money
     ea = pd.read_csv(EADA).set_index("unitid")
@@ -305,7 +306,7 @@ def main() -> None:
     raw = ["tradition_points", "hosting_points", "n_field_2015_2025", "n_host_2015_2025", "n_super_2015_2025", "n_omaha_2015_2025",
            "n_title_2015_2025", "d1_winpct_2021_2025", "program_tradition_score", "conf_rpi_mean", "conf_bids_per_member",
            "sim_strength_o_plus_d", "grad_rate_6yr", "admit_rate", "admit_rate_reported", "enrollment", "locale_code", "tavg_feb_may_f",
-           "precip_days_feb_may", "tmax_feb_may_f", "climate_discomfort", "climate_station", "climate_station_miles", "baseball_expenses_2024_25", "money_imputed"]
+           "precip_days_feb_may", "tmax_feb_may_f", "climate_discomfort", "climate_penalty_f", "climate_station", "climate_station_miles", "baseball_expenses_2024_25", "money_imputed"]
     cols = ["tid", "ncaa_team_id", "school", "conference", "tier"]
     for cat in rc.CATEGORIES:
         cols += [f"{cat}_grade", f"{cat}_score", f"{cat}_confidence"]

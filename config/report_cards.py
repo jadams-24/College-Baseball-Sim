@@ -31,12 +31,13 @@ ACADEMIC_WEIGHTS = {"grad_rate": 0.25, "selectivity": 0.75}
 # Campus Life: total enrollment (log) and IPEDS locale   # GUESS (weights and locale scores)
 CAMPUS_WEIGHTS = {"enrollment": 0.6, "locale": 0.4}
 LOCALE_SCORE = {11: 1.0, 12: 0.9, 13: 0.8, 21: 0.75, 22: 0.65, 23: 0.55, 31: 0.45, 32: 0.4, 33: 0.35, 41: 0.3, 42: 0.2, 43: 0.1}
-# Climate (owner calibration 2026-10-09: a comfortable band, not "warmer is better"): each month Feb-May, the normal daily high's
-# distance below CLIMATE_BAND_F[0] or above CLIMATE_BAND_F[1] (heat counted at CLIMATE_HEAT_WEIGHT per degree), averaged over the
-# four months (less is better); and Feb-May days with 0.01"+ precipitation (fewer better)   # GUESS (band, heat weight, weights)
-CLIMATE_BAND_F = (65.0, 85.0)
+# Climate (owner calibration 2026-10-09: a comfortable band, not "warmer is better"): one penalty per school, in degrees F: each
+# month Feb-May, the normal daily high's distance below CLIMATE_BAND_F[0] or above CLIMATE_BAND_F[1] (heat at CLIMATE_HEAT_WEIGHT
+# per degree), averaged over the four months, plus CLIMATE_RAIN_F_PER_DAY per Feb-May day with 0.01"+ precipitation; graded by
+# percentile (less is better)   # GUESS (band, heat weight, rain exchange rate)
+CLIMATE_BAND_F = (60.0, 90.0)
 CLIMATE_HEAT_WEIGHT = 1.0
-CLIMATE_WEIGHTS = {"comfort": 0.7, "dry_days": 0.3}
+CLIMATE_RAIN_F_PER_DAY = 0.07
 # proxies until real data replaces them (graded D confidence, marked for replacement)   # GUESS (all four)
 FACILITIES_WEIGHTS = {"money": 0.5, "hosting": 0.3, "conference": 0.2}
 ATMOSPHERE_WEIGHTS = {"hosting": 0.4, "enrollment": 0.3, "conference": 0.3}

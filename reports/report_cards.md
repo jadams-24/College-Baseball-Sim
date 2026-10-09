@@ -9,13 +9,13 @@ Built by `scripts/build_report_cards.py` (Phase 9 prep, owner request 2026-10-08
 | Program Tradition | 9 | 16 | 21 | 31 | 37 | 39 | 37 | 34 | 28 | 21 | 16 | 9 | 9 | B 307 |
 | Conference Prestige | 16 | 16 | 14 | 27 | 43 | 39 | 38 | 27 | 30 | 23 | 22 | 0 | 12 | B 306, D 1 |
 | Omaha Contender | 9 | 16 | 21 | 31 | 37 | 39 | 37 | 34 | 28 | 21 | 16 | 9 | 9 | A 307 |
-| Academic Prestige | 9 | 16 | 21 | 31 | 37 | 40 | 35 | 36 | 27 | 21 | 16 | 9 | 9 | A 305, B 2 |
+| Academic Prestige | 10 | 14 | 22 | 31 | 36 | 40 | 37 | 35 | 27 | 21 | 16 | 9 | 9 | A 305, B 2 |
 | Campus Life | 9 | 16 | 21 | 31 | 37 | 39 | 37 | 34 | 28 | 21 | 16 | 9 | 9 | C 307 |
-| Climate | 8 | 17 | 21 | 31 | 37 | 39 | 38 | 33 | 27 | 22 | 16 | 9 | 9 | A 307 |
+| Climate | 9 | 16 | 21 | 31 | 37 | 39 | 37 | 35 | 27 | 21 | 16 | 9 | 9 | A 307 |
 | Money | 9 | 16 | 21 | 31 | 37 | 39 | 37 | 34 | 28 | 21 | 16 | 9 | 9 | A 304, D 3 |
 | Facilities | 9 | 16 | 21 | 31 | 37 | 39 | 37 | 34 | 28 | 21 | 16 | 9 | 9 | D 307 |
 | Ballpark Atmosphere | 9 | 16 | 21 | 31 | 37 | 39 | 37 | 34 | 28 | 21 | 15 | 10 | 9 | D 307 |
-| Brand Exposure | 9 | 16 | 21 | 31 | 37 | 39 | 35 | 36 | 30 | 21 | 15 | 5 | 12 | D 307 |
+| Brand Exposure | 9 | 16 | 21 | 31 | 37 | 39 | 37 | 34 | 32 | 13 | 38 | 0 | 0 | D 307 |
 | Draft Development | 9 | 16 | 21 | 31 | 37 | 39 | 37 | 34 | 28 | 22 | 15 | 9 | 9 | D 307 |
 | Coach Prestige | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 307 | 0 | 0 | 0 | 0 | 0 | D 307 |
 | Coach Stability | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 307 | 0 | 0 | 0 | 0 | 0 | D 307 |
@@ -27,13 +27,13 @@ Grades by tier (share of the tier's programs at B- or better):
 | Program Tradition | 0.84 | 0.42 | 0.38 |
 | Conference Prestige | 0.98 | 0.60 | 0.00 |
 | Omaha Contender | 0.95 | 0.55 | 0.09 |
-| Academic Prestige | 0.84 | 0.42 | 0.39 |
+| Academic Prestige | 0.73 | 0.41 | 0.48 |
 | Campus Life | 0.91 | 0.48 | 0.23 |
-| Climate | 0.52 | 0.60 | 0.31 |
+| Climate | 0.53 | 0.60 | 0.30 |
 | Money | 0.98 | 0.58 | 0.02 |
 | Facilities | 1.00 | 0.57 | 0.02 |
 | Ballpark Atmosphere | 1.00 | 0.52 | 0.10 |
-| Brand Exposure | 1.00 | 0.47 | 0.19 |
+| Brand Exposure | 1.00 | 0.48 | 0.18 |
 | Draft Development | 1.00 | 0.52 | 0.11 |
 
 ## Example report cards
@@ -42,17 +42,17 @@ Omaha Contender is the reference world's draw (a dynasty regrades it from its ow
 
 | School | Conf | Tier | Trad | Conf | Omaha | Acad | Campus | Climate | Money | Facil | Atmos | Brand | Draft | Coach | Stab |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| LSU | SEC | p4 | A+ | A+ | B | B- | A- | B+ | A+ | A+ | A+ | A+ | A+ | C | C |
+| LSU | SEC | p4 | A+ | A+ | B | B- | A- | B | A+ | A+ | A+ | A+ | A+ | C | C |
 | Vanderbilt | SEC | p4 | A | A+ | B- | A | B- | B- | A+ | A+ | A- | A+ | A+ | C | C |
-| Stanford | ACC | p4 | A | A | A | A | B- | B | A- | A- | A- | A | A | C | C |
-| Oregon St. | DI Independent | p4 | A+ | C | A- | B- | B+ | C- | A | A- | A- | B+ | A- | C | C |
-| Nebraska | Big Ten | p4 | A- | B+ | B- | B- | B+ | C | A- | A- | A- | B+ | A- | C | C |
-| Coastal Carolina | Sun Belt | mid | A | B | D+ | C- | C+ | B+ | A- | A- | B+ | A- | A- | C | C |
-| DBU | CUSA | mid | A- | B+ | C+ | C- | C | B+ | A- | A- | B | A- | A- | C | C |
-| Murray St. | MVC | mid | A- | B- | A- | C | D+ | C+ | C | C | C+ | B+ | B | C | C |
+| Stanford | ACC | p4 | A | A | A | A+ | B- | A- | A- | A- | A- | A | A | C | C |
+| Oregon St. | DI Independent | p4 | A+ | C | A- | C+ | B+ | C | A | A- | A- | A- | A- | C | C |
+| Nebraska | Big Ten | p4 | A- | B+ | B- | C+ | B+ | C | A- | A- | A- | A- | A- | C | C |
+| Coastal Carolina | Sun Belt | mid | A | B | D+ | C | C+ | B+ | A- | A- | B+ | B+ | A- | C | C |
+| DBU | CUSA | mid | A- | B+ | C+ | C- | C | B | A- | A- | B | B+ | A- | C | C |
+| Murray St. | MVC | mid | A- | B- | A- | C | D+ | C+ | C | C | C+ | B | B | C | C |
 | Wright St. | Horizon | low | B+ | C | D- | D- | C | C- | C | C | C | B | B- | C | C |
-| Army West Point | Patriot | low | B+ | C+ | D- | A- | D- | C | D+ | C- | C- | B | B- | C | C |
-| Alabama A&M | SWAC | low | F | F | D+ | C | C | B- | D- | F | D | F | F | C | C |
+| Army West Point | Patriot | low | B+ | C+ | D- | A- | D- | D+ | D+ | C- | C- | B- | B- | C | C |
+| Alabama A&M | SWAC | low | F | F | D+ | B- | C | B- | D- | F | D | D | F | C | C |
 
 | School | Field / hosts / Omaha / titles 2015-25 | Conf. RPI | Sim o+d | Grad rate | Admit rate | Enrollment | Locale | Feb-May °F | Precip days | Baseball expenses |
 |---|---|---|---|---|---|---|---|---|---|---|
