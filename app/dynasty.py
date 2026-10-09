@@ -978,7 +978,75 @@ def postseason_json(d: Dynasty) -> dict:
             out["super_rows"] = [{"teams": [name(t) for t in s["teams"]], "host": name(s["host"]), "winner": name(s["winner"])} for s in nc["supers"]]
             out["champion"], out["runner_up"] = name(nc["champion"]), name(nc["runner_up"])
             out["cws_teams"] = [name(t) for t in nc["cws"]]
+        out["bracket"] = bracket_json(d, regs, reg_games, out["supers"], out["cws"], f)
     return out
+
+
+def _de_result(teams: list, games: list) -> dict:
+    """A four-team double elimination's state from its games in call order: each team's wins and losses, whether
+    it is out, and the winner once three teams have two losses (the engine's double_elim plays G1 1v4, G2 2v3,
+    G3 losers, G4 winners, G5 the one-loss teams, G6 the final, G7 if the unbeaten team loses G6)."""
+    w = {t: 0 for t in teams}; l = {t: 0 for t in teams}
+    for g in games:
+        win, lose = (g["home"], g["away"]) if g["hr"] > g["ar"] else (g["away"], g["home"])
+        w[win] += 1; l[lose] += 1
+    out = [t for t in teams if l[t] >= 2]
+    alive = [t for t in teams if l[t] < 2]
+    winner = alive[0] if len(out) == 3 and len(alive) == 1 else None
+    return {"wins": w, "losses": l, "winner": winner, "done": winner is not None}
+
+
+def bracket_json(d: Dynasty, regs: list, reg_games: list, super_games: list, cws_games: list, f: dict) -> dict:
+    """The NCAA tournament as a bracket: 16 regional cards (four teams, double elimination, the host at home), 8 super
+    regionals (best of three, regional k against 16 - k), the two Omaha brackets (supers 1, 8, 4, 5 and 2, 7, 3, 6)
+    and the best-of-three finals, filled in from the recorded games as they finish."""
+    name, abbr = d.tname, d.tabbr
+    seed_no = {t: i + 1 for i, t in enumerate(f["national_seeds"])}
+    team = lambda t, seed=None: {"tid": t, "name": name(t), "abbr": abbr(t), "me": t == d.tid, "seed": seed, "national_seed": seed_no.get(t)}
+    regionals, reg_w = [], []
+    for i, reg in enumerate(regs):
+        games = [g for g in reg_games if g["home"] in reg and g["away"] in reg]
+        for n, g in enumerate(games):
+            g["label"] = f"G{n + 1}"
+        r = _de_result(list(reg), games)
+        regionals.append({"n": i + 1, "host": team(reg[0], 1), "teams": [dict(team(t, j + 1), w=r["wins"][t], l=r["losses"][t], out=r["losses"][t] >= 2) for j, t in enumerate(reg)],
+                          "games": games, "winner": team(r["winner"]) if r["winner"] else None, "done": r["done"]})
+        reg_w.append(r["winner"])
+    supers = []
+    sup_w = []
+    for k in range(8):
+        a, b = reg_w[k], reg_w[15 - k]
+        teams = [t for t in (a, b) if t is not None]
+        games = [g for g in super_games if a is not None and b is not None and {g["home"], g["away"]} == {a, b}]
+        wins = {t: sum(1 for g in games if (g["home"] if g["hr"] > g["ar"] else g["away"]) == t) for t in teams}
+        winner = next((t for t in teams if wins.get(t, 0) >= 2), None)
+        host = games[0]["home"] if games else (min((a, b), key=lambda t: (seed_no.get(t, 99), t)) if a is not None and b is not None else None)
+        supers.append({"n": k + 1, "regionals": [k + 1, 16 - k], "teams": [dict(team(t), wins=wins.get(t, 0), host=t == host) for t in (a, b)] if a is not None and b is not None
+                       else [dict(team(t), wins=0, host=False) if t is not None else None for t in (a, b)],
+                       "games": games, "winner": team(winner) if winner else None, "done": winner is not None})
+        sup_w.append(winner)
+    b1 = [sup_w[i] for i in (0, 7, 3, 4)]
+    b2 = [sup_w[i] for i in (1, 6, 2, 5)]
+    brackets, bracket_w = [], []
+    for n, b in enumerate((b1, b2)):
+        teams = [t for t in b if t is not None]
+        games = [g for g in cws_games if g["home"] in teams and g["away"] in teams]
+        for j, g in enumerate(games):
+            g["label"] = f"G{j + 1}"
+        r = _de_result(teams, games) if len(teams) == 4 else {"wins": {t: 0 for t in teams}, "losses": {t: 0 for t in teams}, "winner": None, "done": False}
+        order = sorted(teams, key=lambda t: (seed_no.get(t, 99), t))
+        brackets.append({"n": n + 1, "supers": [1, 8, 4, 5] if n == 0 else [2, 7, 3, 6],
+                         "teams": [dict(team(t, order.index(t) + 1), w=r["wins"][t], l=r["losses"][t], out=r["losses"][t] >= 2) for t in order]
+                                  + [None] * (4 - len(teams)),
+                         "games": games, "winner": team(r["winner"]) if r["winner"] else None, "done": r["done"]})
+        bracket_w.append(r["winner"])
+    fa, fb = bracket_w
+    fgames = [g for g in cws_games if fa is not None and fb is not None and {g["home"], g["away"]} == {fa, fb}]
+    fwins = {t: sum(1 for g in fgames if (g["home"] if g["hr"] > g["ar"] else g["away"]) == t) for t in (fa, fb) if t is not None}
+    champion = next((t for t in (fa, fb) if t is not None and fwins.get(t, 0) >= 2), None)
+    finals = {"teams": [dict(team(t), wins=fwins.get(t, 0)) if t is not None else None for t in (fa, fb)], "games": fgames,
+              "winner": team(champion) if champion else None, "done": champion is not None}
+    return {"regionals": regionals, "supers": supers, "cws": {"brackets": brackets, "finals": finals}}
 
 
 def summary_json(d: Dynasty) -> dict:

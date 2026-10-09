@@ -436,3 +436,32 @@ body.busy .simbar button { opacity: .6; }
 a.plink, a.tlink { color: inherit; text-decoration: none; cursor: pointer; border-bottom: 1px dotted var(--line-strong); }
 a.plink:hover, a.tlink:hover { color: var(--accent); border-bottom-color: var(--accent); }
 @media (max-width: 760px) { .page-grid, .page-grid.wide { grid-template-columns: 1fr; } }
+
+/* the bracket view */
+.bracket-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gap); margin-bottom: var(--gap); }
+.bracket-grid.supers { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.bracket-grid.omaha { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.bk.mine { border-color: var(--accent-dim); }
+.bk-teams { border-bottom: 1px solid var(--line); }
+.bk-team { display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; align-items: center; gap: 6px; height: 32px; padding: 0 10px; border-bottom: 1px solid var(--line); font-size: 12px; }
+.bk-team:last-child { border-bottom: none; }
+.bk-team .seed { color: var(--muted); font-family: var(--font-mono); font-size: 11px; }
+.bk-team .nm { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bk-team .rec { color: var(--ink2); font-size: 12px; }
+.bk-team.me { background: color-mix(in srgb, var(--accent) 16%, transparent); }
+.bk-team.out .nm, .bk-team.out .rec { color: var(--faint); }
+.bk-team.out .nm a { text-decoration: line-through; }
+.bk-team.tbd .nm { font-weight: 400; }
+.bk-games { padding: 4px 10px; }
+.bk-game { display: flex; align-items: center; gap: 8px; min-height: 30px; font-size: 12px; border-bottom: 1px solid var(--line); }
+.bk-game:last-child { border-bottom: none; }
+.bk-game .lbl { color: var(--muted); font-family: var(--font-mono); font-size: 10px; width: 22px; }
+.bk-game .won { font-weight: 700; }
+.bk-game .won b { color: var(--accent); }
+.bk-game.mine { background: color-mix(in srgb, var(--accent) 10%, transparent); }
+.bk-game button { margin-left: auto; min-height: 26px; padding: 2px 8px; font-size: 10px; }
+.bk-winner { padding: 6px 10px; border-top: 1px solid var(--line); font-size: 12px; }
+.bk-winner .k { color: var(--muted); font: 600 10px/1 var(--font-body); letter-spacing: .1em; text-transform: uppercase; margin-right: 6px; }
+.bk-winner a { font-weight: 700; color: var(--accent); }
+@media (max-width: 1300px) { .bracket-grid, .bracket-grid.supers { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 760px) { .bracket-grid, .bracket-grid.supers, .bracket-grid.omaha { grid-template-columns: 1fr; } }

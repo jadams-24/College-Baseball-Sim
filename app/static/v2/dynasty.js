@@ -241,6 +241,26 @@
       <div class="panel"><div class="hdr">${esc(r.team)} pitchers <span class="sub">rest: the last outing's date and pitches (the AI's rest rule reads these)</span></div><div class="body tight scroll-x">${pit}</div></div>`;
   }
 
+  // ---- the NCAA tournament as a bracket: 16 regional cards, 8 supers, the two Omaha brackets and the finals ----
+  function bkTeam(t, slot) {
+    if (!t) return `<div class="bk-team tbd"><span class="seed">${slot || ""}</span><span class="nm muted">TBD</span></div>`;
+    return `<div class="bk-team ${t.me ? "me" : ""} ${t.out ? "out" : ""}"><span class="seed">${t.seed || ""}</span><span class="nm"><a class="tlink" data-tid="${t.tid}">${esc(t.name)}</a>${t.national_seed ? ` <span class="muted">#${t.national_seed}</span>` : ""}${t.host ? ' <span class="tag">HOST</span>' : ""}</span><span class="rec mono">${t.wins != null ? t.wins : `${t.w}-${t.l}`}</span></div>`;
+  }
+  function bkGame(g) {
+    const aw = g.ar > g.hr;
+    return `<div class="bk-game ${g.side ? "mine" : ""}"><span class="lbl">${g.label || ""}</span><span class="${aw ? "won" : ""}"><a class="tlink" data-tid="${g.away}">${esc(g.away_abbr || g.away_name)}</a> <b class="mono">${g.ar}</b></span><span class="muted">${g.neutral ? "vs" : "at"}</span><span class="${aw ? "" : "won"}"><a class="tlink" data-tid="${g.home}">${esc(g.home_abbr || g.home_name)}</a> <b class="mono">${g.hr}</b></span>${g.inning !== 9 ? `<span class="muted">(${g.inning})</span>` : ""}<button class="btn-ghost" data-postbox="${g.k}">Box</button></div>`;
+  }
+  function bkCard(title, sub, teams, games, winner, mine) {
+    return `<div class="panel bk ${mine ? "mine" : ""} ${winner ? "done" : ""}"><div class="hdr">${title}${mine ? '<span class="you-tag">you</span>' : ""} <span class="sub">${sub || ""}</span></div>
+      <div class="body tight"><div class="bk-teams">${teams.map((t, i) => bkTeam(t, i + 1)).join("")}</div>${games.length ? `<div class="bk-games">${games.map(bkGame).join("")}</div>` : ""}${winner ? `<div class="bk-winner"><span class="k">Winner</span> <a class="tlink" data-tid="${winner.tid}">${esc(winner.name)}</a></div>` : ""}</div></div>`;
+  }
+  function renderBracket(b) {
+    const regs = `<div class="hdr-line">Regionals <span class="muted">16 four-team double-elimination regionals at the national seeds' parks</span></div><div class="bracket-grid">${b.regionals.map((r) => bkCard(`Regional ${r.n}`, esc(r.host.name), r.teams, r.games, r.winner, r.teams.some((t) => t.me))).join("")}</div>`;
+    const sups = `<div class="hdr-line">Super regionals <span class="muted">best of three · regional k against regional 17 − k</span></div><div class="bracket-grid supers">${b.supers.map((s) => bkCard(`Super ${s.n}`, `regionals ${s.regionals[0]} and ${s.regionals[1]}`, s.teams, s.games, s.winner, s.teams.some((t) => t && t.me))).join("")}</div>`;
+    const cws = `<div class="hdr-line">College World Series · Omaha <span class="muted">two four-team double-elimination brackets, then a best-of-three final</span></div><div class="bracket-grid omaha">${b.cws.brackets.map((k) => bkCard(`Bracket ${k.n}`, `supers ${k.supers.join(", ")}`, k.teams, k.games, k.winner, k.teams.some((t) => t && t.me))).join("")}${bkCard("Finals", "best of three", b.cws.finals.teams, b.cws.finals.games, b.cws.finals.winner, b.cws.finals.teams.some((t) => t && t.me))}</div>`;
+    return regs + sups + cws;
+  }
+
   // ---- postseason: conference tournaments in their formats, Selection Monday, regionals, supers, Omaha ----
   function gameLine(g) {
     const w = g.hr > g.ar ? "home" : "away";
@@ -266,7 +286,7 @@
     $("#dyn-main").innerHTML = `<div class="tabs" id="ps-tabs"><button data-t="conf" class="on">Conference tournaments</button><button data-t="sel">Selection Monday</button><button data-t="ncaa">NCAA tournament</button></div>
       <div id="ps-conf"><div class="st-grid">${confs.map(conf).join("")}</div></div>
       <div id="ps-sel" class="hidden">${sel || '<div class="panel"><div class="body muted">The field is announced after the conference tournaments.</div></div>'}</div>
-      <div id="ps-ncaa" class="hidden">${regs || '<div class="panel"><div class="body muted">The bracket is set on Selection Monday.</div></div>'}${sups}${cws}</div>`;
+      <div id="ps-ncaa" class="hidden">${ps.bracket ? renderBracket(ps.bracket) : (regs || '<div class="panel"><div class="body muted">The bracket is set on Selection Monday.</div></div>') + sups + cws}</div>`;
     $$("#ps-tabs button").forEach((b) => b.addEventListener("click", () => { $$("#ps-tabs button").forEach((x) => x.classList.toggle("on", x === b)); ["conf", "sel", "ncaa"].forEach((t) => $(`#ps-${t}`).classList.toggle("hidden", t !== b.dataset.t)); }));
     if (ps.stage === "ncaa" || ps.stage === "done") $("#ps-tabs [data-t='ncaa']").click(); else if (ps.stage === "selection") $("#ps-tabs [data-t='sel']").click();
     bindBoxes();
