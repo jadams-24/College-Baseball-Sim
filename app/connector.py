@@ -279,9 +279,37 @@ def mgr_state(mgr) -> dict:
     return {k: _copy_state(v) for k, v in vars(mgr).items() if k not in MANAGER_STATIC}
 
 
-def put_mgr_state(mgr, state: dict) -> None:
+# which keys of the Decider's dict-valued state belong to a game: by player id, by team id, or by (team id, week)
+_BY_PID = ("history", "leash_survive", "leash_pulls", "leash_expected", "leash_var")
+_BY_TID = ("midweek_count", "rank_now", "last_lineup")
+_BY_TID_TUPLE = ("series_plan",)
+
+
+def put_mgr_state(mgr, state: dict, pids=None, tids=None) -> None:
+    """Put a snapshot's Decider state back. With `pids` and `tids` (the game's players and teams) only the entries
+    that belong to this game are rolled back and entries the abandoned pitch added for them are removed; entries
+    of other teams keep their current values, because in a dynasty other games are simmed between a snapshot and
+    its restore (the week's games in the background) and their Decider updates must survive. An attribute whose
+    keys are not classified is restored whole."""
     for k, v in state.items():
-        setattr(mgr, k, _copy_state(v))
+        cur = getattr(mgr, k, None)
+        if pids is None or not isinstance(v, dict) or not isinstance(cur, dict):
+            setattr(mgr, k, _copy_state(v))
+            continue
+        if k in _BY_PID:
+            owned = lambda key: key in pids
+        elif k in _BY_TID:
+            owned = lambda key: key in tids
+        elif k in _BY_TID_TUPLE:
+            owned = lambda key: isinstance(key, tuple) and key and key[0] in tids
+        else:
+            setattr(mgr, k, _copy_state(v))
+            continue
+        for key in [key for key in cur if owned(key) and key not in v]:
+            del cur[key]
+        for key, val in v.items():
+            if owned(key):
+                cur[key] = _copy_state(val)
 
 
 # The AI manager's tables never change during a game; the two teams' objects never change either. A snapshot
@@ -434,7 +462,8 @@ class GameRunner:
         objs = self._externals()
         sess = _Unpickler(io.BytesIO(snap.blob), objs).load()
         self._put_rows(snap.rows)
-        put_mgr_state(objs["mgr"], snap.mgr_state)           # the abandoned pitch's Decider changes rolled back
+        # the abandoned pitch's Decider changes rolled back, for this game's teams and players only
+        put_mgr_state(objs["mgr"], snap.mgr_state, set(self.pids), {self.meta["home_tid"], self.meta["away_tid"]})
         app = sess.app
         n_m, n_r = snap.app_len
         tail = (app["marks"][n_m:], app["records"][n_r:])
