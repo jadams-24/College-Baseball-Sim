@@ -108,7 +108,7 @@
     $("#sb-bases").innerHTML = basesSvg(st.bases, 44);
     $("#sb-inning").innerHTML = st.over ? `<div class="half">Final${st.ended_by_run_rule ? " · run rule" : ""}</div><div class="inn">${st.inning !== 9 ? st.inning + " inn" : "9 inn"}</div>`
       : t.phase === "pregame" ? `<div class="half">Pregame</div><div class="inn">—</div>`
-      : `<div class="half">${st.half === "T" ? "Top" : "Bot"}</div><div class="inn"><span class="arrow">${st.half === "T" ? "▲" : "▼"}</span>${ORD(st.inning)}</div>`;
+      : `<div class="half on">${st.half === "T" ? "Top" : "Bot"}</div><div class="inn">${ORD(st.inning)}</div>`;
     const c = st.count || [0, 0];
     const counter = (lbl, n, max, cls) => `<div class="counter ${cls}"><div class="lbl">${lbl}</div><div class="num">${n}</div><div class="dots">${Array.from({ length: max }, (_, i) => `<i class="${i < n ? "on" : ""}"></i>`).join("")}</div></div>`;
     $("#sb-counts").innerHTML = counter("B", c[0], 3, "balls") + counter("S", c[1], 2, "strikes") + counter("O", st.outs, 3, "outs");
@@ -348,7 +348,11 @@
 
   // ---- 5. lineup panel: batting order with position, bats, today's results and H-AB; the opponent's lineup;
   //      the bullpen with each pitcher's status; before the game, the lineup and starter editor ----
-  function resChips(list) { return `<span class="res">${(list || []).map((r) => { const [lab, cls] = RES[r] || [r, "out"]; return `<i class="${cls}">${lab}</i>`; }).join("")}</span>`; }
+  function resChips(list, last) {
+    const all = list || [], shown = last && all.length > last ? all.slice(-last) : all;
+    const title = all.length ? `today: ${all.map((r) => (RES[r] || [r])[0]).join(", ")}` : "";
+    return `<span class="res" title="${esc(title)}">${shown.map((r) => { const [lab, cls] = RES[r] || [r, "out"]; return `<i class="${cls}">${lab}</i>`; }).join("")}</span>`;
+  }
   let lineupTab = "mine";
   function renderLineup(t, tab) {
     const st = t.state, me = t.user_side, opp = me === "home" ? "away" : "home";
@@ -360,9 +364,10 @@
       const cur = st.pitcher && st.pitcher.pid;
       const hasSeasonP = st.bullpen[me].concat(st.used_pitchers[me]).some((p) => p.season);
       const seasonP = (p) => (hasSeasonP ? `<td class="num">${p.season ? p.season.era.toFixed(2) : ""}</td><td class="num">${p.season ? p.season.ip : ""}</td><td class="num">${p.season ? p.season.k : ""}</td>` : "");
-      const rows = st.bullpen[me].map((p) => `<tr><td class="pos">${p.role}</td><td class="nm">${esc(p.name)}</td><td class="hand">${p.hand || "–"}</td><td class="avail">${t.phase === "pregame" ? "rested" : "available"}</td><td>${badge("stamina", p.ratings.stamina).replace('<span class="k">Sta</span>', "")}</td>${seasonP(p)}</tr>`)
-        .concat(st.used_pitchers[me].map((p) => `<tr class="bp ${p.pid === cur ? "now" : ""}"><td class="pos">${p.role}</td><td class="nm">${esc(p.name)}</td><td class="hand">${p.hand || "–"}</td><td class="avail ${p.pid === cur ? "" : "used"}">${p.pid === cur ? "pitching" : `used · ${p.line.ip} IP, ${p.line.pitches} P`}</td><td>${badge("stamina", p.ratings.stamina).replace('<span class="k">Sta</span>', "")}</td>${seasonP(p)}</tr>`));
-      body = `<table class="lu tbl bp"><tr><th>Role</th><th>Name</th><th>T</th><th>Status</th><th>Sta</th>${hasSeasonP ? `<th class="num">ERA</th><th class="num">IP</th><th class="num">K</th>` : ""}</tr>${rows.join("")}</table>${hasSeasonP ? "" : `<div class="muted">Every pitcher is rested: this is an exhibition.</div>`}`;
+      const who = (p) => `<td class="nm"><div>${esc(p.name)}</div><small>${p.role} · throws ${p.hand || "–"}</small></td>`;
+      const rows = st.bullpen[me].map((p) => `<tr>${who(p)}<td class="avail">${t.phase === "pregame" ? "rested" : "available"}</td><td>${badge("stamina", p.ratings.stamina).replace('<span class="k">Sta</span>', "")}</td>${seasonP(p)}</tr>`)
+        .concat(st.used_pitchers[me].map((p) => `<tr class="bp ${p.pid === cur ? "now" : ""}">${who(p)}<td class="avail ${p.pid === cur ? "" : "used"}">${p.pid === cur ? "pitching" : `used · ${p.line.ip} IP, ${p.line.pitches} P`}</td><td>${badge("stamina", p.ratings.stamina).replace('<span class="k">Sta</span>', "")}</td>${seasonP(p)}</tr>`));
+      body = `<table class="lu tbl bp"><tr><th>Pitcher</th><th>Status</th><th>Sta</th>${hasSeasonP ? `<th class="num">ERA</th><th class="num">IP</th><th class="num">K</th>` : ""}</tr>${rows.join("")}</table>${hasSeasonP ? "" : `<div class="muted">Every pitcher is rested: this is an exhibition.</div>`}`;
     } else {
       const lu = st.lineups[side] || [];
       const cur = st.batter && st.batting_side === side ? st.batter.pid : null;
@@ -371,10 +376,11 @@
       const hasSeason = lu.some((p) => p.season);
       const seasonTh = hasSeason ? `<th class="num">AVG</th><th class="num">OBP</th><th class="num">SLG</th><th class="num">HR</th>` : `<th class="num">H-AB</th>`;
       const seasonTd = (p) => (hasSeason ? `<td class="num">${f3(p.season.avg)}</td><td class="num">${f3(p.season.obp)}</td><td class="num">${f3(p.season.slg)}</td><td class="num">${p.season.hr}</td>` : `<td class="num hab">${p.line.h}-${p.line.ab}</td>`);
-      body = lu.length ? `<table class="lu tbl"><tr><th>#</th><th>Pos</th><th>Name</th><th>B</th><th>Today</th>${seasonTh}</tr>${lu.map((p, i) => `<tr class="${p.pid === cur ? "now" : ""} ${curIdx >= 0 && i === (curIdx + 1) % 9 ? "deck" : ""} ${p.on_base ? "onbase" : ""}"><td class="n">${i + 1}</td><td class="pos">${p.pos}</td><td class="nm">${esc(p.name)}${p.on_base ? ' <span class="ob">on</span>' : ""}</td><td class="hand">${p.hand || "–"}</td><td>${resChips(st.pa_results[String(p.pid)])}</td>${seasonTd(p)}</tr>`).join("")}</table>`
+      body = lu.length ? `<table class="lu tbl"><tr><th>#</th><th>Batter</th><th>Today</th>${seasonTh}</tr>${lu.map((p, i) => `<tr class="${p.pid === cur ? "now" : ""} ${curIdx >= 0 && i === (curIdx + 1) % 9 ? "deck" : ""} ${p.on_base ? "onbase" : ""}"><td class="n">${i + 1}</td><td class="nm"><div>${esc(p.name)}${p.on_base ? ' <span class="ob">on</span>' : ""}</div><small>${p.pos} · bats ${p.hand || "–"}</small></td><td class="today">${resChips(st.pa_results[String(p.pid)], 3)}</td>${seasonTd(p)}</tr>`).join("")}</table>`
         : `<div class="muted">The AI sets the ${esc(st.teams[side].name)} lineup when the game starts.</div>`;
     }
-    $("#lineup").innerHTML = `<div class="hdr">Lineup</div><div class="tabs"><button data-tab="mine" class="${lineupTab === "mine" ? "on" : ""}">${esc(st.teams[me].name)}</button><button data-tab="opp" class="${lineupTab === "opp" ? "on" : ""}">${esc(st.teams[opp].name)}</button><button data-tab="pen" class="${lineupTab === "pen" ? "on" : ""}">Bullpen</button></div>${body}`;
+    const short = (tm) => esc(tm.name.split(" ").slice(-1)[0]);
+    $("#lineup").innerHTML = `<div class="hdr">Lineup</div><div class="tabs"><button data-tab="mine" class="${lineupTab === "mine" ? "on" : ""}" title="${esc(st.teams[me].name)}">${short(st.teams[me])}</button><button data-tab="opp" class="${lineupTab === "opp" ? "on" : ""}" title="${esc(st.teams[opp].name)}">${short(st.teams[opp])}</button><button data-tab="pen" class="${lineupTab === "pen" ? "on" : ""}">Bullpen</button></div>${body}`;
     $$("#lineup .tabs button").forEach((b) => b.addEventListener("click", () => renderLineup(t, b.dataset.tab)));
     if (t.phase === "pregame" && lineupTab === "mine") bindPregame(t);
   }
@@ -395,7 +401,7 @@
     const rows = pg.lineup.map((pid, i) => {
       const p = byPid[pid];
       const opts = [p].concat(bench).map((q) => `<option value="${q.pid}" ${q.pid === pid ? "selected" : ""}>${esc(q.name)} (${q.pos}) Con ${q.ratings.contact} Pow ${q.ratings.power} Spd ${q.ratings.speed}</option>`).join("");
-      return `<tr><td class="n">${i + 1}</td><td><select data-slot="${i}">${opts}</select></td><td class="mv"><button data-up="${i}" ${i === 0 ? "disabled" : ""}>▲</button><button data-down="${i}" ${i === 8 ? "disabled" : ""}>▼</button></td></tr>`;
+      return `<tr><td class="n">${i + 1}</td><td><select data-slot="${i}">${opts}</select></td><td class="mv"><button data-up="${i}" ${i === 0 ? "disabled" : ""} title="move up">Up</button><button data-down="${i}" ${i === 8 ? "disabled" : ""} title="move down">Down</button></td></tr>`;
     }).join("");
     const sps = st.bullpen[me].map((p) => `<option value="${p.pid}" ${p.pid === pg.sp ? "selected" : ""}>${esc(p.name)} ${p.role} · Stf ${p.ratings.stuff} Ctl ${p.ratings.control} Mov ${p.ratings.movement} Sta ${p.ratings.stamina}${p.pid === pg.aiSp ? " · AI's pick" : ""}</option>`).join("");
     const changed = pg.aiLineup && (pg.aiLineup.join() !== pg.lineup.join() || pg.sp !== pg.aiSp);
@@ -484,8 +490,8 @@
 
   // ---- legend ----
   function renderLegend() {
-    const scale = [["r20", "20–39"], ["r40", "40–49"], ["r50", "50–59"], ["r60", "60–69"], ["r70", "70–79"], ["r80", "80"]];
-    $("#legend").innerHTML = `<div class="hdr">Ratings <span class="sub">20–80, 50 = D1 median, 10 per SD</span></div>
+    const scale = [["r20", "20–39"], ["r40", "40–49"], ["r50", "50–59"], ["r60", "60–69"], ["r70", "70+"]];
+    $("#legend").innerHTML = `<div class="hdr">Ratings <span class="sub">20–80, 50 = D1 median, 10 per SD · 70+ blue, 60s green, 50s plain, 40s orange, under 40 red</span></div>
       <div class="scale">${scale.map(([c, l]) => `<span class="rt ${c}"><b>${l}</b></span>`).join("")}</div>
       <dl>${Object.values(RATING).map(([a, b]) => `<dt>${a}</dt><dd>${b}</dd>`).join("")}</dl>
       <div class="muted">B = bats (L, R, or S for a switch hitter), T = throws. The banner's "L vs R" is the side the batter hits from today against the pitcher's hand.</div>`;
@@ -532,6 +538,22 @@
     if (map[e.key]) { e.preventDefault(); busy(() => sim(map[e.key])); }
   });
 
+  // ---- the one top bar: school and conference/tier, the program tabs, date and phase, Advance ----
+  const BUILT_TABS = ["hub", "roster", "schedule"];
+  function setTopbar(o) {
+    $("#tb-school").textContent = o.school; $("#tb-sub").textContent = o.sub || "";
+    $$("#tb-tabs button").forEach((b) => { b.disabled = !o.dynasty || !BUILT_TABS.includes(b.dataset.tab); b.classList.toggle("on", !!o.dynasty && b.dataset.tab === o.active); });
+    $("#tb-date").classList.toggle("hidden", !o.date); $("#tb-date-text").textContent = o.date || ""; $("#tb-phase").textContent = o.phase || "";
+    $("#tb-advance").classList.toggle("hidden", !o.advance);
+  }
+  function refreshTopbar(name) {
+    const inDynasty = name === "dyn" || (name === "game" && S.game && S.game.dynasty);
+    if (inDynasty && window.dyn && window.dyn.hub()) window.dyn.topbar(name);
+    else setTopbar({ school: "College Baseball Sim", sub: name === "game" ? "exhibition · prototype" : name === "picker" ? "new dynasty · prototype" : "prototype", dynasty: false });
+  }
+  $$("#tb-tabs button").forEach((b) => b.addEventListener("click", () => { if (window.dyn) window.dyn.goto(b.dataset.tab); }));
+  $("#tb-advance").addEventListener("click", () => { if (window.dyn) window.dyn.advance(); });
+
   // ---- screens: main, picker (new dynasty), lobby (quick game), game, dyn (the dynasty hub) ----
   function show(name) {
     if (name === true) name = "game"; if (name === false) name = "main";
@@ -540,9 +562,8 @@
     $("#simbar").classList.toggle("hidden", name !== "game");
     $("#nav-save").classList.toggle("hidden", name !== "game");
     $("#nav-new").classList.toggle("hidden", name !== "game" || !!(S.game && S.game.dynasty));
-    $("#nav-dyn").classList.toggle("hidden", !(window.dyn && window.dyn.id()) || name === "dyn");
-    $("#nav-home").classList.toggle("hidden", name === "main");
     S.screen = name;
+    refreshTopbar(name);
     window.scrollTo(0, 0);
     document.dispatchEvent(new CustomEvent("cbs:screen", { detail: name }));
   }
@@ -639,6 +660,6 @@
     show("main");
     document.dispatchEvent(new Event("cbs:ready"));
   }
-  window.v2 = { render, callout, calloutFor, raw, toast, esc, mark, badge, band, ls, show, busy, openDynastyGame, S, ORD, RATING, renderSaves, loadSave, gameCall, applyTurn };
+  window.v2 = { render, callout, calloutFor, raw, toast, esc, mark, badge, band, ls, show, busy, openDynastyGame, S, ORD, RATING, renderSaves, loadSave, gameCall, applyTurn, setTopbar, refreshTopbar };
   boot();
 })();

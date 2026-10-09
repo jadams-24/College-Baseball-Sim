@@ -6,19 +6,28 @@
 <title>College Baseball Sim</title>
 <meta name="description" content="Manage one game of the college baseball simulation engine pitch by pitch: scoreboard, matchup, field, calls, lineup and play-by-play.">
 <link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600;700&display=swap">
 <link rel="stylesheet" href="/static/v2/system.css">
 <link rel="stylesheet" href="/static/v2/v2.css">
 </head>
 <body>
 <div id="app" class="app">
-  <header class="topbar">
-    <div class="brand">College Baseball Sim <span class="tag">prototype</span></div>
-    <nav id="topnav">
-      <button class="btn-ghost" id="nav-home">Home</button>
-      <button class="btn-ghost hidden" id="nav-dyn">Dynasty</button>
+  <!-- the one top bar: school and conference/tier, the program tabs, the date and phase, Advance -->
+  <header class="topbar" id="topbar">
+    <button class="brand" id="nav-home" title="Main screen"><span class="school" id="tb-school">College Baseball Sim</span><span class="sub" id="tb-sub">prototype</span></button>
+    <nav class="tb-tabs" id="tb-tabs" aria-label="program">
+      <button data-tab="hub">Hub</button><button data-tab="roster">Roster</button><button data-tab="schedule">Schedule</button>
+      <button data-tab="recruiting" disabled title="Phase 9">Recruiting</button><button data-tab="portal" disabled title="Phase 9">Portal</button>
+      <button data-tab="staff" disabled title="Phase 11">Staff</button><button data-tab="facilities" disabled title="Phase 11">Facilities</button><button data-tab="draft" disabled title="Phase 9">Draft</button>
+    </nav>
+    <div class="tb-right">
+      <div class="tb-date hidden" id="tb-date"><b id="tb-date-text"></b><span id="tb-phase"></span></div>
       <button class="btn-ghost hidden" id="nav-save">Save game</button>
       <button class="btn-ghost hidden" id="nav-new">Quick game</button>
-    </nav>
+      <button class="go hidden" id="tb-advance">Advance</button>
+    </div>
   </header>
 
   <!-- main screen: continue, new dynasty, quick game, saved dynasties, settings, what comes later -->
@@ -44,7 +53,7 @@
     <div class="panel">
       <div class="hdr">New dynasty <span class="sub" id="picker-sub"></span></div>
       <div class="body row">
-        <input id="pick-search" class="search" placeholder="search by name, conference or tier" autocomplete="off">
+        <input id="pick-search" class="search" placeholder="search by school, conference, tier or location" autocomplete="off">
         <select id="pick-tier"><option value="">every tier</option><option value="p4">P4</option><option value="mid">mid</option><option value="low">low</option></select>
         <label class="inline muted">Seed <input id="dyn-seed" type="number" placeholder="random" class="short"></label>
         <button class="btn-ghost" id="picker-back">Back</button>
@@ -82,6 +91,7 @@
   </section>
 
   <div id="game" class="game hidden">
+  <div class="game-main">
   <!-- 1. scoreboard strip: line score | R/H/E | bases | inning | B/S/O -->
   <header class="scorebar">
     <div class="sb-seg sb-line"><table id="linescore" class="linescore" aria-label="line score"></table></div>
@@ -96,15 +106,24 @@
     <div id="pitcher" class="who pitcher"></div>
   </section>
 
-  <!-- 3-5. three columns: field + on deck | strategy | lineup -->
+  <!-- 3-4. field + on deck | strategy -->
   <main class="zones">
     <section class="zone col-field"><div id="field" class="panel field" aria-label="field"></div><div id="ondeck" class="panel ondeck"></div></section>
     <section id="actions" class="zone panel actions" aria-label="strategy"></section>
-    <section id="lineup" class="zone panel lineup" aria-label="lineup"></section>
   </main>
 
   <!-- sim speeds -->
   <nav id="simbar" class="simbar" aria-label="sim"></nav>
+
+  <!-- 6. play-by-play drawer -->
+  <section id="feed" class="drawer panel">
+    <button id="drawer-toggle" class="drawer-handle hdr" aria-expanded="false"><span id="drawer-title">Play by play</span><span class="chev" aria-hidden="true"></span></button>
+    <div id="feed-body" class="drawer-body"></div>
+  </section>
+  </div>
+
+  <!-- 5. the side panel: lineup, bench, bullpen -->
+  <aside class="game-side"><section id="lineup" class="zone panel lineup" aria-label="lineup"></section></aside>
 
   <!-- phone tabs for lineup and feed -->
   <nav id="phone-tabs" class="phone-tabs">
@@ -112,24 +131,12 @@
     <button data-tab="lineup">Lineup</button>
     <button data-tab="feed">Plays</button>
   </nav>
-
-  <!-- 6. play-by-play drawer -->
-  <section id="feed" class="drawer panel">
-    <button id="drawer-toggle" class="drawer-handle hdr" aria-expanded="false"><span id="drawer-title">Play by play</span><span class="chev">▴</span></button>
-    <div id="feed-body" class="drawer-body"></div>
-  </section>
   </div>
 
-  <!-- dynasty: left nav (bottom tabs on a phone) and the current screen -->
+  <!-- dynasty: the current screen (the top bar's tabs switch it) -->
   <section id="dyn" class="dyn hidden">
-    <header class="panel dyn-head" id="dyn-head"></header>
-    <div class="dyn-body">
-      <nav class="dyn-nav panel" id="dyn-nav">
-        <button data-screen="hub" class="on">Hub</button><button data-screen="schedule">Schedule</button><button data-screen="standings">Standings</button>
-        <button data-screen="stats">Stats</button><button data-screen="roster">Roster</button><button data-screen="postseason">Postseason</button>
-      </nav>
-      <main class="dyn-main" id="dyn-main"></main>
-    </div>
+    <nav class="subnav hidden" id="dyn-subnav"></nav>
+    <main class="dyn-main" id="dyn-main"></main>
   </section>
 
   <!-- 7. callout -->

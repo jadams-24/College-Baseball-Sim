@@ -36,13 +36,29 @@ promptly; `ui-prototype` goes back into `main` through a PR at natural checkpoin
 
 ## Design system
 
-`app/static/v2/system.css` holds the tokens and primitives every screen is built from, so Season Mode screens reuse
-them: surfaces and lines, ink, the accent, the field colors, the 20–80 rating scale (`--r20` … `--r80`: red low,
-yellow for the D1 average, green to blue high), geometry (3px radii, 1px borders, no shadows) and type; the
-primitives are `.panel`, the `.hdr` header strip (dark bar, bold uppercase label), command `button`s (compact,
-uppercase, clear active state; `.go` for the primary accent), `.mark` team marks, `.rt` rating badges, `.tbl` dense
-tables, `.tabs`, the toast, callout, tooltip and legend. `v2.css` is the manager screen's layout only. The design is
-original: no OOTP, MLB or other third-party assets, fonts or marks; teams are fictional.
+`app/static/v2/system.css` (the recruiting canvas's visual system became the app-wide standard for desktop
+browser play on 2026-10-09, owner decision). Designed for 1440px and 1280px desktops first; phone width keeps
+working without being optimized. Every screen is built from its tokens and primitives:
+
+- Type: Barlow Condensed (600/700) for headings, team names and section titles (uppercase section headers,
+  letter-spacing .04em); IBM Plex Sans for body text; IBM Plex Mono with tabular numbers for every stat, rating,
+  date and dollar figure (`.mono`, `.num`, `.date`). Loaded from Google Fonts with system fallbacks.
+- One top bar on every screen: the school and conference/tier on the left (the brand outside a dynasty); the
+  program tabs Hub · Roster · Schedule · Recruiting · Portal · Staff · Facilities · Draft (the active tab gets
+  an accent underline; tabs not built yet render disabled; Roster groups Roster and Stats, Schedule groups
+  Schedule, Standings and Postseason, as a sub-navigation under the bar); the date with its weekday and the phase
+  on the right; the primary Advance button at the far right in accent #F2A900 with dark text (in the dynasty: the
+  pending game to play, else "Advance to next game"; hidden on the main screen, the picker, the lobby and inside a
+  game, where the sim bar is the control).
+- Panels: cards (#1E222D, 1px #2A3040 border, 6px radius) with a header strip (condensed uppercase title left, a
+  muted note or count right). Content is centered at max 1440px. A main column plus a 340px side panel on the hub
+  (380px for the live game's lineup), wrapping at narrow widths.
+- Tables: 38px rows, a #161922 header row with 11px uppercase muted labels, zebra rows #232835, a hover row
+  #2A3040. Wide tables scroll inside their card, never the page.
+- Rating colors as text: 70+ #6CB8FF, 60s #7FD18B, 50s #E2E8F0, 40s #F2B266, under 40 #FF7A7A (the number always
+  shows; report-card grades use the same scale, A to F). Status pills: success #1A402A/#CFEFD8, accent
+  #F2A900/#12151C, warning #3A3220/#F2C14E, loss #3A2024/#FFB0B0 (results, NEXT, PLAYED, paused).
+- No emoji or symbol glyphs (the drawer's chevron and the batter marker are CSS); every button is at least 36px tall.
 
 ## The manager screen (v2)
 
