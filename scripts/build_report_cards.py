@@ -57,8 +57,8 @@ EXAMPLES = ("LSU", "Vanderbilt", "Stanford", "Oregon St.", "Nebraska", "Coastal 
             "Army West Point", "Alabama A&M")
 LAST = 2025
 RPI_SEASONS = (2021, 2022, 2023, 2024, 2025)
-# bracket spellings of programs whose 2025 name differs beyond the general rules (scripts/lib/brackets.py name_map)
-BRACKET_ALIASES = {"Lamar": "Lamar University", "Long Island": "LIU", "Northern Illinois": "NIU", "Saint Mary's": "Saint Mary's (CA)"}
+# one shared name-alias table for every source (owner audit 2026-10-09): a spelling in a source file -> our 2025 school name
+ALIASES = dict(pd.read_csv(ROOT / "data/schools/name_aliases.csv")[["alias", "school"]].values)
 MIN_CONF_ENTRIES = 50       # a feed conference with this many team-game entries is Division I (non-D1 opponents appear rarely)
 
 
@@ -88,7 +88,7 @@ def schools() -> pd.DataFrame:
 
 
 def our_name(team: str, ours: set, m: dict):
-    for c in dict.fromkeys((team, BRACKET_ALIASES.get(team), m.get(team), team.replace("–", "-"), (m.get(team) or team).replace(" State", " St."),
+    for c in dict.fromkeys((team, ALIASES.get(team), m.get(team), team.replace("–", "-"), (m.get(team) or team).replace(" State", " St."),
                             team.replace("–", "-").replace(" State", " St."))):
         if c and c in ours:
             return c
@@ -126,12 +126,15 @@ def tradition(s: pd.DataFrame) -> pd.DataFrame:
 
 
 def seasons_rpi(s: pd.DataFrame) -> tuple:
-    """Per season 2021-2025: RPI and D1 win pct of every current program (the 2025 feed's seo slug names it in older feeds)."""
+    """Per season 2021-2025: RPI, D1 win pct and fitted strength (the scoreboard fit's o + d, log runs, no parks) of every
+    current program. Names: the 2025 feed's seo slug names a program in older feeds; other spellings go through the shared
+    alias table (data/schools/name_aliases.csv)."""
+    from build_phase2_teams import fit
     from engine.rpi import rpi
     f25 = pd.read_csv(ROOT / "data/ncaa_2025/scoreboard/games_2025.csv")
     seo = dict(zip(f25.home, f25.home_seo)); seo.update(dict(zip(f25.away, f25.away_seo)))
     by_seo = {seo[n]: n for n in s.school if n in seo}
-    R, WP = {}, {}
+    R, WP, S = {}, {}, {}
     for y in RPI_SEASONS:
         d = pd.read_csv(ROOT / f"data/ncaa_{y}/scoreboard/games_{y}.csv")
         d = d[(d.state == "final") & d.home_score.notna() & d.away_score.notna() & (d.home_score != d.away_score)]
@@ -140,13 +143,18 @@ def seasons_rpi(s: pd.DataFrame) -> tuple:
         conf_n = pd.concat([d.away_conf, d.home_conf]).value_counts()
         d1c = set(conf_n[conf_n >= MIN_CONF_ENTRIES].index)
         d = d[d.home_conf.isin(d1c) & d.away_conf.isin(d1c)]
-        key = lambda name, slug: by_seo.get(slug, name)
+        key = lambda name, slug: by_seo.get(slug, ALIASES.get(name, name))
         g = [(key(h, hs), key(a, as_), hsc > asc, False) for h, hs, a, as_, hsc, asc in
              zip(d.home, d.home_seo, d.away, d.away_seo, d.home_score, d.away_score)]
         r = rpi(g)
         R[y] = {t: v["rpi"] for t, v in r.items()}
         WP[y] = {t: v["w"] / max(v["w"] + v["l"], 1) for t, v in r.items()}
-    return R, WP
+        sb = pd.DataFrame(g, columns=["home", "away", "hw", "nt"])
+        sb["home_score"], sb["away_score"] = d.home_score.values, d.away_score.values
+        names = sorted(set(sb.home) | set(sb.away))
+        f = fit(sb, names, parks=False)
+        S[y] = {t: float(o + dd) for t, o, dd in zip(names, f["o"], f["d"])}
+    return R, WP, S
 
 
 def conference(s: pd.DataFrame, R: dict) -> pd.DataFrame:
@@ -170,7 +178,25 @@ def conference(s: pd.DataFrame, R: dict) -> pd.DataFrame:
     return pd.DataFrame(rows, columns=["school", "conf_rpi_mean", "conf_bids_per_member"]).set_index("school")
 
 
+def postseason_recent(s: pd.DataFrame) -> pd.DataFrame:
+    """Per program, Omaha and super regional appearances in config OMAHA_POST_SEASONS: raw counts and recency-weighted counts."""
+    ours, m = set(s.school), name_map()
+    ww = lambda y: 0.5 ** ((LAST - y) / rc.OMAHA_HALF_LIFE)          # noqa: E731
+    rows = {k: [0, 0, 0.0, 0.0] for k in ours}
+    for y, b in brackets().items():
+        y = int(y)
+        if y not in rc.OMAHA_POST_SEASONS:
+            continue
+        for k, teams in ((0, set(b["cws"])), (1, {t for sp in b["supers"] for t in sp["teams"]})):
+            for team in teams:
+                n = our_name(team, ours, m)
+                if n is not None:
+                    rows[n][k] += 1; rows[n][k + 2] += ww(y)
+    return pd.DataFrame.from_dict(rows, orient="index", columns=["n_omaha_recent", "n_super_recent", "omaha_recent_w", "super_recent_w"])
+
+
 def omaha(s: pd.DataFrame) -> pd.Series:
+    """The reference world's drawn team strength (the pre-2026-10-09 Omaha Contender input; kept for the audit's before/after)."""
     from config import phase2
     from engine.league import build_league
     ss = np.random.SeedSequence(REFERENCE_SEED)
@@ -194,7 +220,7 @@ def main() -> None:
 
     # Program Tradition
     tr = tradition(s)
-    R, WP = seasons_rpi(s)
+    R, WP, S = seasons_rpi(s)
     wp = {t: sum(w(y) * WP[y].get(t, np.nan) for y in RPI_SEASONS if t in WP[y]) / max(sum(w(y) for y in RPI_SEASONS if t in WP[y]), 1e-9)
           for t in card.index}
     card = card.join(tr)
@@ -214,9 +240,19 @@ def main() -> None:
     cp[ind.values] = 0.5                     # an independent: no conference, the neutral middle (graded NEUTRAL below)
     pct["conference_prestige"] = cp
 
-    # Omaha Contender (reference world)
+    # Omaha Contender (owner audit 2026-10-09): real current strength, recency weighted over the seasons a program has, plus
+    # recent Omaha / super regional appearances; a program with no strength season is left out of the ranking and graded with
+    # confidence D on its postseason alone (none in the 307 today)
     card["sim_strength_o_plus_d"] = card.index.map(omaha(s))
-    pct["omaha_contender"] = rc.percentile(card.sim_strength_o_plus_d)
+    ws = {y: 0.5 ** ((LAST - y) / rc.OMAHA_HALF_LIFE) for y in rc.OMAHA_STRENGTH_SEASONS}
+    card["strength_seasons"] = card.index.map(lambda t: sum(t in S[y] for y in rc.OMAHA_STRENGTH_SEASONS))
+    card["strength_recent"] = card.index.map(lambda t: sum(ws[y] * S[y][t] for y in rc.OMAHA_STRENGTH_SEASONS if t in S[y])
+                                             / sum(ws[y] for y in rc.OMAHA_STRENGTH_SEASONS if t in S[y]) if any(t in S[y] for y in rc.OMAHA_STRENGTH_SEASONS) else np.nan)
+    card = card.join(postseason_recent(s))
+    om = [rc.omaha_score(st if not np.isnan(st) else np.nanmedian(card.strength_recent), o, sp)
+          for st, o, sp in zip(card.strength_recent, card.omaha_recent_w, card.super_recent_w)]
+    card["omaha_contender_raw"] = np.round(om, 4)
+    pct["omaha_contender"] = rc.percentile(om)
 
     # Academic Prestige
     gr, adm, ef = ipeds("DRVGR2023"), ipeds("DRVADM2023"), ipeds("DRVEF2023")
@@ -226,9 +262,7 @@ def main() -> None:
     card["admit_rate"] = card.index.map(lambda t: pd.to_numeric(adm.DVADM01.get(uid[t]), errors="coerce"))
     card["admit_rate_reported"] = card.admit_rate.notna()
     card["admit_rate"] = card.admit_rate.fillna(100.0)
-    g_fill = card.grad_rate_6yr.fillna(card.grad_rate_6yr.median())
-    a = pd.DataFrame({"grad_rate": rc.percentile(g_fill), "selectivity": rc.percentile(100 - card.admit_rate)}, index=card.index)
-    pct["academic_prestige"] = rc.percentile(blend(a, rc.ACADEMIC_WEIGHTS))
+    pct["academic_prestige"] = rc.percentile(100 - card.admit_rate)        # placeholder: graded on the absolute scale below
 
     # Campus Life
     card["enrollment"] = card.index.map(lambda t: ef.ENRTOT.get(uid[t]))
@@ -244,15 +278,8 @@ def main() -> None:
     card["precip_days_feb_may"] = card.index.map(cl.precip_days_feb_may)
     card["climate_station"] = card.index.map(cl.station)
     card["climate_station_miles"] = card.index.map(cl.miles)
-    lo, hi = rc.CLIMATE_BAND_F
-    tx = np.column_stack([card.index.map(cl[f"tmax_{m}"]).astype(float) for m in ("02", "03", "04", "05")])
-    disc = np.mean(np.clip(lo - tx, 0, None) + rc.CLIMATE_HEAT_WEIGHT * np.clip(tx - hi, 0, None), axis=1)
     card["tmax_feb_may_f"] = card.index.map(cl.tmax_feb_may)
-    card["climate_discomfort"] = np.round(disc, 3)
-    pen = (pd.Series(disc, index=card.index).fillna(np.nanmedian(disc))
-           + rc.CLIMATE_RAIN_F_PER_DAY * card.precip_days_feb_may.fillna(card.precip_days_feb_may.median()))
-    card["climate_penalty_f"] = pen.round(3)
-    pct["climate"] = rc.percentile(-pen.values)
+    pct["climate"] = rc.percentile(card.tmax_feb_may_f.fillna(card.tmax_feb_may_f.median()))   # placeholder: absolute scale below
 
     # Money
     ea = pd.read_csv(EADA).set_index("unitid")
@@ -273,11 +300,13 @@ def main() -> None:
 
     src = {"program_tradition": ("NCAA tournament brackets 2015-2025 (Wikipedia pages, data/ncaa_brackets) + D1 win pct 2021-2025 (data.ncaa.com scoreboards)", "B"),
            "conference_prestige": ("RPI computed from data.ncaa.com scoreboards 2021-2025 (engine/rpi.py) + bids from the brackets, 2025 conference map", "B"),
-           "omaha_contender": (f"the sim's drawn team strength o + d, reference world seed {REFERENCE_SEED}; a dynasty regrades it from its own draw", "A"),
-           "academic_prestige": ("IPEDS 2023 DRVGR (GBA6RTT) and DRVADM (DVADM01), NCES", "A"),
+           "omaha_contender": ("current real strength: the data.ncaa.com scoreboard fit's o + d per season 2021-2025 (recency weighted, seasons "
+                               "without data skipped) plus recent Omaha and super regional appearances 2021-2025 (brackets); a dynasty regrades "
+                               "it from its own teams with config.report_cards.omaha_score", "B"),
+           "academic_prestige": ("IPEDS 2023 DRVGR (GBA6RTT) and DRVADM (DVADM01), NCES; absolute cutoffs (config ACADEMIC_*)", "A"),
            "campus_life": ("IPEDS 2023 DRVEF (ENRTOT) and HD2024 (LOCALE), NCES; weighting GUESS", "C"),
-           "climate": ("NOAA NCEI 1991-2020 monthly normals, nearest station: daily highs against a comfortable band (GUESS) and "
-                       "precipitation days", "A"),
+           "climate": ("NOAA NCEI 1991-2020 monthly normals, nearest station: Feb-May daily highs (warmth capped) and precipitation "
+                       "days, absolute cutoffs (config CLIMATE_*)", "A"),
            "money": ("EADA 2024-25, baseball total expenses (U.S. Department of Education)", "A"),
            "facilities": ("GUESS proxy: baseball expenses, regional hosting, conference", "D"),
            "ballpark_atmosphere": ("GUESS proxy: regional hosting, enrollment, conference", "D"),
@@ -299,14 +328,21 @@ def main() -> None:
     card.loc[card.money_imputed, "money_confidence"] = "D"
     card.loc[~card.admit_rate_reported, "academic_prestige_confidence"] = "B"
     card.loc[card.tmax_feb_may_f.isna(), "climate_confidence"] = "D"
+    # absolute scales (owner decision 2026-10-09): Climate and Academic Prestige graded on fixed cutoffs, score = the raw score
+    card["climate_score"] = [round(rc.climate_score(t, r), 3) for t, r in zip(card.tmax_feb_may_f.fillna(card.tmax_feb_may_f.median()),
+                                                                             card.precip_days_feb_may.fillna(card.precip_days_feb_may.median()))]
+    card["climate_grade"] = card.climate_score.map(rc.climate_grade)
+    card["academic_prestige_score"] = 100 - card.admit_rate
+    card["academic_prestige_grade"] = [rc.academic_grade(a, g) for a, g in zip(card.admit_rate, card.grad_rate_6yr.fillna(card.grad_rate_6yr.median()))]
+    card["omaha_contender_confidence"] = np.where(card.strength_seasons >= 3, "B", np.where(card.strength_seasons >= 1, "C", "D"))
     card.loc[ind, "conference_prestige_grade"] = rc.NEUTRAL
     card.loc[ind, "conference_prestige_confidence"] = "D"
     card.loc[ind, "conference_prestige_source"] = "independent (no conference): neutral baseline"
 
     raw = ["tradition_points", "hosting_points", "n_field_2015_2025", "n_host_2015_2025", "n_super_2015_2025", "n_omaha_2015_2025",
            "n_title_2015_2025", "d1_winpct_2021_2025", "program_tradition_score", "conf_rpi_mean", "conf_bids_per_member",
-           "sim_strength_o_plus_d", "grad_rate_6yr", "admit_rate", "admit_rate_reported", "enrollment", "locale_code", "tavg_feb_may_f",
-           "precip_days_feb_may", "tmax_feb_may_f", "climate_discomfort", "climate_penalty_f", "climate_station", "climate_station_miles", "baseball_expenses_2024_25", "money_imputed"]
+           "sim_strength_o_plus_d", "strength_recent", "strength_seasons", "n_omaha_recent", "n_super_recent", "omaha_contender_raw", "grad_rate_6yr", "admit_rate", "admit_rate_reported", "enrollment", "locale_code", "tavg_feb_may_f",
+           "precip_days_feb_may", "tmax_feb_may_f", "climate_station", "climate_station_miles", "baseball_expenses_2024_25", "money_imputed"]
     cols = ["tid", "ncaa_team_id", "school", "conference", "tier"]
     for cat in rc.CATEGORIES:
         cols += [f"{cat}_grade", f"{cat}_score", f"{cat}_confidence"]
@@ -317,6 +353,7 @@ def main() -> None:
         out[c_] = out[c_].astype(float).round(4)
     out.to_csv(OUT / "report_cards.csv", index=False)
     report(out, tr.attrs["unmatched"])
+    audit(out, R, S)
 
 
 def report(out: pd.DataFrame, unmatched: list) -> None:
@@ -339,22 +376,95 @@ def report(out: pd.DataFrame, unmatched: list) -> None:
              "campus_life": "Campus", "climate": "Climate", "money": "Money", "facilities": "Facil", "ballpark_atmosphere": "Atmos",
              "brand_exposure": "Brand", "draft_development": "Draft", "coach_prestige": "Coach", "coach_stability": "Stab"}
     ex = out.set_index("school").loc[[e for e in EXAMPLES if e in set(out.school)]]
-    lines += ["", "## Example report cards", "", "Omaha Contender is the reference world's draw (a dynasty regrades it from its own). Money for the "
+    lines += ["", "## Example report cards", "", "Omaha Contender is real current strength plus recent Omaha history (a dynasty regrades it from its own teams). "
+              "Climate and Academic Prestige are absolute scales; the other categories are percentiles. Money for the "
               "service academies is imputed (no EADA filing; confidence D). Oregon St. is an independent: Conference Prestige neutral.", "",
               "| School | Conf | Tier | " + " | ".join(short.values()) + " |", "|---|---|---|" + "---|" * len(short)]
     for sch, r in ex.iterrows():
         lines.append(f"| {sch} | {r.conference} | {r.tier} | " + " | ".join(r[f"{k}_grade"] for k in short) + " |")
-    lines += ["", "| School | Field / hosts / Omaha / titles 2015-25 | Conf. RPI | Sim o+d | Grad rate | Admit rate | Enrollment | Locale | "
-              "Feb-May °F | Precip days | Baseball expenses |", "|---|---|---|---|---|---|---|---|---|---|---|"]
+    lines += ["", "| School | Field / hosts / Omaha / titles 2015-25 | Conf. RPI | Real o+d 2021-25 | Grad rate | Admit rate | Enrollment | Locale | "
+              "Feb-May high °F | Precip days | Baseball expenses |", "|---|---|---|---|---|---|---|---|---|---|---|"]
     for sch, r in ex.iterrows():
         lines.append(f"| {sch} | {r.n_field_2015_2025} / {r.n_host_2015_2025} / {r.n_omaha_2015_2025} / {r.n_title_2015_2025} | "
-                     f"{'—' if pd.isna(r.conf_rpi_mean) else f'{r.conf_rpi_mean:.3f}'} | {r.sim_strength_o_plus_d:+.2f} | {r.grad_rate_6yr:.0f}% | "
-                     f"{r.admit_rate:.0f}% | {int(r.enrollment):,} | {r.locale_code} | {r.tavg_feb_may_f:.1f} | {r.precip_days_feb_may:.1f} | "
+                     f"{'—' if pd.isna(r.conf_rpi_mean) else f'{r.conf_rpi_mean:.3f}'} | {r.strength_recent:+.2f} | {r.grad_rate_6yr:.0f}% | "
+                     f"{r.admit_rate:.0f}% | {int(r.enrollment):,} | {r.locale_code} | {r.tmax_feb_may_f:.1f} | {r.precip_days_feb_may:.1f} | "
                      f"${r.baseball_expenses_2024_25 / 1e6:.2f}M{' (imputed)' if r.money_imputed else ''} |")
     if unmatched:
         lines += ["", f"Bracket teams not among the 307 programs (left D1 or not matched): {', '.join(unmatched)}."]
     (ROOT / "reports/report_cards.md").write_text("\n".join(lines) + "\n")
     print("\n".join(lines))
+
+
+
+
+def audit(out: pd.DataFrame, R: dict, S: dict) -> None:
+    """Omaha Contender input audit (owner request 2026-10-09): inputs and sources, coverage per school, name joins, the
+    missing-data rule, Coastal Carolina and LSU before and after, the recent-Omaha anchor; plus the A+ lists of the two absolute
+    categories. Writes reports/report_cards_audit.md."""
+    o = out.set_index("school")
+    yrs = rc.OMAHA_STRENGTH_SEASONS
+    cov = pd.DataFrame({"strength_seasons": [sum(t in S[y] for y in yrs) for t in o.index],
+                        "rpi_seasons": [sum(t in R[y] for y in RPI_SEASONS) for t in o.index]}, index=o.index)
+    status = lambda n, full: "present" if n == full else ("missing" if n == 0 else "partial")  # noqa: E731
+    before = pd.Series(rc.percentile(o.sim_strength_o_plus_d.values), index=o.index).map(rc.grade_of)
+    L = ["# Report cards: Omaha Contender input audit, absolute Climate and Academic Prestige", "",
+         "Owner request 2026-10-09. Built by `scripts/build_report_cards.py`.", "",
+         "## Omaha Contender: what the formula used, and what it uses now", "",
+         "**Before:** one input, the reference world's drawn team strength (o + d) for the sim team that carries the school's identity "
+         f"(`engine/league.py`, seed {REFERENCE_SEED}). The league draws each team's strength from its tier and conference distribution "
+         "(tiers and conferences are distributions of team strength), not from the school's own results, so the grade had no link to the "
+         "real program. Nothing was missing and no join failed: the input was simply not about the school.", "",
+         "**Now:**", "", "| Input | Source file | Seasons | Missing data |", "|---|---|---|---|",
+         f"| Current strength: the scoreboard fit's o + d per season (log runs; `scripts/build_phase2_teams.fit`, no parks), recency half-life {rc.OMAHA_HALF_LIFE} seasons | "
+         "`data/ncaa_<year>/scoreboard/games_<year>.csv` (data.ncaa.com) | 2021-2025 | seasons without data skipped (not zero); confidence B with 3+ seasons, C with 1-2, D with none |",
+         f"| Recent Omaha appearances (+ {rc.OMAHA_POST_WEIGHT} per weighted appearance) and super regionals (half that) | `data/ncaa_brackets/` | 2021-2025 | a year a school is absent is a year it did not make it |", "",
+         "The dynasty regrades with the same function: `config.report_cards.omaha_score(strength, omaha_recent, super_recent)` and `grade_values` "
+         "(the UI passes its dynasty's own team strength and postseason history).", "",
+         "## Name joins", "",
+         "One shared alias table for every source: `data/schools/name_aliases.csv`. Joins fixed on 2026-10-09 (they had silently dropped data):", "",
+         "| Spelling in the source | School | Effect before the fix |", "|---|---|---|",
+         "| New Orleans (scoreboards) | LSU New Orleans | every season 2021-2025 missing (win pct imputed at the median, out of its conference's RPI) |",
+         "| Fairleigh Dickinson (scoreboards) | FDU | 2021-2022 missing |", "| Houston Baptist (scoreboards) | Houston Christian | 2021-2022 missing |",
+         "| Dixie St. (scoreboards) | Utah Tech | 2021-2022 missing |", "",
+         "Bracket spellings already handled by the old alias list (Lamar, Long Island, Northern Illinois, Saint Mary's) moved into the same table. "
+         "Bracket teams not among the 307 programs: Hartford (left D1).", "",
+         "## Coverage (strength and RPI seasons found, of 5)", "",
+         "| School | Strength seasons | RPI seasons | Status | Omaha / supers 2021-25 | Confidence |", "|---|---|---|---|---|---|"]
+    row = lambda t: (f"| {t} | {cov.strength_seasons[t]} | {cov.rpi_seasons[t]} | {status(cov.strength_seasons[t], len(yrs))} | "  # noqa: E731
+                     f"{int(o.n_omaha_recent[t])} / {int(o.n_super_recent[t])} | {o.omaha_contender_confidence[t]} |")
+    ex = [e for e in EXAMPLES if e in o.index]
+    L += [row(t) for t in ex]
+    part = [t for t in o.index if t not in ex and cov.strength_seasons[t] < len(yrs)]
+    L += ["", f"Every other school with any missing or partial season ({len(part)}; the rest of the 307 have all five):", "",
+          "| School | Strength seasons | RPI seasons | Status | Omaha / supers 2021-25 | Confidence |", "|---|---|---|---|---|---|"]
+    L += [row(t) for t in sorted(part)]
+    L += ["", "Why they are partial: the Ivy League and Bethune-Cookman did not play in 2021; the others joined Division I after 2021 "
+          "(their earlier seasons were not D1 games). LSU New Orleans now has all five.", "",
+          "## Coastal Carolina and LSU, before and after", "",
+          "| School | Before: sim draw o + d | Before grade | Real strength 2021-25 (per season) | Weighted | Omaha / supers 2021-25 | Score | After grade |",
+          "|---|---|---|---|---|---|---|---|"]
+    for t in ("Coastal Carolina", "LSU"):
+        per = ", ".join(f"{y}: {S[y][t]:+.2f}" for y in yrs if t in S[y])
+        L.append(f"| {t} | {o.sim_strength_o_plus_d[t]:+.2f} | {before[t]} | {per} | {o.strength_recent[t]:+.3f} | {int(o.n_omaha_recent[t])} / "
+                 f"{int(o.n_super_recent[t])} | {o.omaha_contender_raw[t]:+.3f} | {o.omaha_contender_grade[t]} |")
+    om = o[o.n_omaha_recent > 0].sort_values("omaha_contender_raw", ascending=False)
+    L += ["", f"Sanity anchor: every 2021-2025 Omaha team ({len(om)}), its grade (target B+ or better unless its strength collapsed):", "",
+          ", ".join(f"{t} {o.omaha_contender_grade[t]}" for t in om.index) + ".", "",
+          "## Climate and Academic Prestige: absolute scales", "",
+          "| Category | " + " | ".join(rc.GRADES) + " |", "|---|" + "---|" * len(rc.GRADES)]
+    for cat in ("climate", "academic_prestige"):
+        vc = o[f"{cat}_grade"].value_counts()
+        L.append(f"| {cat.replace('_', ' ').title()} | " + " | ".join(str(int(vc.get(g, 0))) for g in rc.GRADES) + " |")
+    for cat, lab in (("academic_prestige", "Academic Prestige"), ("climate", "Climate")):
+        a = o[o[f"{cat}_grade"] == "A+"].sort_values(f"{cat}_score", ascending=False)
+        L += ["", f"A+ in {lab} ({len(a)}): " + ", ".join(a.index) + "."]
+    L += ["", f"Climate score = min(Feb-May mean daily high, {rc.CLIMATE_WARM_CAP_F:.0f} °F) - {rc.CLIMATE_RAIN_F_PER_DAY} °F x rain days; cutoffs "
+          + ", ".join(f"{g} ≥ {c}" for c, g in rc.CLIMATE_CUTOFFS) + ", else F.",
+          "Academic: admission rate sets the grade (" + ", ".join(f"≤{c}% {g}" for c, g in rc.ACADEMIC_ADMIT_CUTOFFS) + "), graduation rate caps it ("
+          + ", ".join(f"below {c}%: at most {g}" for c, g in rc.ACADEMIC_GRAD_CAPS if c) + "). The service academies report admission and "
+          "graduation to IPEDS like any school (Navy 9% / 92%, Army 14% / 85%, Air Force 14% / 88%): no override needed."]
+    (ROOT / "reports/report_cards_audit.md").write_text("\n".join(L) + "\n")
+    print("\n".join(L))
 
 
 if __name__ == "__main__":
