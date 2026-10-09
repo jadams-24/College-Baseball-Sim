@@ -34,10 +34,19 @@
   }
   window.cbsMirror = { put: mirrorPut, all: mirrorAll, del: mirrorDel };
 
-  // ---- dates ----
-  const SEASON_START = Date.UTC(2025, 1, 14);
-  function dateText(day) { if (day == null) return ""; const d = new Date(SEASON_START + day * 86400000); return d.toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" }); }
+  // ---- dates: one calendar, the server's (app/calendar.py): date 0 is the Monday of the opening week ----
+  const CAL = { date0: null };                      // ISO date of engine date 0; set from /api/league, a dynasty's hub overrides it (its year)
+  const WD = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  function realDate(day) { const base = CAL.date0 ? Date.parse(CAL.date0 + "T00:00:00Z") : (V.S.league && V.S.league.calendar ? Date.parse(V.S.league.calendar.date0 + "T00:00:00Z") : null); return base == null ? null : new Date(base + day * 86400000); }
+  function dateText(day, opts) {
+    if (day == null) return "";
+    const d = realDate(day);
+    if (d == null) return `day ${day}`;
+    const s = d.toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
+    return opts && opts.weekday ? `${WD[d.getUTCDay()]} ${s}` : s;
+  }
   window.cbsDate = dateText;
+  window.cbsCalendar = { set: (c) => { CAL.date0 = c && c.date0 ? c.date0 : null; }, get: () => CAL.date0 };
   const STAGE = { regular: "regular season", conf: "conference tournament", selection: "Selection Monday", ncaa: "NCAA tournament", done: "season over", pick: "pick a team" };
 
   // ---- continue and saved dynasties ----
@@ -125,18 +134,25 @@
     $("#pick-list").innerHTML = "";
     const seed = $("#dyn-seed").value ? +$("#dyn-seed").value : null;
     const r = await raw("/api/dynasties", "POST", { seed });
-    pick = { id: r.id, teams: r.teams, seed: r.seed };
+    pick = { id: r.id, teams: r.teams, seed: r.seed, categories: r.categories || [] };
     $("#picker-sub").textContent = `seed ${r.seed} · pick your program`;
     renderPicker();
   }
+  const GRADE_CLASS = (g) => (!g ? "" : g[0] === "A" ? "gA" : g[0] === "B" ? "gB" : g[0] === "C" ? "gC" : g[0] === "D" ? "gD" : "gF");
+  const gradeChip = (cat, g, conf) => `<span class="grade ${GRADE_CLASS(g)}" title="${esc(cat.label)}${conf ? ` · confidence ${esc(conf)}` : ""}"><i>${esc(cat.short)}</i><b>${esc(g || "–")}</b></span>`;
+  window.cbsGradeChip = gradeChip;
   function renderPicker() {
     const f = ($("#pick-search").value || "").toLowerCase(), tier = $("#pick-tier").value;
-    const rows = pick.teams.filter((t) => (!f || `${t.name} ${t.conference} ${t.tier}`.toLowerCase().includes(f)) && (!tier || t.tier === tier));
+    const rows = pick.teams.filter((t) => (!f || `${t.school || ""} ${t.name} ${t.conference} ${t.tier} ${t.location || ""}`.toLowerCase().includes(f)) && (!tier || t.tier === tier));
     rows.sort((a, b) => b.overall - a.overall);
-    $("#pick-list").innerHTML = rows.length ? `<table class="tbl pick"><tr><th>Team</th><th>Conference</th><th>Tier</th><th>Off</th><th>Def</th><th>Overall</th><th></th></tr>${rows.map((t) => `<tr><td class="nm">${esc(t.name)}</td><td>${esc(t.conference)}</td><td>${t.tier.toUpperCase()}</td><td>${badge("off", t.off)}</td><td>${badge("def", t.def)}</td><td>${badge("ovr", t.overall)}</td><td><button data-pick="${t.tid}">Take over</button></td></tr>`).join("")}</table>` : `<div class="muted">No team matches.</div>`;
+    const cats = pick.categories, head = cats.filter((c) => c.headline);
+    const real = rows.some((t) => t.school);
+    const card = (t) => (t.grades ? `<div class="card-grades">${cats.map((c) => gradeChip(c, t.grades[c.key])).join("")}</div>` : `<span class="muted">no report card</span>`);
+    $("#pick-list").innerHTML = rows.length ? `<table class="tbl pick"><tr><th>${real ? "School" : "Team"}</th><th>Conference</th><th>Tier</th>${real ? "<th>Location</th>" : ""}<th>Off</th><th>Def</th><th>Overall</th>${real ? "<th>Report card</th>" : ""}<th></th></tr>${rows.map((t) => `<tr data-row="${t.tid}"><td class="nm">${esc(t.school || t.name)}${t.school ? `<small class="muted">${esc(t.name)}</small>` : ""}</td><td>${esc(t.conference)}</td><td>${t.tier.toUpperCase()}</td>${real ? `<td class="muted">${esc(t.location || "")}</td>` : ""}<td>${badge("off", t.off)}</td><td>${badge("def", t.def)}</td><td>${badge("ovr", t.overall)}</td>${real ? `<td class="grades">${t.grades ? head.map((c) => gradeChip(c, t.grades[c.key])).join("") : ""}${t.grades ? `<button class="btn-ghost" data-card="${t.tid}">all 13</button>` : ""}</td>` : ""}<td><button data-pick="${t.tid}">Take over</button></td></tr><tr class="card-row hidden" data-card-row="${t.tid}"><td colspan="${real ? 9 : 7}">${card(t)}<div class="muted">Grades are percentiles across the 307 D1 programs (data/schools/report_cards.csv): display and recruiting only, never read by the engine. Omaha Contender is regraded from this dynasty's own draw.</div></td></tr>`).join("")}</table>` : `<div class="muted">No team matches.</div>`;
+    $$("#pick-list [data-card]").forEach((b) => b.addEventListener("click", () => $(`#pick-list [data-card-row='${b.dataset.card}']`).classList.toggle("hidden")));
     $$("#pick-list [data-pick]").forEach((b) => b.addEventListener("click", () => busy(async () => {
       const t = pick.teams.find((x) => x.tid === +b.dataset.pick);
-      if (!confirm(`Take over the ${t.name} (${t.conference}, ${t.tier.toUpperCase()})? Year 1 starts now.`)) return;
+      if (!confirm(`Take over ${t.school || t.name} (${t.conference}, ${t.tier.toUpperCase()})? Year 1 starts now.`)) return;
       const h = await raw(`/api/dynasties/${pick.id}/start`, "POST", { tid: t.tid });
       window.dyn.open(h.id, h);
     })));

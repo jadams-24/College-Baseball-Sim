@@ -41,7 +41,7 @@ from engine.world import World as SeasonWorld, cancel_mask, schedule_mask
 
 SAVE_VERSION = 1
 STAGES = ("regular", "conf", "selection", "ncaa", "done")
-from app import world_steps
+from app import calendar, world_steps
 from app.world_steps import PauseEvent, StepContext
 
 SIM_TARGETS = ("game", "day", "week", "regular", "conf", "selection", "end")
@@ -335,7 +335,7 @@ class Dynasty:
     def _run_day(self, ctx: StepContext):
         """Run today's world steps in order; returns the pause event that stopped the day, or None when it is over."""
         for step in world_steps.steps():
-            if step.name in self.steps_done or not step.due(ctx.today):
+            if step.name in self.steps_done or not step.due(ctx.today, self.year):
                 continue
             events = step.run(self, ctx)
             hit = next((e for e in events if e.type in ctx.enabled), None)
@@ -588,7 +588,8 @@ class Dynasty:
                 "conference": self.real_conf[me], "tier": self.league.teams[me].tier, "record": rec, "conf_record": crec, "rpi_rank": rank,
                 "date": self.date_now(), "week": self._week_of(self.date_now()) + 1, "stage": self.stage, "pending": pend,
                 "games_played": len(self.reg_games), "games_total": int((~self.skip).sum()), "news": self.news[-12:][::-1],
-                "pause": self.last_pause, "world_steps": world_steps.steps_json()}
+                "pause": self.last_pause, "world_steps": world_steps.steps_json(self.year),
+                "calendar": calendar.calendar_json(self.schedule, self.year)}
 
 
 # ---- saves ---------------------------------------------------------------------------------------------

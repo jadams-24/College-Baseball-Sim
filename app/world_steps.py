@@ -1,7 +1,8 @@
 """The dynasty's world steps: what the world does on each simulated day, in order.
 
 `Dynasty.advance` runs the registered steps once per calendar day (date 0 is the Monday of the opening week,
-`engine/schedule.py`: date = 7 * week + weekday, weekday 0 Monday to 6 Sunday). A step has a name, a cadence (daily,
+`engine/schedule.py`: date = 7 * week + weekday, weekday 0 Monday to 6 Sunday; the real calendar date of an engine
+date is `app/calendar.py`, the one mapping every displayed date and every gate below goes through). A step has a name, a cadence (daily,
 or weekly on one weekday), an order position and a run function that reads and writes the dynasty's state and
 returns the auto-pause events it raised. The loop stops after the step that raised an event whose type is enabled
 for the call (the Settings' auto-pauses, plus the call's own target conditions); a step that paused is run again on
@@ -15,8 +16,11 @@ Selection Monday, the bracket) is the engine's World pipeline, replayed over the
 """
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+import datetime as dt
+from dataclasses import dataclass
 from typing import Callable
+
+from app import calendar as cal
 
 WEEKDAYS = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
 
@@ -57,14 +61,25 @@ class WorldStep:
     run: Callable[["Dynasty", StepContext], list] | None = None     # None: a planned slot, documented and not run
     weekday: int | None = None       # weekly steps: 0 Monday .. 6 Sunday
     phase: str = ""                  # the phase that builds it
-    gate: str = ""                   # the calendar dates it is gated on (Phase 9 spec)
+    gate: str = ""                   # the calendar dates it is gated on (Phase 9 spec), in words
+    windows: Callable[[int], list] | None = None     # year -> [(start, end)] engine dates of the gate, through app.calendar; None: always
 
     @property
     def planned(self) -> bool:
         return self.run is None
 
-    def due(self, today: int) -> bool:
-        return self.cadence == "daily" or today % 7 == self.weekday
+    def due(self, today: int, year: int = 1) -> bool:
+        if self.cadence == "weekly" and cal.weekday(today) != self.weekday:
+            return False
+        if self.windows is None:
+            return True
+        return any(a <= today <= b for a, b in self.windows(year))
+
+    def gate_json(self, year: int = 1) -> list:
+        if self.windows is None:
+            return []
+        return [{"start": cal.real_date(a, year).isoformat(), "end": cal.real_date(b, year).isoformat(), "start_date": a, "end_date": b}
+                for a, b in self.windows(year)]
 
 
 _REGISTRY: list[WorldStep] = []
@@ -84,9 +99,54 @@ def steps(include_planned: bool = False) -> list[WorldStep]:
     return [s for s in _REGISTRY if include_planned or not s.planned]
 
 
-def steps_json() -> list[dict]:
+def steps_json(year: int = 1) -> list[dict]:
     return [{"name": s.name, "cadence": s.cadence, "weekday": None if s.weekday is None else WEEKDAYS[s.weekday], "order": s.order,
-             "planned": s.planned, "phase": s.phase, "gate": s.gate} for s in _REGISTRY]
+             "planned": s.planned, "phase": s.phase, "gate": s.gate, "windows": s.gate_json(year)} for s in _REGISTRY]
+
+
+# ---- calendar gates (Phase 9 spec, Section 10 and 12.1), as engine-date windows of a dynasty year through app.calendar ----
+def _cal_year(year: int) -> int:
+    """The calendar year the dynasty year's season is played in (year 1: the engine's season)."""
+    return cal.real_date(0, year).year
+
+
+def _win(year: int, start: tuple, end: tuple, next_year: bool = False) -> tuple:
+    y = _cal_year(year) + (1 if next_year else 0)
+    return cal.engine_date(dt.date(y, *start), year), cal.engine_date(dt.date(y, *end), year)
+
+
+def contact_periods(year: int) -> list:
+    """The 2025-26 calendar's Contact periods after the season (the recruiting year that follows dynasty year
+    `year`'s season): Aug 1-17, Sept 12 - Oct 12, and Mar 1 - Jul 31 of the next spring (with its dead periods)."""
+    return [_win(year, (8, 1), (8, 17)), _win(year, (9, 12), (10, 12)), _win(year, (3, 1), (7, 31), next_year=True)]
+
+
+def portal_windows(year: int) -> list:
+    """December 1-15; the spring window (30 days from seven days after selections) needs the dynasty's
+    Selection Monday, so it is added at runtime by the step that owns it."""
+    return [_win(year, (12, 1), (12, 15))]
+
+
+def signing_period(year: int) -> list:
+    """Opens the second Wednesday of November and stays open (Bylaw 13.02.13.1): through the next season's start."""
+    y = _cal_year(year)
+    open_ = cal.nth_weekday(y, 11, 2, 2)
+    return [(cal.engine_date(open_, year), cal.engine_date(dt.date(y + 1, 2, 1), year))]
+
+
+def draft_window(year: int) -> list:
+    """July: the draft is a live event on its dates (set when the draft is built, Phase 9) and the signing deadline follows."""
+    return [_win(year, (7, 1), (7, 31))]
+
+
+def roster_cut_day(year: int) -> list:
+    """Rosters due at 34 the day before the first counted contest or December 1, whichever is earlier."""
+    return [_win(year, (12, 1), (12, 1))]
+
+
+def carousel(year: int) -> list:
+    """June, after the postseason."""
+    return [_win(year, (6, 1), (6, 30))]
 
 
 # ---- registered now ------------------------------------------------------------------------------------
@@ -127,18 +187,23 @@ register(WorldStep("d1_games", "daily", 100, d1_games, phase="Phase 7 (built)",
 # ---- planned slots: documented placeholders, not built -------------------------------------------------
 register(WorldStep("recruiting_week", "weekly", 200, None, weekday=0, phase="Phase 9",
                    gate="the NCAA calendar's period for the week: Contact / Quiet / Dead / Recruiting Shutdown (spec Section 10; "
-                        "in season Mar 1 - Jul 31 Contact with the May 25 - Jun 1, Jun 20-22 and Jul 3-5 dead periods)"))
+                        "Contact Aug 1-17, Sept 12 - Oct 12 and Mar 1 - Jul 31 with the May 25 - Jun 1, Jun 20-22 and Jul 3-5 dead periods)",
+                   windows=contact_periods))
 register(WorldStep("d2_games", "daily", 110, None, phase="Phase 9 (other levels, spec Section 6)",
                    gate="every date with scheduled D2 games (the D2 world on the same talent scale)"))
 register(WorldStep("juco_games", "daily", 120, None, phase="Phase 9 (other levels, spec Section 6)",
                    gate="every date with scheduled JUCO games"))
 register(WorldStep("portal_window", "daily", 300, None, phase="Phase 9 (spec Section 7)",
-                   gate="Dec 1-15, and the spring window of 30 days from seven days after selections (Jun 1-30 in 2026)"))
+                   gate="Dec 1-15, and the spring window of 30 days from seven days after selections (Jun 1-30 in 2026)",
+                   windows=portal_windows))
 register(WorldStep("mlb_draft", "daily", 400, None, phase="Phase 9 (spec Section 8)",
-                   gate="the draft's dates in July (a live event), then the signing deadline; the ruleset is selectable"))
+                   gate="the draft's dates in July (a live event), then the signing deadline; the ruleset is selectable",
+                   windows=draft_window))
 register(WorldStep("signing_period", "daily", 500, None, phase="Phase 9",
-                   gate="opens the second Wednesday of November at 7 a.m. and stays open (Bylaw 13.02.13.1); Nov 10-13 is a dead period"))
+                   gate="opens the second Wednesday of November at 7 a.m. and stays open (Bylaw 13.02.13.1); Nov 10-13 is a dead period",
+                   windows=signing_period))
 register(WorldStep("roster_cuts", "daily", 600, None, phase="Phase 8",
-                   gate="rosters due at 34 the day before the first counted contest or December 1, whichever is earlier"))
+                   gate="rosters due at 34 the day before the first counted contest or December 1, whichever is earlier",
+                   windows=roster_cut_day))
 register(WorldStep("coaching_carousel", "daily", 700, None, phase="Phase 11",
-                   gate="June, after the postseason"))
+                   gate="June, after the postseason", windows=carousel))

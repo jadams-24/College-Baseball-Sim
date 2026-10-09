@@ -38,6 +38,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from app import catalogue as cat
+from app import calendar
 from app.connector import GameRunner
 from app import dynasty_api
 from app.menu import menu
@@ -166,7 +167,7 @@ def _call(fn):
 @app.get("/api/league")
 def league():
     w = store.ready()
-    return {"teams": w.teams(), "league_seed": w.seed}
+    return {"teams": w.teams(), "league_seed": w.seed, "calendar": calendar.calendar_json()}
 
 
 @app.get("/api/teams/{tid}")

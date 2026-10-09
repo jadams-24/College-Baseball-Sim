@@ -370,3 +370,15 @@ body.busy .simbar button { opacity: .6; }
 .offseason li { padding: 2px 0; color: var(--ink2); }
 
 #league-sim { margin-left: auto; font-size: 11px; }
+
+/* report cards (data/schools): grade chips A+ to F on the badge scale */
+.grade { display: inline-grid; grid-template-columns: auto auto; align-items: center; gap: 4px; margin: 1px 4px 1px 0; font-size: 10px; }
+.grade i { font-style: normal; color: var(--muted); letter-spacing: .04em; }
+.grade b { display: inline-grid; place-items: center; min-width: 24px; height: 17px; padding: 0 3px; border-radius: 2px; font-size: 11px; font-weight: 800; color: var(--r-ink-dark); background: var(--r50); }
+.grade.gA b { background: var(--r70); } .grade.gB b { background: var(--r60); } .grade.gC b { background: var(--r50); }
+.grade.gD b { background: var(--r40); } .grade.gF b { background: var(--r20); color: var(--r-ink-light); }
+.card-grades { display: flex; flex-wrap: wrap; gap: 2px 8px; margin-bottom: 6px; }
+.tbl.pick td.grades { white-space: nowrap; }
+.tbl.pick td.grades .btn-ghost { margin-left: 4px; }
+.tbl.pick td.nm small { display: block; font-size: 10px; font-weight: 400; }
+.tbl.pick tr.card-row td { background: var(--panel2); padding: 8px 10px; white-space: normal; }

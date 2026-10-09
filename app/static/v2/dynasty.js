@@ -5,7 +5,9 @@
   "use strict";
   const V = window.v2, $ = (s) => document.querySelector(s), $$ = (s) => Array.from(document.querySelectorAll(s));
   const { raw, toast, esc, mark, badge, show, busy } = V;
-  const dateText = (d) => window.cbsDate(d);
+  const dateText = (d, o) => window.cbsDate(d, o);
+  const CARD_LABELS = { program_tradition: "Program Tradition", conference_prestige: "Conference Prestige", omaha_contender: "Omaha Contender", academic_prestige: "Academic Prestige", campus_life: "Campus Life", climate: "Climate", money: "Money", facilities: "Facilities", ballpark_atmosphere: "Ballpark Atmosphere", brand_exposure: "Brand Exposure", draft_development: "Draft Development", coach_prestige: "Coach Prestige", coach_stability: "Coach Stability" };
+  const CARD_SHORT = { program_tradition: "Trad", conference_prestige: "Conf", omaha_contender: "Omaha", academic_prestige: "Acad", campus_life: "Campus", climate: "Climate", money: "Money", facilities: "Facil", ballpark_atmosphere: "Atmos", brand_exposure: "Brand", draft_development: "Draft", coach_prestige: "Coach", coach_stability: "Stab" };
   const D = { id: null, hub: null, screen: "hub", cache: {}, poll: null };
   const STAGE = { regular: "Regular season", conf: "Conference tournaments", selection: "Selection Monday", ncaa: "NCAA tournament", done: "Season over" };
 
@@ -26,8 +28,9 @@
   // ---- the header: team mark, year, record, RPI, date and week ----
   function renderHead() {
     const h = D.hub;
-    $("#dyn-head").innerHTML = `<div class="who">${mark({ name: h.team })}<div><div class="name">${esc(h.team)} <span class="muted">${esc(h.conference)} · ${h.tier.toUpperCase()}</span></div><div class="muted">${esc(h.name)} · Year ${h.year}</div></div></div>
-      <div class="facts"><div><span class="k">Record</span><b>${h.record[0]}-${h.record[1]}</b></div><div><span class="k">Conf</span><b>${h.conf_record[0]}-${h.conf_record[1]}</b></div><div><span class="k">RPI</span><b>${h.rpi_rank ? "#" + h.rpi_rank : "—"}</b></div><div><span class="k">Date</span><b>${dateText(h.date)}</b></div><div><span class="k">Week</span><b>${h.week}</b></div><div><span class="k">Stage</span><b>${STAGE[h.stage] || h.stage}</b></div></div>`;
+    const sch = h.school;
+    $("#dyn-head").innerHTML = `<div class="who">${mark({ name: sch ? sch.school : h.team })}<div><div class="name">${esc(sch ? sch.school : h.team)} <span class="muted">${esc(h.conference)} · ${h.tier.toUpperCase()}${sch ? ` · ${esc(sch.location)}` : ""}</span></div><div class="muted">${sch ? `${esc(h.team)} · ` : ""}${esc(h.name)} · Year ${h.year}</div></div></div>
+      <div class="facts"><div><span class="k">Record</span><b>${h.record[0]}-${h.record[1]}</b></div><div><span class="k">Conf</span><b>${h.conf_record[0]}-${h.conf_record[1]}</b></div><div><span class="k">RPI</span><b>${h.rpi_rank ? "#" + h.rpi_rank : "—"}</b></div><div><span class="k">Date</span><b>${dateText(h.date, { weekday: true })}</b></div><div><span class="k">Week</span><b>${h.week}</b></div><div><span class="k">Stage</span><b>${STAGE[h.stage] || h.stage}</b></div></div>`;
   }
 
   // ---- sims: background jobs with progress ----
@@ -90,6 +93,7 @@
   // ---- screens ----
   function render() {
     if (!D.hub) return;
+    window.cbsCalendar.set(D.hub.calendar);          // this dynasty's year: every date on these screens maps through it
     renderHead();
     const nav = $("#dyn-nav");
     if (D.hub.stage === "done" && !nav.querySelector("[data-screen='summary']")) { const b = document.createElement("button"); b.dataset.screen = "summary"; b.textContent = "Year in review"; b.addEventListener("click", () => setScreen("summary")); nav.appendChild(b); }
@@ -116,7 +120,7 @@
     $("#dyn-main").innerHTML = `<div class="hub-grid">
       <div class="col">${next}<div class="panel"><div class="hdr">Advance${h.pause ? `<span class="sub">paused: ${esc(h.pause.message)}${h.pause.link && h.pause.link !== "hub" ? ` <button class="btn-ghost" data-screen-link="${esc(h.pause.link)}">open</button>` : ""}</span>` : ""}</div><div class="body">${sims}</div></div></div>
       <div class="col"><div class="panel"><div class="hdr">Recent results</div><div class="body tight">${recent}</div></div><div class="panel"><div class="hdr">News</div><div class="body tight">${news}</div></div></div>
-      <div class="col"><div class="panel"><div class="hdr">Standings <span class="sub">${esc(h.conference)}</span></div><div class="body" id="hub-standings"><div class="muted">Loading…</div></div></div><div class="panel"><div class="hdr">RPI top 25</div><div class="body" id="hub-rpi"><div class="muted">Loading…</div></div></div></div>
+      <div class="col">${h.report_card ? `<div class="panel"><div class="hdr">Report card <span class="sub">${esc(h.school ? h.school.institution : "")}</span></div><div class="body"><div class="card-grades">${Object.entries(h.report_card.grades).map(([k, g]) => window.cbsGradeChip({ label: CARD_LABELS[k] || k, short: CARD_SHORT[k] || k }, g.grade, g.confidence)).join("")}</div><div class="muted">A+ to F, percentiles across D1 (data/schools/report_cards.csv): display and recruiting only, never read by the engine. Omaha Contender is this dynasty's own draw.</div></div></div>` : ""}<div class="panel"><div class="hdr">Standings <span class="sub">${esc(h.conference)}</span></div><div class="body" id="hub-standings"><div class="muted">Loading…</div></div></div><div class="panel"><div class="hdr">RPI top 25</div><div class="body" id="hub-rpi"><div class="muted">Loading…</div></div></div></div>
     </div>`;
     const pb = $("#play-btn"); if (pb) pb.addEventListener("click", () => busy(playPending));
     const ts = $("#to-summary"); if (ts) ts.addEventListener("click", () => setScreen("summary"));

@@ -14,6 +14,8 @@ and `benchmarks.json` are untouched by this workstream.
 | `timeline.py` | play-by-play and box score from the event log, the marks taken at every ask, and the engine's accumulator rows |
 | `menu.py` | the action menu of the manager screen: the calls legal now for the user's side, built on the server from the turn and the engine state so the page never decides legality |
 | `dynasty.py` | Dynasty mode: the engine's Phase 7 season driven game by game (the user's games on the manager screen, the rest simmed), the postseason pipeline replayed over recorded results, standings, RPI, stats, roster, postseason and summary readers, saves |
+| `calendar.py` | the one mapping between engine dates and the real calendar (date 0 the Monday of the opening week, anchored on the engine's season start; weekdays; the n-th weekday of a month for the Phase 9 dates) |
+| `schools.py` | the real school identity and report card of every sim team (`data/schools/`, engine PR #17), Omaha Contender regraded from the dynasty's own draw; data only, never read by the engine |
 | `world_steps.py` | the dynasty's world steps: the registry (name, cadence, order, run function returning auto-pause events), `d1_games` registered, the planned slots as documented placeholders |
 | `dynasty_api.py` | the dynasty endpoints: world building, team pick, background sim jobs with progress, the user's game, screens, server saves and the browser mirror |
 | `api.py` | FastAPI: league, rosters, catalogue, games, sim, orders, questions, modes, coach, box, save, load; serves `static/` |
@@ -169,7 +171,10 @@ for the prototype one service is simpler. Latency on Render's Free plan (0.1 CPU
 
 The site root: Continue (the newest of the server's dynasty saves, this browser's mirrors and the latest quick
 game; team, record and date shown), New Dynasty (the D1 world of a seed is built first, then any of the 307 teams
-can be picked by name, conference or tier with its offense and run prevention on the 20–80 scale), Quick Game (the
+can be picked by its real school name, conference, tier or location with its offense and run prevention on the
+20–80 scale and its report card: the six headline grades in the row, all 13 with a tap, Omaha Contender regraded
+from this dynasty's draw, the rest from `data/schools/report_cards.csv`; school names only, the engine's own team
+names stay on the field and players stay fictional), Quick Game (the
 exhibition flow), saved dynasties (load, download as a `.cbsd` file, delete), Settings (default sim step, the
 decisions to be asked about, which moments pause a dynasty sim, the rating color legend) and locked tiles for
 Coaching Career, Recruiting and Program Building.
@@ -186,7 +191,8 @@ to `engine.season.simulate_season` for the same seed, and a dynasty played throu
 engine's loop with the same scripted controller.
 
 Screens (left nav on a desktop, bottom tabs on a phone): the hub (header with mark, year, record, conference
-record, RPI rank, date and week; the next game with probable starters, Play and Sim game; the advance loop:
+record, RPI rank, the real school and campus, date with its weekday and week; the report card (the 13 grades with
+confidence, Omaha Contender from this dynasty's draw); the next game with probable starters, Play and Sim game; the advance loop:
 "Advance to next game", "Advance day", "Advance week", end of the regular season, conference tournament,
 Selection Monday or end of season, as a background job with progress, stopping at the auto-pause moments set
 in Settings (before my games, at each week's end, before the postseason, on Selection Monday), the pause it
@@ -213,6 +219,18 @@ handedness (Phase 3), a pitcher-availability verdict (the AI's rest rule is inte
 outing's date and pitches), fielder positioning (no shift), the committee's at-large scores beyond the field
 (no "first four out").
 
+## The calendar
+
+One function maps engine dates to the real calendar (`calendar.py`): the engine counts days from the opening
+week, a game's date being 7 × week + weekday with weekday 0 Monday, so date 0 is the Monday of the opening week.
+The anchor is the engine's own season start (`config.phase6.SEASON_START`, the 2025 opening day, a Friday); the
+opening day is read from the schedule (its first game's date, 4), never hard-coded. Every displayed date and
+weekday goes through it: the page gets date 0's calendar date from `/api/league` (exhibitions, the main screen)
+and from the hub (a dynasty's year; later years keep date 0 on a Monday), and every planned world step's calendar
+gate is computed through it, so August 1, September 1, the second Wednesday of November and the portal windows
+land on their real days (`tests/test_app_calendar.py`). The engine's own month lookup (`engine/world.py`) counts
+from opening day itself and is not changed by the app.
+
 ## The advance loop: world steps
 
 `Dynasty.advance` runs the regular season as a loop over calendar days (date 0 is the opening week's Monday).
@@ -230,7 +248,8 @@ loop and deferring the games that depend on it, the background sim playing the r
 games). Planned slots, documented placeholders that later phases register without changing the loop, each gated
 on its calendar dates from `design/phase9_recruiting.md` (Sections 10 and 12.1): `recruiting_week` (weekly,
 Monday), `d2_games` and `juco_games` (daily), `portal_window`, `mlb_draft`, `signing_period`, `roster_cuts`,
-`coaching_carousel`. The hub lists them (`world_steps` in the hub state). The postseason is the engine's World
+`coaching_carousel`, each with its gate as engine-date windows of the dynasty year through `calendar.py`. The hub
+lists them (`world_steps` in the hub state). The postseason is the engine's World
 pipeline replayed over the recorded results (`Dynasty._run_post`); it follows the day loop once the regular
 season's last game is played. The equality tests (`tests/test_app_dynasty.py`) hold: a dynasty run through the
 loop equals `engine.season.simulate_season` for the same seed.

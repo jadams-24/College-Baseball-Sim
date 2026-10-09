@@ -43,6 +43,7 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
 from app import dynasty as dyn_mod
+from app import schools
 
 router = APIRouter()
 SAVE_DIR = Path(os.environ.get("CBS_SAVE_DIR", str(Path(__file__).resolve().parent.parent / "saves")))
@@ -170,18 +171,32 @@ def _hub_unlocked(did: str, d: dyn_mod.Dynasty) -> dict:
     h["job_kind"] = j.get("kind", "sim") if j and j["running"] else None
     h["game_id"] = next((g for g, r in _store.games.items() if r is d.runner), None) if d.runner is not None else None
     h["recent"] = dyn_mod.recent_json(d)
+    if schools.available() and d.tid is not None:
+        h["school"] = schools.school(d.tid)
+        h["report_card"] = schools.report_card(d.tid, schools.omaha_grades(d.league.teams).get(d.tid))
     return h
 
 
 def _strength(d: dyn_mod.Dynasty) -> list:
     """Teams with offense and defense on the 20-80 scale: z-scores of the drawn team talent (log runs) across D1,
-    10 points per SD, 50 the D1 median. Derived for display; the engine's own numbers are o and d."""
+    10 points per SD, 50 the D1 median. Derived for display; the engine's own numbers are o and d. With the real
+    school identity (name, conference, tier, location) and the report card, Omaha Contender regraded from this
+    dynasty's draw (app/schools.py; data only, never read by the engine)."""
     teams = d.league.teams
     o = np.array([t.o for t in teams]); dd = np.array([t.d for t in teams])
     zo = (o - o.mean()) / o.std(); zd = (dd - dd.mean()) / dd.std()
-    return [{"tid": t.tid, "name": t.name, "conference": d.real_conf[t.tid], "tier": t.tier,
-             "off": int(round(50 + 10 * zo[i])), "def": int(round(50 + 10 * zd[i])), "overall": int(round(50 + 10 * (zo[i] + zd[i]) / np.sqrt(2)))}
-            for i, t in enumerate(teams)]
+    omaha = schools.omaha_grades(teams) if schools.available() else {}
+    out = []
+    for i, t in enumerate(teams):
+        row = {"tid": t.tid, "name": t.name, "conference": d.real_conf[t.tid], "tier": t.tier,
+               "off": int(round(50 + 10 * zo[i])), "def": int(round(50 + 10 * zd[i])), "overall": int(round(50 + 10 * (zo[i] + zd[i]) / np.sqrt(2)))}
+        sch = schools.school(t.tid) if schools.available() else None
+        if sch is not None:
+            row.update(school=sch["school"], institution=sch["institution"], location=sch["location"], city=sch["city"], state=sch["state"])
+            card = schools.report_card(t.tid, omaha.get(t.tid))
+            row["grades"] = {k: v["grade"] for k, v in card["grades"].items()} if card else None
+        out.append(row)
+    return out
 
 
 # ---- routes -----------------------------------------------------------------------------------------
@@ -198,6 +213,16 @@ def saves():
     return {"dynasties": out, "latest": out[0] if out else None}
 
 
+@router.get("/api/schools")
+def schools_route():
+    """Every sim team's real school identity and report card categories (static data; the Omaha Contender grade
+    in a dynasty's picker and hub is regraded from that dynasty's draw)."""
+    if not schools.available():
+        return {"schools": [], "categories": schools.categories(), "available": False}
+    return {"schools": [schools.school(t) for t in range(len(_store.ready().league.teams)) if schools.school(t)],
+            "categories": schools.categories(), "available": True}
+
+
 @router.post("/api/dynasties")
 def new_dynasty(body: NewDynasty):
     w = _store.ready()
@@ -205,7 +230,7 @@ def new_dynasty(body: NewDynasty):
     with _store.lock:
         d = dyn_mod.Dynasty(w.cfg, seed, body.name)
         did = _put(d)
-    return {"id": did, "seed": seed, "teams": _strength(d)}
+    return {"id": did, "seed": seed, "teams": _strength(d), "categories": schools.categories()}
 
 
 @router.post("/api/dynasties/{did}/start")
