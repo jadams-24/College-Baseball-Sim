@@ -44,10 +44,13 @@ CLOGIT_RIDGE = 0.01
 # the prior form is the mean over the FORM_PRIOR_N outings before the last.
 FORM_CAP = 5                         # GUESS (cap)
 FORM_PRIOR_N = 3                     # GUESS (window)
-# The fixed quality-by-margin term of the relief choice: its weight runs from -1 at a tie through 0 at a margin of
-# QUALITY_PIVOT to +1 at QUALITY_PIVOT + QUALITY_SPAN and beyond (better arms in close games, worse in blowouts)
+# The fixed quality-by-margin term of the relief choice: its weight is QUALITY_FLOOR up to a margin of QUALITY_PIVOT and rises
+# to +1 at QUALITY_PIVOT + QUALITY_SPAN and beyond (worse arms in blowouts). One-sided (floor 0, 2026-10-09): a weight of -1 at
+# a tie concentrated the close games on the best reliever (busiest pitcher's appearances 27.0 against 24.5 real) while the
+# fitted roles by leverage already give the real close-game profile
 QUALITY_PIVOT = 4                    # GUESS (shape; the real entry quality crosses zero between 4 and 5)
 QUALITY_SPAN = 4                     # GUESS (shape)
+QUALITY_FLOOR = 0.0                  # GUESS (shape)
 BULLPEN_FORM = Path(__file__).resolve().parents[1] / "data/ncaa_2025/derived/bullpen_form_2025.json"
 
 # Season calendar of the 2025 data: opening day (the first D1 games, benchmarks game_structure.

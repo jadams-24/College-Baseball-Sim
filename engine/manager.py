@@ -43,7 +43,7 @@ from config.phase2 import GAMES_PER_WEEKEND, MIN_HAZARD_N, N_BENCH, N_REGULARS, 
 from config import decisions as _cdec
 from config import diagnostics as _diag
 from config import phase6, phase7
-from config.phase6 import (FORM_CAP, FORM_PRIOR_N, QUALITY_PIVOT, QUALITY_SPAN, LEVERAGE_BLOWOUT, LEVERAGE_CLOSE, LEVERAGE_LATE_INNING, N_ROLE_RELIEVERS, PITCH_BINS,
+from config.phase6 import (FORM_CAP, FORM_PRIOR_N, QUALITY_FLOOR, QUALITY_PIVOT, QUALITY_SPAN, LEVERAGE_BLOWOUT, LEVERAGE_CLOSE, LEVERAGE_LATE_INNING, N_ROLE_RELIEVERS, PITCH_BINS,
                            REST_SPLIT_DAYS)
 from config.phase3 import LATE_INNING as _LATE_INNING
 from engine.decider import Decision, LeagueAverageDecider
@@ -141,7 +141,7 @@ class Manager(LeagueAverageDecider):
                 self.form_coef = {k: v * (bf.get("solved_scale", 1.0) if not k.startswith("form_none") else 1.0)
                                   for k, v in bf["relief_form"]["coef"].items() if k.startswith("form_")}
                 # the fixed quality-by-margin term (owner decision 2026-10-09: only the remainder after the form terms, only if
-                # significant): utility += gamma x badness z x clip((|margin| - QUALITY_PIVOT) / QUALITY_SPAN, -1, 1), gamma solved
+                # significant): utility += gamma x badness z x clip((|margin| - QUALITY_PIVOT) / QUALITY_SPAN, QUALITY_FLOOR, 1), gamma solved
                 # in the engine against the real relief-entry quality at a margin of 8+ (scripts/solve_bullpen_form.py --quality)
                 self.quality_gamma = float(bf.get("quality_gamma", 0.0))
         self.midweek_coef = u6.get("midweek", {}).get("coef", {})
@@ -247,7 +247,7 @@ class Manager(LeagueAverageDecider):
         return u
 
     def _choose(self, state, cands: list, coef: dict, ctx: str, relief: bool = False, margin: int = 0, tm=None):
-        qw = self.quality_gamma * min(max((abs(margin) - QUALITY_PIVOT) / QUALITY_SPAN, -1.0), 1.0) if (relief and self.quality_gamma) else 0.0
+        qw = self.quality_gamma * min(max((abs(margin) - QUALITY_PIVOT) / QUALITY_SPAN, QUALITY_FLOOR), 1.0) if (relief and self.quality_gamma) else 0.0
         bz = self._badness(tm) if qw else None
         u = np.array([self._utility(coef, role, ctx, p.pid, state.date)
                       + ((self.platoon_utility(state, p) + (self._form_utility(p.pid, ctx) if self.form_coef else 0.0)
