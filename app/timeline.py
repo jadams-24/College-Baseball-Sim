@@ -304,8 +304,12 @@ def state_json(runner) -> dict:
     nar.build()
     bat, fld = st.batting_side, st.fielding_side
 
+    season_of = getattr(runner.world, "season_stats", None)         # a dynasty: the season before today's game
+
     def card(p, side):
         d = player_json(p)
+        if season_of is not None:
+            d["season"] = season_of(p, runner.base_rows.get(p.pid))
         if p.side == "bat":
             d["line"] = batting_line(lines[p.pid][0], nar.scored.get(p.pid, 0), nar.rbi.get(p.pid, 0))
             d["line_text"] = short_batting(d["line"])
@@ -365,7 +369,10 @@ def state_json(runner) -> dict:
         mound = {"free_used": m["free"].get(fld, 0), "free_limit": limit,
                  "visited_this_pitcher_inning": bool(m["trips"].get((fld, st.inning, pitcher.pid))),
                  "same_batter": m["batter"].get(fld) == (st.inning, sess.pa_serial)}
-    out = {"score": dict(st.score), "inning": st.inning, "half": st.half, "outs": st.outs, "over": st.over,
+    platoon = None
+    if batter is not None and pitcher is not None and getattr(batter, "bats", "") and getattr(pitcher, "throws", ""):
+        platoon = {"batter": runner.eng.side_used(batter, pitcher), "pitcher": pitcher.throws}      # Phase 3: the side he hits from today
+    out = {"platoon": platoon, "score": dict(st.score), "inning": st.inning, "half": st.half, "outs": st.outs, "over": st.over,
            "pa_results": {str(k): v for k, v in pa_results.items()}, "mound": mound,
            "ended_by_run_rule": st.ended_by_run_rule, "run_rule_in_effect": st.run_rule_in_effect,
            "count": [sess.pa["b"], sess.pa["s"]] if sess.pa is not None else None,

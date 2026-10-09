@@ -50,8 +50,11 @@ lineup and the feed are tabs, and the sim bar is sticky at the bottom. Zones:
 
 1. **Scoreboard strip**: segmented with vertical dividers: line score, R/H/E, a bases graphic lit gold for occupied
    bases, inning and half, balls, strikes and outs as separate counters.
-2. **Matchup banner**: the batter (position, bats L/R once Phase 3 lands, batting-order ordinal, today's
-   AB/H/RBI/BB/K) and the pitcher (role, throws, IP/H/R/BB/K, pitch count) with his 20–80 ratings. The bar under
+2. **Matchup banner**: the batter (position, bats L/R/S, batting-order ordinal, today's AB/H/RBI/BB/K) and the
+   pitcher (role, throws, IP/H/R/BB/K, pitch count) with his 20–80 ratings; the platoon tag ("L vs R") is the
+   side the batter hits from today (`PlayerGameEngine.side_used`: a switch hitter bats opposite the pitcher's
+   hand). In a dynasty game both cards and the lineup and bullpen tables carry the season line through yesterday
+   (AVG/OBP/SLG/HR; ERA/IP/K); an exhibition keeps TODAY and H-AB, never a faked season. The bar under
    the pitcher is labeled **pitch count**: the engine has no fatigue state (the AI's pull hazard reads the
    outing's pitches and runs, `engine/manager.py`); if the pitcher card ever carries `fatigue`, the page shows and
    labels that instead. It is never the AI's pull probability. Season stats (AVG/HR/SB, W-L/ERA/IP) have their
@@ -182,9 +185,10 @@ to `engine.season.simulate_season` for the same seed, and a dynasty played throu
 engine's loop with the same scripted controller.
 
 Screens (left nav on a desktop, bottom tabs on a phone): the hub (header with mark, year, record, conference
-record, RPI rank, date and week; the next game with probable starters, Play and Sim game; sim to the next game,
-week, end of the regular season, conference tournament, Selection Monday or end of season, as a background job
-with progress; recent results with box scores; conference standings; RPI top 25; news from the engine's results
+record, RPI rank, date and week; the next game with probable starters, Play and Sim game; the advance loop:
+"Advance to next game", "Advance day", "Advance week", end of the regular season, conference tournament,
+Selection Monday or end of season, as a background job with progress, stopping at the auto-pause moments set
+in Settings (before my games, at each week's end, before the postseason, on Selection Monday); recent results with box scores; conference standings; RPI top 25; news from the engine's results
 only), Schedule, Standings (every conference, RPI top 25 and 64), Stats (dense sortable tables with the season
 columns, national leaders at the NCAA qualifying floors), Roster (badges, position, season line, pitchers' last
 outings), Postseason (conference tournaments in their published formats, Selection Monday, regionals, supers,

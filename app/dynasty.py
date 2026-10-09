@@ -41,7 +41,8 @@ from engine.world import World as SeasonWorld, cancel_mask, schedule_mask
 
 SAVE_VERSION = 1
 STAGES = ("regular", "conf", "selection", "ncaa", "done")
-SIM_TARGETS = ("game", "week", "regular", "conf", "selection", "end")
+SIM_TARGETS = ("game", "day", "week", "regular", "conf", "selection", "end")
+STOPS = ("week_end", "postseason", "selection")      # the auto-pause moments (Settings): stop there on a longer sim
 POST_OFF = phase7.POST_OFFSETS
 
 
@@ -94,6 +95,13 @@ class _Adapter:
 
     def game_pids(self, home, away) -> list:
         return [p.pid for t in (home, away) for p in t.batters + staff(t)]
+
+    def season_stats(self, p, rows) -> dict | None:
+        """The player's season line before the game in progress (the accumulator rows at the game's creation)."""
+        if rows is None:
+            return None
+        b, pr = rows
+        return _bat_stats(b) if p.side == "bat" else _pit_stats(pr)
 
 
 def _game_record(g, st, i, box, user_played: bool) -> dict:
@@ -261,18 +269,24 @@ class Dynasty:
     def _week_of(self, date: int) -> int:
         return int(date) // 7
 
-    def advance(self, target: str, pause_mine: bool = True, progress=None) -> dict:
-        """Sim toward `target` (SIM_TARGETS): the next game of the user's team, the end of this week, the end of
-        the regular season, the conference tournaments, Selection Monday, the end of the season. The user's games
-        pause the sim (pause_mine) so the user plays or sims them; otherwise the AI plays them. Returns the hub state."""
+    def advance(self, target: str, pause_mine: bool = True, progress=None, stops=()) -> dict:
+        """Sim toward `target` (SIM_TARGETS): the next game of the user's team, the end of this day, the end of this
+        week, the end of the regular season, the conference tournaments, Selection Monday, the end of the season.
+        The user's games pause the sim (pause_mine) so the user plays or sims them; otherwise the AI plays them.
+        `stops` (STOPS) are the auto-pause moments a longer sim stops at: the end of each week, the start of the
+        postseason, Selection Monday; a stop already reached when the call starts does not stop it again. Returns
+        the hub state."""
         if target not in SIM_TARGETS:
             raise ValueError(f"target is one of {SIM_TARGETS}")
+        stops = set(stops) & set(STOPS)
+        start_stage = self.stage
+        long = target in ("regular", "conf", "selection", "end")
         if self.pending is not None and self.runner is not None:
             raise ValueError("finish or sim the pending game first")
         if self.pending is not None and pause_mine:
             return self.hub()
         self.pending = None
-        n, week0 = 0, None
+        n, week0, day0 = 0, None, None
         while self.stage == "regular":
             i = self.next_index()
             if i is None:
@@ -280,7 +294,9 @@ class Dynasty:
                 self.pos = len(self.schedule)
                 break
             g = self.schedule[i]
-            if target == "week" and week0 is not None and self._week_of(g.date) != week0:
+            if target == "day" and day0 is not None and g.date != day0:
+                break
+            if (target == "week" or (long and "week_end" in stops)) and week0 is not None and self._week_of(g.date) != week0:
                 break
             if self.mine(g) and pause_mine:
                 self.pending = {"i": i, "home": g.home, "away": g.away, "date": g.date, "weekend": g.weekend, "stage": "regular", "neutral": False}
@@ -289,12 +305,18 @@ class Dynasty:
             self.pos = i + 1
             n += 1
             week0 = self._week_of(g.date) if week0 is None else week0
+            day0 = int(g.date) if day0 is None else day0
             if progress:
                 progress(self)
             if target == "game" and self.mine(g):
                 break
+        if self.stage == "conf" and start_stage == "regular" and "postseason" in stops:
+            return self.hub()                       # auto-pause: the postseason is about to start
         if self.stage not in ("regular", "done") and target != "regular":
-            self._run_post("game" if target == "week" else target, pause_mine, progress)
+            post_target = "game" if target in ("day", "week") else target
+            if post_target == "end" and "selection" in stops and start_stage in ("regular", "conf"):
+                post_target = "selection"           # auto-pause: Selection Monday
+            self._run_post(post_target, pause_mine, progress)
         return self.hub()
 
     # ---- the user's game -------------------------------------------------------------------------

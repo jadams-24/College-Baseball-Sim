@@ -164,3 +164,25 @@ def test_dynasty_with_decisions_through_the_api_equals_the_scripted_engine_run(t
     assert reg == ref_rows
     assert post == ref_post["games"]
     assert d.post["ncaa"]["champion"] == ref_post["ncaa"]["champion"]
+
+
+def test_day_target_and_auto_pause_stops():
+    """"Advance day" plays the rest of the current date; a longer sim stops at the Settings' auto-pause moments."""
+    cfg = phase2.load()
+    d = dm.Dynasty(cfg, 7, "t")
+    d.start(TID)
+    d.advance("game", pause_mine=False)                       # the user's first game, AI-played
+    day0 = int(d.schedule[d.next_index()].date)
+    d.advance("day", pause_mine=False)
+    i = d.next_index()
+    assert int(d.schedule[i].date) > day0
+    assert all(d.skip[j] or j in d.results for j in range(i) if int(d.schedule[j].date) == day0)
+    week0 = d._week_of(d.schedule[i].date)
+    d.advance("regular", pause_mine=False, stops=["week_end"])
+    assert d.stage == "regular" and d._week_of(d.schedule[d.next_index()].date) == week0 + 1
+    d.advance("end", pause_mine=False, stops=["postseason"])
+    assert d.stage == "conf" and d.pos == len(d.schedule)
+    d.advance("end", pause_mine=False, stops=["selection"])
+    assert d.stage == "selection"
+    d.advance("end", pause_mine=False, stops=["selection"])   # a stop already reached does not stop again
+    assert d.stage == "done"

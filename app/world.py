@@ -40,9 +40,13 @@ def role_label(p) -> str:
 
 def player_json(p) -> dict:
     names = BAT_RATINGS if p.side == "bat" else PIT_RATINGS
+    bats, throws = getattr(p, "bats", "") or "", getattr(p, "throws", "") or ""
     return {"pid": p.pid, "name": p.name, "side": p.side, "group": p.group, "role": role_label(p),
             "pos": POS_LABEL.get(p.pos, p.pos.upper()) if p.pos else ("P" if p.side == "pit" else ""),
             "bat_order": p.bat_order if p.side == "bat" else None,
+            # Phase 3: bats L/R/S (batters), throws L/R; "hand" is the one the player's role shows (bats for a batter,
+            # throws for a pitcher); empty strings before Phase 3's draw, which the page shows as a dash
+            "bats": bats, "throws": throws, "hand": (bats if p.side == "bat" else throws),
             "ratings": {k: int(display(p.ratings[k])) for k in names if k in p.ratings}}
 
 

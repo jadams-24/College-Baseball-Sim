@@ -5,7 +5,7 @@
                                            (the D1 world of this seed is built here: about 6 s on this machine, a minute on the free tier)
     POST /api/dynasties/{id}/start         {tid} -> hub (the season is built; Year 1 begins)
     GET  /api/dynasties/{id}               hub
-    POST /api/dynasties/{id}/sim           {target, pause_mine} -> {job} (a background job; poll progress)
+    POST /api/dynasties/{id}/sim           {target, pause_mine, stops} -> {job} (a background job; poll progress)
     GET  /api/dynasties/{id}/progress      {running, played, total, stage, date, hub when idle}
     POST /api/dynasties/{id}/game/open     {modes?} -> the pending game's turn (then the /api/games/{gid} endpoints)
     POST /api/dynasties/{id}/game/sim      hub (the AI plays the pending game)
@@ -26,8 +26,8 @@ a game, a background job sims the rest of that week's other games one at a time 
 interleave (owner decision 2026-10-08, option 2 of reports/dynasty_latency.md). A finished
 step autosaves to the server's save directory (CBS_SAVE_DIR, default saves/ next to app/; the free host's disk is
 ephemeral, which is why the browser keeps a mirror). One dynasty stays loaded; the one in memory is
-saved and dropped when another is opened, and the engine's table caches (engine.tables, keyed by object id) are cleared so a later engine
-never meets a stale entry.
+saved and dropped when another is opened (the engine caches its base-running splits on the table cells since main's f226d44, so a
+dropped engine leaves nothing stale behind).
 """
 from __future__ import annotations
 
@@ -43,7 +43,6 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
 from app import dynasty as dyn_mod
-from engine import tables as engine_tables
 
 router = APIRouter()
 SAVE_DIR = Path(os.environ.get("CBS_SAVE_DIR", str(Path(__file__).resolve().parent.parent / "saves")))
@@ -71,6 +70,7 @@ class Start(BaseModel):
 class SimIn(BaseModel):
     target: str = "game"
     pause_mine: bool = True
+    stops: list[str] = []            # dynasty.STOPS: week_end, postseason, selection (the Settings' auto-pauses)
 
 
 class OpenIn(BaseModel):
@@ -115,7 +115,6 @@ def _evict(keep: str | None = None) -> None:
         for g in [g for g, r in _store.games.items() if r is d.runner]:
             _store.games.pop(g, None)
         del d
-        engine_tables._SPLITS.clear(); engine_tables._OK.clear(); engine_tables._EXTRA.clear()
 
 
 def _running(did: str) -> bool:
@@ -254,7 +253,7 @@ def sim(did: str, body: SimIn):
             with _store.lock:
                 if d.runner is not None and d.runner.over:
                     d.finish_game()
-                d.advance(body.target, body.pause_mine, progress)
+                d.advance(body.target, body.pause_mine, progress, body.stops)
             _autosave(did, d)
         except Exception as e:          # reported to the page
             job["error"] = str(e)
@@ -449,5 +448,4 @@ def delete(did: str):
         p = SAVE_DIR / f"dyn_{did}.{ext}"
         if p.exists():
             p.unlink()
-    engine_tables._SPLITS.clear(); engine_tables._OK.clear(); engine_tables._EXTRA.clear()
     return {"ok": True}

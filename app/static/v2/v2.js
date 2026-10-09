@@ -14,6 +14,7 @@
                    avoid_k: ["AvK", "Avoid K (strikeouts)"], speed: ["Spd", "Speed (steals, extra bases)"], glove: ["Glv", "Glove (errors at his position)"],
                    arm: ["Arm", "Arm (runners held, steals cut down)"], stuff: ["Stf", "Stuff (strikeouts)"], control: ["Ctl", "Control (walks)"],
                    movement: ["Mov", "Movement (home runs allowed)"], stamina: ["Sta", "Stamina (how long he stays in)"], hold: ["Hld", "Hold (time to the plate: runners attempt less)"] };
+  const f3 = (v) => (typeof v === "number" ? v.toFixed(3).replace(/^0\./, ".") : v);
   const PITCH_SCALE = 120;        // the pull tables' range of outing pitch counts (engine.manager); display only
   const ORD = (n) => n + (["th", "st", "nd", "rd"][((n % 100) > 10 && (n % 100) < 14) ? 0 : (n % 10 < 4 ? n % 10 : 0)]);
   const RES = { "1B": ["1B", "hit"], "2B": ["2B", "hit"], "3B": ["3B", "hit"], "HR": ["HR", "hr"], "BB": ["BB", "walk"], "HBP": ["HBP", "walk"], "K": ["K", "k"],
@@ -141,13 +142,13 @@
     const order = b ? st.lineups[bside].findIndex((x) => x.pid === b.pid) + 1 : 0;
     const you = (side) => (side === me ? '<span class="you-tag">you</span>' : "");
     $("#batter").innerHTML = `<div class="hdr">${st.count ? "At bat" : "Due up"} · ${esc(st.teams[bside].name)}${you(bside)}</div>` + (b ? `<div class="body">${mark(st.teams[bside])}
-      <div class="name">${esc(b.name)}<small>${b.pos} · bats ${b.hand || "–"}${order ? ` · ${ORD(order)} in the order` : ""}</small></div>
-      <div class="today">${stat("AB", b.line.ab)}${stat("H", b.line.h)}${stat("RBI", b.line.rbi)}${stat("BB", b.line.bb)}${stat("K", b.line.k)}<span class="season">${stat("AVG", "")}${stat("HR", "")}${stat("SB", "")}</span></div>
+      <div class="name">${esc(b.name)}<small>${b.pos} · bats ${b.hand || "–"}${order ? ` · ${ORD(order)} in the order` : ""}</small>${st.platoon ? `<span class="platoon" title="the side he hits from today against this pitcher's hand">${st.platoon.batter} vs ${st.platoon.pitcher}</span>` : ""}</div>
+      <div class="today">${stat("AB", b.line.ab)}${stat("H", b.line.h)}${stat("RBI", b.line.rbi)}${stat("BB", b.line.bb)}${stat("K", b.line.k)}${b.season ? `<span class="season on">${stat("AVG", f3(b.season.avg))}${stat("OBP", f3(b.season.obp))}${stat("SLG", f3(b.season.slg))}${stat("HR", b.season.hr)}</span>` : `<span class="season">${stat("AVG", "")}${stat("HR", "")}${stat("SB", "")}</span>`}</div>
       ${chips(b)}</div>` : `<div class="body empty">${t.phase === "pregame" ? "Lineups are set when the game starts" : "No batter yet"}</div>`);
     const pitches = p ? (p.outing ? p.outing.pitches : p.line.pitches) : 0;
     $("#pitcher").innerHTML = `<div class="hdr">Pitching · ${esc(st.teams[pside].name)}${you(pside)}</div>` + (p ? `<div class="body">${mark(st.teams[pside])}
       <div class="name">${esc(p.name)}<small>${p.role} · throws ${p.hand || "–"}</small></div>
-      <div class="today">${stat("IP", p.line.ip)}${stat("H", p.line.h)}${stat("R", p.line.r)}${stat("BB", p.line.bb)}${stat("K", p.line.k)}${stat("P", pitches)}<span class="season">${stat("W-L", "")}${stat("ERA", "")}${stat("IP", "")}</span></div>
+      <div class="today">${stat("IP", p.line.ip)}${stat("H", p.line.h)}${stat("R", p.line.r)}${stat("BB", p.line.bb)}${stat("K", p.line.k)}${stat("P", pitches)}${p.season ? `<span class="season on">${stat("ERA", p.season.era.toFixed(2))}${stat("IP", p.season.ip)}${stat("K", p.season.k)}</span>` : `<span class="season">${stat("W-L", "")}${stat("ERA", "")}${stat("IP", "")}</span>`}</div>
       ${staminaBar(p)}
       ${chips(p)}</div>` : `<div class="body empty">${t.phase === "pregame" ? "The starters are named when the game starts" : "No pitcher yet"}</div>`);
   }
@@ -357,17 +358,20 @@
     if (t.phase === "pregame" && lineupTab === "mine") body = pregameEditor(t);
     else if (lineupTab === "pen") {
       const cur = st.pitcher && st.pitcher.pid;
-      const seasonP = () => `<td class="num season"></td><td class="num season"></td><td class="num season"></td>`;
-      const rows = st.bullpen[me].map((p) => `<tr><td class="pos">${p.role}</td><td class="nm">${esc(p.name)}</td><td class="hand">${p.hand || "–"}</td><td class="avail">${t.phase === "pregame" ? "rested" : "available"}</td><td>${badge("stamina", p.ratings.stamina).replace('<span class="k">Sta</span>', "")}</td>${seasonP()}</tr>`)
-        .concat(st.used_pitchers[me].map((p) => `<tr class="bp ${p.pid === cur ? "now" : ""}"><td class="pos">${p.role}</td><td class="nm">${esc(p.name)}</td><td class="hand">${p.hand || "–"}</td><td class="avail ${p.pid === cur ? "" : "used"}">${p.pid === cur ? "pitching" : `used · ${p.line.ip} IP, ${p.line.pitches} P`}</td><td>${badge("stamina", p.ratings.stamina).replace('<span class="k">Sta</span>', "")}</td>${seasonP()}</tr>`));
-      body = `<table class="lu tbl bp"><tr><th>Role</th><th>Name</th><th>T</th><th>Status</th><th>Sta</th><th class="num season">W-L</th><th class="num season">ERA</th><th class="num season">IP</th></tr>${rows.join("")}</table><div class="muted">Every pitcher is rested: this is an exhibition. Rest days arrive with Season Mode.</div>`;
+      const hasSeasonP = st.bullpen[me].concat(st.used_pitchers[me]).some((p) => p.season);
+      const seasonP = (p) => (hasSeasonP ? `<td class="num">${p.season ? p.season.era.toFixed(2) : ""}</td><td class="num">${p.season ? p.season.ip : ""}</td><td class="num">${p.season ? p.season.k : ""}</td>` : "");
+      const rows = st.bullpen[me].map((p) => `<tr><td class="pos">${p.role}</td><td class="nm">${esc(p.name)}</td><td class="hand">${p.hand || "–"}</td><td class="avail">${t.phase === "pregame" ? "rested" : "available"}</td><td>${badge("stamina", p.ratings.stamina).replace('<span class="k">Sta</span>', "")}</td>${seasonP(p)}</tr>`)
+        .concat(st.used_pitchers[me].map((p) => `<tr class="bp ${p.pid === cur ? "now" : ""}"><td class="pos">${p.role}</td><td class="nm">${esc(p.name)}</td><td class="hand">${p.hand || "–"}</td><td class="avail ${p.pid === cur ? "" : "used"}">${p.pid === cur ? "pitching" : `used · ${p.line.ip} IP, ${p.line.pitches} P`}</td><td>${badge("stamina", p.ratings.stamina).replace('<span class="k">Sta</span>', "")}</td>${seasonP(p)}</tr>`));
+      body = `<table class="lu tbl bp"><tr><th>Role</th><th>Name</th><th>T</th><th>Status</th><th>Sta</th>${hasSeasonP ? `<th class="num">ERA</th><th class="num">IP</th><th class="num">K</th>` : ""}</tr>${rows.join("")}</table>${hasSeasonP ? "" : `<div class="muted">Every pitcher is rested: this is an exhibition.</div>`}`;
     } else {
       const lu = st.lineups[side] || [];
       const cur = st.batter && st.batting_side === side ? st.batter.pid : null;
       const curIdx = cur ? lu.findIndex((p) => p.pid === cur) : -1;
-      // season columns (AVG/OBP/SLG) are in the table, hidden until Season Mode: never faked
-      const season = (p) => `<td class="num season">${p.season ? p.season.avg : ""}</td><td class="num season">${p.season ? p.season.obp : ""}</td><td class="num season">${p.season ? p.season.slg : ""}</td>`;
-      body = lu.length ? `<table class="lu tbl"><tr><th>#</th><th>Pos</th><th>Name</th><th>B</th><th>Today</th><th class="num">H-AB</th><th class="num season">AVG</th><th class="num season">OBP</th><th class="num season">SLG</th></tr>${lu.map((p, i) => `<tr class="${p.pid === cur ? "now" : ""} ${curIdx >= 0 && i === (curIdx + 1) % 9 ? "deck" : ""} ${p.on_base ? "onbase" : ""}"><td class="n">${i + 1}</td><td class="pos">${p.pos}</td><td class="nm">${esc(p.name)}${p.on_base ? ' <span class="ob">on</span>' : ""}</td><td class="hand">${p.hand || "–"}</td><td>${resChips(st.pa_results[String(p.pid)])}</td><td class="num hab">${p.line.h}-${p.line.ab}</td>${season(p)}</tr>`).join("")}</table>`
+      // season columns (AVG/OBP/SLG/HR) show in dynasty games, where the players carry a season line; exhibitions keep H-AB (never faked)
+      const hasSeason = lu.some((p) => p.season);
+      const seasonTh = hasSeason ? `<th class="num">AVG</th><th class="num">OBP</th><th class="num">SLG</th><th class="num">HR</th>` : `<th class="num">H-AB</th>`;
+      const seasonTd = (p) => (hasSeason ? `<td class="num">${f3(p.season.avg)}</td><td class="num">${f3(p.season.obp)}</td><td class="num">${f3(p.season.slg)}</td><td class="num">${p.season.hr}</td>` : `<td class="num hab">${p.line.h}-${p.line.ab}</td>`);
+      body = lu.length ? `<table class="lu tbl"><tr><th>#</th><th>Pos</th><th>Name</th><th>B</th><th>Today</th>${seasonTh}</tr>${lu.map((p, i) => `<tr class="${p.pid === cur ? "now" : ""} ${curIdx >= 0 && i === (curIdx + 1) % 9 ? "deck" : ""} ${p.on_base ? "onbase" : ""}"><td class="n">${i + 1}</td><td class="pos">${p.pos}</td><td class="nm">${esc(p.name)}${p.on_base ? ' <span class="ob">on</span>' : ""}</td><td class="hand">${p.hand || "–"}</td><td>${resChips(st.pa_results[String(p.pid)])}</td>${seasonTd(p)}</tr>`).join("")}</table>`
         : `<div class="muted">The AI sets the ${esc(st.teams[side].name)} lineup when the game starts.</div>`;
     }
     $("#lineup").innerHTML = `<div class="hdr">Lineup</div><div class="tabs"><button data-tab="mine" class="${lineupTab === "mine" ? "on" : ""}">${esc(st.teams[me].name)}</button><button data-tab="opp" class="${lineupTab === "opp" ? "on" : ""}">${esc(st.teams[opp].name)}</button><button data-tab="pen" class="${lineupTab === "pen" ? "on" : ""}">Bullpen</button></div>${body}`;
@@ -484,7 +488,7 @@
     $("#legend").innerHTML = `<div class="hdr">Ratings <span class="sub">20–80, 50 = D1 median, 10 per SD</span></div>
       <div class="scale">${scale.map(([c, l]) => `<span class="rt ${c}"><b>${l}</b></span>`).join("")}</div>
       <dl>${Object.values(RATING).map(([a, b]) => `<dt>${a}</dt><dd>${b}</dd>`).join("")}</dl>
-      <div class="muted">B = bats, T = throws: L/R/S once handedness is in the engine (Phase 3).</div>`;
+      <div class="muted">B = bats (L, R, or S for a switch hitter), T = throws. The banner's "L vs R" is the side the batter hits from today against the pitcher's hand.</div>`;
   }
 
   // ---- phone tabs and drawer ----

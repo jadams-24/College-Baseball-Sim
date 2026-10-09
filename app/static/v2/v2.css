@@ -46,7 +46,9 @@
 .who .today { display: flex; gap: 10px; flex-wrap: wrap; font-size: 12px; }
 .who .today b { font-size: 14px; }
 .who .today span.k { color: var(--muted); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; margin-right: 2px; }
-.who .season { display: none; }                 /* season stats slot in with Season Mode (never faked) */
+.who .season { display: none; }                 /* season stats show in dynasty games only (never faked) */
+.who .season.on { display: inline-flex; gap: 10px; padding-left: 10px; border-left: 1px solid var(--line); }
+.who .platoon { display: inline-block; margin-left: 8px; font-size: 10px; font-weight: 800; letter-spacing: .08em; color: var(--accent); border: 1px solid var(--accent); border-radius: 2px; padding: 1px 5px; vertical-align: 2px; }
 .who .chips { grid-column: 2; display: flex; flex-wrap: wrap; gap: 3px 8px; }
 .chip { font-size: 11px; border: 1px solid var(--line2); border-radius: 2px; padding: 0 5px; cursor: help; background: var(--panel2); }
 .chip b { font-weight: 800; }
