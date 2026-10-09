@@ -38,6 +38,7 @@ continues under the same transformed chain.
 from __future__ import annotations
 
 import numpy as np
+from numpy.linalg import _umath_linalg
 
 from config.phase5 import BIP_RESULTS, EVENTS, OUTCOMES, TILT_STEPS
 
@@ -85,6 +86,10 @@ _TO = _DEST >= 0
 _T_IDX = (_ROWS * 12 + _DEST)[_TO]                                   # flat (count, next count) of transient slots
 _R_IDX = (_ROWS * len(OUTCOMES) + (-1 - _DEST))[~_TO]               # flat (count, outcome) of ending slots
 _V_IDX = np.where(_TO, _DEST, 12 + (-1 - _DEST))                    # slot -> entry of [H (12), w (outcomes)]
+_EYE12 = np.eye(12)
+_add_reduce, _add_accumulate = np.add.reduce, np.add.accumulate
+_ABS3_ORDER = tuple((b * 3 + s, b == 3, s == 2) for b, s in ORDER)
+_T_SEL, _R_SEL = np.flatnonzero(_TO), np.flatnonzero(~_TO)          # the same entries, in the same order, as qs[_TO], qs[~_TO]
 
 
 def _logit(p):
@@ -129,25 +134,55 @@ class PitchModel:
     # ---- the chain -----------------------------------------------------------------------
     def chain(self, t: np.ndarray) -> list:
         """Pitch event probabilities by count, every event's log-probability shifted by t (per event)."""
-        q = self.q0 * np.exp(t)[None, :]
-        q /= q.sum(axis=1, keepdims=True)
-        return q.tolist()
+        return self.chain_array(t).tolist()
+
+    def chain_array(self, t: np.ndarray) -> np.ndarray:
+        """chain() as an array (12 counts, events)."""
+        q = self.q0 * np.exp(t)
+        q /= _add_reduce(q, axis=1, keepdims=True)       # q.sum(axis=1, keepdims=True) without the method wrapper
+        return q
 
     def tilts(self, zb_k: float, zb_bb: float, zp_k: float, zp_bb: float, p_k: float, p_bb: float, p_hbp: float) -> np.ndarray:
         """Event shifts for a matchup: the batter's and pitcher's K and BB offsets along their
         measured directions, then a correction (average directions, HBP) at which the chain's own K,
         BB and HBP rates equal the matchup's (quasi-Newton with the league Jacobian)."""
-        t0 = (zb_k * self.U[("batter", "K")] + zb_bb * self.U[("batter", "BB")]
-              + zp_k * self.U[("pitcher", "K")] + zp_bb * self.U[("pitcher", "BB")])
+        U = self.U
+        t0 = (zb_k * U[("batter", "K")] + zb_bb * U[("batter", "BB")]
+              + zp_k * U[("pitcher", "K")] + zp_bb * U[("pitcher", "BB")])
         target = _logit(np.array([p_k, p_bb, p_hbp]))
         a = np.zeros(3)
+        M, Jinv = self.M, self.Jinv
         for _ in range(TILT_STEPS + 1):
-            a = a + self.Jinv @ (target - self._logit_abs3(t0 + self.M @ a))
-        return t0 + self.M @ a
+            a = a + Jinv @ (target - self._logit_abs3(t0 + M @ a))
+        return t0 + M @ a
 
     def _logit_abs3(self, t) -> np.ndarray:
-        q = self.chain(t)
-        return _logit(np.array([self.absorb(q, O_K)[0], self.absorb(q, O_BB)[0], self.absorb(q, O_HBP)[0]]))
+        return _logit(np.array(self._absorb3(self.chain(t))))
+
+    def _absorb3(self, q: list) -> tuple:
+        """absorb(q, o)[0] for o = K, BB, HBP in one pass over the counts (speed pass, 2026-10-09): each value is computed
+        with absorb's operations in absorb's order (none of K, BB, HBP is a ball-in-play result), leaving out only the
+        exact no-ops (adding x * 0.0 to a non-negative sum, multiplying by 1.0), so the results are bit-identical."""
+        hk, hb, hh = [0.0] * 12, [0.0] * 12, [0.0] * 12
+        for i, ball3, two in _ABS3_ORDER:
+            qs = q[i]
+            qb, qks, qh = qs[B_], qs[K_] + qs[S_], qs[H_]
+            if ball3:
+                tk = 0.0; tb = qb; th = 0.0
+            else:
+                tk = qb * hk[i + 3]; tb = qb * hb[i + 3]; th = qb * hh[i + 3]
+            if two:
+                stay = qs[N_] + qs[F_]
+                tk += qks; th += qh
+            else:
+                stay = qs[N_]
+                qf = qs[F_]
+                tk += qks * hk[i + 1]; tk += qf * hk[i + 1]
+                tb += qks * hb[i + 1]; tb += qf * hb[i + 1]
+                th += qks * hh[i + 1]; th += qf * hh[i + 1]; th += qh
+            d = 1.0 - stay
+            hk[i] = tk / d; hb[i] = tb / d; hh[i] = th / d
+        return hk[0], hb[0], hh[0]
 
     def absorb(self, q: list, o: int) -> list:
         """h_o(c): probability of ending in outcome o from each count."""
@@ -183,9 +218,12 @@ class PitchModel:
 
     def absorb_matrix(self, qs: np.ndarray) -> np.ndarray:
         """h_o(c) for every count and outcome, (12, outcomes): one linear solve, (I - T) h = R."""
-        T = np.bincount(_T_IDX, weights=qs[_TO], minlength=144).reshape(12, 12)
-        R = np.bincount(_R_IDX, weights=qs[~_TO], minlength=12 * len(OUTCOMES)).reshape(12, len(OUTCOMES))
-        return np.linalg.solve(np.eye(12) - T, R)
+        flat = qs.ravel()
+        T = np.bincount(_T_IDX, weights=flat.take(_T_SEL), minlength=144).reshape(12, 12)
+        R = np.bincount(_R_IDX, weights=flat.take(_R_SEL), minlength=12 * len(OUTCOMES)).reshape(12, len(OUTCOMES))
+        # np.linalg.solve's own LAPACK call (the same gufunc and signature) without its argument checks and error-state
+        # context (speed pass, 2026-10-09; I - T is never singular: T is substochastic), so the result is bit-identical
+        return _umath_linalg.solve(_EYE12 - T, R, signature="dd->d")
 
     def forward(self, qs: np.ndarray, h: np.ndarray, m: np.ndarray) -> list:
         """Cumulative slot probabilities by count for a matchup with outcome probabilities m (OUTCOMES order):
@@ -193,7 +231,7 @@ class PitchModel:
         w = np.divide(m, h[0], out=np.zeros_like(m), where=h[0] > 0)
         H = h @ w
         W = qs * np.concatenate([H, w])[_V_IDX] / H[:, None]
-        return np.cumsum(W, axis=1).tolist()
+        return _add_accumulate(W, axis=1).tolist()       # np.cumsum(W, axis=1) without the function wrapper
 
     # ---- one plate appearance --------------------------------------------------------------
     def sequence(self, q: list, o: int, rng) -> str:

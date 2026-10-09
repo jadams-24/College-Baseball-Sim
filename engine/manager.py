@@ -35,12 +35,15 @@ PR B: steals, bunts and intentional walks are decided from the fitted models (en
 """
 from __future__ import annotations
 
+from bisect import bisect_right
+
 import numpy as np
 
 from config.phase2 import GAMES_PER_WEEKEND, MIN_HAZARD_N, N_BENCH, N_REGULARS, ROTATION_STAFF, SPOT_STARTER_RANK, Phase2Config
 from config import decisions as _cdec
 from config import phase6, phase7
 from config.phase6 import LEVERAGE_BLOWOUT, LEVERAGE_CLOSE, LEVERAGE_LATE_INNING, N_ROLE_RELIEVERS, PITCH_BINS, REST_SPLIT_DAYS
+from config.phase3 import LATE_INNING as _LATE_INNING
 from engine.decider import Decision, LeagueAverageDecider
 
 
@@ -134,6 +137,8 @@ class Manager(LeagueAverageDecider):
         self.last_lineup: dict = {}       # team id -> starters of its previous game
         if self.subs6:
             self.sub_ib, self.sub_mb = np.array(self.subs6["inning_bins"]), np.array(self.subs6["margin_bins"])
+            # the same bins as lists for bisect (searchsorted side="right" is bisect_right; speed pass, 2026-10-09)
+            self._sub_ib, self._sub_mb = self.sub_ib.tolist(), self.sub_mb.tolist()
             self.def_slot = [self.subs6["def_slot_factor"][str(k + 1)] for k in range(9)]
 
     # ---- lineup ------------------------------------------------------------------------
@@ -193,8 +198,7 @@ class Manager(LeagueAverageDecider):
 
     @staticmethod
     def _bucket(state) -> str:
-        from config.phase3 import LATE_INNING
-        return "7+" if state.inning >= LATE_INNING else "1-6"
+        return "7+" if state.inning >= _LATE_INNING else "1-6"
 
     def platoon_utility(self, state, pitcher) -> float:
         """Phase 3: the extra utility of bringing in this pitcher: against the batter due up, +g/2 for a pitcher of the
@@ -336,8 +340,8 @@ class Manager(LeagueAverageDecider):
     def _sub_rate(self, state, team: str, kind: str) -> float:
         s6 = self.subs6
         margin = state.score[team] - state.score["away" if team == "home" else "home"]
-        ib = int(np.searchsorted(self.sub_ib, state.inning, side="right") - 1)
-        mb = int(np.searchsorted(self.sub_mb, margin, side="right") - 1)
+        ib = bisect_right(self._sub_ib, state.inning) - 1
+        mb = bisect_right(self._sub_mb, margin) - 1
         return s6["hazard"][kind].get(f"{ib}|{mb}", 0.0) * s6["tier_multiplier"].get(state.team_obj[team].tier, 1.0)
 
     def _bench_pick(self, state, team: str, bench: list | None = None, vs=None):
