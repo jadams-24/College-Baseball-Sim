@@ -41,10 +41,13 @@ import numpy as np
 
 from config.phase2 import GAMES_PER_WEEKEND, MIN_HAZARD_N, N_BENCH, N_REGULARS, ROTATION_STAFF, SPOT_STARTER_RANK, Phase2Config
 from config import decisions as _cdec
+from config import diagnostics as _diag
 from config import phase6, phase7
 from config.phase6 import LEVERAGE_BLOWOUT, LEVERAGE_CLOSE, LEVERAGE_LATE_INNING, N_ROLE_RELIEVERS, PITCH_BINS, REST_SPLIT_DAYS
 from config.phase3 import LATE_INNING as _LATE_INNING
 from engine.decider import Decision, LeagueAverageDecider
+
+_MISSING = object()
 
 
 class Manager(LeagueAverageDecider):
@@ -55,6 +58,12 @@ class Manager(LeagueAverageDecider):
         return self.rng if self.rng is not None else state.rng
 
     # ---- PR B: decisions that change outcomes (config.decisions; engine.decisions) ----------------
+    def __getstate__(self):
+        # the speed-pass caches are rebuilt on use with the same values; a session save leaves them out
+        d = dict(self.__dict__)
+        d["_hz_cache"], d["_fn_cache"] = {}, {}
+        return d
+
     def _dm(self):
         if not hasattr(self, "_dm_cache"):
             from config import decisions
@@ -109,6 +118,10 @@ class Manager(LeagueAverageDecider):
         # expected pulls and their variance under the pitcher's true leash (sum of h' and h'(1 - h'))
         self.leash_expected: dict = {}
         self.leash_var: dict = {}
+        # speed pass (2026-10-09): pull hazards by their table cell, and the leash transforms by their inputs (the same
+        # values, computed once)
+        self._hz_cache: dict = {}
+        self._fn_cache: dict = {}
         # Phase 6 (config.phase6): each pitcher's outings (date, pitches) this season; the relief and
         # midweek-start choice logits; the pull multipliers by tier and season week
         self.history: dict = {}
@@ -236,7 +249,7 @@ class Manager(LeagueAverageDecider):
         r = self.pull6[role]
         x = r["log_theta_tier"].get(state.team_obj[state.fielding_side].tier, 0.0)
         if starter:
-            wb = int(np.searchsorted(np.array(r["week_bins"]), state.week, side="right") - 1)
+            wb = bisect_right(r["week_bins"], state.week) - 1          # np.searchsorted(..., side="right") - 1
             x += r["log_theta_week"].get(str(wb), 0.0)
         if "log_theta_class" in r:
             # a midweek start by a weekend-rotation arm runs longer, a reliever's (bullpen game) shorter
@@ -300,7 +313,10 @@ class Manager(LeagueAverageDecider):
         if not state.bullpen_left(state.fielding_side):
             return Decision.NO
         rank = self.rank_now.get(state.team_obj[state.fielding_side].tid) if state.weekend else None
-        h = self._hazard(o["starter"], int(state.weekend), o["pitches"], o["runs"], int(state.inning_end), rank)
+        hkey = (o["starter"], int(state.weekend), min(o["pitches"] // 10, 12), min(o["runs"], 5), int(state.inning_end), rank)
+        h = self._hz_cache.get(hkey, _MISSING)
+        if h is _MISSING:
+            h = self._hz_cache[hkey] = self._hazard(o["starter"], int(state.weekend), o["pitches"], o["runs"], int(state.inning_end), rank)
         if h is None:  # no hazard cell has data (pitch counts past the sample's maximum): the data's maximum
             return Decision.YES if o["pitches"] >= 120 else Decision.NO
         pid = state.pitcher[state.fielding_side].pid
@@ -313,7 +329,11 @@ class Manager(LeagueAverageDecider):
         # leash (Stamina) is estimated against the hazard he actually faced
         ctx = self._leash_ctx(state, o["starter"])
         if ctx:
-            h = -np.expm1(np.exp(ctx) * np.log1p(-min(h, 1 - 1e-9)))
+            ck = (ctx, h)
+            hc = self._fn_cache.get(ck)
+            if hc is None:
+                hc = self._fn_cache[ck] = -np.expm1(np.exp(ctx) * np.log1p(-min(h, 1 - 1e-9)))
+            h = hc
         pit = state.pitcher[state.fielding_side]
         lt = pit.log_theta
         midweek_start = bool(o["starter"] and not state.weekend and self.mid_spread)
@@ -322,10 +342,13 @@ class Manager(LeagueAverageDecider):
             # (2025 Mon-Wed starts, pull6 sp_midweek leash_spread), so the pitcher's deviation shrinks
             g = self.stamina["reliever" if pit.group == "rp" else "starter"]
             lt = g["log_mean"] + (lt - g["log_mean"]) * self.mid_spread / g["log_sd"]
-        theta = np.exp(lt)
-        hp = -np.expm1(theta * np.log1p(-min(h, 1 - 1e-9)))
+        pk = ("p", lt, h)
+        hp = self._fn_cache.get(pk)
+        if hp is None:
+            theta = np.exp(lt)
+            hp = self._fn_cache[pk] = -np.expm1(theta * np.log1p(-min(h, 1 - 1e-9)))
         pulled = self._r(state).random() < hp
-        if not midweek_start:
+        if not midweek_start and _diag.RECORD:
             # the Phase 4 round trip reads the leash where the Stamina rating applies in full (midweek starts,
             # where it is shrunk to the midweek spread, stay out of it)
             self.leash_expected[pid] = self.leash_expected.get(pid, 0) + hp

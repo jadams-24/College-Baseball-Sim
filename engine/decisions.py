@@ -65,6 +65,12 @@ class DecisionModels:
         self._p_cache: dict = {}
         self.slot_bunt, self.slot_ibb = inp["by_slot"]["bunt"], inp["by_slot"]["ibb"]
 
+    def __getstate__(self):
+        # the probability cache is rebuilt on use with the same values; a session save leaves it out
+        d = dict(self.__dict__)
+        d["_p_cache"] = {}
+        return d
+
     # ---- features shared by the models ----
     def _lead(self, st) -> str:
         bat = st.batting_side

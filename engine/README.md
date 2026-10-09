@@ -74,3 +74,15 @@ Derived inputs: `build_phase5_benchmarks.py`, `solve_phase5_chain.py`, `write_ph
 
 Derived inputs, in this order: `build_phase3_hands.py` (needs `runs/phase3_pop.pkl` or simulates it), `build_phase3_usage.py`, `build_phase3_platoon.py`
 (then `--iterate --seasons runs/phase3_platoon_iter1.pkl`), `write_phase3_benchmarks.py`. Run: `python3 scripts/run_phase5.py` writes every report, `reports/phase3.md` among them.
+
+## Speed pass (2026-10-09; no outcome changes)
+
+Every game is bit-identical before and after (`scripts/check_log_identity.py`: 300 games, one hash over the event logs and
+one over the stat lines; a full season's results compared field by field). The rewrites keep each floating-point operation
+and its order: `pitch.py` absorbs K, BB and HBP in one pass (`_absorb3`, absorb's operations minus exact no-ops), calls
+numpy's ufuncs and the LAPACK solve directly (no wrapper checks), and takes the chain as an array where it is used as
+one; `decisions.py` and `manager.py` compute the AI's bunt, intentional-walk and steal probabilities, pull hazards and
+leash transforms once per discrete input (caches left out of session saves); bins use `bisect` in place of
+`np.searchsorted`. `tests/test_speed.py` checks each rewrite against the form it replaced. `config.diagnostics.RECORD`
+switches off the report-only accumulators (dynasty play). Timings: `reports/speed_pass.md`; benchmark:
+`scripts/bench_engine.py [--season] [--lean]`.
