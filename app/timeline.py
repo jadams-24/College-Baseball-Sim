@@ -282,14 +282,23 @@ def _ip(outs: int) -> str:
     return f"{outs // 3}.{outs % 3}"
 
 
-def batting_line(row: list, r: int = 0, rbi: int = 0) -> dict:
-    return {"pa": row[B_PA], "ab": row[B_AB], "r": r, "h": row[B_H], "2b": row[B_2B], "3b": row[B_3B], "hr": row[B_HR], "rbi": rbi,
+def batting_line(row: list) -> dict:
+    """A batter's line from an accumulator row (this game's difference): the engine's box-score columns carry runs,
+    runs batted in, stolen bases and caught stealing (engine/boxscore.py)."""
+    from engine.game2 import B_CS, B_R, B_RBI, B_SB
+    n = len(row)
+    return {"pa": row[B_PA], "ab": row[B_AB], "r": row[B_R] if n > B_R else 0, "h": row[B_H], "2b": row[B_2B], "3b": row[B_3B], "hr": row[B_HR],
+            "rbi": row[B_RBI] if n > B_RBI else 0, "sb": row[B_SB] if n > B_SB else 0, "cs": row[B_CS] if n > B_CS else 0,
             "bb": row[B_BB], "hbp": row[B_HBP], "k": row[B_K], "sf": row[B_SF], "sh": row[B_SH], "roe": row[B_ROE]}
 
 
 def pitching_line(row: list) -> dict:
+    """A pitcher's line; the decision (W, L, SV, HLD) from the engine's box-score columns when the game is over."""
+    from engine.game2 import P_HLD, P_L, P_SV, P_W
+    n = len(row)
+    dec = "W" if n > P_W and row[P_W] else "L" if n > P_L and row[P_L] else "SV" if n > P_SV and row[P_SV] else "HLD" if n > P_HLD and row[P_HLD] else ""
     return {"ip": _ip(row[P_OUTS]), "outs": row[P_OUTS], "bf": row[P_BF], "h": row[P_H], "hr": row[P_HR], "bb": row[P_BB], "hbp": row[P_HBP],
-            "k": row[P_K], "r": row[P_R], "er": row[P_ER], "pitches": row[P_PITCH]}
+            "k": row[P_K], "r": row[P_R], "er": row[P_ER], "pitches": row[P_PITCH], "dec": dec}
 
 
 def short_batting(line: dict) -> str:
@@ -313,7 +322,7 @@ def state_json(runner) -> dict:
         if season_of is not None:
             d["season"] = season_of(p, runner.base_rows.get(p.pid))
         if p.side == "bat":
-            d["line"] = batting_line(lines[p.pid][0], nar.scored.get(p.pid, 0), nar.rbi.get(p.pid, 0))
+            d["line"] = batting_line(lines[p.pid][0])
             d["line_text"] = short_batting(d["line"])
         else:
             d["line"] = pitching_line(lines[p.pid][1])
@@ -409,7 +418,7 @@ def box_score(runner) -> dict:
             if b[B_PA] == 0 and p.pid not in st.in_game[s]:
                 continue
             rows.append(dict(player_json(p), slot=order.get(p.pid), starter=p.pid in order and b[B_PA] > 0,
-                             line=batting_line(b, nar.scored.get(p.pid, 0), nar.rbi.get(p.pid, 0))))
+                             line=batting_line(b)))
         rows.sort(key=lambda x: (x["slot"] if x["slot"] is not None else 99))
         out["batting"][s] = rows
         prow = []
@@ -417,4 +426,8 @@ def box_score(runner) -> dict:
             if p.pid in st.used[s]:
                 prow.append(dict(player_json(p), line=pitching_line(lines[p.pid][1])))
         out["pitching"][s] = prow
+    box = getattr(st, "box", None)
+    dec = getattr(box, "decisions", None) if box is not None else None
+    if dec:
+        out["decisions"] = {"W": dec.get("W"), "L": dec.get("L"), "SV": dec.get("SV"), "HLD": list(dec.get("HLD") or [])}
     return out

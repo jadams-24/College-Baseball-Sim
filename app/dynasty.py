@@ -687,8 +687,15 @@ def game_json(d: Dynasty, rec: dict, full: bool = False) -> dict:
                 order = {p.pid: i for i, p in enumerate(t.batters)}
                 bat.sort(key=lambda x: order.get(x["pid"], 99))
                 box[s] = {"batting": bat, "pitching": pit}
+            dec = {"W": None, "L": None, "SV": None, "HLD": []}
+            for s in box:
+                for r in box[s]["pitching"]:
+                    if r["line"]["dec"] in ("W", "L", "SV"):
+                        dec[r["line"]["dec"]] = r["pid"]
+                    elif r["line"]["dec"] == "HLD":
+                        dec["HLD"].append(r["pid"])
             out["box"] = {"teams": {s: d.tname(rec[s]) for s in ("away", "home")}, "score": {"home": rec["hr"], "away": rec["ar"]},
-                          "batting": {s: box[s]["batting"] for s in box}, "pitching": {s: box[s]["pitching"] for s in box}, "no_rbi": True}
+                          "batting": {s: box[s]["batting"] for s in box}, "pitching": {s: box[s]["pitching"] for s in box}, "decisions": dec}
     return out
 
 
@@ -762,8 +769,12 @@ def _bat_stats(row) -> dict:
     avg = h / ab if ab else 0.0
     obp = (h + bb + hbp) / obp_den if obp_den else 0.0
     slg = tb / ab if ab else 0.0
+    from engine.game2 import B_CS, B_R, B_RBI, B_SB
+    n = len(row)
     return {"g": int(row[B_G]), "pa": int(row[B_PA]), "ab": int(ab), "h": int(h), "2b": int(row[B_2B]), "3b": int(row[B_3B]), "hr": int(row[B_HR]),
             "bb": int(bb), "hbp": int(hbp), "k": int(row[B_K]), "sf": int(sf), "sh": int(row[B_SH]), "roe": int(row[B_ROE]),
+            "r": int(row[B_R]) if n > B_R else 0, "rbi": int(row[B_RBI]) if n > B_RBI else 0, "sb": int(row[B_SB]) if n > B_SB else 0,
+            "cs": int(row[B_CS]) if n > B_CS else 0,
             "avg": round(avg, 3), "obp": round(obp, 3), "slg": round(slg, 3), "ops": round(obp + slg, 3)}
 
 
@@ -772,15 +783,18 @@ def _pit_stats(row) -> dict:
     outs = row[P_OUTS]
     ip = outs / 3
     era = 9 * row[P_ER] / ip if ip else 0.0
+    from engine.game2 import P_HLD, P_L, P_SV, P_W
+    n = len(row)
     return {"g": int(row[P_G]), "gs": int(row[P_GS]), "ip": _ip(int(outs)), "outs": int(outs), "bf": int(row[P_BF]), "h": int(row[P_H]), "r": int(row[P_R]),
             "er": int(row[P_ER]), "bb": int(row[P_BB]), "hbp": int(row[P_HBP]), "k": int(row[P_K]), "hr": int(row[P_HR]), "pitches": int(row[P_PITCH]),
+            "w": int(row[P_W]) if n > P_W else 0, "l": int(row[P_L]) if n > P_L else 0, "sv": int(row[P_SV]) if n > P_SV else 0, "hld": int(row[P_HLD]) if n > P_HLD else 0,
             "era": round(era, 2), "whip": round((row[P_H] + row[P_BB]) / ip, 2) if ip else 0.0, "k9": round(9 * row[P_K] / ip, 1) if ip else 0.0,
             "bb9": round(9 * row[P_BB] / ip, 1) if ip else 0.0}
 
 
 def team_stats_json(d: Dynasty, tid: int | None = None) -> dict:
     """The team's batting and pitching lines (regular season through today's games, postseason included: the
-    accumulators run across the season). No per-player runs, RBI, stolen bases or decisions: not in the engine's
+    accumulators run across the season, the engine's box-score columns included: runs, RBI, SB, CS, W, L, SV, HLD). No per-player
     accumulators."""
     tid = d.tid if tid is None else tid
     t = d.league.teams[tid]
@@ -789,7 +803,7 @@ def team_stats_json(d: Dynasty, tid: int | None = None) -> dict:
     pit = [dict(player_json(p), stats=_pit_stats(d.pstats[p.pid])) for p in staff(t) if d.pstats[p.pid][0] > 0]
     bat.sort(key=lambda x: -x["stats"]["pa"])
     pit.sort(key=lambda x: -x["stats"]["outs"])
-    return {"tid": tid, "team": d.tname(tid), "engine_name": t.name, "games": sum(games), "batting": bat, "pitching": pit, "missing": ["R", "RBI", "SB", "W-L", "SV"]}
+    return {"tid": tid, "team": d.tname(tid), "engine_name": t.name, "games": sum(games), "batting": bat, "pitching": pit, "missing": []}
 
 
 def leaders_json(d: Dynasty, n: int = 10) -> dict:
@@ -815,9 +829,13 @@ def leaders_json(d: Dynasty, n: int = 10) -> dict:
         pool.sort(key=lambda r: -key(r[2]) if reverse else key(r[2]))
         return [dict(player_json(r[0]), team=d.tname(r[1].tid), tid=r[1].tid, me=r[1].tid == me, value=key(r[2]), stats=r[2]) for r in pool[:n]]
     return {"batting": {"avg": top(rows_b, lambda s: s["avg"], True), "hr": top(rows_b, lambda s: s["hr"], False), "ops": top(rows_b, lambda s: s["ops"], True),
-                        "h": top(rows_b, lambda s: s["h"], False), "bb": top(rows_b, lambda s: s["bb"], False)},
+                        "h": top(rows_b, lambda s: s["h"], False), "bb": top(rows_b, lambda s: s["bb"], False),
+                        "r": top(rows_b, lambda s: s["r"], False), "rbi": top(rows_b, lambda s: s["rbi"], False), "sb": top(rows_b, lambda s: s["sb"], False),
+                        "cs": top(rows_b, lambda s: s["cs"], False)},
             "pitching": {"era": top(rows_p, lambda s: s["era"], True, reverse=False), "k": top(rows_p, lambda s: s["k"], False),
-                         "k9": top(rows_p, lambda s: s["k9"], True), "whip": top(rows_p, lambda s: s["whip"], True, reverse=False), "ip": top(rows_p, lambda s: s["outs"] / 3, False)},
+                         "k9": top(rows_p, lambda s: s["k9"], True), "whip": top(rows_p, lambda s: s["whip"], True, reverse=False), "ip": top(rows_p, lambda s: s["outs"] / 3, False),
+                         "w": top(rows_p, lambda s: s["w"], False), "sv": top(rows_p, lambda s: s["sv"], False), "hld": top(rows_p, lambda s: s["hld"], False),
+                         "l": top(rows_p, lambda s: s["l"], False)},
             "floors": {"batting": "2 PA per team game", "pitching": "1 IP per team game"}}
 
 

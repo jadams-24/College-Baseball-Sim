@@ -229,11 +229,18 @@ Saves: the server autosaves after every sim job and game (`CBS_SAVE_DIR`, defaul
 is ephemeral) and the browser mirrors the signed blob in IndexedDB; Continue restores from the mirror when the
 server has forgotten the dynasty. Sim cost on the free tier: `reports/dynasty_latency.md`.
 
-Not exposed by the engine (shown as dashes or left out, never faked): per-batter runs and RBI outside a logged game
-(simmed box scores have no R/RBI), stolen bases per player, pitcher wins, losses and saves, class or year,
-handedness (Phase 3), a pitcher-availability verdict (the AI's rest rule is internal; the roster shows the last
-outing's date and pitches), fielder positioning (no shift), the committee's at-large scores beyond the field
-(no "first four out").
+Exposed by the engine and shown (2026-10-09): bats and throws on every player (Phase 3) and the platoon matchup on the
+banner (the batter's side today against the pitcher's hand, marked as an edge when they differ); per-batter runs, runs
+batted in, stolen bases and caught stealing and the pitchers' wins, losses, saves and holds for every game, simmed or
+played (`engine/boxscore.py`, in the season accumulators), in the box scores, the Stats and Roster screens and the
+national leaders.
+
+Still not exposed by the engine (shown as dashes or left out, never faked): class or year (Phase 8: the field is
+empty until the roster rules draw it), platoon splits per player (the accumulators hold season totals only; the app
+counts splits from the game logs it plays, see the player page), fatigue state (the pitcher's bar is a pitch count),
+per-player fielding (putouts, assists and errors are team totals in the line score), a pitcher-availability verdict
+(the AI's rest rule is internal; the roster shows the last outing's date and pitches), fielder positioning (no shift),
+the committee's at-large scores beyond the field (no "first four out").
 
 ## Team names: real schools everywhere
 

@@ -143,7 +143,7 @@
     const order = b ? st.lineups[bside].findIndex((x) => x.pid === b.pid) + 1 : 0;
     const you = (side) => (side === me ? '<span class="you-tag">you</span>' : "");
     $("#batter").innerHTML = `<div class="hdr">${st.count ? "At bat" : "Due up"} · ${esc(st.teams[bside].name)}${you(bside)}</div>` + (b ? `<div class="body">${mark(st.teams[bside])}
-      <div class="name">${esc(b.name)}<small>${b.pos} · bats ${b.hand || "–"}${order ? ` · ${ORD(order)} in the order` : ""}</small>${st.platoon ? `<span class="platoon" title="the side he hits from today against this pitcher's hand">${st.platoon.batter} vs ${st.platoon.pitcher}</span>` : ""}</div>
+      <div class="name">${esc(b.name)}<small>${b.pos} · bats ${b.hand || "–"}${order ? ` · ${ORD(order)} in the order` : ""}</small>${st.platoon ? `<span class="platoon ${st.platoon.batter !== st.platoon.pitcher ? "adv" : "same"}" title="${st.platoon.batter !== st.platoon.pitcher ? "platoon advantage: the batter hits from the side opposite the pitcher's hand" : "same side: the pitcher's platoon advantage"}">${st.platoon.batter} vs ${st.platoon.pitcher}${st.platoon.batter !== st.platoon.pitcher ? " · edge" : ""}</span>` : ""}</div>
       <div class="today">${stat("AB", b.line.ab)}${stat("H", b.line.h)}${stat("RBI", b.line.rbi)}${stat("BB", b.line.bb)}${stat("K", b.line.k)}${b.season ? `<span class="season on">${stat("AVG", f3(b.season.avg))}${stat("OBP", f3(b.season.obp))}${stat("SLG", f3(b.season.slg))}${stat("HR", b.season.hr)}</span>` : `<span class="season">${stat("AVG", "")}${stat("HR", "")}${stat("SB", "")}</span>`}</div>
       ${chips(b)}</div>` : `<div class="body empty">${t.phase === "pregame" ? "Lineups are set when the game starts" : "No batter yet"}</div>`);
     const pitches = p ? (p.outing ? p.outing.pitches : p.line.pitches) : 0;
@@ -451,10 +451,11 @@
     el.innerHTML = "<div class='muted'>Loading…</div>";
     let b;
     try { b = await gameCall("/box"); } catch (e) { el.innerHTML = `<div class='muted'>${esc(e.message)}</div>`; return; }
-    const batCols = ["ab", "r", "h", "rbi", "bb", "k", "hr"], pitCols = ["ip", "h", "r", "er", "bb", "k", "pitches"];
+    const batCols = ["ab", "r", "h", "rbi", "bb", "k", "hr", "sb", "cs"], pitCols = ["ip", "h", "r", "er", "bb", "k", "pitches"];
+    const decOf = (pid) => (b.decisions ? (b.decisions.W === pid ? "W" : b.decisions.L === pid ? "L" : b.decisions.SV === pid ? "SV" : (b.decisions.HLD || []).includes(pid) ? "HLD" : "") : "");
     const sum = (rows, k) => rows.reduce((s, r) => s + (r.line[k] || 0), 0);
-    const bat = (side) => `<h3>${esc(b.teams[side])} batting</h3><table class="lu box"><tr><th>Batter</th><th>Pos</th>${batCols.map((c) => `<th>${c.toUpperCase()}</th>`).join("")}</tr>${b.batting[side].map((r) => `<tr><td class="nm">${r.starter ? "" : "&nbsp;&nbsp;"}${esc(r.name)}</td><td>${r.pos}</td>${batCols.map((c) => `<td>${r.line[c]}</td>`).join("")}</tr>`).join("")}<tr class="tot"><td>Totals</td><td></td>${batCols.map((c) => `<td>${sum(b.batting[side], c)}</td>`).join("")}</tr></table>`;
-    const pit = (side) => `<h3>${esc(b.teams[side])} pitching</h3><table class="lu box"><tr><th>Pitcher</th>${pitCols.map((c) => `<th>${c === "pitches" ? "P" : c.toUpperCase()}</th>`).join("")}</tr>${b.pitching[side].map((r) => `<tr><td class="nm">${esc(r.name)} <span class="muted">${r.role}</span></td>${pitCols.map((c) => `<td>${r.line[c]}</td>`).join("")}</tr>`).join("")}</table>`;
+    const bat = (side) => `<h3>${esc(b.teams[side])} batting</h3><table class="lu box"><tr><th>Batter</th><th>Pos</th><th>B</th>${batCols.map((c) => `<th>${c.toUpperCase()}</th>`).join("")}</tr>${b.batting[side].map((r) => `<tr><td class="nm">${r.starter ? "" : "&nbsp;&nbsp;"}${esc(r.name)}</td><td>${r.pos}</td><td class="muted">${r.bats || "–"}</td>${batCols.map((c) => `<td>${r.line[c]}</td>`).join("")}</tr>`).join("")}<tr class="tot"><td>Totals</td><td></td><td></td>${batCols.map((c) => `<td>${sum(b.batting[side], c)}</td>`).join("")}</tr></table>`;
+    const pit = (side) => `<h3>${esc(b.teams[side])} pitching</h3><table class="lu box"><tr><th>Pitcher</th><th>T</th>${pitCols.map((c) => `<th>${c === "pitches" ? "P" : c.toUpperCase()}</th>`).join("")}</tr>${b.pitching[side].map((r) => { const dec = decOf(r.pid) || r.line.dec; return `<tr><td class="nm">${esc(r.name)} <span class="muted">${r.role}</span>${dec ? ` <span class="pill ${dec === "L" ? "loss" : "success"}">${dec}</span>` : ""}</td><td class="muted">${r.throws || "–"}</td>${pitCols.map((c) => `<td>${r.line[c]}</td>`).join("")}</tr>`; }).join("")}</table>`;
     el.innerHTML = `<div class="box-grid"><div>${bat("away")}${pit("away")}</div><div>${bat("home")}${pit("home")}</div></div>`;
   }
 
