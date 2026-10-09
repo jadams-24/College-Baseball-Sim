@@ -1,0 +1,308 @@
+tid,ncaa_team_id,school,conference,tier,institution,unitid,city,state,latitude,longitude
+0,596471,A&M-Corpus Christi,Southland,low,Texas A & M University-Corpus Christi,224147,Corpus Christi,TX,27.713723,-97.32395
+1,596477,Abilene Christian,WAC,mid,Abilene Christian University,222178,Abilene,TX,32.468943,-99.709797
+2,596430,Air Force,Mountain West,mid,United States Air Force Academy,128328,USAF Academy,CO,39.010957,-104.891358
+3,596419,Akron,MAC,mid,University of Akron Main Campus,200800,Akron,OH,41.075923,-81.511167
+4,596480,Alabama,SEC,p4,The University of Alabama,100751,Tuscaloosa,AL,33.211875,-87.545978
+5,596478,Alabama A&M,SWAC,low,Alabama A & M University,100654,Normal,AL,34.783368,-86.568502
+6,596479,Alabama St.,SWAC,low,Alabama State University,100724,Montgomery,AL,32.364317,-86.295677
+7,596483,Alcorn,SWAC,low,Alcorn State University,175342,Alcorn State,MS,31.877216,-91.142854
+8,596484,App State,Sun Belt,mid,Appalachian State University,197869,Boone,NC,36.215536,-81.680583
+9,596706,Arizona,Big 12,p4,University of Arizona,104179,Tucson,AZ,32.232672,-110.950815
+10,596485,Arizona St.,Big 12,p4,Arizona State University Campus Immersion,104151,Tempe,AZ,33.417721,-111.934383
+11,596466,Ark.-Pine Bluff,SWAC,low,University of Arkansas at Pine Bluff,106412,Pine Bluff,AR,34.244031,-92.018683
+12,596487,Arkansas,SEC,p4,University of Arkansas,106397,Fayetteville,AR,36.070009,-94.176981
+13,596486,Arkansas St.,Sun Belt,mid,Arkansas State University,106458,Jonesboro,AR,35.842388,-90.679988
+14,596702,Army West Point,Patriot,low,United States Military Academy,197036,West  Point,NY,41.388988,-73.956772
+15,596489,Auburn,SEC,p4,Auburn University,100858,Auburn,AL,32.599378,-85.488258
+16,596490,Austin Peay,ASUN,mid,Austin Peay State University,219602,Clarksville,TN,36.533319,-87.354081
+17,596499,BYU,Big 12,p4,Brigham Young University,230038,Provo,UT,40.250851,-111.649281
+18,596491,Ball St.,MAC,mid,Ball State University,150136,Muncie,IN,40.203431,-85.409043
+19,596493,Baylor,Big 12,p4,Baylor University,223232,Waco,TX,31.546872,-97.121041
+20,596693,Bellarmine,ASUN,mid,Bellarmine University,156286,Louisville,KY,38.219279,-85.704997
+21,596470,Belmont,MVC,mid,Belmont University,219709,Nashville,TN,36.135589,-86.794807
+22,596494,Bethune-Cookman,SWAC,low,Bethune-Cookman University,132602,Daytona Beach,FL,29.207195,-81.032946
+23,596495,Binghamton,America East,low,Binghamton University,196079,Vestal,NY,42.087868,-75.966889
+24,596496,Boston College,ACC,p4,Boston College,164924,Chestnut Hill,MA,42.336213,-71.169242
+25,596497,Bowling Green,MAC,mid,Bowling Green State University-Main Campus,201441,Bowling Green,OH,41.375513,-83.640896
+26,596498,Bradley,MVC,mid,Bradley University,143358,Peoria,IL,40.696896,-89.616786
+27,596500,Brown,Ivy League,low,Brown University,217156,Providence,RI,41.82617,-71.40385
+28,596501,Bryant,America East,low,Bryant University,217165,Smithfield,RI,41.920092,-71.539547
+29,596502,Bucknell,Patriot,low,Bucknell University,211291,Lewisburg,PA,40.954317,-76.882616
+30,596503,Butler,Big East,mid,Butler University,150163,Indianapolis,IN,39.8374,-86.172167
+31,596505,CSU Bakersfield,Big West,mid,California State University-Bakersfield,110486,Bakersfield,CA,35.350005,-119.104711
+32,596508,CSUN,Big West,mid,California State University-Northridge,110608,Northridge,CA,34.240126,-118.529319
+33,596504,Cal Poly,Big West,mid,California Polytechnic State University-San Luis Obispo,110422,San Luis Obispo,CA,35.299513,-120.657311
+34,596506,Cal St. Fullerton,Big West,mid,California State University-Fullerton,110565,Fullerton,CA,33.881506,-117.885446
+35,596511,California,ACC,p4,University of California-Berkeley,110635,Berkeley,CA,37.871918,-122.260463
+36,596476,California Baptist,WAC,mid,California Baptist University,110361,Riverside,CA,33.929321,-117.425619
+37,596516,Campbell,CAA,mid,Campbell University,198136,Buies Creek,NC,35.409149,-78.738238
+38,596517,Canisius,MAAC,low,Canisius University,189705,Buffalo,NY,42.925206,-78.852577
+39,596457,Central Ark.,ASUN,mid,University of Central Arkansas,106704,Conway,AR,35.077945,-92.457672
+40,596518,Central Conn. St.,NEC,low,Central Connecticut State University,128771,New Britain,CT,41.692502,-72.765991
+41,596520,Central Mich.,MAC,mid,Central Michigan University,169248,Mount Pleasant,MI,43.591203,-84.77525
+42,596492,Charleston So.,Big South,mid,Charleston Southern University,217688,Charleston,SC,32.983047,-80.072587
+43,596615,Charlotte,The American,mid,University of North Carolina at Charlotte,199139,Charlotte,NC,35.306022,-80.730919
+44,596521,Cincinnati,Big 12,p4,University of Cincinnati-Main Campus,201885,Cincinnati,OH,39.131159,-84.51428
+45,596523,Clemson,ACC,p4,Clemson University,217882,Clemson,SC,34.679381,-82.835114
+46,596524,Coastal Carolina,Sun Belt,mid,Coastal Carolina University,218724,Conway,SC,33.794995,-79.011767
+47,596459,Col. of Charleston,CAA,mid,College of Charleston,217819,Charleston,SC,32.784225,-79.939794
+48,596525,Columbia,Ivy League,low,Columbia University in the City of New York,190150,New York,NY,40.808286,-73.961885
+49,596527,Coppin St.,NEC,low,Coppin State University,162283,Baltimore,MD,39.311258,-76.658687
+50,596528,Cornell,Ivy League,low,Cornell University,190415,Ithaca,NY,42.4472,-76.483084
+51,596529,Creighton,Big East,mid,Creighton University,181002,Omaha,NE,41.265361,-95.947811
+52,596703,DBU,CUSA,mid,Dallas Baptist University,224226,Dallas,TX,32.710017,-96.947006
+53,596530,Dartmouth,Ivy League,low,Dartmouth College,182670,Hanover,NH,43.704115,-72.289949
+54,596531,Davidson,Atlantic 10,mid,Davidson College,198385,Davidson,NC,35.499767,-80.843979
+55,596532,Dayton,Atlantic 10,mid,University of Dayton,202480,Dayton,OH,39.739547,-84.176113
+56,596534,Delaware,CAA,mid,University of Delaware,130943,Newark,DE,39.679577,-75.752822
+57,596533,Delaware St.,NEC,low,Delaware State University,130934,Dover,DE,39.187173,-75.54053
+58,596708,Duke,ACC,p4,Duke University,198419,Durham,NC,36.001135,-78.937624
+59,596536,ETSU,SoCon,mid,East Tennessee State University,220075,Johnson City,TN,36.301643,-82.366954
+60,596535,East Carolina,The American,mid,East Carolina University,198464,Greenville,NC,35.607186,-77.368291
+61,596537,Eastern Ill.,OVC,low,Eastern Illinois University,144892,Charleston,IL,39.479843,-88.175658
+62,596538,Eastern Ky.,ASUN,mid,Eastern Kentucky University,156620,Richmond,KY,37.740845,-84.300796
+63,596539,Eastern Mich.,MAC,mid,Eastern Michigan University,169798,Ypsilanti,MI,42.251675,-83.627443
+64,596460,Elon,CAA,mid,Elon University,198516,Elon,NC,36.104148,-79.50344
+65,596709,Evansville,MVC,mid,University of Evansville,150534,Evansville,IN,37.971549,-87.531644
+66,596541,FDU,NEC,low,Fairleigh Dickinson University-Metropolitan Campus,184603,Teaneck,NJ,40.897209,-74.028986
+67,596473,FGCU,ASUN,mid,Florida Gulf Coast University,433660,Fort Myers,FL,26.463638,-81.7726
+68,596544,FIU,CUSA,mid,Florida International University,133951,Miami,FL,25.75732,-80.373928
+69,596540,Fairfield,MAAC,low,Fairfield University,129242,Fairfield,CT,41.157673,-73.255903
+70,596543,Fla. Atlantic,The American,mid,Florida Atlantic University,133669,Boca Raton,FL,26.372421,-80.102978
+71,596546,Florida,SEC,p4,University of Florida,134130,Gainesville,FL,29.64629,-82.347911
+72,596542,Florida A&M,SWAC,low,Florida Agricultural and Mechanical University,133650,Tallahassee,FL,30.428504,-84.290226
+73,596545,Florida St.,ACC,p4,Florida State University,134097,Tallahassee,FL,30.443147,-84.295064
+74,596547,Fordham,Atlantic 10,mid,Fordham University,191241,Bronx,NY,40.859354,-73.882705
+75,596707,Fresno St.,Mountain West,mid,California State University-Fresno,110556,Fresno,CA,36.811154,-119.744569
+76,596551,Ga. Southern,Sun Belt,mid,Georgia Southern University,139931,Statesboro,GA,32.426153,-81.784045
+77,596461,Gardner-Webb,Big South,mid,Gardner-Webb University,198561,Boiling Springs,NC,35.24732,-81.668141
+78,596548,George Mason,Atlantic 10,mid,George Mason University,232186,Fairfax,VA,38.83195,-77.307063
+79,596549,George Washington,Atlantic 10,mid,George Washington University,131469,Washington,DC,38.89923,-77.048363
+80,596550,Georgetown,Big East,mid,Georgetown University,131496,Washington,DC,38.908809,-77.073463
+81,596554,Georgia,SEC,p4,Georgia College & State University,139861,Milledgeville,GA,33.082787,-83.231962
+82,596552,Georgia St.,Sun Belt,mid,Georgia State University,139940,Atlanta,GA,33.7527,-84.38667
+83,596553,Georgia Tech,ACC,p4,Georgia Institute of Technology-Main Campus,139755,Atlanta,GA,33.77242,-84.394832
+84,596555,Gonzaga,WCC,mid,Gonzaga University,235316,Spokane,WA,47.666531,-117.400625
+85,596710,Grambling,SWAC,low,Grambling State University,159009,Grambling,LA,32.523797,-92.713245
+86,596462,Grand Canyon,WAC,mid,Grand Canyon University,104717,Phoenix,AZ,33.513231,-112.129929
+87,596556,Harvard,Ivy League,low,Harvard University,166027,Cambridge,MA,42.374471,-71.118313
+88,596557,Hawaii,Big West,mid,University of Hawaii at Manoa,141574,Honolulu,HI,21.298598,-157.818979
+89,596705,High Point,Big South,mid,High Point University,198695,High Point,NC,35.972035,-79.994675
+90,596558,Hofstra,CAA,mid,Hofstra University,191649,Hempstead,NY,40.715959,-73.60078
+91,596559,Holy Cross,Patriot,low,College of the Holy Cross,166124,Worcester,MA,42.23752,-71.808214
+92,596561,Houston,Big 12,p4,University of Houston,225511,Houston,TX,29.720393,-95.343537
+93,596560,Houston Christian,Southland,low,Houston Christian University,225399,Houston,TX,29.693819,-95.515954
+94,596563,Illinois,Big Ten,p4,University of Illinois Urbana-Champaign,145637,Champaign,IL,40.104718,-88.229114
+95,596562,Illinois St.,MVC,mid,Illinois State University,145813,Normal,IL,40.509403,-88.990058
+96,596566,Indiana,Big Ten,p4,Indiana University-Bloomington,151351,Bloomington,IN,39.16609,-86.526559
+97,596565,Indiana St.,MVC,mid,Indiana State University,151324,Terre Haute,IN,39.469073,-87.407846
+98,596568,Iona,MAAC,low,Iona University,191931,New Rochelle,NY,40.925725,-73.788046
+99,596569,Iowa,Big Ten,p4,University of Iowa,153658,Iowa City,IA,41.661935,-91.536425
+100,596570,Jackson St.,SWAC,low,Jackson State University,175856,Jackson,MS,32.296105,-90.207405
+101,596572,Jacksonville,ASUN,mid,Jacksonville University,134945,Jacksonville,FL,30.353227,-81.60458
+102,596571,Jacksonville St.,CUSA,mid,Jacksonville State University,101480,Jacksonville,AL,33.822938,-85.765321
+103,596573,James Madison,Sun Belt,mid,James Madison University,232423,Harrisonburg,VA,38.436311,-78.870484
+104,596575,Kansas,Big 12,p4,University of Kansas,155317,Lawrence,KS,38.958549,-95.247567
+105,596574,Kansas St.,Big 12,p4,Kansas State University,155399,Manhattan,KS,39.188648,-96.581077
+106,596463,Kennesaw St.,CUSA,mid,Kennesaw State University,486840,Kennesaw,GA,34.038807,-84.583052
+107,596576,Kent St.,MAC,mid,Kent State University at Kent,203517,Kent,OH,41.146653,-81.342533
+108,596577,Kentucky,SEC,p4,University of Kentucky,157085,Lexington,KY,38.038911,-84.504747
+109,596711,LIU,NEC,low,Long Island University,192448,Brookville,NY,40.820714,-73.593678
+110,596587,LMU (CA),WCC,mid,Loyola Marymount University,117946,Los Angeles,CA,33.97085,-118.415744
+111,596583,LSU,SEC,p4,Louisiana State University and Agricultural & Mechanical College,159391,Baton Rouge,LA,30.414986,-91.178921
+112,596624,LSU New Orleans,Southland,low,University of New Orleans,159939,New Orleans,LA,30.027704,-90.067142
+113,596578,Lafayette,Patriot,low,Lafayette College,213385,Easton,PA,40.69956,-75.209786
+114,596579,Lamar University,Southland,low,Lamar University,226091,Beaumont,TX,30.042738,-94.072244
+115,596699,Le Moyne,NEC,low,Le Moyne College,192323,Syracuse,NY,43.049192,-76.090435
+116,596580,Lehigh,Patriot,low,Lehigh University,213543,Bethlehem,PA,40.606822,-75.380236
+117,596581,Liberty,CUSA,mid,Liberty University,232557,Lynchburg,VA,37.350232,-79.18222
+118,596695,Lindenwood,OVC,low,Lindenwood University,177968,Saint Charles,MO,38.785425,-90.501286
+119,596472,Lipscomb,ASUN,mid,Lipscomb University,219976,Nashville,TN,36.106253,-86.799791
+120,596488,Little Rock,OVC,low,University of Arkansas at Little Rock,106245,Little Rock,AR,34.723254,-92.339778
+121,596507,Long Beach St.,Big West,mid,California State University-Long Beach,110583,Long Beach,CA,33.782818,-118.11204
+122,596582,Longwood,Big South,mid,Longwood University,232566,Farmville,VA,37.297975,-78.396987
+123,596687,Louisiana,Sun Belt,mid,University of Louisiana at Lafayette,160658,Lafayette,LA,30.212191,-92.020165
+124,596584,Louisiana Tech,CUSA,mid,Louisiana Tech University,159647,Ruston,LA,32.528297,-92.649963
+125,596585,Louisville,ACC,p4,University of Louisville,157289,Louisville,KY,38.216862,-85.760412
+126,596588,Maine,America East,low,University of Maine,161253,Orono,ME,44.899257,-68.669332
+127,596589,Manhattan,MAAC,low,Manhattan University,192703,Riverdale,NY,40.889756,-73.901893
+128,596590,Marist,MAAC,low,Marist University,192819,Poughkeepsie,NY,41.720937,-73.935484
+129,596591,Marshall,Sun Belt,mid,Marshall University,237525,Huntington,WV,38.422482,-82.428964
+130,596593,Maryland,Big Ten,p4,University of Maryland-College Park,163286,College Park,MD,38.988178,-76.944721
+131,596595,Massachusetts,Atlantic 10,mid,University of Massachusetts-Amherst,166629,Amherst,MA,42.385999,-72.526728
+132,596596,McNeese,Southland,low,McNeese State University,159717,Lake Charles,LA,30.178187,-93.217222
+133,596597,Memphis,The American,mid,University of Memphis,220862,Memphis,TN,35.118878,-89.938068
+134,596598,Mercer,SoCon,mid,Mercer University,140447,Macon,GA,32.829134,-83.649392
+135,596906,Mercyhurst,NEC,low,Mercyhurst University,213987,Erie,PA,42.10578,-80.053412
+136,596458,Merrimack,MAAC,low,Merrimack College,166850,North Andover,MA,42.668344,-71.124216
+137,596600,Miami (FL),ACC,p4,University of Miami,135726,Coral Gables,FL,25.72126,-80.278662
+138,596599,Miami (OH),MAC,mid,Miami University-Oxford,204024,Oxford,OH,39.507757,-84.732954
+139,596602,Michigan,Big Ten,p4,University of Michigan-Ann Arbor,170976,Ann Arbor,MI,42.278374,-83.73481
+140,596601,Michigan St.,Big Ten,p4,Michigan State University,171100,East Lansing,MI,42.73212,-84.476111
+141,596603,Middle Tenn.,CUSA,mid,Middle Tennessee State University,220978,Murfreesboro,TN,35.848005,-86.360618
+142,596452,Milwaukee,Horizon,low,University of Wisconsin-Milwaukee,240453,Milwaukee,WI,43.076848,-87.880488
+143,596604,Minnesota,Big Ten,p4,University of Minnesota-Twin Cities,174066,Minneapolis,MN,44.972851,-93.235464
+144,596605,Mississippi St.,SEC,p4,Mississippi State University,176080,Mississippi State,MS,33.454852,-88.790139
+145,596606,Mississippi Val.,SWAC,low,Mississippi Valley State University,176044,Itta Bena,MS,33.514142,-90.341274
+146,596608,Missouri,SEC,p4,University of Missouri-Columbia,178396,Columbia,MO,38.94531,-92.328843
+147,596685,Missouri St.,MVC,mid,Missouri State University-Springfield,179566,Springfield,MO,37.199258,-93.281281
+148,596609,Monmouth,CAA,mid,Monmouth University,185572,West Long Branch,NJ,40.280066,-74.006447
+149,596610,Morehead St.,OVC,low,Morehead State University,157386,Morehead,KY,38.186768,-83.434021
+150,596611,Mount St. Mary's,MAAC,low,Mount St. Mary's University,163462,Emmitsburg,MD,39.681705,-77.351887
+151,596612,Murray St.,MVC,mid,Murray State University,157401,Murray,KY,36.612419,-88.323629
+152,596627,N.C. A&T,CAA,mid,North Carolina A & T State University,199102,Greensboro,NC,36.07282,-79.773375
+153,596628,NC State,ACC,p4,North Carolina State University at Raleigh,199193,Raleigh,NC,35.785111,-78.674517
+154,596633,NIU,MAC,mid,Northern Illinois University,147703,Dekalb,IL,41.933869,-88.766428
+155,596621,NJIT,America East,low,New Jersey Institute of Technology,185828,Newark,NJ,40.741997,-74.177113
+156,596431,Navy,Patriot,low,United States Naval Academy,164155,Annapolis,MD,38.980507,-76.481692
+157,596712,Nebraska,Big Ten,p4,University of Nebraska-Lincoln,181464,Lincoln,NE,40.817598,-96.700508
+158,596620,Nevada,Mountain West,mid,University of Nevada-Reno,182290,Reno,NV,39.543642,-119.815377
+159,596623,New Mexico,Mountain West,mid,University of New Mexico-Main Campus,187985,Albuquerque,NM,35.083868,-106.620155
+160,596622,New Mexico St.,CUSA,mid,New Mexico State University-Main Campus,188030,Las Cruces,NM,32.281568,-106.752069
+161,596625,Niagara,MAAC,low,Niagara University,193973,Niagara University,NY,43.137279,-79.036689
+162,596713,Nicholls,Southland,low,Nicholls State University,159966,Thibodaux,LA,29.794486,-90.801571
+163,596626,Norfolk St.,NEC,low,Norfolk State University,232937,Norfolk,VA,36.848429,-76.261375
+164,596475,North Ala.,ASUN,mid,University of North Alabama,101879,Florence,AL,34.80731,-87.680407
+165,596614,North Carolina,ACC,p4,University of North Carolina at Chapel Hill,199120,Chapel Hill,NC,35.911769,-79.050969
+166,596629,North Dakota St.,Summit League,low,North Dakota State University-Main Campus,200332,Fargo,ND,46.893127,-96.800838
+167,596467,North Florida,ASUN,mid,University of North Florida,136172,Jacksonville,FL,30.27194,-81.509144
+168,596631,Northeastern,CAA,mid,Northeastern University,167358,Boston,MA,42.339992,-71.088782
+169,596632,Northern Colo.,Summit League,low,University of Northern Colorado,127741,Greeley,CO,40.410855,-104.692777
+170,596634,Northern Ky.,Horizon,low,Northern Kentucky University,157447,Highland Heights,KY,39.029714,-84.463483
+171,596636,Northwestern,Big Ten,p4,Northwestern University,147767,Evanston,IL,42.050356,-87.679858
+172,596635,Northwestern St.,Southland,low,Northwestern State University of Louisiana,160038,Natchitoches,LA,31.750666,-93.097797
+173,596637,Notre Dame,ACC,p4,University of Notre Dame,152080,Notre Dame,IN,41.703058,-86.238959
+174,596638,Oakland,Horizon,low,Oakland University,171571,Rochester Hills,MI,42.674573,-83.216418
+175,596640,Ohio,MAC,mid,Ohio University-Main Campus,204857,Athens,OH,39.326798,-82.100985
+176,596639,Ohio St.,Big Ten,p4,Ohio State University-Main Campus,204796,Columbus,OH,39.999803,-83.007525
+177,596641,Oklahoma,SEC,p4,University of Oklahoma-Norman Campus,207500,Norman,OK,35.209407,-97.444211
+178,596714,Oklahoma St.,Big 12,p4,Oklahoma State University-Main Campus,207388,Stillwater,OK,36.123085,-97.069743
+179,596642,Old Dominion,Sun Belt,mid,Old Dominion University,232982,Norfolk,VA,36.886418,-76.30666
+180,596607,Ole Miss,SEC,p4,University of Mississippi,176017,University,MS,34.365529,-89.537434
+181,596618,Omaha,Summit League,low,University of Nebraska at Omaha,181394,Omaha,NE,41.258769,-96.008516
+182,596715,Oral Roberts,Summit League,low,Oral Roberts University,207582,Tulsa,OK,36.049129,-95.952547
+183,596644,Oregon,Big Ten,p4,University of Oregon,209551,Eugene,OR,44.045146,-123.075792
+184,596643,Oregon St.,DI Independent,p4,Oregon State University,209542,Corvallis,OR,44.56395,-123.274723
+185,596645,Pacific,WCC,mid,University of the Pacific,120883,Stockton,CA,37.981424,-121.312301
+186,596716,Penn,Ivy League,low,University of Pennsylvania,215062,Philadelphia,PA,39.950929,-75.19391
+187,596647,Penn St.,Big Ten,p4,Pennsylvania State University-Main Campus,214777,University Park,PA,40.7965,-77.862848
+188,596648,Pepperdine,WCC,mid,Pepperdine University,121150,Malibu,CA,34.037786,-118.707077
+189,596649,Pittsburgh,ACC,p4,University of Pittsburgh-Pittsburgh Campus,215293,Pittsburgh,PA,40.444388,-79.953254
+190,596650,Portland,WCC,mid,University of Portland,209825,Portland,OR,45.572724,-122.726691
+191,596651,Prairie View,SWAC,low,Prairie View A & M University,227526,Prairie View,TX,30.092425,-95.989475
+192,596464,Presbyterian,Big South,mid,Presbyterian College,218539,Clinton,SC,34.465834,-81.87448
+193,596652,Princeton,Ivy League,low,Princeton University,186131,Princeton,NJ,40.348732,-74.659365
+194,596653,Purdue,Big Ten,p4,Purdue University-Main Campus,243780,West Lafayette,IN,40.428206,-86.914435
+195,596567,Purdue Fort Wayne,Horizon,low,Purdue University Fort Wayne,151102,Fort Wayne,IN,41.117278,-85.108962
+196,596696,Queens (NC),ASUN,mid,Queens University of Charlotte,199412,Charlotte,NC,35.189051,-80.833509
+197,596654,Quinnipiac,MAAC,low,Quinnipiac University,130226,Hamden,CT,41.418915,-72.894117
+198,596655,Radford,Big South,mid,Radford University,233277,Radford,VA,37.136907,-80.549728
+199,596656,Rhode Island,Atlantic 10,mid,Rhode Island College,217420,Providence,RI,41.842415,-71.46556
+200,596657,Rice,The American,mid,Rice University,227757,Houston,TX,29.717897,-95.402035
+201,596658,Richmond,Atlantic 10,mid,University of Richmond,233374,University of Richmond,VA,37.577393,-77.538806
+202,596659,Rider,MAAC,low,Rider University,186283,Lawrenceville,NJ,40.278796,-74.737833
+203,596660,Rutgers,Big Ten,p4,Rutgers University-New Brunswick,186380,New Brunswick,NJ,40.498769,-74.446251
+204,596689,SFA,Southland,low,Stephen F Austin State University,228431,Nacogdoches,TX,31.621056,-94.64908
+205,596683,SIUE,OVC,low,Southern Illinois University Edwardsville,149231,Edwardsville,IL,38.793949,-89.997779
+206,596509,Sacramento St.,WAC,mid,California State University-Sacramento,110617,Sacramento,CA,38.559415,-121.423549
+207,596661,Sacred Heart,MAAC,low,Sacred Heart University,130253,Fairfield,CT,41.220893,-73.243332
+208,596663,Saint Joseph's,Atlantic 10,mid,Saint Joseph's University - Philadelphia,215770,Philadelphia,PA,39.994442,-75.238343
+209,596664,Saint Louis,Atlantic 10,mid,Saint Louis University,179159,Saint Louis,MO,38.636801,-90.2351
+210,596665,Saint Mary's (CA),WCC,mid,Saint Mary's College of California,123554,Moraga,CA,37.840731,-122.109031
+211,596666,Saint Peter's,MAAC,low,Saint Peter's University,186432,Jersey City,NJ,40.727105,-74.071541
+212,596667,Sam Houston,CUSA,mid,Sam Houston State University,227881,Huntsville,TX,30.714738,-95.546205
+213,596668,Samford,SoCon,mid,Samford University,102049,Birmingham,AL,33.464128,-86.791799
+214,596670,San Diego,WCC,mid,University of San Diego,122436,San Diego,CA,32.770816,-117.192073
+215,596669,San Diego St.,Mountain West,mid,San Diego State University,122409,San Diego,CA,32.77525,-117.071228
+216,596671,San Francisco,WCC,mid,University of San Francisco,122612,San Francisco,CA,37.776618,-122.450477
+217,596672,San Jose St.,Mountain West,mid,San Jose State University,122755,San Jose,CA,37.336569,-121.880621
+218,596673,Santa Clara,WCC,mid,Santa Clara University,122931,Santa Clara,CA,37.348362,-121.93784
+219,596465,Seattle U,WAC,mid,Seattle University,236595,Seattle,WA,47.608859,-122.318851
+220,596674,Seton Hall,Big East,mid,Seton Hall University,186584,South Orange,NJ,40.742336,-74.246027
+221,596675,Siena,MAAC,low,Siena College,195474,Loudonville,NY,42.717602,-73.7526
+222,596676,South Alabama,Sun Belt,mid,University of South Alabama,102094,Mobile,AL,30.696033,-88.178711
+223,596677,South Carolina,SEC,p4,University of South Carolina-Columbia,218663,Columbia,SC,33.996788,-81.026935
+224,596678,South Dakota St.,Summit League,low,South Dakota State University,219356,Brookings,SD,44.317485,-96.782139
+225,596679,South Fla.,The American,mid,University of South Florida,137351,Tampa,FL,28.061458,-82.413232
+226,596718,Southeast Mo. St.,OVC,low,Southeast Missouri State University,179557,Cape Girardeau,MO,37.311107,-89.531187
+227,596680,Southeastern La.,Southland,low,Southeastern Louisiana University,160612,Hammond,LA,30.514652,-90.468676
+228,596681,Southern California,Big Ten,p4,University of Southern California,123961,Los Angeles,CA,34.021281,-118.284169
+229,596682,Southern Ill.,MVC,mid,Southern Illinois University-Carbondale,149222,Carbondale,IL,37.714193,-89.217273
+230,596697,Southern Ind.,OVC,low,University of Southern Indiana,151306,Evansville,IN,37.962374,-87.677214
+231,596719,Southern Miss.,Sun Belt,mid,University of Southern Mississippi,176372,Hattiesburg,MS,31.32661,-89.331236
+232,596684,Southern U.,SWAC,low,Southern University and A & M College,160621,Baton Rouge,LA,30.524558,-91.190105
+233,596662,St. Bonaventure,Atlantic 10,mid,St Bonaventure University,195164,Saint Bonaventure,NY,42.080191,-78.481107
+234,596717,St. John's (NY),Big East,mid,St. John's University-New York,195809,Queens,NY,40.722523,-73.796104
+235,596417,St. Thomas (MN),Summit League,low,University of St Thomas,174914,Saint Paul,MN,44.943439,-93.188986
+236,596688,Stanford,ACC,p4,Stanford University,243744,Stanford,CA,37.429434,-122.167359
+237,596720,Stetson,ASUN,mid,Stetson University,137546,DeLand,FL,29.035475,-81.300746
+238,596698,Stonehill,NEC,low,Stonehill College,167996,Easton,MA,42.05905,-71.080632
+239,596690,Stony Brook,CAA,mid,Stony Brook University,196097,Stony Brook,NY,40.91476,-73.12046
+240,596421,TCU,Big 12,p4,Texas Christian University,228875,Fort Worth,TX,32.70961,-97.364758
+241,596700,Tarleton St.,WAC,mid,Tarleton State University,228529,Stephenville,TX,32.217805,-98.219039
+242,596721,Tennessee,SEC,p4,The University of Tennessee-Knoxville,221759,Knoxville,TN,35.952082,-83.925852
+243,596691,Tennessee Tech,OVC,low,Tennessee Technological University,221847,Cookeville,TN,36.174754,-85.504039
+244,596425,Texas,SEC,p4,The University of Texas at Austin,228778,Austin,TX,30.282825,-97.738273
+245,596420,Texas A&M,SEC,p4,Texas A&M University-College Station,228723,College Station,TX,30.618726,-96.336475
+246,596422,Texas Southern,SWAC,low,Texas Southern University,229063,Houston,TX,29.721046,-95.361113
+247,596686,Texas St.,Sun Belt,mid,Texas State University,228459,San Marcos,TX,29.888885,-97.943029
+248,596423,Texas Tech,Big 12,p4,Texas Tech University,229115,Lubbock,TX,33.583448,-101.874783
+249,596522,The Citadel,SoCon,mid,Citadel Military College of South Carolina,217864,Charleston,SC,32.797183,-79.958775
+250,596427,Toledo,MAC,mid,University of Toledo,206084,Toledo,OH,41.660572,-83.614714
+251,596428,Towson,CAA,mid,Towson University,164076,Towson,MD,39.393622,-76.611164
+252,596429,Troy,Sun Belt,mid,Troy University,102368,Troy,AL,31.799583,-85.95802
+253,596701,Tulane,The American,mid,Tulane University of Louisiana,160755,New Orleans,LA,29.940069,-90.122144
+254,596481,UAB,The American,mid,University of Alabama at Birmingham,100663,Birmingham,AL,33.505697,-86.799345
+255,596482,UAlbany,America East,low,University at Albany,196060,Albany,NY,42.685489,-73.824662
+256,596512,UC Davis,Big West,mid,University of California-Davis,110644,Davis,CA,38.539667,-121.749567
+257,596513,UC Irvine,Big West,mid,University of California-Irvine,110653,Irvine,CA,33.648434,-117.841248
+258,596515,UC Riverside,Big West,mid,University of California-Riverside,110671,Riverside,CA,33.97246,-117.32741
+259,596694,UC San Diego,Big West,mid,University of California-San Diego,110680,La Jolla,CA,32.877749,-117.235866
+260,596510,UC Santa Barbara,Big West,mid,University of California-Santa Barbara,110705,Santa Barbara,CA,34.416297,-119.846426
+261,596519,UCF,Big 12,p4,University of Central Florida,132903,Orlando,FL,28.602159,-81.200889
+262,596514,UCLA,Big Ten,p4,University of California-Los Angeles,110662,Los Angeles,CA,34.07178,-118.442179
+263,596526,UConn,Big East,mid,University of Connecticut,129020,Storrs,CT,41.809098,-72.249948
+264,596564,UIC,MVC,mid,University of Illinois Chicago,145600,Chicago,IL,41.871837,-87.650503
+265,596468,UIW,Southland,low,University of the Incarnate Word,225627,San Antonio,TX,29.46708,-98.46583
+266,596630,ULM,Sun Belt,mid,University of Louisiana at Monroe,159993,Monroe,LA,32.527748,-92.07374
+267,596592,UMBC,America East,low,University of Maryland-Baltimore County,163268,Baltimore,MD,39.256686,-76.711607
+268,596594,UMES,NEC,low,University of Maryland Eastern Shore,163338,Princess Anne,MD,38.207386,-75.686852
+269,596586,UMass Lowell,America East,low,University of Massachusetts-Lowell,166513,Lowell,MA,42.652864,-71.326809
+270,596613,UNC Asheville,Big South,mid,University of North Carolina Asheville,199111,Asheville,NC,35.617068,-82.565392
+271,596616,UNC Greensboro,SoCon,mid,University of North Carolina at Greensboro,199148,Greensboro,NC,36.068236,-79.809414
+272,596617,UNCW,CAA,mid,University of North Carolina Wilmington,199218,Wilmington,NC,34.225223,-77.875527
+273,596619,UNLV,Mountain West,mid,University of Nevada-Las Vegas,182281,Las Vegas,NV,36.106047,-115.138462
+274,596469,USC Upstate,Big South,mid,University of South Carolina-Upstate,218742,Spartanburg,SC,34.996403,-81.970583
+275,596424,UT Arlington,WAC,mid,The University of Texas at Arlington,228769,Arlington,TX,32.729718,-97.11296
+276,596692,UT Martin,OVC,low,The University of Tennessee-Martin,221768,Martin,TN,36.340338,-88.864211
+277,596646,UTRGV,Southland,low,The University of Texas Rio Grande Valley,227368,Edinburg,TX,26.306759,-98.173567
+278,596426,UTSA,The American,mid,The University of Texas at San Antonio,229027,San Antonio,TX,29.583709,-98.620657
+279,596432,Utah,Big 12,p4,University of Utah,230764,Salt Lake City,UT,40.762484,-111.846044
+280,596418,Utah Tech,WAC,mid,Utah Tech University,230171,Saint George,UT,37.102769,-113.565903
+281,596474,Utah Valley,WAC,mid,Utah Valley University,230737,Orem,UT,40.281078,-111.716456
+282,596436,VCU,Atlantic 10,mid,Virginia Commonwealth University,234030,Richmond,VA,37.54962,-77.452697
+283,596437,VMI,SoCon,mid,Virginia Military Institute,234085,Lexington,VA,37.7896,-79.437067
+284,596433,Valparaiso,MVC,mid,Valparaiso University,152600,Valparaiso,IN,41.462239,-87.040172
+285,596434,Vanderbilt,SEC,p4,Vanderbilt University,221999,Nashville,TN,36.14659,-86.803369
+286,596435,Villanova,Big East,mid,Villanova University,216597,Villanova,PA,40.036463,-75.340502
+287,596439,Virginia,ACC,p4,University of Virginia-Main Campus,234076,Charlottesville,VA,38.035665,-78.503428
+288,596438,Virginia Tech,ACC,p4,Virginia Polytechnic Institute and State University,233921,Blacksburg,VA,37.229012,-80.423675
+289,596440,Wagner,NEC,low,Wagner College,197197,Staten Island,NY,40.615588,-74.092913
+290,596441,Wake Forest,ACC,p4,Wake Forest University,199847,Winston-Salem,NC,36.133609,-80.277446
+291,596443,Washington,Big Ten,p4,University of Washington-Seattle Campus,236948,Seattle,WA,47.65538,-122.30514
+292,596442,Washington St.,Mountain West,mid,Washington State University,236939,Pullman,WA,46.730448,-117.158168
+293,596947,West Ga.,ASUN,mid,University of West Georgia,141334,Carrollton,GA,33.573621,-85.097762
+294,596444,West Virginia,Big 12,p4,West Virginia University,238032,Morgantown,WV,39.634371,-79.954391
+295,596445,Western Caro.,SoCon,mid,Western Carolina University,200004,Cullowhee,NC,35.308979,-83.186258
+296,596446,Western Ill.,OVC,low,Western Illinois University,149772,Macomb,IL,40.468086,-90.686899
+297,596447,Western Ky.,CUSA,mid,Western Kentucky University,157951,Bowling Green,KY,36.985035,-86.456828
+298,596448,Western Mich.,MAC,mid,Western Michigan University,172699,Kalamazoo,MI,42.282194,-85.613759
+299,596449,Wichita St.,The American,mid,Wichita State University,156125,Wichita,KS,37.718882,-97.292361
+300,596450,William & Mary,CAA,mid,William & Mary,231624,Williamsburg,VA,37.269489,-76.708214
+301,596451,Winthrop,Big South,mid,Winthrop University,218964,Rock Hill,SC,34.941515,-81.031404
+302,596704,Wofford,SoCon,mid,Wofford College,218973,Spartanburg,SC,34.959411,-81.933568
+303,596453,Wright St.,Horizon,low,Wright State University-Main Campus,206604,Dayton,OH,39.780634,-84.064881
+304,596454,Xavier,Big East,mid,Xavier University,206622,Cincinnati,OH,39.149547,-84.47465
+305,596455,Yale,Ivy League,low,Yale University,130794,New Haven,CT,41.311158,-72.926688
+306,596456,Youngstown St.,Horizon,low,Youngstown State University,206695,Youngstown,OH,41.104928,-80.64659

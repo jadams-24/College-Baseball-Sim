@@ -60,7 +60,16 @@ class DecisionModels:
         self.min_cell = inp["bunt_outcome"]["min_cell"]
         self.bunt_cells = {k: Categorical.from_counts(v) for k, v in cells.items() if sum(v.values()) >= self.min_cell or k == "*|*"}
         self._law_cache: dict = {}
+        # the AI's bunt and intentional-walk probabilities and the steal logits depend on the game state only through
+        # discrete features, so each is computed once per feature key (speed pass, 2026-10-09; same values)
+        self._p_cache: dict = {}
         self.slot_bunt, self.slot_ibb = inp["by_slot"]["bunt"], inp["by_slot"]["ibb"]
+
+    def __getstate__(self):
+        # the probability cache is rebuilt on use with the same values; a session save leaves it out
+        d = dict(self.__dict__)
+        d["_p_cache"] = {}
+        return d
 
     # ---- features shared by the models ----
     def _lead(self, st) -> str:
@@ -82,8 +91,19 @@ class DecisionModels:
         return coef["intercept"] + sum(coef.get(f, 0.0) for f in feats if f)
 
     # ---- steals ----
+    def _score_lead(self, st) -> int:
+        bat = st.batting_side
+        return st.score[bat] - st.score["home" if bat == "away" else "away"]
+
     def steal_logits(self, st, count: tuple, steal_base: int) -> tuple[float, float]:
         """League attempt and success logits for the lead runner on the coming pitch."""
+        key = ("st", count, st.outs, steal_base, self._score_lead(st), st.inning)
+        out = self._p_cache.get(key)
+        if out is None:
+            out = self._p_cache[key] = self._steal_logits(st, count, steal_base)
+        return out
+
+    def _steal_logits(self, st, count: tuple, steal_base: int) -> tuple[float, float]:
         c = f"count_{count[0]}-{count[1]}"
         outs = f"outs_{st.outs}" if st.outs in (1, 2) else None
         third = "steal_third" if steal_base == 3 else None
@@ -95,11 +115,25 @@ class DecisionModels:
     def bunt_prob(self, st, slot: int) -> float:
         """P(the plate appearance ends in a bunt in play): one cell per outs x occupied bases (what a team bunts for
         depends on both), plus the lead, inning and slot (scripts/build_prb_decisions.py cell_features)."""
+        key = ("bunt", st.outs, st.base_code, self._score_lead(st), st.inning, slot)
+        p = self._p_cache.get(key)
+        if p is None:
+            p = self._p_cache[key] = self._bunt_prob(st, slot)
+        return p
+
+    def _bunt_prob(self, st, slot: int) -> float:
         cell = f"cell_{st.outs}|{st.base_code}"
         feats = (cell, self._lead(st), self._inning(st), self._slot(slot))
         return float(_expit(self._sum(self.bunt, feats)))
 
     def ibb_prob(self, st, slot: int) -> float:
+        key = ("ibb", st.outs, st.base_code, self._score_lead(st), st.inning, slot)
+        p = self._p_cache.get(key)
+        if p is None:
+            p = self._p_cache[key] = self._ibb_prob(st, slot)
+        return p
+
+    def _ibb_prob(self, st, slot: int) -> float:
         bc = base_class(st.bases)
         feats = (f"base_{self.base_names[bc]}" if bc else None, "first_open" if st.bases[0] is None else None,
                  f"outs_{st.outs}" if st.outs in (1, 2) else None, self._lead(st), self._inning(st), self._slot(slot))

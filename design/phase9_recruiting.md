@@ -521,3 +521,38 @@ The UI, as already planned: the recruiting screens are designed separately.
 16. **"No AI tampering" holds by rule.** Signing locks out other schools' contact, and the portal has fixed windows.
 17. **www.ncaa.com disallows AI agents in its robots.txt** (found 2026-10-08). The project fetched its RPI page on 2026-10-05 (`data/README.md`). Nothing more is fetched from www.ncaa.com; data.ncaa.com (no robots file) is unaffected. The owner decides whether the committed copy stays.
 
+
+## 15. Seeded school report cards (2026-10-08, owner request)
+
+The starting year's grade card for every one of the 307 D1 programs, data only: `data/schools/report_cards.csv`, built by `scripts/build_report_cards.py` with the cutoffs and weights in `config/report_cards.py`. Real school identity for every sim team: `data/schools/schools.csv` (tid, school name, IPEDS institution, conference, tier, campus location). School names only: no logos, mascots or artwork. Players stay fictional.
+
+**Rules.**
+- Grades never feed the engine's team strength or any gated row: they are for recruiting and display only. Nothing in `engine/` reads them (`tests/test_report_cards.py`).
+- Every column carries its raw inputs, its source and a confidence grade (A data, B data with a modelling choice, C real data with a GUESS weighting, D GUESS proxy or neutral baseline, marked for replacement).
+
+**Grade from percentile.** Each category is a score; the score's percentile across the 307 programs (ties share their mean rank) sets the grade. Cutoffs, the share of programs at or above each grade from the top (GUESS, chosen for a report-card shape: few A+, few F):
+
+| Grade | A+ | A | A- | B+ | B | B- | C+ | C | C- | D+ | D | D- | F |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Top share | 3% | 8% | 15% | 25% | 37% | 50% | 62% | 73% | 82% | 89% | 94% | 97% | 100% |
+
+So 3% of programs get A+, 5% A, 7% A-, ... and the bottom 3% F, in every graded category.
+
+**Categories and inputs.**
+
+| Category | Score | Source | Confidence |
+|---|---|---|---|
+| Program Tradition | Postseason points per season 2015–2025 (field 1, regional host +1, super regional +2, Omaha +3, final +1, title +2), weighted 0.5^((2025 − season) / 4), plus the recency-weighted D1 win pct 2021–2025 as a tiebreak for programs without postseason points | Brackets (Wikipedia pages, `data/ncaa_brackets`), data.ncaa.com scoreboards | B (the spec's ~15 years: our brackets cover 10 seasons) |
+| Conference Prestige | Half the percentile of the members' recency-weighted mean RPI (engine's RPI on each season's D1 scoreboard games, 2021–2025, 2025 conference map), half that of NCAA bids per member | Scoreboards, brackets | B; an independent (Oregon St. in 2025) has no conference and gets the neutral C, confidence D |
+| Omaha Contender | The sim's drawn team strength o + d. Dynasty-dependent: the file holds a reference world (seed 20251000); a dynasty regrades it from its own draw with `config.report_cards.grade_values` | Engine | A |
+| Academic Prestige | Half the percentile of the six-year bachelor's graduation rate (IPEDS DRVGR2023 GBA6RTT), half that of selectivity, 1 − admission rate (DRVADM2023 DVADM01; none reported = open admission, 100%) | IPEDS (NCES) | A (B where the admission rate is missing) |
+| Campus Life | 0.6 × percentile of log total enrollment (DRVEF2023 ENRTOT) + 0.4 × a locale score (HD2024 LOCALE: large city 1.0 down to remote rural 0.1) | IPEDS | C (weights and locale scores GUESS) |
+| Climate | 0.7 × percentile of the Feb–May mean temperature + 0.3 × percentile of fewer Feb–May days with 0.01" or more of precipitation, 1991–2020 normals at the nearest normals station with both | NOAA NCEI (access-services API) | A |
+| Money | Baseball total expenses, EADA 2024–25 (the service academies do not file: their tier's median, confidence D) | EADA (U.S. Department of Education) | A |
+| Facilities | GUESS proxy: 0.5 Money + 0.3 regional hosting (recency-weighted hosts) + 0.2 Conference | | D, replace with facility data |
+| Ballpark Atmosphere | GUESS proxy: 0.4 hosting + 0.3 enrollment + 0.3 Conference | | D, replace with NCAA attendance |
+| Brand Exposure | GUESS proxy: 0.5 Conference + 0.5 Omaha and super regional history | | D, replace with TV and media data |
+| Draft Development | GUESS proxy: 0.4 Tradition + 0.3 Money + 0.3 Conference | | D, replace with the draft-by-school counts (`design/phase9_data_requests.md`, Baseball-Reference) |
+| Coach Prestige, Coach Stability | The neutral baseline C for a new coach | | D (they move with the coach in Phase 11) |
+
+Category weights inside each score are GUESS (`config/report_cards.py`, listed in GUESSES.md). The distribution of each category and ten example report cards are in `reports/report_cards.md`.

@@ -697,6 +697,32 @@ No tolerance moved.
 - The roster workflow commits its aggregates to its own branch and opens a pull request, so no pull request's head lacks CI.
 - The next aggregator run adds `platoon_league.csv` scopes by the batting and the pitching conference. These give conference-clustered intervals for the plate-appearance mix, so the platoon-advantage share can be gated.
 
+### Variance stage, item 1: the run-rule benchmark and the early-ending rate (2026-10-08, owner decision 2026-10-07)
+
+**Benchmark changed** (`game_structure.run_rule_freq`; `scripts/build_run_rule.py`; old block in `data/ncaa_2025/derived/benchmark_changes_variance.json`):
+- Old: .1524 ± .0155 (conf B), a product estimator: the scoreboard's share of 10-run margins (.1952, all 8,079 games) × the WMT sample's share of those that ended early (.7805).
+- New: **.1412 ± .0114 (conf A)**, the direct count: the share of the 8,418 D1-vs-D1 finals of 2025 that ended before the 9th with a final margin of 10 or more, from WarrenNolan's schedule pages (innings recorded for every final, blank = 9). Tolerance 3 binomial SE. Scheduled 7-inning games that reach a 10-run margin are counted, as before.
+- Check of the innings field: on the 2,240 games WarrenNolan and the WMT schedules share, the innings agree in 99.9% and the early/full call in 100%.
+- Why the old value was high: the WMT games end early more often given a 10-run margin (.785 against .724 in the rest, round 1 sizes); all games give .7403 ± .0109 (1,606 games with a 10-run margin).
+- 2026 as a check (not pooled; the engine is calibrated to 2025): .1351 ± .0037; P(ended early | margin 10+) .7729 ± .0109.
+
+**Engine refitted** (`data/ncaa_2025/derived/run_rule_in_effect_2025.json`, `config/phase1.py`): the probability that a game is under the rule, which the engine draws per game, was the WMT conditional itself (.7805). It is now solved so the share of simulated games with a final margin of 10 or more that end early matches all games' .7403: one proportional step from the Phase 3 40-season run (sim .7422 at .7805) gives **.7785 ± .0116**. The 40-season run that follows confirms it: .7409 ± .0019.
+
+**Result, 40 seasons (2026-10-08):** every Phase 2-7 gate passes. Run-rule frequency .1156 ± .0014 against .1412 ± .0122: still outside, and still the watch item "offense extremes compressed" (the share of 10-run margins, .1560 against .1908, is the gap; the early-ending rate now matches). The gap fell from .037 (against .1524) to .026. Drift check after the refit: every row within 2 SE (`reports/drift_check.md`).
+
+### Box-score bookkeeping (2026-10-09, owner request; no outcome changes)
+
+- **What:** per batter R, RBI, SB, CS; per pitcher W, L, SV, HLD; every game, simmed or managed (`engine/boxscore.py`). New accumulator columns are appended (`B_R..B_CS`, `P_W..P_HLD`), so every older index is unchanged. Season results add `game_decisions` (each game's W, L, SV and holds) and `postseason["bstats_box_full"]` / `["pstats_box_full"]` (regular season plus postseason). Players carry an empty `year` field for Phase 8.
+- **Scoring rules:** NCAA Baseball Rules 2025 and 2026 (`data/ncaa_rules/PRMBA_RulesBook.pdf`). 10-9 run batted in, 10-11 stolen base and caught stealing, 10-25 winning and losing pitchers, 10-26 save. Holds are not an NCAA statistic; the common definition is used. The scorer's-judgment cases and their approximations are in GUESSES.md.
+- **No outcome change:**
+  - `scripts/check_log_identity.py` hashes 300 games' full event logs. The hash is identical before and after on the same machine (e1f77488…, main f8517d3 and this branch).
+  - `tests/test_boxscore.py` plays the same 300 games with the bookkeeping on and off: identical logs and identical older accumulator columns.
+- **Sanity (300 games, not gated):**
+  - RBI per run .917 (real D1 about .92);
+  - stolen bases 1.05 and caught stealing .31 per team-game;
+  - saves .30 and holds .75 per game;
+  - starters credited with the win in 31% of games.
+
 ## Bibliography
 
 - Jones, M. C. and Pewsey, A. (2009). Sinh-arcsinh distributions. *Biometrika* 96(4), 761–780.

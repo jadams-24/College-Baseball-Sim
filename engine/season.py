@@ -41,6 +41,7 @@ def simulate_season(cfg: Phase2Config, seed: int) -> dict:
     mgr = Manager(cfg)
     team_games = Counter()
     tg_rows, game_rows, halves, reg_games = [], [], [], []
+    game_decisions = []          # per regular-season game, aligned with "games": {"W", "L", "SV", "HLD"} pids (engine/boxscore.py)
     for g, gss, cx in zip(schedule, s_games.spawn(len(schedule)), canceled | dropped):
         if cx:
             continue
@@ -50,6 +51,7 @@ def simulate_season(cfg: Phase2Config, seed: int) -> dict:
         team_games[g.home] += 1; team_games[g.away] += 1
         game_rows.append((g.home, g.away, st.score["home"], st.score["away"], st.inning, st.ended_by_run_rule, g.weekend))
         reg_games.append((g.date, g.home, g.away, st.score["home"], st.score["away"], False, "regular"))
+        game_decisions.append(st.box.decisions if st.box is not None else None)
         for side, tm, opp in (("home", home, "away"), ("away", away, "home")):
             # runs in innings 1-3 and 4-6 (game-level persistence diagnostics, reports/phase6.md)
             seg = [sum(r for inn, h, r, _ in st.half_innings if (h == "T") == (side == "away") and lo <= inn <= hi) for lo, hi in ((1, 3), (4, 6))]
@@ -58,7 +60,7 @@ def simulate_season(cfg: Phase2Config, seed: int) -> dict:
                             st.sb_att[side], st.sb_ok[side], *seg))
         halves.extend(st.half_innings)
     res = {"league": league, "roe": eng.roe_count, "bstats": np.array(bstats), "pstats": np.array(pstats), "team_games": team_games,
-           "team_game_rows": np.array(tg_rows, dtype=float), "games": game_rows, "half_innings": halves,
+           "team_game_rows": np.array(tg_rows, dtype=float), "games": game_rows, "game_decisions": game_decisions, "half_innings": halves,
            "team_cell": eng.team_cell.copy(), "opp_trials": eng.opp_trials.copy(), "exp_trials": eng.exp_trials.copy(),
            "leash_survive": copy.deepcopy(mgr.leash_survive), "leash_pulls": copy.deepcopy(mgr.leash_pulls),
            "leash_expected": copy.deepcopy(mgr.leash_expected), "leash_var": copy.deepcopy(mgr.leash_var),
@@ -96,13 +98,14 @@ def _postseason(cfg, league, eng, mgr, reg_games, last_date, s_post, team_games,
     from engine.world import World
     s_world, s_play = s_post.spawn(2)
     w = World(cfg, league, np.random.Generator(np.random.PCG64(s_world)))
-    games, lines = [], []
+    games, lines, decisions = [], [], []
     post_games = Counter()
 
     def play_game(h, a, date, neutral, stage):
         rng = np.random.Generator(np.random.PCG64(s_play.spawn(1)[0]))
         st = eng.play(rng, league.teams[h], league.teams[a], True, mgr, week=date // 7, day=0, date=date, neutral=neutral, tournament=True)
         games.append((date, h, a, st.score["home"], st.score["away"], neutral, stage))
+        decisions.append(st.box.decisions if st.box is not None else None)
         post_games[h] += 1; post_games[a] += 1
         for side, tid in (("home", h), ("away", a)):
             # columns: team, ER allowed, outs pitched, runs allowed, hits, at bats, home runs, errors made, runs scored
@@ -128,8 +131,10 @@ def _postseason(cfg, league, eng, mgr, reg_games, last_date, s_post, team_games,
         "field": {"auto": f["auto"], "at_large": f["at_large"], "national_seeds": f["national_seeds"],
                   "rank": {t: rpi_rank[t] for t in rpi_rank}, "rpi_at": {k: rv[k - 1] for k in (1, 16, 32, 64)},
                   "rpi": {t: f["rpi"][t]["rpi"] for t in f["rpi"]}},
-        "regionals": regs, "same_conf_in_regional": int(same_conf), "ncaa": ncaa, "games": games,
+        "regionals": regs, "same_conf_in_regional": int(same_conf), "ncaa": ncaa, "games": games, "game_decisions": decisions,
         "post_games": dict(post_games), "post_lines": np.array(lines, dtype=float),
         # full season (regular + postseason) pitcher lines for the watch-item re-checks
         "pstats_full": np.array(pstats)[:, [P_G, P_GS, P_OUTS, P_ER]], "team_games_full": dict(team_games + post_games),
+        # the full season's box-score lines, every column (engine.game2 B_* and P_*; R, RBI, SB, CS, W, L, SV, HLD included)
+        "bstats_box_full": np.array(bstats), "pstats_box_full": np.array(pstats),
     }

@@ -251,16 +251,23 @@
     },
     "run_rule_freq": {
       "gate": "phase6",
-      "tol": 0.0155,
-      "tol_note": "3 SE of the product estimator (scoreboard share of 10-run margins x WMT conditional share ended early)",
-      "value": 0.1524,
-      "conf": "B",
-      "note": "P(run rule) = P(final margin >= 10, all 8,079 scoreboard games) x P(game ended before the 9th | margin >= 10, WMT sample). Scheduled 7-inning doubleheaders that also reach a 10-run margin are counted.",
-      "p_margin_10plus_season": 0.1952,
-      "p_ended_early_given_margin_10plus_wmt": 0.7805,
-      "wmt_sample_run_rule_freq": 0.1549,
-      "short_game_not_run_rule_freq": 0.0123,
-      "innings_dist": {"6": 0.0009, "7": 0.1311, "8": 0.0352, "9": 0.7783, "10": 0.0339, "11": 0.0114, "12": 0.0062, "13": 0.0018, "14": 0.0009, "15": 0.0004}
+      "value": 0.1412,
+      "tol": 0.0114,
+      "tol_note": "3 SE of the direct count (binomial on 8418 games)",
+      "conf": "A",
+      "src": "WarrenNolan 2025 schedule pages, every D1-vs-D1 final with its innings (data/ncaa_2025/warrennolan/games_2025.csv, fetched 2026-10-05; scripts/build_run_rule.py)",
+      "note": "Direct count (variance stage, owner decision 2026-10-07): share of D1-vs-D1 finals that ended before the 9th with a final margin of 10 or more. Scheduled 7-inning games that also reach a 10-run margin are counted. Replaces the product estimator (scoreboard share of 10-run margins x WMT share ended early, .1524): the WMT games end early more often given a 10-run margin than the rest.",
+      "n_games": 8418,
+      "se": 0.0038,
+      "p_margin_10plus": 0.1908,
+      "p_ended_early_given_margin_10plus": 0.7403,
+      "se_p_ended_early": 0.0109,
+      "n_margin_10plus": 1606,
+      "short_game_not_run_rule_freq": 0.0197,
+      "innings_dist": {"5": 0.0005, "6": 0.0012, "7": 0.1191, "8": 0.0402, "9": 0.7836, "10": 0.0324, "11": 0.0137, "12": 0.0056, "13": 0.0017, "14": 0.0012, "15": 0.001},
+      "innings_check_vs_wmt": {"n_matched": 2240, "innings_agree": 0.9991, "early_agree": 1.0},
+      "check_2026": {"value": 0.1351, "se": 0.0037, "n_games": 8437, "p_margin_10plus": 0.1748, "p_ended_early_given_margin_10plus": 0.7729, "se_p_ended_early": 0.0109},
+      "wmt_sample": {"p_ended_early_given_margin_10plus": 0.7805, "run_rule_freq": 0.1549, "product_estimator": 0.1524}
     }
   },
   "roster_rules_2025_26": {

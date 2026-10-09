@@ -70,7 +70,7 @@ ncaa_team_id,team,unitid,instnm,city,state,latitude,longitude,match
 596544,FIU,133951,Florida International University,Miami,FL,25.75732,-80.373928,name
 596540,Fairfield,129242,Fairfield University,Fairfield,CT,41.157673,-73.255903,name
 596543,Fla. Atlantic,133669,Florida Atlantic University,Boca Raton,FL,26.372421,-80.102978,name
-596546,Florida,133809,Florida College,Temple Terrace,FL,28.034936,-82.383289,name
+596546,Florida,134130,University of Florida,Gainesville,FL,29.64629,-82.347911,override
 596542,Florida A&M,133650,Florida Agricultural and Mechanical University,Tallahassee,FL,30.428504,-84.290226,name
 596545,Florida St.,134097,Florida State University,Tallahassee,FL,30.443147,-84.295064,name
 596547,Fordham,191241,Fordham University,Bronx,NY,40.859354,-73.882705,name
@@ -166,7 +166,7 @@ ncaa_team_id,team,unitid,instnm,city,state,latitude,longitude,match
 596475,North Ala.,101879,University of North Alabama,Florence,AL,34.80731,-87.680407,name
 596614,North Carolina,199120,University of North Carolina at Chapel Hill,Chapel Hill,NC,35.911769,-79.050969,override
 596629,North Dakota St.,200332,North Dakota State University-Main Campus,Fargo,ND,46.893127,-96.800838,name
-596467,North Florida,136145,North Florida College,Madison,FL,30.473841,-83.420732,name
+596467,North Florida,136172,University of North Florida,Jacksonville,FL,30.27194,-81.509144,override
 596631,Northeastern,167358,Northeastern University,Boston,MA,42.339992,-71.088782,name
 596632,Northern Colo.,127741,University of Northern Colorado,Greeley,CO,40.410855,-104.692777,name
 596634,Northern Ky.,157447,Northern Kentucky University,Highland Heights,KY,39.029714,-84.463483,name

@@ -7,3 +7,5 @@ __pycache__/
 data/ncaa_2025/rosters/
 runs/
 saves/
+data/noaa/raw/search/
+data/eada/*.zip

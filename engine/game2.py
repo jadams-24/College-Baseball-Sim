@@ -43,12 +43,17 @@ from engine.matchup import OUTCOMES, matchup_probs
 from engine.pitch import N_SLOTS, SLOT_SYM, PitchModel, _DEST as SLOT_DEST_ARR
 from engine.rng import Categorical
 from engine.tables import AdvancementTable, OutcomeTable, PrePaEventTable, _ok_split
+from engine import boxscore
+from config import box as box_cfg
+from config import diagnostics as diag_cfg
 
 # batter stat columns and pitcher stat columns
 B_G, B_PA, B_AB, B_H, B_2B, B_3B, B_HR, B_BB, B_HBP, B_K, B_SF, B_SH, B_ROE, B_GPA = range(14)   # B_GPA: games with a plate appearance
-B_NCOL = 14
+B_R, B_RBI, B_SB, B_CS = range(14, 18)        # box score (engine/boxscore.py): runs, runs batted in, stolen bases, caught stealing
+B_NCOL = 18
 P_G, P_GS, P_BF, P_OUTS, P_H, P_HR, P_BB, P_HBP, P_K, P_R, P_ER, P_PITCH, P_WGS = range(13)  # P_WGS: weekend starts
-P_NCOL = 13
+P_W, P_L, P_SV, P_HLD = range(13, 17)         # box score: wins, losses, saves, holds (holds are not an NCAA statistic)
+P_NCOL = 17
 _OUTING_COLS = (P_BF, P_K, P_BB, P_HBP, P_H, P_HR, P_R)
 # box-score tables for the Phase 4 estimator: plate-appearance results by batting team x pitching
 # team x (batting team at home), and each player's trials by opposing team x home
@@ -92,7 +97,7 @@ class GameState2:
                  "half_innings", "pa", "errors", "hits", "hr", "ab", "outs_pitched", "er_allowed",
                  "week", "day", "phantom", "p_phantom", "date", "pitch_log", "in_game", "subs", "batted",
                  "err_or", "catcher_arm", "of_arm", "pending_change", "sb_att", "sb_ok", "tournament",
-                 "ibb", "cur_slot", "mound", "last_pa_pitcher")
+                 "ibb", "cur_slot", "mound", "last_pa_pitcher", "box")
 
     def __init__(self, rng, home, away, weekend):
         self.rng = rng
@@ -129,6 +134,7 @@ class GameState2:
         self.cur_slot = 1                                # PR B: lineup slot (1-9) of the batter at the plate
         self.mound = {"free": {"away": 0, "home": 0}, "trips": {}, "batter": {}}   # PR B: coach trips (NCAA 9-4)
         self.last_pa_pitcher = {}                        # Phase 3: each fielding side's pitcher at its previous plate appearance
+        self.box = boxscore.GameBox() if box_cfg.ENABLED else None   # box-score bookkeeping (engine/boxscore.py): draws nothing
         self.pending_change = {"away": False, "home": False}   # pulled at an inning's end: the reliever enters when the side next takes the field
         self.phantom = 0      # phantom outs this half-inning (errors that prevented an out)
         self.p_phantom = 0    # phantom outs since the current pitcher entered this half-inning
@@ -207,6 +213,7 @@ class PlayerGameEngine:
         # PR B: decisions that change outcomes (config.decisions)
         from config import decisions as cdec
         self.dec_on = cdec.on("decisions")
+        self.diag = diag_cfg.RECORD       # the report-only accumulators (config.diagnostics)
         self.dec_steal, self.dec_bunt, self.dec_ibb = cdec.on("steals"), cdec.on("bunts"), cdec.on("ibb")
         self.ibb_count, self.bunt_rec, self.path_rec, self.path_all_rec = 0, {"bunts": 0, "SH": 0, "hits": 0}, [], []
         if self.dec_on:
@@ -310,6 +317,8 @@ class PlayerGameEngine:
     def _apply(self, st, dests, batter_runner, batter_to, errors, event=None, res=None):
         new = [None, None, None]
         scored, outs, occupied, retired = [], 0, set(), []
+        origins = []                                  # each scored runner's base (4: the batter), for the box score
+        outs_before = st.outs
         bat_side, fld_side = st.batting_side, st.fielding_side
         cur = st.pitcher[fld_side].pid
         recon_team, recon_cur = st.outs + st.phantom, st.outs + st.p_phantom
@@ -321,7 +330,7 @@ class PlayerGameEngine:
             if d == "0":
                 outs += 1; retired.append(r)
             elif d == "4":
-                scored.append(r)
+                scored.append(r); origins.append(origin)
             else:
                 tgt = int(d)
                 while tgt in occupied and tgt > origin:
@@ -338,7 +347,7 @@ class PlayerGameEngine:
             if batter_to in ("", "0"):
                 outs += 1
             elif batter_to == "4":
-                scored.append(batter_runner)
+                scored.append(batter_runner); origins.append(4)
             else:
                 tgt = int(batter_to)
                 while tgt in occupied and tgt > 0:
@@ -362,6 +371,9 @@ class PlayerGameEngine:
         if res == "ROE" or (errors and res in ("FC", "SF", "SH", "IP_OUT", "FO", "GO", "GIDP", "DP") and outs == 0):
             st.phantom += 1; st.p_phantom += 1
         st.score[bat_side] += len(scored)
+        if st.box is not None:
+            boxscore.on_apply(self, st, scored, origins, cur, outs, res, event, errors, outs_before,
+                              batter_runner[2] if batter_runner is not None and len(batter_runner) > 2 else None)
         return len(scored)
 
     def _end_check(self, st, mid_bottom):
@@ -405,13 +417,15 @@ class PlayerGameEngine:
             ps[P_GS] += 1
             if st.weekend:
                 ps[P_WGS] += 1
+        if st.box is not None:
+            boxscore.on_enter(self, st, side, pitcher.pid, starter)
 
     def _matchup_chain(self, batter, pitcher, home_batting: bool):
         """The matchup's pitch-chain slot weights and absorption matrix (engine.pitch), cached per game."""
         key = self._key(batter, pitcher, home_batting)
         c = self.q_cache.get(key)
         if c is None:
-            qs = self.pitch.slots(self.pitch.chain(self.tilt_cache[key]))
+            qs = self.pitch.slots(self.pitch.chain_array(self.tilt_cache[key]))
             c = self.q_cache[key] = (qs, self.pitch.absorb_matrix(qs))
         return c
 
@@ -563,8 +577,10 @@ class PlayerGameEngine:
 
     def _record_pitches(self, batter, pitcher, seq: str, res: str) -> int:
         """Record the pitch-level statistics of a plate appearance's sequence (played forward, GameSession)."""
-        pr = self.pitch_rec
         n = len(seq)
+        if not self.diag:
+            return n
+        pr = self.pitch_rec
         pr["n_pa"] += 1; pr["pitches"] += n
         pr["hist"][min(n, MAX_PITCHES_HIST)] += 1
         first = next((c for c in seq if c != "N"), "B")
@@ -604,6 +620,39 @@ class PlayerGameEngine:
         bat = st.batting_side
         bs[B_PA] += 1; ps[P_BF] += 1; st.pa[bat] += 1
         st.batted[bat].add(batter.pid)
+        if self.diag:
+            self._record_diag(st, batter, pitcher, res, law)
+        if seq is not None:
+            thrower = pitch_to or pitcher
+            n = self._record_pitches(batter, thrower, seq, res) - skip_pitches
+            self.pstats[thrower.pid][P_PITCH] += n
+            st.outing[st.fielding_side]["pitches"] += n
+        if res == "BB":
+            bs[B_BB] += 1; ps[P_BB] += 1
+        elif res == "HBP":
+            bs[B_HBP] += 1; ps[P_HBP] += 1
+        elif res == "SF":
+            bs[B_SF] += 1
+        elif res == "SH":
+            bs[B_SH] += 1
+        else:
+            if res == "ROE":
+                self.roe_count += 1; bs[B_ROE] += 1
+            bs[B_AB] += 1; st.ab[bat] += 1
+            if res == "K":
+                bs[B_K] += 1; ps[P_K] += 1
+            elif res in ("1B", "2B", "3B", "HR"):
+                bs[B_H] += 1; ps[P_H] += 1; st.hits[bat] += 1
+                if res == "2B":
+                    bs[B_2B] += 1
+                elif res == "3B":
+                    bs[B_3B] += 1
+                elif res == "HR":
+                    bs[B_HR] += 1; ps[P_HR] += 1; st.hr[bat] += 1
+
+    def _record_diag(self, st, batter, pitcher, res, law):
+        """The report-only accumulators of a plate appearance (config.diagnostics)."""
+        bat = st.batting_side
         ci = _CELL_IDX.get(res, _OUT)
         btid, ptid, h = st.team_obj[bat].tid, st.team_obj[st.fielding_side].tid, int(bat == "home")
         self.team_cell[btid, ptid, h, ci] += 1
@@ -636,8 +685,10 @@ class PlayerGameEngine:
             rp = self.rate_cache.get(self._key(batter, pitcher, bool(h)))
         if rp is not None:
             ex = self.exp_trials
-            ex[batter.pid, :3, 0] += rp[:3]; ex[batter.pid, :3, 1] += rp[:3] * (1 - rp[:3])
-            ex[pitcher.pid, :3, 0] += rp[:3]; ex[pitcher.pid, :3, 1] += rp[:3] * (1 - rp[:3])
+            r3 = rp[:3]
+            v3 = r3 * (1 - r3)
+            ex[batter.pid, :3, 0] += r3; ex[batter.pid, :3, 1] += v3
+            ex[pitcher.pid, :3, 0] += r3; ex[pitcher.pid, :3, 1] += v3
         if ci in _HITS or ci == _OUT:
             if rp is None:
                 b = None
@@ -655,33 +706,6 @@ class PlayerGameEngine:
             ot[batter.pid, ptid, h, 1] += 1
             if rp is not None:
                 ex[batter.pid, 3, 0] += b; ex[batter.pid, 3, 1] += b * (1 - b)
-        if seq is not None:
-            thrower = pitch_to or pitcher
-            n = self._record_pitches(batter, thrower, seq, res) - skip_pitches
-            self.pstats[thrower.pid][P_PITCH] += n
-            st.outing[st.fielding_side]["pitches"] += n
-        if res == "BB":
-            bs[B_BB] += 1; ps[P_BB] += 1
-        elif res == "HBP":
-            bs[B_HBP] += 1; ps[P_HBP] += 1
-        elif res == "SF":
-            bs[B_SF] += 1
-        elif res == "SH":
-            bs[B_SH] += 1
-        else:
-            if res == "ROE":
-                self.roe_count += 1; bs[B_ROE] += 1
-            bs[B_AB] += 1; st.ab[bat] += 1
-            if res == "K":
-                bs[B_K] += 1; ps[P_K] += 1
-            elif res in ("1B", "2B", "3B", "HR"):
-                bs[B_H] += 1; ps[P_H] += 1; st.hits[bat] += 1
-                if res == "2B":
-                    bs[B_2B] += 1
-                elif res == "3B":
-                    bs[B_3B] += 1
-                elif res == "HR":
-                    bs[B_HR] += 1; ps[P_HR] += 1; st.hr[bat] += 1
 
     def _half(self, st, dec):
         """One half-inning on an existing game state (scripts/build_phase2_run_scale.py measures the engine this
@@ -997,7 +1021,7 @@ class GameSession:
         steal_base0 = self._steal_base()
         due, pit = st.lineup[bat][st.slot[bat] % 9], st.pitcher[fld]
         ph = self.ask(bat, "pinch_hit", bat, st.slot[bat] % 9)
-        if eng.hands_known(due, pit):
+        if eng.diag and eng.hands_known(due, pit):
             r = eng.ph_rec[eng.tier_idx[st.team_obj[bat].tier], int(pit.throws == "R"), "LRS".index(due.bats), int(st.inning >= LATE_INNING)]
             r[0] += 1
             if ph is not None and ph.bats:
@@ -1048,10 +1072,14 @@ class GameSession:
                 eng.sb[1] += "0" not in dests
                 st.sb_att[bat] += 1
                 st.sb_ok[bat] += "0" not in dests
+                if st.box is not None:
+                    boxscore.on_steal(eng, st, dests)
             elif ev == "PO" and eng.dec_steal and "0" in dests and rng.random() < eng.po_cs_share:
                 # scoring only: the runner was breaking for the next base, a caught stealing in the box score
                 eng.sb[0] += 1
                 st.sb_att[bat] += 1
+                if st.box is not None:
+                    boxscore.on_steal(eng, st, dests, picked_off=True)
             if self.log is not None:
                 self.log.append(("run", self.pa_serial, ev, tuple(dests)))
             if eng._apply(st, dests, None, None, err, event=ev) and st.half == "B":
@@ -1260,6 +1288,8 @@ class GameSession:
         st.sb_ok[bat] += n_ok
         if not pa["attempt"]:
             pa["attempt"], pa["stole"], pa["known_last"] = True, ok, ends
+        if st.box is not None:
+            boxscore.on_steal(eng, st, dests)
         if self.log is not None:
             self.log.append(("steal", self.pa_serial, steal_base, bool(ok), (b, s_)))
         if eng._apply(st, dests, None, None, err, event="SB_ATT") and st.half == "B":
@@ -1277,7 +1307,7 @@ class GameSession:
         st.outing[fld]["pitches"] += n
         eng.pstats[pa["pitcher"].pid][P_PITCH] += n
         law = pa.get("law")
-        if eng.dec_on and law is not None and not pa["ibb"]:
+        if eng.diag and eng.dec_on and law is not None and not pa["ibb"]:
             # The Phase 4 forward test counts completed plate appearances only. A plate appearance cut off here is
             # more often one headed for a strikeout (steals are tried more at two strikes), so the completed ones are
             # selected. The expectation over completed plate appearances is exact when each cut-off one adds its
@@ -1333,9 +1363,9 @@ class GameSession:
                 law = pa.get("law")
         eng._record(st, batter, pitcher, res, None if (pa["ibb"] and not pa["seq"]) else "".join(pa["seq"]),
                     skip_pitches=n_charged, pitch_to=pa["pitcher"], law=law)
-        if pa.get("path_all") and not pa["ibb"] and _n_eligible(pa["seq"], res):
+        if eng.diag and pa.get("path_all") and not pa["ibb"] and _n_eligible(pa["seq"], res):
             eng.path_all_rec.append((sum(c != "N" for c in pa["seq"]), _final_count(pa["seq"]), int(pa["attempt"]), int(pa["stole"])))
-        if pa["path"] and not pa["ibb"] and _n_eligible(pa["seq"], res):
+        if eng.diag and pa["path"] and not pa["ibb"] and _n_eligible(pa["seq"], res):
             # the play-by-play's sample (scripts/build_prb_steals.py eligible()): a plate appearance that began with
             # a lead runner able to steal, no other base running first, and at least one ball or strike
             eng.path_rec.append((sum(c != "N" for c in pa["seq"]), _final_count(pa["seq"]), int(pa["attempt"]), int(pa["stole"]), int(pa["known_last"])))
@@ -1385,6 +1415,8 @@ class GameSession:
             eng._end_outing(st, side)
             for pid in st.batted[side]:
                 eng.bstats[pid][B_GPA] += 1
+        if st.box is not None:
+            boxscore.on_final(eng, st)
         if hasattr(self.book, "record_game"):
             self.book.record_game(st)
         if self.log is not None:

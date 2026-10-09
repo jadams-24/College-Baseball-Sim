@@ -68,8 +68,21 @@ Derived inputs: `build_phase5_benchmarks.py`, `solve_phase5_chain.py`, `write_ph
 |---|---|
 | `league.py` | `_hands`: every player's throwing hand, and batters' bats (L / R / switch), drawn from his own stream after every other draw, from talent and role (pitchers: logistic on true K-BB within role) or position group and talent (batters). No tier enters: the tier gradient is a check |
 | `game2.py` | the platoon shift on the batter's six logit offsets by (side he hits from, pitcher's hand), a switch hitter on the side opposite the pitcher; records platoon cells, usage by hand and per-player splits |
+| `boxscore.py` | box-score bookkeeping (2026-10-09): R, RBI, SB, CS per batter; W, L, SV, HLD per pitcher by the NCAA scoring rules (Rule 10); draws nothing, `config.box.ENABLED` |
 | `manager.py` | pull and pinch-hit hazards by the hands of the pitcher and the batter due up; the relief choice's platoon terms (batter due up, hand of the pitcher replaced); the bench pick's platoon term |
 | `report3.py` | handedness shares, the tier-gradient check, platoon splits, usage by hand, individual spread and the variance link (reported) |
 
 Derived inputs, in this order: `build_phase3_hands.py` (needs `runs/phase3_pop.pkl` or simulates it), `build_phase3_usage.py`, `build_phase3_platoon.py`
 (then `--iterate --seasons runs/phase3_platoon_iter1.pkl`), `write_phase3_benchmarks.py`. Run: `python3 scripts/run_phase5.py` writes every report, `reports/phase3.md` among them.
+
+## Speed pass (2026-10-09; no outcome changes)
+
+Every game is bit-identical before and after (`scripts/check_log_identity.py`: 300 games, one hash over the event logs and
+one over the stat lines; a full season's results compared field by field). The rewrites keep each floating-point operation
+and its order: `pitch.py` absorbs K, BB and HBP in one pass (`_absorb3`, absorb's operations minus exact no-ops), calls
+numpy's ufuncs and the LAPACK solve directly (no wrapper checks), and takes the chain as an array where it is used as
+one; `decisions.py` and `manager.py` compute the AI's bunt, intentional-walk and steal probabilities, pull hazards and
+leash transforms once per discrete input (caches left out of session saves); bins use `bisect` in place of
+`np.searchsorted`. `tests/test_speed.py` checks each rewrite against the form it replaced. `config.diagnostics.RECORD`
+switches off the report-only accumulators (dynasty play). Timings: `reports/speed_pass.md`; benchmark:
+`scripts/bench_engine.py [--season] [--lean]`.
