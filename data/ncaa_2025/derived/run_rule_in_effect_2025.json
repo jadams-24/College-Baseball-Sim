@@ -1,0 +1,15 @@
+{
+ "p_run_rule_in_effect": 0.7785,
+ "se": 0.0116,
+ "target_p_ended_early_given_margin_10plus": 0.7403,
+ "target_se": 0.0109,
+ "sim_p_ended_early_given_margin_10plus": 0.7422,
+ "sim_se": 0.0019,
+ "p_previous": 0.7805,
+ "seasons": 40,
+ "runs": "runs/c9e9b225f0241b18",
+ "sim_run_rule_freq": 0.1158,
+ "sim_margin_10plus": 0.1561,
+ "method": "one proportional step p x target / sim (scripts/build_run_rule.py --solve); the next 40-season run checks it",
+ "date": "2026-10-08"
+}

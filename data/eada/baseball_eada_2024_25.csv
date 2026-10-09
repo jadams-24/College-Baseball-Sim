@@ -1,0 +1,305 @@
+unitid,institution_name,classification,participants,head_coaches,assistant_coaches,baseball_operating_expenses,baseball_total_expenses,baseball_total_revenue
+100654,Alabama A & M University,NCAA Division I-FCS,47,1,2,145352,674499,370282
+100663,University of Alabama at Birmingham,NCAA Division I-FBS,45,1,3,417357,1612864,1695128
+100724,Alabama State University,NCAA Division I-FCS,35,1,2,128626,711717,711717
+100751,The University of Alabama,NCAA Division I-FBS,49,1,2,1984635,6668905,6668905
+100858,Auburn University,NCAA Division I-FBS,43,1,3,1561914,7570627,4134769
+101480,Jacksonville State University,NCAA Division I-FBS,39,1,3,186911,1959245,1959245
+101879,University of North Alabama,NCAA Division I-FCS,40,1,3,401195,1056528,1056528
+102049,Samford University,NCAA Division I-FCS,39,1,4,275753,1385563,1550524
+102094,University of South Alabama,NCAA Division I-FBS,40,1,3,461412,1940335,2037254
+102368,Troy University,NCAA Division I-FBS,47,1,3,332994,1721083,1925989
+104151,Arizona State University Campus Immersion,NCAA Division I-FBS,41,1,3,798848,5112811,5112811
+104179,University of Arizona,NCAA Division I-FBS,40,1,3,1224073,7130803,7130803
+104717,Grand Canyon University,NCAA Division I without football,45,1,4,646739,1707463,1707463
+106245,University of Arkansas at Little Rock,NCAA Division I without football,43,1,5,513315,1535142,1535142
+106397,University of Arkansas,NCAA Division I-FBS,43,1,3,2575249,9895653,6750931
+106412,University of Arkansas at Pine Bluff,NCAA Division I-FCS,39,1,2,61813,404042,404042
+106458,Arkansas State University,NCAA Division I-FBS,42,1,3,911520,2178253,2178253
+106704,University of Central Arkansas,NCAA Division I-FCS,44,1,3,379984,1013450,1013450
+110361,California Baptist University,NCAA Division I without football,38,1,4,636681,2710931,2947025
+110422,California Polytechnic State University-San Luis Obispo,NCAA Division I-FCS,39,1,3,478545,1914252,1914252
+110486,California State University-Bakersfield,NCAA Division I without football,40,1,5,254720,1238083,1238083
+110556,California State University-Fresno,NCAA Division I-FBS,37,1,3,635771,2222293,2222293
+110565,California State University-Fullerton,NCAA Division I without football,40,1,4,498683,2216837,2216837
+110583,California State University-Long Beach,NCAA Division I without football,40,1,3,462163,1999383,1999383
+110608,California State University-Northridge,NCAA Division I without football,27,1,4,517240,1994292,2162761
+110617,California State University-Sacramento,NCAA Division I-FCS,44,1,3,407293,2160331,2160331
+110635,University of California-Berkeley,NCAA Division I-FBS,43,1,3,856347,2570634,1377393
+110644,University of California-Davis,NCAA Division I-FCS,43,1,3,396693,1545091,1545091
+110653,University of California-Irvine,NCAA Division I without football,40,1,3,614787,2318489,2318489
+110662,University of California-Los Angeles,NCAA Division I-FBS,40,1,3,1104258,5199301,5199301
+110671,University of California-Riverside,NCAA Division I without football,38,1,3,226672,1510903,1510903
+110680,University of California-San Diego,NCAA Division I without football,42,1,4,700169,2190750,2190750
+110705,University of California-Santa Barbara,NCAA Division I without football,52,1,3,522546,3435494,3435494
+117946,Loyola Marymount University,NCAA Division I without football,41,1,3,669626,2607555,2607555
+120883,University of the Pacific,NCAA Division I without football,41,1,3,372002,2039643,2039643
+121150,Pepperdine University,NCAA Division I without football,40,1,3,586530,2852978,2852978
+122409,San Diego State University,NCAA Division I-FBS,40,1,2,1897885,3051214,3341349
+122436,University of San Diego,NCAA Division I-FCS,38,1,3,509394,2784644,2784644
+122612,University of San Francisco,NCAA Division I without football,40,1,3,424682,2077796,2077796
+122755,San Jose State University,NCAA Division I-FBS,48,1,2,331823,1292025,1292025
+122931,Santa Clara University,NCAA Division I without football,41,1,3,349863,2298744,2298744
+123554,Saint Mary's College of California,NCAA Division I without football,40,1,3,862360,2618282,2618282
+123961,University of Southern California,NCAA Division I-FBS,40,1,3,941305,5898560,5898560
+127741,University of Northern Colorado,NCAA Division I-FCS,39,1,3,226331,683055,683055
+128771,Central Connecticut State University,NCAA Division I-FCS,42,1,5,206984,847191,847191
+129020,University of Connecticut,NCAA Division I-FBS,42,1,3,1057160,2756777,2756777
+129242,Fairfield University,NCAA Division I without football,38,1,3,330628,1386567,1386567
+130226,Quinnipiac University,NCAA Division I without football,32,1,3,296808,1183118,1183118
+130253,Sacred Heart University,NCAA Division I-FCS,39,1,2,302370,997246,997246
+130794,Yale University,NCAA Division I-FCS,32,1,3,317625,1547214,1547214
+130934,Delaware State University,NCAA Division I-FCS,25,1,3,200812,318890,318890
+130943,University of Delaware,NCAA Division I-FCS,38,1,3,299637,1486755,1486755
+131469,George Washington University,NCAA Division I without football,40,1,3,360846,1981575,1981575
+131496,Georgetown University,NCAA Division I-FCS,40,1,2,283026,1875125,1875125
+132602,Bethune-Cookman University,NCAA Division I-FCS,40,1,2,591954,1053753,1053753
+132903,University of Central Florida,NCAA Division I-FBS,40,1,3,1074042,3580433,5634488
+133650,Florida Agricultural and Mechanical University,NCAA Division I-FCS,36,1,3,262519,669968,551711
+133669,Florida Atlantic University,NCAA Division I-FBS,39,1,3,751703,1924032,1924032
+133951,Florida International University,Independent,40,1,3,445151,1630533,1630533
+134097,Florida State University,NCAA Division I-FBS,40,1,3,1712178,6866464,6866464
+134130,University of Florida,NCAA Division I-FBS,38,1,3,1575853,6404716,4079732
+134945,Jacksonville University,NCAA Division I without football,35,1,3,289407,1761358,1761358
+135726,University of Miami,NCAA Division I-FBS,36,1,3,1092852,5941358,5941358
+136172,University of North Florida,NCAA Division I without football,43,1,3,322351,937145,937145
+137351,University of South Florida,NCAA Division I-FBS,60,1,3,576820,2716278,2716278
+137546,Stetson University,NCAA Division I-FCS,45,1,3,519841,2512324,2512324
+139755,Georgia Institute of Technology-Main Campus,NCAA Division I-FBS,46,1,3,977857,3778809,1053641
+139861,Georgia College & State University,NCAA Division II without football,48,1,1,143584,484686,481166
+139931,Georgia Southern University,NCAA Division I-FBS,49,1,4,470080,1854632,1854632
+139940,Georgia State University,NCAA Division I-FBS,40,1,3,293859,1560595,1560595
+140447,Mercer University,NCAA Division I-FCS,48,1,3,367638,1830779,1830779
+141334,University of West Georgia,NCAA Division I-FCS,45,1,3,322599,804788,804788
+141574,University of Hawaii at Manoa,NCAA Division I-FBS,41,1,3,731475,2373995,1800156
+143358,Bradley University,NCAA Division I without football,36,1,3,311478,1499532,1499532
+144892,Eastern Illinois University,NCAA Division I-FCS,44,1,5,255766,926418,926418
+145600,University of Illinois Chicago,NCAA Division I without football,41,1,3,361575,1289962,1289962
+145637,University of Illinois Urbana-Champaign,NCAA Division I-FBS,35,1,3,736877,3765062,622647
+145813,Illinois State University,NCAA Division I-FCS,38,1,4,350495,1294199,1294199
+147703,Northern Illinois University,NCAA Division I-FBS,40,1,2,316309,1018781,1024781
+147767,Northwestern University,NCAA Division I-FBS,39,1,3,758405,3158090,2373103
+149222,Southern Illinois University-Carbondale,NCAA Division I-FCS,34,1,4,337850,1166396,1166396
+149231,Southern Illinois University Edwardsville,NCAA Division I without football,38,1,3,233804,787932,787932
+149772,Western Illinois University,NCAA Division I-FCS,34,1,3,27936,773415,773415
+150136,Ball State University,NCAA Division I-FBS,38,1,3,470270,1478071,1478071
+150163,Butler University,NCAA Division I-FCS,42,1,3,191388,1468642,1584877
+150534,University of Evansville,NCAA Division I without football,36,1,3,361181,1763389,1763389
+151102,Purdue University Fort Wayne,NCAA Division I without football,38,1,4,251745,653083,682803
+151306,University of Southern Indiana,NCAA Division II without football,47,1,3,254071,846172,846172
+151324,Indiana State University,NCAA Division I-FCS,42,1,3,450677,1466964,1466964
+151351,Indiana University-Bloomington,NCAA Division I-FBS,41,1,3,884915,3492068,3492068
+152080,University of Notre Dame,NCAA Division I-FBS,45,1,5,940936,3612545,3612545
+152600,Valparaiso University,NCAA Division I-FCS,37,1,3,238844,1106931,1106798
+153658,University of Iowa,NCAA Division I-FBS,46,1,3,990009,3423406,633707
+155317,University of Kansas,NCAA Division I-FBS,39,1,3,1597625,4529090,2219296
+155399,Kansas State University,NCAA Division I-FBS,43,1,3,1175411,3471601,3471601
+156125,Wichita State University,NCAA Division I without football,49,1,3,979675,3154802,3154802
+156286,Bellarmine University,NCAA Division I without football,49,1,3,364874,1046718,1046718
+156620,Eastern Kentucky University,NCAA Division I-FCS,48,1,3,353115,1272728,1272728
+157085,University of Kentucky,NCAA Division I-FBS,42,1,3,1143839,5166875,5166875
+157289,University of Louisville,NCAA Division I-FBS,37,1,4,559400,5425229,671182
+157386,Morehead State University,NCAA Division I-FCS,39,1,3,404393,1121293,1120508
+157401,Murray State University,NCAA Division I-FCS,40,1,3,353880,1145197,1364684
+157447,Northern Kentucky University,NCAA Division I without football,38,1,3,282309,927555,927555
+157951,Western Kentucky University,NCAA Division I-FBS,40,1,3,487502,1476561,1476561
+159009,Grambling State University,NCAA Division I-FCS,40,1,1,35835,862739,862739
+159391,Louisiana State University and Agricultural & Mechanical College,NCAA Division I-FBS,41,1,3,2372032,10988406,10066801
+159647,Louisiana Tech University,NCAA Division I-FBS,40,1,3,646645,2136818,2136818
+159717,McNeese State University,NCAA Division I-FCS,41,1,2,54695,974856,974856
+159939,University of New Orleans,NCAA Division I without football,45,1,4,339237,1015925,1015925
+159966,Nicholls State University,NCAA Division I-FCS,47,1,2,295169,859497,897529
+159993,University of Louisiana at Monroe,NCAA Division I-FBS,42,1,3,448524,1311402,1311402
+160038,Northwestern State University of Louisiana,NCAA Division I-FCS,43,1,3,307348,915603,1038514
+160612,Southeastern Louisiana University,NCAA Division I-FCS,43,1,3,228912,2159080,2159080
+160621,Southern University and A & M College,NCAA Division I-FCS,54,1,3,325955,761519,253713
+160658,University of Louisiana at Lafayette,NCAA Division I-FBS,39,1,3,1156733,3423967,3423967
+160755,Tulane University of Louisiana,NCAA Division I-FBS,44,1,3,1245264,3423961,4061197
+161253,University of Maine,NCAA Division I-FCS,41,1,1,449043,1346459,1346459
+162283,Coppin State University,NCAA Division I without football,32,1,3,95967,370256,370256
+163268,University of Maryland-Baltimore County,NCAA Division I without football,36,1,3,225353,922222,922222
+163286,University of Maryland-College Park,NCAA Division I-FBS,38,1,3,732701,2521679,511445
+163338,University of Maryland Eastern Shore,NCAA Division I without football,39,1,2,295952,775442,752356
+163462,Mount St. Mary's University,NCAA Division I without football,51,1,3,269169,889300,889300
+164076,Towson University,NCAA Division I-FCS,46,1,2,220956,937018,937018
+164924,Boston College,NCAA Division I-FBS,43,1,3,1243376,3947274,3947274
+166027,Harvard University,NCAA Division I-FCS,30,1,3,340161,903151,903151
+166124,College of the Holy Cross,NCAA Division I-FCS,39,1,3,285693,622923,622923
+166513,University of Massachusetts-Lowell,NCAA Division I without football,38,1,3,331685,1137798,1137798
+166629,University of Massachusetts-Amherst,NCAA Division I-FBS,35,1,3,351662,710282,710282
+166850,Merrimack College,NCAA Division I-FCS,40,1,2,214728,1090456,1090456
+167358,Northeastern University,NCAA Division I without football,43,1,3,577828,2278799,2278799
+167996,Stonehill College,NCAA Division I-FCS,38,1,3,310850,1061741,1061741
+169248,Central Michigan University,NCAA Division I-FBS,41,1,3,306168,1268545,1268545
+169798,Eastern Michigan University,NCAA Division I-FBS,48,1,3,355890,1257911,1257911
+170976,University of Michigan-Ann Arbor,NCAA Division I-FBS,42,1,4,1174679,3992821,849484
+171100,Michigan State University,NCAA Division I-FBS,40,1,3,816123,2477184,2477184
+171571,Oakland University,NCAA Division I without football,35,1,4,359529,900101,900101
+172699,Western Michigan University,NCAA Division I-FBS,33,1,3,222725,923105,923105
+174066,University of Minnesota-Twin Cities,NCAA Division I-FBS,38,1,3,834575,2731326,346259
+174914,University of St Thomas,NCAA Division I-FCS,37,1,3,236756,1229569,1229569
+175342,Alcorn State University,NCAA Division I-FCS,35,1,1,283185,564424,564424
+175856,Jackson State University,NCAA Division I-FCS,38,1,2,65996,622094,622094
+176017,University of Mississippi,NCAA Division I-FBS,40,1,3,2931207,10561989,11742870
+176044,Mississippi Valley State University,NCAA Division I-FCS,33,1,1,76568,210161,210161
+176080,Mississippi State University,NCAA Division I-FBS,41,1,3,1377558,7586165,7586165
+176372,University of Southern Mississippi,NCAA Division I-FBS,39,1,5,505286,2372082,2372082
+177968,Lindenwood University,NCAA Division I-FCS,37,1,2,216396,822537,822537
+178396,University of Missouri-Columbia,NCAA Division I-FBS,49,1,3,1215387,4591972,4591972
+179159,Saint Louis University,NCAA Division I without football,36,1,3,525500,1822412,1822412
+179557,Southeast Missouri State University,NCAA Division I-FCS,37,1,3,369409,1007558,1007558
+179566,Missouri State University-Springfield,NCAA Division I-FCS,31,1,3,520593,1876608,1876608
+181002,Creighton University,NCAA Division I without football,37,1,4,806393,2703983,1532618
+181394,University of Nebraska at Omaha,NCAA Division I without football,44,1,2,359735,1211674,385958
+181464,University of Nebraska-Lincoln,NCAA Division I-FBS,42,1,3,1442661,5216241,1795114
+182281,University of Nevada-Las Vegas,NCAA Division I-FBS,38,1,3,402460,1548459,834372
+182290,University of Nevada-Reno,NCAA Division I-FBS,39,1,2,850292,2181975,2233423
+182670,Dartmouth College,NCAA Division I-FCS,31,1,3,269755,774995,774995
+184603,Fairleigh Dickinson University-Metropolitan Campus,NCAA Division I without football,37,1,3,158399,724356,724356
+185572,Monmouth University,NCAA Division I-FCS,42,1,2,301427,1455731,1455731
+185828,New Jersey Institute of Technology,NCAA Division I without football,38,1,4,368714,1591900,1719572
+186131,Princeton University,NCAA Division I-FCS,31,1,3,336173,930067,930067
+186283,Rider University,NCAA Division I without football,31,1,2,132177,726650,726650
+186380,Rutgers University-New Brunswick,NCAA Division I-FBS,40,1,4,1113762,4157341,4157341
+186432,Saint Peter's University,NCAA Division I without football,46,1,5,184491,478988,478988
+186584,Seton Hall University,NCAA Division I without football,39,1,5,570233,1920098,1920098
+187985,University of New Mexico-Main Campus,NCAA Division I-FBS,40,1,3,318298,1540653,1810887
+188030,New Mexico State University-Main Campus,NCAA Division I-FBS,43,1,2,560835,1670161,1670161
+189705,Canisius University,NCAA Division I without football,41,1,2,231635,689997,689997
+190150,Columbia University in the City of New York,NCAA Division I-FCS,40,1,3,628122,1571842,1571842
+190415,Cornell University,NCAA Division I-FCS,37,1,4,223802,810915,810915
+191241,Fordham University,NCAA Division I-FCS,42,1,3,386944,1852313,1852313
+191649,Hofstra University,NCAA Division I without football,37,1,3,360202,1670343,1670343
+191931,Iona University,NCAA Division I-FCS,38,1,4,189101,787230,787230
+192323,Le Moyne College,NCAA Division I without football,34,1,2,254426,789171,799215
+192448,Long Island University,NCAA Division I-FCS,38,1,3,241760,1083669,1083669
+192703,Manhattan University,NCAA Division I without football,41,1,4,280270,970952,1074812
+192819,Marist University,NCAA Division I-FCS,40,1,3,280813,1188317,1188317
+193973,Niagara University,NCAA Division I without football,32,1,1,260078,716450,716450
+195164,St Bonaventure University,NCAA Division I without football,41,1,2,358254,930962,930962
+195474,Siena College,NCAA Division I without football,38,1,2,25140,1192252,1122354
+195809,St. John's University-New York,NCAA Division I without football,37,1,3,463299,1769746,1769746
+196060,University at Albany,NCAA Division I-FCS,34,1,3,193111,785151,767398
+196079,Binghamton University,NCAA Division I without football,33,1,3,339588,1199146,1452746
+196097,Stony Brook University,NCAA Division I-FCS,41,1,3,532836,1725391,1725391
+197197,Wagner College,NCAA Division I-FCS,48,1,3,121168,1010830,1010830
+197869,Appalachian State University,NCAA Division I-FBS,39,1,3,631985,1860111,1860111
+198136,Campbell University,NCAA Division I-FCS,41,1,3,656288,2042745,2042745
+198385,Davidson College,NCAA Division I-FCS,40,1,4,213040,1505685,1098350
+198419,Duke University,NCAA Division I-FBS,43,1,3,1020313,4939712,3122830
+198464,East Carolina University,NCAA Division I-FBS,43,1,3,1297887,3717159,3729869
+198516,Elon University,NCAA Division I-FCS,40,1,3,372608,1843417,1843417
+198561,Gardner-Webb University,NCAA Division I-FCS,44,1,3,241440,1029829,1029829
+198695,High Point University,NCAA Division I without football,44,1,4,375050,1672971,1997130
+199102,North Carolina A & T State University,NCAA Division I-FCS,39,1,3,280550,1277404,1277404
+199111,University of North Carolina Asheville,NCAA Division I without football,39,1,4,330323,814137,814137
+199120,University of North Carolina at Chapel Hill,NCAA Division I-FBS,50,1,4,2120729,6149457,4135210
+199139,University of North Carolina at Charlotte,NCAA Division I-FBS,40,1,3,1053106,2288536,3492984
+199148,University of North Carolina at Greensboro,NCAA Division I without football,39,1,3,276260,1033582,1033582
+199193,North Carolina State University at Raleigh,NCAA Division I-FBS,39,1,3,1186348,8897256,5627701
+199218,University of North Carolina Wilmington,NCAA Division I without football,43,1,3,501789,1472011,1472011
+199412,Queens University of Charlotte,NCAA Division I without football,37,1,4,484606,1215379,1215379
+199847,Wake Forest University,NCAA Division I-FBS,40,1,3,1157837,5183705,5183705
+200004,Western Carolina University,NCAA Division I-FCS,41,1,5,383881,979515,979515
+200332,North Dakota State University-Main Campus,NCAA Division I-FCS,40,1,3,520885,1324307,1324307
+200800,University of Akron Main Campus,NCAA Division I-FBS,35,1,4,303063,526191,526191
+201441,Bowling Green State University-Main Campus,NCAA Division I-FBS,36,1,2,32727,995223,1008982
+201885,University of Cincinnati-Main Campus,NCAA Division I-FBS,40,1,3,880380,3098431,3098431
+202480,University of Dayton,NCAA Division I-FCS,41,1,3,452232,1815382,991693
+203517,Kent State University at Kent,NCAA Division I-FBS,40,1,2,400347,1833374,1833374
+204024,Miami University-Oxford,NCAA Division I-FBS,48,1,4,593726,1764386,1764386
+204796,Ohio State University-Main Campus,NCAA Division I-FBS,39,1,3,1277905,4071873,4071873
+204857,Ohio University-Main Campus,NCAA Division I-FBS,37,1,3,249875,1167227,1167227
+206084,University of Toledo,NCAA Division I-FBS,40,1,3,300741,1213276,1213276
+206604,Wright State University-Main Campus,NCAA Division I without football,40,1,3,410438,1173443,1173443
+206622,Xavier University,NCAA Division I without football,43,1,3,437157,1874137,460103
+206695,Youngstown State University,NCAA Division I-FCS,40,1,3,283383,867494,867494
+207388,Oklahoma State University-Main Campus,NCAA Division I-FBS,41,1,3,1496946,4600487,3084234
+207500,University of Oklahoma-Norman Campus,NCAA Division I-FBS,40,1,3,1680289,6805968,1692363
+207582,Oral Roberts University,NCAA Division I without football,40,1,3,501528,2384965,2384965
+209542,Oregon State University,NCAA Division I-FBS,41,1,3,1584119,5819119,5819119
+209551,University of Oregon,NCAA Division I-FBS,44,1,3,1558475,5397806,1157945
+209825,University of Portland,NCAA Division I without football,38,1,3,371656,1677679,1677679
+211291,Bucknell University,NCAA Division I-FCS,37,1,3,236619,984253,984253
+213385,Lafayette College,NCAA Division I-FCS,40,1,3,408604,1076594,1076594
+213543,Lehigh University,NCAA Division I-FCS,43,1,3,195515,1232924,1232924
+213987,Mercyhurst University,NCAA Division I-FCS,53,1,3,185317,760590,760590
+214777,Pennsylvania State University-Main Campus,NCAA Division I-FBS,41,1,3,1354797,3993679,1181260
+215062,University of Pennsylvania,NCAA Division I-FCS,35,1,4,264357,669905,669905
+215293,University of Pittsburgh-Pittsburgh Campus,NCAA Division I-FBS,37,1,3,779060,2913550,2913550
+215770,Saint Joseph's University - Philadelphia,NCAA Division I without football,38,1,3,257031,1096405,1096405
+216597,Villanova University,NCAA Division I-FCS,38,1,3,698759,1673176,1673176
+217156,Brown University,NCAA Division I-FCS,34,1,2,177561,639939,639939
+217165,Bryant University,NCAA Division I-FCS,40,1,3,348666,1472179,1472179
+217420,Rhode Island College,NCAA Division III without football,40,1,3,66818,184543,184543
+217688,Charleston Southern University,NCAA Division I-FCS,40,1,2,299631,1089044,1089044
+217819,College of Charleston,NCAA Division I without football,52,1,3,491922,1752757,1752757
+217864,Citadel Military College of South Carolina,NCAA Division I-FCS,38,1,3,408738,1299533,1403681
+217882,Clemson University,NCAA Division I-FBS,40,1,3,1570102,7742573,7742573
+218539,Presbyterian College,Other,42,1,4,177914,947802,947802
+218663,University of South Carolina-Columbia,NCAA Division I-FBS,43,1,3,1200237,8046167,8046167
+218724,Coastal Carolina University,NCAA Division I-FBS,42,1,3,2385213,5210907,5210907
+218742,University of South Carolina-Upstate,NCAA Division I without football,47,1,3,249146,1208211,1208211
+218964,Winthrop University,NCAA Division I without football,50,1,3,307519,935225,935225
+218973,Wofford College,NCAA Division I-FCS,44,1,3,365724,1580159,1580159
+219356,South Dakota State University,NCAA Division I-FCS,40,1,2,297760,758033,758033
+219602,Austin Peay State University,NCAA Division I-FCS,39,1,3,526525,1668972,1668972
+219709,Belmont University,NCAA Division I without football,36,1,3,368771,1626135,1626135
+219976,Lipscomb University,NCAA Division I without football,39,1,3,469075,1886189,1886189
+220075,East Tennessee State University,NCAA Division I-FCS,35,1,3,294088,3479039,3479039
+220862,University of Memphis,NCAA Division I-FBS,37,1,3,624763,2095708,2095708
+220978,Middle Tennessee State University,NCAA Division I-FBS,43,1,3,439161,1407756,1407756
+221759,The University of Tennessee-Knoxville,NCAA Division I-FBS,55,1,3,1832710,11445793,10266593
+221768,The University of Tennessee-Martin,NCAA Division I-FCS,34,1,3,283521,941077,951093
+221847,Tennessee Technological University,NCAA Division I-FCS,39,1,3,303729,1085525,1085525
+221999,Vanderbilt University,NCAA Division I-FBS,46,1,3,2612125,10095104,10095104
+222178,Abilene Christian University,NCAA Division I-FCS,41,1,3,656387,1785262,1637262
+223232,Baylor University,NCAA Division I-FBS,43,1,4,1300297,5077125,5077125
+224147,Texas A & M University-Corpus Christi,NCAA Division I without football,44,1,5,253945,1111127,1111127
+224226,Dallas Baptist University,NCAA Division II without football,41,1,6,1536349,4328777,4863432
+225399,Houston Christian University,NCAA Division I-FCS,41,1,3,250958,1157217,1157217
+225511,University of Houston,NCAA Division I-FBS,47,1,3,825667,3189990,3189990
+225627,University of the Incarnate Word,NCAA Division I-FCS,45,1,3,259503,1242019,1242019
+226091,Lamar University,NCAA Division I-FCS,40,1,3,443444,1619917,1619917
+227368,The University of Texas Rio Grande Valley,NCAA Division I without football,40,1,3,461040,1469242,1469242
+227526,Prairie View A & M University,NCAA Division I-FCS,43,1,2,243215,681764,681764
+227757,Rice University,NCAA Division I-FBS,42,1,3,857063,3441269,3441269
+227881,Sam Houston State University,NCAA Division I-FBS,36,1,3,378908,1297537,1297537
+228431,Stephen F Austin State University,NCAA Division I-FCS,59,1,2,271935,884167,884167
+228459,Texas State University,NCAA Division I-FBS,40,1,3,780432,2411423,2411423
+228529,Tarleton State University,NCAA Division I-FCS,41,1,3,475297,1650245,1650245
+228723,Texas A&M University-College Station,NCAA Division I-FBS,48,1,3,2457657,9012123,5753744
+228769,The University of Texas at Arlington,NCAA Division I without football,39,1,4,479024,1203724,1203724
+228778,The University of Texas at Austin,NCAA Division I-FBS,41,1,3,956399,8106674,5587887
+228875,Texas Christian University,NCAA Division I-FBS,41,1,3,2185264,8153084,8153084
+229027,The University of Texas at San Antonio,NCAA Division I-FBS,38,1,3,824635,2248286,2248286
+229063,Texas Southern University,NCAA Division I-FCS,40,1,2,14029,470595,470595
+229115,Texas Tech University,NCAA Division I-FBS,40,1,3,1888251,6242693,2393486
+230038,Brigham Young University,NCAA Division I-FBS,41,1,3,1184916,3945397,4026426
+230171,Utah Tech University,NCAA Division I-FCS,33,1,3,475987,1247495,1247495
+230737,Utah Valley University,NCAA Division I without football,44,1,3,682603,1655469,1655469
+230764,University of Utah,NCAA Division I-FBS,39,1,3,812556,3208517,726374
+231624,William & Mary,NCAA Division I-FCS,40,1,2,348070,1432150,1272852
+232186,George Mason University,NCAA Division I without football,40,1,5,355899,1306937,1306937
+232423,James Madison University,NCAA Division I-FCS,41,1,3,578509,2214908,2214909
+232557,Liberty University,NCAA Division I-FBS,39,1,4,514480,2270556,2270556
+232566,Longwood University,NCAA Division I without football,44,1,3,294713,1480917,1443580
+232937,Norfolk State University,NCAA Division I-FCS,35,1,1,146173,633526,633526
+232982,Old Dominion University,NCAA Division I-FBS,40,1,3,819381,1965101,1965101
+233277,Radford University,NCAA Division I without football,40,1,4,462950,1584058,1584058
+233374,University of Richmond,NCAA Division I-FCS,41,1,3,517818,1874058,1874058
+233921,Virginia Polytechnic Institute and State University,NCAA Division I-FBS,45,1,3,1284649,3966801,1313850
+234030,Virginia Commonwealth University,NCAA Division I without football,42,1,3,391758,1713909,1713909
+234076,University of Virginia-Main Campus,NCAA Division I-FBS,41,1,3,1901600,6397144,6397144
+234085,Virginia Military Institute,NCAA Division I-FCS,37,1,3,320307,1000687,1000687
+235316,Gonzaga University,NCAA Division I without football,40,1,3,639158,2876575,2966210
+236595,Seattle University,NCAA Division I without football,33,1,2,546136,1841955,1911208
+236939,Washington State University,NCAA Division I-FBS,36,1,3,803969,2511301,1071708
+236948,University of Washington-Seattle Campus,NCAA Division I-FBS,43,1,3,1208535,4803267,758950
+237525,Marshall University,NCAA Division I-FBS,40,1,3,822932,4439999,4439999
+238032,West Virginia University,NCAA Division I-FBS,42,1,3,948281,4224823,4224823
+240453,University of Wisconsin-Milwaukee,NCAA Division I without football,40,1,4,360901,1210488,1210488
+243744,Stanford University,NCAA Division I-FBS,38,1,3,1127862,4344255,4344255
+243780,Purdue University-Main Campus,NCAA Division I-FBS,45,1,3,1364106,3173761,480957
+433660,Florida Gulf Coast University,NCAA Division I without football,40,1,3,403144,1237703,1237703
+486840,Kennesaw State University,NCAA Division I-FCS,40,1,2,801897,2220048,2220048

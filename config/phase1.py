@@ -12,6 +12,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 BENCHMARKS = ROOT / "benchmarks.json"
 ENGINE_TABLES = ROOT / "data/ncaa_2025/derived/engine_tables_2025.json"
+RUN_RULE_SOLVED = ROOT / "data/ncaa_2025/derived/run_rule_in_effect_2025.json"
 
 # Batter-result classes of the single outcome table, in a fixed order so that the
 # categorical draw is reproducible across runs and platforms.
@@ -33,7 +34,8 @@ class Rules:
     innings: int                      # benchmarks game_structure.innings
     run_rule_margin: int              # benchmarks game_structure.run_rule: "10 runs after 7 innings"
     run_rule_after_inning: int
-    p_run_rule_in_effect: float       # benchmarks game_structure.run_rule_freq.p_ended_early_given_margin_10plus_wmt
+    p_run_rule_in_effect: float       # solved to benchmarks game_structure.run_rule_freq.p_ended_early_given_margin_10plus
+                                      # (data/ncaa_2025/derived/run_rule_in_effect_2025.json, scripts/build_run_rule.py --solve)
     extra_innings_placed_runner: bool  # benchmarks game_structure.extra_innings_tiebreaker: conference-optional, not universal
 
 
@@ -47,6 +49,14 @@ class Phase1Config:
     sources: dict = field(default_factory=dict)
 
 
+def _p_run_rule(rr: dict) -> float:
+    """The solved probability that a game is under the run rule; before the solve, the WMT share of 10-run games that ended
+    early, which the engine used until 2026-10-08."""
+    if RUN_RULE_SOLVED.exists():
+        return float(json.loads(RUN_RULE_SOLVED.read_text())["p_run_rule_in_effect"])
+    return float(rr["wmt_sample"]["p_ended_early_given_margin_10plus"])
+
+
 def load() -> Phase1Config:
     b = json.loads(BENCHMARKS.read_text())
     t = json.loads(ENGINE_TABLES.read_text())
@@ -58,7 +68,7 @@ def load() -> Phase1Config:
     rules = Rules(
         innings=int(gs["innings"]),
         run_rule_margin=10, run_rule_after_inning=7,  # from the text of game_structure.run_rule (conf C)
-        p_run_rule_in_effect=float(gs["run_rule_freq"]["p_ended_early_given_margin_10plus_wmt"]),
+        p_run_rule_in_effect=_p_run_rule(gs["run_rule_freq"]),
         extra_innings_placed_runner=False,  # see GUESSES.md: rule is conference-optional; plain extras used
     )
     return Phase1Config(

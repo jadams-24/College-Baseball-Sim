@@ -1,0 +1,905 @@
+{
+ "seasons": 8,
+ "dir": "runs/round3/57148fcc6c2ce905",
+ "per_season": [
+  {
+   "phi": 2.206773835640089,
+   "resid_corr": 0.05433765213225428,
+   "n_team_games": 15980,
+   "n_pa": 689413,
+   "tto_sim": [
+    0.006197518101146794,
+    0.0139109019416679,
+    0.003262335152329112
+   ],
+   "tto_dphi_real_penalty": {
+    "dphi": -0.06229290778875397,
+    "var_part": 0.01483244865857415,
+    "cov_part": -0.07712535644732813,
+    "cov_part_starter_innings": -0.07013112874985186,
+    "cov_part_relief_innings": -0.006994227697476256,
+    "sd_t": 0.3024782982489265,
+    "corr_t_rest": -0.20752249666492684
+   },
+   "tto_dphi_added": {
+    "dphi": -0.04648120038799579,
+    "var_part": 0.00953775721602915,
+    "cov_part": -0.056018957604024935,
+    "cov_part_starter_innings": -0.05040597305195473,
+    "cov_part_relief_innings": -0.005612984552070198,
+    "sd_t": 0.24275797926204676,
+    "corr_t_rest": -0.18970398146571876
+   },
+   "mopup": {
+    "blowout_5plus": {
+     "dphi": -0.030944443767335218,
+     "var_part": 0.03798020006994494,
+     "cov_part": -0.06892464383728016,
+     "cov_part_starter_innings": -0.07509367925650025,
+     "cov_part_relief_innings": 0.006169035419220096,
+     "sd_t": 0.48894427552891345,
+     "corr_t_rest": -0.110464087098315,
+     "noise_part": 0.035234841993929386,
+     "dphi_noise_corrected": -0.06617928576126461,
+     "mean_gap_per_pa": 0.0032099306003374357,
+     "relief_pa_share": 0.29321765064732597
+    },
+    "blowout_7plus_engine_bin": {
+     "dphi": -0.009901766118698873,
+     "var_part": 0.020601104186153827,
+     "cov_part": -0.0305028703048527,
+     "cov_part_starter_innings": -0.03454614116783765,
+     "cov_part_relief_innings": 0.004043270862984949,
+     "sd_t": 0.3581106170838863,
+     "corr_t_rest": -0.06543210965014658,
+     "noise_part": 0.018532730309707864,
+     "dphi_noise_corrected": -0.028434496428406737,
+     "mean_gap_per_pa": 0.006481217102820241,
+     "relief_pa_share": 0.14274791567816716
+    },
+    "blowout_8plus": {
+     "dphi": -0.003923158648140548,
+     "var_part": 0.01396823046704335,
+     "cov_part": -0.017891389115183898,
+     "cov_part_starter_innings": -0.020950868187168934,
+     "cov_part_relief_innings": 0.003059479071985034,
+     "sd_t": 0.2913716071002916,
+     "corr_t_rest": -0.04531803551177015,
+     "noise_part": 0.012014321192473622,
+     "dphi_noise_corrected": -0.01593747984061417,
+     "mean_gap_per_pa": 0.006079030480697496,
+     "relief_pa_share": 0.09580695451772521
+    },
+    "all_relief": {
+     "dphi": -0.104929917191577,
+     "var_part": 0.11663909930652487,
+     "cov_part": -0.22156901649810187,
+     "cov_part_starter_innings": -0.22923135576367407,
+     "cov_part_relief_innings": 0.007662339265572202,
+     "sd_t": 0.8602548610163494,
+     "corr_t_rest": -0.20194629263084288,
+     "noise_part": 0.11094519047790838,
+     "dphi_noise_corrected": -0.21587510766948537,
+     "mean_gap_per_pa": -0.00010706035290140127,
+     "relief_pa_share": 1.0
+    }
+   },
+   "pa_length_sim": -0.02377936176938695,
+   "pa_length_size": {
+    "dphi": 0.0004362763635602494,
+    "var_part": 5.536391104876675e-07,
+    "cov_part": 0.0004357227244497617,
+    "cov_part_starter_innings": 0.00045354087561676686,
+    "cov_part_relief_innings": -1.7818151167005144e-05,
+    "sd_t": 0.0018913823862862589,
+    "corr_t_rest": 0.1866726612067192,
+    "extra_pitches_per_start": -0.11433548835101039,
+    "batters_moved_per_start": -0.031144403094806268,
+    "starter_bf_per_start": 18.976441340120754,
+    "starter_pitches_per_start": 70.85539244702261,
+    "pas_with_runners_per_start": 9.263762282467148
+   },
+   "pa_length_runners_share": 0.5211839637488704,
+   "pa_length_by_runners": {
+    "false": 3.8119096521681177,
+    "true": 3.74424287156089
+   },
+   "lineups": {
+    "dL_share_vsR_minus_vsL": 0.00390933890994722,
+    "dR_share_vsL_minus_vsR": 0.003677815543576045,
+    "adv_gain_vs_fixed_lineup": 0.001439858300455831,
+    "n_teams": 307,
+    "share_vs_LHP": 0.2624600449863857
+   },
+   "adv_share_all_pa": 0.4672975415317089
+  },
+  {
+   "phi": 2.1976951109624525,
+   "resid_corr": 0.032364142152392715,
+   "n_team_games": 16134,
+   "n_pa": 693743,
+   "tto_sim": [
+    0.007395573978785673,
+    0.010934235494465169,
+    0.016727857558039648
+   ],
+   "tto_dphi_real_penalty": {
+    "dphi": -0.05483892846629835,
+    "var_part": 0.015373172189334436,
+    "cov_part": -0.07021210065563278,
+    "cov_part_starter_innings": -0.06590936561405274,
+    "cov_part_relief_innings": -0.004302735041580058,
+    "sd_t": 0.3086548079636824,
+    "corr_t_rest": -0.18671619556403618
+   },
+   "tto_dphi_added": {
+    "dphi": -0.040466873764237035,
+    "var_part": 0.009507889412523573,
+    "cov_part": -0.04997476317676061,
+    "cov_part_starter_innings": -0.04660439048920615,
+    "cov_part_relief_innings": -0.0033703726875544617,
+    "sd_t": 0.2427498683592878,
+    "corr_t_rest": -0.17065425896928635
+   },
+   "mopup": {
+    "blowout_5plus": {
+     "dphi": -0.02704630646689058,
+     "var_part": 0.0378584838312702,
+     "cov_part": -0.06490479029816078,
+     "cov_part_starter_innings": -0.07158137911875222,
+     "cov_part_relief_innings": 0.006676588820591444,
+     "sd_t": 0.49174392127249517,
+     "corr_t_rest": -0.09730607368078922,
+     "noise_part": 0.03563449514655114,
+     "dphi_noise_corrected": -0.06268080161344172,
+     "mean_gap_per_pa": 0.003447789562315364,
+     "relief_pa_share": 0.30616338192640485
+    },
+    "blowout_7plus_engine_bin": {
+     "dphi": -0.01093611141018042,
+     "var_part": 0.020394182277103916,
+     "cov_part": -0.031330293687284336,
+     "cov_part_starter_innings": -0.037920983444882525,
+     "cov_part_relief_innings": 0.006590689757598186,
+     "sd_t": 0.35795181232360124,
+     "corr_t_rest": -0.05941623418535116,
+     "noise_part": 0.01949105513591384,
+     "dphi_noise_corrected": -0.03042716654609426,
+     "mean_gap_per_pa": 0.007965456994004205,
+     "relief_pa_share": 0.15359393203817887
+    },
+    "blowout_8plus": {
+     "dphi": -0.003242452171547061,
+     "var_part": 0.01401457755667792,
+     "cov_part": -0.01725702972822498,
+     "cov_part_starter_innings": -0.023741051224286994,
+     "cov_part_relief_innings": 0.006484021496062019,
+     "sd_t": 0.29553362083680385,
+     "corr_t_rest": -0.03412606588113195,
+     "noise_part": 0.013207352910698775,
+     "dphi_noise_corrected": -0.016449805082245837,
+     "mean_gap_per_pa": 0.009242615726131925,
+     "relief_pa_share": 0.10473775689768423
+    },
+    "all_relief": {
+     "dphi": -0.10319777294175064,
+     "var_part": 0.11534356907139554,
+     "cov_part": -0.21854134201314618,
+     "cov_part_starter_innings": -0.22438268254024252,
+     "cov_part_relief_innings": 0.005841340527096328,
+     "sd_t": 0.8601739617290448,
+     "corr_t_rest": -0.19154918451218916,
+     "noise_part": 0.11013339480835513,
+     "dphi_noise_corrected": -0.21333116775010577,
+     "mean_gap_per_pa": -0.0008291329634879767,
+     "relief_pa_share": 1.0
+    }
+   },
+   "pa_length_sim": -0.016522409800903196,
+   "pa_length_size": {
+    "dphi": 0.0007218931138975093,
+    "var_part": 1.4647230779458572e-06,
+    "cov_part": 0.0007204283908195634,
+    "cov_part_starter_innings": 0.0007849851288135207,
+    "cov_part_relief_innings": -6.455673799395738e-05,
+    "sd_t": 0.0030662380136331864,
+    "corr_t_rest": 0.18658270328611706,
+    "extra_pitches_per_start": -0.18197154237199115,
+    "batters_moved_per_start": -0.049791949268709765,
+    "starter_bf_per_start": 19.00011735711771,
+    "starter_pitches_per_start": 70.59975355005281,
+    "pas_with_runners_per_start": 9.284649689003638
+   },
+   "pa_length_runners_share": 0.5203425476004803,
+   "pa_length_by_runners": {
+    "false": 3.7864104220823127,
+    "true": 3.728135327302467
+   },
+   "lineups": {
+    "dL_share_vsR_minus_vsL": 0.0020115167763864994,
+    "dR_share_vsL_minus_vsR": 0.0017313136416443817,
+    "adv_gain_vs_fixed_lineup": 0.0006556285844086097,
+    "n_teams": 307,
+    "share_vs_LHP": 0.23266048585846733
+   },
+   "adv_share_all_pa": 0.458199938593975
+  },
+  {
+   "phi": 2.2671651194977294,
+   "resid_corr": 0.058697495369777135,
+   "n_team_games": 16058,
+   "n_pa": 689553,
+   "tto_sim": [
+    0.008215705597586378,
+    0.015662097718926554,
+    0.002689666444767679
+   ],
+   "tto_dphi_real_penalty": {
+    "dphi": -0.05742837961747692,
+    "var_part": 0.015534181916086975,
+    "cov_part": -0.0729625615335639,
+    "cov_part_starter_innings": -0.07002365100604233,
+    "cov_part_relief_innings": -0.002938910527521566,
+    "sd_t": 0.3090377274014386,
+    "corr_t_rest": -0.19025295202463455
+   },
+   "tto_dphi_added": {
+    "dphi": -0.040027715295178914,
+    "var_part": 0.009293788627834209,
+    "cov_part": -0.04932150392301312,
+    "cov_part_starter_innings": -0.04707637618272789,
+    "cov_part_relief_innings": -0.0022451277402852263,
+    "sd_t": 0.23962819985522038,
+    "corr_t_rest": -0.16844859486302835
+   },
+   "mopup": {
+    "blowout_5plus": {
+     "dphi": -0.03214557981877744,
+     "var_part": 0.04316213263150005,
+     "cov_part": -0.0753077124502775,
+     "cov_part_starter_innings": -0.08252244036649731,
+     "cov_part_relief_innings": 0.007214727916219812,
+     "sd_t": 0.5182071910365468,
+     "corr_t_rest": -0.10214929119720023,
+     "noise_part": 0.037176280850314915,
+     "dphi_noise_corrected": -0.06932186066909235,
+     "mean_gap_per_pa": 0.003756886191772477,
+     "relief_pa_share": 0.3087546489287936
+    },
+    "blowout_7plus_engine_bin": {
+     "dphi": -0.011265470723247097,
+     "var_part": 0.02452049235527681,
+     "cov_part": -0.03578596307852391,
+     "cov_part_starter_innings": -0.04405248024375207,
+     "cov_part_relief_innings": 0.008266517165228169,
+     "sd_t": 0.38915913072396024,
+     "corr_t_rest": -0.06270787035093281,
+     "noise_part": 0.020743272530615812,
+     "dphi_noise_corrected": -0.03200874325386291,
+     "mean_gap_per_pa": 0.008000176865841124,
+     "relief_pa_share": 0.1563629686270963
+    },
+    "blowout_8plus": {
+     "dphi": -0.006298463525849805,
+     "var_part": 0.016080040173656253,
+     "cov_part": -0.022378503699506058,
+     "cov_part_starter_innings": -0.026259514801669707,
+     "cov_part_relief_innings": 0.0038810111021636493,
+     "sd_t": 0.31139301298464717,
+     "corr_t_rest": -0.0518961903487282,
+     "noise_part": 0.013810750035443973,
+     "dphi_noise_corrected": -0.020109213561293776,
+     "mean_gap_per_pa": 0.007333979622697893,
+     "relief_pa_share": 0.10783596304427068
+    },
+    "all_relief": {
+     "dphi": -0.11884247662484795,
+     "var_part": 0.12099319682186788,
+     "cov_part": -0.23983567344671583,
+     "cov_part_starter_innings": -0.23754400215436267,
+     "cov_part_relief_innings": -0.0022916712923531832,
+     "sd_t": 0.8674612286447881,
+     "corr_t_rest": -0.2005471951084933,
+     "noise_part": 0.1110668133915774,
+     "dphi_noise_corrected": -0.22990929001642535,
+     "mean_gap_per_pa": -0.0005060786079456895,
+     "relief_pa_share": 1.0
+    }
+   },
+   "pa_length_sim": -0.01864233299182357,
+   "pa_length_size": {
+    "dphi": 0.0006555606233769541,
+    "var_part": 1.2117939162582954e-06,
+    "cov_part": 0.0006543488294606958,
+    "cov_part_starter_innings": 0.0007058452114550878,
+    "cov_part_relief_innings": -5.149638199439201e-05,
+    "sd_t": 0.002788990538131225,
+    "corr_t_rest": 0.18510993993086516,
+    "extra_pitches_per_start": -0.1618652657704887,
+    "batters_moved_per_start": -0.04413367429200543,
+    "starter_bf_per_start": 19.11255003531905,
+    "starter_pitches_per_start": 71.27125029432541,
+    "pas_with_runners_per_start": 9.260419119378385
+   },
+   "pa_length_runners_share": 0.5173438444905613,
+   "pa_length_by_runners": {
+    "false": 3.80003906073945,
+    "true": 3.7362961336047777
+   },
+   "lineups": {
+    "dL_share_vsR_minus_vsL": 0.0013468974464397176,
+    "dR_share_vsL_minus_vsR": 0.0011503652428800127,
+    "adv_gain_vs_fixed_lineup": 0.00046240323699899206,
+    "n_teams": 307,
+    "share_vs_LHP": 0.2515304921120791
+   },
+   "adv_share_all_pa": 0.4624430609394782
+  },
+  {
+   "phi": 2.215694271129374,
+   "resid_corr": 0.0430362530244273,
+   "n_team_games": 16038,
+   "n_pa": 688059,
+   "tto_sim": [
+    0.011129615067889863,
+    0.013196253753790426,
+    0.007954405996544501
+   ],
+   "tto_dphi_real_penalty": {
+    "dphi": -0.05807246138300672,
+    "var_part": 0.01604901050588315,
+    "cov_part": -0.07412147188888987,
+    "cov_part_starter_innings": -0.06844912681381532,
+    "cov_part_relief_innings": -0.0056723450750745495,
+    "sd_t": 0.3106358437858057,
+    "corr_t_rest": -0.1927086212272142
+   },
+   "tto_dphi_added": {
+    "dphi": -0.03973173375909067,
+    "var_part": 0.009332782076939107,
+    "cov_part": -0.049064515836029776,
+    "cov_part_starter_innings": -0.044932469414455396,
+    "cov_part_relief_innings": -0.004132046421574382,
+    "sd_t": 0.2372807022495337,
+    "corr_t_rest": -0.1694625532398056
+   },
+   "mopup": {
+    "blowout_5plus": {
+     "dphi": -0.014895568841664902,
+     "var_part": 0.039596711116708906,
+     "cov_part": -0.05449227995837381,
+     "cov_part_starter_innings": -0.06517459668657404,
+     "cov_part_relief_innings": 0.010682316728200228,
+     "sd_t": 0.497323188839128,
+     "corr_t_rest": -0.08615163351500485,
+     "noise_part": 0.03509085629218497,
+     "dphi_noise_corrected": -0.04998642513384987,
+     "mean_gap_per_pa": 0.0027725691881365774,
+     "relief_pa_share": 0.2968947652099306
+    },
+    "blowout_7plus_engine_bin": {
+     "dphi": -0.0007255768034818144,
+     "var_part": 0.02338613294828496,
+     "cov_part": -0.024111709751766776,
+     "cov_part_starter_innings": -0.031856173143666094,
+     "cov_part_relief_innings": 0.007744463391899324,
+     "sd_t": 0.38139602477044665,
+     "corr_t_rest": -0.04526081496804384,
+     "noise_part": 0.01908503885874158,
+     "dphi_noise_corrected": -0.019810615662223394,
+     "mean_gap_per_pa": 0.007215209643705162,
+     "relief_pa_share": 0.14537294716810947
+    },
+    "blowout_8plus": {
+     "dphi": 0.0006864712491477382,
+     "var_part": 0.01627264826437238,
+     "cov_part": -0.01558617701522464,
+     "cov_part_starter_innings": -0.021475389521995705,
+     "cov_part_relief_innings": 0.005889212506771062,
+     "sd_t": 0.3172749176517176,
+     "corr_t_rest": -0.03213313755929149,
+     "noise_part": 0.013002292375863969,
+     "dphi_noise_corrected": -0.01231582112671623,
+     "mean_gap_per_pa": 0.007671426094092246,
+     "relief_pa_share": 0.09878067560581227
+    },
+    "all_relief": {
+     "dphi": -0.08472634895614166,
+     "var_part": 0.11938469277382589,
+     "cov_part": -0.20411104172996755,
+     "cov_part_starter_innings": -0.21927742439755282,
+     "cov_part_relief_innings": 0.015166382667585297,
+     "sd_t": 0.8667716190871328,
+     "corr_t_rest": -0.1835343369428085,
+     "noise_part": 0.11099599560112847,
+     "dphi_noise_corrected": -0.1957223445572701,
+     "mean_gap_per_pa": -0.0008266871597964813,
+     "relief_pa_share": 1.0
+    }
+   },
+   "pa_length_sim": -0.020292142010420604,
+   "pa_length_size": {
+    "dphi": 0.000526582709202635,
+    "var_part": 9.50388247397174e-07,
+    "cov_part": 0.0005256323209552378,
+    "cov_part_starter_innings": 0.000592663898712548,
+    "cov_part_relief_innings": -6.703157775731008e-05,
+    "sd_t": 0.002454597677764772,
+    "corr_t_rest": 0.17297712067109716,
+    "extra_pitches_per_start": -0.14720492207336575,
+    "batters_moved_per_start": -0.040239503775708514,
+    "starter_bf_per_start": 19.137269938650306,
+    "starter_pitches_per_start": 71.21336715431808,
+    "pas_with_runners_per_start": 9.299433695139216
+   },
+   "pa_length_runners_share": 0.5167725442149583,
+   "pa_length_by_runners": {
+    "false": 3.7938048519336154,
+    "true": 3.7263356816397093
+   },
+   "lineups": {
+    "dL_share_vsR_minus_vsL": 0.0018274945296936772,
+    "dR_share_vsL_minus_vsR": 0.0029533074575919397,
+    "adv_gain_vs_fixed_lineup": 0.0008741483610984448,
+    "n_teams": 307,
+    "share_vs_LHP": 0.25106182161396884
+   },
+   "adv_share_all_pa": 0.45602048661524663
+  },
+  {
+   "phi": 2.2067687250106363,
+   "resid_corr": 0.03476887118805015,
+   "n_team_games": 16070,
+   "n_pa": 691426,
+   "tto_sim": [
+    0.008153411502232774,
+    0.01599530395257361,
+    0.014664905199980663
+   ],
+   "tto_dphi_real_penalty": {
+    "dphi": -0.05817222621668598,
+    "var_part": 0.015075470643511977,
+    "cov_part": -0.07324769686019796,
+    "cov_part_starter_innings": -0.06925478479184,
+    "cov_part_relief_innings": -0.00399291206835794,
+    "sd_t": 0.3038234614798459,
+    "corr_t_rest": -0.19731357679053652
+   },
+   "tto_dphi_added": {
+    "dphi": -0.03937884863123675,
+    "var_part": 0.008152240204746667,
+    "cov_part": -0.04753108883598342,
+    "cov_part_starter_innings": -0.04458106709908714,
+    "cov_part_relief_innings": -0.00295002173689627,
+    "sd_t": 0.2235359836271364,
+    "corr_t_rest": -0.17625476847223326
+   },
+   "mopup": {
+    "blowout_5plus": {
+     "dphi": -0.025539366676066787,
+     "var_part": 0.03901070652136283,
+     "cov_part": -0.06455007319742961,
+     "cov_part_starter_innings": -0.07106697564620444,
+     "cov_part_relief_innings": 0.006516902448774829,
+     "sd_t": 0.49182225123122436,
+     "corr_t_rest": -0.09681894858731614,
+     "noise_part": 0.03456778397088151,
+     "dphi_noise_corrected": -0.0601071506469483,
+     "mean_gap_per_pa": 0.004114299601443028,
+     "relief_pa_share": 0.28717862771228614
+    },
+    "blowout_7plus_engine_bin": {
+     "dphi": -0.00725170149811738,
+     "var_part": 0.020901809859630572,
+     "cov_part": -0.028153511357747952,
+     "cov_part_starter_innings": -0.035054316159635876,
+     "cov_part_relief_innings": 0.006900804801887919,
+     "sd_t": 0.35828601738678184,
+     "corr_t_rest": -0.05397093921119865,
+     "noise_part": 0.018442191052607877,
+     "dphi_noise_corrected": -0.025693892550725256,
+     "mean_gap_per_pa": 0.009029557389256175,
+     "relief_pa_share": 0.1398265110005217
+    },
+    "blowout_8plus": {
+     "dphi": -0.00370982758143883,
+     "var_part": 0.0135357453580973,
+     "cov_part": -0.01724557293953613,
+     "cov_part_starter_innings": -0.01978597512917276,
+     "cov_part_relief_innings": 0.0025404021896366334,
+     "sd_t": 0.28651174900989357,
+     "corr_t_rest": -0.038915794745229854,
+     "noise_part": 0.012096497986762638,
+     "dphi_noise_corrected": -0.015806325568201468,
+     "mean_gap_per_pa": 0.008847318198552128,
+     "relief_pa_share": 0.09326723198814933
+    },
+    "all_relief": {
+     "dphi": -0.09222663885203042,
+     "var_part": 0.11827281862997724,
+     "cov_part": -0.21049945748200766,
+     "cov_part_starter_innings": -0.21654193489200987,
+     "cov_part_relief_innings": 0.006042477410002207,
+     "sd_t": 0.862976444714374,
+     "corr_t_rest": -0.18809046759377496,
+     "noise_part": 0.11145692506471241,
+     "dphi_noise_corrected": -0.20368356391674283,
+     "mean_gap_per_pa": 0.0001488630843129779,
+     "relief_pa_share": 1.0
+    }
+   },
+   "pa_length_sim": -0.011636669368899365,
+   "pa_length_size": {
+    "dphi": 0.0008830805412387387,
+    "var_part": 2.252544654577479e-06,
+    "cov_part": 0.0008808279965841612,
+    "cov_part_starter_innings": 0.0009623718289566902,
+    "cov_part_relief_innings": -8.15438323725292e-05,
+    "sd_t": 0.0038097319153801218,
+    "corr_t_rest": 0.1848323756670445,
+    "extra_pitches_per_start": -0.22403790789291192,
+    "batters_moved_per_start": -0.06090173076144173,
+    "starter_bf_per_start": 18.915568369028005,
+    "starter_pitches_per_start": 70.67686514473993,
+    "pas_with_runners_per_start": 9.150035302424099
+   },
+   "pa_length_runners_share": 0.5159713403892824,
+   "pa_length_by_runners": {
+    "false": 3.8080414502817734,
+    "true": 3.7505476004121783
+   },
+   "lineups": {
+    "dL_share_vsR_minus_vsL": 0.0023732987822790035,
+    "dR_share_vsL_minus_vsR": 0.0019290166178538915,
+    "adv_gain_vs_fixed_lineup": 0.0007685656264058745,
+    "n_teams": 307,
+    "share_vs_LHP": 0.2413509060955519
+   },
+   "adv_share_all_pa": 0.462230231434745
+  },
+  {
+   "phi": 2.248634077860596,
+   "resid_corr": 0.04624624452946244,
+   "n_team_games": 16074,
+   "n_pa": 693669,
+   "tto_sim": [
+    0.008569874181852958,
+    0.013705244364937388,
+    0.009909799397149432
+   ],
+   "tto_dphi_real_penalty": {
+    "dphi": -0.055053880891306244,
+    "var_part": 0.014875390291720794,
+    "cov_part": -0.06992927118302704,
+    "cov_part_starter_innings": -0.067519362794512,
+    "cov_part_relief_innings": -0.002409908388515047,
+    "sd_t": 0.30447408048820956,
+    "corr_t_rest": -0.1852062228650483
+   },
+   "tto_dphi_added": {
+    "dphi": -0.03876383329443554,
+    "var_part": 0.008763817892843213,
+    "cov_part": -0.04752765118727876,
+    "cov_part_starter_innings": -0.04570005116853292,
+    "cov_part_relief_innings": -0.0018276000187458278,
+    "sd_t": 0.2339279697104632,
+    "corr_t_rest": -0.16557387048159772
+   },
+   "mopup": {
+    "blowout_5plus": {
+     "dphi": -0.043973019871557724,
+     "var_part": 0.03830797799380483,
+     "cov_part": -0.08228099786536255,
+     "cov_part_starter_innings": -0.08376001089265653,
+     "cov_part_relief_innings": 0.001479013027293969,
+     "sd_t": 0.49252638056010317,
+     "corr_t_rest": -0.12468755651676804,
+     "noise_part": 0.035208956948631936,
+     "dphi_noise_corrected": -0.07918197682018965,
+     "mean_gap_per_pa": 0.0034926325413724988,
+     "relief_pa_share": 0.2955955576694156
+    },
+    "blowout_7plus_engine_bin": {
+     "dphi": -0.022843013625621075,
+     "var_part": 0.020025289690658903,
+     "cov_part": -0.04286830331627998,
+     "cov_part_starter_innings": -0.04393421115390887,
+     "cov_part_relief_innings": 0.0010659078376288945,
+     "sd_t": 0.3531940923995073,
+     "corr_t_rest": -0.08555065348319424,
+     "noise_part": 0.019122252610199536,
+     "dphi_noise_corrected": -0.041965266235820614,
+     "mean_gap_per_pa": 0.006847513945307686,
+     "relief_pa_share": 0.14511738640913402
+    },
+    "blowout_8plus": {
+     "dphi": -0.017842445631417465,
+     "var_part": 0.014108303407969529,
+     "cov_part": -0.031950749039386994,
+     "cov_part_starter_innings": -0.03140384572886789,
+     "cov_part_relief_innings": -0.0005469033105191003,
+     "sd_t": 0.2955910377088505,
+     "corr_t_rest": -0.07673979982528956,
+     "noise_part": 0.013167270714826849,
+     "dphi_noise_corrected": -0.031009716346244314,
+     "mean_gap_per_pa": 0.006359580370671287,
+     "relief_pa_share": 0.09935858679500305
+    },
+    "all_relief": {
+     "dphi": -0.12116967642272708,
+     "var_part": 0.11898822549037821,
+     "cov_part": -0.2401579019131053,
+     "cov_part_starter_innings": -0.23691957431923177,
+     "cov_part_relief_innings": -0.0032383275938735324,
+     "sd_t": 0.8737262041006746,
+     "corr_t_rest": -0.20950976462138568,
+     "noise_part": 0.11231938866298828,
+     "dphi_noise_corrected": -0.23348906508571537,
+     "mean_gap_per_pa": 0.00046303093046647515,
+     "relief_pa_share": 1.0
+    }
+   },
+   "pa_length_sim": -0.01909525310085411,
+   "pa_length_size": {
+    "dphi": 0.0006206436920704227,
+    "var_part": 1.0682032050938424e-06,
+    "cov_part": 0.0006195754888653289,
+    "cov_part_starter_innings": 0.0006717890470972835,
+    "cov_part_relief_innings": -5.221355823195451e-05,
+    "sd_t": 0.002612781992503611,
+    "corr_t_rest": 0.1864570104105497,
+    "extra_pitches_per_start": -0.15705140020549552,
+    "batters_moved_per_start": -0.0428000400348262,
+    "starter_bf_per_start": 18.915284151076598,
+    "starter_pitches_per_start": 70.57418519825862,
+    "pas_with_runners_per_start": 9.224026356041888
+   },
+   "pa_length_runners_share": 0.5195100256750698,
+   "pa_length_by_runners": {
+    "false": 3.8034245732784875,
+    "true": 3.7435657946463174
+   },
+   "lineups": {
+    "dL_share_vsR_minus_vsL": 0.00463158213473662,
+    "dR_share_vsL_minus_vsR": 0.004473529905395949,
+    "adv_gain_vs_fixed_lineup": 0.001589951424899001,
+    "n_teams": 307,
+    "share_vs_LHP": 0.23167431462525004
+   },
+   "adv_share_all_pa": 0.4611637538941484
+  },
+  {
+   "phi": 2.196821846133986,
+   "resid_corr": 0.03421154849243602,
+   "n_team_games": 16002,
+   "n_pa": 687807,
+   "tto_sim": [
+    0.008102985058682228,
+    0.012303818747106015,
+    0.019221360521611528
+   ],
+   "tto_dphi_real_penalty": {
+    "dphi": -0.06108704031179047,
+    "var_part": 0.015171221736559526,
+    "cov_part": -0.07625826204835,
+    "cov_part_starter_innings": -0.0739113124112167,
+    "cov_part_relief_innings": -0.0023469496371332954,
+    "sd_t": 0.3068501756705872,
+    "corr_t_rest": -0.19634187764427494
+   },
+   "tto_dphi_added": {
+    "dphi": -0.04367991773314809,
+    "var_part": 0.00877200235893637,
+    "cov_part": -0.05245192009208446,
+    "cov_part_starter_innings": -0.05067947586520072,
+    "cov_part_relief_innings": -0.001772444226883743,
+    "sd_t": 0.23332274149495277,
+    "corr_t_rest": -0.17849921641895006
+   },
+   "mopup": {
+    "blowout_5plus": {
+     "dphi": -0.02402784369655525,
+     "var_part": 0.036760423794597215,
+     "cov_part": -0.060788267491152466,
+     "cov_part_starter_innings": -0.059936577859608306,
+     "cov_part_relief_innings": -0.0008516896315441593,
+     "sd_t": 0.47712061117154264,
+     "corr_t_rest": -0.098224630064996,
+     "noise_part": 0.0350597406047057,
+     "dphi_noise_corrected": -0.05908758430126095,
+     "mean_gap_per_pa": 0.003108919844125464,
+     "relief_pa_share": 0.2975008951731716
+    },
+    "blowout_7plus_engine_bin": {
+     "dphi": -0.002448633245528714,
+     "var_part": 0.020361669583755907,
+     "cov_part": -0.02281030282928462,
+     "cov_part_starter_innings": -0.024765650047464043,
+     "cov_part_relief_innings": 0.001955347218179422,
+     "sd_t": 0.3561952662488146,
+     "corr_t_rest": -0.04951155272032225,
+     "noise_part": 0.018800952930915438,
+     "dphi_noise_corrected": -0.021249586176444152,
+     "mean_gap_per_pa": 0.0075837382073367515,
+     "relief_pa_share": 0.14620979579118276
+    },
+    "blowout_8plus": {
+     "dphi": -0.0005679404110005126,
+     "var_part": 0.013446757403519064,
+     "cov_part": -0.014014697814519576,
+     "cov_part_starter_innings": -0.014175045620362668,
+     "cov_part_relief_innings": 0.00016034780584309354,
+     "sd_t": 0.2894397662118892,
+     "corr_t_rest": -0.04089882700250358,
+     "noise_part": 0.012153791658932843,
+     "dphi_noise_corrected": -0.012721732069933355,
+     "mean_gap_per_pa": 0.00708228473776852,
+     "relief_pa_share": 0.09732104053289455
+    },
+    "all_relief": {
+     "dphi": -0.1001213226926559,
+     "var_part": 0.11646225710447312,
+     "cov_part": -0.21658357979712903,
+     "cov_part_starter_innings": -0.21274800755653386,
+     "cov_part_relief_innings": -0.0038355722405951803,
+     "sd_t": 0.8574732866880201,
+     "corr_t_rest": -0.19418280282520045,
+     "noise_part": 0.11154542333032974,
+     "dphi_noise_corrected": -0.21166674602298563,
+     "mean_gap_per_pa": -0.00021094439718509532,
+     "relief_pa_share": 1.0
+    }
+   },
+   "pa_length_sim": -0.021622866478188497,
+   "pa_length_size": {
+    "dphi": 0.0005261174112684758,
+    "var_part": 7.918067459661315e-07,
+    "cov_part": 0.0005253256045225096,
+    "cov_part_starter_innings": 0.0005721814641308323,
+    "cov_part_relief_innings": -4.685585960832276e-05,
+    "sd_t": 0.0022485118879532876,
+    "corr_t_rest": 0.18716327722784287,
+    "extra_pitches_per_start": -0.13333190564294128,
+    "batters_moved_per_start": -0.03631761704943303,
+    "starter_bf_per_start": 19.023635074450485,
+    "starter_pitches_per_start": 71.05489246041125,
+    "pas_with_runners_per_start": 9.196112030252895
+   },
+   "pa_length_runners_share": 0.5142939807242438,
+   "pa_length_by_runners": {
+    "false": 3.817574424139015,
+    "true": 3.7520399529831296
+   },
+   "lineups": {
+    "dL_share_vsR_minus_vsL": 0.0024888650185687254,
+    "dR_share_vsL_minus_vsR": 0.002469742905393317,
+    "adv_gain_vs_fixed_lineup": 0.0009331231678658977,
+    "n_teams": 307,
+    "share_vs_LHP": 0.25969038052469867
+   },
+   "adv_share_all_pa": 0.469226105579036
+  },
+  {
+   "phi": 2.174128430107027,
+   "resid_corr": 0.05038683729784826,
+   "n_team_games": 16038,
+   "n_pa": 689104,
+   "tto_sim": [
+    0.007232674920997097,
+    0.01475578839864575,
+    0.012102529304349628
+   ],
+   "tto_dphi_real_penalty": {
+    "dphi": -0.0624784784989517,
+    "var_part": 0.015593624084713393,
+    "cov_part": -0.07807210258366509,
+    "cov_part_starter_innings": -0.07380790283277856,
+    "cov_part_relief_innings": -0.004264199750886526,
+    "sd_t": 0.3071361290157452,
+    "corr_t_rest": -0.19934748129562813
+   },
+   "tto_dphi_added": {
+    "dphi": -0.044192801425716105,
+    "var_part": 0.009075128314004328,
+    "cov_part": -0.053267929739720436,
+    "cov_part_starter_innings": -0.05001718950398609,
+    "cov_part_relief_innings": -0.003250740235734345,
+    "sd_t": 0.2344803924517749,
+    "corr_t_rest": -0.17934784250252764
+   },
+   "mopup": {
+    "blowout_5plus": {
+     "dphi": -0.027565368947976912,
+     "var_part": 0.039395841633382986,
+     "cov_part": -0.0669612105813599,
+     "cov_part_starter_innings": -0.07657682357652766,
+     "cov_part_relief_innings": 0.009615612995167768,
+     "sd_t": 0.4999290563761161,
+     "corr_t_rest": -0.10084905339234826,
+     "noise_part": 0.03515710431997276,
+     "dphi_noise_corrected": -0.06272247326794966,
+     "mean_gap_per_pa": 0.0043606247085879474,
+     "relief_pa_share": 0.29061999367909414
+    },
+    "blowout_7plus_engine_bin": {
+     "dphi": -0.003462746904822081,
+     "var_part": 0.02277704505083699,
+     "cov_part": -0.02623979195565907,
+     "cov_part_starter_innings": -0.0371369491498984,
+     "cov_part_relief_innings": 0.010897157194239337,
+     "sd_t": 0.37861711446393825,
+     "corr_t_rest": -0.048294084203670214,
+     "noise_part": 0.01922395110087751,
+     "dphi_noise_corrected": -0.022686698005699592,
+     "mean_gap_per_pa": 0.009406991262679397,
+     "relief_pa_share": 0.14173814012794386
+    },
+    "blowout_8plus": {
+     "dphi": -0.004733983773617072,
+     "var_part": 0.014940263062972822,
+     "cov_part": -0.019674246836589894,
+     "cov_part_starter_innings": -0.02613257074166306,
+     "cov_part_relief_innings": 0.006458323905073164,
+     "sd_t": 0.3036031811116927,
+     "corr_t_rest": -0.04303050417140639,
+     "noise_part": 0.012476707048199455,
+     "dphi_noise_corrected": -0.017210690821816525,
+     "mean_gap_per_pa": 0.008780565644651782,
+     "relief_pa_share": 0.09387090094704606
+    },
+    "all_relief": {
+     "dphi": -0.10246111780340349,
+     "var_part": 0.12018819058506973,
+     "cov_part": -0.22264930838847322,
+     "cov_part_starter_innings": -0.23301814788640848,
+     "cov_part_relief_innings": 0.010368839497935252,
+     "sd_t": 0.866142316589767,
+     "corr_t_rest": -0.1957541669209803,
+     "noise_part": 0.11426462110645583,
+     "dphi_noise_corrected": -0.2167257389098593,
+     "mean_gap_per_pa": 0.000591576287573821,
+     "relief_pa_share": 1.0
+    }
+   },
+   "pa_length_sim": -0.02067790384860789,
+   "pa_length_size": {
+    "dphi": 0.0005043664043050065,
+    "var_part": 8.415292229317391e-07,
+    "cov_part": 0.0005035248750820747,
+    "cov_part_starter_innings": 0.0005626934472086081,
+    "cov_part_relief_innings": -5.916857212653335e-05,
+    "sd_t": 0.0022903648527275947,
+    "corr_t_rest": 0.1786363915676454,
+    "extra_pitches_per_start": -0.14254416896925978,
+    "batters_moved_per_start": -0.03880704349444804,
+    "starter_bf_per_start": 18.983142756100435,
+    "starter_pitches_per_start": 70.93310149711188,
+    "pas_with_runners_per_start": 9.229930449133562
+   },
+   "pa_length_runners_share": 0.5157073533167708,
+   "pa_length_by_runners": {
+    "false": 3.8112296725128325,
+    "true": 3.7456093997699793
+   },
+   "lineups": {
+    "dL_share_vsR_minus_vsL": 0.001037309029280226,
+    "dR_share_vsL_minus_vsR": 0.0012913978635234469,
+    "adv_gain_vs_fixed_lineup": 0.000435668006125755,
+    "n_teams": 307,
+    "share_vs_LHP": 0.25545208063185193
+   },
+   "adv_share_all_pa": 0.46060101232905337
+  }
+ ],
+ "real_pa_length": {
+  "delta": -0.03612159215750959,
+  "se": 0.008320328129212825,
+  "n_pa": 172852,
+  "missing_share": 0.02931943641091017,
+  "raw": {
+   "empty": 3.9105054253370284,
+   "runners": 3.8091361065498996
+  }
+ },
+ "real_lineups": null
+}

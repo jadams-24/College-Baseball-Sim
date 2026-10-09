@@ -1149,6 +1149,45 @@ def relief_table(h: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
+def lineup_table(h: pd.DataFrame, weights: dict) -> pd.DataFrame:
+    """Starting lineups against the opposing starter's hand (variance stage, owner 2026-10-08: platoon lineups). Per batting
+    team (D1 team ids, counts only) and starter's throws: team-games, the starting nine's listed bats (the first nine
+    distinct batters of the team-game; team-games with fewer are skipped), how many of them have the platoon advantage
+    (L against a right-hander, R against a left-hander, S always), and the sum and count of their season run values per
+    PA (linear weights; batters with MIN_PA_BIN plate appearances or more), the lineup-quality side of a platoon lineup.
+    Team-games whose starter's throws are unknown are left out."""
+    d = h.sort_values(["game_id", "group_id"])
+    rv = run_values(d, weights)
+    known_b = d.bpid >= 0
+    per = pd.DataFrame({"bpid": d.bpid[known_b], "rv": rv[known_b]}).groupby("bpid").rv.agg(["mean", "size"])
+    rv_of = per["mean"][per["size"] >= MIN_PA_BIN]
+    first = d.groupby(["game_id", "pit_team_id"], sort=False).throws.first()
+    rows = []
+    for (gid, team), g in d.groupby(["game_id", "bat_team_id"], sort=False):
+        nine = g.drop_duplicates("batter").head(9)
+        if len(nine) < 9:
+            continue
+        opp = g.pit_team_id.iloc[0]
+        sp = first.get((gid, opp), "unknown")
+        if sp not in HANDS_T:
+            continue
+        bats = nine.bats.values
+        adv = int(((bats == "S") | ((bats == "L") & (sp == "R")) | ((bats == "R") & (sp == "L"))).sum())
+        r = nine.bpid.map(rv_of).dropna()
+        rows.append((team, g.bat_tier.iloc[0], sp, 1, 9, int((bats == "L").sum()), int((bats == "R").sum()), int((bats == "S").sum()),
+                     int((~np.isin(bats, ["L", "R", "S"])).sum()), adv, float(r.sum()), int(len(r))))
+    cols = ["bat_team_id", "bat_tier", "starter_throws", "team_games", "starters", "bats_L", "bats_R", "bats_S", "bats_unknown",
+            "advantage", "rv_sum", "rv_n"]
+    df = pd.DataFrame(rows, columns=cols)
+    df = df[df.bat_tier != "non_d1"]
+    out = df.groupby(["bat_team_id", "bat_tier", "starter_throws"], as_index=False).sum(numeric_only=True)
+    out["rv_sum"] = out.rv_sum.round(4)
+    for c in cols[3:]:
+        if c != "rv_sum":
+            out[c] = out[c].astype(int)
+    return out[cols]
+
+
 def pinch_hit_table(h: pd.DataFrame, R: pd.DataFrame, parsed_teams: set, tier_of: dict) -> tuple[pd.DataFrame, dict]:
     """Pinch hitters by hand. Events: subs_2025 rows kind 'in' at position 'ph' (the pinch hitter)
     and the 'out' row at the same play_by_play_id, team and lineup spot (the replaced batter); both
@@ -1215,6 +1254,8 @@ NEW_TABLE_COLUMNS = {
     "relief_by_hand.csv": ["scope", "scope_value", "cur_throws", "batter_bats", "inning_bucket", "pas", "changes",
                            "changes_to_L", "changes_to_R", "changes_to_unknown"],
     "pinch_hit_by_hand.csv": ["scope", "scope_value", "inning_bucket", "pitcher_throws", "replaced_bats", "ph_bats", "n"],
+    "lineup_by_starter_hand.csv": ["bat_team_id", "bat_tier", "starter_throws", "team_games", "starters", "bats_L", "bats_R",
+                                   "bats_S", "bats_unknown", "advantage", "rv_sum", "rv_n"],
 }
 TIER_LABELS = {"all", "p4", "mid", "low", "non_d1"}
 NEW_TABLE_LABELS = {
@@ -1231,6 +1272,7 @@ NEW_TABLE_LABELS = {
     "pinch_hit_by_hand.csv": {"scope": {"all", "tier"}, "scope_value": TIER_LABELS, "inning_bucket": set(INNING_BUCKETS),
                               "pitcher_throws": {"L", "R", "unknown"}, "replaced_bats": {"L", "R", "S", "unknown"},
                               "ph_bats": {"L", "R", "S", "unknown", "opportunity"}},
+    "lineup_by_starter_hand.csv": {"bat_tier": TIER_LABELS, "starter_throws": set(HANDS_T)},
 }
 
 
@@ -1408,6 +1450,8 @@ def aggregate(fetch_dir: Path, out_dir: Path, pa: pd.DataFrame | None = None, qu
     tables["hand_by_talent_batters.csv"] = batter_talent_table(h, R, weights)
     tables["relief_by_hand.csv"] = relief_table(h)
     tables["pinch_hit_by_hand.csv"], ph_info = pinch_hit_table(h, R, parsed, tier_of)
+    # variance stage (owner 2026-10-08): platoon lineups, the starting nine against the opposing starter's hand
+    tables["lineup_by_starter_hand.csv"] = lineup_table(h, weights)
     bad = label_check(tables)
     if bad:   # a text cell outside the fixed labels: write nothing
         raise AssertionError(f"unexpected values in {bad}; nothing may be committed")

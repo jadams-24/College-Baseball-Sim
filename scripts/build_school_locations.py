@@ -36,6 +36,8 @@ EXPAND = [(r"\bSt\.", "State"), (r"\bSo\.", "Southern"), (r"\bMich\.", "Michigan
 
 # NCAA team name -> (fragment of the IPEDS institution name, or "=" + the exact name, state): must identify exactly one institution
 OVERRIDES = {
+    # 2026-10-08: two name matches found wrong against EADA's Division I list (Florida College, North Florida College)
+    "Florida": ("=University of Florida", "FL"), "North Florida": ("=University of North Florida", "FL"),
     "Alcorn": ("Alcorn State", "MS"), "Missouri": ("University of Missouri-Columbia", "MO"), "Air Force": ("Air Force Academy", "CO"),
     "Hawaii": ("University of Hawaii at Manoa", "HI"), "The Citadel": ("Citadel", "SC"), "LMU (CA)": ("Loyola Marymount", "CA"),
     "Milwaukee": ("=University of Wisconsin-Milwaukee", "WI"), "Pittsburgh": ("University of Pittsburgh-Pittsburgh", "PA"),
