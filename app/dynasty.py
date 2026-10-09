@@ -714,10 +714,11 @@ def _ip(outs: int) -> str:
     return f"{outs // 3}.{outs % 3}"
 
 
-def game_json(d: Dynasty, rec: dict, full: bool = False) -> dict:
+def game_json(d: Dynasty, rec: dict, full: bool = False, me: int | None = None) -> dict:
     """A game for the schedule and results lists; with `full`, its box score (the engine's accumulator lines for
-    a simmed game; the narrated box with R, RBI and the play-by-play for a game the user played)."""
-    me = d.tid
+    a simmed game; the narrated box with R, RBI and the play-by-play for a game the user played). `me` is the team
+    the side and result are relative to (the user's team by default; a team page's team otherwise)."""
+    me = d.tid if me is None else me
     side = "home" if rec["home"] == me else "away" if rec["away"] == me else None
     out = {"i": rec["i"], "k": rec.get("k"), "stage": rec["stage"], "date": rec["date"], "week": rec["week"] + 1, "weekend": rec["weekend"],
            "neutral": rec["neutral"], "home": rec["home"], "away": rec["away"], "home_name": d.tname(rec["home"]),
@@ -752,24 +753,25 @@ def game_json(d: Dynasty, rec: dict, full: bool = False) -> dict:
     return out
 
 
-def schedule_json(d: Dynasty) -> list:
-    """The user's team's season: every scheduled game with its result when played; dropped and canceled games
-    marked; postseason games appended as they are played."""
+def schedule_json(d: Dynasty, tid: int | None = None) -> list:
+    """A team's season (the user's by default): every scheduled game with its result when played; dropped and
+    canceled games marked; postseason games appended as they are played."""
+    tid = d.tid if tid is None else tid
     out = []
     for i, g in enumerate(d.schedule):
-        if not d.mine(g):
+        if tid not in (g.home, g.away):
             continue
         row = {"i": i, "date": int(g.date), "week": int(g.week) + 1, "weekend": bool(g.weekend), "home": int(g.home), "away": int(g.away),
                "home_name": d.tname(g.home), "away_name": d.tname(g.away), "home_abbr": d.tabbr(g.home), "away_abbr": d.tabbr(g.away),
-               "conf": d.real_conf[g.home] == d.real_conf[g.away], "side": "home" if g.home == d.tid else "away",
+               "conf": d.real_conf[g.home] == d.real_conf[g.away], "side": "home" if g.home == tid else "away",
                "status": "canceled" if d.skip[i] else ("played" if i in d.results else ("next" if d.pending and d.pending.get("i") == i else "upcoming"))}
         if i in d.results:
-            row.update({k: v for k, v in game_json(d, d.results[i]).items() if k in ("hr", "ar", "inning", "run_rule", "result", "user")})
+            row.update({k: v for k, v in game_json(d, d.results[i], me=tid).items() if k in ("hr", "ar", "inning", "run_rule", "result", "user")})
         out.append(row)
     for rec in d.post_calls:
-        if d.tid in (rec["home"], rec["away"]):
-            out.append(dict(game_json(d, rec), status="played"))
-    if d.pending and d.pending["stage"] != "regular":
+        if tid in (rec["home"], rec["away"]):
+            out.append(dict(game_json(d, rec, me=tid), status="played"))
+    if tid == d.tid and d.pending and d.pending["stage"] != "regular":
         p = d.pending
         out.append({"k": p["k"], "stage": p["stage"], "date": p["date"], "week": p["date"] // 7 + 1, "weekend": True, "neutral": p["neutral"],
                     "home": p["home"], "away": p["away"], "home_name": d.tname(p["home"]), "away_name": d.tname(p["away"]), "home_abbr": d.tabbr(p["home"]), "away_abbr": d.tabbr(p["away"]),
@@ -904,11 +906,11 @@ def _year(p) -> str:
     return str(y) if y else "–"
 
 
-def roster_json(d: Dynasty) -> dict:
-    """The user's roster with ratings, position, the season line, and each pitcher's last outing (date and pitches)
-    from the Decider's rest history: the facts behind the AI's rest rule, which is internal. No class or year, no
-    handedness: not in the engine."""
-    t = d.team
+def roster_json(d: Dynasty, tid: int | None = None) -> dict:
+    """A roster (the user's by default) with ratings, position, bats and throws, the season line, and each
+    pitcher's last outing (date and pitches) from the Decider's rest history: the facts behind the AI's rest rule,
+    which is internal. Class or year: a dash until Phase 8 draws it."""
+    t = d.team if tid is None else d.league.teams[tid]
     today = d.date_now()
     bats = [dict(player_json(p), stats=_bat_stats(d.bstats[p.pid]), hand=_hand(p), year=_year(p)) for p in t.batters]
     pits = []
@@ -1060,3 +1062,20 @@ def player_page_json(d: Dynasty, pid: int) -> dict | None:
         h = d.mgr.history.get(pid, []) if d.mgr else []
         out["outings"] = [{"date": int(x[0]), "pitches": int(x[1])} for x in h]
     return out
+
+
+# ---- the team page ------------------------------------------------------------------------------------
+def team_page_json(d: Dynasty, tid: int) -> dict | None:
+    """Any school's page: identity, record and RPI, the roster with ratings and season lines, the schedule and
+    results, its conference standing and its report card (Omaha Contender from this dynasty's draw)."""
+    if not 0 <= tid < len(d.league.teams):
+        return None
+    t = d.league.teams[tid]
+    rec, crec, rank = d.records().get(tid, [0, 0]), d.records(True).get(tid, [0, 0]), d.rpi_rank().get(tid)
+    st = standings_json(d)
+    conf = schools.conference_of(tid, d.real_conf[tid])
+    card = schools.report_card(tid, schools.omaha_grades(d.league.teams).get(tid)) if schools.available() else None
+    return {"team": schools.team_fields(t), "tid": tid, "record": rec, "conf_record": crec, "rpi_rank": rank, "me": tid == d.tid,
+            "roster": roster_json(d, tid), "schedule": schedule_json(d, tid),
+            "standing": {"conference": conf, "rows": st["conferences"].get(conf, [])}, "report_card": card,
+            "games_played": sum(rec)}

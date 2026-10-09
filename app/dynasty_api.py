@@ -433,6 +433,15 @@ def roster(did: str):
     return _read(lambda: dyn_mod.roster_json(_get(did)))
 
 
+@router.get("/api/dynasties/{did}/teams/{tid}")
+def team_page(did: str, tid: int):
+    d = _get(did)
+    out = _read(lambda: dyn_mod.team_page_json(d, tid))
+    if out is None:
+        raise HTTPException(404, "unknown team")
+    return out
+
+
 @router.get("/api/dynasties/{did}/players/{pid}")
 def player_page(did: str, pid: int):
     d = _get(did)
