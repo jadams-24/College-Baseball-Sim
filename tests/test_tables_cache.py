@@ -14,14 +14,16 @@ def test_split_never_outlives_its_cell():
     olds = [Categorical(["2,,,0,1", "0,,,1,0"], [1, 3]) for _ in range(1000)] + [Categorical(["2,,,0,0", "0,,,1,0"], [3, 1]) for _ in range(1000)]
     for c in olds:
         T._err_split(c), T._ok_split(c)
-    ids = {id(c) for c in olds}
     del olds, c
     gc.collect()
     news = [Categorical(["2,,,0,1", "0,,,1,0"], [1, 1]) for _ in range(2000)]   # error 1 in 2, no runner out 1 in 2
     for n in news:
         assert T._err_split(n)[0] == 0.5
         assert T._ok_split(n)[0] == 0.5
-    assert any(id(n) in ids for n in news), "no id was reused: the test did not exercise the old failure"
+    # whether an id was reused above depends on the allocator's state (it is not guaranteed, so it is not asserted); the
+    # structure guarantees the result: no module cache keyed by id, and each split lives on its own cell
+    assert not any(isinstance(v, dict) for k, v in vars(T).items() if k.startswith("_") and k.isupper() or k in ("_SPLITS", "_OK", "_EXTRA"))
+    assert all(n.split_err is T._err_split(n) and n.split_ok is T._ok_split(n) for n in news)
 
 
 def test_extra_base_cache_per_table():
