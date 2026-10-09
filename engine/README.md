@@ -68,6 +68,7 @@ Derived inputs: `build_phase5_benchmarks.py`, `solve_phase5_chain.py`, `write_ph
 |---|---|
 | `league.py` | `_hands`: every player's throwing hand, and batters' bats (L / R / switch), drawn from his own stream after every other draw, from talent and role (pitchers: logistic on true K-BB within role) or position group and talent (batters). No tier enters: the tier gradient is a check |
 | `game2.py` | the platoon shift on the batter's six logit offsets by (side he hits from, pitcher's hand), a switch hitter on the side opposite the pitcher; records platoon cells, usage by hand and per-player splits |
+| `boxscore.py` | box-score bookkeeping (2026-10-09): R, RBI, SB, CS per batter; W, L, SV, HLD per pitcher by the NCAA scoring rules (Rule 10); draws nothing, `config.box.ENABLED` |
 | `manager.py` | pull and pinch-hit hazards by the hands of the pitcher and the batter due up; the relief choice's platoon terms (batter due up, hand of the pitcher replaced); the bench pick's platoon term |
 | `report3.py` | handedness shares, the tier-gradient check, platoon splits, usage by hand, individual spread and the variance link (reported) |
 

@@ -78,6 +78,7 @@ class Player:
                               # hold (config.decisions, prb_inputs.json pitcher_hold); the rating is 50 + 10 z
     throws: str = ""          # Phase 3: "L" or "R" (every player); drawn per player from talent and role or position (_hands)
     bats: str = ""            # Phase 3 (batters): "L", "R" or "S" (a switch hitter bats from the side opposite the pitcher)
+    year: str = ""            # Phase 8: class / eligibility year (Fr, So, Jr, Sr, Gr); empty until Phase 8 draws it (owner, 2026-10-09)
 
 
 @dataclass
