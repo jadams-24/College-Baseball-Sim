@@ -36,6 +36,10 @@ PHASE6_MOVED = ("errors_per_team_game", "earned_share")
 # and pickoff outs, so more plate appearances; gated against real data in reports/phase6.md
 BASERUNNING_MOVED = ("pa_per_team_game",)
 DECISIONS_MOVED = ("runs_per_team_game", "era")          # PR B: owner decision 2026-10-07
+# moved on purpose by bullpen usage (variance fix #1, owner decision 2026-10-09): the quality-by-margin term sends weaker relievers
+# into blowouts, so more batters face pitchers with worse true rates (BB/BF predicted from the pitchers' true rates +.0011, observed
+# equal; PHASE0_NOTES, Variance fix #1). Every per-PA rate is unchanged; gated against real data in reports/phase2.md
+USAGE_MOVED = ("hbp_pct",)
 QUANTS = (10, 50, 90)
 SPREAD_EVENTS = ("B", "K", "S", "F", "P")     # player_pitch columns 0-4 (H is column 5)
 SPREAD_MIN = 150                               # PA (batters) or BF (pitchers), as in the data comparison
@@ -133,13 +137,16 @@ def build_report5(agg: dict, seeds: list, league: dict, league_se: dict, st2: di
     # PR B (owner decision 2026-10-07): the AI's decisions (sacrifice bunts, intentional walks, steals) move runs and
     # ERA with every rate unchanged; both are gated against real data (runs in reports/phase2.md, ERA in reports/phase6.md)
     dec_moved = DECISIONS_MOVED if _cdec.on("decisions") else ()
+    use_moved = USAGE_MOVED if phase6.on("bullpen_form") else ()
     for key, label in PA_ROWS:
         tol = 3 * np.sqrt(base["se"][key] ** 2 + league_se[key] ** 2)
         ok = abs(league[key] - base["league"][key]) <= tol
-        st[f"pa_unchanged_{key}"] = None if (key in moved or key in dec_moved) else bool(ok)
-        if key not in moved and key not in dec_moved:
+        st[f"pa_unchanged_{key}"] = None if (key in moved or key in dec_moved or key in use_moved) else bool(ok)
+        if key not in moved and key not in dec_moved and key not in use_moved:
             st.record(f"pa_unchanged_{key}", league[key], league_se[key])
-        if key in dec_moved:
+        if key in use_moved:
+            status = ("pass" if ok else "differs") + " (moved on purpose by bullpen usage; gated against real data in reports/phase2.md)"
+        elif key in dec_moved:
             status = ("pass" if ok else "differs") + (" (moved on purpose in PR B: decisions; gated against data in reports/"
                                                        + ("phase2.md" if key == "runs_per_team_game" else "phase6.md") + ")")
         elif key in moved:

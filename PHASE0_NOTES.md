@@ -717,6 +717,18 @@ No tolerance moved.
 - **Quality by margin** (the remainder was significant): utility + γ × badness z × clip((|margin| − 4)/4, 0, 1), γ = 0.7465 solved against the real P4 relief-entry quality at 8+; one parameter reproduces the whole margin profile (all five buckets pass). One-sided because the first, two-sided version (−1 at a tie) put close games on each staff's best reliever: busiest pitcher 27.0 appearances against 24.49 ± 1.22; one-sided 24.28.
 - **Gate** (Phase 6 report, P4 staffs, benchmarks `bullpen_form_2025`): the next entry's blowout share and margin per run allowed last outing, runs per BF by workload third, relief-entry quality by margin (five buckets). The real values are on runs per batter faced (outing data both sides have); on run value the slope is +1.8 points, on runs +1.1.
 - **Sizes** (`reports/bullpen_form.md`): recent form closes nothing (Δφ −.005 ± .017); quality by margin +.027 ± .017, about 7% of the missing .404; the within-game residual correlation .044 → .055 (real .073). Real minus engine on the relief-quality component is still about +.11 (margin 5+) and +.20 (all entries) on P4 staffs, with the entry-quality rows themselves matched: what remains is not who enters at which margin.
+- **Phase 4 forward test: pitcher qualification changed (owner decision 2026-10-09).** Not a widened tolerance: a selection artifact from usage that reacts to results. The test qualified pitchers on realized workload (150 batters faced; 8 appearances for Stamina). Once the relief choice reacts to recent results, a pitcher whose outings went well gets more work and crosses the threshold more often, so the qualified sample is selected on luck: Movement's HR/BF intercept and the Stamina leash intercept failed (40 seasons, report seeds). On the same saved seasons, re-qualified (fold SEs; 20 folds of 2 seasons):
+
+  | Engine, qualification | Movement HR/BF intercept | Stamina leash intercept |
+  |---|---|---|
+  | Before bullpen form, 150 BF / 8 appearances | −.0010 ± .0014 | +.0003 ± .0008 |
+  | Before bullpen form, every pitcher who pitched | +.0018 ± .0012 | −.0004 ± .0007 |
+  | Final bullpen engine, 150 BF / 8 appearances | −.0096 ± .0016 | +.0042 ± .0007 |
+  | Final bullpen engine, every pitcher who pitched | −.0011 ± .0014 | +.0004 ± .0007 |
+  | Final bullpen engine, pre-season starters only | +.0010 ± .0018 | −.0007 ± .0012 |
+
+  Slope and dispersion are 1 within error in every row. The gate now uses every pitcher-season with any batters faced (Stuff, Control, Movement) and every pitcher with any appearance (Stamina): with every trial counted, observed minus expected is a martingale and the intercept is 0 under any usage rule. The 150 BF / 8-appearance version and the workload thirds stay as reported rows (`engine/report4.py`). Batters keep the threshold: the manager does not change their playing time on results.
+- **Phase 5 HBP per PA: moved on purpose by bullpen usage (owner decision 2026-10-09).** Against the Phase 4 run it read .0343 against .0337 ± .0005 (.0341 before bullpen form). The quality term sends weaker relievers into blowouts, so more batters face worse pitchers, with every per-PA rate unchanged. Evidence, walks per batter faced summed over every pitcher-season (40 seasons): predicted from the pitchers' own true rates against the opponents they faced .10511 before bullpen form, .10625 on the final engine (+.0011); observed .10505 and .10625, equal to the prediction. HBP moves the same way. Gated against real data in the Phase 2 report (.0343 against .0334 ± .0040), the same treatment as the PR B rows (`engine/report5.py` USAGE_MOVED).
 
 ### Box-score bookkeeping (2026-10-09, owner request; no outcome changes)
 
