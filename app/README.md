@@ -15,7 +15,7 @@ and `benchmarks.json` are untouched by this workstream.
 | `menu.py` | the action menu of the manager screen: the calls legal now for the user's side, built on the server from the turn and the engine state so the page never decides legality |
 | `dynasty.py` | Dynasty mode: the engine's Phase 7 season driven game by game (the user's games on the manager screen, the rest simmed), the postseason pipeline replayed over recorded results, standings, RPI, stats, roster, postseason and summary readers, saves |
 | `calendar.py` | the one mapping between engine dates and the real calendar (date 0 the Monday of the opening week, anchored on the engine's season start; weekdays; the n-th weekday of a month for the Phase 9 dates) |
-| `schools.py` | the real school identity and report card of every sim team (`data/schools/`, engine PR #17), Omaha Contender regraded from the dynasty's own draw; data only, never read by the engine |
+| `schools.py` | the real school identity and report card of every sim team (`data/schools/`, engine PR #17), Omaha Contender regraded from the dynasty's own draw; data only, never read by the engine. `display(tid)` is the one lookup every screen uses for a team's display fields (full school name, short name, 2–5 letter abbreviation from `app/school_names.csv`, conference, tier, location); `conference_check` compares engine conferences with the identity file's |
 | `world_steps.py` | the dynasty's world steps: the registry (name, cadence, order, run function returning auto-pause events), `d1_games` registered, the planned slots as documented placeholders |
 | `dynasty_api.py` | the dynasty endpoints: world building, team pick, background sim jobs with progress, the user's game, screens, server saves and the browser mirror |
 | `api.py` | FastAPI: league, rosters, catalogue, games, sim, orders, questions, modes, coach, box, save, load; serves `static/` |
@@ -234,6 +234,21 @@ Not exposed by the engine (shown as dashes or left out, never faked): per-batter
 handedness (Phase 3), a pitcher-availability verdict (the AI's rest rule is internal; the roster shows the last
 outing's date and pitches), fielder positioning (no shift), the committee's at-large scores beyond the field
 (no "first four out").
+
+## Team names: real schools everywhere
+
+Owner rule 2026-10-09: every place that shows a team shows the real school from the identity file (standings and
+conference standings, RPI and rankings, schedule and results, the live game's scoreboard, banner and line score,
+box scores, league leaders, team pages, dropdowns, tooltips, the play-by-play and news). One lookup maps the engine
+team id to display fields (`schools.display`: full "Central Michigan", short "Central Mich.", abbreviation "CMU",
+conference, tier, location); every producer of JSON calls it (`Dynasty.tname` / `tabbr`, `schools.team_fields` for
+the game state, the narrator's team names), so no screen reads an engine name for display. The engine's own name
+appears only under `engine_name` (the team mark's tooltip, "engine id"). Engine ids stay the keys, saves and
+replays keep using them, and the dynasty equality tests hold unchanged. Standings group by the identity file's
+conference; `/api/schools` carries the conference check (each engine conference's members against the identity
+file's conferences, mismatches reported, never hidden) and the abbreviations chosen here rather than taken from
+common use (`reports/school_names.md`). `tests/test_app_names.py` renders every screen's data through the API and
+fails on any engine team name in user-facing text. Players stay fictional by design.
 
 ## The calendar
 

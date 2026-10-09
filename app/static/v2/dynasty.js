@@ -26,7 +26,7 @@
   // the top bar's tabs group the screens: Hub (and the year in review), Roster (roster, stats), Schedule (schedule, standings, postseason)
   const GROUPS = { hub: ["hub"], roster: ["roster", "stats"], schedule: ["schedule", "standings", "postseason"] };
   const LABEL = { hub: "Hub", roster: "Roster", stats: "Stats", schedule: "Schedule", standings: "Standings", postseason: "Postseason", summary: "Year in review" };
-  function tabOf(screen) { return screen === "stats" ? "roster" : screen === "standings" || screen === "postseason" ? "schedule" : "hub"; }
+  function tabOf(screen) { for (const [tab, scs] of Object.entries(GROUPS)) if (scs.includes(screen)) return tab; return "hub"; }
   function renderSubnav() {
     const tab = tabOf(D.screen), screens = GROUPS[tab].slice();
     if (tab === "hub" && D.hub.stage === "done") screens.push("summary");
@@ -37,7 +37,7 @@
   }
   function topbar(where) {
     const h = D.hub, sch = h.school;
-    V.setTopbar({ school: sch ? sch.school : h.team, sub: `${h.conference} · ${h.tier.toUpperCase()}${sch ? ` · ${h.team}` : ""}`, dynasty: true,
+    V.setTopbar({ school: h.team, sub: `${h.conference} · ${h.tier.toUpperCase()}${sch ? ` · ${sch.location}` : ""}`, dynasty: true,
                   active: where === "dyn" ? tabOf(D.screen) : null, date: dateText(h.date, { weekday: true }), phase: `Year ${h.year} · ${STAGE[h.stage] || h.stage}`,
                   advance: where === "dyn" && h.stage !== "done" && !h.running });
   }
@@ -48,7 +48,7 @@
   function seasonStrip() {
     const h = D.hub, sch = h.school;
     const f = (k, v) => `<div><span class="k">${k}</span><b class="mono">${v}</b></div>`;
-    return `<div class="panel season"><div class="body facts">${mark({ name: sch ? sch.school : h.team })}<div class="who"><div class="name">${esc(sch ? sch.school : h.team)}</div><div class="muted">${esc(h.name)}${sch ? ` · ${esc(sch.location)}` : ""} · Year ${h.year}</div></div>${f("Record", `${h.record[0]}-${h.record[1]}`)}${f("Conf", `${h.conf_record[0]}-${h.conf_record[1]}`)}${f("RPI", h.rpi_rank ? "#" + h.rpi_rank : "—")}${f("Week", h.week)}${f("Games", `${h.games_played}/${h.games_total}`)}</div></div>`;
+    return `<div class="panel season"><div class="body facts">${mark({ name: h.team, abbr: h.team_abbr, engine_name: h.engine_name })}<div class="who"><div class="name">${esc(h.team)}</div><div class="muted">${esc(h.name)}${sch ? ` · ${esc(sch.location)}` : ""} · Year ${h.year}</div></div>${f("Record", `${h.record[0]}-${h.record[1]}`)}${f("Conf", `${h.conf_record[0]}-${h.conf_record[1]}`)}${f("RPI", h.rpi_rank ? "#" + h.rpi_rank : "—")}${f("Week", h.week)}${f("Games", `${h.games_played}/${h.games_total}`)}</div></div>`;
   }
 
   // ---- sims: background jobs with progress ----
@@ -127,7 +127,7 @@
   function renderHub() {
     const h = D.hub, p = h.pending;
     const next = p ? `<div class="panel next"><div class="hdr">Next game <span class="sub">${dateText(p.date)} · ${p.stage === "regular" ? (p.weekend ? "weekend series" : "midweek") : STAGE[p.stage] || p.stage}${p.neutral ? " · neutral site" : ""}</span></div>
-        <div class="body"><div class="matchup"><div>${mark({ name: p.away_name })}<b>${esc(p.away_name)}</b><span class="muted">${p.user_side === "away" ? " (you)" : ""}</span></div><div class="at">at</div><div>${mark({ name: p.home_name })}<b>${esc(p.home_name)}</b><span class="muted">${p.user_side === "home" ? " (you)" : ""}</span></div></div>
+        <div class="body"><div class="matchup"><div>${mark({ name: p.away_name, abbr: p.away_abbr })}<b>${esc(p.away_name)}</b><span class="muted">${p.user_side === "away" ? " (you)" : ""}</span></div><div class="at">at</div><div>${mark({ name: p.home_name, abbr: p.home_abbr })}<b>${esc(p.home_name)}</b><span class="muted">${p.user_side === "home" ? " (you)" : ""}</span></div></div>
         ${p.probables ? `<div class="probables">${["away", "home"].map((sd) => p.probables[sd] ? `<div><span class="k">${sd === "away" ? "Away" : "Home"} starter</span><b>${esc(p.probables[sd].name)}</b> <span class="muted">${p.probables[sd].role}</span> ${["stuff", "control", "movement", "stamina"].map((k) => badge(k, p.probables[sd].ratings[k])).join(" ")}</div>` : "").join("")}<div class="muted">Probable starters: each AI's pick at first pitch; yours can change in the pregame.</div></div>` : `<div class="muted">Probable starters: set at first pitch.</div>`}
         <div class="row">${h.running && h.job_kind !== "background" ? "" : `<button class="go" id="play-btn">${p.open ? "Back to the game" : "Play"}</button><button id="simgame-btn">Sim game</button>`}</div></div></div>`
       : `<div class="panel next"><div class="hdr">Next game</div><div class="body muted">${h.stage === "done" ? `The season is over. <button class="go" id="to-summary">Year in review</button>` : h.stage === "regular" ? "Sim ahead to reach your next game." : "No game of yours is pending in this stage; sim ahead."}</div></div>`;

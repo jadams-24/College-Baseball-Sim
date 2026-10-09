@@ -41,7 +41,7 @@ from engine.world import World as SeasonWorld, cancel_mask, schedule_mask
 
 SAVE_VERSION = 1
 STAGES = ("regular", "conf", "selection", "ncaa", "done")
-from app import calendar, world_steps
+from app import calendar, schools, world_steps
 from app.world_steps import PauseEvent, StepContext
 
 SIM_TARGETS = ("game", "day", "week", "regular", "conf", "selection", "end")
@@ -185,6 +185,14 @@ class Dynasty:
     @property
     def team(self):
         return self.league.teams[self.tid]
+
+    def tname(self, tid: int) -> str:
+        """Display name of a team: the real school (app/schools.py); the engine's name only without the identity file."""
+        return schools.team_name(tid, self.league.teams[tid].name)
+
+    def tabbr(self, tid: int) -> str:
+        d = schools.display(tid)
+        return d["abbr"] if d else "".join(w[0] for w in self.league.teams[tid].name.split())[:4].upper()
 
     def mine(self, g) -> bool:
         return self.tid in (g.home, g.away)
@@ -517,7 +525,7 @@ class Dynasty:
             ncaa = w.ncaa(f, regs, dates, play_game)
             self.post["ncaa"] = ncaa
             self.stage = "done"
-            self.news.append({"date": last + POST_OFF["cws"] + 10, "text": f"{league.teams[ncaa['champion']].name} win the national championship over {league.teams[ncaa['runner_up']].name}."})
+            self.news.append({"date": last + POST_OFF["cws"] + 10, "text": f"{self.tname(ncaa['champion'])} win the national championship over {self.tname(ncaa['runner_up'])}."})
         except StopAt:
             pass
         except UserGame as ug:
@@ -546,7 +554,7 @@ class Dynasty:
         opp = rec["away"] if side == "home" else rec["home"]
         mine, theirs = (rec["hr"], rec["ar"]) if side == "home" else (rec["ar"], rec["hr"])
         won = mine > theirs
-        opp_name = self.league.teams[opp].name
+        opp_name = self.tname(opp)
         if rec["stage"] != "regular":
             stage = {"conf": "conference tournament", "regional": "regional", "super": "super regional", "cws": "College World Series"}.get(rec["stage"], rec["stage"])
             self.news.append({"date": rec["date"], "text": f"{'Won' if won else 'Lost'} {mine}-{theirs} {'against' if won else 'to'} {opp_name} in the {stage}."})
@@ -578,14 +586,14 @@ class Dynasty:
         pend = None
         if self.pending is not None:
             p = self.pending
-            pend = dict(p, home_name=self.league.teams[p["home"]].name, away_name=self.league.teams[p["away"]].name,
+            pend = dict(p, home_name=self.tname(p["home"]), away_name=self.tname(p["away"]), home_abbr=self.tabbr(p["home"]), away_abbr=self.tabbr(p["away"]),
                         user_side="home" if p["home"] == me else "away", seed=None, open=self.runner is not None)
             try:
                 pend["probables"] = self.probables()
             except Exception:                 # display only: never blocks the hub
                 pend["probables"] = None
-        return {"id": None, "name": self.name, "seed": self.seed, "year": self.year, "tid": me, "team": self.league.teams[me].name,
-                "conference": self.real_conf[me], "tier": self.league.teams[me].tier, "record": rec, "conf_record": crec, "rpi_rank": rank,
+        return {"id": None, "name": self.name, "seed": self.seed, "year": self.year, "tid": me, "team": self.tname(me), "team_abbr": self.tabbr(me),
+                "engine_name": self.league.teams[me].name, "conference": schools.conference_of(me, self.real_conf[me]), "tier": self.league.teams[me].tier, "record": rec, "conf_record": crec, "rpi_rank": rank,
                 "date": self.date_now(), "week": self._week_of(self.date_now()) + 1, "stage": self.stage, "pending": pend,
                 "games_played": len(self.reg_games), "games_total": int((~self.skip).sum()), "news": self.news[-12:][::-1],
                 "pause": self.last_pause, "world_steps": world_steps.steps_json(self.year),
@@ -659,8 +667,8 @@ def game_json(d: Dynasty, rec: dict, full: bool = False) -> dict:
     me = d.tid
     side = "home" if rec["home"] == me else "away" if rec["away"] == me else None
     out = {"i": rec["i"], "k": rec.get("k"), "stage": rec["stage"], "date": rec["date"], "week": rec["week"] + 1, "weekend": rec["weekend"],
-           "neutral": rec["neutral"], "home": rec["home"], "away": rec["away"], "home_name": d.league.teams[rec["home"]].name,
-           "away_name": d.league.teams[rec["away"]].name, "hr": rec["hr"], "ar": rec["ar"], "inning": rec["inning"], "run_rule": rec["run_rule"],
+           "neutral": rec["neutral"], "home": rec["home"], "away": rec["away"], "home_name": d.tname(rec["home"]),
+           "away_name": d.tname(rec["away"]), "home_abbr": d.tabbr(rec["home"]), "away_abbr": d.tabbr(rec["away"]), "hr": rec["hr"], "ar": rec["ar"], "inning": rec["inning"], "run_rule": rec["run_rule"],
            "conf": d.real_conf[rec["home"]] == d.real_conf[rec["away"]], "user": rec["user"], "side": side}
     if side:
         mine, theirs = (rec["hr"], rec["ar"]) if side == "home" else (rec["ar"], rec["hr"])
@@ -679,7 +687,7 @@ def game_json(d: Dynasty, rec: dict, full: bool = False) -> dict:
                 order = {p.pid: i for i, p in enumerate(t.batters)}
                 bat.sort(key=lambda x: order.get(x["pid"], 99))
                 box[s] = {"batting": bat, "pitching": pit}
-            out["box"] = {"teams": {s: d.league.teams[rec[s]].name for s in ("away", "home")}, "score": {"home": rec["hr"], "away": rec["ar"]},
+            out["box"] = {"teams": {s: d.tname(rec[s]) for s in ("away", "home")}, "score": {"home": rec["hr"], "away": rec["ar"]},
                           "batting": {s: box[s]["batting"] for s in box}, "pitching": {s: box[s]["pitching"] for s in box}, "no_rbi": True}
     return out
 
@@ -692,7 +700,7 @@ def schedule_json(d: Dynasty) -> list:
         if not d.mine(g):
             continue
         row = {"i": i, "date": int(g.date), "week": int(g.week) + 1, "weekend": bool(g.weekend), "home": int(g.home), "away": int(g.away),
-               "home_name": d.league.teams[g.home].name, "away_name": d.league.teams[g.away].name,
+               "home_name": d.tname(g.home), "away_name": d.tname(g.away), "home_abbr": d.tabbr(g.home), "away_abbr": d.tabbr(g.away),
                "conf": d.real_conf[g.home] == d.real_conf[g.away], "side": "home" if g.home == d.tid else "away",
                "status": "canceled" if d.skip[i] else ("played" if i in d.results else ("next" if d.pending and d.pending.get("i") == i else "upcoming"))}
         if i in d.results:
@@ -704,7 +712,7 @@ def schedule_json(d: Dynasty) -> list:
     if d.pending and d.pending["stage"] != "regular":
         p = d.pending
         out.append({"k": p["k"], "stage": p["stage"], "date": p["date"], "week": p["date"] // 7 + 1, "weekend": True, "neutral": p["neutral"],
-                    "home": p["home"], "away": p["away"], "home_name": d.league.teams[p["home"]].name, "away_name": d.league.teams[p["away"]].name,
+                    "home": p["home"], "away": p["away"], "home_name": d.tname(p["home"]), "away_name": d.tname(p["away"]), "home_abbr": d.tabbr(p["home"]), "away_abbr": d.tabbr(p["away"]),
                     "conf": False, "side": "home" if p["home"] == d.tid else "away", "status": "next"})
     return out
 
@@ -729,20 +737,20 @@ def standings_json(d: Dynasty, top: int = 25) -> dict:
     rp = d.rpi()
     confs: dict = {}
     for tid, c in d.real_conf.items():
-        confs.setdefault(c, []).append(tid)
+        confs.setdefault(schools.conference_of(tid, c), []).append(tid)      # grouped by the identity file's conference (display)
     out = {}
     for c, tids in confs.items():
         rows = []
         for t in tids:
             w, l = rec.get(t, [0, 0]); cw, cl = crec.get(t, [0, 0])
-            rows.append({"tid": t, "name": d.league.teams[t].name, "w": w, "l": l, "cw": cw, "cl": cl, "rpi_rank": rank.get(t),
+            rows.append({"tid": t, "name": d.tname(t), "abbr": d.tabbr(t), "w": w, "l": l, "cw": cw, "cl": cl, "rpi_rank": rank.get(t),
                          "rpi": round(rp[t]["rpi"], 4) if t in rp else None, "me": t == d.tid})
         rows.sort(key=lambda r: (-(r["cw"] / (r["cw"] + r["cl"]) if r["cw"] + r["cl"] else 0), -(r["w"] / (r["w"] + r["l"]) if r["w"] + r["l"] else 0), r["name"]))
         out[c] = rows
     nat = sorted(rp, key=lambda t: -rp[t]["rpi"])
-    national = [{"rank": i + 1, "tid": t, "name": d.league.teams[t].name, "conference": d.real_conf[t], "w": rec.get(t, [0, 0])[0], "l": rec.get(t, [0, 0])[1],
+    national = [{"rank": i + 1, "tid": t, "name": d.tname(t), "abbr": d.tabbr(t), "conference": schools.conference_of(t, d.real_conf[t]), "w": rec.get(t, [0, 0])[0], "l": rec.get(t, [0, 0])[1],
                  "rpi": round(rp[t]["rpi"], 4), "me": t == d.tid} for i, t in enumerate(nat[:max(top, 64)])]
-    return {"conferences": out, "mine": d.real_conf[d.tid], "national": national, "my_rank": rank.get(d.tid)}
+    return {"conferences": out, "mine": schools.conference_of(d.tid, d.real_conf[d.tid]), "national": national, "my_rank": rank.get(d.tid)}
 
 
 # ---- stats, roster, postseason, the season summary ----------------------------------------------------
@@ -781,7 +789,7 @@ def team_stats_json(d: Dynasty, tid: int | None = None) -> dict:
     pit = [dict(player_json(p), stats=_pit_stats(d.pstats[p.pid])) for p in staff(t) if d.pstats[p.pid][0] > 0]
     bat.sort(key=lambda x: -x["stats"]["pa"])
     pit.sort(key=lambda x: -x["stats"]["outs"])
-    return {"tid": tid, "team": t.name, "games": sum(games), "batting": bat, "pitching": pit, "missing": ["R", "RBI", "SB", "W-L", "SV"]}
+    return {"tid": tid, "team": d.tname(tid), "engine_name": t.name, "games": sum(games), "batting": bat, "pitching": pit, "missing": ["R", "RBI", "SB", "W-L", "SV"]}
 
 
 def leaders_json(d: Dynasty, n: int = 10) -> dict:
@@ -805,7 +813,7 @@ def leaders_json(d: Dynasty, n: int = 10) -> dict:
     def top(rows, key, qualified, reverse=True):
         pool = [r for r in rows if (r[3] or not qualified)]
         pool.sort(key=lambda r: -key(r[2]) if reverse else key(r[2]))
-        return [dict(player_json(r[0]), team=r[1].name, tid=r[1].tid, me=r[1].tid == me, value=key(r[2]), stats=r[2]) for r in pool[:n]]
+        return [dict(player_json(r[0]), team=d.tname(r[1].tid), tid=r[1].tid, me=r[1].tid == me, value=key(r[2]), stats=r[2]) for r in pool[:n]]
     return {"batting": {"avg": top(rows_b, lambda s: s["avg"], True), "hr": top(rows_b, lambda s: s["hr"], False), "ops": top(rows_b, lambda s: s["ops"], True),
                         "h": top(rows_b, lambda s: s["h"], False), "bb": top(rows_b, lambda s: s["bb"], False)},
             "pitching": {"era": top(rows_p, lambda s: s["era"], True, reverse=False), "k": top(rows_p, lambda s: s["k"], False),
@@ -839,7 +847,7 @@ def roster_json(d: Dynasty) -> dict:
         pits.append(dict(player_json(p), stats=_pit_stats(d.pstats[p.pid]), hand=_hand(p), year=_year(p),
                          last_outing={"date": int(last[0]), "pitches": int(last[1]), "days_ago": int(today - last[0])} if last else None,
                          outings=len(h)))
-    return {"team": t.name, "batters": bats, "pitchers": pits, "date": today}
+    return {"team": d.tname(t.tid), "engine_name": t.name, "batters": bats, "pitchers": pits, "date": today}
 
 
 def _conf_seeds(d: Dynasty) -> dict:
@@ -857,7 +865,7 @@ def _conf_seeds(d: Dynasty) -> dict:
 def postseason_json(d: Dynasty) -> dict:
     """Conference tournaments (format, seeds, games), Selection Monday (the field, hosts, national seeds, the
     user's status), regionals, supers and the CWS from the recorded games."""
-    name = lambda t: d.league.teams[t].name
+    name = lambda t: d.tname(t)
     out = {"stage": d.stage, "tid": d.tid, "mine_conf": d.real_conf[d.tid]}
     if d.stage == "regular":
         out["note"] = "The postseason begins when the regular season ends."
@@ -930,8 +938,8 @@ def summary_json(d: Dynasty) -> dict:
             "ops": max(bat, key=lambda b: b["stats"]["ops"]) if bat else None,
             "era": min([p for p in ts["pitching"] if p["stats"]["outs"] >= 3 * sum(rec)] or ts["pitching"], key=lambda p: p["stats"]["era"]) if ts["pitching"] else None,
             "k": max(ts["pitching"], key=lambda p: p["stats"]["k"]) if ts["pitching"] else None}
-    return {"year": d.year, "team": d.team.name, "record": rec, "conf_record": crec, "rpi_rank": (f["rank"].get(me) if f else d.rpi_rank().get(me)),
+    return {"year": d.year, "team": d.tname(d.tid), "record": rec, "conf_record": crec, "rpi_rank": (f["rank"].get(me) if f else d.rpi_rank().get(me)),
             "result": result, "conference_champion": conf_champ, "leaders": lead,
-            "champion": d.league.teams[nc["champion"]].name if nc else None, "runner_up": d.league.teams[nc["runner_up"]].name if nc else None,
+            "champion": d.tname(nc["champion"]) if nc else None, "runner_up": d.tname(nc["runner_up"]) if nc else None,
             "done": d.stage == "done",
             "offseason": ["Transfer portal", "MLB draft", "Recruiting", "Roster cuts", "Year 2"]}

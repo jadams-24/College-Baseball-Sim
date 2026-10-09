@@ -18,6 +18,7 @@ from __future__ import annotations
 
 from bisect import bisect_left, bisect_right
 
+from app import schools
 from app.world import player_json, staff
 from engine.game2 import (B_2B, B_3B, B_AB, B_BB, B_H, B_HBP, B_HR, B_K, B_PA, B_ROE, B_SF, B_SH, P_BB, P_BF, P_ER, P_H, P_HBP, P_HR,
                           P_K, P_OUTS, P_PITCH, P_R)
@@ -56,6 +57,7 @@ class Narrator:
         self.sess = sess
         self.st = sess.st
         self.teams = {s: sess.st.team_obj[s] for s in ("away", "home")}
+        self.tname = {s: schools.team_name(t.tid, t.name) for s, t in self.teams.items()}
         self.players = {p.pid: p for s in self.teams.values() for p in s.batters + staff(s)}
         self.marks = runner.marks()
         self.mark_pos = [m["pos"] for m in self.marks]
@@ -116,7 +118,7 @@ class Narrator:
                 cur_half = (m["inning"], m["half"])
                 bat = "away" if m["half"] == "T" else "home"
                 self.entries.append({"pos": j, "type": "half", "inning": m["inning"], "half": m["half"],
-                                     "text": f"{'Top' if m['half'] == 'T' else 'Bottom'} of the {ordinal(m['inning'])}, {self.teams[bat].name} batting"})
+                                     "text": f"{'Top' if m['half'] == 'T' else 'Bottom'} of the {ordinal(m['inning'])}, {self.tname[bat]} batting"})
             if e[0] in ("p", "steal") and e[1] != cur_serial:
                 cur_serial, b, s = e[1], 0, 0           # a new plate appearance (also after a third out on the bases)
             if e[0] == "p":
@@ -137,14 +139,14 @@ class Narrator:
             elif e[0] == "visit":
                 side = e[2]
                 self.entries.append({"pos": j, "type": "decision", "source": "note", "side": side, "kind": "mound_visit",
-                                     "text": f"Mound visit, {self.teams[side].name}."})
+                                     "text": f"Mound visit, {self.tname[side]}."})
             elif e[0] == "pit":
                 side = e[2]
                 self.entries.append({"pos": j, "type": "decision", "source": "note", "side": side, "kind": "pitching_change",
-                                     "text": f"Pitching change during the at-bat: {self.name(e[3])} comes in for {self.teams[side].name}."})
+                                     "text": f"Pitching change during the at-bat: {self.name(e[3])} comes in for {self.tname[side]}."})
             elif e[0] == "final":
                 _, inn, aw, hm = e
-                self.entries.append({"pos": j, "type": "final", "text": f"Final: {self.teams['away'].name} {aw}, {self.teams['home'].name} {hm}"
+                self.entries.append({"pos": j, "type": "final", "text": f"Final: {self.tname['away']} {aw}, {self.tname['home']} {hm}"
                                      + (f" ({inn} innings)" if inn != 9 else "") + (" by run rule" if self.st.ended_by_run_rule else "")})
         while rec_i < len(self.records) and self.records[rec_i]["pos"] <= len(log):
             self._record(self.records[rec_i], len(log))
@@ -156,7 +158,7 @@ class Narrator:
         side = rec["side"]
         who = SOURCE_TEXT.get(src, src)
         if src == "ai":
-            who = f"{self.teams[side].name} (AI)"
+            who = f"{self.tname[side]} (AI)"
         if kind == "pitching_change":
             line = "pitching change" if text == "called" else text
         elif kind == "relief_pitcher":
@@ -377,7 +379,7 @@ def state_json(runner) -> dict:
            "ended_by_run_rule": st.ended_by_run_rule, "run_rule_in_effect": st.run_rule_in_effect,
            "count": [sess.pa["b"], sess.pa["s"]] if sess.pa is not None else None,
            "batting_side": bat, "bases": bases, "line_score": line_score, "hits": dict(st.hits), "errors": dict(st.errors),
-           "teams": {s: {"tid": teams[s].tid, "name": teams[s].name, "tier": teams[s].tier} for s in teams},
+           "teams": {s: schools.team_fields(teams[s]) for s in teams},
            "batter": card(batter, bat) if batter is not None else None, "pitcher": card(pitcher, fld) if pitcher is not None else None,
            "due_up": due, "lineups": {}, "bench": {}, "bullpen": {}, "used_pitchers": {}}
     for s in ("away", "home"):
@@ -398,7 +400,7 @@ def box_score(runner) -> dict:
     nar = Narrator(runner)
     feed = nar.build()
     out = {"score": dict(st.score), "hits": dict(st.hits), "errors": dict(st.errors), "inning": st.inning, "over": st.over,
-           "teams": {s: teams[s].name for s in teams}, "batting": {}, "pitching": {}, "feed": feed}
+           "teams": {s: schools.team_name(teams[s].tid, teams[s].name) for s in teams}, "batting": {}, "pitching": {}, "feed": feed}
     for s in ("away", "home"):
         rows = []
         order = {p.pid: i for i, p in enumerate(st.lineup.get(s, []))}

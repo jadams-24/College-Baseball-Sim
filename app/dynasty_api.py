@@ -188,7 +188,7 @@ def _strength(d: dyn_mod.Dynasty) -> list:
     omaha = schools.omaha_grades(teams) if schools.available() else {}
     out = []
     for i, t in enumerate(teams):
-        row = {"tid": t.tid, "name": t.name, "conference": d.real_conf[t.tid], "tier": t.tier,
+        row = {"tid": t.tid, "name": schools.team_name(t.tid, t.name), "engine_name": t.name, "abbr": d.tabbr(t.tid), "conference": schools.conference_of(t.tid, d.real_conf[t.tid]), "tier": t.tier,
                "off": int(round(50 + 10 * zo[i])), "def": int(round(50 + 10 * zd[i])), "overall": int(round(50 + 10 * (zo[i] + zd[i]) / np.sqrt(2)))}
         sch = schools.school(t.tid) if schools.available() else None
         if sch is not None:
@@ -206,9 +206,15 @@ def saves():
     if SAVE_DIR.exists():
         for p in SAVE_DIR.glob("dyn_*.json"):
             try:
-                out.append(json.loads(p.read_text()))
+                m = json.loads(p.read_text())
             except Exception:
                 continue
+            if m.get("tid") is not None and schools.available():            # saves written before the real names show them too
+                old_team, school = m.get("team") or "", schools.team_name(m["tid"], m.get("team") or "")
+                if old_team and m.get("name") == f"{old_team} dynasty":
+                    m["name"] = f"{school} dynasty"
+                m["team"] = school
+            out.append(m)
     out.sort(key=lambda m: -m.get("saved", 0))
     return {"dynasties": out, "latest": out[0] if out else None}
 
@@ -219,8 +225,11 @@ def schools_route():
     in a dynasty's picker and hub is regraded from that dynasty's draw)."""
     if not schools.available():
         return {"schools": [], "categories": schools.categories(), "available": False}
-    return {"schools": [schools.school(t) for t in range(len(_store.ready().league.teams)) if schools.school(t)],
-            "categories": schools.categories(), "available": True}
+    w = _store.ready()
+    return {"schools": [schools.school(t) for t in range(len(w.league.teams)) if schools.school(t)],
+            "categories": schools.categories(), "available": True,
+            "conference_check": schools.conference_check(w.league, {tid: c for tid, (_, c, _) in enumerate(w.cfg.teams)}),
+            "abbreviation_guesses": schools.abbreviation_guesses()}
 
 
 @router.post("/api/dynasties")
@@ -242,7 +251,7 @@ def start(did: str, body: Start):
     except (ValueError, IndexError) as e:
         raise HTTPException(400, str(e))
     if not d.name:
-        d.name = f"{d.team.name} dynasty"
+        d.name = f"{d.tname(d.tid)} dynasty"
     _autosave(did, d)
     return _hub(did, d)
 

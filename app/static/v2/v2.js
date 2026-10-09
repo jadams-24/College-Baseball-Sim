@@ -93,7 +93,8 @@
     return `hsl(${hue} ${sat}% ${light}%)`;
   }
   function initials(name) { return name.split(/\s+/).map((w) => w[0]).join("").slice(0, 3).toUpperCase(); }
-  function mark(team) { return `<span class="mark" style="--team:${colorOf(team.name)}" title="${esc(team.name)}">${initials(team.name)}</span>`; }
+  // the team mark: the school's abbreviation when the identity file gives one (initials otherwise); the tooltip is the one spot that names the engine id
+  function mark(team) { return `<span class="mark" style="--team:${colorOf(team.engine_name || team.name)}" title="${esc(team.name)}${team.engine_name ? ` · engine id: ${esc(team.engine_name)}` : ""}">${team.abbr ? esc(team.abbr) : initials(team.name)}</span>`; }
   function esc(s) { return String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
 
   // ---- 1. scoreboard strip: line score | R/H/E | bases | inning | balls, strikes, outs ----
@@ -103,7 +104,7 @@
   }
   function renderScorebar(t) {
     const st = t.state, inns = st.line_score.innings;
-    const row = (side) => `<tr class="${st.batting_side === side && !st.over && t.phase !== "pregame" ? "batting" : ""}"><td class="team">${mark(st.teams[side])}<span class="tn">${esc(st.teams[side].name)}</span></td>${st.line_score[side].map((r) => `<td>${r === null ? "" : r}</td>`).join("")}<td class="tot r">${st.score[side]}</td><td class="tot">${st.hits[side]}</td><td class="tot">${st.errors[side]}</td></tr>`;
+    const row = (side) => `<tr class="${st.batting_side === side && !st.over && t.phase !== "pregame" ? "batting" : ""}"><td class="team">${mark(st.teams[side])}<span class="tn" title="${esc(st.teams[side].name)}">${esc(st.teams[side].short || st.teams[side].name)}</span></td>${st.line_score[side].map((r) => `<td>${r === null ? "" : r}</td>`).join("")}<td class="tot r">${st.score[side]}</td><td class="tot">${st.hits[side]}</td><td class="tot">${st.errors[side]}</td></tr>`;
     $("#linescore").innerHTML = `<tr><th></th>${inns.map((i) => `<th>${i}</th>`).join("")}<th class="tot">R</th><th class="tot">H</th><th class="tot">E</th></tr>${row("away")}${row("home")}`;
     $("#sb-bases").innerHTML = basesSvg(st.bases, 44);
     $("#sb-inning").innerHTML = st.over ? `<div class="half">Final${st.ended_by_run_rule ? " · run rule" : ""}</div><div class="inn">${st.inning !== 9 ? st.inning + " inn" : "9 inn"}</div>`
@@ -379,7 +380,7 @@
       body = lu.length ? `<table class="lu tbl"><tr><th>#</th><th>Batter</th><th>Today</th>${seasonTh}</tr>${lu.map((p, i) => `<tr class="${p.pid === cur ? "now" : ""} ${curIdx >= 0 && i === (curIdx + 1) % 9 ? "deck" : ""} ${p.on_base ? "onbase" : ""}"><td class="n">${i + 1}</td><td class="nm"><div>${esc(p.name)}${p.on_base ? ' <span class="ob">on</span>' : ""}</div><small>${p.pos} · bats ${p.hand || "–"}</small></td><td class="today">${resChips(st.pa_results[String(p.pid)], 3)}</td>${seasonTd(p)}</tr>`).join("")}</table>`
         : `<div class="muted">The AI sets the ${esc(st.teams[side].name)} lineup when the game starts.</div>`;
     }
-    const short = (tm) => esc(tm.name.split(" ").slice(-1)[0]);
+    const short = (tm) => esc(tm.abbr || tm.short || tm.name);
     $("#lineup").innerHTML = `<div class="hdr">Lineup</div><div class="tabs"><button data-tab="mine" class="${lineupTab === "mine" ? "on" : ""}" title="${esc(st.teams[me].name)}">${short(st.teams[me])}</button><button data-tab="opp" class="${lineupTab === "opp" ? "on" : ""}" title="${esc(st.teams[opp].name)}">${short(st.teams[opp])}</button><button data-tab="pen" class="${lineupTab === "pen" ? "on" : ""}">Bullpen</button></div>${body}`;
     $$("#lineup .tabs button").forEach((b) => b.addEventListener("click", () => renderLineup(t, b.dataset.tab)));
     if (t.phase === "pregame" && lineupTab === "mine") bindPregame(t);

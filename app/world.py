@@ -13,6 +13,7 @@ from __future__ import annotations
 import numpy as np
 
 from config import phase2
+from app import schools
 from engine.game2 import B_NCOL, P_NCOL, PlayerGameEngine
 from engine.league import build_league
 from engine.ratings import display, rating_names
@@ -64,7 +65,7 @@ class World:
         out = []
         for t in self.league.teams:
             conf = self.league.conferences[t.conference]
-            out.append({"tid": t.tid, "name": t.name, "conference": conf[0], "tier": t.tier})
+            out.append(dict(schools.team_fields(t), conference=schools.conference_of(t.tid, conf[0])))
         return out
 
     def team(self, tid: int):
@@ -75,7 +76,7 @@ class World:
     def roster(self, tid: int) -> dict:
         t = self.team(tid)
         conf = self.league.conferences[t.conference]
-        return {"tid": t.tid, "name": t.name, "conference": conf[0], "tier": t.tier,
+        return {**schools.team_fields(t), "conference": schools.conference_of(t.tid, conf[0]),
                 "batters": [player_json(p) for p in t.batters], "pitchers": [player_json(p) for p in staff(t)]}
 
     def game_pids(self, home, away) -> list:

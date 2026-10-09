@@ -1,0 +1,308 @@
+tid,ncaa_team_id,short,full,abbr,abbr_source
+0,596471,A&M-Corpus Christi,Texas A&M-Corpus Christi,AMCC,common
+1,596477,Abilene Christian,Abilene Christian,ACU,common
+2,596430,Air Force,Air Force,AF,guess
+3,596419,Akron,Akron,AKR,guess
+4,596480,Alabama,Alabama,ALA,common
+5,596478,Alabama A&M,Alabama A&M,AAMU,common
+6,596479,Alabama St.,Alabama State,ALST,common
+7,596483,Alcorn,Alcorn State,ALCN,guess
+8,596484,App State,Appalachian State,APP,common
+9,596706,Arizona,Arizona,ARIZ,common
+10,596485,Arizona St.,Arizona State,ASU,common
+11,596466,Ark.-Pine Bluff,Arkansas-Pine Bluff,UAPB,common
+12,596487,Arkansas,Arkansas,ARK,common
+13,596486,Arkansas St.,Arkansas State,ARST,guess
+14,596702,Army West Point,Army,ARMY,common
+15,596489,Auburn,Auburn,AUB,common
+16,596490,Austin Peay,Austin Peay,APSU,common
+17,596499,BYU,BYU,BYU,common
+18,596491,Ball St.,Ball State,BALL,guess
+19,596493,Baylor,Baylor,BAY,common
+20,596693,Bellarmine,Bellarmine,BELL,guess
+21,596470,Belmont,Belmont,BEL,guess
+22,596494,Bethune-Cookman,Bethune-Cookman,BCU,common
+23,596495,Binghamton,Binghamton,BING,guess
+24,596496,Boston College,Boston College,BC,common
+25,596497,Bowling Green,Bowling Green,BGSU,common
+26,596498,Bradley,Bradley,BRAD,guess
+27,596500,Brown,Brown,BRWN,guess
+28,596501,Bryant,Bryant,BRY,guess
+29,596502,Bucknell,Bucknell,BUCK,guess
+30,596503,Butler,Butler,BUT,guess
+31,596505,CSU Bakersfield,Cal State Bakersfield,CSUB,common
+32,596508,CSUN,Cal State Northridge,CSUN,common
+33,596504,Cal Poly,Cal Poly,CP,guess
+34,596506,Cal St. Fullerton,Cal State Fullerton,CSUF,common
+35,596511,California,California,CAL,common
+36,596476,California Baptist,California Baptist,CBU,common
+37,596516,Campbell,Campbell,CAMP,guess
+38,596517,Canisius,Canisius,CAN,guess
+39,596457,Central Ark.,Central Arkansas,UCA,common
+40,596518,Central Conn. St.,Central Connecticut State,CCSU,common
+41,596520,Central Mich.,Central Michigan,CMU,common
+42,596492,Charleston So.,Charleston Southern,CHSO,guess
+43,596615,Charlotte,Charlotte,CLT,common
+44,596521,Cincinnati,Cincinnati,CIN,common
+45,596523,Clemson,Clemson,CLEM,common
+46,596524,Coastal Carolina,Coastal Carolina,CCU,common
+47,596459,Col. of Charleston,College of Charleston,CofC,common
+48,596525,Columbia,Columbia,COLU,guess
+49,596527,Coppin St.,Coppin State,COPP,guess
+50,596528,Cornell,Cornell,COR,guess
+51,596529,Creighton,Creighton,CREI,common
+52,596703,DBU,Dallas Baptist,DBU,common
+53,596530,Dartmouth,Dartmouth,DART,guess
+54,596531,Davidson,Davidson,DAV,guess
+55,596532,Dayton,Dayton,DAY,guess
+56,596534,Delaware,Delaware,DEL,guess
+57,596533,Delaware St.,Delaware State,DSU,common
+58,596708,Duke,Duke,DUKE,common
+59,596536,ETSU,East Tennessee State,ETSU,common
+60,596535,East Carolina,East Carolina,ECU,common
+61,596537,Eastern Ill.,Eastern Illinois,EIU,common
+62,596538,Eastern Ky.,Eastern Kentucky,EKU,common
+63,596539,Eastern Mich.,Eastern Michigan,EMU,common
+64,596460,Elon,Elon,ELON,common
+65,596709,Evansville,Evansville,EVAN,guess
+66,596541,FDU,Fairleigh Dickinson,FDU,common
+67,596473,FGCU,Florida Gulf Coast,FGCU,common
+68,596544,FIU,Florida International,FIU,common
+69,596540,Fairfield,Fairfield,FAIR,guess
+70,596543,Fla. Atlantic,Florida Atlantic,FAU,common
+71,596546,Florida,Florida,FLA,common
+72,596542,Florida A&M,Florida A&M,FAMU,common
+73,596545,Florida St.,Florida State,FSU,common
+74,596547,Fordham,Fordham,FOR,guess
+75,596707,Fresno St.,Fresno State,FRES,common
+76,596551,Ga. Southern,Georgia Southern,GASO,common
+77,596461,Gardner-Webb,Gardner-Webb,GWU,common
+78,596548,George Mason,George Mason,GMU,common
+79,596549,George Washington,George Washington,GW,common
+80,596550,Georgetown,Georgetown,GTWN,guess
+81,596554,Georgia,Georgia,UGA,common
+82,596552,Georgia St.,Georgia State,GSU,common
+83,596553,Georgia Tech,Georgia Tech,GT,common
+84,596555,Gonzaga,Gonzaga,GONZ,common
+85,596710,Grambling,Grambling,GRAM,common
+86,596462,Grand Canyon,Grand Canyon,GCU,common
+87,596556,Harvard,Harvard,HARV,common
+88,596557,Hawaii,Hawaii,HAW,common
+89,596705,High Point,High Point,HPU,common
+90,596558,Hofstra,Hofstra,HOF,guess
+91,596559,Holy Cross,Holy Cross,HC,guess
+92,596561,Houston,Houston,HOU,common
+93,596560,Houston Christian,Houston Christian,HCU,common
+94,596563,Illinois,Illinois,ILL,common
+95,596562,Illinois St.,Illinois State,ILST,guess
+96,596566,Indiana,Indiana,IU,common
+97,596565,Indiana St.,Indiana State,INST,guess
+98,596568,Iona,Iona,IONA,guess
+99,596569,Iowa,Iowa,IOWA,common
+100,596570,Jackson St.,Jackson State,JKST,common
+101,596572,Jacksonville,Jacksonville,JAX,common
+102,596571,Jacksonville St.,Jacksonville State,JVST,guess
+103,596573,James Madison,James Madison,JMU,common
+104,596575,Kansas,Kansas,KU,common
+105,596574,Kansas St.,Kansas State,KSU,common
+106,596463,Kennesaw St.,Kennesaw State,KENN,guess
+107,596576,Kent St.,Kent State,KENT,guess
+108,596577,Kentucky,Kentucky,UK,common
+109,596711,LIU,Long Island,LIU,common
+110,596587,LMU (CA),Loyola Marymount,LMU,common
+111,596583,LSU,LSU,LSU,common
+112,596624,LSU New Orleans,New Orleans,UNO,common
+113,596578,Lafayette,Lafayette,LAF,guess
+114,596579,Lamar University,Lamar,LAM,guess
+115,596699,Le Moyne,Le Moyne,LEM,guess
+116,596580,Lehigh,Lehigh,LEH,guess
+117,596581,Liberty,Liberty,LIB,common
+118,596695,Lindenwood,Lindenwood,LIN,guess
+119,596472,Lipscomb,Lipscomb,LIP,common
+120,596488,Little Rock,Little Rock,UALR,common
+121,596507,Long Beach St.,Long Beach State,LBSU,common
+122,596582,Longwood,Longwood,LONG,guess
+123,596687,Louisiana,Louisiana,ULL,common
+124,596584,Louisiana Tech,Louisiana Tech,LT,guess
+125,596585,Louisville,Louisville,LOU,common
+126,596588,Maine,Maine,ME,guess
+127,596589,Manhattan,Manhattan,MAN,guess
+128,596590,Marist,Marist,MRST,guess
+129,596591,Marshall,Marshall,MRSH,guess
+130,596593,Maryland,Maryland,UMD,common
+131,596595,Massachusetts,Massachusetts,UMASS,common
+132,596596,McNeese,McNeese,MCN,common
+133,596597,Memphis,Memphis,MEM,common
+134,596598,Mercer,Mercer,MER,guess
+135,596906,Mercyhurst,Mercyhurst,MERC,guess
+136,596458,Merrimack,Merrimack,MRMK,guess
+137,596600,Miami (FL),Miami,MIA,common
+138,596599,Miami (OH),Miami (OH),M-OH,guess
+139,596602,Michigan,Michigan,MICH,common
+140,596601,Michigan St.,Michigan State,MSU,common
+141,596603,Middle Tenn.,Middle Tennessee,MTSU,common
+142,596452,Milwaukee,Milwaukee,MILW,guess
+143,596604,Minnesota,Minnesota,MINN,common
+144,596605,Mississippi St.,Mississippi State,MSST,common
+145,596606,Mississippi Val.,Mississippi Valley State,MVSU,common
+146,596608,Missouri,Missouri,MIZ,common
+147,596685,Missouri St.,Missouri State,MOST,guess
+148,596609,Monmouth,Monmouth,MONM,guess
+149,596610,Morehead St.,Morehead State,MORE,guess
+150,596611,Mount St. Mary's,Mount St. Mary's,MSM,guess
+151,596612,Murray St.,Murray State,MUR,guess
+152,596627,N.C. A&T,North Carolina A&T,NCAT,common
+153,596628,NC State,NC State,NCSU,common
+154,596633,NIU,Northern Illinois,NIU,common
+155,596621,NJIT,NJIT,NJIT,common
+156,596431,Navy,Navy,NAVY,common
+157,596712,Nebraska,Nebraska,NEB,common
+158,596620,Nevada,Nevada,NEV,common
+159,596623,New Mexico,New Mexico,UNM,common
+160,596622,New Mexico St.,New Mexico State,NMSU,common
+161,596625,Niagara,Niagara,NIAG,guess
+162,596713,Nicholls,Nicholls,NICH,guess
+163,596626,Norfolk St.,Norfolk State,NSU,guess
+164,596475,North Ala.,North Alabama,UNA,common
+165,596614,North Carolina,North Carolina,UNC,common
+166,596629,North Dakota St.,North Dakota State,NDSU,common
+167,596467,North Florida,North Florida,UNF,common
+168,596631,Northeastern,Northeastern,NE,common
+169,596632,Northern Colo.,Northern Colorado,UNCO,guess
+170,596634,Northern Ky.,Northern Kentucky,NKU,common
+171,596636,Northwestern,Northwestern,NW,common
+172,596635,Northwestern St.,Northwestern State,NWST,common
+173,596637,Notre Dame,Notre Dame,ND,common
+174,596638,Oakland,Oakland,OAK,guess
+175,596640,Ohio,Ohio,OHIO,guess
+176,596639,Ohio St.,Ohio State,OSU,common
+177,596641,Oklahoma,Oklahoma,OU,common
+178,596714,Oklahoma St.,Oklahoma State,OKST,common
+179,596642,Old Dominion,Old Dominion,ODU,common
+180,596607,Ole Miss,Ole Miss,MISS,guess
+181,596618,Omaha,Omaha,OMA,common
+182,596715,Oral Roberts,Oral Roberts,ORU,common
+183,596644,Oregon,Oregon,ORE,common
+184,596643,Oregon St.,Oregon State,ORST,common
+185,596645,Pacific,Pacific,PAC,guess
+186,596716,Penn,Penn,PENN,common
+187,596647,Penn St.,Penn State,PSU,common
+188,596648,Pepperdine,Pepperdine,PEPP,guess
+189,596649,Pittsburgh,Pittsburgh,PITT,common
+190,596650,Portland,Portland,PORT,guess
+191,596651,Prairie View,Prairie View A&M,PVAM,common
+192,596464,Presbyterian,Presbyterian,PRES,guess
+193,596652,Princeton,Princeton,PRIN,common
+194,596653,Purdue,Purdue,PUR,common
+195,596567,Purdue Fort Wayne,Purdue Fort Wayne,PFW,common
+196,596696,Queens (NC),Queens,QUNC,guess
+197,596654,Quinnipiac,Quinnipiac,QUIN,guess
+198,596655,Radford,Radford,RAD,guess
+199,596656,Rhode Island,Rhode Island,URI,common
+200,596657,Rice,Rice,RICE,common
+201,596658,Richmond,Richmond,RICH,guess
+202,596659,Rider,Rider,RID,guess
+203,596660,Rutgers,Rutgers,RUT,common
+204,596689,SFA,Stephen F. Austin,SFA,common
+205,596683,SIUE,SIU Edwardsville,SIUE,common
+206,596509,Sacramento St.,Sacramento State,SAC,common
+207,596661,Sacred Heart,Sacred Heart,SHU,guess
+208,596663,Saint Joseph's,Saint Joseph's,SJOE,guess
+209,596664,Saint Louis,Saint Louis,SLU,common
+210,596665,Saint Mary's (CA),Saint Mary's,SMC,common
+211,596666,Saint Peter's,Saint Peter's,SPU,guess
+212,596667,Sam Houston,Sam Houston,SHSU,common
+213,596668,Samford,Samford,SAM,guess
+214,596670,San Diego,San Diego,USD,common
+215,596669,San Diego St.,San Diego State,SDSU,common
+216,596671,San Francisco,San Francisco,SF,guess
+217,596672,San Jose St.,San Jose State,SJSU,common
+218,596673,Santa Clara,Santa Clara,SCU,common
+219,596465,Seattle U,Seattle,SEA,guess
+220,596674,Seton Hall,Seton Hall,HALL,guess
+221,596675,Siena,Siena,SIE,guess
+222,596676,South Alabama,South Alabama,USA,common
+223,596677,South Carolina,South Carolina,SC,common
+224,596678,South Dakota St.,South Dakota State,SDST,guess
+225,596679,South Fla.,South Florida,USF,common
+226,596718,Southeast Mo. St.,Southeast Missouri State,SEMO,common
+227,596680,Southeastern La.,Southeastern Louisiana,SELA,common
+228,596681,Southern California,USC,USC,common
+229,596682,Southern Ill.,Southern Illinois,SIU,common
+230,596697,Southern Ind.,Southern Indiana,USI,common
+231,596719,Southern Miss.,Southern Miss,USM,common
+232,596684,Southern U.,Southern,SOU,guess
+233,596662,St. Bonaventure,St. Bonaventure,BONA,common
+234,596717,St. John's (NY),St. John's,SJU,common
+235,596417,St. Thomas (MN),St. Thomas,UST,common
+236,596688,Stanford,Stanford,STAN,common
+237,596720,Stetson,Stetson,STET,common
+238,596698,Stonehill,Stonehill,STON,guess
+239,596690,Stony Brook,Stony Brook,SBU,common
+240,596421,TCU,TCU,TCU,common
+241,596700,Tarleton St.,Tarleton State,TAR,guess
+242,596721,Tennessee,Tennessee,TENN,common
+243,596691,Tennessee Tech,Tennessee Tech,TNTC,guess
+244,596425,Texas,Texas,TEX,common
+245,596420,Texas A&M,Texas A&M,TAMU,common
+246,596422,Texas Southern,Texas Southern,TXSO,common
+247,596686,Texas St.,Texas State,TXST,common
+248,596423,Texas Tech,Texas Tech,TTU,common
+249,596522,The Citadel,The Citadel,CIT,guess
+250,596427,Toledo,Toledo,TOL,guess
+251,596428,Towson,Towson,TOW,guess
+252,596429,Troy,Troy,TROY,common
+253,596701,Tulane,Tulane,TUL,common
+254,596481,UAB,UAB,UAB,common
+255,596482,UAlbany,Albany,ALB,guess
+256,596512,UC Davis,UC Davis,UCD,common
+257,596513,UC Irvine,UC Irvine,UCI,common
+258,596515,UC Riverside,UC Riverside,UCR,common
+259,596694,UC San Diego,UC San Diego,UCSD,common
+260,596510,UC Santa Barbara,UC Santa Barbara,UCSB,common
+261,596519,UCF,UCF,UCF,common
+262,596514,UCLA,UCLA,UCLA,common
+263,596526,UConn,UConn,CONN,common
+264,596564,UIC,UIC,UIC,common
+265,596468,UIW,Incarnate Word,UIW,common
+266,596630,ULM,Louisiana-Monroe,ULM,common
+267,596592,UMBC,UMBC,UMBC,common
+268,596594,UMES,Maryland Eastern Shore,UMES,common
+269,596586,UMass Lowell,UMass Lowell,UML,common
+270,596613,UNC Asheville,UNC Asheville,UNCA,common
+271,596616,UNC Greensboro,UNC Greensboro,UNCG,common
+272,596617,UNCW,UNC Wilmington,UNCW,common
+273,596619,UNLV,UNLV,UNLV,common
+274,596469,USC Upstate,USC Upstate,UPST,guess
+275,596424,UT Arlington,UT Arlington,UTA,common
+276,596692,UT Martin,UT Martin,UTM,common
+277,596646,UTRGV,UTRGV,UTRGV,common
+278,596426,UTSA,UTSA,UTSA,common
+279,596432,Utah,Utah,UTAH,common
+280,596418,Utah Tech,Utah Tech,UTU,guess
+281,596474,Utah Valley,Utah Valley,UVU,common
+282,596436,VCU,VCU,VCU,common
+283,596437,VMI,VMI,VMI,common
+284,596433,Valparaiso,Valparaiso,VALP,guess
+285,596434,Vanderbilt,Vanderbilt,VAN,common
+286,596435,Villanova,Villanova,NOVA,common
+287,596439,Virginia,Virginia,UVA,common
+288,596438,Virginia Tech,Virginia Tech,VT,common
+289,596440,Wagner,Wagner,WAG,guess
+290,596441,Wake Forest,Wake Forest,WAKE,common
+291,596443,Washington,Washington,WASH,common
+292,596442,Washington St.,Washington State,WSU,common
+293,596947,West Ga.,West Georgia,UWG,common
+294,596444,West Virginia,West Virginia,WVU,common
+295,596445,Western Caro.,Western Carolina,WCU,common
+296,596446,Western Ill.,Western Illinois,WIU,common
+297,596447,Western Ky.,Western Kentucky,WKU,common
+298,596448,Western Mich.,Western Michigan,WMU,common
+299,596449,Wichita St.,Wichita State,WICH,guess
+300,596450,William & Mary,William & Mary,W&M,common
+301,596451,Winthrop,Winthrop,WIN,guess
+302,596704,Wofford,Wofford,WOF,guess
+303,596453,Wright St.,Wright State,WRST,guess
+304,596454,Xavier,Xavier,XAV,common
+305,596455,Yale,Yale,YALE,common
+306,596456,Youngstown St.,Youngstown State,YSU,common
