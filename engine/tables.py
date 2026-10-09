@@ -109,7 +109,8 @@ class AdvancementTable:
         `extra`) rather than the standard one (`std`), among those two, in this cell; None if the cell
         has neither."""
         key = (res, outs, base_code, origin)
-        if key not in _EXTRA:
+        cache = self.__dict__.setdefault("_extra", {})     # per table: tables built from other data never share it
+        if key not in cache:
             cell = self._cell(res, outs, base_code)
             pe = ps = 0.0
             if cell is not None:
@@ -121,25 +122,24 @@ class AdvancementTable:
                         pe += w
                     elif d == std:
                         ps += w
-            _EXTRA[key] = pe / (pe + ps) if pe + ps > 0 and 0 < pe else None
-        return _EXTRA[key]
+            cache[key] = pe / (pe + ps) if pe + ps > 0 and 0 < pe else None
+        return cache[key]
 
 
-_EXTRA: dict = {}
-_SPLITS: dict = {}
+_UNSET = object()
 
 
 def _err_split(cell: Categorical):
-    """(P(error on the play), error-conditional and no-error-conditional categoricals) of a cell."""
-    k = id(cell)
-    if k not in _SPLITS:
+    """(P(error on the play), error-conditional and no-error-conditional categoricals) of a cell, cached on the cell."""
+    sp = getattr(cell, "split_err", _UNSET)
+    if sp is _UNSET:
         prev, e, n = 0.0, {}, {}
         for lab, c in zip(cell.labels, cell.cum):
             w, prev = c - prev, c
             (e if lab.rsplit(",", 1)[1] != "0" else n)[lab] = w
         pe = sum(e.values())
-        _SPLITS[k] = (pe, Categorical(list(e), list(e.values())), Categorical(list(n), list(n.values()))) if 0 < pe < 1 else None
-    return _SPLITS[k]
+        sp = cell.split_err = (pe, Categorical(list(e), list(e.values())), Categorical(list(n), list(n.values()))) if 0 < pe < 1 else None
+    return sp
 
 
 class PrePaEventTable:
@@ -198,16 +198,14 @@ class PrePaEventTable:
         return [r1, r2, r3], 0, int(err)
 
 
-_OK: dict = {}
-
-
 def _ok_split(cat: Categorical):
-    k = id(cat)
-    if k not in _OK:
+    """(P(no runner out), the no-runner-out and runner-out categoricals) of an outcome, cached on the categorical."""
+    sp = getattr(cat, "split_ok", _UNSET)
+    if sp is _UNSET:
         prev, ok, out = 0.0, {}, {}
         for lab, c in zip(cat.labels, cat.cum):
             w, prev = c - prev, c
             (out if "0" in lab.split(",")[:3] else ok)[lab] = w
         po = sum(ok.values())
-        _OK[k] = (po, Categorical(list(ok), list(ok.values())), Categorical(list(out), list(out.values()))) if 0 < po < 1 else None
-    return _OK[k]
+        sp = cat.split_ok = (po, Categorical(list(ok), list(ok.values())), Categorical(list(out), list(out.values()))) if 0 < po < 1 else None
+    return sp

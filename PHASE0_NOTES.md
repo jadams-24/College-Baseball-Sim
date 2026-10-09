@@ -622,6 +622,81 @@ Measured on committed data, no simulation (`scripts/diag_sizes.py`, `reports/dia
   - bunts, sacrifice hits, bunt hits and intentional walks per team-game;
   - steal attempts and success per eligible plate appearance, by length (2 to 8+ pitches) and by final count, on the sample free of selection (`steal_paths`); the first-event sample is kept as `steal_paths_first_event` (diagnostic).
 
+### Phase 3: handedness and platoon splits (2026-10-08, plan approved by the owner with adjustments)
+
+Plan: `plans/phase3_plan_2026-10-08.md`. Data: the roster aggregates (`data/ncaa_2025/roster_aggregates/`, 232 of 277 D1 teams, counts only, approved as representative without weighting) and the 2025 WMT play-by-play. Report: `reports/phase3.md`, on the same 40-season run as every other report.
+
+**Hands are drawn per player, never by tier (owner rule).** Pitchers: P(throws L) = expit(a[role] + b[role] s), s the pitcher's true K-BB per batter faced against an average batter, standardized within role (weekend and midweek starters, relievers). Batters: throws L at the position group's roster share (C .003, 1B .32, IF .03, OF .27, UT/DH .06; left-handed throwers appear at catcher and the infield only at those near-zero rates, owner adjustment 4); bats L / R / S by a multinomial logit on position group and throws plus the batter's standardized true run value per PA. The hands come from their own random stream, drawn after every other, so no other draw moves.
+
+**The fit goes through the noise of the observed talent bins** (`scripts/build_phase3_hands.py`). The aggregates bin matched players by quintiles of an observed index (pitchers: K-BB per BF, adjusted for the batters faced and for platoon, owner adjustment 1; batters: linear-weights run value per PA). A simulated population (four seasons of the engine with hands off) stands in for the real players: each simulated player's play-by-play workload is his season's times his tier's coverage (solved so the binned players' mean workload equals the table's), his observed index is his true one plus binomial noise, and he falls into the table's bins by its edges. Two things had to be emulated for the population to match the table:
+- **Coverage.** The play-by-play covers P4 teams almost fully and low-tier teams little (coverage factors: P4 relievers 1.0, starters .75; mid .63 / .38; low .20 / .14).
+- **The aggregator's opponent adjustment over-corrects for schedules.** It subtracts the opponents' raw mean, and that mean carries the pitchers the opponents faced, so a P4 pitcher's index is pulled down by the P4 pitching his opponents faced (−.028 K-BB on average; low tier +.024). Without the emulation the simulated P4 pitchers sat in the top bin 38% of the time against 25% real; with it, 25% against 25% (the spread over the bins matches by tier and role).
+
+Fitted slopes per SD of true K-BB: starters +.20 ± .16, relievers −.23 ± .17 (neither different from zero). Batters: bats L against R +.28 ± .08 per SD of true run value (better hitters are more often left-handed), S against R +.20 ± .17. Intercepts are set so the D1 shares match: left-handers among pitchers who appeared, by role, the tiers weighted by their number of teams (.264 starters, .251 relievers; the raw play-by-play sample is P4-heavy).
+
+**The tier gradient (check, owner adjustments 2 and 3).** Batters: the talent-conditional draw gives L shares by tier .369 / .322 / .290 (P4 / mid / low, at each tier's real mix of positions) against .372 / .317 / .291 real. The gradient comes out of where the talent is. Pitchers: it does not. The slopes are flat or negative, so the talent-only model gives relievers .22 / .25 / .28 against .31 / .25 / .20 real. The same fit with a tier term measures the effect of tier at equal talent: P4 +.48 ± .19 and low −.71 ± .48 log-odds against mid, P4 against low +1.19 ± .50. At a .25 base share that is .34 P4, .25 mid, .14 low. The run-value index as the talent measure (sensitivity check) gives the same conclusion: P4 against low +1.07 ± .56, relievers predicted .27 / .25 / .24. Whole rosters show part of it too: left-handers are .295 of P4 roster pitchers against .225 low; among pitchers who appeared, .31–.35 against .20. Per the owner's rule, no tier term was added. Failing rows become the watch item "left-handers by tier", and Phase 9 gets the requirement "recruiting values handedness beyond talent" with this measured size (see the 40-season run below for which rows).
+
+**Platoon shifts** (`scripts/build_phase3_platoon.py`). Logit offsets on the batter's six rates by (side he hits from, pitcher's hand), a switch hitter on the side opposite the pitcher. They are fitted against `platoon_league.csv` by batting tier: per tier and rate, logit(real) − logit(sim) for the four pairs, less its mean over the pairs (a tier-level gap is not a platoon effect), averaged over tiers. The simulated cells already carry who faced whom (hands are drawn with talent; bullpens and pinch hitters choose by hand), so the gap is the platoon effect. The shifts are centred so each rate's league value does not move to first order. One iteration on seasons played with the shifts left gaps of at most .024 logit (SEs .03–.09). Largest effects: a left-handed batter against a left-hander −.49 logit on HR and +.07 on K; against a right-hander +.14 on BB and −.11 on K.
+
+**Levels are not gated, splits are.** The hand-known plate appearances of a tier are not a sample of that tier: low-tier batters in the play-by-play face mostly P4 pitching (the schedules of the teams it covers), so their K% is .28. Tier-weighted levels carry their opponents, and the first trial failed nearly every level row for that reason. The gate rows are splits (rate against left-handers minus against right-handers) within each batting tier. Tiers are weighted by their hand-known plate appearances, since the engine's shift is one number for every tier. The levels are reported.
+
+**The plate-appearance mix is reported, not gated (a change from the plan).** The plan gated the share of plate appearances with the platoon advantage. Its real tolerance can be computed only binomially on plate appearances, which is several times too small: a player's plate appearances all share his hand, and the aggregates have no clustering unit for them. The hands behind it are gated with conference-clustered intervals, and the AI's choices by hand are gated as odds ratios. Proposed fix: a by-conference platoon table in the next aggregator run.
+
+**Usage by hand** (`scripts/build_phase3_usage.py`). Fitted from `relief_by_hand.csv` and `pinch_hit_by_hand.csv`:
+- the pull hazard is multiplied by the real change rate for the hands of the pitcher and of the batter due up (a left-hander with a right-handed batter due up is pulled 1.2–1.4 times as often as average);
+- the relief choice gets +g/2 for a pitcher of the due-up batter's hand and +f/2 for one of the replaced pitcher's hand (f < 0: teams change hands);
+- the pinch-hit hazard is multiplied by the rate for the pitcher's hand and the bats due up;
+- the bench pick gives a bench player with the platoon advantage exp(gamma) times the weight.
+
+The data-only estimates ignore who is available in a bullpen or on a bench. So g, f, gamma and the pull multipliers' ratios were then solved in the engine (two steps on four seasons each) until the simulated statistics equal the real ones: left-hander entry difference .218 against .236, pinch hitters' advantage share .666 against .678, change-rate ratios 1.75 / 1.16 against 1.77 / 1.16. The final values: g .72 / .76 (innings 1-6 / 7+), f −.50 / −.48, gamma 1.36. One model serves every tier (GUESSES.md).
+
+**Individual platoon spread.** League-level shifts only (GUESSES.md: individual spread zero). The sim's spread is reported against `platoon_spread.csv`.
+
+**First 40-season run (commit ad6ae50, reports in cc3aa85) and the centring fix.** Phase 2 and Phase 4 passed. The two reliever tier rows failed, as predicted (they became the watch item). Four other rows failed:
+- HR per team-game 1.042 against the Phase 4 run's 1.068 ± .018 (PR B 1.057), and SLG with it;
+- distinct batters per team-game 10.505 (limit 10.499; PR B 10.481);
+- low-tier offense, recovered minus drawn, −.009 ± .006.
+
+Cause, measured on four seasons of the same seeds:
+- With the platoon shifts on and the first usage model, league HR per PA was .02592 against .02581 off.
+- After the usage solve (stronger bullpen matching), same-hand plate appearances rose (lefty batter against lefty pitcher .094 → .101), and HR per PA fell to .02558. The shifts had been centred, to first order, on the earlier mix.
+- The pinch-hit and late pull multipliers, normalized on the real opportunity mix, averaged 1.021 / 1.023 and 1.022 on the engine's.
+
+The fix applies the design ("centred on the league mix"; "multipliers average 1 over the mix") to the final engine's mix:
+- the multipliers are rescaled to average 1 on the engine's opportunity mix (`build_phase3_usage.py --normalize`);
+- each rate's four shifts get the constant that keeps the league rate exactly (`build_phase3_platoon.py --recentre`): HR +.0137 logit, BB +.0046, HBP +.0046, the rest under .002.
+
+No tolerance moved.
+
+**Second run and the strength-map re-solve (owner decision 2026-10-08).**
+- With the re-centred shifts, the 40-season run passed every row but one: low-tier offense, recovered minus drawn, −.0075 ± .0025 (3.07 SE).
+- That row had drifted across PRs since the map was last solved on 2026-10-04: −.0038 (Phase 6), −.0058 (Phase 7), −.0070 (PR B), −.0075 (Phase 3; Phase 3's own share −.0005 ± .0034).
+- The strength map and home edge were re-solved on the current engine (`solve_phase2_game_scale.py --warm`: 2 iterations of 8 seasons, then 1 of 16 when the drift check read run-prevention curvature at z −2.01). Targets were unchanged.
+- The final drift check passes every row (`reports/drift_check.md`).
+
+**Final 40-season run (2026-10-08): every Phase 2–7 gate passes.**
+- Low-tier offense recovery +.001.
+- HR per team-game 1.060 (Phase 4 run 1.068 ± .018).
+- Runs per team-game 6.67.
+- The reliever tier rows stay in the watch item:
+  - P4 .229 against .306;
+  - low .279 against .197.
+- **Variance link against PR B:**
+
+| Row | Real | PR B | Phase 3 | Change | Gap closed |
+|---|---|---|---|---|---|
+| P4-vs-mid margin SD | 5.97 | 5.61 | 5.69 | +.077 ± .041 | 22% ± 12% |
+| Regional upset rate | .371 | .343 | .365 | +.023 ± .016 | 81% ± 57% (not significant) |
+| 15+ bin | .066 | .051 | .052 | +.001 | 4% |
+| Run rule | .152 | .116 | .116 | 0 | 0% |
+
+- **Platoon-advantage share** .464 against .480 (reported); the advantage above random pairing is .008 against .022.
+
+**Process (owner decisions 2026-10-08).**
+- Resumable runs are keyed on a hash of what the seasons read (engine, config, scripts, derived inputs, benchmarks.json), not the git commit. A documentation commit keeps finished seasons; any change to code or inputs starts fresh.
+- The roster workflow commits its aggregates to its own branch and opens a pull request, so no pull request's head lacks CI.
+- The next aggregator run adds `platoon_league.csv` scopes by the batting and the pitching conference. These give conference-clustered intervals for the plate-appearance mix, so the platoon-advantage share can be gated.
+
 ## Bibliography
 
 - Jones, M. C. and Pewsey, A. (2009). Sinh-arcsinh distributions. *Biometrika* 96(4), 761–780.

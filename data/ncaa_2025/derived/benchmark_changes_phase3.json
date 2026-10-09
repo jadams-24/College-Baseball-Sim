@@ -1,0 +1,530 @@
+[
+ {
+  "path": "handedness_platoon_2025",
+  "old": null,
+  "new": {
+   "_note": "Phase 3 gate (handedness and platoon splits; plan approved 2026-10-08, plans/phase3_plan_2026-10-08.md). Shares from rosters are unweighted (coverage approved as representative); rates from the play-by-play weight the tiers by their number of teams (tier_weights_teams), the play-by-play sample being P4-heavy. lhp_by_tier and bats_L_by_tier are the tier-gradient check: hands are drawn from talent and role or position only, so a failure measures handedness valued beyond talent (owner rule: no tier term; a failing row becomes a watch item and a Phase 9 requirement).",
+   "conf": "B",
+   "src": "roster aggregates 2025 (data/ncaa_2025/roster_aggregates/, fetch rosters workflow 2026-10-07/08, 232 of 277 D1 teams; counts only) and the 2025 WMT play-by-play (data/ncaa_2025/pbp)",
+   "tier_weights_teams": {
+    "p4": 64,
+    "mid": 143,
+    "low": 70
+   },
+   "lhp_share": {
+    "starter": {
+     "value": 0.2639,
+     "tol": 0.0449
+    },
+    "reliever": {
+     "value": 0.2507,
+     "tol": 0.0198
+    }
+   },
+   "lhp_by_tier": {
+    "p4|starter": {
+     "value": 0.3497,
+     "lo": 0.2249,
+     "hi": 0.4746,
+     "tol": 0.1249,
+     "pitchers": 183
+    },
+    "p4|reliever": {
+     "value": 0.3065,
+     "lo": 0.2758,
+     "hi": 0.3372,
+     "tol": 0.0307,
+     "pitchers": 646
+    },
+    "mid|starter": {
+     "value": 0.2545,
+     "lo": 0.2042,
+     "hi": 0.3049,
+     "tol": 0.0504,
+     "pitchers": 330
+    },
+    "mid|reliever": {
+     "value": 0.252,
+     "lo": 0.2228,
+     "hi": 0.2811,
+     "tol": 0.0292,
+     "pitchers": 1016
+    },
+    "low|starter": {
+     "value": 0.2045,
+     "lo": 0.1158,
+     "hi": 0.2933,
+     "tol": 0.0887,
+     "pitchers": 132
+    },
+    "low|reliever": {
+     "value": 0.1971,
+     "lo": 0.1544,
+     "hi": 0.2398,
+     "tol": 0.0427,
+     "pitchers": 345
+    }
+   },
+   "bats_by_group": {
+    "C": {
+     "L": {
+      "value": 0.1669,
+      "lo": 0.1423,
+      "hi": 0.1914,
+      "tol": 0.0246
+     },
+     "R": {
+      "value": 0.7816,
+      "lo": 0.7465,
+      "hi": 0.8167,
+      "tol": 0.0351
+     },
+     "S": {
+      "value": 0.0515,
+      "lo": 0.0381,
+      "hi": 0.0649,
+      "tol": 0.0134
+     }
+    },
+    "1B": {
+     "L": {
+      "value": 0.5306,
+      "lo": 0.4473,
+      "hi": 0.6139,
+      "tol": 0.0833
+     },
+     "R": {
+      "value": 0.4422,
+      "lo": 0.3606,
+      "hi": 0.5238,
+      "tol": 0.0816
+     },
+     "S": {
+      "value": 0.0272,
+      "lo": 0.0028,
+      "hi": 0.0516,
+      "tol": 0.0244
+     }
+    },
+    "IF": {
+     "L": {
+      "value": 0.2776,
+      "lo": 0.2508,
+      "hi": 0.3045,
+      "tol": 0.0269
+     },
+     "R": {
+      "value": 0.6671,
+      "lo": 0.6384,
+      "hi": 0.6957,
+      "tol": 0.0286
+     },
+     "S": {
+      "value": 0.0553,
+      "lo": 0.044,
+      "hi": 0.0666,
+      "tol": 0.0113
+     }
+    },
+    "OF": {
+     "L": {
+      "value": 0.462,
+      "lo": 0.4294,
+      "hi": 0.4946,
+      "tol": 0.0326
+     },
+     "R": {
+      "value": 0.5145,
+      "lo": 0.4803,
+      "hi": 0.5487,
+      "tol": 0.0342
+     },
+     "S": {
+      "value": 0.0234,
+      "lo": 0.0153,
+      "hi": 0.0315,
+      "tol": 0.0081
+     }
+    },
+    "UT/DH": {
+     "L": {
+      "value": 0.3118,
+      "lo": 0.2575,
+      "hi": 0.366,
+      "tol": 0.0543
+     },
+     "R": {
+      "value": 0.6529,
+      "lo": 0.5867,
+      "hi": 0.7192,
+      "tol": 0.0663
+     },
+     "S": {
+      "value": 0.0353,
+      "lo": 0.0092,
+      "hi": 0.0614,
+      "tol": 0.0261
+     }
+    }
+   },
+   "throws_L_by_group": {
+    "C": {
+     "value": 0.0025,
+     "lo": -0.0009,
+     "hi": 0.0058,
+     "tol": 0.0033
+    },
+    "1B": {
+     "value": 0.3197,
+     "lo": 0.2634,
+     "hi": 0.3761,
+     "tol": 0.0564
+    },
+    "IF": {
+     "value": 0.0297,
+     "lo": 0.021,
+     "hi": 0.0385,
+     "tol": 0.0088
+    },
+    "OF": {
+     "value": 0.269,
+     "lo": 0.2435,
+     "hi": 0.2944,
+     "tol": 0.0255
+    },
+    "UT/DH": {
+     "value": 0.0588,
+     "lo": 0.0325,
+     "hi": 0.0852,
+     "tol": 0.0264
+    }
+   },
+   "bats_L_by_tier": {
+    "p4": {
+     "value": 0.3722,
+     "lo": 0.3593,
+     "hi": 0.3851,
+     "tol": 0.0129
+    },
+    "mid": {
+     "value": 0.3168,
+     "lo": 0.2935,
+     "hi": 0.3401,
+     "tol": 0.0233
+    },
+    "low": {
+     "value": 0.291,
+     "lo": 0.2475,
+     "hi": 0.3346,
+     "tol": 0.0436
+    }
+   },
+   "group_mix_by_tier": {
+    "p4": {
+     "C": 0.1889,
+     "1B": 0.03,
+     "IF": 0.4389,
+     "OF": 0.3078,
+     "UT/DH": 0.0344
+    },
+    "mid": {
+     "C": 0.2054,
+     "1B": 0.0426,
+     "IF": 0.4104,
+     "OF": 0.3023,
+     "UT/DH": 0.0393
+    },
+    "low": {
+     "C": 0.2034,
+     "1B": 0.0282,
+     "IF": 0.4048,
+     "OF": 0.3102,
+     "UT/DH": 0.0534
+    }
+   },
+   "platoon": {
+    "splits": {
+     "L|K": {
+      "value": 0.0279,
+      "tol": 0.0102
+     },
+     "L|BB": {
+      "value": -0.0092,
+      "tol": 0.008
+     },
+     "L|HR": {
+      "value": -0.0116,
+      "tol": 0.0038
+     },
+     "L|BABIP": {
+      "value": -0.0003,
+      "tol": 0.0152
+     },
+     "L|OB": {
+      "value": -0.0159,
+      "tol": 0.0121
+     },
+     "L|weights": {
+      "p4": 21730,
+      "mid": 9118,
+      "low": 1126
+     },
+     "R|K": {
+      "value": 0.0035,
+      "tol": 0.0086
+     },
+     "R|BB": {
+      "value": 0.0033,
+      "tol": 0.0063
+     },
+     "R|HR": {
+      "value": 0.0059,
+      "tol": 0.0036
+     },
+     "R|BABIP": {
+      "value": -0.0121,
+      "tol": 0.0126
+     },
+     "R|OB": {
+      "value": -0.0054,
+      "tol": 0.01
+     },
+     "R|weights": {
+      "p4": 26519,
+      "mid": 12677,
+      "low": 2223
+     },
+     "S|K": {
+      "value": 0.0163,
+      "tol": 0.0295
+     },
+     "S|BB": {
+      "value": -0.0316,
+      "tol": 0.0217
+     },
+     "S|HR": {
+      "value": 0.0047,
+      "tol": 0.0122
+     },
+     "S|BABIP": {
+      "value": -0.0169,
+      "tol": 0.0427
+     },
+     "S|OB": {
+      "value": -0.0426,
+      "tol": 0.0346
+     },
+     "S|weights": {
+      "p4": 2598,
+      "mid": 846,
+      "low": 104
+     }
+    },
+    "levels": {
+     "L|L|K": {
+      "value": 0.2274,
+      "tol": 0.0157,
+      "gate": "report"
+     },
+     "L|R|K": {
+      "value": 0.217,
+      "tol": 0.0091,
+      "gate": "report"
+     },
+     "L|L|BB": {
+      "value": 0.1075,
+      "tol": 0.0109,
+      "gate": "report"
+     },
+     "L|R|BB": {
+      "value": 0.1186,
+      "tol": 0.0068,
+      "gate": "report"
+     },
+     "L|L|HR": {
+      "value": 0.0118,
+      "tol": 0.0023,
+      "gate": "report"
+     },
+     "L|R|HR": {
+      "value": 0.0249,
+      "tol": 0.0029,
+      "gate": "report"
+     },
+     "L|L|BABIP": {
+      "value": 0.3454,
+      "tol": 0.0232,
+      "gate": "report"
+     },
+     "L|R|BABIP": {
+      "value": 0.3164,
+      "tol": 0.0129,
+      "gate": "report"
+     },
+     "L|L|OB": {
+      "value": 0.3715,
+      "tol": 0.0183,
+      "gate": "report"
+     },
+     "L|R|OB": {
+      "value": 0.3635,
+      "tol": 0.01,
+      "gate": "report"
+     },
+     "R|L|K": {
+      "value": 0.2353,
+      "tol": 0.0112,
+      "gate": "report"
+     },
+     "R|R|K": {
+      "value": 0.2341,
+      "tol": 0.0073,
+      "gate": "report"
+     },
+     "R|L|BB": {
+      "value": 0.1013,
+      "tol": 0.0078,
+      "gate": "report"
+     },
+     "R|R|BB": {
+      "value": 0.0947,
+      "tol": 0.0049,
+      "gate": "report"
+     },
+     "R|L|HR": {
+      "value": 0.025,
+      "tol": 0.0036,
+      "gate": "report"
+     },
+     "R|R|HR": {
+      "value": 0.02,
+      "tol": 0.002,
+      "gate": "report"
+     },
+     "R|L|BABIP": {
+      "value": 0.3162,
+      "tol": 0.0156,
+      "gate": "report"
+     },
+     "R|R|BABIP": {
+      "value": 0.3277,
+      "tol": 0.0102,
+      "gate": "report"
+     },
+     "R|L|OB": {
+      "value": 0.3415,
+      "tol": 0.0121,
+      "gate": "report"
+     },
+     "R|R|OB": {
+      "value": 0.3453,
+      "tol": 0.0079,
+      "gate": "report"
+     },
+     "S|L|K": {
+      "value": 0.2613,
+      "tol": 0.0568,
+      "gate": "report"
+     },
+     "S|R|K": {
+      "value": 0.2086,
+      "tol": 0.0292,
+      "gate": "report"
+     },
+     "S|L|BB": {
+      "value": 0.0743,
+      "tol": 0.0277,
+      "gate": "report"
+     },
+     "S|R|BB": {
+      "value": 0.1286,
+      "tol": 0.0233,
+      "gate": "report"
+     },
+     "S|L|HR": {
+      "value": 0.029,
+      "tol": 0.0231,
+      "gate": "report"
+     },
+     "S|R|HR": {
+      "value": 0.0201,
+      "tol": 0.0099,
+      "gate": "report"
+     },
+     "S|L|BABIP": {
+      "value": 0.3233,
+      "tol": 0.0746,
+      "gate": "report"
+     },
+     "S|R|BABIP": {
+      "value": 0.2797,
+      "tol": 0.0387,
+      "gate": "report"
+     },
+     "S|L|OB": {
+      "value": 0.3143,
+      "tol": 0.0549,
+      "gate": "report"
+     },
+     "S|R|OB": {
+      "value": 0.3546,
+      "tol": 0.0325,
+      "gate": "report"
+     }
+    },
+    "side_L_share": {
+     "value": 0.405,
+     "tol": 0.0054,
+     "gate": "report",
+     "_note": "binomial tolerance on plate appearances, too small: plate appearances cluster by player (reported until a by-conference table)"
+    },
+    "pa_share_vs_lhp": {
+     "value": 0.2516,
+     "tol": 0.0044,
+     "gate": "report",
+     "_note": "binomial tolerance on plate appearances, too small: plate appearances cluster by player (reported until a by-conference table)"
+    },
+    "advantage_excess": {
+     "value": 0.022,
+     "tol": 0.0056,
+     "gate": "report",
+     "_note": "binomial tolerance on plate appearances, too small: plate appearances cluster by player (reported until a by-conference table)"
+    },
+    "advantage_share": {
+     "value": 0.4802,
+     "tol": 0.0056,
+     "gate": "report"
+    }
+   },
+   "usage": {
+    "change_ratio": {
+     "L": {
+      "value": 1.7651,
+      "tol": 0.18,
+      "_note": "left-hander pitching: changes per PA with a right-handed batter due up over a left-handed one"
+     },
+     "R": {
+      "value": 1.1595,
+      "tol": 0.0681,
+      "_note": "right-hander pitching: changes per PA with a left-handed batter due up over a right-handed one"
+     }
+    },
+    "lhp_entry_diff": {
+     "value": 0.2359,
+     "tol": 0.0237,
+     "_note": "left-handers' share of relief entries, left-handed batter due up minus right-handed"
+    },
+    "ph_ratio": {
+     "value": 2.2961,
+     "tol": 0.2357,
+     "_note": "pinch hitters per opportunity, batter due up of the pitcher's hand over the other hand"
+    },
+    "ph_advantage_share": {
+     "value": 0.678,
+     "tol": 0.0213
+    }
+   }
+  },
+  "date": "2026-10-08"
+ }
+]

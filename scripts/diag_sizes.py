@@ -302,14 +302,11 @@ def wmt_team_games() -> pd.DataFrame:
 
 
 def ncaa_team_pages() -> pd.DataFrame:
-    from parse_ncaa_leaders import table
-    raw = ROOT / "data/ncaa_leaders/raw_team_all"
+    # tables extracted from the NCAA.com team pages 211 and 212 (raw pages removed 2026-10-08; build_phase7_era_fielding.py)
+    tables = {211: ROOT / "data/ncaa_leaders/team_era_2025.csv", 212: ROOT / "data/ncaa_leaders/team_fielding_2025.csv"}
 
     def pages(stat):
-        rows = []
-        for f in sorted(raw.glob(f"s{stat}_2024_p*.html.gz"), key=lambda p: int(p.stem.split("_p")[1].split(".")[0])):
-            rows += table(f)
-        d = pd.DataFrame(rows).drop_duplicates("Team")
+        d = pd.read_csv(tables[stat], dtype=str, keep_default_na=False).drop_duplicates("Team")
         for c in d.columns:
             if c not in ("Team", "Rank"):
                 d[c] = pd.to_numeric(d[c].str.replace(",", ""), errors="coerce")

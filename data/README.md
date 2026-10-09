@@ -243,31 +243,22 @@ may be revised once the real shares are in.
 
 ## data/ncaa_leaders/ — national individual and team leaders, 2023–2026 seasons
 
-- **Source:** NCAA.com D1 baseball national leader pages,
-  `https://www.ncaa.com/stats/baseball/d1/{year}/individual/{stat}`, page 1 (top 50
-  and ties) for stats 470 (HR), 200 (BA), 205 (ERA), 356 (SO) and 863 (appearances),
-  URL years 2023–2025. NCAA.com labels a season by the academic year it starts, so
-  /2023/ is the 2024 season, /2024/ is 2025 and /2025/ is 2026 (/2022/ has no tables).
-  robots.txt allows /stats/. Fetched 2026-10-01, one page per request. The 2023 season
-  is transcribed from the NCAA record book's 2023 leaders
-  (`http://fs.ncaa.org/Docs/stats/baseball_RB/2024/D1.pdf`).
-- **Team pages:** `https://www.ncaa.com/stats/baseball/d1/{year}/team/{stat}`, page 1 (top 50)
-  for stats 210 (batting average), 211 (ERA) and 323 (home runs per game), URL years 2023–2025
-  (/2022/ has no tables). Fetched 2026-10-04, one page per request (robots.txt allows /stats/).
-  The year mapping is checked against the 2025 scoreboard: the /2024/ table's games match each
-  listed team's 2025 games (Coastal Carolina 69, Georgia 60, Northeastern 60).
-- **Team pages, every team (2025 season):** `https://www.ncaa.com/stats/baseball/d1/2024/team/211`
-  (ERA: G, IP, R, ER, ERA) and `.../team/212` (fielding percentage: G, PO, A, E, PCT), pages 1-6
-  (`/pN`, 50 teams a page; page 7 is empty), 299 teams each. Full seasons, every game. Fetched
-  2026-10-05, one request every 2 seconds (robots.txt allows /stats/). Files
-  `raw_team_all/s<stat>_2024_p<N>.html.gz`; used by `scripts/build_phase7_era_fielding.py`
-  (pitching against fielding, the "teams under 4.00 ERA" watch item).
-- **Files:** `raw/s<stat>_<url year>.html.gz` and `raw_team/s<stat>_<url year>.html.gz` untouched
-  pages; `ncaa_leaders.json` the parsed tables plus top-five values, HR threshold counts and each
-  season's team leaders (`scripts/parse_ncaa_leaders.py`).
-- **Used by:** `scripts/write_leader_benchmarks.py` (benchmark blocks `individual_leaders_2023_2026`
-  and `team_leaders_2024_2026`, Phase 2 gate rows) and `scripts/audit_leaders.py`
-  (`reports/leaders_audit.md`).
+**Status (owner decision 2026-10-08):**
+- www.ncaa.com's robots.txt now disallows AI agents (ClaudeBot and others).
+- When these pages were fetched (2026-10-01 to 2026-10-05), robots.txt allowed /stats/ for every agent.
+- Only the extracted tables are kept. The raw pages (36 gzipped HTML files: individual leaders, team leaders and the all-team ERA and fielding pages) were removed from the repository.
+- **www.ncaa.com is never fetched again** (data.ncaa.com is fine). Future checks use Warren Nolan or the project's own computation.
+
+**Extracted tables (committed):**
+- `ncaa_leaders.json` (`scripts/parse_ncaa_leaders.py`, now historical: its inputs are gone). It is what the Phase 2 leader and team-leader gates read, through `scripts/write_leader_benchmarks.py`.
+  - **Individual leaders:** top 50 and ties per stat, for 470 (HR), 200 (BA), 205 (ERA), 356 (SO) and 863 (appearances). Source `https://www.ncaa.com/stats/baseball/d1/{year}/individual/{stat}`, page 1, URL years 2023–2025, fetched 2026-10-01.
+  - **Team leaders:** top 50 for 210 (batting average), 211 (ERA) and 323 (home runs per game). Source `https://www.ncaa.com/stats/baseball/d1/{year}/team/{stat}`, page 1, URL years 2023–2025, fetched 2026-10-04.
+  - The 2023 season is transcribed from the NCAA record book's 2023 leaders (`http://fs.ncaa.org/Docs/stats/baseball_RB/2024/D1.pdf`).
+  - NCAA.com labels a season by the academic year it starts: /2023/ is the 2024 season, /2024/ is 2025, /2025/ is 2026 (/2022/ has no tables). The mapping was checked against the 2025 scoreboard: the /2024/ table's games match each listed team's 2025 games (Coastal Carolina 69, Georgia 60, Northeastern 60).
+- `team_era_2025.csv` and `team_fielding_2025.csv`: every D1 team's 2025 full season (299 teams each), columns as published.
+  - ERA: Rank, Team, G, IP, R, ER, ERA. Fielding: Rank, Team, G, PO, A, E, PCT.
+  - Source `https://www.ncaa.com/stats/baseball/d1/2024/team/211` and `.../team/212`, pages 1–6, fetched 2026-10-05.
+  - Extracted 2026-10-08 from the raw pages before their removal. `scripts/build_phase7_era_fielding.py` reproduces the committed `era_fielding` benchmark block exactly from them; `scripts/diag_sizes.py` reads them too.
 
 ## data/ncaa_brackets/ — NCAA tournament fields and brackets, 2015–2025 (no 2020)
 
@@ -341,6 +332,15 @@ may be revised once the real shares are in.
 - `prb_inputs.json`: the AI's bunt and intentional-walk rates by game state, a called bunt's pitches and its outcome table, the pitcher's hold, pickoff scoring, and the gate benchmarks (`scripts/build_prb_decisions.py`, built 2026-10-07).
 - Both are built from `data/ncaa_2025/pbp/parsed/` only; nothing is fetched. Method and caveats: PHASE0_NOTES, "Decisions that change outcomes".
 
+
+## data/ncaa_2025/derived/ — Phase 3 inputs (handedness and platoon)
+
+- `phase3_inputs_2025.json` (built 2026-10-08 from `roster_aggregates/` and the engine):
+  - `hands_pitchers`, `hands_batters`, `hand_checks` (`scripts/build_phase3_hands.py`): P(throws L | role, true K-BB); throws by position group; bats L / R / S by position group, throws and true run value; the fit's checks (tier effect at equal talent, run-value sensitivity, the simulated players' spread over the table's bins).
+  - `usage` (`scripts/build_phase3_usage.py`): pull and pinch-hit multipliers by hand, the relief choice's and bench pick's platoon terms.
+  - `platoon` (`scripts/build_phase3_platoon.py`): the logit shifts by side used x pitcher's hand, net of who faced whom and centred on the league mix.
+  - The simulated populations behind the fits are seasons of the engine (seeds in `config/phase3.py`), cached under `runs/` (not committed).
+- `benchmark_changes_phase3.json`: the `handedness_platoon_2025` block added to `benchmarks.json` (`scripts/write_phase3_benchmarks.py`).
 ## data/ncaa_rules/ — NCAA baseball rules (PR B)
 
 Fetched 2026-10-07 from the NCAA's public document store:
@@ -366,11 +366,14 @@ Used for the limits on in-game calls (`config/decisions.py`): coach trips to the
 
 ## data/ncaa_2026/ — 2026 D1 game results for the RPI formula check
 
-- `rpi/ncaa_rpi_through_2026-05-24.html.gz`: https://www.ncaa.com/rankings/baseball/d1/rpi,
-  fetched 2026-10-05; the page reads "Through Games May. 24 2026". Parsed to
-  `rpi/ncaa_rpi_through_2026-05-24.csv` (rank, school, record, conference, road,
-  neutral, home, non_d1, prev; W-L strings as published, 308 schools; `record` is
-  the D1 record, road + neutral + home).
+- `rpi/ncaa_rpi_through_2026-05-24.csv`: the NCAA's published 2026 RPI rankings table, extracted from
+  https://www.ncaa.com/rankings/baseball/d1/rpi (fetched 2026-10-05; the page read "Through Games May. 24 2026"):
+  rank, school, record, conference, road, neutral, home, non_d1, prev; W-L strings as published, 308 schools;
+  `record` is the D1 record, road + neutral + home. Used by the RPI formula check (`scripts/check_rpi_2026.py`).
+  **www.ncaa.com's robots.txt now disallows AI agents (found 2026-10-08).** Owner decision 2026-10-08:
+  - only this extracted table is kept; the raw page snapshot was removed from the repository;
+  - www.ncaa.com is never fetched again (data.ncaa.com is fine);
+  - future RPI checks use Warren Nolan or the project's own computation.
 - `warrennolan/raw/<slug>.html.gz`: every team's 2026 schedule page,
   `https://www.warrennolan.com/baseball/2026/schedule/<slug>` (robots.txt: Allow /),
   fetched 2026-10-05 by `scripts/fetch_warrennolan_2026.py` (1.5 s delay, up to 3
@@ -395,3 +398,14 @@ Used for the limits on in-game calls (`config/decisions.py`): coach trips to the
   WarrenNolan calls conference-tournament games at a participant's park and
   some alternate-site "home" games neutral where the NCAA counts home/road.
   Non-D1 records differ for 11 schools (WarrenNolan omits some non-D1 games).
+
+## data/ipeds/, data/census/ and the school locations (Phase 9 spec, owner approval 2026-10-08)
+
+- `ipeds/HD2024.zip`: the IPEDS institutional directory, 2024 (U.S. Department of Education, NCES; public domain). Fetched 2026-10-08 from https://nces.ed.gov/ipeds/datacenter/data/HD2024.zip; robots.txt allows the path.
+- `census/CenPop2020_Mean_ST.txt`: Census 2020 state centres of population (U.S. Census Bureau; public domain). Fetched 2026-10-08 from https://www2.census.gov/geo/docs/reference/cenpop2020/CenPop2020_Mean_ST.txt.
+- `ncaa_2025/school_locations_2025.csv` (`scripts/build_school_locations.py`): IPEDS unit id, institution, city, state and coordinates for the 307 D1 baseball programs.
+  - 230 matched by name and 77 by explicit override.
+  - Each match was checked against the school's most common roster hometown state; the 51 schools whose rosters lean elsewhere were each checked by hand.
+- `reports/proximity_2025.md` (`scripts/proximity_by_tier.py`): roster geography by tier, for the Phase 9 spec.
+- **Note (2026-10-08):** www.ncaa.com's robots.txt now disallows AI agents (ClaudeBot and others). Nothing more is fetched from www.ncaa.com. data.ncaa.com has no robots file and is unaffected.
+

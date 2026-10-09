@@ -1,0 +1,20 @@
+{
+ "_note": "PR B's 40-season run (commit 0939cd4, reports/phase2.json and reports/phase7.json as merged): the rows of the watch item 'offense extremes compressed' that Phase 3 reports its platoon effects against (owner adjustment 5, 2026-10-08)",
+ "commit": "0939cd4",
+ "run_histogram_15plus": {
+  "value": 0.050896921206335745,
+  "se": 0.0007586548450611537
+ },
+ "run_rule_freq": {
+  "value": 0.11640892456700111,
+  "se": 0.0014132223525382239
+ },
+ "p4mid_margin_sd": {
+  "value": 5.613884073419061,
+  "se": 0.028620298880837534
+ },
+ "regional_upset_rate": {
+  "value": 0.3425110132158591,
+  "se": 0.0121511707841928
+ }
+}

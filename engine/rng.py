@@ -14,7 +14,11 @@ def game_seeds(master_seed: int, n_games: int) -> list[np.random.SeedSequence]:
 class Categorical:
     """Fixed-order categorical distribution sampled by one uniform draw."""
 
-    __slots__ = ("labels", "cum")
+    # split_err / split_ok: lazily cached splits of the cell (engine/tables.py _err_split, _ok_split), kept on the object
+    # itself. They were once module dicts keyed by id(cell): CPython reuses the id of a freed object, so a new cell
+    # could get a dead cell's split (found 2026-10-09: a fresh-process resume differed in CI after earlier tests had
+    # built and freed engines; also any process that builds tables more than once, e.g. a worker's later seasons)
+    __slots__ = ("labels", "cum", "split_err", "split_ok")
 
     def __init__(self, labels: list, weights: list[float]):
         tot = float(sum(weights))
