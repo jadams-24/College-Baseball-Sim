@@ -41,6 +41,9 @@ from engine.world import World as SeasonWorld, cancel_mask, schedule_mask
 
 SAVE_VERSION = 1
 STAGES = ("regular", "conf", "selection", "ncaa", "done")
+from app import world_steps
+from app.world_steps import PauseEvent, StepContext
+
 SIM_TARGETS = ("game", "day", "week", "regular", "conf", "selection", "end")
 STOPS = ("week_end", "postseason", "selection")      # the auto-pause moments (Settings): stop there on a longer sim
 POST_OFF = phase7.POST_OFFSETS
@@ -138,6 +141,9 @@ class Dynasty:
         self.post_calls: list = []       # recorded postseason play_game results, in call order
         self.post: dict = {}             # the postseason's computed pieces as they become known
         self.stage = "regular"
+        self.today = 0                   # the world's date (days since the opening week's Monday): the day loop's position
+        self.steps_done: list = []       # world steps finished today (a paused step is not; it resumes on the next call)
+        self.last_pause: dict | None = None   # the auto-pause event the last advance stopped on
         self.pending: dict | None = None # the user's game waiting to be played or simmed
         self.runner: GameRunner | None = None
         self.news: list = []
@@ -157,6 +163,7 @@ class Dynasty:
         canceled = cancel_mask(self.schedule, np.random.Generator(np.random.PCG64(self._s_cancel))) & ~dropped
         self.skip = canceled | dropped
         self.seeds = self._s_games.spawn(len(self.schedule))
+        self.today = int(self.schedule[0].date) if self.schedule else 0
         self._build_engine()
 
     def _build_engine(self) -> None:
@@ -269,55 +276,73 @@ class Dynasty:
     def _week_of(self, date: int) -> int:
         return int(date) // 7
 
+    LONG_TARGETS = ("regular", "conf", "selection", "end")
+
     def advance(self, target: str, pause_mine: bool = True, progress=None, stops=()) -> dict:
         """Sim toward `target` (SIM_TARGETS): the next game of the user's team, the end of this day, the end of this
         week, the end of the regular season, the conference tournaments, Selection Monday, the end of the season.
-        The user's games pause the sim (pause_mine) so the user plays or sims them; otherwise the AI plays them.
-        `stops` (STOPS) are the auto-pause moments a longer sim stops at: the end of each week, the start of the
-        postseason, Selection Monday; a stop already reached when the call starts does not stop it again. Returns
-        the hub state."""
+        The regular season runs as a loop over calendar days, each day running the registered world steps in order
+        (`app/world_steps.py`; today the D1 games). The user's games pause the loop (pause_mine) so the user plays or
+        sims them; otherwise the AI plays them. `stops` (STOPS) are the auto-pause moments a longer sim stops at: the
+        end of each week, the start of the postseason, Selection Monday; a stop already reached when the call starts
+        does not stop it again. The pause the call stopped on is in the hub (`pause`). Returns the hub state."""
         if target not in SIM_TARGETS:
             raise ValueError(f"target is one of {SIM_TARGETS}")
-        stops = set(stops) & set(STOPS)
-        start_stage = self.stage
-        long = target in ("regular", "conf", "selection", "end")
         if self.pending is not None and self.runner is not None:
             raise ValueError("finish or sim the pending game first")
         if self.pending is not None and pause_mine:
             return self.hub()
         self.pending = None
-        n, week0, day0 = 0, None, None
+        self.last_pause = None
+        long = target in self.LONG_TARGETS
+        enabled = (set(stops) & set(STOPS)) if long else set()
+        if pause_mine:
+            enabled.add("my_game")
+        elif target == "game":
+            enabled.add("my_game_done")
+        if target == "week":
+            enabled.add("week_end")
+        start_stage = self.stage
         while self.stage == "regular":
-            i = self.next_index()
-            if i is None:
-                self.stage = "conf"
-                self.pos = len(self.schedule)
+            ctx = StepContext(self.today, enabled, target, progress)
+            hit = self._run_day(ctx)
+            if hit is not None:
+                self.last_pause = hit.as_dict()
                 break
-            g = self.schedule[i]
-            if target == "day" and day0 is not None and g.date != day0:
+            if self.stage != "regular":
                 break
-            if (target == "week" or (long and "week_end" in stops)) and week0 is not None and self._week_of(g.date) != week0:
-                break
-            if self.mine(g) and pause_mine:
-                self.pending = {"i": i, "home": g.home, "away": g.away, "date": g.date, "weekend": g.weekend, "stage": "regular", "neutral": False}
-                break
-            self._play(i)
-            self.pos = i + 1
-            n += 1
-            week0 = self._week_of(g.date) if week0 is None else week0
-            day0 = int(g.date) if day0 is None else day0
+            week_end = self.today % 7 == 6
+            self.today += 1
+            self.steps_done = []
             if progress:
                 progress(self)
-            if target == "game" and self.mine(g):
+            if target == "day" and ctx.worked:
                 break
-        if self.stage == "conf" and start_stage == "regular" and "postseason" in stops:
-            return self.hub()                       # auto-pause: the postseason is about to start
+            if week_end and "week_end" in enabled:
+                self.last_pause = PauseEvent("week_end", "The week is over.", "schedule").as_dict()
+                break
+        if self.last_pause is not None:
+            return self.hub()
         if self.stage not in ("regular", "done") and target != "regular":
             post_target = "game" if target in ("day", "week") else target
             if post_target == "end" and "selection" in stops and start_stage in ("regular", "conf"):
                 post_target = "selection"           # auto-pause: Selection Monday
             self._run_post(post_target, pause_mine, progress)
+            if self.stage == "selection" and post_target == "selection" and target == "end":
+                self.last_pause = PauseEvent("selection", "Selection Monday: the field of 64 is set.", "postseason").as_dict()
         return self.hub()
+
+    def _run_day(self, ctx: StepContext):
+        """Run today's world steps in order; returns the pause event that stopped the day, or None when it is over."""
+        for step in world_steps.steps():
+            if step.name in self.steps_done or not step.due(ctx.today):
+                continue
+            events = step.run(self, ctx)
+            hit = next((e for e in events if e.type in ctx.enabled), None)
+            if hit is not None:
+                return hit
+            self.steps_done.append(step.name)
+        return None
 
     # ---- the user's game -------------------------------------------------------------------------
     def open_game(self, modes: dict | None = None) -> GameRunner:
@@ -539,9 +564,8 @@ class Dynasty:
     def date_now(self) -> int:
         if self.pending is not None:
             return int(self.pending["date"])
-        i = self.next_index()
-        if self.stage == "regular" and i is not None:
-            return int(self.schedule[i].date)
+        if self.stage == "regular":
+            return int(self.today)
         if self.post_calls:
             return int(self.post_calls[-1]["date"])
         return self.last_date()
@@ -563,7 +587,8 @@ class Dynasty:
         return {"id": None, "name": self.name, "seed": self.seed, "year": self.year, "tid": me, "team": self.league.teams[me].name,
                 "conference": self.real_conf[me], "tier": self.league.teams[me].tier, "record": rec, "conf_record": crec, "rpi_rank": rank,
                 "date": self.date_now(), "week": self._week_of(self.date_now()) + 1, "stage": self.stage, "pending": pend,
-                "games_played": len(self.reg_games), "games_total": int((~self.skip).sum()), "news": self.news[-12:][::-1]}
+                "games_played": len(self.reg_games), "games_total": int((~self.skip).sum()), "news": self.news[-12:][::-1],
+                "pause": self.last_pause, "world_steps": world_steps.steps_json()}
 
 
 # ---- saves ---------------------------------------------------------------------------------------------
@@ -577,6 +602,7 @@ def save_bytes(d: Dynasty) -> bytes:
              "league": d.league, "schedule": d.schedule, "skip": d.skip, "seeds": d.seeds, "pos": d.pos, "results": d.results,
              "reg_games": d.reg_games, "post_calls": d.post_calls, "post": d.post, "stage": d.stage, "pending": d.pending,
              "news": d.news, "bstats": d.bstats, "pstats": d.pstats,
+             "today": d.today, "steps_done": d.steps_done, "last_pause": d.last_pause,
              # the Decider's season state (rest history, series plans, midweek counts, rankings, last lineups, its generator):
              # everything but the fitted tables, which the live Manager of the loading process supplies
              "mgr_state": {k: v for k, v in vars(d.mgr).items() if k not in MANAGER_STATIC} if d.mgr else {},
@@ -603,6 +629,11 @@ def load_bytes(cfg, data: bytes) -> Dynasty:
     d.results, d.reg_games, d.post_calls, d.post, d.stage, d.pending, d.news = (st["results"], st["reg_games"], st["post_calls"], st["post"],
                                                                                  st["stage"], st["pending"], st["news"])
     d.bstats, d.pstats = st["bstats"], st["pstats"]
+    d.steps_done, d.last_pause = st.get("steps_done", []), st.get("last_pause")
+    d.today = st.get("today")
+    if d.today is None:                 # a save from before the day loop: the next game's date
+        i = next((j for j in range(d.pos, len(d.schedule)) if not d.skip[j] and j not in d.results), None)
+        d.today = int(d.schedule[i].date) if i is not None else (int(max(g.date for g in d.schedule)) if d.schedule else 0)
     d.mgr = mgr
     for k, v in st["mgr_state"].items():
         setattr(mgr, k, v)

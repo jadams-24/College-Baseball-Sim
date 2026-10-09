@@ -167,22 +167,34 @@ def test_dynasty_with_decisions_through_the_api_equals_the_scripted_engine_run(t
 
 
 def test_day_target_and_auto_pause_stops():
-    """"Advance day" plays the rest of the current date; a longer sim stops at the Settings' auto-pause moments."""
+    """"Advance day" runs the world steps through the next day with work in it; a longer sim stops at the Settings'
+    auto-pause moments, each reported as the hub's pause; the day loop's date and steps survive a save."""
+    from app import world_steps
     cfg = phase2.load()
     d = dm.Dynasty(cfg, 7, "t")
     d.start(TID)
-    d.advance("game", pause_mine=False)                       # the user's first game, AI-played
+    assert [s.name for s in world_steps.steps()] == ["d1_games"]
+    assert {s["name"] for s in world_steps.steps_json() if s["planned"]} >= {"recruiting_week", "d2_games", "juco_games", "portal_window",
+                                                                              "mlb_draft", "signing_period", "roster_cuts", "coaching_carousel"}
+    h = d.advance("game", pause_mine=False)                   # the user's first game, AI-played
+    assert h["pause"]["type"] == "my_game_done" and h["date"] == d.today
     day0 = int(d.schedule[d.next_index()].date)
     d.advance("day", pause_mine=False)
     i = d.next_index()
-    assert int(d.schedule[i].date) > day0
+    assert int(d.schedule[i].date) > day0 and d.today == day0 + 1 and d.steps_done == []
     assert all(d.skip[j] or j in d.results for j in range(i) if int(d.schedule[j].date) == day0)
     week0 = d._week_of(d.schedule[i].date)
-    d.advance("regular", pause_mine=False, stops=["week_end"])
-    assert d.stage == "regular" and d._week_of(d.schedule[d.next_index()].date) == week0 + 1
-    d.advance("end", pause_mine=False, stops=["postseason"])
-    assert d.stage == "conf" and d.pos == len(d.schedule)
-    d.advance("end", pause_mine=False, stops=["selection"])
-    assert d.stage == "selection"
-    d.advance("end", pause_mine=False, stops=["selection"])   # a stop already reached does not stop again
-    assert d.stage == "done"
+    h = d.advance("regular", pause_mine=False, stops=["week_end"])
+    assert d.stage == "regular" and d._week_of(d.schedule[d.next_index()].date) == week0 + 1 and d.today == 7 * (week0 + 1)
+    assert h["pause"]["type"] == "week_end"
+    d2 = dm.load_bytes(cfg, dm.save_bytes(d))                 # the loop's position survives the save
+    assert (d2.today, d2.steps_done, d2.last_pause) == (d.today, d.steps_done, d.last_pause)
+    h = d.advance("game", pause_mine=True)                    # the user's game pauses the day; the step resumes after it
+    assert d.pending is not None and h["pause"]["type"] == "my_game" and "d1_games" not in d.steps_done
+    d.sim_game()
+    h = d.advance("end", pause_mine=False, stops=["postseason"])
+    assert d.stage == "conf" and d.pos == len(d.schedule) and h["pause"]["type"] == "postseason"
+    h = d.advance("end", pause_mine=False, stops=["selection"])
+    assert d.stage == "selection" and h["pause"]["type"] == "selection"
+    h = d.advance("end", pause_mine=False, stops=["selection"])   # a stop already reached does not stop again
+    assert d.stage == "done" and h["pause"] is None

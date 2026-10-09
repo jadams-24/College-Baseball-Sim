@@ -14,6 +14,7 @@ and `benchmarks.json` are untouched by this workstream.
 | `timeline.py` | play-by-play and box score from the event log, the marks taken at every ask, and the engine's accumulator rows |
 | `menu.py` | the action menu of the manager screen: the calls legal now for the user's side, built on the server from the turn and the engine state so the page never decides legality |
 | `dynasty.py` | Dynasty mode: the engine's Phase 7 season driven game by game (the user's games on the manager screen, the rest simmed), the postseason pipeline replayed over recorded results, standings, RPI, stats, roster, postseason and summary readers, saves |
+| `world_steps.py` | the dynasty's world steps: the registry (name, cadence, order, run function returning auto-pause events), `d1_games` registered, the planned slots as documented placeholders |
 | `dynasty_api.py` | the dynasty endpoints: world building, team pick, background sim jobs with progress, the user's game, screens, server saves and the browser mirror |
 | `api.py` | FastAPI: league, rosters, catalogue, games, sim, orders, questions, modes, coach, box, save, load; serves `static/` |
 | `static/v2/` | served at `/`: the main screen (`main.js`), the manager screen (`v2.js`), Dynasty mode (`dynasty.js`), on the design system (`system.css`) |
@@ -188,7 +189,8 @@ Screens (left nav on a desktop, bottom tabs on a phone): the hub (header with ma
 record, RPI rank, date and week; the next game with probable starters, Play and Sim game; the advance loop:
 "Advance to next game", "Advance day", "Advance week", end of the regular season, conference tournament,
 Selection Monday or end of season, as a background job with progress, stopping at the auto-pause moments set
-in Settings (before my games, at each week's end, before the postseason, on Selection Monday); recent results with box scores; conference standings; RPI top 25; news from the engine's results
+in Settings (before my games, at each week's end, before the postseason, on Selection Monday), the pause it
+stopped on shown in the Advance panel; recent results with box scores; conference standings; RPI top 25; news from the engine's results
 only), Schedule, Standings (every conference, RPI top 25 and 64), Stats (dense sortable tables with the season
 columns, national leaders at the NCAA qualifying floors), Roster (badges, position, season line, pitchers' last
 outings), Postseason (conference tournaments in their published formats, Selection Monday, regionals, supers,
@@ -210,3 +212,25 @@ Not exposed by the engine (shown as dashes or left out, never faked): per-batter
 handedness (Phase 3), a pitcher-availability verdict (the AI's rest rule is internal; the roster shows the last
 outing's date and pitches), fielder positioning (no shift), the committee's at-large scores beyond the field
 (no "first four out").
+
+## The advance loop: world steps
+
+`Dynasty.advance` runs the regular season as a loop over calendar days (date 0 is the opening week's Monday).
+Each day runs the registered world steps (`app/world_steps.py`) in order. A step has a name, a cadence (daily, or
+weekly on one weekday), an order position and a run function that reads and writes the dynasty's state and
+returns the auto-pause events it raised (type, message, link). The loop stops after the step that raised an event
+whose type is enabled for the call: the Settings' auto-pauses on a longer sim (week end, postseason, Selection
+Monday), "before my games" (`my_game`), and the call's own target (`my_game_done` for "Advance to next game" with
+the AI playing it, `week_end` for "Advance week"). A step that paused is not marked done and runs again on the
+next call, so a step must be resumable within its day. "Advance day" runs through the next day on which a step
+did work. The world's date, the steps done today and the last pause are saved with the dynasty.
+
+Registered now: `d1_games` (daily: every D1 game scheduled today in schedule order, the user's game pausing the
+loop and deferring the games that depend on it, the background sim playing the rest of the week's independent
+games). Planned slots, documented placeholders that later phases register without changing the loop, each gated
+on its calendar dates from `design/phase9_recruiting.md` (Sections 10 and 12.1): `recruiting_week` (weekly,
+Monday), `d2_games` and `juco_games` (daily), `portal_window`, `mlb_draft`, `signing_period`, `roster_cuts`,
+`coaching_carousel`. The hub lists them (`world_steps` in the hub state). The postseason is the engine's World
+pipeline replayed over the recorded results (`Dynasty._run_post`); it follows the day loop once the regular
+season's last game is played. The equality tests (`tests/test_app_dynasty.py`) hold: a dynasty run through the
+loop equals `engine.season.simulate_season` for the same seed.

@@ -114,7 +114,7 @@
     const recent = h.recent.length ? `<table class="tbl">${h.recent.map(resultRow).join("")}</table>` : `<div class="muted">No games yet.</div>`;
     const news = h.news.length ? h.news.map((n) => `<div class="ev"><span class="muted">${dateText(n.date)}</span><span>${esc(n.text)}</span></div>`).join("") : `<div class="muted">Nothing yet. News comes from the engine's results only.</div>`;
     $("#dyn-main").innerHTML = `<div class="hub-grid">
-      <div class="col">${next}<div class="panel"><div class="hdr">Advance</div><div class="body">${sims}</div></div></div>
+      <div class="col">${next}<div class="panel"><div class="hdr">Advance${h.pause ? `<span class="sub">paused: ${esc(h.pause.message)}${h.pause.link && h.pause.link !== "hub" ? ` <button class="btn-ghost" data-screen-link="${esc(h.pause.link)}">open</button>` : ""}</span>` : ""}</div><div class="body">${sims}</div></div></div>
       <div class="col"><div class="panel"><div class="hdr">Recent results</div><div class="body tight">${recent}</div></div><div class="panel"><div class="hdr">News</div><div class="body tight">${news}</div></div></div>
       <div class="col"><div class="panel"><div class="hdr">Standings <span class="sub">${esc(h.conference)}</span></div><div class="body" id="hub-standings"><div class="muted">Loading…</div></div></div><div class="panel"><div class="hdr">RPI top 25</div><div class="body" id="hub-rpi"><div class="muted">Loading…</div></div></div></div>
     </div>`;
@@ -122,6 +122,7 @@
     const ts = $("#to-summary"); if (ts) ts.addEventListener("click", () => setScreen("summary"));
     const sb = $("#simgame-btn"); if (sb) sb.addEventListener("click", () => busy(simPending));
     $$("#dyn-main [data-simto]").forEach((b) => b.addEventListener("click", () => busy(() => simTo(b.dataset.simto))));
+    $$("#dyn-main [data-screen-link]").forEach((b) => b.addEventListener("click", () => setScreen(b.dataset.screenLink)));
     bindBoxes();
     if (h.running) pollProgress();
     fillStandingsSnippets();
