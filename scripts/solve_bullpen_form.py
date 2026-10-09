@@ -83,7 +83,9 @@ def main() -> None:
         xs.append(x2); ys.append(r[f"p4_{metric}"][0] - target)
         if abs(ys[-1]) < r[f"p4_{metric}"][1]:
             break
-    best = xs[int(np.argmin(np.abs(ys)))]
+    # the steps are noisy (a few seasons each): the value from the least-squares line through every step, not the best step
+    b, a0 = np.polyfit(np.array(xs), np.array(ys), 1)
+    best = float(-a0 / b) if b != 0 else xs[int(np.argmin(np.abs(ys)))]
     bf[param] = round(best, 4)
     bf["quality_solve" if a.quality else "solve"] = {f"target_p4_{metric}": target, "steps": [{"value": x, f"p4_{metric}_minus_target": y} for x, y in zip(xs, ys)],
                                                      "seasons_per_step": a.seasons, "seeds_from": SEED0}

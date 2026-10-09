@@ -260,5 +260,34 @@
   ],
   "seasons_per_step": 4,
   "seeds_from": 770001
+ },
+ "quality_gamma": 0.7073,
+ "quality_solve": {
+  "target_p4_entry_8+": 0.01272,
+  "steps": [
+   {
+    "value": 0.5,
+    "p4_entry_8+_minus_target": -0.002479988953570071
+   },
+   {
+    "value": 1.0,
+    "p4_entry_8+_minus_target": 0.0027402719115286623
+   },
+   {
+    "value": 0.7375349640236002,
+    "p4_entry_8+_minus_target": 0.002228375692757566
+   },
+   {
+    "value": -0.40502222808194466,
+    "p4_entry_8+_minus_target": -0.012996281984687986
+   },
+   {
+    "value": 0.5703031793480634,
+    "p4_entry_8+_minus_target": -0.0026974666676775165
+   }
+  ],
+  "seasons_per_step": 4,
+  "seeds_from": 770001,
+  "method": "secant steps (4 seasons each) are noisy; gamma from the least-squares line through every step's P4 entry 8+ value"
  }
 }
