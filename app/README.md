@@ -257,6 +257,14 @@ file's conferences, mismatches reported, never hidden) and the abbreviations cho
 common use (`reports/school_names.md`). `tests/test_app_names.py` renders every screen's data through the API and
 fails on any engine team name in user-facing text. Players stay fictional by design.
 
+## Conference names
+
+Headers spell the conference out (`schools.CONFERENCE_FULL`: Conference USA, Missouri Valley Conference, Southern
+Conference, Northeast Conference, Coastal Athletic Association, Ohio Valley Conference, Independent, Atlantic Sun
+Conference, Metro Atlantic Athletic Conference, Western Athletic Conference, American Athletic Conference, and the
+rest the same way); the identity file's short labels stay in tight spots (the top bar, the RPI lists' conference
+column, the picker, tags).
+
 ## The calendar
 
 One function maps engine dates to the real calendar (`calendar.py`): the engine counts days from the opening

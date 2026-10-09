@@ -23,6 +23,21 @@ SHORT = {"program_tradition": "Trad", "conference_prestige": "Conf", "omaha_cont
          "campus_life": "Campus", "climate": "Climate", "money": "Money", "facilities": "Facil", "ballpark_atmosphere": "Atmos",
          "brand_exposure": "Brand", "draft_development": "Draft", "coach_prestige": "Coach", "coach_stability": "Stab"}
 HEADLINE = ("program_tradition", "conference_prestige", "omaha_contender", "academic_prestige", "climate", "money")
+# the identity file's conference labels spelled out for headers (owner rule 2026-10-09); the short labels stay in tight spots
+CONFERENCE_FULL = {"ACC": "Atlantic Coast Conference", "ASUN": "Atlantic Sun Conference", "America East": "America East Conference",
+                   "Atlantic 10": "Atlantic 10 Conference", "Big 12": "Big 12 Conference", "Big East": "Big East Conference",
+                   "Big South": "Big South Conference", "Big Ten": "Big Ten Conference", "Big West": "Big West Conference",
+                   "CAA": "Coastal Athletic Association", "CUSA": "Conference USA", "DI Independent": "Independent",
+                   "Horizon": "Horizon League", "Ivy League": "Ivy League", "MAAC": "Metro Atlantic Athletic Conference",
+                   "MAC": "Mid-American Conference", "MVC": "Missouri Valley Conference", "Mountain West": "Mountain West Conference",
+                   "NEC": "Northeast Conference", "OVC": "Ohio Valley Conference", "Patriot": "Patriot League", "SEC": "Southeastern Conference",
+                   "SWAC": "Southwestern Athletic Conference", "SoCon": "Southern Conference", "Southland": "Southland Conference",
+                   "Summit League": "Summit League", "Sun Belt": "Sun Belt Conference", "The American": "American Athletic Conference",
+                   "WAC": "Western Athletic Conference", "WCC": "West Coast Conference"}
+
+
+def conference_full(short: str) -> str:
+    return CONFERENCE_FULL.get(short, short)
 
 
 @lru_cache(maxsize=1)
@@ -51,7 +66,7 @@ def display(tid: int) -> dict | None:
         return None
     nm = names.get(int(tid), {})
     return {"tid": int(tid), "name": nm.get("full") or sch["school"], "short": nm.get("short") or sch["school"], "abbr": nm.get("abbr") or sch["school"][:4].upper(),
-            "conference": sch["conference"], "tier": sch["tier"], "location": f"{sch['city']}, {sch['state']}"}
+            "conference": sch["conference"], "conference_full": conference_full(sch["conference"]), "tier": sch["tier"], "location": f"{sch['city']}, {sch['state']}"}
 
 
 def team_name(tid: int, fallback: str = "") -> str:
@@ -63,7 +78,7 @@ def team_name(tid: int, fallback: str = "") -> str:
 def team_fields(team) -> dict:
     """The display fields of an engine Team object, with its engine name under `engine_name` (the one place it may show)."""
     d = display(team.tid) or {"tid": team.tid, "name": team.name, "short": team.name, "abbr": "".join(w[0] for w in team.name.split())[:4].upper(),
-                               "conference": None, "tier": team.tier, "location": ""}
+                               "conference": None, "conference_full": None, "tier": team.tier, "location": ""}
     return dict(d, engine_name=team.name, tier=team.tier)
 
 

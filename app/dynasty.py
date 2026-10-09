@@ -645,7 +645,8 @@ class Dynasty:
             except Exception:                 # display only: never blocks the hub
                 pend["probables"] = None
         return {"id": None, "name": self.name, "seed": self.seed, "year": self.year, "tid": me, "team": self.tname(me), "team_abbr": self.tabbr(me),
-                "engine_name": self.league.teams[me].name, "conference": schools.conference_of(me, self.real_conf[me]), "tier": self.league.teams[me].tier, "record": rec, "conf_record": crec, "rpi_rank": rank,
+                "engine_name": self.league.teams[me].name, "conference": schools.conference_of(me, self.real_conf[me]),
+                "conference_full": schools.conference_full(schools.conference_of(me, self.real_conf[me])), "tier": self.league.teams[me].tier, "record": rec, "conf_record": crec, "rpi_rank": rank,
                 "date": self.date_now(), "week": self._week_of(self.date_now()) + 1, "stage": self.stage, "pending": pend,
                 "games_played": len(self.reg_games), "games_total": int((~self.skip).sum()), "news": self.news[-12:][::-1],
                 "pause": self.last_pause, "world_steps": world_steps.steps_json(self.year),
@@ -812,7 +813,8 @@ def standings_json(d: Dynasty, top: int = 25) -> dict:
     nat = sorted(rp, key=lambda t: -rp[t]["rpi"])
     national = [{"rank": i + 1, "tid": t, "name": d.tname(t), "abbr": d.tabbr(t), "conference": schools.conference_of(t, d.real_conf[t]), "w": rec.get(t, [0, 0])[0], "l": rec.get(t, [0, 0])[1],
                  "rpi": round(rp[t]["rpi"], 4), "me": t == d.tid} for i, t in enumerate(nat[:max(top, 64)])]
-    return {"conferences": out, "mine": schools.conference_of(d.tid, d.real_conf[d.tid]), "national": national, "my_rank": rank.get(d.tid)}
+    return {"conferences": out, "mine": schools.conference_of(d.tid, d.real_conf[d.tid]), "national": national, "my_rank": rank.get(d.tid),
+            "conference_names": {c: schools.conference_full(c) for c in out}}
 
 
 # ---- stats, roster, postseason, the season summary ----------------------------------------------------
@@ -950,7 +952,7 @@ def postseason_json(d: Dynasty) -> dict:
     out["conference"] = {}
     for conf, sd in seeds.items():
         cg = [gj(r, k) for k, r in enumerate(games) if r["stage"] == "conf" and r["home"] in sd["teams"] and r["away"] in sd["teams"]]
-        out["conference"][conf] = {"format": sd["format"], "description": sd["description"], "site": sd["site"], "venue": sd["venue"],
+        out["conference"][conf] = {"format": sd["format"], "description": sd["description"], "site": sd["site"], "venue": sd["venue"], "full": schools.conference_full(conf),
                                    "seeds": [{"seed": i + 1, "tid": t, "name": name(t), "me": t == d.tid} for i, t in enumerate(sd["teams"])],
                                    "games": cg, "champion": conf_done.get(conf, {}).get("champion"),
                                    "champion_name": name(conf_done[conf]["champion"]) if conf in conf_done else None}
@@ -1145,5 +1147,5 @@ def team_page_json(d: Dynasty, tid: int) -> dict | None:
     card = schools.report_card(tid, schools.omaha_grades(d.league.teams).get(tid)) if schools.available() else None
     return {"team": schools.team_fields(t), "tid": tid, "record": rec, "conf_record": crec, "rpi_rank": rank, "me": tid == d.tid,
             "roster": roster_json(d, tid), "schedule": schedule_json(d, tid),
-            "standing": {"conference": conf, "rows": st["conferences"].get(conf, [])}, "report_card": card,
+            "standing": {"conference": conf, "conference_full": schools.conference_full(conf), "rows": st["conferences"].get(conf, [])}, "report_card": card,
             "games_played": sum(rec)}
