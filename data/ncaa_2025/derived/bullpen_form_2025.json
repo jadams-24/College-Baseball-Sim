@@ -1,0 +1,196 @@
+{
+ "_note": "Bullpen form (variance stage, owner decision 2026-10-09, option A): relief usage reacts to the reliever's recent results.\n\nFrom the 2025 play-by-play, full-season teams (scripts/build_phase6_usage.py), writes\ndata/ncaa_2025/derived/bullpen_form_2025.json:\n\n  relief_form  the relief choice's conditional logit refitted with recent-form terms by leverage, on the same choice\n               events as usage6 relief (role x leverage, rest cells, back-to-back) plus, per alternative and leverage\n               (late and close / blowout / other): his runs allowed in his last outing (runs scored on plate-appearance\n               plays while he was in, capped at FORM_CAP), the mean of the same over his three outings before that, and a\n               no-outing-yet indicator. The engine's AI uses these coefficients after scaling solved in the engine\n               (scripts/solve_bullpen_form.py), so its within-pitcher slopes match the real ones below.\n  gate         the gate values (engine/bullpen_metrics.py on the real outings; SE by a bootstrap over teams), for P4\n               staffs and all full-season staffs: the next entry's blowout share and |margin| per run allowed in the\n               previous outing (relief-only pitchers, within pitcher), and runs per batter faced against the staff mean by\n               workload third.\n    python3 scripts/build_bullpen_form.py\n",
+ "built": "2026-10-09",
+ "form_cap": 5,
+ "form_prior_n": 3,
+ "relief_form": {
+  "n_choices": 9192,
+  "loglik": -21488.72,
+  "coef": {
+   "mid1|blowout": 0.2127,
+   "mid1|late_close": 0.8458,
+   "mid1|other": 0.7154,
+   "mid2|blowout": 0.2358,
+   "mid2|late_close": 1.053,
+   "mid2|other": 0.8689,
+   "r1|blowout": 0.1349,
+   "r1|late_close": 3.0434,
+   "r1|other": 2.0008,
+   "r2|blowout": 0.4042,
+   "r2|late_close": 2.765,
+   "r2|other": 1.5742,
+   "r3|blowout": 0.7882,
+   "r3|late_close": 2.2914,
+   "r3|other": 1.6596,
+   "r4|blowout": 0.6989,
+   "r4|late_close": 1.9433,
+   "r4|other": 1.5979,
+   "r5|blowout": 0.7524,
+   "r5|late_close": 1.6316,
+   "r5|other": 1.3947,
+   "r6|blowout": 0.5324,
+   "r6|late_close": 1.7207,
+   "r6|other": 1.1403,
+   "r7|blowout": 0.641,
+   "r7|late_close": 1.2277,
+   "r7|other": 0.9727,
+   "wk1|blowout": -2.3925,
+   "wk1|late_close": -0.2588,
+   "wk1|other": -0.7404,
+   "wk2|blowout": -1.1716,
+   "wk2|late_close": 0.6359,
+   "wk2|other": 0.0397,
+   "wk3|blowout": -0.6927,
+   "wk3|late_close": 1.1654,
+   "wk3|other": 0.7437,
+   "rest|d0": -2.7464,
+   "rest|d1p0": -0.819,
+   "rest|d1p1": -1.728,
+   "rest|d1p2": -2.8069,
+   "rest|d1p3": -4.4177,
+   "rest|d2p0": -0.1507,
+   "rest|d2p1": -0.4644,
+   "rest|d2p2": -1.1095,
+   "rest|d2p3": -3.1182,
+   "rest|d3p0": 0.1425,
+   "rest|d3p1": -0.0715,
+   "rest|d3p2": -0.4174,
+   "rest|d3p3": -1.5539,
+   "rest|d4": 0.0151,
+   "rest|d5": 0.1872,
+   "b2b": -1.1286,
+   "form_last|late_close": -0.1404,
+   "form_last|other": -0.1133,
+   "form_last|blowout": -0.0635,
+   "form_prior3|late_close": -0.1546,
+   "form_prior3|other": -0.0193,
+   "form_prior3|blowout": -0.0092,
+   "form_none|late_close": -1.2693,
+   "form_none|other": -0.6025,
+   "form_none|blowout": -0.0795
+  },
+  "se": {
+   "mid1|blowout": 0.1175,
+   "mid1|late_close": 0.1286,
+   "mid1|other": 0.08,
+   "mid2|blowout": 0.1105,
+   "mid2|late_close": 0.1163,
+   "mid2|other": 0.073,
+   "r1|blowout": 0.1269,
+   "r1|late_close": 0.083,
+   "r1|other": 0.0558,
+   "r2|blowout": 0.1058,
+   "r2|late_close": 0.0812,
+   "r2|other": 0.0599,
+   "r3|blowout": 0.0939,
+   "r3|late_close": 0.0875,
+   "r3|other": 0.0584,
+   "r4|blowout": 0.0952,
+   "r4|late_close": 0.0936,
+   "r4|other": 0.058,
+   "r5|blowout": 0.0925,
+   "r5|late_close": 0.0994,
+   "r5|other": 0.0618,
+   "r6|blowout": 0.0966,
+   "r6|late_close": 0.0933,
+   "r6|other": 0.0645,
+   "r7|blowout": 0.0914,
+   "r7|late_close": 0.1022,
+   "r7|other": 0.0651,
+   "wk1|blowout": 0.5035,
+   "wk1|late_close": 0.3121,
+   "wk1|other": 0.2068,
+   "wk2|blowout": 0.2662,
+   "wk2|late_close": 0.1929,
+   "wk2|other": 0.135,
+   "wk3|blowout": 0.1948,
+   "wk3|late_close": 0.1392,
+   "wk3|other": 0.0907,
+   "rest|d0": 0.2875,
+   "rest|d1p0": 0.0741,
+   "rest|d1p1": 0.0908,
+   "rest|d1p2": 0.1623,
+   "rest|d1p3": 0.4468,
+   "rest|d2p0": 0.0625,
+   "rest|d2p1": 0.0607,
+   "rest|d2p2": 0.0863,
+   "rest|d2p3": 0.2613,
+   "rest|d3p0": 0.0645,
+   "rest|d3p1": 0.0585,
+   "rest|d3p2": 0.0741,
+   "rest|d3p3": 0.1502,
+   "rest|d4": 0.0403,
+   "rest|d5": 0.043,
+   "b2b": 0.2929,
+   "form_last|late_close": 0.0181,
+   "form_last|other": 0.0124,
+   "form_last|blowout": 0.0198,
+   "form_prior3|late_close": 0.0289,
+   "form_prior3|other": 0.0187,
+   "form_prior3|blowout": 0.0313,
+   "form_none|late_close": 0.1598,
+   "form_none|other": 0.0875,
+   "form_none|blowout": 0.1013
+  }
+ },
+ "gate": {
+  "p4": {
+   "n_staffs": 36,
+   "n_pairs": 3903,
+   "n_pitchers": 265,
+   "blow": {
+    "value": 0.01092,
+    "se": 0.00409
+   },
+   "absm": {
+    "value": 0.06805,
+    "se": 0.0355
+   },
+   "low": {
+    "value": 0.01469,
+    "se": 0.0082
+   },
+   "mid": {
+    "value": 0.00667,
+    "se": 0.00515
+   },
+   "high": {
+    "value": -0.01641,
+    "se": 0.00453
+   },
+   "low_minus_high": {
+    "value": 0.0311,
+    "se": 0.01186
+   }
+  },
+  "all_full_season": {
+   "n_staffs": 50,
+   "n_pairs": 5065,
+   "n_pitchers": 348,
+   "blow": {
+    "value": 0.00973,
+    "se": 0.00308
+   },
+   "absm": {
+    "value": 0.04955,
+    "se": 0.03102
+   },
+   "low": {
+    "value": 0.01329,
+    "se": 0.00715
+   },
+   "mid": {
+    "value": 0.00909,
+    "se": 0.00438
+   },
+   "high": {
+    "value": -0.01739,
+    "se": 0.00412
+   },
+   "low_minus_high": {
+    "value": 0.03068,
+    "se": 0.01046
+   }
+  }
+ }
+}

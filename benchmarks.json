@@ -2004,5 +2004,36 @@
       "ph_ratio": {"value": 2.2961, "tol": 0.2357, "_note": "pinch hitters per opportunity, batter due up of the pitcher's hand over the other hand"},
       "ph_advantage_share": {"value": 0.678, "tol": 0.0213}
     }
+  },
+  "bullpen_form_2025": {
+    "_note": "Bullpen deployment reacts to results (variance stage, owner decision 2026-10-09, option A): the 36 P4 full-season staffs of the 2025 play-by-play (scripts/build_bullpen_form.py, engine/bullpen_metrics.py). Relief-only pitchers (no start all season). next_blowout_per_run / next_margin_per_run: within pitcher, the next relief entry's blowout indicator (|margin| >= 7) and |margin| on the runs scored on plate-appearance plays while he was in during his previous outing, controlling for the previous entry's |margin|. workload_*: runs per batter faced minus his staff's mean, by workload third within the staff (20+ BF). Tolerance 3 SE (bootstrap over teams).",
+    "conf": "B",
+    "src": "WMT stats API play-by-play 2025, data/ncaa_2025/pbp (fetched 2026-09-30 to 2026-10-01)",
+    "n_staffs": 36,
+    "next_blowout_per_run": {
+      "value": 0.01092,
+      "tol": 0.01227,
+      "se": 0.00409
+    },
+    "next_margin_per_run": {
+      "value": 0.06805,
+      "tol": 0.1065,
+      "se": 0.0355
+    },
+    "workload_low": {
+      "value": 0.01469,
+      "tol": 0.0246,
+      "se": 0.0082
+    },
+    "workload_mid": {
+      "value": 0.00667,
+      "tol": 0.01545,
+      "se": 0.00515
+    },
+    "workload_high": {
+      "value": -0.01641,
+      "tol": 0.01359,
+      "se": 0.00453
+    }
   }
 }

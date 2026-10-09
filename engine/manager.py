@@ -43,7 +43,8 @@ from config.phase2 import GAMES_PER_WEEKEND, MIN_HAZARD_N, N_BENCH, N_REGULARS, 
 from config import decisions as _cdec
 from config import diagnostics as _diag
 from config import phase6, phase7
-from config.phase6 import LEVERAGE_BLOWOUT, LEVERAGE_CLOSE, LEVERAGE_LATE_INNING, N_ROLE_RELIEVERS, PITCH_BINS, REST_SPLIT_DAYS
+from config.phase6 import (FORM_CAP, FORM_PRIOR_N, LEVERAGE_BLOWOUT, LEVERAGE_CLOSE, LEVERAGE_LATE_INNING, N_ROLE_RELIEVERS, PITCH_BINS,
+                           REST_SPLIT_DAYS)
 from config.phase3 import LATE_INNING as _LATE_INNING
 from engine.decider import Decision, LeagueAverageDecider
 
@@ -127,6 +128,16 @@ class Manager(LeagueAverageDecider):
         self.history: dict = {}
         u6 = phase6.load().get("usage6", {}) if phase6.on("bullpen") else {}
         self.relief_coef = u6.get("relief", {}).get("coef", {})
+        # bullpen form (owner decision 2026-10-09, option A; scripts/build_bullpen_form.py): the relief choice refitted with
+        # recent-form terms by leverage, the form terms scaled by the engine solve (scripts/solve_bullpen_form.py)
+        self.form: dict = {}                 # pitcher id -> runs while in, per outing this season
+        self.form_coef = None
+        if u6 and phase6.on("bullpen_form"):
+            bf = phase6.load_bullpen_form()
+            if bf:
+                self.relief_coef = bf["relief_form"]["coef"]
+                self.form_coef = {k: v * (bf.get("solved_scale", 1.0) if not k.startswith("form_none") else 1.0)
+                                  for k, v in bf["relief_form"]["coef"].items() if k.startswith("form_")}
         self.midweek_coef = u6.get("midweek", {}).get("coef", {})
         # Phase 7: who starts a conference tournament or NCAA tournament game (scripts/build_phase7_usage.py)
         self.tourney_coef = phase7.load().get("usage7", {}).get("start", {}).get("coef", {}) if phase7.on("world") else {}
@@ -230,15 +241,33 @@ class Manager(LeagueAverageDecider):
         return u
 
     def _choose(self, state, cands: list, coef: dict, ctx: str, relief: bool = False):
-        u = np.array([self._utility(coef, role, ctx, p.pid, state.date) + (self.platoon_utility(state, p) if relief else 0.0)
+        u = np.array([self._utility(coef, role, ctx, p.pid, state.date)
+                      + ((self.platoon_utility(state, p) + (self._form_utility(p.pid, ctx) if self.form_coef else 0.0)) if relief else 0.0)
                       for p, role in cands])
         w = np.exp(u - u.max())
         return cands[int(self._r(state).choice(len(cands), p=w / w.sum()))][0]
 
     def record_game(self, state) -> None:
-        """After a game: every pitcher's outing (date, pitches) for the rest state of later games."""
+        """After a game: every pitcher's outing (date, pitches) for the rest state of later games, and his runs while in
+        for his recent form."""
         for pid, pitches in state.pitch_log:
             self.history.setdefault(pid, []).append((state.date, pitches))
+        for pid, runs in getattr(state, "form_log", ()):
+            self.form.setdefault(pid, []).append(runs)
+
+    def _form_utility(self, pid: int, ctx: str) -> float:
+        """The recent-form terms of the relief choice: runs in his last outing and the mean of the FORM_PRIOR_N before
+        it (each capped at FORM_CAP), or the no-outing-yet indicator; coefficients by leverage."""
+        c = self.form_coef
+        h = self.form.get(pid)
+        if not h:
+            return c.get(f"form_none|{ctx}", 0.0)
+        last = min(h[-1], FORM_CAP)
+        prior = h[-1 - FORM_PRIOR_N:-1]
+        u = c.get(f"form_last|{ctx}", 0.0) * last
+        if prior:
+            u += c.get(f"form_prior3|{ctx}", 0.0) * (sum(min(x, FORM_CAP) for x in prior) / len(prior))
+        return u
 
     def _leash_ctx(self, state, starter: bool) -> float:
         """Phase 6 multiplier on log theta: tier of the pitching team (not for weekend starters), for

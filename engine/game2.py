@@ -95,7 +95,7 @@ class GameState2:
     __slots__ = ("rng", "inning", "half", "outs", "bases", "score", "over", "run_rule_in_effect", "ended_by_run_rule",
                  "team_obj", "lineup", "slot", "pitcher", "outing", "used", "weekend", "inning_end",
                  "half_innings", "pa", "errors", "hits", "hr", "ab", "outs_pitched", "er_allowed",
-                 "week", "day", "phantom", "p_phantom", "date", "pitch_log", "in_game", "subs", "batted",
+                 "week", "day", "phantom", "p_phantom", "date", "pitch_log", "form_log", "in_game", "subs", "batted",
                  "err_or", "catcher_arm", "of_arm", "pending_change", "sb_att", "sb_ok", "tournament",
                  "ibb", "cur_slot", "mound", "last_pa_pitcher", "box")
 
@@ -121,6 +121,7 @@ class GameState2:
         self.er_allowed = {"away": 0, "home": 0}
         self.week, self.day, self.date = 0, 0, 0
         self.pitch_log = []   # (pitcher id, pitches) of every outing in this game
+        self.form_log = []    # (pitcher id, runs on plate-appearance plays while he was in) of every outing (bullpen form)
         self.in_game = {"away": set(), "home": set()}   # batters who have played (starters and substitutes)
         self.subs = {"away": 0, "home": 0}
         self.batted = {"away": set(), "home": set()}     # batters with a plate appearance
@@ -194,6 +195,7 @@ class PlayerGameEngine:
         self.sb = [0, 0]                                              # steal attempts, steals
         self.outings: list = []                                       # (pitcher, started, outs, weekday) of every outing
         self.outing_lines: list = []                                  # (pitcher, started, BF, K, BB, HBP, H, HR, R) of every outing
+        self.bullpen_rows: list = []                                  # engine/bullpen_metrics.py COLUMNS, every outing (diagnostics)
         self.fielding_on, self.speed_on = phase6.on("fielding"), phase6.on("speed")
         f6 = phase6.load().get("fielding6", {})
         self.err_share = f6.get("team_error", {}).get("error_share", {})
@@ -402,6 +404,11 @@ class PlayerGameEngine:
             self.outings.append((st.pitcher[side].pid, int(o["starter"]), o["pa_outs"], st.date % 7))
             ps = self.pstats[st.pitcher[side].pid]
             self.outing_lines.append((st.pitcher[side].pid, int(o["starter"]), *(ps[c] - v for c, v in zip(_OUTING_COLS, o["ps0"]))))   # BF, K, BB, HBP, H, HR, R of the outing
+            st.form_log.append((st.pitcher[side].pid, o["runs"]))
+            if self.diag:
+                # bullpen gate rows (engine/bullpen_metrics.py): team, pitcher, order, start, BF, runs while in, entry margin and inning
+                self.bullpen_rows.append((st.team_obj[side].tid, st.pitcher[side].pid, len(self.bullpen_rows), int(o["starter"]),
+                                          ps[P_BF] - o["ps0"][0], o["runs"], o["entry"][0], o["entry"][1]))
         if o is not None and o["starter"]:
             self.starts.append((o["pitches"], o["pa_outs"], bool(st.weekend), st.pitcher[side].pid))
 
@@ -411,7 +418,9 @@ class PlayerGameEngine:
         st.used[side].add(pitcher.pid)
         st.p_phantom = 0
         ps = self.pstats[pitcher.pid]
-        st.outing[side] = {"starter": starter, "pitches": 0, "runs": 0, "pa_outs": 0, "ps0": [ps[c] for c in _OUTING_COLS]}
+        other = "home" if side == "away" else "away"
+        st.outing[side] = {"starter": starter, "pitches": 0, "runs": 0, "pa_outs": 0, "ps0": [ps[c] for c in _OUTING_COLS],
+                           "entry": (st.score[side] - st.score[other], st.inning)}
         ps[P_G] += 1
         if starter:
             ps[P_GS] += 1
