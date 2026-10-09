@@ -43,7 +43,8 @@ from app.connector import GameRunner
 from app import dynasty_api
 from app.menu import menu
 from app.timeline import Narrator, box_score, state_json
-from app.world import World
+from app import schools
+from app.world import World, player_json, staff
 from engine.game2 import STOPS
 
 STATIC = Path(__file__).resolve().parent / "static"
@@ -177,6 +178,18 @@ def team(tid: int):
         return w.roster(tid)
     except KeyError:
         raise HTTPException(404, "unknown team")
+
+
+@app.get("/api/players/{pid}")
+def player(pid: int):
+    """An exhibition's player page: the player with his school and ratings (no season: exhibitions keep no season)."""
+    w = store.ready()
+    for t in w.league.teams:
+        for p in t.batters + staff(t):
+            if p.pid == pid:
+                from app.dynasty import _hand, _year
+                return dict(player_json(p), hand=_hand(p), year=_year(p), team=schools.team_fields(t), tid=t.tid, season=None, splits=None, game_log=[])
+    raise HTTPException(404, "unknown player")
 
 
 @app.get("/api/decisions")

@@ -32,7 +32,7 @@ from app.connector import GameRunner, MANAGER_STATIC, _Pickler, _Unpickler
 from app.timeline import box_score as runner_box, pitching_line, batting_line
 from app.world import player_json, staff
 from config import phase7
-from engine.game2 import B_NCOL, P_NCOL, PlayerGameEngine
+from engine.game2 import B_NCOL, P_NCOL, GameSession, PlayerGameEngine
 from engine.league import build_league
 from engine.manager import Manager
 from engine.rpi import rpi as rpi_of
@@ -147,6 +147,7 @@ class Dynasty:
         self.pending: dict | None = None # the user's game waiting to be played or simmed
         self.runner: GameRunner | None = None
         self.news: list = []
+        self.splits: dict = {}           # pid -> {"L": row, "R": row}: plate appearances by the opponent's hand, counted from the game logs
         self.eng = self.mgr = None
         self.bstats = self.pstats = None
         self.adapter = _Adapter(self)
@@ -219,6 +220,55 @@ class Dynasty:
             out[side] = {"bat": np.array(bat, dtype=np.int32).reshape(-1, 1 + B_NCOL), "pit": np.array(pit, dtype=np.int32).reshape(-1, 1 + P_NCOL)}
         return out
 
+    def _play_logged(self, rng, home, away, weekend, **kw):
+        """The engine's play() (a GameSession run to the end, the AI on both sides) with the game log kept, so the
+        plate appearances can be counted by the opponent's hand (the splits, app-side; the draws are the same)."""
+        sess = GameSession(self.eng, rng, home, away, weekend, self.mgr, log=True, **kw)
+        sess.run()
+        self._count_splits(sess.log)
+        return sess.st
+
+    # the players by pid and the team each plays for (display lookups; rebuilt on load)
+    @property
+    def players(self) -> dict:
+        if getattr(self, "_players", None) is None:
+            self._players = {p.pid: (p, t.tid) for t in self.league.teams for p in t.batters + staff(t)}
+        return self._players
+
+    def _count_splits(self, log) -> None:
+        """Count each plate appearance of the log for the batter (by the pitcher's hand) and the pitcher (by the
+        side the batter hit from): PA, AB, H, 2B, 3B, HR, BB, HBP, K. Display only (the player page's splits)."""
+        if not log:
+            return
+        players = self.players
+        for e in log:
+            if e[0] != "pa":
+                continue
+            _, _, bpid, ppid, res, _, _ = e
+            batter, pitcher = players[bpid][0], players[ppid][0]
+            if not getattr(batter, "bats", "") or not getattr(pitcher, "throws", ""):
+                continue
+            side = PlayerGameEngine.side_used(batter, pitcher)
+            for pid, key in ((bpid, pitcher.throws), (ppid, side)):
+                row = self.splits.setdefault(pid, {}).setdefault(key, [0] * 9)
+                row[0] += 1
+                if res not in ("BB", "HBP", "SF", "SH"):
+                    row[1] += 1
+                if res in ("1B", "2B", "3B", "HR"):
+                    row[2] += 1
+                if res == "2B":
+                    row[3] += 1
+                elif res == "3B":
+                    row[4] += 1
+                elif res == "HR":
+                    row[5] += 1
+                elif res == "BB":
+                    row[6] += 1
+                elif res == "HBP":
+                    row[7] += 1
+                elif res == "K":
+                    row[8] += 1
+
     def _play(self, i: int, runner: GameRunner | None = None) -> dict:
         """Play scheduled game i: with the engine (AI both sides) or from the user's finished runner."""
         g = self.schedule[i]
@@ -226,13 +276,14 @@ class Dynasty:
         if runner is None:
             before = self._rows(home, away)
             rng = np.random.Generator(np.random.PCG64(self.seeds[i]))
-            st = self.eng.play(rng, home, away, g.weekend, self.mgr, week=g.week, day=g.day, date=g.date)
+            st = self._play_logged(rng, home, away, g.weekend, week=g.week, day=g.day, date=g.date)
             box = self._box_from_rows(before, home, away)
             rec = _game_record(g, st, i, box, False)
         else:
             if not runner.over:
                 raise ValueError("the game is not over")
             st = runner.base.st
+            self._count_splits(runner.base.log)
             box = self._box_from_rows(runner.base_rows, home, away)
             rec = _game_record(g, st, i, box, True)
             rec["full_box"] = runner_box(runner)        # narrated: R, RBI and the play-by-play
@@ -447,11 +498,12 @@ class Dynasty:
         before = self._rows(home, away)
         if runner is None:
             rng = np.random.Generator(np.random.PCG64(p["seed"]))
-            st = self.eng.play(rng, home, away, True, self.mgr, week=p["date"] // 7, day=0, date=p["date"], neutral=p["neutral"], tournament=True)
+            st = self._play_logged(rng, home, away, True, week=p["date"] // 7, day=0, date=p["date"], neutral=p["neutral"], tournament=True)
             box = self._box_from_rows(before, home, away)
             user = False
         else:
             st = runner.base.st
+            self._count_splits(runner.base.log)
             box = self._box_from_rows(runner.base_rows, home, away)
             user = True
         rec = self._post_record(p, st, box, user)
@@ -500,7 +552,7 @@ class Dynasty:
             home, away = league.teams[h], league.teams[a]
             before = dyn._rows(home, away)
             rng = np.random.Generator(np.random.PCG64(seed))
-            st = dyn.eng.play(rng, home, away, True, dyn.mgr, week=date // 7, day=0, date=date, neutral=neutral, tournament=True)
+            st = dyn._play_logged(rng, home, away, True, week=date // 7, day=0, date=date, neutral=neutral, tournament=True)
             p = {"home": h, "away": a, "date": date, "neutral": neutral, "stage": stage, "k": idx}
             rec = dyn._post_record(p, st, dyn._box_from_rows(before, home, away), False)
             dyn.post_calls.append(rec)
@@ -611,7 +663,7 @@ def save_bytes(d: Dynasty) -> bytes:
              "league": d.league, "schedule": d.schedule, "skip": d.skip, "seeds": d.seeds, "pos": d.pos, "results": d.results,
              "reg_games": d.reg_games, "post_calls": d.post_calls, "post": d.post, "stage": d.stage, "pending": d.pending,
              "news": d.news, "bstats": d.bstats, "pstats": d.pstats,
-             "today": d.today, "steps_done": d.steps_done, "last_pause": d.last_pause,
+             "today": d.today, "steps_done": d.steps_done, "last_pause": d.last_pause, "splits": d.splits,
              # the Decider's season state (rest history, series plans, midweek counts, rankings, last lineups, its generator):
              # everything but the fitted tables, which the live Manager of the loading process supplies
              "mgr_state": {k: v for k, v in vars(d.mgr).items() if k not in MANAGER_STATIC} if d.mgr else {},
@@ -639,6 +691,7 @@ def load_bytes(cfg, data: bytes) -> Dynasty:
                                                                                  st["stage"], st["pending"], st["news"])
     d.bstats, d.pstats = st["bstats"], st["pstats"]
     d.steps_done, d.last_pause = st.get("steps_done", []), st.get("last_pause")
+    d.splits = st.get("splits", {})
     d.today = st.get("today")
     if d.today is None:                 # a save from before the day loop: the next game's date
         i = next((j for j in range(d.pos, len(d.schedule)) if not d.skip[j] and j not in d.results), None)
@@ -961,3 +1014,49 @@ def summary_json(d: Dynasty) -> dict:
             "champion": d.tname(nc["champion"]) if nc else None, "runner_up": d.tname(nc["runner_up"]) if nc else None,
             "done": d.stage == "done",
             "offseason": ["Transfer portal", "MLB draft", "Recruiting", "Roster cuts", "Year 2"]}
+
+
+# ---- the player page ---------------------------------------------------------------------------------
+def _split_stats(row: list | None) -> dict | None:
+    """A split's line: PA, AB, H, 2B, 3B, HR, BB, HBP, K and the rates (no SF in the log's count: OBP uses AB + BB + HBP)."""
+    if not row:
+        return None
+    pa, ab, h, d2, d3, hr, bb, hbp, k = row
+    tb = h + d2 + 2 * d3 + 3 * hr
+    den = ab + bb + hbp
+    return {"pa": pa, "ab": ab, "h": h, "2b": d2, "3b": d3, "hr": hr, "bb": bb, "hbp": hbp, "k": k,
+            "avg": round(h / ab, 3) if ab else 0.0, "obp": round((h + bb + hbp) / den, 3) if den else 0.0, "slg": round(tb / ab, 3) if ab else 0.0}
+
+
+def player_page_json(d: Dynasty, pid: int) -> dict | None:
+    """Everything the player page shows: the player with his school, ratings, season line, splits by the opponent's
+    hand (counted from the game logs), the game log (every game with a line for him, simmed included) and, for a
+    pitcher, his outings with pitch counts."""
+    if pid not in d.players:
+        return None
+    p, tid = d.players[pid]
+    t = d.league.teams[tid]
+    out = dict(player_json(p), hand=_hand(p), year=_year(p), team=schools.team_fields(t), tid=tid)
+    out["season"] = _bat_stats(d.bstats[pid]) if p.side == "bat" else _pit_stats(d.pstats[pid])
+    sp = d.splits.get(pid, {})
+    out["splits"] = {"L": _split_stats(sp.get("L")), "R": _split_stats(sp.get("R")), "vs": "LHP / RHP" if p.side == "bat" else "LHB / RHB"}
+    log = []
+    recs = [r for _, r in sorted(d.results.items())] + list(d.post_calls)
+    for rec in recs:
+        side = "home" if rec["home"] == tid else "away" if rec["away"] == tid else None
+        if side is None or "box" not in rec:
+            continue
+        rows = rec["box"][side]["bat" if p.side == "bat" else "pit"]
+        hit = [r for r in rows if int(r[0]) == pid]
+        if not hit:
+            continue
+        line = batting_line([int(x) for x in hit[0][1:]]) if p.side == "bat" else pitching_line([int(x) for x in hit[0][1:]])
+        opp = rec["away"] if side == "home" else rec["home"]
+        mine, theirs = (rec["hr"], rec["ar"]) if side == "home" else (rec["ar"], rec["hr"])
+        log.append({"date": rec["date"], "i": rec.get("i"), "k": rec.get("k"), "stage": rec["stage"], "side": side, "opp": opp,
+                    "opp_name": d.tname(opp), "opp_abbr": d.tabbr(opp), "result": f"{'W' if mine > theirs else 'L'} {mine}-{theirs}", "line": line})
+    out["game_log"] = log
+    if p.side == "pit":
+        h = d.mgr.history.get(pid, []) if d.mgr else []
+        out["outings"] = [{"date": int(x[0]), "pitches": int(x[1])} for x in h]
+    return out
