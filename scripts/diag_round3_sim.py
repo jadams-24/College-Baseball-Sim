@@ -86,7 +86,7 @@ def season(seed: int) -> dict:
     _STATE.update(gid=0, pa=[], games=[])
     res = simulate_season(phase2.load(), seed)
     lg = res["league"]
-    teams = {t.tid: {"name": t.name, "tier": t.tier, "conference": t.conference, "o": t.o, "d": t.d} for t in lg.teams.values()}
+    teams = {t.tid: {"name": t.name, "tier": t.tier, "conference": t.conference, "o": t.o, "d": t.d} for t in lg.teams}
     pa = {c: np.array([r[i] for r in _STATE["pa"]]) for i, c in enumerate(PA_COLS)}
     return {"seed": seed, "pa": pa, "games": list(_STATE["games"]), "teams": teams}
 
