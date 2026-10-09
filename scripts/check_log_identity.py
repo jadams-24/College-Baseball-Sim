@@ -3,7 +3,9 @@
 Plays the first 300 games of a fixed world (seed 20261009) with full event logs and prints one sha256 over all of them,
 plus the per-game hashes to a file when asked. Run it on two commits on the same machine: equal hashes mean every pitch,
 decision and runner movement is identical (across machines floating point differs; CLAUDE.md).
-    python3 scripts/check_log_identity.py [--games 300] [--out hashes.txt]
+    python3 scripts/check_log_identity.py [--games 300] [--out hashes.txt] [--lean]
+--lean plays with the report-only accumulators off (config.diagnostics); the log hash must not change. A second hash
+covers the season stat lines (batting and pitching, box-score columns included) after the games.
 """
 from __future__ import annotations
 
@@ -22,7 +24,11 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--games", type=int, default=300)
     ap.add_argument("--out", type=Path, default=None)
+    ap.add_argument("--lean", action="store_true")
     a = ap.parse_args()
+    if a.lean:
+        from config import diagnostics
+        diagnostics.RECORD = False
     from config import phase2
     from engine import game2
     from engine.league import build_league
@@ -46,6 +52,7 @@ def main() -> None:
     if a.out:
         a.out.write_text("\n".join(lines) + "\n")
     print(f"{a.games} games: {total.hexdigest()}")
+    print(f"stat lines: {hashlib.sha256(np.asarray(eng.bstats).tobytes() + np.asarray(eng.pstats).tobytes()).hexdigest()}")
 
 
 if __name__ == "__main__":

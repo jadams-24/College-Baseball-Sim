@@ -51,9 +51,20 @@ class KeyedStream:
         self.key = np.asarray(key, dtype=np.uint64)
         self.bg = np.random.Philox(key=self.key)
         self.gen = np.random.Generator(self.bg)
+        self._counter = np.zeros(4, dtype=np.uint64)
+        # the state template, built once (speed pass, 2026-10-09): setting the state copies these values into the generator
+        self._state = {"bit_generator": "Philox", "state": {"counter": self._counter, "key": self.key},
+                       "buffer": np.zeros(4, dtype=np.uint64), "buffer_pos": 4, "has_uint32": 0, "uinteger": 0}
+
+    def __getstate__(self):
+        return {"key": self.key, "bg": self.bg, "gen": self.gen}
+
+    def __setstate__(self, d):
+        self.__init__(d["key"])
+        self.bg.state = d["bg"].state
 
     def at(self, a: int = 0, b: int = 0, c: int = 0) -> np.random.Generator:
-        self.bg.state = {"bit_generator": "Philox",
-                         "state": {"counter": np.array([0, a, b, c], dtype=np.uint64), "key": self.key},
-                         "buffer": np.zeros(4, dtype=np.uint64), "buffer_pos": 4, "has_uint32": 0, "uinteger": 0}
+        cnt = self._counter
+        cnt[1] = a; cnt[2] = b; cnt[3] = c
+        self.bg.state = self._state
         return self.gen
