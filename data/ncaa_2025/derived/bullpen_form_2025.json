@@ -192,5 +192,33 @@
     "se": 0.01046
    }
   }
+ },
+ "solved_scale": 1.6909,
+ "solve": {
+  "target_p4_blow": 0.01092,
+  "steps": [
+   {
+    "scale": 1.0,
+    "p4_blow_minus_target": -0.0035683500327933944
+   },
+   {
+    "scale": 2.0,
+    "p4_blow_minus_target": 0.0015964674078190345
+   },
+   {
+    "scale": 1.6908956751761335,
+    "p4_blow_minus_target": -0.0013493279877174191
+   },
+   {
+    "scale": 1.8324815834307646,
+    "p4_blow_minus_target": -0.0026243400103748253
+   },
+   {
+    "scale": 1.541057222456148,
+    "p4_blow_minus_target": -0.003187001588799543
+   }
+  ],
+  "seasons_per_step": 4,
+  "seeds_from": 770001
  }
 }
