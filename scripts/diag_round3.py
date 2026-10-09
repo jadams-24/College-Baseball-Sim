@@ -247,7 +247,7 @@ def within_team_L(df: pd.DataFrame, team="bat_team", hand="sp") -> dict:
             "share_vs_LHP": float(nL.sum() / (nL + nR).sum())}
 
 
-def season_sizes(r: dict, real: dict) -> dict:
+def season_sizes(r: dict, real: dict, real_pa_delta: float) -> dict:
     pa, g = frames(r, real["lw"])
     tg, f = team_games(pa, g)
     out = {"phi": f["phi"], "resid_corr": f["residual_corr"], "n_team_games": int(len(tg)), "n_pa": int(len(pa))}
@@ -257,6 +257,7 @@ def season_sizes(r: dict, real: dict) -> dict:
     out["tto_dphi_added"] = dphi_component(tg, exposure(pa, tg, real["tto"] - ts["b"]))
     out["mopup"] = mopup_sim(pa, tg)
     out["pa_length_sim"] = pa_length(pa)
+    out["pa_length_size"] = pa_length_size(pa, tg, real_pa_delta - out["pa_length_sim"])
     out["pa_length_runners_share"] = float(pa.runners.mean())
     out["pa_length_by_runners"] = pa[pa.pitches > 0].groupby("runners").pitches.mean().to_dict()
     out["lineups"] = within_team_L(lineups_sim(pa))
@@ -310,15 +311,22 @@ def main() -> None:
     if a.dir is None:
         from diag_round3_sim import out_dir
         a.dir = out_dir()
+    a.dir = a.dir.resolve() if a.dir.is_absolute() else (ROOT / a.dir).resolve()
     real = real_round2()
+    rpl = real_pa_length()
     per = []
     for f in sorted(a.dir.glob("season_*.pkl")):
-        s, _, _ = season_sizes(pickle.loads(f.read_bytes()), real)
-        s.pop("_pa_cache")
+        cache = f.with_suffix(".sizes.json")         # per-season results, so a rerun of the summary is cheap
+        if cache.exists():
+            s = json.loads(cache.read_text())
+        else:
+            s, _, _ = season_sizes(pickle.loads(f.read_bytes()), real, rpl["delta"])
+            s.pop("_pa_cache")
+            cache.write_text(json.dumps(s, default=float))
         per.append(s)
-        print(f.name, f"phi {s['phi']:.3f}", "tto_sim", np.round(s["tto_sim"], 4), "mopup5", round(s["mopup"]["blowout_5plus"]["dphi_noise_corrected"], 4), flush=True)
+        print(f.name, f"phi {s['phi']:.3f}", "tto_sim", np.round(np.array(s["tto_sim"], float), 4), "mopup5", round(s["mopup"]["blowout_5plus"]["dphi_noise_corrected"], 4), flush=True)
     res = {"seasons": len(per), "dir": str(a.dir.relative_to(ROOT)), "per_season": per}
-    res["real_pa_length"] = real_pa_length()
+    res["real_pa_length"] = rpl
     res["real_lineups"] = real_lineups()
     OUT_JSON.write_text(json.dumps(res, indent=1, default=float) + "\n")
     print(json.dumps({k: v for k, v in res.items() if k != "per_season"}, indent=1, default=float))
