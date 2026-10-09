@@ -5,7 +5,7 @@ Owner decision 2026-10-09: model the demotion first (the AI's relief choice reac
 ## What was built
 
 1. **Recent form** (`scripts/build_bullpen_form.py`): the relief choice's conditional logit refitted on the 2025 play-by-play (9192 relief choices, 50 full-season staffs) with, per leverage (late and close / other / blowout), the runs allowed in the reliever's last outing (capped at 5), the mean over the three before it, and a no-outing-yet term. The form terms are scaled by 1.6909 so the engine's within-pitcher slopes match the real P4 ones (`scripts/solve_bullpen_form.py`): fitted on real staffs, observed form also carries quality, which the engine's roles already sort by.
-2. **Quality by margin** (only after step 1; the remainder was significant): utility + γ × badness z (within staff, K − BB − HR talent) × clip((|margin| − 4)/4, −1, 1), γ = 0.7073 solved in the engine against the real P4 relief-entry quality at a margin of 8+.
+2. **Quality by margin** (only after step 1; the remainder was significant): utility + γ × badness z (within staff, K − BB − HR talent) × clip((|margin| − 4)/4, 0, 1), γ = 0.7465 solved in the engine against the real P4 relief-entry quality at a margin of 8+. One-sided: a first, two-sided version (weight −1 at a tie) concentrated close games on each staff's best reliever (busiest pitcher 27.0 appearances against 24.49 ± 1.22); the one-sided term gives 24.28 and every usage row passes.
 
 ## Gate rows (P4 staffs; reports/phase6.md, 40 seasons)
 
@@ -30,9 +30,9 @@ Missing dispersion before: real 2.6185 minus engine 2.214 = 0.404.
 |---|---|---|---|---|
 | Before (round 3) | +2.214 ± 0.011 | +0.044 ± 0.003 | -0.215 ± 0.004 (-0.196) | +0.126 ± 0.024 / +0.208 ± 0.033 |
 | + recent form | +2.210 ± 0.013 | +0.046 ± 0.005 | -0.208 ± 0.003 (-0.189) | +0.117 ± 0.024 / +0.204 ± 0.030 |
-| + quality by margin | +2.248 ± 0.012 | +0.053 ± 0.004 | -0.174 ± 0.004 (-0.149) | +0.114 ± 0.024 / +0.184 ± 0.031 |
+| + quality by margin (one-sided, final) | +2.236 ± 0.011 | +0.055 ± 0.004 | -0.185 ± 0.003 (-0.161) | +0.110 ± 0.024 / +0.205 ± 0.032 |
 
 - Recent form: Δφ -0.005 ± 0.017 (-1% of the missing): nothing. Real usage reacts to results and the engine now does too (gated), but which reliever happens to be in a slump barely moves game-to-game variance.
-- Quality by margin: Δφ +0.039 ± 0.017 (+10% of the missing). Real 0.073 within-game residual correlation; the engine moves from .044 to .053.
-- Still open: the engine's relief-quality component stays far more anti-correlated with the rest of the game than real (all entries, real −.03). Real minus engine on P4 staffs is still about +.11 (margin 5+) and +.18 (all entries); the entry-quality rows themselves now match, so what remains is not who enters at which margin. Candidates for the next round: how quickly relievers are pulled after runs (the pull hazard by runs is pooled), and the starter's pull timing in games already lopsided.
+- Quality by margin: Δφ +0.027 ± 0.017 (+7% of the missing; 1.6 SE). Real 0.073 within-game residual correlation; the engine moves from .044 to .055. (The two-sided version gave +0.039, 10%, but failed the busiest-pitcher row.)
+- Still open: the engine's relief-quality component stays far more anti-correlated with the rest of the game than real (all entries, real −.03). Real minus engine on P4 staffs is still about +.11 (margin 5+) and +.20 (all entries); the entry-quality rows themselves now match, so what remains is not who enters at which margin. Candidates for the next round: how quickly relievers are pulled after runs (the pull hazard by runs is pooled), and the starter's pull timing in games already lopsided.
 
