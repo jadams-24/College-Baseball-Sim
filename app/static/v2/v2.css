@@ -382,3 +382,8 @@ body.busy .simbar button { opacity: .6; }
 .tbl.pick td.grades .btn-ghost { margin-left: 4px; }
 .tbl.pick td.nm small { display: block; font-size: 10px; font-weight: 400; }
 .tbl.pick tr.card-row td { background: var(--panel2); padding: 8px 10px; white-space: normal; }
+@media (max-width: 760px) {
+  .tbl.pick .ph-hide { display: none; }
+  .tbl.pick td.nm small { white-space: normal; }
+  .tbl.pick td.grades .btn-ghost { margin-left: 0; }
+}
