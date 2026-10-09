@@ -322,8 +322,8 @@
   }
   function renderSims(t, off) {
     const sims = t.phase === "pregame"
-      ? `<button class="go" data-sim="pitch">Play ball</button>`
-      : `<button class="go" data-sim="pitch">Next pitch</button><button data-sim="pa">At-bat</button><button data-sim="half">Half inning</button><button data-sim="inning">Inning</button><button data-sim="three_innings">3 innings</button><button data-sim="game">End of game</button>`;
+      ? `<button class="go" data-sim="pitch" title="key: Space or N">Play ball</button>`
+      : `<button class="go" data-sim="pitch" title="key: Space or N">Next pitch</button><button data-sim="pa" title="key: A">At-bat</button><button data-sim="half" title="key: H">Half inning</button><button data-sim="inning" title="key: I">Inning</button><button data-sim="three_innings" title="key: 3">3 innings</button><button data-sim="game" title="key: E">End of game</button><button class="btn-ghost" data-keys="1" title="key: ?">Keys</button>`;
     const back = S.game && S.game.dynasty ? (t.state.over ? `<button class="go" data-dyn-finish="1">Back to the dynasty</button>` : `<button class="btn-ghost" data-dyn-back="1">Dynasty</button>`) : "";
     const league = $("#league-sim") ? $("#league-sim").outerHTML : "";
     $("#simbar").innerHTML = `<span class="k">Sim</span>${t.state.over && S.game && S.game.dynasty ? "" : sims}${back}${league}`;
@@ -529,14 +529,31 @@
     if (b && !b.disabled) busy(() => sim(b.dataset.sim));
     if (e.target.closest("[data-dyn-finish]")) document.dispatchEvent(new CustomEvent("cbs:dyn-finish"));
     if (e.target.closest("[data-dyn-back]")) document.dispatchEvent(new CustomEvent("cbs:dyn-back"));
+    if (e.target.closest("[data-keys]")) keysOverlay(true);
   });
   $("#actions").addEventListener("click", (e) => {
     const qa = e.target.closest("[data-q-auto]");
     if (qa) busy(async () => applyTurn(await gameCall("/decide", "POST", { kind: qa.dataset.qAuto, value: "auto" })));
   });
+  // ---- keyboard controls (desktop play): the sim targets, and "?" for the key list ----
+  const KEYS = [["Space / N", "Next pitch", "pitch"], ["A", "At-bat", "pa"], ["H", "Half inning", "half"], ["I", "Inning", "inning"], ["3", "Three innings", "three_innings"], ["E", "End of game", "game"], ["?", "This key list", null], ["Esc", "Close a page or this list", null]];
+  const KEY_OF = { pitch: "Space / N", pa: "A", half: "H", inning: "I", three_innings: "3", game: "E" };
+  function keysOverlay(show) {
+    let el = $("#keys");
+    if (!el) {
+      el = document.createElement("div"); el.id = "keys"; el.className = "keys hidden";
+      el.innerHTML = `<div class="panel"><div class="hdr">Keyboard <span class="sub">desktop play</span><button class="btn-ghost" data-keys-close="1">Close</button></div><div class="body"><table class="tbl keys-tbl">${KEYS.map(([k, l]) => `<tr><td class="mono key">${k}</td><td>${l}</td></tr>`).join("")}</table><div class="muted">Keys work on the manager screen while no input has focus.</div></div></div>`;
+      document.body.appendChild(el);
+      el.addEventListener("click", (e) => { if (e.target === el || e.target.closest("[data-keys-close]")) el.classList.add("hidden"); });
+    }
+    el.classList.toggle("hidden", show === false ? true : show === true ? false : !el.classList.contains("hidden"));
+  }
   document.addEventListener("keydown", (e) => {
-    if (!S.game || e.target.tagName === "INPUT" || e.target.tagName === "SELECT") return;
-    const map = { " ": "pitch", n: "pitch", a: "pa", h: "half", i: "inning" };
+    if (e.target.tagName === "INPUT" || e.target.tagName === "SELECT" || e.target.tagName === "TEXTAREA") return;
+    if (e.key === "?") { e.preventDefault(); keysOverlay(); return; }
+    if (e.key === "Escape") { keysOverlay(false); return; }
+    if (!S.game || S.screen !== "game" || e.ctrlKey || e.metaKey || e.altKey) return;
+    const map = { " ": "pitch", n: "pitch", N: "pitch", a: "pa", A: "pa", h: "half", H: "half", i: "inning", I: "inning", "3": "three_innings", e: "game", E: "game" };
     if (map[e.key]) { e.preventDefault(); busy(() => sim(map[e.key])); }
   });
 

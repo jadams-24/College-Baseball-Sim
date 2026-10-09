@@ -465,3 +465,9 @@ a.plink:hover, a.tlink:hover { color: var(--accent); border-bottom-color: var(--
 .bk-winner a { font-weight: 700; color: var(--accent); }
 @media (max-width: 1300px) { .bracket-grid, .bracket-grid.supers { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (max-width: 760px) { .bracket-grid, .bracket-grid.supers, .bracket-grid.omaha { grid-template-columns: 1fr; } }
+
+/* the keyboard list */
+.keys { position: fixed; inset: 0; background: rgba(5, 8, 14, .6); z-index: 26; display: grid; place-items: center; }
+.keys .panel { width: 420px; max-width: 94vw; }
+.keys .hdr button { margin-left: auto; }
+.keys-tbl td.key { width: 110px; color: var(--accent); font-weight: 700; }
