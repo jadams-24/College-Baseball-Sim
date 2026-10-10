@@ -1,6 +1,6 @@
 {
  "_note": "Solve the engine's game-level run scale and home edge.\n\nTeam strength (o, d) and the home effect h come from a quasi-Poisson fit of runs per\nteam-game on the 2025 scoreboard (build_phase2_teams.py). Runs per game include the\nrun rule and the skipped or walk-off bottom of the ninth, which compress lopsided games,\nwhile the half-inning scale (build_phase2_run_scale.py) has no truncation. So the same\nfit is run on simulated seasons and three numbers are found by fixed-point iteration:\n  map_o, map_d  one monotone map per side from the scoreboard rating x to engine units,\n             g(x) = k x + q x^2, the same for every team. The fitted o (d) of simulated\n             teams is regressed on their true rating, pooled over seasons:\n             fitted = a + b x + c x^2. The target is b = 1, c = 0 (the fit recovers the\n             rating). Composition update g <- g o (b x + c x^2)^-1:\n             k <- k / b,  q <- q / b^2 - k c / b^3.\n             (A single linear k left the response convex: within-P4 slope 1.10, low 0.99,\n             because run-rule truncation compresses lopsided games, not close ones.)\n  eta        home talent edge, so the simulated fitted home effect equals the\n             scoreboard's: eta <- eta + (h_scoreboard - h_sim)\nNothing else is matched: runs, spreads and gate rows are not used. Calibration seeds\n(910000+) are disjoint from the location solve and the report.\n--warm starts from the current solved scale (a re-solve after the engine changed: owner rule 2026-10-08, scripts/check_drift.py).\nOutput: data/ncaa_2025/derived/phase2_game_scale_2025.json\n",
- "built": "2026-10-08",
+ "built": "2026-10-10",
  "seeds": [
   910001,
   910002,
@@ -9,23 +9,15 @@
   910005,
   910006,
   910007,
-  910008,
-  910009,
-  910010,
-  910011,
-  910012,
-  910013,
-  910014,
-  910015,
-  910016
+  910008
  ],
  "h_scoreboard": 0.0438,
  "scale": {
-  "k_o": 0.9376164866011781,
-  "q_o": -0.08331083640261644,
-  "k_d": 1.1725677996448438,
-  "q_d": -0.046549324258445865,
-  "eta": 0.11164329219940597
+  "k_o": 0.9508730127638908,
+  "q_o": -0.11028218042424458,
+  "k_d": 1.1848808763648364,
+  "q_d": -0.08102659438653502,
+  "eta": 0.1095039023606027
  },
  "history": [
   {
@@ -156,6 +148,82 @@
     "c_d": -0.027591904259435352
    },
    "warm_start": "2026-10-08"
+  },
+  {
+   "iteration": 0,
+   "scale": {
+    "k_o": 0.9376164866011781,
+    "q_o": -0.08331083640261644,
+    "k_d": 1.1725677996448438,
+    "q_d": -0.046549324258445865,
+    "eta": 0.11164329219940597
+   },
+   "fitted": {
+    "h": 0.04968756247773223,
+    "phi": 2.1939431314692803,
+    "b_o": 0.9819824148218693,
+    "c_o": 0.023384826867421583,
+    "b_d": 1.0098911584847083,
+    "c_d": 0.04811273670443512
+   },
+   "warm_start": "2026-10-10"
+  },
+  {
+   "iteration": 1,
+   "scale": {
+    "k_o": 0.9548200379649985,
+    "q_o": -0.10955127244592597,
+    "k_d": 1.1610833403118646,
+    "q_d": -0.10041593720928105,
+    "eta": 0.10575572972167374
+   },
+   "fitted": {
+    "h": 0.045101139198076234,
+    "phi": 2.190575587160346,
+    "b_o": 0.9986422197252912,
+    "c_o": -0.01723767805980465,
+    "b_d": 0.9839481011929643,
+    "c_d": -0.003717476944946649
+   },
+   "warm_start": "2026-10-10"
+  },
+  {
+   "iteration": 2,
+   "scale": {
+    "k_o": 0.9561182364467352,
+    "q_o": -0.09332326703352693,
+    "k_d": 1.1800249819112785,
+    "q_d": -0.0991879751067501,
+    "eta": 0.10445459052359751
+   },
+   "fitted": {
+    "h": 0.039366023903740686,
+    "phi": 2.1906058586487136,
+    "b_o": 1.0031511684675947,
+    "c_o": 0.009204562247474228,
+    "b_d": 0.9946519235201097,
+    "c_d": -0.0075900979419878
+   },
+   "warm_start": "2026-10-10"
+  },
+  {
+   "iteration": 3,
+   "scale": {
+    "k_o": 0.9531148111079744,
+    "q_o": -0.10145585521503347,
+    "k_d": 1.1863697782186222,
+    "q_d": -0.0911557205965021,
+    "eta": 0.10888856661985682
+   },
+   "fitted": {
+    "h": 0.04318466425925413,
+    "phi": 2.189368373540699,
+    "b_o": 1.002357621169169,
+    "c_o": 0.009829856647568446,
+    "b_d": 1.0012565835802445,
+    "c_d": -0.008376677428621124
+   },
+   "warm_start": "2026-10-10"
   }
  ]
 }
