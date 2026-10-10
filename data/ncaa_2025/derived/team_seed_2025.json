@@ -1,0 +1,1747 @@
+{
+ "_note": "Seed teams from their real programs (owner decision 2026-10-09; dynasty year 0): the inputs engine/league.py needs to\nassign the calibrated team-strength draws to programs by their recent real strength.\n\nThe league keeps its drawn strength set exactly as calibrated per tier and conference: the conference effects are reordered\namong the conferences of a tier, and the team deviations among the teams of a conference. The order follows a noisy version\nof real 2021-2025 strength, with the noise set so the prior's correlation with the year-0 strength equals the real\ncorrelation of a program's recent history with its next season's true strength.\n\nPer season 2021-2025: the scoreboard fit (scripts/build_phase2_teams.fit, no parks) on every D1-vs-D1 final; o + d per\nprogram, with its estimation variance. Prior for a program: the recency-weighted mean (half-life HALF_LIFE seasons) of its\nseasons. Within-conference deviation (2025 conference map) standardized by the tier's pooled SD; conference means relative to\nthe tier mean, standardized the same way.\n\nReal predictability, fitted on 2023-2025 (each season predicted from the seasons before it): the correlation of the prior's\nwithin-conference deviation with the season's fitted deviation, divided by the square root of that season's reliability (the\nfit's estimation noise against the spread of fitted deviations), so it is the correlation with true strength, by tier; the\nsame for conference means within tier.\n\nNoise solved, not assumed: the engine ranks a small fixed set (four P4 conferences, about ten teams a conference), and rank\nassignment of a set loses correlation against a bivariate normal draw, so sigma = sqrt(1/r^2 - 1) undershoots. For each tier\nand level, sigma is solved by bisection on a simulation of the engine's own procedure (engine/league.py seed_order on the\ntier's team or conference draws, config.phase2 team_draw) so the pooled correlation of the prior with the assigned draw\nequals the real target; where even sigma 0 cannot reach it, sigma is 0 and the shortfall is reported.\n\nWrites data/ncaa_2025/derived/team_seed_2025.json, keyed by NCAA team id (the engine never reads data/schools).\n    python3 scripts/build_team_seed.py\n",
+ "built": "2026-10-10",
+ "half_life": 1.5,
+ "seasons": [
+  2021,
+  2022,
+  2023,
+  2024,
+  2025
+ ],
+ "fit_targets": [
+  2023,
+  2024,
+  2025
+ ],
+ "r_team": {
+  "low": {
+   "r_true": 0.8043,
+   "r_season": 0.7238,
+   "reliability": 0.8099,
+   "n": 262
+  },
+  "mid": {
+   "r_true": 0.7508,
+   "r_season": 0.6661,
+   "reliability": 0.7871,
+   "n": 455
+  },
+  "p4": {
+   "r_true": 0.6196,
+   "r_season": 0.5235,
+   "reliability": 0.7137,
+   "n": 192
+  }
+ },
+ "r_conf": {
+  "low": {
+   "r_true": 0.9243,
+   "r_season": 0.9101,
+   "reliability": 0.9695,
+   "n": 30
+  },
+  "mid": {
+   "r_true": 0.8993,
+   "r_season": 0.8699,
+   "reliability": 0.9358,
+   "n": 45
+  },
+  "p4": {
+   "r_true": 0.9339,
+   "r_season": 0.9177,
+   "reliability": 0.9658,
+   "n": 12
+  }
+ },
+ "team": {
+  "596471": {
+   "z": -0.6167,
+   "prior": -0.2092,
+   "n_seasons": 5
+  },
+  "596477": {
+   "z": 0.2041,
+   "prior": 0.08,
+   "n_seasons": 5
+  },
+  "596430": {
+   "z": -0.1459,
+   "prior": 0.0615,
+   "n_seasons": 5
+  },
+  "596419": {
+   "z": -1.3926,
+   "prior": -0.4742,
+   "n_seasons": 5
+  },
+  "596480": {
+   "z": -0.1648,
+   "prior": 0.7446,
+   "n_seasons": 5
+  },
+  "596478": {
+   "z": -1.7026,
+   "prior": -1.3553,
+   "n_seasons": 5
+  },
+  "596479": {
+   "z": 1.9169,
+   "prior": -0.3615,
+   "n_seasons": 5
+  },
+  "596483": {
+   "z": -2.9795,
+   "prior": -1.7059,
+   "n_seasons": 5
+  },
+  "596484": {
+   "z": -0.6426,
+   "prior": 0.0695,
+   "n_seasons": 5
+  },
+  "596706": {
+   "z": 0.58,
+   "prior": 0.6291,
+   "n_seasons": 5
+  },
+  "596485": {
+   "z": 0.5681,
+   "prior": 0.6269,
+   "n_seasons": 5
+  },
+  "596466": {
+   "z": -0.5658,
+   "prior": -1.0432,
+   "n_seasons": 5
+  },
+  "596487": {
+   "z": 1.313,
+   "prior": 1.021,
+   "n_seasons": 5
+  },
+  "596486": {
+   "z": -1.0982,
+   "prior": -0.0407,
+   "n_seasons": 5
+  },
+  "596702": {
+   "z": 1.3405,
+   "prior": -0.074,
+   "n_seasons": 5
+  },
+  "596489": {
+   "z": -0.0275,
+   "prior": 0.7703,
+   "n_seasons": 5
+  },
+  "596490": {
+   "z": 1.1878,
+   "prior": 0.1033,
+   "n_seasons": 5
+  },
+  "596499": {
+   "z": -0.9367,
+   "prior": 0.3454,
+   "n_seasons": 5
+  },
+  "596491": {
+   "z": 0.8581,
+   "prior": 0.0699,
+   "n_seasons": 5
+  },
+  "596493": {
+   "z": -0.7582,
+   "prior": 0.3788,
+   "n_seasons": 5
+  },
+  "596693": {
+   "z": -1.5779,
+   "prior": -0.5654,
+   "n_seasons": 5
+  },
+  "596470": {
+   "z": -0.6222,
+   "prior": -0.1246,
+   "n_seasons": 5
+  },
+  "596494": {
+   "z": 1.9618,
+   "prior": -0.3492,
+   "n_seasons": 4
+  },
+  "596495": {
+   "z": 0.3681,
+   "prior": -0.3256,
+   "n_seasons": 5
+  },
+  "596496": {
+   "z": -1.9896,
+   "prior": 0.2518,
+   "n_seasons": 5
+  },
+  "596497": {
+   "z": 0.0844,
+   "prior": -0.1171,
+   "n_seasons": 5
+  },
+  "596498": {
+   "z": -1.1643,
+   "prior": -0.2556,
+   "n_seasons": 5
+  },
+  "596500": {
+   "z": -0.975,
+   "prior": -0.6139,
+   "n_seasons": 4
+  },
+  "596501": {
+   "z": 1.0129,
+   "prior": -0.1486,
+   "n_seasons": 5
+  },
+  "596502": {
+   "z": -0.035,
+   "prior": -0.4517,
+   "n_seasons": 5
+  },
+  "596503": {
+   "z": -2.1443,
+   "prior": -0.5254,
+   "n_seasons": 5
+  },
+  "596505": {
+   "z": -1.7214,
+   "prior": -0.1451,
+   "n_seasons": 5
+  },
+  "596508": {
+   "z": -0.0984,
+   "prior": 0.2473,
+   "n_seasons": 5
+  },
+  "596504": {
+   "z": 1.0096,
+   "prior": 0.5152,
+   "n_seasons": 5
+  },
+  "596506": {
+   "z": 0.1352,
+   "prior": 0.3038,
+   "n_seasons": 5
+  },
+  "596511": {
+   "z": -0.9078,
+   "prior": 0.4541,
+   "n_seasons": 5
+  },
+  "596476": {
+   "z": 0.638,
+   "prior": 0.185,
+   "n_seasons": 5
+  },
+  "596516": {
+   "z": 1.3073,
+   "prior": 0.3077,
+   "n_seasons": 5
+  },
+  "596517": {
+   "z": 0.2042,
+   "prior": -0.5232,
+   "n_seasons": 5
+  },
+  "596457": {
+   "z": -0.3693,
+   "prior": -0.2732,
+   "n_seasons": 5
+  },
+  "596518": {
+   "z": 2.0469,
+   "prior": -0.4142,
+   "n_seasons": 5
+  },
+  "596520": {
+   "z": -0.0454,
+   "prior": -0.1485,
+   "n_seasons": 5
+  },
+  "596492": {
+   "z": 0.3869,
+   "prior": -0.1132,
+   "n_seasons": 5
+  },
+  "596615": {
+   "z": 0.6051,
+   "prior": 0.3799,
+   "n_seasons": 5
+  },
+  "596521": {
+   "z": -0.699,
+   "prior": 0.3898,
+   "n_seasons": 5
+  },
+  "596523": {
+   "z": 0.4442,
+   "prior": 0.707,
+   "n_seasons": 5
+  },
+  "596524": {
+   "z": 2.2211,
+   "prior": 0.7619,
+   "n_seasons": 5
+  },
+  "596459": {
+   "z": 1.491,
+   "prior": 0.3522,
+   "n_seasons": 5
+  },
+  "596525": {
+   "z": 1.5973,
+   "prior": 0.0924,
+   "n_seasons": 4
+  },
+  "596527": {
+   "z": -0.9661,
+   "prior": -1.2415,
+   "n_seasons": 5
+  },
+  "596528": {
+   "z": -0.3908,
+   "prior": -0.4535,
+   "n_seasons": 4
+  },
+  "596529": {
+   "z": 1.3967,
+   "prior": 0.3307,
+   "n_seasons": 5
+  },
+  "596703": {
+   "z": 2.1528,
+   "prior": 0.7188,
+   "n_seasons": 5
+  },
+  "596530": {
+   "z": -1.3204,
+   "prior": -0.7087,
+   "n_seasons": 4
+  },
+  "596531": {
+   "z": 0.3349,
+   "prior": -0.1651,
+   "n_seasons": 5
+  },
+  "596532": {
+   "z": 0.3763,
+   "prior": -0.1551,
+   "n_seasons": 5
+  },
+  "596534": {
+   "z": -0.1678,
+   "prior": -0.0489,
+   "n_seasons": 5
+  },
+  "596533": {
+   "z": -1.4324,
+   "prior": -1.3695,
+   "n_seasons": 5
+  },
+  "596708": {
+   "z": 0.8149,
+   "prior": 0.7764,
+   "n_seasons": 5
+  },
+  "596536": {
+   "z": 0.7391,
+   "prior": 0.2849,
+   "n_seasons": 5
+  },
+  "596535": {
+   "z": 1.5577,
+   "prior": 0.6102,
+   "n_seasons": 5
+  },
+  "596537": {
+   "z": 0.5049,
+   "prior": -0.0813,
+   "n_seasons": 5
+  },
+  "596538": {
+   "z": -1.034,
+   "prior": -0.4339,
+   "n_seasons": 5
+  },
+  "596539": {
+   "z": -0.4558,
+   "prior": -0.2477,
+   "n_seasons": 5
+  },
+  "596460": {
+   "z": -0.216,
+   "prior": -0.0606,
+   "n_seasons": 5
+  },
+  "596709": {
+   "z": -0.166,
+   "prior": -0.0143,
+   "n_seasons": 5
+  },
+  "596541": {
+   "z": 0.5238,
+   "prior": -0.8324,
+   "n_seasons": 5
+  },
+  "596473": {
+   "z": 1.4334,
+   "prior": 0.1627,
+   "n_seasons": 5
+  },
+  "596544": {
+   "z": -0.7441,
+   "prior": 0.0183,
+   "n_seasons": 5
+  },
+  "596540": {
+   "z": 2.0672,
+   "prior": -0.0116,
+   "n_seasons": 5
+  },
+  "596543": {
+   "z": 0.1737,
+   "prior": 0.2756,
+   "n_seasons": 5
+  },
+  "596546": {
+   "z": 0.0688,
+   "prior": 0.7883,
+   "n_seasons": 5
+  },
+  "596542": {
+   "z": 1.6903,
+   "prior": -0.4237,
+   "n_seasons": 5
+  },
+  "596545": {
+   "z": 0.7269,
+   "prior": 0.7599,
+   "n_seasons": 5
+  },
+  "596547": {
+   "z": -0.8711,
+   "prior": -0.4567,
+   "n_seasons": 5
+  },
+  "596707": {
+   "z": 0.519,
+   "prior": 0.2223,
+   "n_seasons": 5
+  },
+  "596551": {
+   "z": 0.2442,
+   "prior": 0.2839,
+   "n_seasons": 5
+  },
+  "596461": {
+   "z": -0.2937,
+   "prior": -0.2778,
+   "n_seasons": 5
+  },
+  "596548": {
+   "z": 0.7759,
+   "prior": -0.0585,
+   "n_seasons": 5
+  },
+  "596549": {
+   "z": -0.3509,
+   "prior": -0.3309,
+   "n_seasons": 5
+  },
+  "596550": {
+   "z": -0.5093,
+   "prior": -0.1301,
+   "n_seasons": 5
+  },
+  "596554": {
+   "z": 0.1691,
+   "prior": 0.8071,
+   "n_seasons": 5
+  },
+  "596552": {
+   "z": -0.3227,
+   "prior": 0.1468,
+   "n_seasons": 5
+  },
+  "596553": {
+   "z": 0.4071,
+   "prior": 0.7001,
+   "n_seasons": 5
+  },
+  "596555": {
+   "z": 0.3024,
+   "prior": 0.1365,
+   "n_seasons": 5
+  },
+  "596710": {
+   "z": 0.5641,
+   "prior": -0.7329,
+   "n_seasons": 5
+  },
+  "596462": {
+   "z": 1.4522,
+   "prior": 0.3818,
+   "n_seasons": 5
+  },
+  "596556": {
+   "z": -0.1514,
+   "prior": -0.3877,
+   "n_seasons": 4
+  },
+  "596557": {
+   "z": 0.8366,
+   "prior": 0.4734,
+   "n_seasons": 5
+  },
+  "596705": {
+   "z": 1.0444,
+   "prior": 0.0457,
+   "n_seasons": 5
+  },
+  "596558": {
+   "z": -1.2688,
+   "prior": -0.3151,
+   "n_seasons": 5
+  },
+  "596559": {
+   "z": 0.1426,
+   "prior": -0.4029,
+   "n_seasons": 5
+  },
+  "596561": {
+   "z": -1.0059,
+   "prior": 0.3324,
+   "n_seasons": 5
+  },
+  "596560": {
+   "z": -0.9221,
+   "prior": -0.2931,
+   "n_seasons": 5
+  },
+  "596563": {
+   "z": -0.0761,
+   "prior": 0.3444,
+   "n_seasons": 5
+  },
+  "596562": {
+   "z": 0.1103,
+   "prior": 0.0525,
+   "n_seasons": 5
+  },
+  "596566": {
+   "z": 0.5575,
+   "prior": 0.463,
+   "n_seasons": 5
+  },
+  "596565": {
+   "z": 1.1672,
+   "prior": 0.3081,
+   "n_seasons": 5
+  },
+  "596568": {
+   "z": -1.0575,
+   "prior": -0.8696,
+   "n_seasons": 5
+  },
+  "596569": {
+   "z": 1.2299,
+   "prior": 0.5887,
+   "n_seasons": 5
+  },
+  "596570": {
+   "z": 0.9385,
+   "prior": -0.6301,
+   "n_seasons": 5
+  },
+  "596572": {
+   "z": 0.8873,
+   "prior": 0.0306,
+   "n_seasons": 5
+  },
+  "596571": {
+   "z": -0.2744,
+   "prior": 0.1319,
+   "n_seasons": 5
+  },
+  "596573": {
+   "z": -0.7186,
+   "prior": 0.0511,
+   "n_seasons": 5
+  },
+  "596575": {
+   "z": -0.252,
+   "prior": 0.4735,
+   "n_seasons": 5
+  },
+  "596574": {
+   "z": -0.227,
+   "prior": 0.4781,
+   "n_seasons": 5
+  },
+  "596463": {
+   "z": 0.1905,
+   "prior": 0.2443,
+   "n_seasons": 5
+  },
+  "596576": {
+   "z": 1.5175,
+   "prior": 0.2294,
+   "n_seasons": 5
+  },
+  "596577": {
+   "z": 0.0346,
+   "prior": 0.7819,
+   "n_seasons": 5
+  },
+  "596711": {
+   "z": 1.3368,
+   "prior": -0.6092,
+   "n_seasons": 5
+  },
+  "596587": {
+   "z": 0.4051,
+   "prior": 0.1613,
+   "n_seasons": 5
+  },
+  "596583": {
+   "z": 1.0699,
+   "prior": 0.9755,
+   "n_seasons": 5
+  },
+  "596624": {
+   "z": 0.1215,
+   "prior": -0.0065,
+   "n_seasons": 5
+  },
+  "596578": {
+   "z": -0.9376,
+   "prior": -0.6995,
+   "n_seasons": 5
+  },
+  "596579": {
+   "z": 1.2133,
+   "prior": 0.2933,
+   "n_seasons": 5
+  },
+  "596699": {
+   "z": 0.5704,
+   "prior": -0.8196,
+   "n_seasons": 2
+  },
+  "596580": {
+   "z": -0.3774,
+   "prior": -0.5457,
+   "n_seasons": 5
+  },
+  "596581": {
+   "z": 0.5574,
+   "prior": 0.333,
+   "n_seasons": 5
+  },
+  "596695": {
+   "z": -0.5579,
+   "prior": -0.3731,
+   "n_seasons": 3
+  },
+  "596472": {
+   "z": 0.4723,
+   "prior": -0.0697,
+   "n_seasons": 5
+  },
+  "596488": {
+   "z": 0.1373,
+   "prior": -0.1823,
+   "n_seasons": 5
+  },
+  "596507": {
+   "z": -0.0814,
+   "prior": 0.2514,
+   "n_seasons": 5
+  },
+  "596582": {
+   "z": -1.0279,
+   "prior": -0.4553,
+   "n_seasons": 5
+  },
+  "596687": {
+   "z": 0.3847,
+   "prior": 0.3178,
+   "n_seasons": 5
+  },
+  "596584": {
+   "z": 0.5795,
+   "prior": 0.3384,
+   "n_seasons": 5
+  },
+  "596585": {
+   "z": 0.0122,
+   "prior": 0.6262,
+   "n_seasons": 5
+  },
+  "596588": {
+   "z": -0.0756,
+   "prior": -0.4474,
+   "n_seasons": 5
+  },
+  "596589": {
+   "z": -0.5204,
+   "prior": -0.7221,
+   "n_seasons": 5
+  },
+  "596590": {
+   "z": 0.1156,
+   "prior": -0.5475,
+   "n_seasons": 5
+  },
+  "596591": {
+   "z": -1.0536,
+   "prior": -0.0299,
+   "n_seasons": 5
+  },
+  "596593": {
+   "z": -0.1507,
+   "prior": 0.3305,
+   "n_seasons": 5
+  },
+  "596595": {
+   "z": -1.399,
+   "prior": -0.5844,
+   "n_seasons": 5
+  },
+  "596596": {
+   "z": 0.345,
+   "prior": 0.0548,
+   "n_seasons": 5
+  },
+  "596597": {
+   "z": -1.104,
+   "prior": -0.0333,
+   "n_seasons": 5
+  },
+  "596598": {
+   "z": 0.4356,
+   "prior": 0.2115,
+   "n_seasons": 5
+  },
+  "596906": {
+   "z": -1.3366,
+   "prior": -1.3432,
+   "n_seasons": 1
+  },
+  "596458": {
+   "z": -0.3186,
+   "prior": -0.6667,
+   "n_seasons": 5
+  },
+  "596600": {
+   "z": -0.2754,
+   "prior": 0.5724,
+   "n_seasons": 5
+  },
+  "596599": {
+   "z": 0.7229,
+   "prior": 0.0373,
+   "n_seasons": 5
+  },
+  "596602": {
+   "z": -0.1541,
+   "prior": 0.3299,
+   "n_seasons": 5
+  },
+  "596601": {
+   "z": -1.0854,
+   "prior": 0.1557,
+   "n_seasons": 5
+  },
+  "596603": {
+   "z": -1.3178,
+   "prior": -0.1204,
+   "n_seasons": 5
+  },
+  "596452": {
+   "z": -0.2382,
+   "prior": -0.3502,
+   "n_seasons": 5
+  },
+  "596604": {
+   "z": -1.2905,
+   "prior": 0.1173,
+   "n_seasons": 5
+  },
+  "596605": {
+   "z": -0.2158,
+   "prior": 0.7351,
+   "n_seasons": 5
+  },
+  "596606": {
+   "z": -2.1002,
+   "prior": -1.4645,
+   "n_seasons": 5
+  },
+  "596608": {
+   "z": -2.9928,
+   "prior": 0.2156,
+   "n_seasons": 5
+  },
+  "596685": {
+   "z": 0.7622,
+   "prior": 0.2102,
+   "n_seasons": 5
+  },
+  "596609": {
+   "z": -1.0724,
+   "prior": -0.2676,
+   "n_seasons": 5
+  },
+  "596610": {
+   "z": -0.0489,
+   "prior": -0.2334,
+   "n_seasons": 5
+  },
+  "596611": {
+   "z": -0.1791,
+   "prior": -0.6284,
+   "n_seasons": 5
+  },
+  "596612": {
+   "z": 0.8356,
+   "prior": 0.2279,
+   "n_seasons": 5
+  },
+  "596627": {
+   "z": -1.5939,
+   "prior": -0.3937,
+   "n_seasons": 5
+  },
+  "596628": {
+   "z": 0.2199,
+   "prior": 0.6651,
+   "n_seasons": 5
+  },
+  "596633": {
+   "z": -0.8296,
+   "prior": -0.3381,
+   "n_seasons": 5
+  },
+  "596621": {
+   "z": 0.115,
+   "prior": -0.3951,
+   "n_seasons": 5
+  },
+  "596431": {
+   "z": -0.1331,
+   "prior": -0.4786,
+   "n_seasons": 5
+  },
+  "596712": {
+   "z": 0.7264,
+   "prior": 0.4945,
+   "n_seasons": 5
+  },
+  "596620": {
+   "z": 0.313,
+   "prior": 0.1725,
+   "n_seasons": 5
+  },
+  "596623": {
+   "z": 0.0867,
+   "prior": 0.1178,
+   "n_seasons": 5
+  },
+  "596622": {
+   "z": -1.2038,
+   "prior": -0.0928,
+   "n_seasons": 5
+  },
+  "596625": {
+   "z": 0.2128,
+   "prior": -0.5208,
+   "n_seasons": 5
+  },
+  "596713": {
+   "z": -0.171,
+   "prior": -0.0868,
+   "n_seasons": 5
+  },
+  "596626": {
+   "z": -1.1182,
+   "prior": -1.2832,
+   "n_seasons": 5
+  },
+  "596475": {
+   "z": -1.0421,
+   "prior": -0.4359,
+   "n_seasons": 5
+  },
+  "596614": {
+   "z": 1.6271,
+   "prior": 0.9283,
+   "n_seasons": 5
+  },
+  "596629": {
+   "z": 0.3483,
+   "prior": -0.0996,
+   "n_seasons": 5
+  },
+  "596467": {
+   "z": 0.0953,
+   "prior": -0.1608,
+   "n_seasons": 5
+  },
+  "596631": {
+   "z": 2.2601,
+   "prior": 0.5381,
+   "n_seasons": 5
+  },
+  "596632": {
+   "z": -1.0212,
+   "prior": -0.4756,
+   "n_seasons": 5
+  },
+  "596634": {
+   "z": 0.5876,
+   "prior": -0.1235,
+   "n_seasons": 5
+  },
+  "596636": {
+   "z": -2.2418,
+   "prior": -0.0607,
+   "n_seasons": 5
+  },
+  "596635": {
+   "z": 0.0055,
+   "prior": -0.0384,
+   "n_seasons": 5
+  },
+  "596637": {
+   "z": -0.4957,
+   "prior": 0.5312,
+   "n_seasons": 5
+  },
+  "596638": {
+   "z": -0.0904,
+   "prior": -0.3096,
+   "n_seasons": 5
+  },
+  "596640": {
+   "z": -0.7866,
+   "prior": -0.3277,
+   "n_seasons": 5
+  },
+  "596639": {
+   "z": -1.0174,
+   "prior": 0.1684,
+   "n_seasons": 5
+  },
+  "596641": {
+   "z": -0.6121,
+   "prior": 0.6609,
+   "n_seasons": 5
+  },
+  "596714": {
+   "z": 1.3759,
+   "prior": 0.7779,
+   "n_seasons": 5
+  },
+  "596642": {
+   "z": 0.1577,
+   "prior": 0.263,
+   "n_seasons": 5
+  },
+  "596607": {
+   "z": -0.6853,
+   "prior": 0.6472,
+   "n_seasons": 5
+  },
+  "596618": {
+   "z": 0.0203,
+   "prior": -0.1897,
+   "n_seasons": 5
+  },
+  "596715": {
+   "z": 1.2985,
+   "prior": 0.1613,
+   "n_seasons": 5
+  },
+  "596644": {
+   "z": 2.151,
+   "prior": 0.761,
+   "n_seasons": 5
+  },
+  "596643": {
+   "z": 0.0,
+   "prior": 0.9161,
+   "n_seasons": 5
+  },
+  "596645": {
+   "z": -2.0104,
+   "prior": -0.4227,
+   "n_seasons": 5
+  },
+  "596716": {
+   "z": 1.1126,
+   "prior": -0.0407,
+   "n_seasons": 4
+  },
+  "596647": {
+   "z": -0.9688,
+   "prior": 0.1775,
+   "n_seasons": 5
+  },
+  "596648": {
+   "z": -1.3627,
+   "prior": -0.2661,
+   "n_seasons": 5
+  },
+  "596649": {
+   "z": -1.5864,
+   "prior": 0.3272,
+   "n_seasons": 5
+  },
+  "596650": {
+   "z": 0.7958,
+   "prior": 0.2558,
+   "n_seasons": 5
+  },
+  "596651": {
+   "z": -0.4801,
+   "prior": -1.0196,
+   "n_seasons": 5
+  },
+  "596464": {
+   "z": -0.5142,
+   "prior": -0.3311,
+   "n_seasons": 5
+  },
+  "596652": {
+   "z": -0.6673,
+   "prior": -0.5294,
+   "n_seasons": 4
+  },
+  "596653": {
+   "z": -0.5978,
+   "prior": 0.2469,
+   "n_seasons": 5
+  },
+  "596567": {
+   "z": -1.0224,
+   "prior": -0.5655,
+   "n_seasons": 5
+  },
+  "596696": {
+   "z": -1.635,
+   "prior": -0.5792,
+   "n_seasons": 3
+  },
+  "596654": {
+   "z": 0.6161,
+   "prior": -0.4101,
+   "n_seasons": 5
+  },
+  "596655": {
+   "z": -0.7337,
+   "prior": -0.3842,
+   "n_seasons": 5
+  },
+  "596656": {
+   "z": 0.5618,
+   "prior": -0.1103,
+   "n_seasons": 5
+  },
+  "596657": {
+   "z": -1.3086,
+   "prior": -0.0828,
+   "n_seasons": 5
+  },
+  "596658": {
+   "z": 0.2905,
+   "prior": -0.1759,
+   "n_seasons": 5
+  },
+  "596659": {
+   "z": 1.1582,
+   "prior": -0.2612,
+   "n_seasons": 5
+  },
+  "596660": {
+   "z": 0.1713,
+   "prior": 0.3907,
+   "n_seasons": 5
+  },
+  "596689": {
+   "z": -1.392,
+   "prior": -0.4221,
+   "n_seasons": 5
+  },
+  "596683": {
+   "z": 0.0471,
+   "prior": -0.207,
+   "n_seasons": 5
+  },
+  "596509": {
+   "z": 0.4115,
+   "prior": 0.1302,
+   "n_seasons": 5
+  },
+  "596661": {
+   "z": 0.5063,
+   "prior": -0.4402,
+   "n_seasons": 5
+  },
+  "596663": {
+   "z": 0.3791,
+   "prior": -0.1545,
+   "n_seasons": 5
+  },
+  "596664": {
+   "z": 0.9075,
+   "prior": -0.0267,
+   "n_seasons": 5
+  },
+  "596665": {
+   "z": 0.556,
+   "prior": 0.1978,
+   "n_seasons": 5
+  },
+  "596666": {
+   "z": -2.0565,
+   "prior": -1.1439,
+   "n_seasons": 5
+  },
+  "596667": {
+   "z": -0.3372,
+   "prior": 0.1167,
+   "n_seasons": 5
+  },
+  "596668": {
+   "z": 0.8074,
+   "prior": 0.3014,
+   "n_seasons": 5
+  },
+  "596670": {
+   "z": 1.4421,
+   "prior": 0.412,
+   "n_seasons": 5
+  },
+  "596669": {
+   "z": -0.7194,
+   "prior": -0.0771,
+   "n_seasons": 5
+  },
+  "596671": {
+   "z": -0.4709,
+   "prior": -0.0505,
+   "n_seasons": 5
+  },
+  "596672": {
+   "z": -0.4783,
+   "prior": -0.0189,
+   "n_seasons": 5
+  },
+  "596673": {
+   "z": 0.3426,
+   "prior": 0.1462,
+   "n_seasons": 5
+  },
+  "596465": {
+   "z": -1.3493,
+   "prior": -0.2955,
+   "n_seasons": 5
+  },
+  "596674": {
+   "z": -0.4751,
+   "prior": -0.1218,
+   "n_seasons": 5
+  },
+  "596675": {
+   "z": -0.7482,
+   "prior": -0.7846,
+   "n_seasons": 5
+  },
+  "596676": {
+   "z": 0.0656,
+   "prior": 0.2407,
+   "n_seasons": 5
+  },
+  "596677": {
+   "z": -1.3605,
+   "prior": 0.521,
+   "n_seasons": 5
+  },
+  "596678": {
+   "z": -0.6126,
+   "prior": -0.3634,
+   "n_seasons": 5
+  },
+  "596679": {
+   "z": -0.3123,
+   "prior": 0.1581,
+   "n_seasons": 5
+  },
+  "596718": {
+   "z": 1.0931,
+   "prior": 0.0802,
+   "n_seasons": 5
+  },
+  "596680": {
+   "z": 0.9041,
+   "prior": 0.2084,
+   "n_seasons": 5
+  },
+  "596681": {
+   "z": 0.7948,
+   "prior": 0.5073,
+   "n_seasons": 5
+  },
+  "596682": {
+   "z": 0.6005,
+   "prior": 0.171,
+   "n_seasons": 5
+  },
+  "596697": {
+   "z": -0.1675,
+   "prior": -0.2659,
+   "n_seasons": 3
+  },
+  "596719": {
+   "z": 1.6721,
+   "prior": 0.6291,
+   "n_seasons": 5
+  },
+  "596684": {
+   "z": 0.279,
+   "prior": -0.8112,
+   "n_seasons": 5
+  },
+  "596662": {
+   "z": -1.7614,
+   "prior": -0.672,
+   "n_seasons": 5
+  },
+  "596717": {
+   "z": 0.1194,
+   "prior": 0.0219,
+   "n_seasons": 5
+  },
+  "596417": {
+   "z": -0.0333,
+   "prior": -0.2044,
+   "n_seasons": 4
+  },
+  "596688": {
+   "z": -0.7915,
+   "prior": 0.4759,
+   "n_seasons": 5
+  },
+  "596720": {
+   "z": 1.8758,
+   "prior": 0.2696,
+   "n_seasons": 5
+  },
+  "596698": {
+   "z": 0.5837,
+   "prior": -0.8159,
+   "n_seasons": 3
+  },
+  "596690": {
+   "z": -0.6165,
+   "prior": -0.1574,
+   "n_seasons": 5
+  },
+  "596421": {
+   "z": 1.3302,
+   "prior": 0.7694,
+   "n_seasons": 5
+  },
+  "596700": {
+   "z": -0.0524,
+   "prior": 0.018,
+   "n_seasons": 5
+  },
+  "596721": {
+   "z": 1.6798,
+   "prior": 1.0896,
+   "n_seasons": 5
+  },
+  "596691": {
+   "z": 0.5003,
+   "prior": -0.0826,
+   "n_seasons": 5
+  },
+  "596425": {
+   "z": 0.588,
+   "prior": 0.8854,
+   "n_seasons": 5
+  },
+  "596420": {
+   "z": 0.478,
+   "prior": 0.8648,
+   "n_seasons": 5
+  },
+  "596422": {
+   "z": 0.4776,
+   "prior": -0.7567,
+   "n_seasons": 5
+  },
+  "596686": {
+   "z": 0.1393,
+   "prior": 0.2585,
+   "n_seasons": 5
+  },
+  "596423": {
+   "z": 0.1895,
+   "prior": 0.556,
+   "n_seasons": 5
+  },
+  "596522": {
+   "z": -1.1351,
+   "prior": -0.1682,
+   "n_seasons": 5
+  },
+  "596427": {
+   "z": 0.3326,
+   "prior": -0.0571,
+   "n_seasons": 5
+  },
+  "596428": {
+   "z": -1.7864,
+   "prior": -0.4402,
+   "n_seasons": 5
+  },
+  "596429": {
+   "z": 0.5279,
+   "prior": 0.3525,
+   "n_seasons": 5
+  },
+  "596701": {
+   "z": -0.1863,
+   "prior": 0.1886,
+   "n_seasons": 5
+  },
+  "596481": {
+   "z": -0.6025,
+   "prior": 0.0879,
+   "n_seasons": 5
+  },
+  "596482": {
+   "z": -0.8417,
+   "prior": -0.6578,
+   "n_seasons": 5
+  },
+  "596512": {
+   "z": -1.0842,
+   "prior": 0.0089,
+   "n_seasons": 5
+  },
+  "596513": {
+   "z": 1.8211,
+   "prior": 0.7114,
+   "n_seasons": 5
+  },
+  "596515": {
+   "z": -2.7108,
+   "prior": -0.3843,
+   "n_seasons": 5
+  },
+  "596694": {
+   "z": 0.3227,
+   "prior": 0.3491,
+   "n_seasons": 5
+  },
+  "596510": {
+   "z": 1.5709,
+   "prior": 0.6509,
+   "n_seasons": 5
+  },
+  "596519": {
+   "z": 0.191,
+   "prior": 0.5563,
+   "n_seasons": 5
+  },
+  "596514": {
+   "z": 1.5833,
+   "prior": 0.6548,
+   "n_seasons": 5
+  },
+  "596526": {
+   "z": 1.7021,
+   "prior": 0.4046,
+   "n_seasons": 5
+  },
+  "596564": {
+   "z": 0.097,
+   "prior": 0.0493,
+   "n_seasons": 5
+  },
+  "596468": {
+   "z": -0.6053,
+   "prior": -0.2061,
+   "n_seasons": 5
+  },
+  "596630": {
+   "z": -1.577,
+   "prior": -0.1564,
+   "n_seasons": 5
+  },
+  "596592": {
+   "z": -0.3813,
+   "prior": -0.5314,
+   "n_seasons": 5
+  },
+  "596594": {
+   "z": -1.4024,
+   "prior": -1.3613,
+   "n_seasons": 4
+  },
+  "596586": {
+   "z": -0.1975,
+   "prior": -0.4809,
+   "n_seasons": 5
+  },
+  "596613": {
+   "z": -0.8514,
+   "prior": -0.4126,
+   "n_seasons": 5
+  },
+  "596616": {
+   "z": -0.1157,
+   "prior": 0.0782,
+   "n_seasons": 5
+  },
+  "596617": {
+   "z": 1.7259,
+   "prior": 0.4089,
+   "n_seasons": 5
+  },
+  "596619": {
+   "z": 0.4349,
+   "prior": 0.202,
+   "n_seasons": 5
+  },
+  "596469": {
+   "z": 1.8827,
+   "prior": 0.2484,
+   "n_seasons": 5
+  },
+  "596424": {
+   "z": -0.0072,
+   "prior": 0.029,
+   "n_seasons": 5
+  },
+  "596692": {
+   "z": -0.3755,
+   "prior": -0.3231,
+   "n_seasons": 5
+  },
+  "596646": {
+   "z": 1.1177,
+   "prior": 0.267,
+   "n_seasons": 5
+  },
+  "596426": {
+   "z": 1.1325,
+   "prior": 0.5074,
+   "n_seasons": 5
+  },
+  "596432": {
+   "z": -0.9911,
+   "prior": 0.3352,
+   "n_seasons": 5
+  },
+  "596418": {
+   "z": -1.1626,
+   "prior": -0.2504,
+   "n_seasons": 5
+  },
+  "596474": {
+   "z": -0.1343,
+   "prior": -0.0018,
+   "n_seasons": 5
+  },
+  "596436": {
+   "z": 0.7564,
+   "prior": -0.0632,
+   "n_seasons": 5
+  },
+  "596437": {
+   "z": -1.3657,
+   "prior": -0.224,
+   "n_seasons": 5
+  },
+  "596433": {
+   "z": -1.6203,
+   "prior": -0.3659,
+   "n_seasons": 5
+  },
+  "596434": {
+   "z": 0.6576,
+   "prior": 0.8984,
+   "n_seasons": 5
+  },
+  "596435": {
+   "z": -1.2335,
+   "prior": -0.3052,
+   "n_seasons": 5
+  },
+  "596439": {
+   "z": 0.8087,
+   "prior": 0.7752,
+   "n_seasons": 5
+  },
+  "596438": {
+   "z": -0.0186,
+   "prior": 0.6205,
+   "n_seasons": 5
+  },
+  "596440": {
+   "z": 1.1941,
+   "prior": -0.6483,
+   "n_seasons": 5
+  },
+  "596441": {
+   "z": 1.004,
+   "prior": 0.8117,
+   "n_seasons": 5
+  },
+  "596443": {
+   "z": 0.3682,
+   "prior": 0.4275,
+   "n_seasons": 5
+  },
+  "596442": {
+   "z": -0.01,
+   "prior": 0.0944,
+   "n_seasons": 5
+  },
+  "596947": {
+   "z": -0.2935,
+   "prior": -0.2549,
+   "n_seasons": 1
+  },
+  "596444": {
+   "z": 0.6351,
+   "prior": 0.6394,
+   "n_seasons": 5
+  },
+  "596445": {
+   "z": -0.0448,
+   "prior": 0.0954,
+   "n_seasons": 5
+  },
+  "596446": {
+   "z": -1.1329,
+   "prior": -0.531,
+   "n_seasons": 5
+  },
+  "596447": {
+   "z": 0.397,
+   "prior": 0.2942,
+   "n_seasons": 5
+  },
+  "596448": {
+   "z": -0.0055,
+   "prior": -0.1388,
+   "n_seasons": 5
+  },
+  "596449": {
+   "z": 0.0449,
+   "prior": 0.2445,
+   "n_seasons": 5
+  },
+  "596450": {
+   "z": -0.0625,
+   "prior": -0.0234,
+   "n_seasons": 5
+  },
+  "596451": {
+   "z": 0.1069,
+   "prior": -0.1809,
+   "n_seasons": 5
+  },
+  "596704": {
+   "z": 0.6793,
+   "prior": 0.2705,
+   "n_seasons": 5
+  },
+  "596453": {
+   "z": 1.6099,
+   "prior": 0.1572,
+   "n_seasons": 5
+  },
+  "596454": {
+   "z": 1.1439,
+   "prior": 0.2696,
+   "n_seasons": 5
+  },
+  "596455": {
+   "z": 0.795,
+   "prior": -0.1279,
+   "n_seasons": 4
+  },
+  "596456": {
+   "z": -0.8465,
+   "prior": -0.5172,
+   "n_seasons": 5
+  }
+ },
+ "conference": {
+  "ACC": {
+   "z": 0.3096,
+   "prior": 0.6239
+  },
+  "ASUN": {
+   "z": -1.2923,
+   "prior": -0.1839
+  },
+  "America East": {
+   "z": 0.0438,
+   "prior": -0.4267
+  },
+  "Atlantic 10": {
+   "z": -1.667,
+   "prior": -0.2461
+  },
+  "Big 12": {
+   "z": -0.2799,
+   "prior": 0.5206
+  },
+  "Big East": {
+   "z": -0.227,
+   "prior": -0.007
+  },
+  "Big South": {
+   "z": -1.4301,
+   "prior": -0.2068
+  },
+  "Big Ten": {
+   "z": -1.2034,
+   "prior": 0.3587
+  },
+  "Big West": {
+   "z": 1.447,
+   "prior": 0.2711
+  },
+  "CAA": {
+   "z": -0.2353,
+   "prior": -0.0083
+  },
+  "CUSA": {
+   "z": 1.0085,
+   "prior": 0.1982
+  },
+  "Horizon": {
+   "z": 0.517,
+   "prior": -0.2848
+  },
+  "Ivy League": {
+   "z": 0.3123,
+   "prior": -0.3462
+  },
+  "MAAC": {
+   "z": -0.465,
+   "prior": -0.5792
+  },
+  "MAC": {
+   "z": -1.0131,
+   "prior": -0.1375
+  },
+  "MVC": {
+   "z": -0.0294,
+   "prior": 0.0259
+  },
+  "Mountain West": {
+   "z": 0.3977,
+   "prior": 0.0968
+  },
+  "NEC": {
+   "z": -1.7892,
+   "prior": -0.9762
+  },
+  "OVC": {
+   "z": 0.7333,
+   "prior": -0.2199
+  },
+  "Patriot": {
+   "z": -0.0076,
+   "prior": -0.4421
+  },
+  "SEC": {
+   "z": 1.1737,
+   "prior": 0.7754
+  },
+  "SWAC": {
+   "z": -1.4943,
+   "prior": -0.8878
+  },
+  "SoCon": {
+   "z": 0.4544,
+   "prior": 0.1062
+  },
+  "Southland": {
+   "z": 1.3339,
+   "prior": -0.0399
+  },
+  "Summit League": {
+   "z": 0.8157,
+   "prior": -0.1952
+  },
+  "Sun Belt": {
+   "z": 1.1687,
+   "prior": 0.2248
+  },
+  "The American": {
+   "z": 1.2215,
+   "prior": 0.2336
+  },
+  "WAC": {
+   "z": -0.0003,
+   "prior": 0.0307
+  },
+  "WCC": {
+   "z": 0.1964,
+   "prior": 0.0634
+  }
+ },
+ "no_season": [],
+ "sigma_team": {
+  "p4": {
+   "sigma": 1.1233,
+   "achieved": 0.6272,
+   "max_achievable": 0.9278
+  },
+  "mid": {
+   "sigma": 0.6542,
+   "achieved": 0.751,
+   "max_achievable": 0.8881
+  },
+  "low": {
+   "sigma": 0.4244,
+   "achieved": 0.8025,
+   "max_achievable": 0.8706
+  }
+ },
+ "sigma_conf": {
+  "p4": {
+   "sigma": 0.0,
+   "achieved": 0.8205,
+   "max_achievable": 0.8205
+  },
+  "mid": {
+   "sigma": 0.0,
+   "achieved": 0.7989,
+   "max_achievable": 0.7989
+  },
+  "low": {
+   "sigma": 0.0,
+   "achieved": 0.864,
+   "max_achievable": 0.864
+  }
+ }
+}

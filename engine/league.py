@@ -134,6 +134,38 @@ def _shaped(e: np.ndarray, sd: np.ndarray, shapes: list) -> np.ndarray:
     return out
 
 
+_SEED_CACHE: dict = {}
+
+
+def load_team_seed() -> dict | None:
+    """Program seeding inputs (config.phase2.TEAM_SEED, scripts/build_team_seed.py), or None when seeding is off."""
+    from config import phase2 as p2
+    if not p2.SEED_FROM_PROGRAMS:
+        return None
+    if "seed" not in _SEED_CACHE:
+        import json
+        _SEED_CACHE["seed"] = json.loads(p2.TEAM_SEED.read_text())
+    return _SEED_CACHE["seed"]
+
+
+def seed_order(draws: list, z: list, r: float, rng: np.random.Generator, sigma: float | None = None) -> list:
+    """Assign a set of drawn strengths to slots by a noisy prior (owner decision 2026-10-09, dynasty year 0): the slot with the
+    k-th highest score z + sigma * N(0, 1) gets the draw with the k-th highest o + d. sigma is solved per tier and level
+    (scripts/build_team_seed.py) so the prior's correlation with the assigned strength equals the real r; without it,
+    sqrt(1 / r^2 - 1). The set itself is unchanged: only who gets which draw."""
+    n = len(draws)
+    if n < 2:
+        return list(draws)
+    sigma = float(np.sqrt(max(1.0 / r ** 2 - 1.0, 0.0))) if sigma is None else float(sigma)
+    score = np.asarray(z, float) + sigma * rng.standard_normal(n)
+    by_draw = sorted(range(n), key=lambda i: -float(draws[i][0] + draws[i][1]))
+    by_slot = np.argsort(-score, kind="stable")
+    out = [None] * n
+    for slot, i in zip(by_slot, by_draw):
+        out[int(slot)] = draws[i]
+    return out
+
+
 def build_league(cfg: Phase2Config, rng: np.random.Generator) -> League:
     tal = cfg.talent
     cb = np.array(cfg.correlation["batter"]["matrix"])
@@ -172,6 +204,16 @@ def build_league(cfg: Phase2Config, rng: np.random.Generator) -> League:
     rng_pt = np.random.Generator(np.random.PCG64(rng.bit_generator.seed_seq.spawn(1)[0]))
     rng_hold = np.random.Generator(np.random.PCG64(rng.bit_generator.seed_seq.spawn(1)[0]))   # PR B; spawned last, so the rest is unchanged
     rng_hands = np.random.Generator(np.random.PCG64(rng.bit_generator.seed_seq.spawn(1)[0]))  # Phase 3; spawned after PR B's, same reason
+    rng_seed = np.random.Generator(np.random.PCG64(rng.bit_generator.seed_seq.spawn(1)[0]))   # program seeding noise; spawned last
+    seed_in = load_team_seed()
+    if seed_in:
+        # conference effects: the tier's drawn set, reordered among its conferences by their programs' recent strength
+        for tier in sorted({c[2] for c in confs.values()}):
+            idx = [i for i, (conf, _) in enumerate(order) if confs[i][2] == tier and not confs[i][3]]
+            got = seed_order([conf_fx[i] for i in idx], [seed_in["conference"][order[i][0]]["z"] for i in idx],
+                             seed_in["r_conf"][tier]["r_true"], rng_seed, sigma=seed_in["sigma_conf"][tier]["sigma"])
+            for i, v in zip(idx, got):
+                conf_fx[i] = v
     pt_rho = phase6.load().get("subs6", {}).get("bench_pick_weight", {}).get("playing_time_rho", {}).get("value") if phase6.on("subs") else None
     fl6 = phase6.load().get("fielding6") if phase6.on("fielding") else None
     phi_field = phase6.load().get("fielding_scale", {}).get("phi_engine") if fl6 else None
@@ -213,6 +255,23 @@ def build_league(cfg: Phase2Config, rng: np.random.Generator) -> League:
                     road[tid] = (n_conf * np.mean([pre[x][1] for x in mates]) + (n_wk + n_mw) * nc[tier]) / (n_conf + n_wk + n_mw)
                 else:
                     road[tid] = nc[tier]
+    dev = {}
+    if seed_in:
+        # team deviations: drawn up front (team order), then reordered within each conference by the programs' recent strength;
+        # an independent is a group of one and keeps its draw
+        for tid, (_, conf, tier) in enumerate(cfg.teams):
+            dev[tid] = rng.multivariate_normal(np.zeros(2), cfg.team_draw[tier]["team_cov"], method="eigh")
+        groups: dict = {}
+        for tid, (team_id, conf, tier) in enumerate(cfg.teams):
+            if conf != "DI Independent":
+                groups.setdefault(conf, []).append(tid)
+        for conf in sorted(groups):
+            tids = groups[conf]
+            tier = cfg.teams[tids[0]][2]
+            got = seed_order([dev[t] for t in tids], [seed_in["team"][str(cfg.teams[t][0])]["z"] for t in tids],
+                             seed_in["r_team"][tier]["r_true"], rng_seed, sigma=seed_in["sigma_team"][tier]["sigma"])
+            for t, v in zip(tids, got):
+                dev[t] = v
     teams, players = [], []
     team_names = set()
     for tid, (_, conf, tier) in enumerate(cfg.teams):
@@ -225,7 +284,8 @@ def build_league(cfg: Phase2Config, rng: np.random.Generator) -> League:
         td = cfg.team_draw[tier]
         # an independent has no conference: it draws its own effect from its tier's conference distribution
         c = conf_fx[t.conference] if not confs[t.conference][3] else rng.multivariate_normal(np.zeros(2), td["conf_cov"], method="eigh")
-        t.o, t.d = np.array(td["mean"]) + c + rng.multivariate_normal(np.zeros(2), td["team_cov"], method="eigh")
+        u = dev[tid] if seed_in else rng.multivariate_normal(np.zeros(2), td["team_cov"], method="eigh")
+        t.o, t.d = np.array(td["mean"]) + c + u
         t.s_total = float(t.o + t.d)
         t.o_total, t.d_total = float(t.o), float(t.d)
         if pk6 and "tier_run_sd" in pk6:

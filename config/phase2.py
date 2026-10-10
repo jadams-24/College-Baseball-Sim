@@ -18,6 +18,11 @@ RUN_SCALE = ROOT / "data/ncaa_2025/derived/phase2_run_scale_2025.json"
 GAME_SCALE = ROOT / "data/ncaa_2025/derived/phase2_game_scale_2025.json"
 GAME_SCALE_OVERRIDE = None  # set by scripts/solve_phase2_game_scale.py while it iterates
 TEAMS = ROOT / "data/ncaa_2025/pbp/teams_2025.csv"
+# Teams seeded from their real programs (owner decision 2026-10-09, dynasty year 0): the drawn strength set is kept exactly
+# per tier and conference and assigned to programs by a noisy version of their 2021-2025 strength (scripts/build_team_seed.py)
+SEED_FROM_PROGRAMS = True
+TEAM_SEED = ROOT / "data/ncaa_2025/derived/team_seed_2025.json"
+TEAM_SEED_HALF_LIFE = 1.5   # seasons; the recency weight of the prior (the Omaha Contender grade's; r is flat in it: PHASE0_NOTES)
 TIERS = ("p4", "mid", "low")
 RATES = ("K", "BB", "HBP", "HR", "BABIP", "XBH")
 PA_RATES = ("K", "BB", "HBP", "HR")
