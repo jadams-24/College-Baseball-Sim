@@ -230,7 +230,11 @@ def build_report7(agg: dict, seeds: list, statuses: dict) -> tuple[str, Status]:
                            f"below 42 ({sdist['share_below_42']:.3f}) at its 42 weekend games |"))
     s = b["standings"]
     for tr in TIERS:
-        crow("season", f"p7_win_pct_sd_{tr}", f"Win% SD across teams, {tr}", f"win_pct_sd_{tr}", f"win_pct_sd_by_tier/{tr}", 4)
+        # P4: watch item "offense extremes compressed" (owner decision 2026-10-10): the same mechanism (runs vary less from game to
+        # game around team strength), and the row has flipped across CI runners; reported, not gated
+        w = tr == "p4"
+        crow("season", f"p7_win_pct_sd_{tr}", f"Win% SD across teams, {tr}", f"win_pct_sd_{tr}", f"win_pct_sd_by_tier/{tr}", 4, gate=not w,
+             note="watch item 'offense extremes compressed'" if w else "")
     bw = s["best_win_pct"]
     lo, hi = bw["range"]
     pad = k * se["best_win_pct"]

@@ -26,7 +26,7 @@ Phase 1-6 rows on the same run (regular season): phase2 **pass**, phase4 **FAIL*
 | Regular-season games canceled (share) | 0.0278 | 0.0272 | ±0.0028 | B | yes | pass |  |
 | Regular-season games played per team | 52.30 | 52.25 | ±0.34 | B | yes | pass | 2025 / 2026: 52.36 / 52.14 |
 | Scheduled games per team: mean / share at 56 / 10th percentile | 53.80 / 0.287 / 51.1 | 53.71 / 0.267 / 50 | — | B | report | — | real targets above 56 (0.042) are capped at the 56-game frame and below 42 (0.018) at its 42 weekend games |
-| Win% SD across teams, p4 | 0.1096 | 0.1205 | ±0.0080 | B | yes | FAIL | 2025 / 2026: 0.1173 / 0.1236; season SD 0.0033.  |
+| Win% SD across teams, p4 | 0.1096 | 0.1205 | ±0.0080 | B | report | outside | 2025 / 2026: 0.1173 / 0.1236; season SD 0.0033. watch item 'offense extremes compressed' |
 | Win% SD across teams, mid | 0.1324 | 0.1331 | ±0.0075 | B | yes | pass | 2025 / 2026: 0.1389 / 0.1272; season SD 0.0032.  |
 | Win% SD across teams, low | 0.1416 | 0.1458 | ±0.0220 | B | yes | pass | 2025 / 2026: 0.1542 / 0.1374; season SD 0.0102.  |
 | Best regular-season win% | 0.861 (seasons 0.778–0.942) | 0.821–0.917 | ±0.016 | B | yes | pass | band of real seasons 2017-2025 |

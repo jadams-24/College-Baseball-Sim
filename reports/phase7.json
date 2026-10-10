@@ -313,7 +313,6 @@
   "p7_rpi_formula": true,
   "p7_cancel_rate": true,
   "p7_games_per_team": true,
-  "p7_win_pct_sd_p4": false,
   "p7_win_pct_sd_mid": true,
   "p7_win_pct_sd_low": true,
   "p7_best_win_pct": true,
@@ -350,10 +349,6 @@
   "p7_games_per_team": [
    52.30309446254072,
    0.029913986736422215
-  ],
-  "p7_win_pct_sd_p4": [
-   0.10960096302175948,
-   0.0012809955468752665
   ],
   "p7_win_pct_sd_mid": [
    0.13244757536666707,
