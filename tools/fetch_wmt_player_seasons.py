@@ -208,7 +208,7 @@ def g(df: pd.DataFrame, k: str) -> pd.Series:
 
 def batting(df: pd.DataFrame) -> pd.DataFrame:
     ab, h, bb, hbp = g(df, "sAtBats"), g(df, "sHits"), g(df, "sWalks"), g(df, "sHitByPitch")
-    sf, sh, k = g(df, "sSacrificeFlies"), g(df, "sSacrificeHits"), g(df, "sStrikeoutsHitting")
+    sf, sh, k = g(df, "sSacrificeFlies"), g(df, "sSacrificeBunts"), g(df, "sStrikeoutsHitting")
     d2, d3, hr = g(df, "sDoubles"), g(df, "sTriples"), g(df, "sHomeRuns")
     pa = ab + bb + hbp + sf + sh
     tb = h + d2 + 2 * d3 + 3 * hr
@@ -314,14 +314,15 @@ def levels(f: pd.DataFrame, rates: list[str]) -> pd.DataFrame:
 
 
 def retention(panel: pd.DataFrame, frames: dict[str, pd.DataFrame]) -> pd.DataFrame:
-    nxt = panel[["person_id", "season", "team_id", "tier"]].copy()
+    # WMT team ids are per season, so the same program is recognised by its name (name_tabular)
+    nxt = panel[["person_id", "season", "team", "tier"]].copy()
     nxt["season"] -= 1
-    nxt = nxt.drop_duplicates(["person_id", "season"]).rename(columns={"team_id": "team_next", "tier": "tier_next"})
+    nxt = nxt.drop_duplicates(["person_id", "season"]).rename(columns={"team": "team_next", "tier": "tier_next"})
     p = panel.merge(nxt, on=["person_id", "season"], how="left")
     last = panel["season"].max()
     p = p[p["season"] < last]                                   # the last season has no next season to look in
     p["status"] = np.where(p["team_next"].isna(), "absent",
-                           np.where(p["team_next"] == p["team_id"], "same_team", "other_client_team"))
+                           np.where(p["team_next"] == p["team"], "same_team", "other_client_team"))
     p["move"] = np.where(p["status"] == "other_client_team", p["tier"] + "->" + p["tier_next"].fillna("unknown"), "")
     p["played"] = np.where(pd.to_numeric(p.get("games_played", 0), errors="coerce").fillna(0) > 0, "played", "rostered")
     tb = frames["batter"][["person_id", "season", "tercile"]].rename(columns={"tercile": "tercile_bat"})
@@ -342,6 +343,7 @@ def retention(panel: pd.DataFrame, frames: dict[str, pd.DataFrame]) -> pd.DataFr
                          "players": int(len(gdf)), "same_team": int(c.get("same_team", 0)),
                          "other_client_team": int(c.get("other_client_team", 0)), "absent": int(c.get("absent", 0))})
     moves = p[p["status"] == "other_client_team"].groupby(["season", "move"]).size().rename("count").reset_index()
+    moves = moves.reindex(columns=["season", "move", "count"])
     return pd.DataFrame(rows), moves
 
 
@@ -364,9 +366,12 @@ def leak_check(out: Path, names: list[str]) -> list[str]:
     hits = []
     keys = {n.lower() for n in names if len(n) >= 4}
     for f in sorted(out.glob("*.csv")):
-        df = pd.read_csv(f, dtype=str, keep_default_na=False)
+        try:
+            df = pd.read_csv(f, dtype=str, keep_default_na=False)
+        except pd.errors.EmptyDataError:
+            continue
         for col in df.columns:
-            if col in ("team",):                        # team names are allowed (never player names)
+            if col in ("team", "conference"):           # team and conference names are allowed (never player names)
                 continue
             for v in df[col].unique():
                 for tok in re.split(r"[^A-Za-z]+", str(v)):
@@ -413,7 +418,10 @@ def aggregate(work: Path, out: Path = OUT, names: list[str] | None = None) -> di
         for f in out.glob("*.csv"):
             f.unlink()
         raise SystemExit(f"name leak in {hits}; output deleted")
-    return {"players": int(len(panel)), "pairs_batters": int(len(paired(frames["batter"], ["k_pct"]))),
+    b = frames["batter"]
+    nb = b.copy()
+    nb["season"] -= 1
+    return {"players": int(len(panel)), "pairs_batters": int(len(b.merge(nb, on=["person_id", "season"]))),
             "seasons": sorted(panel["season"].unique().tolist())}
 
 
