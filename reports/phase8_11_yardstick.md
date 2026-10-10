@@ -368,6 +368,53 @@ expenses at many schools by convention (institutional support), so it is not pro
   per assistant across all men's teams of an institution. Baseball-specific salaries come only from
   public-records reporting (section 11, round 2 research).
 
+## 11. Program money beyond EADA: revenue share, scholarships, NIL, salaries, attendance (round 2)
+
+`program_money_public_2025_26` in the benchmarks file; `data/phase8_11/mfrs_baseball_fy2025.csv`. Only
+baseball-specific figures are graded for use.
+
+- **Revenue share to baseball (B for the two documented schools, D as a distribution).** Texas Tech
+  2025-26: 1.9% of the $20.5M pool, $389,500 (football 74%, men's basketball 17–18%, women's basketball 2%,
+  volleyball 4–5%). LSU 2025-26: baseball inside the 5% "everyone else" bucket (about $900K shared with four
+  or five sports); for 2026-27 LSU plans its own slice of about 5% (about $1.08M of $21.58M, derived). UNC
+  includes baseball "with little money"; Ohio State excludes it; Purdue's non-revenue sports got about
+  $300K combined. The industry split is 75 / 15 / 5 / 5. The CSC's $1.77B filing has no by-sport table;
+  the "13% of the pool to baseball" figure attributed to Baseball America is secondhand and contradicts
+  every school figure (D). 54 D1 baseball schools did not opt in (Ivy 8, Patriot 10, NEC 8, Big Sky 5,
+  ASUN 5, Big South 4 and others) and stay at 11.7 scholarships with no roster limit (B). **For the spec:**
+  a P4 baseball revenue-share budget of $0–$1.1M with a median well under $500K, mid and low mostly zero
+  (GUESS, D).
+- **Scholarships after 11.7 (A rules, B counts).** 34 is the ceiling; opt-outs stay at 11.7; up to $2.5M of
+  new aid above the old limit counts against the cap. Going from 11.7 to 34 costs $1.0–1.2M a year
+  (Baseball America 2024); only about half of D1 funded 11.7 before (AP 2025). Documented 2026-27 counts:
+  Arizona State 34, Texas Tech 34 (from 11.7), West Virginia 28, Texas 25 (C). Shape for the spec: full
+  funding at a minority of P4 programs, 20–30 at most of the rest of P4, 11.7 or less at most mid and low,
+  a hard 11.7 at the 54 opt-outs (GUESS, D).
+- **NIL (C/D).** No verified baseball payroll or deal. Best anecdotes: a mid-major ace offered $400K to
+  transfer; a low-major coach lost players worth over $1M (Baseball America, Jan 2026). NIL Go cleared
+  34,195 deals worth $355M through 2026-06-30 across all sports, 44% of athletes with deals outside
+  football and men's basketball; no sport table (A, context). Valuation lists ($125K–$850K) are D.
+- **Draft money (B).** Two documented college players declined slots for NIL or revenue share: a $950K
+  third-round slot in 2024 and a $425,400 fifth-round slot in 2026; two top-10-round picks went unsigned in
+  each of 2025 and 2026.
+- **Head-coach salaries (B/C).** Top 15 (Baseball America 2026, documents): n = 15, $1.28M–$3.35M, median
+  $1.5M, nine of them SEC. Other documented P4: n = 9, $0.49M–$1.7M, median about $0.77M. Documented
+  mid-majors: n = 6, $91K–$600K (AAC and Sun Belt top end $350K–$600K; low-major $90K–$130K). Tennessee's
+  assistant and support pool was about $1.5M in 2024. No conference-wide table exists (On3's database
+  returns 403). EADA cannot supply this: its coaching salaries are institution-level averages across all
+  men's teams (User's Guide, September 2026 edition).
+- **Attendance (B school releases, C forum tracker matching them).** 2025 totals with postseason: LSU
+  458,606 (11,186 a game), Arkansas 407,196, Ole Miss 344,364, Mississippi State 330,009, then South
+  Carolina, Texas, Tennessee, Florida, Texas A&M, Auburn (201,703). 2025 conference per-game averages: SEC
+  6,020, Big 12 2,480, ACC 2,151, Sun Belt 1,672, AAC 1,378, Big Ten 1,307, Big West 1,137. All 16 SEC
+  per-game averages in the benchmarks file. National total and average across all 307 teams: not found
+  (the NCAA attendance PDF is unreachable).
+- **Program finances, FY2025 (B).** NCAA financial reports obtained by public records for 27 programs
+  (`mfrs_baseball_fy2025.csv`): operating expenses from Tennessee $13.0M, LSU $11.0M, Ole Miss $10.6M down to
+  Missouri $4.6M; SEC public-school mean $8.07M expenses against $5.13M revenue; Mississippi State ticket
+  revenue $2.7M; LSU's title-year baseball lost just under $1M. Consistent with EADA 2024-25 (SEC median
+  total expenses $7.8M).
+
 ## Sources that blocked the cloud session (no workaround attempted)
 
 www.ncaa.com (off limits by rule), stats.ncaa.org 403, masseyratings.com 403, warrennolan.com 503,

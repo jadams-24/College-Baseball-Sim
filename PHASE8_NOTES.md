@@ -194,6 +194,15 @@ are approximate. Results and reading: report section 9. Not applied to the curve
 participants and assistant coaches, and conference medians. EADA's coaching-salary fields are
 institution-level averages over all men's teams, so baseball coaching pay is not derivable from it.
 
+## 10. Program money beyond EADA (round 2, 2026-10-10)
+
+Web research (session subagent) on baseball-specific revenue share, scholarships, NIL, draft money, coaching
+pay, attendance and public-records program finances; every row with URL, fetch date, n and grade in
+`data/phase8_11/manual_entries.json` → `program_money_public_2025_26`, the MFRS table in
+`data/phase8_11/mfrs_baseball_fy2025.csv`. Report section 11. The EADA User's Guide (September 2026
+edition) confirms that EADA coaching salaries are institution-level averages across all men's teams.
+Blocked: On3 (403), Forbes (403), the NCAA attendance page (redirects home), S3 guesses (404).
+
 ## Confidence summary
 
 | Block | Grade | Why |
