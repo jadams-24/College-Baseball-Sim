@@ -112,5 +112,7 @@ def test_prospects_are_display_only():
         for f in (ROOT / sub).rglob("*.py"):
             txt = f.read_text()
             assert "prospects" not in txt and "from app" not in txt, f
-    cfg = (ROOT / "config/prospects.py").read_text()
+    cfg = (ROOT / "app/prospects_config.py").read_text()
     assert "GUESS" in cfg and "LINEAR_WEIGHTS" in cfg
+    assert not (ROOT / "config/prospects.py").exists()                      # the app never writes config/
+    assert "prospects" not in (ROOT / "GUESSES.md").read_text()               # nor GUESSES.md: its guesses live in app/README.md

@@ -1,5 +1,7 @@
-"""Prospect value for the app's Draft tab (owner request 2026-10-10): display only, never read by the engine or any
-gated row. The Overall rating reuses this module later (OVR is on hold, owner); nothing here shows a number as OVR.
+"""Prospect value constants for the app's Draft tab (owner request 2026-10-10): display only, never read by the engine
+or any gated row, and kept in app/ because the app never writes config/ (CLAUDE.md: engine, config and benchmarks are
+untouched by the app). The GUESS entries below are listed in app/README.md ("The Draft tab"), not in GUESSES.md, which
+belongs to the engine. The Overall rating reuses this later (OVR is on hold, owner); nothing here shows a number as OVR.
 
 Hitters are ranked by expected runs above average per 600 PA, pitchers by runs prevented per 100 IP. Both come
 from the player's true rates through the engine's own rating -> rate maps (engine.ratings) and matchup model
@@ -7,7 +9,7 @@ from the player's true rates through the engine's own rating -> rate maps (engin
 
 Linear weights: runs per event above an out, MLB-era linear weights (Tango, "The Book"-style), scaled to no league
 particular. # GUESS: D1 linear weights would come from the engine's own base-out run expectancy (Phase 1 tables);
-these are the standard MLB values until that is derived. Listed in GUESSES.md.
+these are the standard MLB values until that is derived. Listed in app/README.md.
 """
 LINEAR_WEIGHTS = {"BB": 0.69, "HBP": 0.72, "1B": 0.89, "2B": 1.27, "3B": 1.62, "HR": 2.10, "ROE": 0.89, "K": 0.0, "OUT": 0.0}   # GUESS
 PA_PER_600 = 600                    # the hitter's season scale (runs above average per 600 PA)

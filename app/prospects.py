@@ -1,6 +1,6 @@
 """The Draft tab's data (owner request 2026-10-10): the Top 100 board, the Round 1 mock draft and the user's program.
 Display only. Projected value comes from each player's true rates through the engine's own maps (engine.matchup
-against a league-average opponent) valued with linear weights (config/prospects.py), blended with the season line as
+against a league-average opponent) valued with linear weights (app/prospects_config.py), blended with the season line as
 it accumulates so the board moves weekly. The Overall rating reuses `hitter_value` / `pitcher_value` later; no
 number is shown as OVR (owner: OVR on hold). Rankings are deterministic for a dynasty state; the mock's small
 randomness is seeded by the dynasty seed and the week and labeled as a projection.
@@ -16,7 +16,7 @@ from pathlib import Path
 
 import numpy as np
 
-from config import prospects as P
+from app import prospects_config as P
 from engine.matchup import OUTCOMES, matchup_probs
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -122,7 +122,7 @@ def board(d, size: int = P.BOARD_SIZE) -> list:
     Hitters (runs above average per 600 PA) and pitchers (runs prevented per 100 IP) merge by their percentile
     within their side (the normal score of the value's rank among D1 hitters or D1 pitchers), the value itself
     breaking ties: the two units are not one exchange rate (the hitters' D1 tail is the heavier), and the Overall
-    rating will set that rate later (config/prospects.py). `detail["score"]` carries the merged score."""
+    rating will set that rate later (app/prospects_config.py). `detail["score"]` carries the merged score."""
     from statistics import NormalDist
     rows = []
     for t in d.league.teams:

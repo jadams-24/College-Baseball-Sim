@@ -278,7 +278,21 @@ Narrow screens keep date, opponent, record and RPI. Skeleton rows while it loads
 
 Owner request 2026-10-10. Display only, no engine change; the banner says so: "Preview: draft eligibility (class year
 and age) arrives with roster rules; until then every D1 player is shown." Data from `app/prospects.py`
-(`GET /api/dynasties/{id}/draft`), constants in `config/prospects.py` (the GUESS entries are in GUESSES.md).
+(`GET /api/dynasties/{id}/draft`), constants in `app/prospects_config.py`. The app never writes `config/` or
+GUESSES.md (those belong to the engine session), so the Draft tab's guesses are listed here instead:
+
+| Where | Constant | Value | Why a guess | Replace with |
+|---|---|---|---|---|
+| `app/prospects_config.py` | `LINEAR_WEIGHTS` | MLB linear weights (BB .69, HBP .72, 1B .89, 2B 1.27, 3B 1.62, HR 2.10, ROE .89) | Runs per event for the prospect value; D1 weights are not derived yet. | D1 linear weights from the engine's own base-out run expectancy (Phase 1 tables) |
+| `app/prospects_config.py` | `K_OBS_BAT`, `K_OBS_PIT` | 400 PA, 300 BF | The weight of the observed season line in the projection, PA / (PA + K). A stabilization constant, not fitted. | The Phase 9 empirical-Bayes estimator |
+| `app/prospects_config.py` | `MERGE_BY_SIDE_PERCENTILE` | on | Hitters and pitchers merge on one board by percentile within their side; a raw merge of the two units put zero pitchers in the top 100. | The exchange rate below, set by the Overall rating |
+| `app/prospects_config.py` | `MOCK_TAU`, `MOCK_TOP` | 1.2, 5 | The mock draft's small seeded randomness: the k-th best available with weight exp(-k / 1.2) among the top 5. | A fitted pick-order model, if one is ever wanted |
+| `app/prospects_config.py` | `KEY_RATINGS`, `PICKS_PER_ROUND` | by position; 30 | Display choices: which ratings the board shows per position, and how a board rank maps to a round. | — |
+
+The hitter/pitcher exchange rate: hitters are valued per 600 PA and pitchers per 100 IP, which is about 430
+batters faced, so the two units are not one season of playing time, and that difference likely explains the
+zero-pitcher raw merge. The rate should later be set by putting both sides on expected season playing time (a
+hitter's PA and a pitcher's BF over a season), which is the Overall rating's decision (owner, OVR on hold).
 
 - **Top 100 prospects.** Projected value from each player's true rates through the engine's own maps: the
   outcome probabilities of `engine.matchup.matchup_probs` against a league-average opponent, valued with linear
