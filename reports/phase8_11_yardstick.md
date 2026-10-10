@@ -11,12 +11,12 @@ Nothing here feeds the engine.
 
 | # | Target | What was found | Grade | Still missing |
 |---|---|---|---|---|
-| 1a | Roster: class shares by tier | 2025 rosters, 8,577 players, 232 schools: Fr .29/.26/.22, So .22/.20/.19, Jr .28/.29/.29, Sr .16/.19/.22, Gr .05/.04/.04 (P4/mid/low) | B | 2026 (post-limit) rosters; redshirt flag and class by position land with the roster run started today |
+| 1a | Roster: class shares by tier | 2025 rosters, 8,577 players, 232 schools: Fr .29/.26/.22, So .22/.20/.19, Jr .28/.29/.29, Sr .16/.19/.22, Gr .05/.04/.04 (P4/mid/low). Redshirt marker on .13 / .17 / .12 of listed players (P4 seniors .18, mid sophomores .24). Pitchers are .50–.54 of every class at P4 | B | 2026 (post-limit) rosters |
 | 1b | Roster: age by class | No roster page lists birthdates; a GUESS table from the clock rules and the class shares | D | Birthdates (GOALS ask added; the fetcher now keeps an age column when a page has one) |
 | 1c | Roster size | Spring 2025 (pre-limit): P4 40.4 ± 3.4 listed players (p10–p90 36–44, 94% over 34); mid 37.1, low 33.9 (partial pages included) | B (P4), C (mid, low) | The 2026 rosters under the 34-man limit |
 | 1d | Pitchers vs position players | Pitcher share of listed players .506 / .489 / .475 (P4/mid/low); with two-way players .536 / .523 / .504 | B | — |
 | 2a | Player sources by tier | HS only .510/.515/.445, D1 transfer .196/.143/.087, JUCO .112/.177/.206, other four-year .048/.082/.097, unknown .134/.083/.166 (P4/mid/low) | B | — |
-| 2b | Moves between tiers | 64 Analytics 2021–26 (D1 thirds by conference RPI, players who played at both stops): of hitters leaving a D1 upper-third conference 59% land upper, 20% middle, 9% lower, 11% D2; leaving middle: 44% up to upper, 27% middle, 18% D2; leaving lower: 37% up to upper, 25% D2. NCAA: D1 transfers land D1 72–75%, D2 21–24%, D3 3%; D2 transfers land D1 41%. The roster-based P4/mid/low flow (`d1_transfer_flow.csv`) comes from the roster run started today | B (64A), A (NCAA) | P4/mid/low split: the roster run's PR |
+| 2b | Moves between tiers | Roster run of 2026-10-10: of D1 transfers on P4 rosters, the previous D1 school was P4 .44, mid .33, low .11 (unknown .12); on mid rosters P4 .40, mid .39, low .10; on low rosters P4 .26, mid .32, low .17 (unknown .25). NCAA: D1 transfers land D1 72–75%, D2 21–24%, D3 3%; 64 Analytics level matrices in `manual_entries.json` | B / A | Portal entrants by tier (none published) |
 | 3a | Geography by tier | In-state .427 / .457 / .386; within 300 mi .59 / .64 / .65; foreign .025 / .024 / .033, Canada two-thirds of it | B | — |
 | 3b | Talent-rich states | CA 1,081 players (13.1% of located players, 60% stay in state, 24% to P4); TX 745 (9.0%, 62% stay, 31% to P4); FL 614 (7.5%, 48% stay, 28% to P4); GA 394 (4.8%, 36% stay); NC 321 (70% stay). Schools in TX 69% in-state, FL 68%, CA 80%, GA 69%, NC 39% | B | — |
 | 4a | Draft picks by round and source | Every pick 2021–2026 (3,685): HS 115–127 a year, JC 12–47, D1 420–461 (P4 238–279, mid 151–164, low 18–32), D2 9–22, D3 1–4, NAIA 1–8 | A (feed), B (tiers), C (D2/D3/NAIA split) | NCAA's own 2021, 2022, 2024 counts (page shows one edition) |
@@ -30,6 +30,11 @@ Nothing here feeds the engine.
 | 7a | JUCO and D2 talent | D2 (8 conferences, 101 of 258 teams): .295/.396/.450, 0.91 HR and 6.86 runs a team-game, ERA 6.36; CCCAA (87 teams) .290/.393/.407, ERA 5.94; NJCAA D1 Kansas .309/.421/.486, Alabama .296/—/.423. D1 beat non-D1 opponents 90% of 90 games, 12.2 to 4.3 runs | B (rates), C (crossover) | NJCAA national lines; a cross-division rating (Massey blocked) |
 | 7b | JUCO and D2 → D1 per year | CCCAA 2025 class: 185 to D1 of 600+ to four-year schools (A, California); NJCAA alumni 570+ in the 2026 D1 field across 59 of 64 teams (B); JUCO→D1 about 900–1,100 a year (C, derived); D2→D1: no source (D) | A/B/C/D | NJCAA national counts; D2→D1 (NCAA Research ask) |
 | 8 | Recruiting calendar and rules | Every spec date verified against the 2026-27 calendar PDF and the 2026-27 Manual; no baseball date changed; eligibility clock gained sub-rules 12.6.1–12.6.3 on 9/9/26 | A | — |
+| R1 | Recruit rankings → outcomes (round 2) | MLB Pipeline-ranked HS prospects 2019–24 (557): top 25 sign .97, 26–100 sign .64, 101–200 sign .33; commits P4 .90 / mid .08 / low .005; campus arrivals P4 .83 / mid .14; two-thirds of arrivals drafted within four years, one in six first round, 72 of 77 from P4 programs. BA's November HS top 100 (2018): .40 sign, .45 of arrivals drafted within five years | A / B | PG and PBR rankings (terms forbid fetching); BA lists (paywall) |
+| R2 | Recruit pool (round 2) | NFHS 472,598 HS players (A); D1 intake about 3,200 a year by two agreeing routes (C); D2 3,100, D3 4,150, JUCO about 7,700 (C/D); D1 recruit rate by state DE 7.4% … ND 0.7% (B) | A / B / C | NJCAA counts; HS by grade; state signing tallies |
+| R3 | Coaching carousel (round 2) | 254 D1 head-coach changes 2019–25, .122 per program-year (.09–.16 outside 2020); fired .24 (P4 .35, low .13); tenure median 8, 19% under four seasons; hires: own assistant .34, sitting D1 head coach .26 (P4 .44, low .09), D1 assistant .21, D2/D3/NAIA .05, JUCO .02, pro .03 | B | 2020 and 2025 hire origins; back-dated tiers |
+| R4 | Survivor bias in the development curves (round 2) | Fr→So curve biased down about .013 OPS (weak freshmen leave); Jr→Sr +.027 OPS is about +.024 regression to the mean (the draft takes the best juniors); pitchers' Jr→Sr K% gain is smaller than its RTM term | C (sizes) | Non-client leavers; a full-population r |
+| R5 | Program money (round 2) | EADA 2024-25 total expenses median P4 $5.0M / mid $1.7M / low $0.9M (SEC $7.8M); MFRS FY2025 27 programs $4.6M–$13.0M; head coaches: top 15 $1.28M–$3.35M (median $1.5M), other P4 $0.5M–$1.7M, mid-majors $91K–$600K; revenue share to baseball documented only at Texas Tech (1.9%, $390K) and LSU (5% planned 2026-27); 54 schools opted out; scholarships 25–34 at documented P4 programs | A (EADA), B (MFRS, salaries), D (rev-share distribution) | NIL payrolls; conference-wide salary and scholarship tables; national attendance total |
 
 ## 1. Roster composition (2025 rosters)
 
@@ -54,16 +59,32 @@ Source: `data/ncaa_2025/roster_aggregates/` (fetched 2026-10-09; 233 of 283 WMT-
   file gives a placeholder distribution (freshmen 18–20, each class one year older, a tail for redshirts
   and JUCO transfers) to be replaced by `age_by_class.csv` if any page lists ages, or by the GOALS ask.
 
+**Redshirt and class by position (roster run of 2026-10-10, `class_detail_by_tier.csv`).** A redshirt marker
+sits on .128 of P4, .168 of mid and .122 of low listed players; by class P4 .11 (Fr) / .12 (So) / .14 (Jr) /
+.18 (Sr), mid .13 / .24 / .18 / .17, low .12 / .16 / .14 / .10. Pitchers are .50–.54 of P4 freshmen through
+juniors and .44 of P4 seniors (the draft takes junior arms); catchers .08–.11, infielders .17–.22,
+outfielders .12–.18, two-way players .05–.06 of freshmen falling to .01–.02 of seniors. No roster page in the
+fetch lists a birthdate or age (`age_by_class.csv` is empty), so the age table stays a GUESS.
+
 Class x origin (shares within class, `class_by_origin_2025.csv`): freshmen are .86 high-school-only
 across tiers; D1 transfers peak among juniors and graduates; JUCO transfers enter mostly as juniors.
 
 ## 2. Player sources
 
-Origins by tier as in the spec (Section 7), grade B. The tier-to-tier flow of D1 transfers
-(`d1_transfer_flow.csv`: the Phase 0 tier of the previous D1 school named on the roster) is produced by
-the roster run started 2026-10-10 (GitHub Actions run 38066352243 on this branch), which opens a pull
-request into this branch when it finishes; the aggregator's selftest already writes the table. Among WMT
-client teams (section 6) the moves are P4-heavy by construction.
+Origins by tier as in the spec (Section 7), grade B. **The tier flow of D1 transfers** (`d1_transfer_flow.csv`,
+roster run 38066352243 of 2026-10-10: the Phase 0 tier of the previous D1 school named first on the roster
+page; `unknown` when only an alias matched):
+
+| Roster tier | D1 transfers | From P4 | From mid | From low | Unknown |
+|---|---|---|---|---|---|
+| P4 | 396 | .444 | .333 | .106 | .116 |
+| Mid | 645 | .405 | .394 | .096 | .105 |
+| Low | 176 | .256 | .324 | .170 | .250 |
+
+P4 rosters refill mostly from other P4 programs and from the mid tier; a third of the mid tier's D1
+transfers come down from P4; the low tier takes more from mid than from P4. Grade B (name match on the
+2025 D1 list). The NCAA portal rows (section 5) give the level split (D1 → D1 72–75%), and 64 Analytics
+the conference-third matrices; this is the first tier-to-tier table built on roster previous schools.
 
 ## 3. Geography
 
@@ -351,6 +372,154 @@ expenses at many schools by convention (institutional support), so it is not pro
 - **Coaching salaries are not in EADA by sport**: the file reports average salaries per head coach and
   per assistant across all men's teams of an institution. Baseball-specific salaries come only from
   public-records reporting (section 11, round 2 research).
+
+## 11. Program money beyond EADA: revenue share, scholarships, NIL, salaries, attendance (round 2)
+
+`program_money_public_2025_26` in the benchmarks file; `data/phase8_11/mfrs_baseball_fy2025.csv`. Only
+baseball-specific figures are graded for use.
+
+- **Revenue share to baseball (B for the two documented schools, D as a distribution).** Texas Tech
+  2025-26: 1.9% of the $20.5M pool, $389,500 (football 74%, men's basketball 17–18%, women's basketball 2%,
+  volleyball 4–5%). LSU 2025-26: baseball inside the 5% "everyone else" bucket (about $900K shared with four
+  or five sports); for 2026-27 LSU plans its own slice of about 5% (about $1.08M of $21.58M, derived). UNC
+  includes baseball "with little money"; Ohio State excludes it; Purdue's non-revenue sports got about
+  $300K combined. The industry split is 75 / 15 / 5 / 5. The CSC's $1.77B filing has no by-sport table;
+  the "13% of the pool to baseball" figure attributed to Baseball America is secondhand and contradicts
+  every school figure (D). 54 D1 baseball schools did not opt in (Ivy 8, Patriot 10, NEC 8, Big Sky 5,
+  ASUN 5, Big South 4 and others) and stay at 11.7 scholarships with no roster limit (B). **For the spec:**
+  a P4 baseball revenue-share budget of $0–$1.1M with a median well under $500K, mid and low mostly zero
+  (GUESS, D).
+- **Scholarships after 11.7 (A rules, B counts).** 34 is the ceiling; opt-outs stay at 11.7; up to $2.5M of
+  new aid above the old limit counts against the cap. Going from 11.7 to 34 costs $1.0–1.2M a year
+  (Baseball America 2024); only about half of D1 funded 11.7 before (AP 2025). Documented 2026-27 counts:
+  Arizona State 34, Texas Tech 34 (from 11.7), West Virginia 28, Texas 25 (C). Shape for the spec: full
+  funding at a minority of P4 programs, 20–30 at most of the rest of P4, 11.7 or less at most mid and low,
+  a hard 11.7 at the 54 opt-outs (GUESS, D).
+- **NIL (C/D).** No verified baseball payroll or deal. Best anecdotes: a mid-major ace offered $400K to
+  transfer; a low-major coach lost players worth over $1M (Baseball America, Jan 2026). NIL Go cleared
+  34,195 deals worth $355M through 2026-06-30 across all sports, 44% of athletes with deals outside
+  football and men's basketball; no sport table (A, context). Valuation lists ($125K–$850K) are D.
+- **Draft money (B).** Two documented college players declined slots for NIL or revenue share: a $950K
+  third-round slot in 2024 and a $425,400 fifth-round slot in 2026; two top-10-round picks went unsigned in
+  each of 2025 and 2026.
+- **Head-coach salaries (B/C).** Top 15 (Baseball America 2026, documents): n = 15, $1.28M–$3.35M, median
+  $1.5M, nine of them SEC. Other documented P4: n = 9, $0.49M–$1.7M, median about $0.77M. Documented
+  mid-majors: n = 6, $91K–$600K (AAC and Sun Belt top end $350K–$600K; low-major $90K–$130K). Tennessee's
+  assistant and support pool was about $1.5M in 2024. No conference-wide table exists (On3's database
+  returns 403). EADA cannot supply this: its coaching salaries are institution-level averages across all
+  men's teams (User's Guide, September 2026 edition).
+- **Attendance (B school releases, C forum tracker matching them).** 2025 totals with postseason: LSU
+  458,606 (11,186 a game), Arkansas 407,196, Ole Miss 344,364, Mississippi State 330,009, then South
+  Carolina, Texas, Tennessee, Florida, Texas A&M, Auburn (201,703). 2025 conference per-game averages: SEC
+  6,020, Big 12 2,480, ACC 2,151, Sun Belt 1,672, AAC 1,378, Big Ten 1,307, Big West 1,137. All 16 SEC
+  per-game averages in the benchmarks file. National total and average across all 307 teams: not found
+  (the NCAA attendance PDF is unreachable).
+- **Program finances, FY2025 (B).** NCAA financial reports obtained by public records for 27 programs
+  (`mfrs_baseball_fy2025.csv`): operating expenses from Tennessee $13.0M, LSU $11.0M, Ole Miss $10.6M down to
+  Missouri $4.6M; SEC public-school mean $8.07M expenses against $5.13M revenue; Mississippi State ticket
+  revenue $2.7M; LSU's title-year baseball lost just under $1M. Consistent with EADA 2024-25 (SEC median
+  total expenses $7.8M).
+
+## 12. Recruit rankings → outcomes (round 2): the real "5-star vs 3-star" odds
+
+Source: MLB's prospect registry (`statsapi.mlb.com/api/v1/draft/prospects/<year>`: every draft-eligible player
+MLB Pipeline tracked, with its rank 1–200, 250 from 2025, the school class and a blurb naming the high
+schooler's commitment), matched by MLB person id to the draft feeds 2019–2026. `tools/build_recruit_outcomes.py`
+→ `data/recruiting/recruit_outcomes.csv` (4,238 aggregate rows, no names) and `summary_tables.md`;
+`recruit_rankings_outcomes_2019_2024` in the benchmarks file. 557 ranked HS prospects, classes 2019–2024.
+Grade A for the draft and signing columns, B for commitments (parsed from blurbs) and for 2019's inferred
+HS status. **What the ranking is:** MLB Pipeline's draft-week board in the senior spring, HS and college on
+one list, signability-blind. It is sharper than a recruiting ranking made a year earlier (section 6b of
+the research notes shows how much); Perfect Game and Prep Baseball Report forbid automated access, so no
+page of theirs was fetched, and Baseball America's 2019–2024 HS lists are paywalled.
+
+**Pooled 2019–2024, by Pipeline overall rank:**
+
+| Band | HS prospects | Committed P4 / mid / low / JUCO / not stated | Drafted out of HS | Signed | Signed in R1 / R2 / R3 / R4–5 / R6–10 / R11+ | Drafted, unsigned | Reached campus |
+|---|---|---|---|---|---|---|---|
+| 1–25 | 59 | 53 / 0 / 0 / 0 / 6 | 58 | **57 (.97)** | 49 / 5 / 2 / 1 / 0 / 0 | 1 | **2 (.03)** |
+| 26–100 | 205 | 175 / 8 / 1 / 0 / 21 | 153 | **131 (.64)** | 43 / 53 / 19 / 9 / 5 / 2 | 22 | **74 (.36)** |
+| 101–200 | 238 | 168 / 28 / 1 / 5 / 36 | 116 | **78 (.33)** | 2 / 6 / 20 / 27 / 11 / 12 | 38 | **160 (.67)** |
+
+By rank among high schoolers only (the closer analogue of a recruiting service's HS top 100): HS 1–10
+sign .97 (2 of 60 reach campus); 11–25 sign .82; 26–50 sign .47; 51 to about 105 sign .29 (182 of 257
+reach campus).
+
+- **Where they commit.** Among the 439 with a stated commitment: P4 .90, mid .08, low .005, JUCO .01. The
+  P4 share falls with rank (100% in the top 25 of each class, 61–79% stated-P4 in the 101–200 band); mid
+  commitments sit almost entirely in the 101–200 band. "Not stated" (21%) is not "uncommitted": top-25
+  blurbs talk about slot money, not campuses.
+- **Who D1 actually receives.** Of the 236 campus arrivals with a stated tier, P4 .83, mid .14, low .01,
+  JUCO .02. The low tier gets essentially none of the ranked HS talent.
+- **Drafted from college later** (classes 2019–2022, campus arrivals): 26–100 band, 52 players: drafted
+  in year three or four .58, any of years two to four .77, 13 first-round picks; 101–200 band, 102
+  players: .56 and .68, 10 first-round picks. About two-thirds are drafted within four years and one in
+  six becomes a first-rounder. 72 of 77 year-three picks came from P4 programs, 3 from mid, none from low;
+  mid-major commits were drafted at about the same rate as P4 commits (.60 against .70); drafted-from tier
+  equals committed tier in about 99% of cases.
+- **A recruiting-style list for comparison** (Baseball America's HS Top 100 for the 2018 draft, published
+  November 2017, n = 100, B): commits P4 92, mid 8; signed out of HS .80 (1–10), .40 (11–25), .52 (26–50),
+  .26 (51–100), .40 overall; 36% had fallen off Pipeline's top 200 by draft day; of the 60 who reached
+  campus, .35 were drafted in years three or four and .45 within five, against .68 for the draft-week
+  cohort. All 15 later year-three picks came from P4 programs. The gap between the two lists is the size of
+  senior-year information, and the recruiting model should carry that noise.
+- **Published cross-checks** (B): Baseball America's one-year-out HS top 100 sent 68% to college in 2023–24
+  (top 10: 9 of 20; 26–50: 30 of 50; 51–100: 81 of 100); of 163 unsigned BA top-100 preps 2001–2016, 26%
+  were later first-rounders and 9% never redrafted; HS seniors were 25% of picks in 2019 and 19–21% in the
+  20-round drafts, signing at 72–79%.
+- **Still missing**: a recruiting ranking at scale (PG and PBR terms; BA paywall: data request 9), ranks
+  101–500, where the unsigned enrolled, year-five drafts for 2022, bonus distributions by band.
+
+## 13. The size of the recruit pool (round 2)
+
+`recruit_pool_2024_25` in the benchmarks file; `data/phase8_11/recruit_pool_by_state_2024_25.csv` (51 states and
+DC: NFHS participants 2023-24 and 2024-25, the NCAA D1 recruit rate by state, derived senior and intake
+estimates with the derivation in each header).
+
+- **Observed (A).** NFHS 2024-25: 472,598 high-school baseball players at 16,110 schools in 49 states
+  (471,701 in 2023-24; no grade split). NCAA 2024-25 sponsorship report: D1 300 teams, 12,649 players,
+  42.2 a squad; D2 261 / 12,369 / 47.4; D3 383 / 16,562 / 43.2; D1 players grew from 10,867 (2019-20) to
+  12,649. NCAA probability page: HS to D1 2.7%, D2 2.6%, D3 3.5% (NCAA participants over HS participants,
+  four classes on both sides).
+- **By state (B).** The NCAA's 2020 recruit map (D1 recruits 2015–18 over HS participants): DE 7.4%, GA 6.7,
+  VA 6.5, FL 6.3, NC 5.8, CT 5.5, MD 5.3, LA 5.0, SC 4.9, CA 4.6, NJ 4.6, TN 4.3 … TX 3.3 … MN 1.2, AK 1.0,
+  ME 0.9, ND 0.7. A ten-fold spread between the Southeast and the upper Midwest. Use the state values as
+  relative weights rescaled to the national intake (their sum, 4,009, counts a broader "recruit").
+- **Derived (C).** D1 incoming class about 3,200 a year by two routes that agree within 1.5% (300 × 42.2 ×
+  .255 freshman share = 3,228; 472,598 / 4 seniors × 2.7% = 3,190). D2 intake 3,070–3,150; D3 4,100–4,200.
+  JUCO: about 513 programs (NJCAA 397 C, CCCAA 88 A, NWAC 28 A), about 7,700 entrants a year (D: roster
+  30, half turnover, part of it D1 and D2 bounce-backs). About 118,000 HS seniors a year; 15–18% continue
+  in some college baseball (D).
+- **Design note.** The HS pool is flat while D1 squads grew 15% in five years; the 34-man limit reverses
+  that, so the .255 freshman share should be re-measured on 2026 rosters.
+- Missing: NJCAA official counts, HS participants by grade, state signing tallies, D2/D3/JUCO freshman shares.
+
+## 14. The coaching carousel (round 2)
+
+`coaching_carousel_2019_2025` in the benchmarks file; `data/phase8_11/coaching_changes_2019_2026.csv` (year ×
+tier: changes, reasons, hire origins) and `coaching_tenure_2019_2025.csv`. Sources: Wikipedia season
+pages (coaching-change tables), Baseball America's trackers 2020–2024, College Baseball Insights carousels
+2024-25 and 2025-26, coach biographies for tenure and previous post. 254 changes over 2,074 program-seasons.
+Grade B (tiers from the current conference map, not back-dated; 2020 and 2025 hires mostly unclassified).
+
+| Season after | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 | Pooled |
+|---|---|---|---|---|---|---|---|---|
+| D1 head-coach changes | 37 | 14 | 40 | 48 | 42 | 46 | 27 | 254 |
+| Per program | .125 | .047 | .136 | .164 | .142 | .156 | .090 | .122 (.135 excluding 2020) |
+
+- **By tier (pooled):** P4 .109, mid .125, low .113 per program-year, not distinguishable (SE about .015).
+- **Why they leave:** fired or not renewed .24 (P4 .35, mid .26, low .13); left for another job .27 (low
+  .30); retired .21; resigned, health or other .20 (low .28); unstated .09. Firing rises with tier.
+- **Tenure at departure** (n = 224): median 8 seasons, quartiles 4 and 14, mean 10.5, 19% under four
+  seasons. P4 median 7 (18% under four), mid 8 (14%), low 7 (30%). Retirees median 20, the fired 7, those
+  who left for another job 6 (31% under four).
+- **Where the new coach comes from** (215 classified): the program's own assistant .34 (P4 .27, mid .35,
+  low .40); a sitting D1 head coach elsewhere .26 (P4 .44, mid .27, low .09); a D1 assistant elsewhere .21;
+  a D2/D3/NAIA head coach .05 (low .13); a JUCO head coach .02; an MLB or pro organization .03; a former head
+  coach or other .07. D1-to-D1 head-coach moves are almost all upward or sideways. For the career model:
+  the P4 hire is a sitting D1 head coach or the program's own assistant; the low-tier hire is its own
+  assistant, a D1 assistant from elsewhere or a D2/D3/NAIA head coach.
+- Missing: four 2019 changes BA counted, 2020 tenure, 2025 origins for 16 of 27 hires, back-dated tiers.
 
 ## Sources that blocked the cloud session (no workaround attempted)
 
