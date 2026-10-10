@@ -160,6 +160,9 @@ Names are used only inside `tools/aggregate_rosters.py`, to join roster hands to
 | `hometown_by_conference.csv` | `conference, census_region, census_division, count, share` (share within conference) |
 | `origins_by_school.csv` | `team_ncaa_id, team, conference, tier, class, origin, count` |
 | `origins_rules.csv` | `scope (all / tier), scope_value, origin, origin_rule, count, share`: which rule classified each player, for grading the rules |
+| `class_detail_by_tier.csv` | `scope (all / tier), scope_value, class, redshirt (True when the listed class carried a redshirt marker), pos_group, count` (Phase 8 yardstick, 2026-10-10) |
+| `d1_transfer_flow.csv` | `scope (all / tier), scope_value, prev_tier, count, share`: for players classified `d1_transfer`, the Phase 0 tier of the previous D1 school named first (`unknown` when only an alias matched); share within the current tier. The P4 / mid / low transfer flow (Phase 8 yardstick, 2026-10-10) |
+| `age_by_class.csv` | `tier, class, age, count`: age on 2025-03-01 from a birthdate or a listed age, counts by class, only where a page listed one (`coverage.csv`: `share_birthdate_or_age_filled`; most roster pages list none). Never a date (Phase 8 yardstick, 2026-10-10) |
 | `linear_weights.csv` | `term, run_value, se, events, team_games, r2, rmse`: runs per event from an OLS of each team-game's runs (final score, `pbp/parsed/games_2025.csv`) on its counts of 1B, 2B, 3B, HR, BB (incl. IBB), HBP (incl. CI), ROE and outs (K, FO/GO/GIDP/DP, SF, SH, FC), intercept free; team-games whose parsed PA count differs from the box score are left out. Play-by-play only, no roster data |
 | `hand_by_talent_pitchers.csv` | `scope (all / tier of the pitcher's team), scope_value, index, role, bin, bin_lo, bin_hi, throws (L/R), pitchers, bf_sum, index_mean, index_sd`: matched pitchers by role (as in `pitcher_throws_by_role.csv`) x talent bin. Index `k_minus_bb` (primary; per PA 1[K] - 1[BB]) or `run_value` (linear-weights runs per PA, lower is better), each net of the batter faced (his mean minus the league's, shrunk by n/(n+50); unmatched batters count, keyed by team and name) and of platoon (the league mean in the PA's batter side used x pitcher throws cell minus the hand-known mean). Bins `q1`-`q5`: quintiles within role among D1 pitchers with 30+ BF, the same edges in every scope (outer edges blank); `lt30` for the rest. Cells under 5 pitchers print counts only |
 | `hand_by_talent_batters.csv` | `scope, scope_value, index, position_group, bin, bin_lo, bin_hi, throws, bats (L/R/S), batters, pa_sum, index_mean, index_sd`: matched batters with known hands, the same construction with roles swapped (net of the pitcher faced and of platoon). Index `run_value` (primary) or `on_base` (1[H, BB, IBB, HBP, CI]); quintiles among D1 batters with 50+ PA pooled over positions, `lt50` for the rest |
@@ -173,7 +176,8 @@ Names are used only inside `tools/aggregate_rosters.py`, to join roster hands to
   with any other token is `two-way` (1B/RHP, RHP/OF); otherwise the first listed group decides (C/OF -> C,
   INF/OF -> IF, C/1B -> C). Blank or unrecognised -> `unknown`.
 - *Class:* Fr / So / Jr / Sr / Gr / unknown; redshirt markers (R-, RS-, Redshirt) are dropped, so R-Fr is Fr;
-  5th, 6th, Graduate, Grad, Super Senior -> Gr.
+  5th, 6th, Graduate, Grad, Super Senior -> Gr. The marker itself is kept as the `redshirt` flag of
+  `class_detail_by_tier.csv` (`coverage.csv`: `share_redshirt_marked`).
 - *Hometown area:* the state field read right to left: a US state (postal codes, full names, AP and other
   abbreviations such as La., Calif., N.C., W.Va.) -> postal code with its Census region and division; Puerto
   Rico, Guam and the other territories -> `us_territory`; a Canadian province, an Australian state or a

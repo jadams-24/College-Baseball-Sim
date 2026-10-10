@@ -1,0 +1,1185 @@
+{
+ "_meta": {
+  "purpose": "Phase 8-11 yardstick (roster rules, recruiting, development, program). Every entry carries its source, fetch date, sample size and confidence grade. Built by tools/build_phase8_11_yardstick.py from committed aggregates plus data/phase8_11/manual_entries.json; never edit values by hand without a note in PHASE8_NOTES.md.",
+  "built": "2026-10-10",
+  "confidence_key": {
+   "A": "official or primary source, directly usable",
+   "B": "public, usable after processing",
+   "C": "partial or a proxy",
+   "D": "no data; a GUESS until data is found"
+  }
+ },
+ "roster_composition_2025": {
+  "source": "2025 roster pages of 283 WMT-sample teams (233 parsed), data/ncaa_2025/roster_aggregates/ (tools/fetch_rosters.py, tools/aggregate_rosters.py)",
+  "fetched": "2026-10-09",
+  "season": 2025,
+  "conf": "B",
+  "note": "Spring 2025 rosters (before the 34-man limit, effective 7/1/25). Classes as listed, redshirt markers dropped (R-Fr = Fr); Gr = graduate, 5th/6th year. Pitcher share from the listed position; two-way players counted separately.",
+  "class_by_tier": {
+   "low": {
+    "players": 2033,
+    "schools": 60,
+    "Fr": {
+     "count": 448,
+     "share": 0.2204,
+     "se": 0.0092,
+     "school_sd": 0.1001
+    },
+    "So": {
+     "count": 392,
+     "share": 0.1928,
+     "se": 0.0087,
+     "school_sd": 0.1016
+    },
+    "Jr": {
+     "count": 589,
+     "share": 0.2897,
+     "se": 0.0101,
+     "school_sd": 0.1127
+    },
+    "Sr": {
+     "count": 455,
+     "share": 0.2238,
+     "se": 0.0092,
+     "school_sd": 0.1087
+    },
+    "Gr": {
+     "count": 85,
+     "share": 0.0418,
+     "se": 0.0044,
+     "school_sd": 0.05
+    },
+    "unknown": {
+     "count": 64,
+     "share": 0.0315,
+     "se": 0.0039,
+     "school_sd": 0.1813
+    }
+   },
+   "mid": {
+    "players": 4524,
+    "schools": 122,
+    "Fr": {
+     "count": 1154,
+     "share": 0.2551,
+     "se": 0.0065,
+     "school_sd": 0.0949
+    },
+    "So": {
+     "count": 911,
+     "share": 0.2014,
+     "se": 0.006,
+     "school_sd": 0.088
+    },
+    "Jr": {
+     "count": 1293,
+     "share": 0.2858,
+     "se": 0.0067,
+     "school_sd": 0.1052
+    },
+    "Sr": {
+     "count": 881,
+     "share": 0.1947,
+     "se": 0.0059,
+     "school_sd": 0.0977
+    },
+    "Gr": {
+     "count": 201,
+     "share": 0.0444,
+     "se": 0.0031,
+     "school_sd": 0.0581
+    },
+    "unknown": {
+     "count": 84,
+     "share": 0.0186,
+     "se": 0.002,
+     "school_sd": 0.1275
+    }
+   },
+   "p4": {
+    "players": 2020,
+    "schools": 50,
+    "Fr": {
+     "count": 585,
+     "share": 0.2896,
+     "se": 0.0101,
+     "school_sd": 0.0864
+    },
+    "So": {
+     "count": 442,
+     "share": 0.2188,
+     "se": 0.0092,
+     "school_sd": 0.0633
+    },
+    "Jr": {
+     "count": 567,
+     "share": 0.2807,
+     "se": 0.01,
+     "school_sd": 0.0747
+    },
+    "Sr": {
+     "count": 320,
+     "share": 0.1584,
+     "se": 0.0081,
+     "school_sd": 0.0872
+    },
+    "Gr": {
+     "count": 101,
+     "share": 0.05,
+     "se": 0.0048,
+     "school_sd": 0.062
+    },
+    "unknown": {
+     "count": 5,
+     "share": 0.0025,
+     "se": 0.0011,
+     "school_sd": 0.0177
+    }
+   },
+   "all": {
+    "players": 8577,
+    "schools": 232,
+    "Fr": {
+     "count": 2187,
+     "share": 0.255,
+     "se": 0.0047,
+     "school_sd": 0.0973
+    },
+    "So": {
+     "count": 1745,
+     "share": 0.2035,
+     "se": 0.0043,
+     "school_sd": 0.0876
+    },
+    "Jr": {
+     "count": 2449,
+     "share": 0.2855,
+     "se": 0.0049,
+     "school_sd": 0.1012
+    },
+    "Sr": {
+     "count": 1656,
+     "share": 0.1931,
+     "se": 0.0043,
+     "school_sd": 0.101
+    },
+    "Gr": {
+     "count": 387,
+     "share": 0.0451,
+     "se": 0.0022,
+     "school_sd": 0.0568
+    },
+    "unknown": {
+     "count": 153,
+     "share": 0.0178,
+     "se": 0.0014,
+     "school_sd": 0.1308
+    }
+   }
+  },
+  "origin_by_tier": {
+   "low": {
+    "players": 2033,
+    "schools": 60,
+    "high_school_only": {
+     "count": 904,
+     "share": 0.4447,
+     "se": 0.011,
+     "school_sd": 0.2955
+    },
+    "d1_transfer": {
+     "count": 176,
+     "share": 0.0866,
+     "se": 0.0062,
+     "school_sd": 0.0957
+    },
+    "juco": {
+     "count": 418,
+     "share": 0.2056,
+     "se": 0.009,
+     "school_sd": 0.2144
+    },
+    "other_four_year": {
+     "count": 198,
+     "share": 0.0974,
+     "se": 0.0066,
+     "school_sd": 0.1065
+    },
+    "unknown": {
+     "count": 337,
+     "share": 0.1658,
+     "se": 0.0082,
+     "school_sd": 0.3758
+    }
+   },
+   "mid": {
+    "players": 4524,
+    "schools": 122,
+    "high_school_only": {
+     "count": 2330,
+     "share": 0.515,
+     "se": 0.0074,
+     "school_sd": 0.2407
+    },
+    "d1_transfer": {
+     "count": 645,
+     "share": 0.1426,
+     "se": 0.0052,
+     "school_sd": 0.0933
+    },
+    "juco": {
+     "count": 803,
+     "share": 0.1775,
+     "se": 0.0057,
+     "school_sd": 0.1424
+    },
+    "other_four_year": {
+     "count": 370,
+     "share": 0.0818,
+     "se": 0.0041,
+     "school_sd": 0.0785
+    },
+    "unknown": {
+     "count": 376,
+     "share": 0.0831,
+     "se": 0.0041,
+     "school_sd": 0.2754
+    }
+   },
+   "p4": {
+    "players": 2020,
+    "schools": 50,
+    "high_school_only": {
+     "count": 1030,
+     "share": 0.5099,
+     "se": 0.0111,
+     "school_sd": 0.2565
+    },
+    "d1_transfer": {
+     "count": 396,
+     "share": 0.196,
+     "se": 0.0088,
+     "school_sd": 0.1253
+    },
+    "juco": {
+     "count": 226,
+     "share": 0.1119,
+     "se": 0.007,
+     "school_sd": 0.1062
+    },
+    "other_four_year": {
+     "count": 97,
+     "share": 0.048,
+     "se": 0.0048,
+     "school_sd": 0.0714
+    },
+    "unknown": {
+     "count": 271,
+     "share": 0.1342,
+     "se": 0.0076,
+     "school_sd": 0.3505
+    }
+   },
+   "all": {
+    "players": 8577,
+    "schools": 232,
+    "high_school_only": {
+     "count": 4264,
+     "share": 0.4971,
+     "se": 0.0054,
+     "school_sd": 0.2604
+    },
+    "d1_transfer": {
+     "count": 1217,
+     "share": 0.1419,
+     "se": 0.0038,
+     "school_sd": 0.1073
+    },
+    "juco": {
+     "count": 1447,
+     "share": 0.1687,
+     "se": 0.004,
+     "school_sd": 0.161
+    },
+    "other_four_year": {
+     "count": 665,
+     "share": 0.0775,
+     "se": 0.0029,
+     "school_sd": 0.0868
+    },
+    "unknown": {
+     "count": 984,
+     "share": 0.1147,
+     "se": 0.0034,
+     "school_sd": 0.3214
+    }
+   }
+  },
+  "roster_size_by_tier": {
+   "low": {
+    "schools": 60,
+    "mean": 33.88,
+    "sd": 9.34,
+    "p10": 24.0,
+    "p50": 36.0,
+    "p90": 43.0,
+    "min": 5,
+    "max": 47,
+    "share_over_34": 0.617
+   },
+   "mid": {
+    "schools": 122,
+    "mean": 37.08,
+    "sd": 7.14,
+    "p10": 31.1,
+    "p50": 39.0,
+    "p90": 42.0,
+    "min": 5,
+    "max": 48,
+    "share_over_34": 0.844
+   },
+   "p4": {
+    "schools": 50,
+    "mean": 40.4,
+    "sd": 3.43,
+    "p10": 36.0,
+    "p50": 40.0,
+    "p90": 44.0,
+    "min": 33,
+    "max": 53,
+    "share_over_34": 0.94
+   },
+   "all": {
+    "schools": 232,
+    "mean": 36.97,
+    "sd": 7.51,
+    "p10": 31.0,
+    "p50": 39.0,
+    "p90": 43.0,
+    "min": 5,
+    "max": 53,
+    "share_over_34": 0.806
+   }
+  },
+  "position_mix_by_tier": {
+   "all": {
+    "players": 8620,
+    "pitchers": 4217,
+    "two_way": 277,
+    "position_players": 4126,
+    "pitcher_share": 0.4892,
+    "pitcher_or_two_way_share": 0.5213,
+    "by_group": {
+     "1B": 147,
+     "C": 815,
+     "IF": 1682,
+     "OF": 1238,
+     "P": 4217,
+     "UT/DH": 170,
+     "two-way": 277,
+     "unknown": 74
+    }
+   },
+   "low": {
+    "players": 2033,
+    "pitchers": 965,
+    "two_way": 59,
+    "position_players": 1009,
+    "pitcher_share": 0.4747,
+    "pitcher_or_two_way_share": 0.5037,
+    "by_group": {
+     "1B": 28,
+     "C": 202,
+     "IF": 402,
+     "OF": 308,
+     "P": 965,
+     "UT/DH": 53,
+     "two-way": 59,
+     "unknown": 16
+    }
+   },
+   "mid": {
+    "players": 4524,
+    "pitchers": 2214,
+    "two_way": 153,
+    "position_players": 2157,
+    "pitcher_share": 0.4894,
+    "pitcher_or_two_way_share": 0.5232,
+    "by_group": {
+     "1B": 91,
+     "C": 439,
+     "IF": 877,
+     "OF": 646,
+     "P": 2214,
+     "UT/DH": 84,
+     "two-way": 153,
+     "unknown": 20
+    }
+   },
+   "non_d1": {
+    "players": 43,
+    "pitchers": 16,
+    "two_way": 5,
+    "position_players": 22,
+    "pitcher_share": 0.3721,
+    "pitcher_or_two_way_share": 0.4884,
+    "by_group": {
+     "1B": 1,
+     "C": 4,
+     "IF": 8,
+     "OF": 7,
+     "P": 16,
+     "UT/DH": 2,
+     "two-way": 5
+    }
+   },
+   "p4": {
+    "players": 2020,
+    "pitchers": 1022,
+    "two_way": 60,
+    "position_players": 938,
+    "pitcher_share": 0.5059,
+    "pitcher_or_two_way_share": 0.5356,
+    "by_group": {
+     "1B": 27,
+     "C": 170,
+     "IF": 395,
+     "OF": 277,
+     "P": 1022,
+     "UT/DH": 31,
+     "two-way": 60,
+     "unknown": 38
+    }
+   }
+  }
+ },
+ "geography_2025": {
+  "source": "2025 roster pages of 283 WMT-sample teams (233 parsed), data/ncaa_2025/roster_aggregates/ (tools/fetch_rosters.py, tools/aggregate_rosters.py)",
+  "fetched": "2026-10-09",
+  "season": 2025,
+  "conf": "B",
+  "note": "Hometown state as listed on the roster page; school state from IPEDS. State-level only.",
+  "talent_states": {
+   "TX": {
+    "players_from_state": 745,
+    "share_of_all_located_players": 0.0903,
+    "stay_in_state_share": 0.6215,
+    "to_tier": {
+     "p4": 0.3087,
+     "mid": 0.3651,
+     "low": 0.3262
+    },
+    "schools_in_state": {
+     "all": {
+      "schools": 19,
+      "in_state_share_pooled": 0.6859,
+      "school_sd": 0.1468
+     },
+     "low": {
+      "schools": 8,
+      "in_state_share_pooled": 0.7205,
+      "school_sd": 0.1278
+     },
+     "mid": {
+      "schools": 5,
+      "in_state_share_pooled": 0.7688,
+      "school_sd": 0.1284
+     },
+     "p4": {
+      "schools": 6,
+      "in_state_share_pooled": 0.587,
+      "school_sd": 0.1542
+     }
+    }
+   },
+   "FL": {
+    "players_from_state": 614,
+    "share_of_all_located_players": 0.0745,
+    "stay_in_state_share": 0.4788,
+    "to_tier": {
+     "p4": 0.2752,
+     "mid": 0.5228,
+     "low": 0.202
+    },
+    "schools_in_state": {
+     "all": {
+      "schools": 11,
+      "in_state_share_pooled": 0.6837,
+      "school_sd": 0.1113
+     },
+     "low": {
+      "schools": 2,
+      "in_state_share_pooled": 0.7162,
+      "school_sd": 0.1507
+     },
+     "mid": {
+      "schools": 6,
+      "in_state_share_pooled": 0.6471,
+      "school_sd": 0.1183
+     },
+     "p4": {
+      "schools": 3,
+      "in_state_share_pooled": 0.7373,
+      "school_sd": 0.0767
+     }
+    }
+   },
+   "CA": {
+    "players_from_state": 1081,
+    "share_of_all_located_players": 0.1311,
+    "stay_in_state_share": 0.6004,
+    "to_tier": {
+     "p4": 0.2414,
+     "mid": 0.6651,
+     "low": 0.0934
+    },
+    "schools_in_state": {
+     "all": {
+      "schools": 21,
+      "in_state_share_pooled": 0.8042,
+      "school_sd": 0.1509
+     },
+     "mid": {
+      "schools": 17,
+      "in_state_share_pooled": 0.8009,
+      "school_sd": 0.164
+     },
+     "p4": {
+      "schools": 4,
+      "in_state_share_pooled": 0.8176,
+      "school_sd": 0.089
+     }
+    }
+   },
+   "GA": {
+    "players_from_state": 394,
+    "share_of_all_located_players": 0.0478,
+    "stay_in_state_share": 0.3604,
+    "to_tier": {
+     "p4": 0.2462,
+     "mid": 0.5838,
+     "low": 0.1701
+    },
+    "schools_in_state": {
+     "all": {
+      "schools": 5,
+      "in_state_share_pooled": 0.6927,
+      "school_sd": 0.1365
+     },
+     "mid": {
+      "schools": 4,
+      "in_state_share_pooled": 0.7125,
+      "school_sd": 0.1509
+     },
+     "p4": {
+      "schools": 1,
+      "in_state_share_pooled": 0.6222,
+      "school_sd": NaN
+     }
+    }
+   },
+   "NC": {
+    "players_from_state": 321,
+    "share_of_all_located_players": 0.0389,
+    "stay_in_state_share": 0.7009,
+    "to_tier": {
+     "p4": 0.1994,
+     "mid": 0.7508,
+     "low": 0.0498
+    },
+    "schools_in_state": {
+     "all": {
+      "schools": 17,
+      "in_state_share_pooled": 0.3913,
+      "school_sd": 0.2211
+     },
+     "mid": {
+      "schools": 13,
+      "in_state_share_pooled": 0.413,
+      "school_sd": 0.2382
+     },
+     "p4": {
+      "schools": 4,
+      "in_state_share_pooled": 0.3354,
+      "school_sd": 0.1725
+     }
+    }
+   },
+   "AZ": {
+    "players_from_state": 145,
+    "share_of_all_located_players": 0.0176,
+    "stay_in_state_share": 0.2552,
+    "to_tier": {
+     "p4": 0.2345,
+     "mid": 0.6069,
+     "low": 0.1586
+    },
+    "schools_in_state": {
+     "all": {
+      "schools": 2,
+      "in_state_share_pooled": 0.4353,
+      "school_sd": 0.1615
+     },
+     "mid": {
+      "schools": 1,
+      "in_state_share_pooled": 0.5455,
+      "school_sd": NaN
+     },
+     "p4": {
+      "schools": 1,
+      "in_state_share_pooled": 0.3171,
+      "school_sd": NaN
+     }
+    }
+   },
+   "TN": {
+    "players_from_state": 180,
+    "share_of_all_located_players": 0.0218,
+    "stay_in_state_share": 0.5056,
+    "to_tier": {
+     "p4": 0.2444,
+     "mid": 0.5778,
+     "low": 0.1778
+    },
+    "schools_in_state": {
+     "all": {
+      "schools": 7,
+      "in_state_share_pooled": 0.3297,
+      "school_sd": 0.1216
+     },
+     "low": {
+      "schools": 1,
+      "in_state_share_pooled": 0.4242,
+      "school_sd": NaN
+     },
+     "mid": {
+      "schools": 5,
+      "in_state_share_pooled": 0.3158,
+      "school_sd": 0.1406
+     },
+     "p4": {
+      "schools": 1,
+      "in_state_share_pooled": 0.3208,
+      "school_sd": NaN
+     }
+    }
+   },
+   "SC": {
+    "players_from_state": 141,
+    "share_of_all_located_players": 0.0171,
+    "stay_in_state_share": 0.5603,
+    "to_tier": {
+     "p4": 0.2695,
+     "mid": 0.695,
+     "low": 0.0355
+    },
+    "schools_in_state": {
+     "all": {
+      "schools": 9,
+      "in_state_share_pooled": 0.2277,
+      "school_sd": 0.1565
+     },
+     "mid": {
+      "schools": 7,
+      "in_state_share_pooled": 0.2127,
+      "school_sd": 0.1785
+     },
+     "p4": {
+      "schools": 2,
+      "in_state_share_pooled": 0.2785,
+      "school_sd": 0.0408
+     }
+    }
+   },
+   "VA": {
+    "players_from_state": 279,
+    "share_of_all_located_players": 0.0338,
+    "stay_in_state_share": 0.6093,
+    "to_tier": {
+     "p4": 0.1541,
+     "mid": 0.7097,
+     "low": 0.1362
+    },
+    "schools_in_state": {
+     "all": {
+      "schools": 10,
+      "in_state_share_pooled": 0.4439,
+      "school_sd": 0.2106
+     },
+     "low": {
+      "schools": 1,
+      "in_state_share_pooled": 0.5926,
+      "school_sd": NaN
+     },
+     "mid": {
+      "schools": 8,
+      "in_state_share_pooled": 0.4327,
+      "school_sd": 0.2326
+     },
+     "p4": {
+      "schools": 1,
+      "in_state_share_pooled": 0.4318,
+      "school_sd": NaN
+     }
+    }
+   },
+   "IL": {
+    "players_from_state": 370,
+    "share_of_all_located_players": 0.0449,
+    "stay_in_state_share": 0.3297,
+    "to_tier": {
+     "p4": 0.2135,
+     "mid": 0.5378,
+     "low": 0.2486
+    },
+    "schools_in_state": {
+     "all": {
+      "schools": 7,
+      "in_state_share_pooled": 0.5674,
+      "school_sd": 0.0601
+     },
+     "low": {
+      "schools": 3,
+      "in_state_share_pooled": 0.4923,
+      "school_sd": 0.0672
+     },
+     "mid": {
+      "schools": 3,
+      "in_state_share_pooled": 0.6,
+      "school_sd": 0.0377
+     },
+     "p4": {
+      "schools": 1,
+      "in_state_share_pooled": 0.6,
+      "school_sd": NaN
+     }
+    }
+   },
+   "OH": {
+    "players_from_state": 278,
+    "share_of_all_located_players": 0.0337,
+    "stay_in_state_share": 0.4856,
+    "to_tier": {
+     "p4": 0.205,
+     "mid": 0.5935,
+     "low": 0.2014
+    },
+    "schools_in_state": {
+     "all": {
+      "schools": 9,
+      "in_state_share_pooled": 0.4079,
+      "school_sd": 0.2263
+     },
+     "low": {
+      "schools": 1,
+      "in_state_share_pooled": 0.375,
+      "school_sd": NaN
+     },
+     "mid": {
+      "schools": 6,
+      "in_state_share_pooled": 0.4313,
+      "school_sd": 0.2721
+     },
+     "p4": {
+      "schools": 2,
+      "in_state_share_pooled": 0.3625,
+      "school_sd": 0.1852
+     }
+    }
+   },
+   "NY": {
+    "players_from_state": 309,
+    "share_of_all_located_players": 0.0375,
+    "stay_in_state_share": 0.343,
+    "to_tier": {
+     "p4": 0.123,
+     "mid": 0.5178,
+     "low": 0.3592
+    },
+    "schools_in_state": {
+     "all": {
+      "schools": 10,
+      "in_state_share_pooled": 0.3174,
+      "school_sd": 0.2236
+     },
+     "low": {
+      "schools": 6,
+      "in_state_share_pooled": 0.2732,
+      "school_sd": 0.2321
+     },
+     "mid": {
+      "schools": 4,
+      "in_state_share_pooled": 0.3709,
+      "school_sd": 0.2196
+     }
+    }
+   },
+   "NJ": {
+    "players_from_state": 309,
+    "share_of_all_located_players": 0.0375,
+    "stay_in_state_share": 0.2557,
+    "to_tier": {
+     "p4": 0.2104,
+     "mid": 0.3819,
+     "low": 0.4078
+    },
+    "schools_in_state": {
+     "all": {
+      "schools": 6,
+      "in_state_share_pooled": 0.395,
+      "school_sd": 0.2223
+     },
+     "low": {
+      "schools": 3,
+      "in_state_share_pooled": 0.3158,
+      "school_sd": 0.3228
+     },
+     "mid": {
+      "schools": 2,
+      "in_state_share_pooled": 0.4627,
+      "school_sd": 0.0803
+     },
+     "p4": {
+      "schools": 1,
+      "in_state_share_pooled": 0.4737,
+      "school_sd": NaN
+     }
+    }
+   },
+   "PA": {
+    "players_from_state": 304,
+    "share_of_all_located_players": 0.0369,
+    "stay_in_state_share": 0.2007,
+    "to_tier": {
+     "p4": 0.2039,
+     "mid": 0.4441,
+     "low": 0.352
+    },
+    "schools_in_state": {
+     "all": {
+      "schools": 6,
+      "in_state_share_pooled": 0.2748,
+      "school_sd": 0.1362
+     },
+     "low": {
+      "schools": 4,
+      "in_state_share_pooled": 0.28,
+      "school_sd": 0.1293
+     },
+     "mid": {
+      "schools": 1,
+      "in_state_share_pooled": 0.1143,
+      "school_sd": NaN
+     },
+     "p4": {
+      "schools": 1,
+      "in_state_share_pooled": 0.4054,
+      "school_sd": NaN
+     }
+    }
+   },
+   "LA": {
+    "players_from_state": 210,
+    "share_of_all_located_players": 0.0255,
+    "stay_in_state_share": 0.7762,
+    "to_tier": {
+     "p4": 0.1429,
+     "mid": 0.319,
+     "low": 0.5381
+    },
+    "schools_in_state": {
+     "all": {
+      "schools": 11,
+      "in_state_share_pooled": 0.3721,
+      "school_sd": 0.1667
+     },
+     "low": {
+      "schools": 6,
+      "in_state_share_pooled": 0.3831,
+      "school_sd": 0.1695
+     },
+     "mid": {
+      "schools": 4,
+      "in_state_share_pooled": 0.36,
+      "school_sd": 0.2108
+     },
+     "p4": {
+      "schools": 1,
+      "in_state_share_pooled": 0.35,
+      "school_sd": NaN
+     }
+    }
+   },
+   "AL": {
+    "players_from_state": 129,
+    "share_of_all_located_players": 0.0156,
+    "stay_in_state_share": 0.5271,
+    "to_tier": {
+     "p4": 0.2326,
+     "mid": 0.5969,
+     "low": 0.1705
+    },
+    "schools_in_state": {
+     "all": {
+      "schools": 6,
+      "in_state_share_pooled": 0.2931,
+      "school_sd": 0.0893
+     },
+     "low": {
+      "schools": 1,
+      "in_state_share_pooled": 0.1628,
+      "school_sd": NaN
+     },
+     "mid": {
+      "schools": 4,
+      "in_state_share_pooled": 0.3121,
+      "school_sd": 0.0741
+     },
+     "p4": {
+      "schools": 1,
+      "in_state_share_pooled": 0.3542,
+      "school_sd": NaN
+     }
+    }
+   },
+   "OK": {
+    "players_from_state": 61,
+    "share_of_all_located_players": 0.0074,
+    "stay_in_state_share": 0.2459,
+    "to_tier": {
+     "p4": 0.4918,
+     "mid": 0.377,
+     "low": 0.1311
+    },
+    "schools_in_state": {
+     "all": {
+      "schools": 2,
+      "in_state_share_pooled": 0.1948,
+      "school_sd": 0.2577
+     },
+     "p4": {
+      "schools": 2,
+      "in_state_share_pooled": 0.1948,
+      "school_sd": 0.2577
+     }
+    }
+   },
+   "MS": {
+    "players_from_state": 134,
+    "share_of_all_located_players": 0.0162,
+    "stay_in_state_share": 0.3881,
+    "to_tier": {
+     "p4": 0.2687,
+     "mid": 0.4701,
+     "low": 0.2612
+    },
+    "schools_in_state": {
+     "all": {
+      "schools": 5,
+      "in_state_share_pooled": 0.2826,
+      "school_sd": 0.1807
+     },
+     "low": {
+      "schools": 2,
+      "in_state_share_pooled": 0.1077,
+      "school_sd": 0.0584
+     },
+     "mid": {
+      "schools": 1,
+      "in_state_share_pooled": 0.4872,
+      "school_sd": NaN
+     },
+     "p4": {
+      "schools": 2,
+      "in_state_share_pooled": 0.325,
+      "school_sd": 0.1414
+     }
+    }
+   },
+   "WA": {
+    "players_from_state": 164,
+    "share_of_all_located_players": 0.0199,
+    "stay_in_state_share": 0.4024,
+    "to_tier": {
+     "p4": 0.2988,
+     "mid": 0.622,
+     "low": 0.0793
+    },
+    "schools_in_state": {
+     "all": {
+      "schools": 4,
+      "in_state_share_pooled": 0.4342,
+      "school_sd": 0.1418
+     },
+     "mid": {
+      "schools": 3,
+      "in_state_share_pooled": 0.3818,
+      "school_sd": 0.1314
+     },
+     "p4": {
+      "schools": 1,
+      "in_state_share_pooled": 0.5714,
+      "school_sd": NaN
+     }
+    }
+   },
+   "OR": {
+    "players_from_state": 70,
+    "share_of_all_located_players": 0.0085,
+    "stay_in_state_share": 0.4286,
+    "to_tier": {
+     "p4": 0.3286,
+     "mid": 0.6143,
+     "low": 0.0571
+    },
+    "schools_in_state": {
+     "all": {
+      "schools": 3,
+      "in_state_share_pooled": 0.2679,
+      "school_sd": 0.086
+     },
+     "mid": {
+      "schools": 1,
+      "in_state_share_pooled": 0.3421,
+      "school_sd": NaN
+     },
+     "p4": {
+      "schools": 2,
+      "in_state_share_pooled": 0.2297,
+      "school_sd": 0.0842
+     }
+    }
+   }
+  },
+  "foreign": {
+   "p4": {
+    "players": 2020,
+    "foreign": 50,
+    "share": 0.0248,
+    "top": {
+     "Canada": 36,
+     "Australia": 4,
+     "Mexico": 2,
+     "Dominican Republic": 2,
+     "Aruba": 1,
+     "Germany": 1
+    }
+   },
+   "mid": {
+    "players": 4524,
+    "foreign": 109,
+    "share": 0.0241,
+    "top": {
+     "Canada": 77,
+     "Australia": 8,
+     "Japan": 4,
+     "Venezuela": 4,
+     "Dominican Republic": 4,
+     "Netherlands": 3
+    }
+   },
+   "low": {
+    "players": 2033,
+    "foreign": 66,
+    "share": 0.0325,
+    "top": {
+     "Canada": 41,
+     "Dominican Republic": 4,
+     "Australia": 4,
+     "Venezuela": 3,
+     "Curacao": 2,
+     "Japan": 2
+    }
+   }
+  },
+  "in_state_by_tier": {
+   "p4": {
+    "players": 2020,
+    "in_state_share": 0.4272
+   },
+   "mid": {
+    "players": 4524,
+    "in_state_share": 0.4571
+   },
+   "low": {
+    "players": 2033,
+    "in_state_share": 0.3856
+   }
+  }
+ },
+ "d1_vs_non_d1_2025": {
+  "source": "data.ncaa.com 2025 D1 scoreboard (data/ncaa_2025/scoreboard/games_2025.csv)",
+  "fetched": "2026-09-30",
+  "conf": "C",
+  "games_table": [
+   {
+    "d1_tier": "low",
+    "games": 55,
+    "d1_win_pct": 0.8727,
+    "d1_runs_per_game": 12.018,
+    "non_d1_runs_per_game": 4.509,
+    "margin_mean": 7.509,
+    "margin_sd": 6.638,
+    "log_run_ratio": 0.9803,
+    "d1_home_share": 0.909,
+    "distinct_non_d1_opponents": 35
+   },
+   {
+    "d1_tier": "mid",
+    "games": 29,
+    "d1_win_pct": 0.9655,
+    "d1_runs_per_game": 12.483,
+    "non_d1_runs_per_game": 3.931,
+    "margin_mean": 8.552,
+    "margin_sd": 8.078,
+    "log_run_ratio": 1.1554,
+    "d1_home_share": 0.966,
+    "distinct_non_d1_opponents": 23
+   },
+   {
+    "d1_tier": "p4",
+    "games": 5,
+    "d1_win_pct": 0.8,
+    "d1_runs_per_game": 11.8,
+    "non_d1_runs_per_game": 3.0,
+    "margin_mean": 8.8,
+    "margin_sd": 6.535,
+    "log_run_ratio": 1.3695,
+    "d1_home_share": 1.0,
+    "distinct_non_d1_opponents": 4
+   },
+   {
+    "d1_tier": "all",
+    "games": 90,
+    "d1_win_pct": 0.9,
+    "d1_runs_per_game": 12.211,
+    "non_d1_runs_per_game": 4.267,
+    "margin_mean": 7.944,
+    "margin_sd": 7.037,
+    "log_run_ratio": 1.0515,
+    "d1_home_share": 0.933,
+    "distinct_non_d1_opponents": 61
+   }
+  ],
+  "non_d1_conferences_top": {
+   "IND": 43,
+   "SIAC": 6,
+   "PacWest": 5,
+   "CCIW": 3,
+   "G-MAC": 3,
+   "Great Northwest": 3,
+   "Gulf South": 3,
+   "GLVC": 3,
+   "CACC": 2,
+   "NACC": 2,
+   "NWC": 2,
+   "North Atlantic": 2
+  },
+  "note": "2025 D1 scoreboard finals with exactly one D1 team (non-D1 are D2, D3, NAIA and others; the feed tags most as IND, so the level mix is unknown). D1 teams host most of these games. A scoreboard strength fit on D2's own feed would place D2 properly; this is the raw crossover margin."
+ },
+ "development_2022_2026_wmt": {
+  "source": "api.wmt.games player season statistics (data/wmt_player_seasons/)",
+  "conf": "B",
+  "status": "not built yet"
+ }
+}
