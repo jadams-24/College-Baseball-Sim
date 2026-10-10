@@ -216,6 +216,18 @@ recruiting-style comparison and its 2019–2024 lists are paywalled (data reques
 export in the same layout runs through the matcher unchanged). Results: report section 12;
 `recruit_rankings_outcomes_2019_2024` in the benchmarks file.
 
+## 12. Recruit pool and coaching carousel (round 2, 2026-10-10)
+
+Web research (session subagent): NFHS participation surveys 2023-24 and 2024-25 (by-state tables parsed
+from the official PDFs), the NCAA 2024-25 sponsorship report and probability page, the NCAA 2020 recruit map
+(values read from the map image, grade B); Wikipedia season pages, Baseball America trackers 2020–2024 and
+College Baseball Insights carousels for 254 D1 head-coach changes after the 2019–2025 seasons, with tenure
+and the hire's previous post from the trackers and coach biographies. The per-change working table (with
+names, public figures) stays outside the repository; `data/phase8_11/coaching_changes_2019_2026.csv`,
+`coaching_tenure_2019_2025.csv` and `recruit_pool_by_state_2024_25.csv` carry counts only (checked against
+the working table's tokens). Report sections 13 and 14; `recruit_pool_2024_25` and
+`coaching_carousel_2019_2025` in the benchmarks file.
+
 ## Confidence summary
 
 | Block | Grade | Why |
