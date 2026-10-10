@@ -91,6 +91,10 @@ doubleheader number), `subs_2025.csv.gz` (every substitution action), `fielding_
 (every fielder credit: putouts, assists, errors, passed balls, by position) and
 `runners_2025.csv.gz` (every runner action: on base, advances, steals, caught stealing, pickoffs).
 
+## data/ncaa_2025/derived/team_seed_2025.json — teams seeded from their real programs
+
+Built 2026-10-10 by `scripts/build_team_seed.py` from the committed scoreboards (`data/ncaa_2021..2025/scoreboard/`, data.ncaa.com; non-NCAA opponents excluded) and the shared name alias table (`data/schools/name_aliases.csv`). Keyed by NCAA team id: each program's recency-weighted 2021-2025 strength, its standardized within-conference deviation, the conference priors, the real year-to-year correlations by tier and the solved ranking noise. Read by `engine/league.py` when `config.phase2.SEED_FROM_PROGRAMS` is on.
+
 ## data/ncaa_2025/derived/ — Phase 6 inputs
 
 `phase6_inputs_2025.json`, blocks written by `scripts/build_phase6_usage.py` (weekly calendar,
