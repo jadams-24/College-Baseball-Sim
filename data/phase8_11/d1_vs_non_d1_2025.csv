@@ -1,0 +1,5 @@
+d1_tier,games,d1_win_pct,d1_runs_per_game,non_d1_runs_per_game,margin_mean,margin_sd,log_run_ratio,d1_home_share,distinct_non_d1_opponents
+low,55,0.8727,12.018,4.509,7.509,6.638,0.9803,0.909,35
+mid,29,0.9655,12.483,3.931,8.552,8.078,1.1554,0.966,23
+p4,5,0.8,11.8,3.0,8.8,6.535,1.3695,1.0,4
+all,90,0.9,12.211,4.267,7.944,7.037,1.0515,0.933,61
