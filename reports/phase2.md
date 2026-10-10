@@ -16,7 +16,7 @@ Tolerances combine the benchmark's (3 SE of the real statistic) with 3 SE of the
 | HR per team-game | 1.0637 | 1.0500 | ±0.0512 | B |  | pass |
 | BB per PA | 0.1063 | 0.1059 | ±0.0051 | B |  | pass |
 | K per PA | 0.1934 | 0.1927 | ±0.0053 | B |  | pass |
-| HBP per PA | 0.0343 | 0.0334 | ±0.0040 | B |  | pass |
+| HBP per PA | 0.0343 | 0.0334 | ±0.0040 | B | yes | pass |
 | Errors per team-game | 1.1078 | 1.0990 | ±0.1506 | B |  | pass |
 | PA per team-game | 40.7759 | 40.3100 | ±1.0027 | B |  | pass |
 | ERA | 6.1236 | 6.0800 | ±0.3068 | B |  | pass |

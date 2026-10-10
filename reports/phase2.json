@@ -393,6 +393,7 @@
   "league_ba": true,
   "league_obp": true,
   "league_slg": true,
+  "league_hbp_pct": true,
   "big_inning": true,
   "pa_half": true,
   "half_inning_run_dist": true,
@@ -469,6 +470,10 @@
   "league_slg": [
    0.44177897912405034,
    0.0006423485633616237
+  ],
+  "league_hbp_pct": [
+   0.034326412627914075,
+   0.0001325313664760886
   ],
   "big_inning": [
    0.1035388998885288,
