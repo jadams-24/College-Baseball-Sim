@@ -6,7 +6,6 @@ its next clean point."""
 from __future__ import annotations
 
 import os
-import shutil
 import socket
 import subprocess
 import sys
@@ -96,7 +95,7 @@ def _free_port() -> int:
 
 
 def _chromium():
-    for p in (os.environ.get("CBS_CHROMIUM"), "/opt/pw-browsers/chromium", shutil.which("chromium"), shutil.which("chromium-browser")):
+    for p in (os.environ.get("CBS_CHROMIUM"), "/opt/pw-browsers/chromium"):          # CI has no browser: the page test skips there
         if p and Path(p).exists():
             return p
     return None
