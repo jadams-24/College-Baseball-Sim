@@ -22,6 +22,13 @@ and level, sigma is solved by bisection on a simulation of the engine's own proc
 tier's team or conference draws, config.phase2 team_draw) so the pooled correlation of the prior with the assigned draw
 equals the real target; where even sigma 0 cannot reach it, sigma is 0 and the shortfall is reported.
 
+Tier offset (owner approval 2026-10-10): the calibrated tier means are team-weighted averages of real teams. Unseeded,
+conference effects are independent of conference size, so the team-weighted mean of a tier's effects is 0 in expectation.
+Seeded, they follow real conference strength, and real strength correlates with size (low tier: -.45, the largest low-tier
+conferences are the weakest), so the team-weighted tier mean would move. offset[tier] = -E[sum_c n_c c_c / sum_c n_c] over
+the seeded conferences, by simulation of the engine's procedure (N_OFFSET draws), added to every seeded conference effect of
+the tier: each tier's spread and ordering are unchanged and its team-weighted mean is the calibrated one in expectation.
+
 Writes data/ncaa_2025/derived/team_seed_2025.json, keyed by NCAA team id (the engine never reads data/schools).
     python3 scripts/build_team_seed.py
 """
@@ -115,6 +122,21 @@ def predictability(S: dict, N: dict, teams: pd.DataFrame) -> tuple[dict, dict]:
 
 
 N_SIM = 400          # simulated leagues per bisection step
+N_OFFSET = 20000     # simulated conference draws for the tier offset
+
+
+def tier_offset(z: list, sizes: list, conf_cov: np.ndarray, sigma: float) -> dict:
+    """Expected team-weighted mean of the tier's seeded conference effects (o, d), its negative the offset, and its SE."""
+    from engine.league import seed_order
+    rng = np.random.default_rng(SOLVE_SEED + 2)
+    w = np.asarray(sizes, float) / float(np.sum(sizes))
+    m = np.empty((N_OFFSET, 2))
+    for k in range(N_OFFSET):
+        draws = list(rng.multivariate_normal(np.zeros(2), conf_cov, size=len(z), method="eigh"))
+        got = np.array(seed_order(draws, z, 1.0, rng, sigma=sigma))
+        m[k] = w @ got
+    mean, se = m.mean(0), m.std(0, ddof=1) / np.sqrt(N_OFFSET)
+    return {"offset": [round(-float(x), 5) for x in mean], "se": [round(float(x), 5) for x in se]}
 SOLVE_SEED = 20261010
 
 
@@ -200,7 +222,8 @@ def main() -> None:
         cc, tc = np.array(cfg.team_draw[tier]["conf_cov"]), np.array(cfg.team_draw[tier]["team_cov"])
         out["sigma_conf"][tier] = solve_sigma([cz], cc, r_conf[tier]["r_true"],
                                               fn=lambda sg, rng: achieved_conf(cz, sizes, cc, tc, sg, rng))
-        print(tier, "team", out["sigma_team"][tier], "conf", out["sigma_conf"][tier], flush=True)
+        out.setdefault("tier_offset", {})[tier] = tier_offset(cz, sizes, cc, out["sigma_conf"][tier]["sigma"])
+        print(tier, "team", out["sigma_team"][tier], "conf", out["sigma_conf"][tier], "offset", out["tier_offset"][tier], flush=True)
     TEAM_SEED.write_text(json.dumps(out, indent=1) + "\n")
     print(json.dumps({"r_team": r_team, "r_conf": r_conf, "no_season": missing}, indent=1))
 

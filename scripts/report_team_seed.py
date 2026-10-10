@@ -62,11 +62,12 @@ def main() -> None:
     for on in (True, False):
         rec = {t: [] for t in ("p4", "mid", "low")}
         crec = {t: [] for t in ("p4", "mid", "low")}
-        ex, w1, rho, om_ok = [], [], [], []
+        ex, w1, rho, om_ok, tmeans = [], [], [], [], []
         for k in range(a.leagues):
             lg = league(REPORT_SEED + k, on)
             o = np.array([lg.teams[i].o_total for i in range(len(ids))]); d = np.array([lg.teams[i].d_total for i in range(len(ids))])
             s = o + d
+            tmeans.append([[o[tiers == t].mean(), d[tiers == t].mean()] for t in ("p4", "mid", "low")])
             # within-conference deviation of the drawn strength (independents excluded), by tier
             dfr = pd.DataFrame({"s": s, "z": z, "conf": confs, "tier": tiers})
             dfr = dfr[dfr.conf != "DI Independent"]
@@ -96,7 +97,10 @@ def main() -> None:
             jk = np.array([r(pairs[:i] + pairs[i + 1:]) for i in range(n)])
             return full, float(np.sqrt((n - 1) / n * ((jk - jk.mean()) ** 2).sum()))
         res[on] = {"rec": {t: pooled(v) for t, v in rec.items()}, "crec": {t: pooled(v) for t, v in crec.items() if v},
-                   "exact": ms(ex), "within1": ms(w1), "rho": ms(rho), "omaha_bplus": ms(om_ok)}
+                   "exact": ms(ex), "within1": ms(w1), "rho": ms(rho), "omaha_bplus": ms(om_ok),
+                   "tier_mean": {t: {"mean": np.array(tmeans)[:, i].mean(0).round(4).tolist(),
+                                     "se": (np.array(tmeans)[:, i].std(0, ddof=1) / np.sqrt(len(tmeans))).round(4).tolist()}
+                                 for i, t in enumerate(("p4", "mid", "low"))}}
     f = lambda m: f"{m[0]:.3f} ± {m[1]:.3f}"      # noqa: E731
     md = ["# Teams seeded from their real programs (dynasty year 0)", "",
           f"Owner decision 2026-10-09. {a.leagues} leagues (the report's league seeds, {REPORT_SEED}+). The drawn strength set is unchanged per "
@@ -119,6 +123,15 @@ def main() -> None:
            "the conference (the set per conference is kept), so that part stays random; P4 also has only four conferences to rank. The "
            "conference effects are therefore ordered with no noise, the closest the kept sets allow (best achievable column). Closing the "
            "rest would mean moving team draws across conferences within a tier (the tier's set kept, the conferences' not): owner decision.", "",
+           "## Tier means (team-weighted o, d)", "",
+           "The calibrated tier means are team-weighted averages of real teams. Real conference strength correlates with conference "
+           "size (low tier -.45: the largest low-tier conferences are the weakest), so seeding alone would move the team-weighted mean; "
+           "a per-tier offset solved by simulation of the same procedure restores it (owner approval 2026-10-10). Each tier's spread and "
+           "ordering are unchanged.", "",
+           "| Tier | Calibrated | Offset added | Seeded | Unseeded |", "|---|---|---|---|---|",
+           *[f"| {t} | {tuple(round(x, 4) for x in cfg.team_draw[t]['mean'])} | {tuple(seed['tier_offset'][t]['offset'])} | "
+             f"{tuple(res[True]['tier_mean'][t]['mean'])} ± {tuple(res[True]['tier_mean'][t]['se'])} | "
+             f"{tuple(res[False]['tier_mean'][t]['mean'])} ± {tuple(res[False]['tier_mean'][t]['se'])} |" for t in ("p4", "mid", "low")], "",
            "## Omaha Contender, year 0 against the reference card", "",
            "The dynasty's grade: drawn strength (o + d) plus the program's real recent Omaha and super regional bonus, graded with "
            "`config.report_cards.omaha_score` and `grade_values` (the function the UI calls). Reference: the committed card (real 2021-2025 strength).", "",

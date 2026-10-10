@@ -1,5 +1,5 @@
 {
- "_note": "Seed teams from their real programs (owner decision 2026-10-09; dynasty year 0): the inputs engine/league.py needs to\nassign the calibrated team-strength draws to programs by their recent real strength.\n\nThe league keeps its drawn strength set exactly as calibrated per tier and conference: the conference effects are reordered\namong the conferences of a tier, and the team deviations among the teams of a conference. The order follows a noisy version\nof real 2021-2025 strength, with the noise set so the prior's correlation with the year-0 strength equals the real\ncorrelation of a program's recent history with its next season's true strength.\n\nPer season 2021-2025: the scoreboard fit (scripts/build_phase2_teams.fit, no parks) on every D1-vs-D1 final; o + d per\nprogram, with its estimation variance. Prior for a program: the recency-weighted mean (half-life HALF_LIFE seasons) of its\nseasons. Within-conference deviation (2025 conference map) standardized by the tier's pooled SD; conference means relative to\nthe tier mean, standardized the same way.\n\nReal predictability, fitted on 2023-2025 (each season predicted from the seasons before it): the correlation of the prior's\nwithin-conference deviation with the season's fitted deviation, divided by the square root of that season's reliability (the\nfit's estimation noise against the spread of fitted deviations), so it is the correlation with true strength, by tier; the\nsame for conference means within tier.\n\nNoise solved, not assumed: the engine ranks a small fixed set (four P4 conferences, about ten teams a conference), and rank\nassignment of a set loses correlation against a bivariate normal draw, so sigma = sqrt(1/r^2 - 1) undershoots. For each tier\nand level, sigma is solved by bisection on a simulation of the engine's own procedure (engine/league.py seed_order on the\ntier's team or conference draws, config.phase2 team_draw) so the pooled correlation of the prior with the assigned draw\nequals the real target; where even sigma 0 cannot reach it, sigma is 0 and the shortfall is reported.\n\nWrites data/ncaa_2025/derived/team_seed_2025.json, keyed by NCAA team id (the engine never reads data/schools).\n    python3 scripts/build_team_seed.py\n",
+ "_note": "Seed teams from their real programs (owner decision 2026-10-09; dynasty year 0): the inputs engine/league.py needs to\nassign the calibrated team-strength draws to programs by their recent real strength.\n\nThe league keeps its drawn strength set exactly as calibrated per tier and conference: the conference effects are reordered\namong the conferences of a tier, and the team deviations among the teams of a conference. The order follows a noisy version\nof real 2021-2025 strength, with the noise set so the prior's correlation with the year-0 strength equals the real\ncorrelation of a program's recent history with its next season's true strength.\n\nPer season 2021-2025: the scoreboard fit (scripts/build_phase2_teams.fit, no parks) on every D1-vs-D1 final; o + d per\nprogram, with its estimation variance. Prior for a program: the recency-weighted mean (half-life HALF_LIFE seasons) of its\nseasons. Within-conference deviation (2025 conference map) standardized by the tier's pooled SD; conference means relative to\nthe tier mean, standardized the same way.\n\nReal predictability, fitted on 2023-2025 (each season predicted from the seasons before it): the correlation of the prior's\nwithin-conference deviation with the season's fitted deviation, divided by the square root of that season's reliability (the\nfit's estimation noise against the spread of fitted deviations), so it is the correlation with true strength, by tier; the\nsame for conference means within tier.\n\nNoise solved, not assumed: the engine ranks a small fixed set (four P4 conferences, about ten teams a conference), and rank\nassignment of a set loses correlation against a bivariate normal draw, so sigma = sqrt(1/r^2 - 1) undershoots. For each tier\nand level, sigma is solved by bisection on a simulation of the engine's own procedure (engine/league.py seed_order on the\ntier's team or conference draws, config.phase2 team_draw) so the pooled correlation of the prior with the assigned draw\nequals the real target; where even sigma 0 cannot reach it, sigma is 0 and the shortfall is reported.\n\nTier offset (owner approval 2026-10-10): the calibrated tier means are team-weighted averages of real teams. Unseeded,\nconference effects are independent of conference size, so the team-weighted mean of a tier's effects is 0 in expectation.\nSeeded, they follow real conference strength, and real strength correlates with size (low tier: -.45, the largest low-tier\nconferences are the weakest), so the team-weighted tier mean would move. offset[tier] = -E[sum_c n_c c_c / sum_c n_c] over\nthe seeded conferences, by simulation of the engine's procedure (N_OFFSET draws), added to every seeded conference effect of\nthe tier: each tier's spread and ordering are unchanged and its team-weighted mean is the calibrated one in expectation.\n\nWrites data/ncaa_2025/derived/team_seed_2025.json, keyed by NCAA team id (the engine never reads data/schools).\n    python3 scripts/build_team_seed.py\n",
  "built": "2026-10-10",
  "half_life": 1.5,
  "seasons": [
@@ -1742,6 +1742,38 @@
    "sigma": 0.0,
    "achieved": 0.864,
    "max_achievable": 0.864
+  }
+ },
+ "tier_offset": {
+  "p4": {
+   "offset": [
+    0.00037,
+    0.00068
+   ],
+   "se": [
+    0.00017,
+    0.00031
+   ]
+  },
+  "mid": {
+   "offset": [
+    0.00027,
+    0.00074
+   ],
+   "se": [
+    7e-05,
+    0.00019
+   ]
+  },
+  "low": {
+   "offset": [
+    0.01191,
+    0.01526
+   ],
+   "se": [
+    0.00032,
+    0.00041
+   ]
   }
  }
 }

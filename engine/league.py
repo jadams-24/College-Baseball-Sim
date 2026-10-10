@@ -212,8 +212,11 @@ def build_league(cfg: Phase2Config, rng: np.random.Generator) -> League:
             idx = [i for i, (conf, _) in enumerate(order) if confs[i][2] == tier and not confs[i][3]]
             got = seed_order([conf_fx[i] for i in idx], [seed_in["conference"][order[i][0]]["z"] for i in idx],
                              seed_in["r_conf"][tier]["r_true"], rng_seed, sigma=seed_in["sigma_conf"][tier]["sigma"])
+            # the tier offset (scripts/build_team_seed.py, owner approval 2026-10-10): restores the calibrated team-weighted tier
+            # mean, which seeding would move because real conference strength correlates with conference size
+            off = np.array(seed_in["tier_offset"][tier]["offset"])
             for i, v in zip(idx, got):
-                conf_fx[i] = v
+                conf_fx[i] = v + off
     pt_rho = phase6.load().get("subs6", {}).get("bench_pick_weight", {}).get("playing_time_rho", {}).get("value") if phase6.on("subs") else None
     fl6 = phase6.load().get("fielding6") if phase6.on("fielding") else None
     phi_field = phase6.load().get("fielding_scale", {}).get("phi_engine") if fl6 else None

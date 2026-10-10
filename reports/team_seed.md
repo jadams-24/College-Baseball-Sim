@@ -15,15 +15,25 @@ Owner decision 2026-10-09. 40 leagues (the report's league seeds, 20251000+). Th
 
 The ranking noise is solved per tier and level on a simulation of the engine's own procedure, so the achieved correlation equals the real target where it can (teams within conference: all three tiers). Conference means cannot reach theirs: a conference's mean strength is its effect plus the mean of its members' team draws, and those draws are only reordered within the conference (the set per conference is kept), so that part stays random; P4 also has only four conferences to rank. The conference effects are therefore ordered with no noise, the closest the kept sets allow (best achievable column). Closing the rest would mean moving team draws across conferences within a tier (the tier's set kept, the conferences' not): owner decision.
 
+## Tier means (team-weighted o, d)
+
+The calibrated tier means are team-weighted averages of real teams. Real conference strength correlates with conference size (low tier -.45: the largest low-tier conferences are the weakest), so seeding alone would move the team-weighted mean; a per-tier offset solved by simulation of the same procedure restores it (owner approval 2026-10-10). Each tier's spread and ordering are unchanged.
+
+| Tier | Calibrated | Offset added | Seeded | Unseeded |
+|---|---|---|---|---|
+| p4 | (0.2822, 0.3339) | (0.00037, 0.00068) | (0.2902, 0.3481) ± (0.0039, 0.0072) | (0.2887, 0.3441) ± (0.0042, 0.0077) |
+| mid | (0.01, 0.0049) | (0.00027, 0.00074) | (0.0081, 0.0018) ± (0.0023, 0.0046) | (0.0101, 0.0022) ± (0.0026, 0.0053) |
+| low | (-0.22, -0.2485) | (0.01191, 0.01526) | (-0.2183, -0.2506) ± (0.0101, 0.0123) | (-0.2144, -0.2475) ± (0.0097, 0.0126) |
+
 ## Omaha Contender, year 0 against the reference card
 
 The dynasty's grade: drawn strength (o + d) plus the program's real recent Omaha and super regional bonus, graded with `config.report_cards.omaha_score` and `grade_values` (the function the UI calls). Reference: the committed card (real 2021-2025 strength).
 
 | Agreement | Seeded | Unseeded |
 |---|---|---|
-| Same grade | 0.345 ± 0.005 | 0.163 ± 0.004 |
-| Within one step | 0.785 ± 0.006 | 0.450 ± 0.006 |
-| Rank correlation of the scores | 0.906 ± 0.003 | 0.581 ± 0.010 |
-| 2021-2025 Omaha teams graded B+ or better | 0.963 ± 0.004 | 0.849 ± 0.012 |
+| Same grade | 0.342 ± 0.005 | 0.163 ± 0.004 |
+| Within one step | 0.782 ± 0.006 | 0.450 ± 0.006 |
+| Rank correlation of the scores | 0.903 ± 0.003 | 0.581 ± 0.010 |
+| 2021-2025 Omaha teams graded B+ or better | 0.965 ± 0.004 | 0.849 ± 0.012 |
 
 Oregon St. (the one independent) is a group of one: its conference effect and deviation stay as drawn.
