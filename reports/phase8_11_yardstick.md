@@ -16,7 +16,7 @@ Nothing here feeds the engine.
 | 1c | Roster size | Spring 2025 (pre-limit): P4 40.4 ± 3.4 listed players (p10–p90 36–44, 94% over 34); mid 37.1, low 33.9 (partial pages included) | B (P4), C (mid, low) | The 2026 rosters under the 34-man limit |
 | 1d | Pitchers vs position players | Pitcher share of listed players .506 / .489 / .475 (P4/mid/low); with two-way players .536 / .523 / .504 | B | — |
 | 2a | Player sources by tier | HS only .510/.515/.445, D1 transfer .196/.143/.087, JUCO .112/.177/.206, other four-year .048/.082/.097, unknown .134/.083/.166 (P4/mid/low) | B | — |
-| 2b | Moves between tiers | Pending: `d1_transfer_flow.csv` (previous D1 school's tier for every D1 transfer) comes from the roster run started today; among WMT client teams, see section 6 | B when it lands | The run opens a PR into this branch |
+| 2b | Moves between tiers | 64 Analytics 2021–26 (D1 thirds by conference RPI, players who played at both stops): of hitters leaving a D1 upper-third conference 59% land upper, 20% middle, 9% lower, 11% D2; leaving middle: 44% up to upper, 27% middle, 18% D2; leaving lower: 37% up to upper, 25% D2. NCAA: D1 transfers land D1 72–75%, D2 21–24%, D3 3%; D2 transfers land D1 41%. The roster-based P4/mid/low flow (`d1_transfer_flow.csv`) comes from the roster run started today | B (64A), A (NCAA) | P4/mid/low split: the roster run's PR |
 | 3a | Geography by tier | In-state .427 / .457 / .386; within 300 mi .59 / .64 / .65; foreign .025 / .024 / .033, Canada two-thirds of it | B | — |
 | 3b | Talent-rich states | CA 1,081 players (13.1% of located players, 60% stay in state, 24% to P4); TX 745 (9.0%, 62% stay, 31% to P4); FL 614 (7.5%, 48% stay, 28% to P4); GA 394 (4.8%, 36% stay); NC 321 (70% stay). Schools in TX 69% in-state, FL 68%, CA 80%, GA 69%, NC 39% | B | — |
 | 4a | Draft picks by round and source | Every pick 2021–2026 (3,685): HS 115–127 a year, JC 12–47, D1 420–461 (P4 238–279, mid 151–164, low 18–32), D2 9–22, D3 1–4, NAIA 1–8 | A (feed), B (tiers), C (D2/D3/NAIA split) | NCAA's own 2021, 2022, 2024 counts (page shows one edition) |
@@ -24,9 +24,9 @@ Nothing here feeds the engine.
 | 4c | College juniors drafted per D1 team | D1 draftees 1.37–1.50 per program (307); juniors 287 of 432 D1 picks in 2025 (.93 per program); NCAA: 15.3% of draft-eligible D1 players, 40.8% of P4's | A/B | NCAA eligible denominators for other years |
 | 4d | Slot values | Every slot 2021–2026 (`data/mlb_draft/slot_values.csv`); No. 1 $11.35M in 2026, pools $358.7M; $150,000 late-round exemption; overage tiers; deadlines | A | 2021–23 pool totals |
 | 4e | Proposed 12-round ruleset | MLB 2026-06-18: 12 rounds, hard slots, $200M, age 20 and two years past HS from 2028 (no HS or JUCO), sophomores eligible; MLBPA counter 07-21; no deal as of 10-10 | A/B | The signed agreement |
-| 5a | Portal entries per year | Pending (research running when this draft was written; see section 7) | | |
-| 5b | Placement and landing tier | Pending (section 7) | | |
-| 6 | Development: year-over-year change by class | Pending: the WMT player-season fetch (2022–2026, 51 client programs a season) was running when this draft was written; see section 6 | B when it lands | Non-client (mid, low) programs |
+| 5a | Portal entries per year | NCAA dashboards, D1 baseball, Aug–Jul cohorts: 2,715 (2023), 2,855 (2024), 3,772 (2025); 2022 about 2,415 and 2021 2,126 (secondhand); D2 baseball 1,303 / 1,591 / 1,997 | A (2023–25), C (2021–22) | Official 2021–22 counts; December vs June split |
+| 5b | Placement and landing tier | Of D1 entrants: transferred to an NCAA school 57% / 63% / 58%, withdrawn 8% / 6% / 5%, the rest still in the portal or outside the NCAA (35% / 31% / 37%). 2025 D1 transfers landed D1 72.5% (61.7% with aid, 10.8% without), D2 24.4%, D3 3.2%; graduate share 25% → 16%. 64 Analytics: 47% of all 2025 entrants appear in 2026 NCAA data | A | By conference tier (none published; SEC only) |
+| 6 | Development: year-over-year change by class | WMT player seasons 2022–2026 (51 client programs a season, 9,890 player-seasons, 1,186 batter and 1,185 pitcher consecutive-season pairs over 50 PA/BF). Batters Fr→So: K% −.10 logit, BB% +.09, HR% +.18, OPS +.059; So→Jr OPS +.023; Jr→Sr +.027; Sr→5th −.033. Pitchers Fr→So: K% +.07 logit, BB% −.07, ERA −.20; later years flat. Retention to the same program: Fr .60, So .63, Jr .49, Sr .12; freshmen .53 in 2025→26 (first roster-limit season) | B (shapes; survivors only, P4-heavy) | Mid and low programs; opponent adjustment; the non-survivors |
 | 7a | JUCO and D2 talent | D2 (8 conferences, 101 of 258 teams): .295/.396/.450, 0.91 HR and 6.86 runs a team-game, ERA 6.36; CCCAA (87 teams) .290/.393/.407, ERA 5.94; NJCAA D1 Kansas .309/.421/.486, Alabama .296/—/.423. D1 beat non-D1 opponents 90% of 90 games, 12.2 to 4.3 runs | B (rates), C (crossover) | NJCAA national lines; a cross-division rating (Massey blocked) |
 | 7b | JUCO and D2 → D1 per year | CCCAA 2025 class: 185 to D1 of 600+ to four-year schools (A, California); NJCAA alumni 570+ in the 2026 D1 field across 59 of 64 teams (B); JUCO→D1 about 900–1,100 a year (C, derived); D2→D1: no source (D) | A/B/C/D | NJCAA national counts; D2→D1 (NCAA Research ask) |
 | 8 | Recruiting calendar and rules | Every spec date verified against the 2026-27 calendar PDF and the 2026-27 Manual; no baseball date changed; eligibility clock gained sub-rules 12.6.1–12.6.3 on 9/9/26 | A | — |
@@ -136,11 +136,108 @@ expires 2026-12-01 with no deal.
 
 ## 5. Transfer portal
 
-Filled in section 7 below.
+Source: the NCAA Research transfer dashboards (Tableau Public, filtered to Sport = Baseball; data as of
+2026-01-05), `data/phase8_11/portal_ncaa_dashboard_2023_2025.csv` and
+`transfer_composition_d1_baseball_2015_2024.csv`; `transfer_portal_2021_2026` in the benchmarks file.
+A cohort runs Aug 1 to Jul 31 and is labelled by the later year.
+
+| D1 baseball cohort | Entrants | Transferred (NCAA) | Withdrawn | Still active or non-NCAA | Undergrad / grad transfers |
+|---|---|---|---|---|---|
+| 2023 | 2,715 | 1,551 (.571) | 206 (.076) | 958 (.353) | 1,161 / 390 |
+| 2024 | 2,855 | 1,810 (.634) | 157 (.055) | 888 (.311) | 1,489 / 321 |
+| 2025 | 3,772 | 2,199 (.583) | 189 (.050) | 1,384 (.367) | 1,846 / 353 |
+
+- Grade A. Earlier cohorts only secondhand (C): 2022 about 2,415 entrants with 48% transferred; 2021
+  2,126. Other trackers for scale (B): D1Baseball 2,845 (2024); 64 Analytics June-window D1 entrants
+  2,677 / 2,850 / 2,680 (2024–26) and all-NCAA 2025 entrants 6,254 (D1 3,525, D2 1,883, D3 846), of
+  whom 47.4% appear in 2026 NCAA playing data.
+- **Destination of D1 transfers** (2025, n = 2,184): D1 with aid .617, D1 without aid .108, D2 with aid
+  .208, D2 without aid .036, D3 .032. D1-to-D1 is .748 / .750 / .725 of transfers in 2023–25; D1-to-D2
+  .218 / .214 / .244. As a share of all 2025 entrants: landed D1 .42, D2 .14, D3 .02, withdrawn .05,
+  still active or outside the NCAA .37 (NAIA, JUCO, pro ball, quit; untracked).
+- **Aid**: of 2025 entrants aided at departure (2,288), .565 transferred with aid, .093 without, .342
+  stayed active; of the unaided (1,295), .399 / .137 / .464.
+- **D2 baseball**: entrants 1,303 / 1,591 / 1,997; transferred .33 / .36 / .32; of 2025 D2 transfers
+  (637) .322 landed D1 with aid and .088 without, so **D2 → D1 was 162 / 203 / 261 players** in 2023–25,
+  the flow the spec had no source for.
+- **Graduate share** of D1 transfers .251 / .177 / .161. Portal windows and exceptions: section 8.
+- **No source splits entrants or destinations by P4 / mid / low** (D). SEC 2025: 170 in, 223 out (C).
+  61 D1 programs took 10+ transfers in 2025 (36 in 2024, 20 in 2023; Baseball America, B).
+- **Moves between levels** (64 Analytics "Relative Jumps", 2021–26, D1 split into thirds of its 30
+  conferences by RPI, players with 25+ PA or 10+ IP at both stops, B): hitters leaving the upper third
+  go upper .59, middle .20, lower .09, D2 .11; leaving the middle third .44 upper, .27 middle, .18 D2;
+  leaving the lower third .37 upper, .25 D2. Of hitters arriving in the upper third, .49 come from the
+  upper third, .25 middle, .15 lower, .07 D2, .05 D3. Moving up one level, 36% of hitters and 39% of
+  pitchers improve; moving down one, 71% and 69%. Full 5x5 matrices in `manual_entries.json`.
+- **Transfer composition of aided D1 baseball cohorts** (NCAA, A): four-year plus graduate transfers
+  .020 (2015) → .052 (2021) → .098 (2022) → .131 (2023) → .166 (2024); two-year transfers .19–.22
+  throughout. The 2024 figure sits between the roster shares of P4 (.196) and mid (.143).
+- Timing: Dec 1–15 and the June window; no published December-vs-June count (D).
 
 ## 6. Development and retention (WMT player seasons, 2022–2026)
 
-Filled when the fetch finishes (see the end of this report).
+Source: `tools/fetch_wmt_player_seasons.py` → `data/wmt_player_seasons/` (fetched 2026-10-10; season
+ids 15860, 16340, 16580, 16840, 17040). WMT's stats API lists, for each of its 51 client programs a
+season (34–37 P4, 12–16 mid, 1 low), every rostered player's season totals with class, position and a
+person id that persists across seasons and programs. 9,890 player-seasons; classes known for 99.9%.
+Pairs: the same person in consecutive seasons at any client program with 50+ PA (batters) or 50+ BF
+(pitchers) in both seasons: 1,186 batter pairs, 1,185 pitcher pairs. `development_2022_2026_wmt` in the
+benchmarks file; per class, tier and playing-time tercile in `aging_curves.csv`.
+
+**Year-over-year change by class** (class in the first season; logit scale for rates, raw for ERA, SLG,
+ISO, OPS; mean ± SE across players):
+
+| Batters | Pairs | K% | BB% | HR% | OBP | SLG | ISO | OPS | BABIP |
+|---|---|---|---|---|---|---|---|---|---|
+| Fr → So | 283 | .212→.197 (−.100 ± .022) | .111→.121 (+.086 ± .027) | .031→.037 (+.177 ± .048) | .383→.400 (+.070 ± .016) | .458→.501 (+.042 ± .008) | .174→.206 (+.030 ± .005) | .841→.900 (+.059 ± .010) | +.006 ± .019 |
+| So → Jr | 434 | −.074 ± .016 | +.034 ± .018 | +.081 ± .038 | +.026 ± .011 | +.016 ± .005 | +.012 ± .004 | +.023 ± .008 | −.014 ± .014 |
+| Jr → Sr | 386 | −.072 ± .017 | +.001 ± .021 | +.159 ± .038 | +.023 ± .012 | +.021 ± .006 | +.018 ± .004 | +.027 ± .009 | −.027 ± .016 |
+| Sr → 5th | 83 | +.021 ± .040 | +.030 ± .037 | −.014 ± .084 | −.041 ± .026 | −.023 ± .013 | −.010 ± .009 | −.033 ± .018 | −.061 ± .036 |
+
+| Pitchers | Pairs | K% | BB% | HR% | Hits per BF | ERA |
+|---|---|---|---|---|---|---|
+| Fr → So | 346 | .224→.236 (+.072 ± .020) | .109→.102 (−.065 ± .025) | −.003 ± .046 | −.010 ± .016 | 5.53→5.25 (−.20 ± .17) |
+| So → Jr | 434 | +.023 ± .016 | −.013 ± .022 | +.058 ± .037 | −.010 ± .014 | −.03 ± .15 |
+| Jr → Sr | 334 | +.053 ± .021 | +.007 ± .027 | +.066 ± .043 | −.015 ± .017 | +.06 ± .17 |
+| Sr → 5th | 71 | −.021 ± .040 | −.008 ± .060 | −.123 ± .108 | +.011 ± .031 | +.11 ± .39 |
+
+- **Shape**: hitters gain most from freshman to sophomore year (OPS +.059: fewer strikeouts, more
+  walks and a fifth more home runs per PA), keep gaining about +.025 OPS a year through the senior
+  year, and fifth-years decline (−.033). Pitchers gain strikeouts and shed walks in the first step and
+  are flat after; ERA pairs are noisy (SD about 3.1 runs).
+- **Regression to the mean is large and must be modelled, not read as development**: by first-season
+  tercile, freshman hitters in the bottom third gain +.087 OPS and the top third +.046; junior hitters
+  in the top third lose −.014; bottom-third freshman pitchers cut ERA by .83 and top-third pitchers
+  add .47. The curves above are the marginal change of a survivor; the Phase 10 gate should compare
+  the sim's survivors on the same selection (50+ PA both seasons) with the sim's own regression to the
+  mean included.
+- **Survivorship**: a pair needs the player to stay at a client program and play both seasons; the
+  players who left (section on retention), were cut or stopped playing are missing. P4-heavy (about
+  70% of pairs). Opponent quality and the 2022–26 run environment are not adjusted. Grade B for the
+  shapes, C for the levels.
+
+**Retention: where a player is the next season** (2022–2025 cohorts; the same program is recognised
+by name, since WMT team ids are per season):
+
+| Class | Player-seasons | Same program | Another WMT program | Absent (non-client school, drafted, graduated, cut, quit) |
+|---|---|---|---|---|
+| Fr | 2,224 | .601 | .044 | .355 |
+| So | 1,900 | .634 | .062 | .305 |
+| Jr | 2,127 | .489 | .038 | .473 |
+| Sr | 1,692 | .122 | .020 | .858 |
+
+- Freshmen who played a game stay .68, freshmen rostered without a game .40. Juniors in the top third
+  of playing time stay .42 (batters) and .40 (pitchers) against .59 and .52 in the bottom third: the
+  draft takes the regulars. P4 juniors stay .446, mid .577.
+- **The roster limit shows**: freshman retention into 2026 fell to .525 (293 of 558) from .60–.65 in
+  the three earlier cohorts; sophomores .63, juniors .46, unchanged. The P4 stat roster (everyone WMT
+  lists, including players without a game) fell from 41.4 ± 2.9 (2025) to 38.8 ± 2.2 (2026, max 44);
+  the number who played a game stayed 34–35. Seniors' share of P4 stat rosters rose from .214 to .238
+  (fifth-years and designated student-athletes).
+- Moves between client programs by tier (P4-heavy by construction, so not a gate): 2025→26 p4→p4 82,
+  mid→p4 13, p4→mid 14, p4→low 4, mid→mid 9.
+- "Absent" is the sum of transfers to non-client schools, the draft, graduation and cuts; the NCAA
+  portal rows (section 5) and the draft rows (section 4) split it from the other side.
 
 ## 7. JUCO and D2
 

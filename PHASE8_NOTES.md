@@ -103,12 +103,41 @@ each state are). Grade B (state-level hometowns). The tier-level in-state shares
 
 ## 4. Development and retention, 2022–2026 (WMT player seasons)
 
-`tools/fetch_wmt_player_seasons.py`; aggregates in `data/wmt_player_seasons/`; details in the yardstick
-report once the fetch of 2026-10-10 finishes. The WMT stats API lists, for each client school and season,
-every rostered player's season totals with class and position and a person id that persists across
-seasons and schools, so consecutive seasons of the same player can be paired without names leaving the
-working directory. Coverage is WMT's client list (51 D1 programs a season, P4-heavy), so the curves are
-"players who stayed in the WMT world": survivors.
+`tools/fetch_wmt_player_seasons.py`; aggregates in `data/wmt_player_seasons/` (fetched 2026-10-10). The
+WMT stats API (`/api/statistics/teams?season_id=<id>`; `/teams/<id>/players?with[]=season_stats`)
+lists, for each client school and season, every rostered player's season totals with class, position
+and a person id that persists across seasons and schools, so consecutive seasons of the same player can
+be paired without names leaving the working directory. Season ids: 2022 15860, 2023 16340, 2024 16580,
+2025 16840, 2026 17040 (probed). Coverage is WMT's client list (51 D1 programs a season: 34–37 P4,
+12–16 mid, 1 low), so the curves are "players who stayed in the WMT world": survivors.
+
+Method. Rates per PA (batters: PA = AB + BB + HBP + SF + SH) or per BF (pitchers); a pair is the same
+person in consecutive seasons with 50+ PA or 50+ BF in both (GUESS: the floor). Changes on the logit
+scale for rates (smoothed (x + .5) / (n + 1)) and raw for ERA, SLG, ISO and OPS; mean, SD, SE and a
+precision-weighted mean per class in the first season, also by tier and by first-season playing-time
+tercile (the regression-to-the-mean diagnostic). Retention: a player-season's status the next season
+(same program by name, another client program, absent), by class, tier, role x tercile and played /
+rostered. Results in `reports/phase8_11_yardstick.md`, section 6; `development_2022_2026_wmt` in the
+benchmarks file. Grade B for the shapes, C for the levels.
+
+Findings to carry into Phase 10's gate design:
+- Hitters: OPS +.059 Fr→So (K% −.10 logit, BB% +.09, HR% +.18), about +.025 a year afterwards,
+  −.033 for fifth-years. Pitchers: K% +.07 logit and BB% −.07 Fr→So, flat afterwards.
+- Regression to the mean is as large as the development signal (bottom-third freshmen +.087 OPS, top
+  third +.046; top-third juniors −.014): the gate must compare like with like (the sim's survivors on
+  the same selection), not the marginal curve against a true-talent change.
+- Retention to the same program: Fr .60, So .63, Jr .49, Sr .12; the 2026 roster limit cut freshman
+  retention to .525 and the P4 stat roster from 41.4 to 38.8.
+
+## 4a. Transfer portal (NCAA Research dashboards)
+
+The NCAA's DI and DII transfer-portal dashboards and the transfer-composition dashboard (Tableau Public,
+NCAA Research) can be filtered to baseball; the baseball rows were pulled through the dashboards'
+session API on 2026-10-10 (no download exists). `data/phase8_11/portal_ncaa_dashboard_2023_2025.csv`,
+`transfer_composition_d1_baseball_2015_2024.csv`; `transfer_portal_2021_2026` in the benchmarks file;
+report section 5. Grade A for 2023–2025; 2021–2022 only secondhand (C). The dashboards do not expose
+month of entry (December vs June: D) or conference (P4 / mid / low: D). D2 → D1 baseball transfers
+(162 / 203 / 261 in 2023–25) come from the DII dashboard's destination sheet.
 
 ## 5. Crossover games: D1 against non-D1 opponents, 2025 scoreboard
 
@@ -116,3 +145,39 @@ working directory. Coverage is WMT's client list (51 D1 programs a season, P4-he
 New Orleans alias), 61 distinct non-D1 opponents, almost all tagged IND by the feed (D2, D3 and NAIA
 mixed). D1 won 90%, 12.2 to 4.3 runs a game, a log run ratio of 1.05. Grade C: the opponents' level is
 unknown and D1 hosted 93% of the games. A proper D2 placement needs the D2 scoreboard feed (data request).
+
+## 6. MLB draft (MLB Stats API)
+
+`https://statsapi.mlb.com/api/v1/draft/<year>`, MLB's own feed, lists every pick 2021–2026 with school
+name, school class (HS SR, 4YR JR/SO/SR/5S/GR, JC J1–J3), slot value and signing bonus.
+`tools/fetch_mlb_draft.py` matches four-year schools to the 307 D1 programs (`data/schools/schools.csv`,
+`name_aliases.csv`, an alias table in the tool) on the current conference map and writes counts only to
+`data/mlb_draft/`. Unsigned proxy: a pick with no bonus on file (equals MLB.com's deadline-day unsigned
+counts in rounds 1–10 for 2021–2025 and Baseball America's 576 of 615 signed in 2025; an upper bound in
+rounds 11–20, where bonuses are reported less completely). Validation: D1 count 428 = NCAA's 428 (2023),
+432 against 431 (2025). This replaces the Baseball-Reference hand export of
+`design/phase9_data_requests.md`, item 2. Report section 4; `mlb_draft_2021_2026` in the benchmarks file.
+
+## 7. JUCO and D2 (conference team-stat pages)
+
+`tools/fetch_d2_juco_team_stats.py` reads the team-totals tables of eight D2 conferences (Sidearm
+`stats.aspx?path=baseball&year=2025`) and five junior-college leagues (PrestoSports
+`/sports/bsb/2024-25/teams`) and pools them (`data/phase8_11/d2_juco_league_rates_2025.csv`). Team totals
+include games against other levels; the D2 set is the hosts that answered (12 conferences returned 502,
+TLS errors or 404), not a random sample. Grade B. The NJCAA national lines and NCAA's own D2 lines were
+unreachable (data requests 5 and 8).
+
+## Confidence summary
+
+| Block | Grade | Why |
+|---|---|---|
+| Rules and calendar | A | Manual and calendar PDF read bylaw by bylaw |
+| Roster composition, geography | B | Listed strings on 233 roster pages; state-level hometowns |
+| Age by class | D | GUESS until a birthdate source exists |
+| MLB draft | A/B | MLB's feed; D1 tiers by name match (validated); D2/D3/NAIA split C |
+| Transfer portal 2023–25 | A | NCAA Research dashboards, baseball rows |
+| Portal by conference tier, December vs June | D | Not published |
+| Development curves | B/C | Survivors at 51 WMT client programs; regression to the mean sized |
+| D2 and JUCO league rates | B | Conference proxies |
+| JUCO → D1, D2 → D1 per year | C / A | Derived (JUCO); NCAA DII dashboard (D2) |
+| D2 talent offset | C | 90 crossover games; Massey blocked |

@@ -1180,7 +1180,786 @@
  "development_2022_2026_wmt": {
   "source": "api.wmt.games player season statistics (data/wmt_player_seasons/)",
   "conf": "B",
-  "status": "not built yet"
+  "coverage": [
+   {
+    "season": 2022,
+    "tier": "mid",
+    "teams": 16,
+    "players": 606,
+    "share_class_known": 1.0,
+    "batters_over_floor": 205,
+    "pitchers_over_floor": 210
+   },
+   {
+    "season": 2022,
+    "tier": "p4",
+    "teams": 34,
+    "players": 1343,
+    "share_class_known": 1.0,
+    "batters_over_floor": 426,
+    "pitchers_over_floor": 444
+   },
+   {
+    "season": 2023,
+    "tier": "low",
+    "teams": 1,
+    "players": 35,
+    "share_class_known": 1.0,
+    "batters_over_floor": 12,
+    "pitchers_over_floor": 12
+   },
+   {
+    "season": 2023,
+    "tier": "mid",
+    "teams": 15,
+    "players": 557,
+    "share_class_known": 1.0,
+    "batters_over_floor": 186,
+    "pitchers_over_floor": 183
+   },
+   {
+    "season": 2023,
+    "tier": "p4",
+    "teams": 34,
+    "players": 1323,
+    "share_class_known": 1.0,
+    "batters_over_floor": 411,
+    "pitchers_over_floor": 445
+   },
+   {
+    "season": 2024,
+    "tier": "low",
+    "teams": 1,
+    "players": 38,
+    "share_class_known": 1.0,
+    "batters_over_floor": 11,
+    "pitchers_over_floor": 10
+   },
+   {
+    "season": 2024,
+    "tier": "mid",
+    "teams": 12,
+    "players": 477,
+    "share_class_known": 1.0,
+    "batters_over_floor": 154,
+    "pitchers_over_floor": 154
+   },
+   {
+    "season": 2024,
+    "tier": "p4",
+    "teams": 37,
+    "players": 1525,
+    "share_class_known": 1.0,
+    "batters_over_floor": 455,
+    "pitchers_over_floor": 482
+   },
+   {
+    "season": 2025,
+    "tier": "low",
+    "teams": 1,
+    "players": 40,
+    "share_class_known": 1.0,
+    "batters_over_floor": 12,
+    "pitchers_over_floor": 11
+   },
+   {
+    "season": 2025,
+    "tier": "mid",
+    "teams": 13,
+    "players": 510,
+    "share_class_known": 1.0,
+    "batters_over_floor": 160,
+    "pitchers_over_floor": 166
+   },
+   {
+    "season": 2025,
+    "tier": "p4",
+    "teams": 36,
+    "players": 1489,
+    "share_class_known": 1.0,
+    "batters_over_floor": 443,
+    "pitchers_over_floor": 487
+   },
+   {
+    "season": 2026,
+    "tier": "low",
+    "teams": 1,
+    "players": 39,
+    "share_class_known": 1.0,
+    "batters_over_floor": 14,
+    "pitchers_over_floor": 14
+   },
+   {
+    "season": 2026,
+    "tier": "mid",
+    "teams": 13,
+    "players": 511,
+    "share_class_known": 1.0,
+    "batters_over_floor": 161,
+    "pitchers_over_floor": 162
+   },
+   {
+    "season": 2026,
+    "tier": "p4",
+    "teams": 36,
+    "players": 1397,
+    "share_class_known": 0.9985683607730852,
+    "batters_over_floor": 456,
+    "pitchers_over_floor": 475
+   }
+  ],
+  "aging_by_class": {
+   "batter": {
+    "Fr": {
+     "ba": {
+      "players": 283,
+      "level_t": 0.2842,
+      "level_t1": 0.295,
+      "delta_mean": 0.0629,
+      "delta_se": 0.0187,
+      "scale": "logit"
+     },
+     "babip": {
+      "players": 283,
+      "level_t": 0.3432,
+      "level_t1": 0.3425,
+      "delta_mean": 0.0065,
+      "delta_se": 0.0192,
+      "scale": "logit"
+     },
+     "bb_pct": {
+      "players": 283,
+      "level_t": 0.111,
+      "level_t1": 0.1212,
+      "delta_mean": 0.086,
+      "delta_se": 0.0275,
+      "scale": "logit"
+     },
+     "hr_pct": {
+      "players": 283,
+      "level_t": 0.0306,
+      "level_t1": 0.0371,
+      "delta_mean": 0.1774,
+      "delta_se": 0.0476,
+      "scale": "logit"
+     },
+     "iso": {
+      "players": 283,
+      "level_t": 0.1741,
+      "level_t1": 0.2057,
+      "delta_mean": 0.0302,
+      "delta_se": 0.0051,
+      "scale": "raw"
+     },
+     "k_pct": {
+      "players": 283,
+      "level_t": 0.212,
+      "level_t1": 0.197,
+      "delta_mean": -0.1,
+      "delta_se": 0.0222,
+      "scale": "logit"
+     },
+     "obp": {
+      "players": 283,
+      "level_t": 0.3827,
+      "level_t1": 0.3995,
+      "delta_mean": 0.0702,
+      "delta_se": 0.0159,
+      "scale": "logit"
+     },
+     "ops": {
+      "players": 283,
+      "level_t": 0.841,
+      "level_t1": 0.9002,
+      "delta_mean": 0.059,
+      "delta_se": 0.0105,
+      "scale": "raw"
+     },
+     "slg": {
+      "players": 283,
+      "level_t": 0.4583,
+      "level_t1": 0.5007,
+      "delta_mean": 0.0424,
+      "delta_se": 0.0076,
+      "scale": "raw"
+     }
+    },
+    "Jr": {
+     "ba": {
+      "players": 386,
+      "level_t": 0.2873,
+      "level_t1": 0.2916,
+      "delta_mean": 0.0143,
+      "delta_se": 0.0151,
+      "scale": "logit"
+     },
+     "babip": {
+      "players": 386,
+      "level_t": 0.3398,
+      "level_t1": 0.3358,
+      "delta_mean": -0.0275,
+      "delta_se": 0.0164,
+      "scale": "logit"
+     },
+     "bb_pct": {
+      "players": 386,
+      "level_t": 0.1094,
+      "level_t1": 0.109,
+      "delta_mean": 0.0011,
+      "delta_se": 0.0208,
+      "scale": "logit"
+     },
+     "hr_pct": {
+      "players": 386,
+      "level_t": 0.0293,
+      "level_t1": 0.0345,
+      "delta_mean": 0.159,
+      "delta_se": 0.0384,
+      "scale": "logit"
+     },
+     "iso": {
+      "players": 386,
+      "level_t": 0.1748,
+      "level_t1": 0.1953,
+      "delta_mean": 0.0178,
+      "delta_se": 0.0044,
+      "scale": "raw"
+     },
+     "k_pct": {
+      "players": 386,
+      "level_t": 0.1965,
+      "level_t1": 0.1878,
+      "delta_mean": -0.0725,
+      "delta_se": 0.0171,
+      "scale": "logit"
+     },
+     "obp": {
+      "players": 386,
+      "level_t": 0.3847,
+      "level_t1": 0.3913,
+      "delta_mean": 0.0227,
+      "delta_se": 0.0125,
+      "scale": "logit"
+     },
+     "ops": {
+      "players": 386,
+      "level_t": 0.8468,
+      "level_t1": 0.8782,
+      "delta_mean": 0.0266,
+      "delta_se": 0.0087,
+      "scale": "raw"
+     },
+     "slg": {
+      "players": 386,
+      "level_t": 0.4621,
+      "level_t1": 0.4869,
+      "delta_mean": 0.0212,
+      "delta_se": 0.0064,
+      "scale": "raw"
+     }
+    },
+    "So": {
+     "ba": {
+      "players": 434,
+      "level_t": 0.2927,
+      "level_t1": 0.2982,
+      "delta_mean": 0.0179,
+      "delta_se": 0.0131,
+      "scale": "logit"
+     },
+     "babip": {
+      "players": 434,
+      "level_t": 0.3415,
+      "level_t1": 0.3404,
+      "delta_mean": -0.0145,
+      "delta_se": 0.0143,
+      "scale": "logit"
+     },
+     "bb_pct": {
+      "players": 434,
+      "level_t": 0.1133,
+      "level_t1": 0.1186,
+      "delta_mean": 0.0341,
+      "delta_se": 0.0181,
+      "scale": "logit"
+     },
+     "hr_pct": {
+      "players": 434,
+      "level_t": 0.0349,
+      "level_t1": 0.0383,
+      "delta_mean": 0.0809,
+      "delta_se": 0.0381,
+      "scale": "logit"
+     },
+     "iso": {
+      "players": 434,
+      "level_t": 0.195,
+      "level_t1": 0.2109,
+      "delta_mean": 0.0121,
+      "delta_se": 0.0038,
+      "scale": "raw"
+     },
+     "k_pct": {
+      "players": 434,
+      "level_t": 0.1978,
+      "level_t1": 0.1883,
+      "delta_mean": -0.074,
+      "delta_se": 0.0158,
+      "scale": "logit"
+     },
+     "obp": {
+      "players": 434,
+      "level_t": 0.3915,
+      "level_t1": 0.3993,
+      "delta_mean": 0.0262,
+      "delta_se": 0.0112,
+      "scale": "logit"
+     },
+     "ops": {
+      "players": 434,
+      "level_t": 0.8792,
+      "level_t1": 0.9084,
+      "delta_mean": 0.0229,
+      "delta_se": 0.0075,
+      "scale": "raw"
+     },
+     "slg": {
+      "players": 434,
+      "level_t": 0.4877,
+      "level_t1": 0.5091,
+      "delta_mean": 0.0164,
+      "delta_se": 0.0055,
+      "scale": "raw"
+     }
+    },
+    "Sr": {
+     "ba": {
+      "players": 83,
+      "level_t": 0.3024,
+      "level_t1": 0.2872,
+      "delta_mean": -0.0641,
+      "delta_se": 0.0341,
+      "scale": "logit"
+     },
+     "babip": {
+      "players": 83,
+      "level_t": 0.3522,
+      "level_t1": 0.3356,
+      "delta_mean": -0.0605,
+      "delta_se": 0.0363,
+      "scale": "logit"
+     },
+     "bb_pct": {
+      "players": 83,
+      "level_t": 0.103,
+      "level_t1": 0.1085,
+      "delta_mean": 0.0302,
+      "delta_se": 0.0374,
+      "scale": "logit"
+     },
+     "hr_pct": {
+      "players": 83,
+      "level_t": 0.0347,
+      "level_t1": 0.0341,
+      "delta_mean": -0.0141,
+      "delta_se": 0.0839,
+      "scale": "logit"
+     },
+     "iso": {
+      "players": 83,
+      "level_t": 0.1989,
+      "level_t1": 0.1894,
+      "delta_mean": -0.0099,
+      "delta_se": 0.0088,
+      "scale": "raw"
+     },
+     "k_pct": {
+      "players": 83,
+      "level_t": 0.1953,
+      "level_t1": 0.1983,
+      "delta_mean": 0.0209,
+      "delta_se": 0.04,
+      "scale": "logit"
+     },
+     "obp": {
+      "players": 83,
+      "level_t": 0.3942,
+      "level_t1": 0.3865,
+      "delta_mean": -0.0409,
+      "delta_se": 0.0264,
+      "scale": "logit"
+     },
+     "ops": {
+      "players": 83,
+      "level_t": 0.8955,
+      "level_t1": 0.8631,
+      "delta_mean": -0.033,
+      "delta_se": 0.0181,
+      "scale": "raw"
+     },
+     "slg": {
+      "players": 83,
+      "level_t": 0.5012,
+      "level_t1": 0.4766,
+      "delta_mean": -0.0233,
+      "delta_se": 0.0132,
+      "scale": "raw"
+     }
+    }
+   },
+   "pitcher": {
+    "Fr": {
+     "bb_pct": {
+      "players": 346,
+      "level_t": 0.1092,
+      "level_t1": 0.1016,
+      "delta_mean": -0.0653,
+      "delta_se": 0.0255,
+      "scale": "logit"
+     },
+     "era": {
+      "players": 346,
+      "level_t": 5.5342,
+      "level_t1": 5.245,
+      "delta_mean": -0.1964,
+      "delta_se": 0.1703,
+      "scale": "raw"
+     },
+     "h_pct": {
+      "players": 346,
+      "level_t": 0.2205,
+      "level_t1": 0.2201,
+      "delta_mean": -0.0101,
+      "delta_se": 0.0163,
+      "scale": "logit"
+     },
+     "hr_pct": {
+      "players": 346,
+      "level_t": 0.028,
+      "level_t1": 0.0278,
+      "delta_mean": -0.003,
+      "delta_se": 0.0464,
+      "scale": "logit"
+     },
+     "k_pct": {
+      "players": 346,
+      "level_t": 0.2237,
+      "level_t1": 0.236,
+      "delta_mean": 0.0718,
+      "delta_se": 0.0203,
+      "scale": "logit"
+     }
+    },
+    "Jr": {
+     "bb_pct": {
+      "players": 334,
+      "level_t": 0.0957,
+      "level_t1": 0.0935,
+      "delta_mean": 0.0074,
+      "delta_se": 0.0268,
+      "scale": "logit"
+     },
+     "era": {
+      "players": 334,
+      "level_t": 5.4998,
+      "level_t1": 5.3743,
+      "delta_mean": 0.0648,
+      "delta_se": 0.1731,
+      "scale": "raw"
+     },
+     "h_pct": {
+      "players": 334,
+      "level_t": 0.2351,
+      "level_t1": 0.2327,
+      "delta_mean": -0.0146,
+      "delta_se": 0.0174,
+      "scale": "logit"
+     },
+     "hr_pct": {
+      "players": 334,
+      "level_t": 0.0269,
+      "level_t1": 0.0282,
+      "delta_mean": 0.0659,
+      "delta_se": 0.0427,
+      "scale": "logit"
+     },
+     "k_pct": {
+      "players": 334,
+      "level_t": 0.2027,
+      "level_t1": 0.2171,
+      "delta_mean": 0.053,
+      "delta_se": 0.0208,
+      "scale": "logit"
+     }
+    },
+    "So": {
+     "bb_pct": {
+      "players": 434,
+      "level_t": 0.0997,
+      "level_t1": 0.0967,
+      "delta_mean": -0.0127,
+      "delta_se": 0.0224,
+      "scale": "logit"
+     },
+     "era": {
+      "players": 434,
+      "level_t": 5.2664,
+      "level_t1": 5.1532,
+      "delta_mean": -0.0295,
+      "delta_se": 0.1479,
+      "scale": "raw"
+     },
+     "h_pct": {
+      "players": 434,
+      "level_t": 0.2245,
+      "level_t1": 0.2206,
+      "delta_mean": -0.0101,
+      "delta_se": 0.014,
+      "scale": "logit"
+     },
+     "hr_pct": {
+      "players": 434,
+      "level_t": 0.0276,
+      "level_t1": 0.0289,
+      "delta_mean": 0.0575,
+      "delta_se": 0.0367,
+      "scale": "logit"
+     },
+     "k_pct": {
+      "players": 434,
+      "level_t": 0.2272,
+      "level_t1": 0.2401,
+      "delta_mean": 0.0229,
+      "delta_se": 0.0162,
+      "scale": "logit"
+     }
+    },
+    "Sr": {
+     "bb_pct": {
+      "players": 71,
+      "level_t": 0.0932,
+      "level_t1": 0.0901,
+      "delta_mean": -0.008,
+      "delta_se": 0.0602,
+      "scale": "logit"
+     },
+     "era": {
+      "players": 71,
+      "level_t": 5.2942,
+      "level_t1": 5.3869,
+      "delta_mean": 0.1111,
+      "delta_se": 0.3901,
+      "scale": "raw"
+     },
+     "h_pct": {
+      "players": 71,
+      "level_t": 0.2268,
+      "level_t1": 0.2293,
+      "delta_mean": 0.0112,
+      "delta_se": 0.0314,
+      "scale": "logit"
+     },
+     "hr_pct": {
+      "players": 71,
+      "level_t": 0.0305,
+      "level_t1": 0.0281,
+      "delta_mean": -0.1234,
+      "delta_se": 0.1085,
+      "scale": "logit"
+     },
+     "k_pct": {
+      "players": 71,
+      "level_t": 0.2132,
+      "level_t1": 0.2099,
+      "delta_mean": -0.0209,
+      "delta_se": 0.0401,
+      "scale": "logit"
+     }
+    }
+   }
+  },
+  "retention_by_class": {
+   "Fr": {
+    "players": 2224,
+    "same_team": 0.6007,
+    "other_client_team": 0.0436,
+    "absent": 0.3557
+   },
+   "Jr": {
+    "players": 2127,
+    "same_team": 0.4894,
+    "other_client_team": 0.0376,
+    "absent": 0.473
+   },
+   "So": {
+    "players": 1900,
+    "same_team": 0.6337,
+    "other_client_team": 0.0616,
+    "absent": 0.3047
+   },
+   "Sr": {
+    "players": 1692,
+    "same_team": 0.1223,
+    "other_client_team": 0.0201,
+    "absent": 0.8576
+   }
+  },
+  "stat_roster_size": [
+   {
+    "season": 2022,
+    "tier": "mid",
+    "teams": 16,
+    "roster_mean": 37.875,
+    "roster_sd": 3.222,
+    "roster_min": 29,
+    "roster_max": 42,
+    "pitchers_mean": 18.125,
+    "played_mean": 33.812
+   },
+   {
+    "season": 2022,
+    "tier": "p4",
+    "teams": 34,
+    "roster_mean": 39.5,
+    "roster_sd": 3.165,
+    "roster_min": 30,
+    "roster_max": 46,
+    "pitchers_mean": 19.559,
+    "played_mean": 35.029
+   },
+   {
+    "season": 2023,
+    "tier": "low",
+    "teams": 1,
+    "roster_mean": 35.0,
+    "roster_sd": NaN,
+    "roster_min": 35,
+    "roster_max": 35,
+    "pitchers_mean": 16.0,
+    "played_mean": 32.0
+   },
+   {
+    "season": 2023,
+    "tier": "mid",
+    "teams": 15,
+    "roster_mean": 37.133,
+    "roster_sd": 2.031,
+    "roster_min": 34,
+    "roster_max": 40,
+    "pitchers_mean": 17.733,
+    "played_mean": 32.8
+   },
+   {
+    "season": 2023,
+    "tier": "p4",
+    "teams": 34,
+    "roster_mean": 38.912,
+    "roster_sd": 2.479,
+    "roster_min": 35,
+    "roster_max": 47,
+    "pitchers_mean": 19.265,
+    "played_mean": 33.588
+   },
+   {
+    "season": 2024,
+    "tier": "low",
+    "teams": 1,
+    "roster_mean": 38.0,
+    "roster_sd": NaN,
+    "roster_min": 38,
+    "roster_max": 38,
+    "pitchers_mean": 21.0,
+    "played_mean": 37.0
+   },
+   {
+    "season": 2024,
+    "tier": "mid",
+    "teams": 12,
+    "roster_mean": 39.75,
+    "roster_sd": 1.765,
+    "roster_min": 37,
+    "roster_max": 43,
+    "pitchers_mean": 18.333,
+    "played_mean": 34.25
+   },
+   {
+    "season": 2024,
+    "tier": "p4",
+    "teams": 37,
+    "roster_mean": 41.216,
+    "roster_sd": 3.293,
+    "roster_min": 34,
+    "roster_max": 47,
+    "pitchers_mean": 20.676,
+    "played_mean": 35.054
+   },
+   {
+    "season": 2025,
+    "tier": "low",
+    "teams": 1,
+    "roster_mean": 40.0,
+    "roster_sd": NaN,
+    "roster_min": 40,
+    "roster_max": 40,
+    "pitchers_mean": 21.0,
+    "played_mean": 35.0
+   },
+   {
+    "season": 2025,
+    "tier": "mid",
+    "teams": 13,
+    "roster_mean": 39.231,
+    "roster_sd": 2.774,
+    "roster_min": 34,
+    "roster_max": 45,
+    "pitchers_mean": 18.846,
+    "played_mean": 33.769
+   },
+   {
+    "season": 2025,
+    "tier": "p4",
+    "teams": 36,
+    "roster_mean": 41.361,
+    "roster_sd": 2.939,
+    "roster_min": 35,
+    "roster_max": 48,
+    "pitchers_mean": 21.75,
+    "played_mean": 35.028
+   },
+   {
+    "season": 2026,
+    "tier": "low",
+    "teams": 1,
+    "roster_mean": 39.0,
+    "roster_sd": NaN,
+    "roster_min": 39,
+    "roster_max": 39,
+    "pitchers_mean": 20.0,
+    "played_mean": 39.0
+   },
+   {
+    "season": 2026,
+    "tier": "mid",
+    "teams": 13,
+    "roster_mean": 39.308,
+    "roster_sd": 3.86,
+    "roster_min": 33,
+    "roster_max": 48,
+    "pitchers_mean": 18.538,
+    "played_mean": 33.538
+   },
+   {
+    "season": 2026,
+    "tier": "p4",
+    "teams": 36,
+    "roster_mean": 38.806,
+    "roster_sd": 2.214,
+    "roster_min": 35,
+    "roster_max": 44,
+    "pitchers_mean": 19.75,
+    "played_mean": 34.361
+   }
+  ]
  },
  "rules_2026_27": {
   "conf": "A",
@@ -1952,6 +2731,265 @@
     "23": 0.5,
     "24": 0.25
    }
+  }
+ },
+ "transfer_portal_2021_2026": {
+  "fetched": "2026-10-10",
+  "ncaa_dashboards": {
+   "file": "data/phase8_11/portal_ncaa_dashboard_2023_2025.csv",
+   "conf": "A",
+   "d1_entrants": {
+    "2023": 2715,
+    "2024": 2855,
+    "2025": 3772
+   },
+   "d1_shares": {
+    "2023": {
+     "transferred": 0.571,
+     "withdrawn": 0.076,
+     "active_or_non_ncaa": 0.353
+    },
+    "2024": {
+     "transferred": 0.634,
+     "withdrawn": 0.055,
+     "active_or_non_ncaa": 0.311
+    },
+    "2025": {
+     "transferred": 0.583,
+     "withdrawn": 0.05,
+     "active_or_non_ncaa": 0.367
+    }
+   },
+   "d1_transfer_destinations_2025": {
+    "d1_aided": 0.617,
+    "d1_unaided": 0.108,
+    "d2_aided": 0.208,
+    "d2_unaided": 0.036,
+    "d3": 0.032,
+    "n": 2184
+   },
+   "d1_to_d1_share_of_transfers": {
+    "2023": 0.748,
+    "2024": 0.75,
+    "2025": 0.725
+   },
+   "d1_to_d2": {
+    "2023": 0.218,
+    "2024": 0.214,
+    "2025": 0.244
+   },
+   "d1_to_d3": {
+    "2023": 0.034,
+    "2024": 0.035,
+    "2025": 0.032
+   },
+   "grad_share_of_d1_transfers": {
+    "2023": 0.251,
+    "2024": 0.177,
+    "2025": 0.161
+   },
+   "d1_entrants_by_aid_2025": {
+    "aided_at_departure": {
+     "n": 2288,
+     "transferred_with_aid": 0.565,
+     "transferred_without_aid": 0.093,
+     "active": 0.342
+    },
+    "unaided_at_departure": {
+     "n": 1295,
+     "transferred_with_aid": 0.399,
+     "transferred_without_aid": 0.137,
+     "active": 0.464
+    }
+   },
+   "d2_entrants": {
+    "2023": 1303,
+    "2024": 1591,
+    "2025": 1997
+   },
+   "d2_transferred_share": {
+    "2023": 0.332,
+    "2024": 0.363,
+    "2025": 0.321
+   },
+   "d2_transfer_destinations_2025": {
+    "d1_aided": 0.322,
+    "d1_unaided": 0.088,
+    "d2_aided": 0.361,
+    "d2_unaided": 0.126,
+    "d3": 0.104,
+    "n": 637
+   },
+   "d2_to_d1_transfers": {
+    "2023": 162,
+    "2024": 203,
+    "2025": 261,
+    "note": "D2 baseball portal entrants who enrolled at a D1 program (aided + unaided); the D2-to-D1 flow the spec lacked"
+   },
+   "note": "Cohort = Aug 1 to Jul 31, labelled by the later year. Active = still in the portal, which includes NAIA, NJCAA, pro ball and quitting (not tracked). Destination n is a little below the transferred count."
+  },
+  "earlier_cohorts": {
+   "2022": {
+    "transferred_share": 0.48,
+    "undergrad_transfers": 883,
+    "grad_transfers": 276,
+    "implied_entrants": 2415,
+    "conf": "C (secondhand quote of the retired 2022 dashboard)"
+   },
+   "2021": {
+    "entrants": 2126,
+    "share_of_d1_baseball": 0.18,
+    "conf": "C"
+   }
+  },
+  "other_trackers": {
+   "d1baseball_2024_entrants": 2845,
+   "64analytics_june_window_d1": {
+    "2024": 2677,
+    "2025": 2850,
+    "2026": 2680
+   },
+   "64analytics_all_ncaa_2025": {
+    "d1": 3525,
+    "d2": 1883,
+    "d3": 846
+   },
+   "64analytics_2025_entrants_in_2026_playing_data": 0.474,
+   "programs_with_10_plus_incoming_transfers": {
+    "2023": 20,
+    "2024": 36,
+    "2025": 61
+   },
+   "conf": "B"
+  },
+  "tier_moves_64analytics": {
+   "source": "https://64analytics.com/articles/relative-jumps-how-transfer-players-fare-across-ncaa-levels (2026-04-22)",
+   "conf": "B",
+   "levels": "D3, D2, D1 lower / middle / upper thirds of the 30 D1 conferences by five-year RPI (upper = top 10 conferences, not P4); 2021-2026; players with 25+ PA (hitters) or 10+ IP (pitchers) at both stops",
+   "hitters_from_to": {
+    "D1 Upper": {
+     "D3": 12,
+     "D2": 139,
+     "D1 Lower": 110,
+     "D1 Middle": 260,
+     "D1 Upper": 759
+    },
+    "D1 Middle": {
+     "D3": 15,
+     "D2": 161,
+     "D1 Lower": 85,
+     "D1 Middle": 236,
+     "D1 Upper": 385
+    },
+    "D1 Lower": {
+     "D3": 35,
+     "D2": 153,
+     "D1 Lower": 114,
+     "D1 Middle": 91,
+     "D1 Upper": 228
+    },
+    "D2": {
+     "D3": 87,
+     "D2": 443,
+     "D1 Lower": 92,
+     "D1 Middle": 110,
+     "D1 Upper": 102
+    },
+    "D3": {
+     "D3": 246,
+     "D2": 80,
+     "D1 Lower": 60,
+     "D1 Middle": 60,
+     "D1 Upper": 75
+    }
+   },
+   "pitchers_from_to": {
+    "D1 Upper": {
+     "D3": 4,
+     "D2": 68,
+     "D1 Lower": 62,
+     "D1 Middle": 153,
+     "D1 Upper": 531
+    },
+    "D1 Middle": {
+     "D3": 9,
+     "D2": 100,
+     "D1 Lower": 49,
+     "D1 Middle": 168,
+     "D1 Upper": 299
+    },
+    "D1 Lower": {
+     "D3": 22,
+     "D2": 91,
+     "D1 Lower": 74,
+     "D1 Middle": 76,
+     "D1 Upper": 162
+    },
+    "D2": {
+     "D3": 44,
+     "D2": 279,
+     "D1 Lower": 83,
+     "D1 Middle": 89,
+     "D1 Upper": 103
+    },
+    "D3": {
+     "D3": 126,
+     "D2": 75,
+     "D1 Lower": 61,
+     "D1 Middle": 45,
+     "D1 Upper": 102
+    }
+   },
+   "improved_share_by_direction": {
+    "hitters_wrc": {
+     "down1": 0.71,
+     "lateral": 0.56,
+     "up1": 0.36,
+     "up2": 0.26,
+     "up3": 0.23,
+     "up4": 0.08
+    },
+    "pitchers_fip": {
+     "down1": 0.69,
+     "lateral": 0.52,
+     "up1": 0.39,
+     "up2": 0.33,
+     "up3": 0.16,
+     "up4": 0.12
+    }
+   },
+   "median_wraa_change_hitters": {
+    "D1 Upper->Upper": 0.6,
+    "D1 Middle->Upper": -2.3,
+    "D1 Lower->Upper": -3.6,
+    "D2->Upper": -9.9,
+    "D3->Upper": -14.5,
+    "D1 Upper->Middle": 1.7,
+    "D1 Upper->D2": 5.2
+   },
+   "p4_mid_low_split": "none published (D); SEC 2025: 170 in, 223 out (C)"
+  },
+  "timing": {
+   "windows": "Dec 1-15 and 30 days from seven days after selections (June); 45 days before Oct 2023",
+   "december_vs_june_split": "no published count (D); the dashboard no longer exposes month of entry",
+   "conf": "A for the rule, D for the split"
+  },
+  "transfer_composition_aided_cohorts": {
+   "file": "data/phase8_11/transfer_composition_d1_baseball_2015_2024.csv",
+   "four_year_plus_grad_transfer_share": {
+    "2015": 0.02,
+    "2019": 0.023,
+    "2021": 0.052,
+    "2022": 0.098,
+    "2023": 0.131,
+    "2024": 0.166
+   },
+   "two_year_transfer_share": {
+    "2015": 0.194,
+    "2024": 0.188
+   },
+   "conf": "A (shares among aided athletes)",
+   "cross_check": "2024: 16.6% four-year-plus-graduate transfers among aided players sits between the 2025 roster shares of P4 .196 and mid .143; the two-year share 18.8% against the roster JUCO shares .112 / .177 / .206"
   }
  }
 }

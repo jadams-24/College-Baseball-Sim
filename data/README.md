@@ -425,3 +425,17 @@ Used for the limits on in-game calls (`config/decisions.py`): coach trips to the
 
 - **Note (2026-10-08):** www.ncaa.com's robots.txt now disallows AI agents (ClaudeBot and others). Nothing more is fetched from www.ncaa.com. data.ncaa.com has no robots file and is unaffected.
 
+
+## data/phase8_11/, data/mlb_draft/, data/wmt_player_seasons/ — the Phase 8–11 yardstick (2026-10-10)
+
+Built by `tools/build_phase8_11_yardstick.py` (which also writes `benchmarks_phase8_11.json`),
+`tools/fetch_mlb_draft.py`, `tools/fetch_d2_juco_team_stats.py` and `tools/fetch_wmt_player_seasons.py`.
+Sources, fetch dates and grades are in `PHASE8_NOTES.md` and `reports/phase8_11_yardstick.md`; every
+folder has a README or a `source` column. Aggregates only: the MLB feed, the WMT player panel and the
+conference pages stay in the tools' working directories outside the repository.
+
+| Folder | Content |
+|---|---|
+| `phase8_11/` | `manual_entries.json` (hand-researched entries with sources), `class_by_origin_2025.csv`, `roster_size_by_school_2025.csv`, `players_by_home_state_2025.csv`, `in_state_share_by_school_state_2025.csv`, `d1_vs_non_d1_2025.csv`, `d2_juco_league_rates_2025.csv`, `portal_ncaa_dashboard_2023_2025.csv`, `transfer_composition_d1_baseball_2015_2024.csv` |
+| `mlb_draft/` | picks 2021–2026 by round x source, class, conference and D1 program; slot values; the unsigned proxy (its README) |
+| `wmt_player_seasons/` | player-season aggregates 2022–2026 from WMT's client programs: aging curves, levels by class, retention, tier moves, class composition, stat-roster sizes (its README) |

@@ -7,13 +7,70 @@
    "manual": "https://web3.ncaa.org/lsdbi/reports/getReport/90008 (2026-27 Division I Manual, LSDBi, footers dated 10/10/26)"
   },
   "calendar_2026_27": {
-   "contact": [["2026-08-01", "2026-08-16"], ["2026-09-11", "2026-10-11"], ["2027-03-01", "2027-07-31"]],
-   "quiet": [["2026-08-17", "2026-09-10"], ["2026-10-12", "2027-02-28"]],
-   "dead": [["2026-11-09", "2026-11-12"], ["2027-01-07", "2027-01-10"], ["2027-05-31", "2027-06-07"], ["2027-06-19", "2027-06-21"], ["2027-07-03", "2027-07-05"]],
-   "recruiting_shutdown": [["2026-11-24", "2026-11-29"], ["2026-12-22", "2026-12-27"]],
+   "contact": [
+    [
+     "2026-08-01",
+     "2026-08-16"
+    ],
+    [
+     "2026-09-11",
+     "2026-10-11"
+    ],
+    [
+     "2027-03-01",
+     "2027-07-31"
+    ]
+   ],
+   "quiet": [
+    [
+     "2026-08-17",
+     "2026-09-10"
+    ],
+    [
+     "2026-10-12",
+     "2027-02-28"
+    ]
+   ],
+   "dead": [
+    [
+     "2026-11-09",
+     "2026-11-12"
+    ],
+    [
+     "2027-01-07",
+     "2027-01-10"
+    ],
+    [
+     "2027-05-31",
+     "2027-06-07"
+    ],
+    [
+     "2027-06-19",
+     "2027-06-21"
+    ],
+    [
+     "2027-07-03",
+     "2027-07-05"
+    ]
+   ],
+   "recruiting_shutdown": [
+    [
+     "2026-11-24",
+     "2026-11-29"
+    ],
+    [
+     "2026-12-22",
+     "2026-12-27"
+    ]
+   ],
    "note": "Bylaw 13.17.1 (revised 4/17/25). The contact period of 13.17.1(d) runs March 1 through the Sunday before the third Monday of August, so the August 1 rush is inside it; the spec's 'Mar 1 - Jul 31' row should read through Aug 16 (2026) / Aug 17 (2025)."
   },
-  "formulas_13_17_1": ["third Monday of August through the second Thursday of September: quiet", "Friday after the second Thursday of September through the second Sunday in October: contact", "Monday after the second Sunday of October through February: quiet, except signing week Monday-Thursday dead; Tuesday before Thanksgiving through Sunday shutdown; Dec 22-27 shutdown; ABCA convention dead", "March 1 through the Sunday before the third Monday of August: contact, except last Monday in May through the following Monday dead; Saturday before Father's Day through the Monday after dead; July 3-5 dead"],
+  "formulas_13_17_1": [
+   "third Monday of August through the second Thursday of September: quiet",
+   "Friday after the second Thursday of September through the second Sunday in October: contact",
+   "Monday after the second Sunday of October through February: quiet, except signing week Monday-Thursday dead; Tuesday before Thanksgiving through Sunday shutdown; Dec 22-27 shutdown; ABCA convention dead",
+   "March 1 through the Sunday before the third Monday of August: contact, except last Monday in May through the following Monday dead; Saturday before Father's Day through the Monday after dead; July 3-5 dead"
+  ],
   "dates": {
    "calls_and_correspondence_open": "Aug 1 at the beginning of the junior year (13.1.3.2.3, 13.4.1.1; adopted 4/26/23)",
    "off_campus_contact_open": "Sep 1 at the beginning of the junior year (13.1.1.1.1; revised 6/24/26, date unchanged)",
@@ -29,58 +86,474 @@
    "eligibility_clock": "12.6: five academic years from the earlier of the first full-time term attended or the academic year after the 19th birthday; revised 6/24/26 (effective 8/1/26) and 9/9/26: 12.6.1 a 19th birthday on Sep 1 - Dec 31 starts the clock the following fall; 12.6.2 first enrollment May 1 - Nov 1 starts the clock that fall, Nov 1 - May 1 the next regular term; 12.6.3 a clock ending with a fall term runs to the day before the spring term, and a championship that begins inside the period extends it to the team's last game; 12.6.10 no waivers",
    "incremental_scholarship_cap": "$2.5M of aid above the 2024-25 sport limits counts against the cap (16.13.1.5)"
   },
-  "changes_since_spec": ["12.6.1-12.6.3 adopted 9/9/26 (clock start and end details); no baseball recruiting date changed; the women's flag football roster limit was the only 17.2 revision (8/25/26)"]
+  "changes_since_spec": [
+   "12.6.1-12.6.3 adopted 9/9/26 (clock start and end details); no baseball recruiting date changed; the women's flag football roster limit was the only 17.2 revision (8/25/26)"
+  ]
  },
  "mlb_draft_2021_2026": {
   "conf": "A for picks, round, class and slot values (MLB's feed); B for the D1 tier assignment and the unsigned proxy in rounds 1-10; C for the D2/D3/NAIA split and the unsigned proxy in rounds 11-20",
   "source": "https://statsapi.mlb.com/api/v1/draft/<year> (tools/fetch_mlb_draft.py, data/mlb_draft/); MLB.com deadline and pick-value articles; NCAA probability page",
   "fetched": "2026-10-10",
   "picks_by_source": {
-   "2021": {"picks": 612, "hs": 115, "jc": 47, "d1": 420, "d1_p4": 245, "d1_mid": 151, "d1_low": 24, "d2": 22, "d3": 4, "naia": 1, "other": 3},
-   "2022": {"picks": 616, "hs": 118, "jc": 42, "d1": 434, "d1_p4": 265, "d1_mid": 151, "d1_low": 18, "d2": 16, "d3": 2, "naia": 1, "other": 3},
-   "2023": {"picks": 614, "hs": 124, "jc": 44, "d1": 428, "d1_p4": 238, "d1_mid": 158, "d1_low": 32, "d2": 14, "d3": 2, "naia": 2, "other": 0},
-   "2024": {"picks": 615, "hs": 116, "jc": 27, "d1": 445, "d1_p4": 255, "d1_mid": 164, "d1_low": 26, "d2": 14, "d3": 3, "naia": 7, "other": 3},
-   "2025": {"picks": 615, "hs": 124, "jc": 31, "d1": 432, "d1_p4": 262, "d1_mid": 152, "d1_low": 18, "d2": 14, "d3": 2, "naia": 8, "other": 4},
-   "2026": {"picks": 613, "hs": 127, "jc": 12, "d1": 461, "d1_p4": 279, "d1_mid": 162, "d1_low": 20, "d2": 9, "d3": 1, "naia": 3, "other": 0},
+   "2021": {
+    "picks": 612,
+    "hs": 115,
+    "jc": 47,
+    "d1": 420,
+    "d1_p4": 245,
+    "d1_mid": 151,
+    "d1_low": 24,
+    "d2": 22,
+    "d3": 4,
+    "naia": 1,
+    "other": 3
+   },
+   "2022": {
+    "picks": 616,
+    "hs": 118,
+    "jc": 42,
+    "d1": 434,
+    "d1_p4": 265,
+    "d1_mid": 151,
+    "d1_low": 18,
+    "d2": 16,
+    "d3": 2,
+    "naia": 1,
+    "other": 3
+   },
+   "2023": {
+    "picks": 614,
+    "hs": 124,
+    "jc": 44,
+    "d1": 428,
+    "d1_p4": 238,
+    "d1_mid": 158,
+    "d1_low": 32,
+    "d2": 14,
+    "d3": 2,
+    "naia": 2,
+    "other": 0
+   },
+   "2024": {
+    "picks": 615,
+    "hs": 116,
+    "jc": 27,
+    "d1": 445,
+    "d1_p4": 255,
+    "d1_mid": 164,
+    "d1_low": 26,
+    "d2": 14,
+    "d3": 3,
+    "naia": 7,
+    "other": 3
+   },
+   "2025": {
+    "picks": 615,
+    "hs": 124,
+    "jc": 31,
+    "d1": 432,
+    "d1_p4": 262,
+    "d1_mid": 152,
+    "d1_low": 18,
+    "d2": 14,
+    "d3": 2,
+    "naia": 8,
+    "other": 4
+   },
+   "2026": {
+    "picks": 613,
+    "hs": 127,
+    "jc": 12,
+    "d1": 461,
+    "d1_p4": 279,
+    "d1_mid": 162,
+    "d1_low": 20,
+    "d2": 9,
+    "d3": 1,
+    "naia": 3,
+    "other": 0
+   },
    "note": "P4 on the current conference map (Stanford, Cal, SMU always P4; Oregon St., Washington St. always mid). Validation: D1 428 = NCAA 428 (2023); 432 vs NCAA 431 (2025); NCAA 2025 non-D1 is 19 D2 + 2 D3 against this classification's 14 + 2 + 8 NAIA."
   },
   "pooled_2021_2025_by_band": {
-   "R1+": {"picks": 196, "hs": 89, "jc": 1, "d1": 105, "non_d1_4yr": 0, "hs_unsigned": 0},
-   "R2-5": {"picks": 626, "hs": 149, "jc": 12, "d1": 462, "non_d1_4yr": 2, "hs_unsigned": 4},
-   "R6-10": {"picks": 750, "hs": 64, "jc": 23, "d1": 630, "non_d1_4yr": 31, "hs_unsigned": 1},
-   "R11-20": {"picks": 1500, "hs": 295, "jc": 155, "d1": 962, "non_d1_4yr": 79, "hs_unsigned": 137},
+   "R1+": {
+    "picks": 196,
+    "hs": 89,
+    "jc": 1,
+    "d1": 105,
+    "non_d1_4yr": 0,
+    "hs_unsigned": 0
+   },
+   "R2-5": {
+    "picks": 626,
+    "hs": 149,
+    "jc": 12,
+    "d1": 462,
+    "non_d1_4yr": 2,
+    "hs_unsigned": 4
+   },
+   "R6-10": {
+    "picks": 750,
+    "hs": 64,
+    "jc": 23,
+    "d1": 630,
+    "non_d1_4yr": 31,
+    "hs_unsigned": 1
+   },
+   "R11-20": {
+    "picks": 1500,
+    "hs": 295,
+    "jc": 155,
+    "d1": 962,
+    "non_d1_4yr": 79,
+    "hs_unsigned": 137
+   },
    "note": "Bands fold supplemental and compensation picks into the round they follow. Per-round tables: data/mlb_draft/picks_by_round_source.csv."
   },
-  "hs_unsigned_share_by_round_2021_2025": {"1": [0, 89], "2": [3, 54], "3": [0, 37], "4": [1, 35], "5": [0, 23], "6": [1, 21], "7": [0, 13], "8": [0, 16], "9": [0, 10], "10": [0, 4], "11": [3, 31], "12": [4, 25], "13": [5, 14], "14": [6, 22], "15": [8, 20], "16": [7, 20], "17": [11, 28], "18": [18, 38], "19": [32, 46], "20": [43, 51],
-   "format": "[unsigned by the no-bonus proxy, HS picks]", "conf": "B rounds 1-10 (equals MLB.com's named unsigned picks), C rounds 11-20 (bonuses under-reported there; an upper bound)",
-   "where_unsigned_go": "case by case in MLB.com deadline articles (college commitments honoured, or a return to the same college on NIL); no public aggregate by round (D)"},
-  "unsigned_all_rounds": {"2021": [46, 612], "2022": [53, 616], "2023": [50, 614], "2024": [45, 615], "2025": [39, 615], "2026": [48, 613],
-   "top10_rounds_unsigned": {"2021": 3, "2022": 3, "2023": 1, "2024": 4, "2025": 2, "2026": 2},
-   "sources": ["https://www.mlb.com/news/mlb-draft-signing-deadline-picks-unsigned", "https://www.mlb.com/news/2022-mlb-draft-signing-deadline-picks-unsigned", "https://www.mlb.com/news/2023-mlb-draft-signing-deadline-passes-quietly", "https://www.mlb.com/news/mlb-draft-signing-deadline-2024", "https://www.mlb.com/news/2025-draft-signing-deadline-preview", "https://www.mlb.com/news/draft-signing-deadline-2026"],
+  "hs_unsigned_share_by_round_2021_2025": {
+   "1": [
+    0,
+    89
+   ],
+   "2": [
+    3,
+    54
+   ],
+   "3": [
+    0,
+    37
+   ],
+   "4": [
+    1,
+    35
+   ],
+   "5": [
+    0,
+    23
+   ],
+   "6": [
+    1,
+    21
+   ],
+   "7": [
+    0,
+    13
+   ],
+   "8": [
+    0,
+    16
+   ],
+   "9": [
+    0,
+    10
+   ],
+   "10": [
+    0,
+    4
+   ],
+   "11": [
+    3,
+    31
+   ],
+   "12": [
+    4,
+    25
+   ],
+   "13": [
+    5,
+    14
+   ],
+   "14": [
+    6,
+    22
+   ],
+   "15": [
+    8,
+    20
+   ],
+   "16": [
+    7,
+    20
+   ],
+   "17": [
+    11,
+    28
+   ],
+   "18": [
+    18,
+    38
+   ],
+   "19": [
+    32,
+    46
+   ],
+   "20": [
+    43,
+    51
+   ],
+   "format": "[unsigned by the no-bonus proxy, HS picks]",
+   "conf": "B rounds 1-10 (equals MLB.com's named unsigned picks), C rounds 11-20 (bonuses under-reported there; an upper bound)",
+   "where_unsigned_go": "case by case in MLB.com deadline articles (college commitments honoured, or a return to the same college on NIL); no public aggregate by round (D)"
+  },
+  "unsigned_all_rounds": {
+   "2021": [
+    46,
+    612
+   ],
+   "2022": [
+    53,
+    616
+   ],
+   "2023": [
+    50,
+    614
+   ],
+   "2024": [
+    45,
+    615
+   ],
+   "2025": [
+    39,
+    615
+   ],
+   "2026": [
+    48,
+    613
+   ],
+   "top10_rounds_unsigned": {
+    "2021": 3,
+    "2022": 3,
+    "2023": 1,
+    "2024": 4,
+    "2025": 2,
+    "2026": 2
+   },
+   "sources": [
+    "https://www.mlb.com/news/mlb-draft-signing-deadline-picks-unsigned",
+    "https://www.mlb.com/news/2022-mlb-draft-signing-deadline-picks-unsigned",
+    "https://www.mlb.com/news/2023-mlb-draft-signing-deadline-passes-quietly",
+    "https://www.mlb.com/news/mlb-draft-signing-deadline-2024",
+    "https://www.mlb.com/news/2025-draft-signing-deadline-preview",
+    "https://www.mlb.com/news/draft-signing-deadline-2026"
+   ],
    "conf": "A for the top-10 counts (MLB.com), B for all rounds (proxy; 2025 equals Baseball America's 576 of 615 signed, quoted secondhand); 2026 is an upper bound",
-   "compensation": "an unsigned pick in rounds 1-3 returns a pick one slot later the next year; later rounds nothing; its slot value leaves the team's pool"},
+   "compensation": "an unsigned pick in rounds 1-3 returns a pick one slot later the next year; later rounds nothing; its slot value leaves the team's pool"
+  },
   "college_drafted": {
-   "ncaa_2025": {"picks": 615, "ncaa": 452, "d1": 431, "d2": 19, "d3": 2, "share_of_draft_eligible_d1": 0.153, "draft_eligible_d1": 2811, "p4_drafted": 258, "p4_eligible": 632, "p4_share": 0.408, "source": "https://www.ncaa.org/student-athletes/probability-of-competing-beyond-high-school/ (March 2026 update)", "conf": "A"},
-   "ncaa_2023": {"ncaa": 444, "d1": 428, "share_of_draft_eligible_d1": 0.164, "draft_eligible_d1": 2603, "autonomy5_drafted": 237, "autonomy5_eligible": 550, "conf": "B (secondhand quotes of the 2023 edition)"},
-   "d1_per_program_307": {"2021": 1.368, "2022": 1.414, "2023": 1.394, "2024": 1.45, "2025": 1.407, "2026": 1.502},
-   "d1_programs_with_a_pick": {"2021": 161, "2022": 148, "2023": 171, "2024": 168, "2025": 156, "2026": 166},
-   "d1_by_class": {"2021": {"JR": 221, "SO": 18, "SR": 151, "5S": 30, "GR": 0}, "2022": {"JR": 227, "SO": 32, "SR": 134, "5S": 41, "GR": 0}, "2023": {"JR": 274, "SO": 15, "SR": 101, "5S": 25, "GR": 13}, "2024": {"JR": 266, "SO": 26, "SR": 116, "5S": 25, "GR": 12}, "2025": {"JR": 287, "SO": 22, "SR": 97, "5S": 12, "GR": 14}, "2026": {"JR": 292, "SO": 21, "SR": 119, "5S": 16, "GR": 13}, "conf": "A for the feed's class tag; SO = draft-eligible sophomores (21 by the cutoff or three years from enrollment)"},
-   "p4_by_conference_current_map": {"2021": {"SEC": 77, "ACC": 70, "Big 12": 45, "Big Ten": 49}, "2022": {"SEC": 101, "ACC": 71, "Big 12": 46, "Big Ten": 39}, "2023": {"SEC": 86, "ACC": 64, "Big 12": 35, "Big Ten": 49}, "2024": {"SEC": 98, "ACC": 64, "Big 12": 50, "Big Ten": 36}, "2025": {"SEC": 107, "ACC": 61, "Big 12": 54, "Big Ten": 33}, "2026": {"SEC": 104, "ACC": 68, "Big 12": 56, "Big Ten": 46}},
+   "ncaa_2025": {
+    "picks": 615,
+    "ncaa": 452,
+    "d1": 431,
+    "d2": 19,
+    "d3": 2,
+    "share_of_draft_eligible_d1": 0.153,
+    "draft_eligible_d1": 2811,
+    "p4_drafted": 258,
+    "p4_eligible": 632,
+    "p4_share": 0.408,
+    "source": "https://www.ncaa.org/student-athletes/probability-of-competing-beyond-high-school/ (March 2026 update)",
+    "conf": "A"
+   },
+   "ncaa_2023": {
+    "ncaa": 444,
+    "d1": 428,
+    "share_of_draft_eligible_d1": 0.164,
+    "draft_eligible_d1": 2603,
+    "autonomy5_drafted": 237,
+    "autonomy5_eligible": 550,
+    "conf": "B (secondhand quotes of the 2023 edition)"
+   },
+   "d1_per_program_307": {
+    "2021": 1.368,
+    "2022": 1.414,
+    "2023": 1.394,
+    "2024": 1.45,
+    "2025": 1.407,
+    "2026": 1.502
+   },
+   "d1_programs_with_a_pick": {
+    "2021": 161,
+    "2022": 148,
+    "2023": 171,
+    "2024": 168,
+    "2025": 156,
+    "2026": 166
+   },
+   "d1_by_class": {
+    "2021": {
+     "JR": 221,
+     "SO": 18,
+     "SR": 151,
+     "5S": 30,
+     "GR": 0
+    },
+    "2022": {
+     "JR": 227,
+     "SO": 32,
+     "SR": 134,
+     "5S": 41,
+     "GR": 0
+    },
+    "2023": {
+     "JR": 274,
+     "SO": 15,
+     "SR": 101,
+     "5S": 25,
+     "GR": 13
+    },
+    "2024": {
+     "JR": 266,
+     "SO": 26,
+     "SR": 116,
+     "5S": 25,
+     "GR": 12
+    },
+    "2025": {
+     "JR": 287,
+     "SO": 22,
+     "SR": 97,
+     "5S": 12,
+     "GR": 14
+    },
+    "2026": {
+     "JR": 292,
+     "SO": 21,
+     "SR": 119,
+     "5S": 16,
+     "GR": 13
+    },
+    "conf": "A for the feed's class tag; SO = draft-eligible sophomores (21 by the cutoff or three years from enrollment)"
+   },
+   "p4_by_conference_current_map": {
+    "2021": {
+     "SEC": 77,
+     "ACC": 70,
+     "Big 12": 45,
+     "Big Ten": 49
+    },
+    "2022": {
+     "SEC": 101,
+     "ACC": 71,
+     "Big 12": 46,
+     "Big Ten": 39
+    },
+    "2023": {
+     "SEC": 86,
+     "ACC": 64,
+     "Big 12": 35,
+     "Big Ten": 49
+    },
+    "2024": {
+     "SEC": 98,
+     "ACC": 64,
+     "Big 12": 50,
+     "Big Ten": 36
+    },
+    "2025": {
+     "SEC": 107,
+     "ACC": 61,
+     "Big 12": 54,
+     "Big Ten": 33
+    },
+    "2026": {
+     "SEC": 104,
+     "ACC": 68,
+     "Big 12": 56,
+     "Big Ten": 46
+    }
+   },
    "juniors_per_d1_program_2025": 0.935
   },
   "slot_rules_current": {
-   "rounds": 20, "slotted_rounds": "1-10 (team pool = sum of its slot values)", "late_round_exempt_bonus": 150000,
-   "overage_penalties": {"0-5%": "75% tax", ">5-10%": "75% tax and the next first-round pick", ">10-15%": "100% tax and the next first- and second-round picks", ">15%": "100% tax and the next two first-round picks", "behaviour": "260 overages in 14 drafts, never above 5%"},
-   "no1_slot": {"2025": 11075900, "2026": 11350600}, "pool_total": {"2024": 334375000, "2025": 350357700, "2026": 358662500},
-   "bonuses_paid_all_rounds": {"2021": 291408490, "2022": 313862800, "2023": 350089060, "2024": 374345077, "2025": 392533711, "2026": 402481143},
-   "round_first_last_slot_2026": {"1": [11350600, 3696000], "2": [2633100, 1353100], "3": [1103500, 762900], "4": [755300, 575300], "5": [553100, 421300], "6": [417400, 330300], "7": [327700, 260300], "8": [258400, 218500], "9": [217800, 201700], "10": [201500, 191900]},
-   "signing_deadlines": {"2021": "08-01", "2022": "08-01", "2023": "07-25", "2024": "08-01", "2025": "07-28", "2026": "07-27"},
+   "rounds": 20,
+   "slotted_rounds": "1-10 (team pool = sum of its slot values)",
+   "late_round_exempt_bonus": 150000,
+   "overage_penalties": {
+    "0-5%": "75% tax",
+    ">5-10%": "75% tax and the next first-round pick",
+    ">10-15%": "100% tax and the next first- and second-round picks",
+    ">15%": "100% tax and the next two first-round picks",
+    "behaviour": "260 overages in 14 drafts, never above 5%"
+   },
+   "no1_slot": {
+    "2025": 11075900,
+    "2026": 11350600
+   },
+   "pool_total": {
+    "2024": 334375000,
+    "2025": 350357700,
+    "2026": 358662500
+   },
+   "bonuses_paid_all_rounds": {
+    "2021": 291408490,
+    "2022": 313862800,
+    "2023": 350089060,
+    "2024": 374345077,
+    "2025": 392533711,
+    "2026": 402481143
+   },
+   "round_first_last_slot_2026": {
+    "1": [
+     11350600,
+     3696000
+    ],
+    "2": [
+     2633100,
+     1353100
+    ],
+    "3": [
+     1103500,
+     762900
+    ],
+    "4": [
+     755300,
+     575300
+    ],
+    "5": [
+     553100,
+     421300
+    ],
+    "6": [
+     417400,
+     330300
+    ],
+    "7": [
+     327700,
+     260300
+    ],
+    "8": [
+     258400,
+     218500
+    ],
+    "9": [
+     217800,
+     201700
+    ],
+    "10": [
+     201500,
+     191900
+    ]
+   },
+   "signing_deadlines": {
+    "2021": "08-01",
+    "2022": "08-01",
+    "2023": "07-25",
+    "2024": "08-01",
+    "2025": "07-28",
+    "2026": "07-27"
+   },
    "guarantee_75pct": "a top-300 prospect who takes the pre-draft physical is guaranteed 75% of slot (2022 CBA)",
    "draft_and_follow": "restored 2022 for picks who go to junior college; a bonus over $225,000 counts against the pool",
    "eligibility": "HS graduates not enrolled in college; four-year players after the junior year, three years after enrollment, or at 21; junior-college players any year",
    "lottery": "18 non-playoff clubs for picks 1-6, worst three 16.5% each; payees at most two consecutive lottery picks, payors none consecutive; CBT second-surcharge clubs drop their top pick 10 places",
    "ppi": "a top-100 rookie (two of three lists) with a full service year who wins ROY or finishes top 3 in MVP/Cy Young pre-arbitration earns his club a pick after round 1",
-   "sources": ["https://www.mlb.com/news/mlb-draft-2025-bonus-pick-values", "https://www.mlb.com/news/mlb-draft-2026-bonus-pool-pick-values", "https://www.mlb.com/news/draft-rule-changes-with-new-cba", "https://www.mlb.com/news/prospect-promotion-incentive-faq", "https://www.mlb.com/news/2024-mlb-draft-lottery-odds"],
+   "sources": [
+    "https://www.mlb.com/news/mlb-draft-2025-bonus-pick-values",
+    "https://www.mlb.com/news/mlb-draft-2026-bonus-pool-pick-values",
+    "https://www.mlb.com/news/draft-rule-changes-with-new-cba",
+    "https://www.mlb.com/news/prospect-promotion-incentive-faq",
+    "https://www.mlb.com/news/2024-mlb-draft-lottery-odds"
+   ],
    "conf": "A; every slot value 2021-2026 in data/mlb_draft/slot_values.csv"
   },
   "proposed_ruleset_2026": {
@@ -89,37 +562,472 @@
    "mlbpa_counter_2026_07_21": "keep 20 rounds and HS/JUCO eligibility; sophomores eligible regardless of age; no hard slots; pools tied to revenue; softer overage penalties; move the draft back to June",
    "status_2026_10_10": "CBA expires 2026-12-01; no deal; lockout procedures circulated about Oct 1; no sessions scheduled",
    "what_it_changes_for_the_sim": "the 115-127 HS and 12-47 JC picks a year go to zero and stay in the amateur pool until age 20; sophomores (20-30 picks a year today) become draftable; about 360 domestic picks instead of about 614; no signability bargaining (fixed slots), no unsigned-pick compensation; MLB's rationale: 75% of domestic MLB players came through college, 85% of drafted HS players are P4 commits",
-   "sources": ["https://www.mlb.com/news/mlb-domestic-and-international-draft-proposals", "https://www.tsn.ca/mlb/article/mlbpa-calls-to-preserve-draft-system-after-owners-proposal-n1-49420153/", "https://frontofficesports.com/mlb-players-association-rejects-owners-draft-changes-labor-proposal/", "https://mlbtraderumors.com/2026/10/mlb-sends-memo-to-teams-outlining-lockout-procedures.html", "https://www.cbssports.com/mlb/news/mlb-cba-negotiations-timeline-2026/"],
+   "sources": [
+    "https://www.mlb.com/news/mlb-domestic-and-international-draft-proposals",
+    "https://www.tsn.ca/mlb/article/mlbpa-calls-to-preserve-draft-system-after-owners-proposal-n1-49420153/",
+    "https://frontofficesports.com/mlb-players-association-rejects-owners-draft-changes-labor-proposal/",
+    "https://mlbtraderumors.com/2026/10/mlb-sends-memo-to-teams-outlining-lockout-procedures.html",
+    "https://www.cbssports.com/mlb/news/mlb-cba-negotiations-timeline-2026/"
+   ],
    "conf": "A for MLB's statement, B for the status"
   }
  },
  "juco_d2_2025": {
   "fetched": "2026-10-10",
-  "league_rates": {"file": "data/phase8_11/d2_juco_league_rates_2025.csv (tools/fetch_d2_juco_team_stats.py)", "conf": "B",
-   "d2_pooled_8_conferences_101_of_258_teams": {"ba": 0.295, "obp": 0.396, "slg": 0.450, "hr_per_team_game": 0.907, "runs_per_team_game": 6.86, "k_per_ab": 0.205, "bb_per_ab": 0.132, "hbp_per_pa": 0.037, "era": 6.36, "k_per_9": 7.57, "bb_per_9": 4.75, "hr_per_9": 1.00, "ab": 165712, "ip": 41352},
-   "cccaa_all_87_teams": {"ba": 0.290, "obp": 0.393, "slg": 0.407, "hr_per_team_game": 0.549, "runs_per_team_game": 7.17, "era": 5.94},
-   "kjccc_njcaa_d1_20_teams": {"ba": 0.309, "obp": 0.421, "slg": 0.486, "hr_per_team_game": 0.925, "era": 7.13},
-   "accc_njcaa_d1_20_teams": {"ba": 0.296, "slg": 0.423, "hr_per_team_game": 0.551, "era": 5.83},
-   "note": "Team totals include games against other levels; the D2 conferences are the hosts that answered, not a random sample; NJCAA national lines are behind a client-rendered app (D); JUCO is a wide distribution across leagues, not a point"},
-  "d2_structure": {"teams_2023_24": 258, "participants_2023_24": 11919, "squad_size_2023_24": 46.2, "squad_size_trend": {"2015-16": 39.5, "2018-19": 41.6, "2019-20": 42.6, "2023-24": 46.2}, "d1_2023_24": {"teams": 295, "participants": 12347, "squad": 41.9}, "d3_2023_24": {"teams": 385, "participants": 15981, "squad": 41.5},
-   "scholarship_equivalencies": 9.0, "roster_limit": "none", "recruiting": "materials, calls, contact and visits from June 15 after the sophomore year; no sport calendar (C, secondary)", "portal": "no fixed windows (A)",
-   "source": "https://ncaaorg.s3.amazonaws.com/research/sportpart/2024RES_SportsSponsorshipParticipationRatesReport.pdf", "conf": "A"},
-  "flow_to_d1": {
-   "cccaa_2025_class_to_d1": {"to_four_year": 600, "to_d1": 185, "programs_reporting": 81, "source": "https://cccbca.com/sports/bsb/2025-26/releases/20260117myqziq", "conf": "A for California"},
-   "njcaa_alumni_in_2026_d1_tournament": {"players_and_coaches": 570, "teams_with_one": 59, "of_teams": 64, "njcaa_schools_represented": 210, "source": "https://njcaa.org/sports/bsb/2025-26/releases/20260529kradi0 (search snippet; site is a client-rendered app)", "conf": "B"},
-   "njcaa_programs": {"d1": 188, "d2": 130, "d3": 79, "cccaa": 87, "nwac": 29, "conf": "C (undated secondary for NJCAA; A for CCCAA and NWAC team counts)"},
-   "two_year_transfers_share_of_d1_baseball_2015_16": {"value": 0.192, "four_year_transfers": 0.020, "source": "NCAA transfer-composition report via https://collegiatewaterpolo.org/national-collegiate-athletic-association-releases-report-2015-16-transfer-composition-division-student-athlete-population", "conf": "B (old)"},
-   "juco_to_d1_per_year_estimate": {"value": "about 900-1,100", "method": "GUESS: 2025 roster JUCO shares (P4 .112, mid .177, low .206) times D1 roster stocks at about two D1 seasons per JUCO transfer; cross-check scaling CCCAA's 185 to about 510 two-year programs gives about 1,080", "conf": "C"},
-   "d2_to_d1_per_year": {"value": null, "note": "no public origin x destination table; portal entrants by division of origin (64 Analytics): D2 1,374 (2024), 1,883 (2025), 1,772 (2026) baseball entrants", "conf": "D"},
-   "d2_draft_picks": {"2025_ncaa": 19, "2025_cavadi": 14, "2024_cavadi": 13, "2022_cavadi": 17, "per_program_year_2025": 0.074, "conf": "A/B"},
-   "juco_draft_picks": {"2024": 25, "2023": 44, "source": "https://www.prepbaseballreport.com/news/VA/2024-mlb-draft--juco-picks", "stats_api_jc": {"2021": 47, "2022": 42, "2023": 44, "2024": 27, "2025": 31, "2026": 12}, "conf": "A (Stats API)"}
+  "league_rates": {
+   "file": "data/phase8_11/d2_juco_league_rates_2025.csv (tools/fetch_d2_juco_team_stats.py)",
+   "conf": "B",
+   "d2_pooled_8_conferences_101_of_258_teams": {
+    "ba": 0.295,
+    "obp": 0.396,
+    "slg": 0.45,
+    "hr_per_team_game": 0.907,
+    "runs_per_team_game": 6.86,
+    "k_per_ab": 0.205,
+    "bb_per_ab": 0.132,
+    "hbp_per_pa": 0.037,
+    "era": 6.36,
+    "k_per_9": 7.57,
+    "bb_per_9": 4.75,
+    "hr_per_9": 1.0,
+    "ab": 165712,
+    "ip": 41352
+   },
+   "cccaa_all_87_teams": {
+    "ba": 0.29,
+    "obp": 0.393,
+    "slg": 0.407,
+    "hr_per_team_game": 0.549,
+    "runs_per_team_game": 7.17,
+    "era": 5.94
+   },
+   "kjccc_njcaa_d1_20_teams": {
+    "ba": 0.309,
+    "obp": 0.421,
+    "slg": 0.486,
+    "hr_per_team_game": 0.925,
+    "era": 7.13
+   },
+   "accc_njcaa_d1_20_teams": {
+    "ba": 0.296,
+    "slg": 0.423,
+    "hr_per_team_game": 0.551,
+    "era": 5.83
+   },
+   "note": "Team totals include games against other levels; the D2 conferences are the hosts that answered, not a random sample; NJCAA national lines are behind a client-rendered app (D); JUCO is a wide distribution across leagues, not a point"
   },
-  "measurables_by_level": {"d1_in_game_fastball_mph": {"mean": 91.4, "sd": 2.7, "n": 57, "source": "https://digitalcommons.wku.edu/ijesab/vol16/iss3/15", "conf": "A for that sample"}, "one_d1_program_bullpen": {"mean": 87.4, "sd": 4.0, "n": 30, "conf": "B"}, "ncsa_guidelines": {"d1": "84 consistently, up to 95+", "d2": "82-90+", "d3_naia": "77-82", "juco": "80 consistently", "conf": "D"}, "level_split_trackman": "none published (D)"},
-  "pipeline_2024_25": {"hs_participants": 472598, "ncaa_participants": 41580, "hs_to_ncaa": 0.088, "hs_to_d1": 0.027, "hs_to_d2": 0.026, "hs_to_d3": 0.035, "source": "https://www.ncaa.org/student-athletes/probability-of-competing-beyond-high-school/", "conf": "A"}
+  "d2_structure": {
+   "teams_2023_24": 258,
+   "participants_2023_24": 11919,
+   "squad_size_2023_24": 46.2,
+   "squad_size_trend": {
+    "2015-16": 39.5,
+    "2018-19": 41.6,
+    "2019-20": 42.6,
+    "2023-24": 46.2
+   },
+   "d1_2023_24": {
+    "teams": 295,
+    "participants": 12347,
+    "squad": 41.9
+   },
+   "d3_2023_24": {
+    "teams": 385,
+    "participants": 15981,
+    "squad": 41.5
+   },
+   "scholarship_equivalencies": 9.0,
+   "roster_limit": "none",
+   "recruiting": "materials, calls, contact and visits from June 15 after the sophomore year; no sport calendar (C, secondary)",
+   "portal": "no fixed windows (A)",
+   "source": "https://ncaaorg.s3.amazonaws.com/research/sportpart/2024RES_SportsSponsorshipParticipationRatesReport.pdf",
+   "conf": "A"
+  },
+  "flow_to_d1": {
+   "cccaa_2025_class_to_d1": {
+    "to_four_year": 600,
+    "to_d1": 185,
+    "programs_reporting": 81,
+    "source": "https://cccbca.com/sports/bsb/2025-26/releases/20260117myqziq",
+    "conf": "A for California"
+   },
+   "njcaa_alumni_in_2026_d1_tournament": {
+    "players_and_coaches": 570,
+    "teams_with_one": 59,
+    "of_teams": 64,
+    "njcaa_schools_represented": 210,
+    "source": "https://njcaa.org/sports/bsb/2025-26/releases/20260529kradi0 (search snippet; site is a client-rendered app)",
+    "conf": "B"
+   },
+   "njcaa_programs": {
+    "d1": 188,
+    "d2": 130,
+    "d3": 79,
+    "cccaa": 87,
+    "nwac": 29,
+    "conf": "C (undated secondary for NJCAA; A for CCCAA and NWAC team counts)"
+   },
+   "two_year_transfers_share_of_d1_baseball_2015_16": {
+    "value": 0.192,
+    "four_year_transfers": 0.02,
+    "source": "NCAA transfer-composition report via https://collegiatewaterpolo.org/national-collegiate-athletic-association-releases-report-2015-16-transfer-composition-division-student-athlete-population",
+    "conf": "B (old)"
+   },
+   "juco_to_d1_per_year_estimate": {
+    "value": "about 900-1,100",
+    "method": "GUESS: 2025 roster JUCO shares (P4 .112, mid .177, low .206) times D1 roster stocks at about two D1 seasons per JUCO transfer; cross-check scaling CCCAA's 185 to about 510 two-year programs gives about 1,080",
+    "conf": "C"
+   },
+   "d2_to_d1_per_year": {
+    "value": null,
+    "note": "no public origin x destination table; portal entrants by division of origin (64 Analytics): D2 1,374 (2024), 1,883 (2025), 1,772 (2026) baseball entrants",
+    "conf": "D"
+   },
+   "d2_draft_picks": {
+    "2025_ncaa": 19,
+    "2025_cavadi": 14,
+    "2024_cavadi": 13,
+    "2022_cavadi": 17,
+    "per_program_year_2025": 0.074,
+    "conf": "A/B"
+   },
+   "juco_draft_picks": {
+    "2024": 25,
+    "2023": 44,
+    "source": "https://www.prepbaseballreport.com/news/VA/2024-mlb-draft--juco-picks",
+    "stats_api_jc": {
+     "2021": 47,
+     "2022": 42,
+     "2023": 44,
+     "2024": 27,
+     "2025": 31,
+     "2026": 12
+    },
+    "conf": "A (Stats API)"
+   }
+  },
+  "measurables_by_level": {
+   "d1_in_game_fastball_mph": {
+    "mean": 91.4,
+    "sd": 2.7,
+    "n": 57,
+    "source": "https://digitalcommons.wku.edu/ijesab/vol16/iss3/15",
+    "conf": "A for that sample"
+   },
+   "one_d1_program_bullpen": {
+    "mean": 87.4,
+    "sd": 4.0,
+    "n": 30,
+    "conf": "B"
+   },
+   "ncsa_guidelines": {
+    "d1": "84 consistently, up to 95+",
+    "d2": "82-90+",
+    "d3_naia": "77-82",
+    "juco": "80 consistently",
+    "conf": "D"
+   },
+   "level_split_trackman": "none published (D)"
+  },
+  "pipeline_2024_25": {
+   "hs_participants": 472598,
+   "ncaa_participants": 41580,
+   "hs_to_ncaa": 0.088,
+   "hs_to_d1": 0.027,
+   "hs_to_d2": 0.026,
+   "hs_to_d3": 0.035,
+   "source": "https://www.ncaa.org/student-athletes/probability-of-competing-beyond-high-school/",
+   "conf": "A"
+  }
  },
  "age_by_class_guess": {
   "conf": "D",
   "note": "GUESS. No roster page in the 2025 fetch lists birthdates (the fetcher now keeps them when present). Built from the age-based clock and the usual high-school graduation at 18: a true freshman is 18-19 in his first spring, each class adds a year, redshirts and JUCO transfers add one. The redshirt share comes with the next roster run (class_detail_by_tier.csv). Replace with age_by_class.csv or a draft-prospect birthdate source.",
-  "age_in_spring_by_class": {"Fr": {"18": 0.35, "19": 0.55, "20": 0.10}, "So": {"19": 0.30, "20": 0.55, "21": 0.15}, "Jr": {"20": 0.25, "21": 0.55, "22": 0.20}, "Sr": {"21": 0.20, "22": 0.55, "23": 0.25}, "Gr": {"22": 0.25, "23": 0.50, "24": 0.25}}
+  "age_in_spring_by_class": {
+   "Fr": {
+    "18": 0.35,
+    "19": 0.55,
+    "20": 0.1
+   },
+   "So": {
+    "19": 0.3,
+    "20": 0.55,
+    "21": 0.15
+   },
+   "Jr": {
+    "20": 0.25,
+    "21": 0.55,
+    "22": 0.2
+   },
+   "Sr": {
+    "21": 0.2,
+    "22": 0.55,
+    "23": 0.25
+   },
+   "Gr": {
+    "22": 0.25,
+    "23": 0.5,
+    "24": 0.25
+   }
+  }
+ },
+ "transfer_portal_2021_2026": {
+  "fetched": "2026-10-10",
+  "ncaa_dashboards": {
+   "file": "data/phase8_11/portal_ncaa_dashboard_2023_2025.csv",
+   "conf": "A",
+   "d1_entrants": {
+    "2023": 2715,
+    "2024": 2855,
+    "2025": 3772
+   },
+   "d1_shares": {
+    "2023": {
+     "transferred": 0.571,
+     "withdrawn": 0.076,
+     "active_or_non_ncaa": 0.353
+    },
+    "2024": {
+     "transferred": 0.634,
+     "withdrawn": 0.055,
+     "active_or_non_ncaa": 0.311
+    },
+    "2025": {
+     "transferred": 0.583,
+     "withdrawn": 0.05,
+     "active_or_non_ncaa": 0.367
+    }
+   },
+   "d1_transfer_destinations_2025": {
+    "d1_aided": 0.617,
+    "d1_unaided": 0.108,
+    "d2_aided": 0.208,
+    "d2_unaided": 0.036,
+    "d3": 0.032,
+    "n": 2184
+   },
+   "d1_to_d1_share_of_transfers": {
+    "2023": 0.748,
+    "2024": 0.75,
+    "2025": 0.725
+   },
+   "d1_to_d2": {
+    "2023": 0.218,
+    "2024": 0.214,
+    "2025": 0.244
+   },
+   "d1_to_d3": {
+    "2023": 0.034,
+    "2024": 0.035,
+    "2025": 0.032
+   },
+   "grad_share_of_d1_transfers": {
+    "2023": 0.251,
+    "2024": 0.177,
+    "2025": 0.161
+   },
+   "d1_entrants_by_aid_2025": {
+    "aided_at_departure": {
+     "n": 2288,
+     "transferred_with_aid": 0.565,
+     "transferred_without_aid": 0.093,
+     "active": 0.342
+    },
+    "unaided_at_departure": {
+     "n": 1295,
+     "transferred_with_aid": 0.399,
+     "transferred_without_aid": 0.137,
+     "active": 0.464
+    }
+   },
+   "d2_entrants": {
+    "2023": 1303,
+    "2024": 1591,
+    "2025": 1997
+   },
+   "d2_transferred_share": {
+    "2023": 0.332,
+    "2024": 0.363,
+    "2025": 0.321
+   },
+   "d2_transfer_destinations_2025": {
+    "d1_aided": 0.322,
+    "d1_unaided": 0.088,
+    "d2_aided": 0.361,
+    "d2_unaided": 0.126,
+    "d3": 0.104,
+    "n": 637
+   },
+   "d2_to_d1_transfers": {
+    "2023": 162,
+    "2024": 203,
+    "2025": 261,
+    "note": "D2 baseball portal entrants who enrolled at a D1 program (aided + unaided); the D2-to-D1 flow the spec lacked"
+   },
+   "note": "Cohort = Aug 1 to Jul 31, labelled by the later year. Active = still in the portal, which includes NAIA, NJCAA, pro ball and quitting (not tracked). Destination n is a little below the transferred count."
+  },
+  "earlier_cohorts": {
+   "2022": {
+    "transferred_share": 0.48,
+    "undergrad_transfers": 883,
+    "grad_transfers": 276,
+    "implied_entrants": 2415,
+    "conf": "C (secondhand quote of the retired 2022 dashboard)"
+   },
+   "2021": {
+    "entrants": 2126,
+    "share_of_d1_baseball": 0.18,
+    "conf": "C"
+   }
+  },
+  "other_trackers": {
+   "d1baseball_2024_entrants": 2845,
+   "64analytics_june_window_d1": {
+    "2024": 2677,
+    "2025": 2850,
+    "2026": 2680
+   },
+   "64analytics_all_ncaa_2025": {
+    "d1": 3525,
+    "d2": 1883,
+    "d3": 846
+   },
+   "64analytics_2025_entrants_in_2026_playing_data": 0.474,
+   "programs_with_10_plus_incoming_transfers": {
+    "2023": 20,
+    "2024": 36,
+    "2025": 61
+   },
+   "conf": "B"
+  },
+  "tier_moves_64analytics": {
+   "source": "https://64analytics.com/articles/relative-jumps-how-transfer-players-fare-across-ncaa-levels (2026-04-22)",
+   "conf": "B",
+   "levels": "D3, D2, D1 lower / middle / upper thirds of the 30 D1 conferences by five-year RPI (upper = top 10 conferences, not P4); 2021-2026; players with 25+ PA (hitters) or 10+ IP (pitchers) at both stops",
+   "hitters_from_to": {
+    "D1 Upper": {
+     "D3": 12,
+     "D2": 139,
+     "D1 Lower": 110,
+     "D1 Middle": 260,
+     "D1 Upper": 759
+    },
+    "D1 Middle": {
+     "D3": 15,
+     "D2": 161,
+     "D1 Lower": 85,
+     "D1 Middle": 236,
+     "D1 Upper": 385
+    },
+    "D1 Lower": {
+     "D3": 35,
+     "D2": 153,
+     "D1 Lower": 114,
+     "D1 Middle": 91,
+     "D1 Upper": 228
+    },
+    "D2": {
+     "D3": 87,
+     "D2": 443,
+     "D1 Lower": 92,
+     "D1 Middle": 110,
+     "D1 Upper": 102
+    },
+    "D3": {
+     "D3": 246,
+     "D2": 80,
+     "D1 Lower": 60,
+     "D1 Middle": 60,
+     "D1 Upper": 75
+    }
+   },
+   "pitchers_from_to": {
+    "D1 Upper": {
+     "D3": 4,
+     "D2": 68,
+     "D1 Lower": 62,
+     "D1 Middle": 153,
+     "D1 Upper": 531
+    },
+    "D1 Middle": {
+     "D3": 9,
+     "D2": 100,
+     "D1 Lower": 49,
+     "D1 Middle": 168,
+     "D1 Upper": 299
+    },
+    "D1 Lower": {
+     "D3": 22,
+     "D2": 91,
+     "D1 Lower": 74,
+     "D1 Middle": 76,
+     "D1 Upper": 162
+    },
+    "D2": {
+     "D3": 44,
+     "D2": 279,
+     "D1 Lower": 83,
+     "D1 Middle": 89,
+     "D1 Upper": 103
+    },
+    "D3": {
+     "D3": 126,
+     "D2": 75,
+     "D1 Lower": 61,
+     "D1 Middle": 45,
+     "D1 Upper": 102
+    }
+   },
+   "improved_share_by_direction": {
+    "hitters_wrc": {
+     "down1": 0.71,
+     "lateral": 0.56,
+     "up1": 0.36,
+     "up2": 0.26,
+     "up3": 0.23,
+     "up4": 0.08
+    },
+    "pitchers_fip": {
+     "down1": 0.69,
+     "lateral": 0.52,
+     "up1": 0.39,
+     "up2": 0.33,
+     "up3": 0.16,
+     "up4": 0.12
+    }
+   },
+   "median_wraa_change_hitters": {
+    "D1 Upper->Upper": 0.6,
+    "D1 Middle->Upper": -2.3,
+    "D1 Lower->Upper": -3.6,
+    "D2->Upper": -9.9,
+    "D3->Upper": -14.5,
+    "D1 Upper->Middle": 1.7,
+    "D1 Upper->D2": 5.2
+   },
+   "p4_mid_low_split": "none published (D); SEC 2025: 170 in, 223 out (C)"
+  },
+  "timing": {
+   "windows": "Dec 1-15 and 30 days from seven days after selections (June); 45 days before Oct 2023",
+   "december_vs_june_split": "no published count (D); the dashboard no longer exposes month of entry",
+   "conf": "A for the rule, D for the split"
+  },
+  "transfer_composition_aided_cohorts": {
+   "file": "data/phase8_11/transfer_composition_d1_baseball_2015_2024.csv",
+   "four_year_plus_grad_transfer_share": {
+    "2015": 0.02,
+    "2019": 0.023,
+    "2021": 0.052,
+    "2022": 0.098,
+    "2023": 0.131,
+    "2024": 0.166
+   },
+   "two_year_transfer_share": {
+    "2015": 0.194,
+    "2024": 0.188
+   },
+   "conf": "A (shares among aided athletes)",
+   "cross_check": "2024: 16.6% four-year-plus-graduate transfers among aided players sits between the 2025 roster shares of P4 .196 and mid .143; the two-year share 18.8% against the roster JUCO shares .112 / .177 / .206"
+  }
  }
 }
