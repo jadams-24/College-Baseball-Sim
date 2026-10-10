@@ -10,6 +10,8 @@ from pathlib import Path
 
 from config import report_cards as rc
 
+from app import identity                   # colors and ballparks (app/school_identity.csv), display only
+
 ROOT = Path(__file__).resolve().parents[1]
 SCHOOLS = ROOT / "data/schools/schools.csv"
 CARDS = ROOT / "data/schools/report_cards.csv"
@@ -66,7 +68,8 @@ def display(tid: int) -> dict | None:
         return None
     nm = names.get(int(tid), {})
     return {"tid": int(tid), "name": nm.get("full") or sch["school"], "short": nm.get("short") or sch["school"], "abbr": nm.get("abbr") or sch["school"][:4].upper(),
-            "conference": sch["conference"], "conference_full": conference_full(sch["conference"]), "tier": sch["tier"], "location": f"{sch['city']}, {sch['state']}"}
+            "conference": sch["conference"], "conference_full": conference_full(sch["conference"]), "tier": sch["tier"], "location": f"{sch['city']}, {sch['state']}",
+            "colors": identity.colors(tid), "venue": identity.venue(tid)}
 
 
 def team_name(tid: int, fallback: str = "") -> str:
@@ -78,7 +81,7 @@ def team_name(tid: int, fallback: str = "") -> str:
 def team_fields(team) -> dict:
     """The display fields of an engine Team object, with its engine name under `engine_name` (the one place it may show)."""
     d = display(team.tid) or {"tid": team.tid, "name": team.name, "short": team.name, "abbr": "".join(w[0] for w in team.name.split())[:4].upper(),
-                               "conference": None, "conference_full": None, "tier": team.tier, "location": ""}
+                               "conference": None, "conference_full": None, "tier": team.tier, "location": "", "colors": None, "venue": None}
     return dict(d, engine_name=team.name, tier=team.tier)
 
 

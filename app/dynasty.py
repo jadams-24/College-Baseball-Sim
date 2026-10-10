@@ -21,6 +21,7 @@ pitcher wins/losses/saves, a player's class or year, handedness (Phase 3), an av
 """
 from __future__ import annotations
 
+import functools
 import pickle
 import time
 import zlib
@@ -41,7 +42,7 @@ from engine.world import World as SeasonWorld, cancel_mask, schedule_mask
 
 SAVE_VERSION = 1
 STAGES = ("regular", "conf", "selection", "ncaa", "done")
-from app import calendar, schools, world_steps
+from app import identity, calendar, schools, world_steps
 from app.world_steps import PauseEvent, StepContext
 
 SIM_TARGETS = ("game", "day", "week", "regular", "conf", "selection", "end")
@@ -639,7 +640,8 @@ class Dynasty:
         if self.pending is not None:
             p = self.pending
             pend = dict(p, home_name=self.tname(p["home"]), away_name=self.tname(p["away"]), home_abbr=self.tabbr(p["home"]), away_abbr=self.tabbr(p["away"]),
-                        user_side="home" if p["home"] == me else "away", seed=None, open=self.runner is not None)
+                        user_side="home" if p["home"] == me else "away", seed=None, open=self.runner is not None,
+                        venue=game_venue(self, p["stage"], p["home"], p["away"], bool(p["neutral"])))
             try:
                 pend["probables"] = self.probables()
             except Exception:                 # display only: never blocks the hub
@@ -724,7 +726,8 @@ def game_json(d: Dynasty, rec: dict, full: bool = False, me: int | None = None) 
     out = {"i": rec["i"], "k": rec.get("k"), "stage": rec["stage"], "date": rec["date"], "week": rec["week"] + 1, "weekend": rec["weekend"],
            "neutral": rec["neutral"], "home": rec["home"], "away": rec["away"], "home_name": d.tname(rec["home"]),
            "away_name": d.tname(rec["away"]), "home_abbr": d.tabbr(rec["home"]), "away_abbr": d.tabbr(rec["away"]), "hr": rec["hr"], "ar": rec["ar"], "inning": rec["inning"], "run_rule": rec["run_rule"],
-           "conf": d.real_conf[rec["home"]] == d.real_conf[rec["away"]], "user": rec["user"], "side": side}
+           "conf": d.real_conf[rec["home"]] == d.real_conf[rec["away"]], "user": rec["user"], "side": side,
+           "venue": game_venue(d, rec["stage"], rec["home"], rec["away"], rec["neutral"])}
     if side:
         mine, theirs = (rec["hr"], rec["ar"]) if side == "home" else (rec["ar"], rec["hr"])
         out["result"] = f"{'W' if mine > theirs else 'L'} {mine}-{theirs}"
@@ -765,7 +768,8 @@ def schedule_json(d: Dynasty, tid: int | None = None) -> list:
         row = {"i": i, "date": int(g.date), "week": int(g.week) + 1, "weekend": bool(g.weekend), "home": int(g.home), "away": int(g.away),
                "home_name": d.tname(g.home), "away_name": d.tname(g.away), "home_abbr": d.tabbr(g.home), "away_abbr": d.tabbr(g.away),
                "conf": d.real_conf[g.home] == d.real_conf[g.away], "side": "home" if g.home == tid else "away",
-               "status": "canceled" if d.skip[i] else ("played" if i in d.results else ("next" if d.pending and d.pending.get("i") == i else "upcoming"))}
+               "status": "canceled" if d.skip[i] else ("played" if i in d.results else ("next" if d.pending and d.pending.get("i") == i else "upcoming")),
+               "venue": game_venue(d, "regular", int(g.home), int(g.away), bool(getattr(g, "neutral", False)))}
         if i in d.results:
             row.update({k: v for k, v in game_json(d, d.results[i], me=tid).items() if k in ("hr", "ar", "inning", "run_rule", "result", "user")})
         out.append(row)
@@ -776,7 +780,8 @@ def schedule_json(d: Dynasty, tid: int | None = None) -> list:
         p = d.pending
         out.append({"k": p["k"], "stage": p["stage"], "date": p["date"], "week": p["date"] // 7 + 1, "weekend": True, "neutral": p["neutral"],
                     "home": p["home"], "away": p["away"], "home_name": d.tname(p["home"]), "away_name": d.tname(p["away"]), "home_abbr": d.tabbr(p["home"]), "away_abbr": d.tabbr(p["away"]),
-                    "conf": False, "side": "home" if p["home"] == d.tid else "away", "status": "next"})
+                    "conf": False, "side": "home" if p["home"] == d.tid else "away", "status": "next",
+                    "venue": game_venue(d, p["stage"], p["home"], p["away"], bool(p["neutral"]))})
     return out
 
 
@@ -933,8 +938,50 @@ def _conf_seeds(d: Dynasty) -> dict:
     for conf, f in sorted(w.formats.items()):
         order = w.seeds(conf, d.reg_games)
         if order:
-            out[conf] = {"teams": order[:f["teams"]], "format": f["format"], "description": f["description"], "site": f["site_detail"], "venue": f.get("venue", "")}
+            teams = order[:f["teams"]]
+            host = None                      # the engine's own host rule (engine/world.py conference_tournaments)
+            if f["site_detail"] in ("campus", "campus_regular_season_champion"):
+                host = teams[0]
+            elif f["site_detail"] == "campus_predetermined":
+                h = w.member_host.get(conf)
+                host = h if h in teams else None
+            out[conf] = {"teams": teams, "format": f["format"], "description": f["description"], "site": f["site_detail"], "venue": f.get("venue", ""), "host": host}
+    d._conf_seeds_cache = (d.stage, out)
     return out
+
+
+@functools.lru_cache(maxsize=1)
+def _formats() -> dict:
+    """The engine's conference tournament formats (data/conf_tournaments/formats_2025.json): site_detail per conference."""
+    from engine.world import FORMATS
+    return json.loads(FORMATS.read_text())["conferences"]
+
+
+def conf_hosts(d: Dynasty) -> dict:
+    """conference -> (site_detail, host tid or None), from the seeds the pipeline uses (cached per stage)."""
+    if d.stage == "regular":
+        return {}
+    c = getattr(d, "_conf_seeds_cache", None)
+    seeds = c[1] if c and c[0] == d.stage else _conf_seeds(d)
+    return {conf: (sd["site"], sd["host"]) for conf, sd in seeds.items()}
+
+
+def game_venue(d: Dynasty, stage: str, home: int, away: int, neutral: bool) -> dict | None:
+    """The ballpark of a dynasty game by stage (app/identity.py game_venue): the home park in the regular season, the
+    regional host's park, the super host's park (its home team), Omaha for the CWS, and for a conference tournament the
+    confirmed 2025 site (neutral formats) or the campus host's park; None when nothing is confirmed (never a guess)."""
+    if stage == "regional":
+        host = next((reg[0] for reg in d.post.get("regionals", []) if home in reg and away in reg), None)
+        return identity.game_venue(stage, home, neutral, host_tid=host)
+    if stage == "super":
+        return identity.game_venue(stage, home, False, host_tid=home)
+    if stage == "conf":
+        conf = d.real_conf[home]
+        site, host = conf_hosts(d).get(conf, (None, None))
+        if site is None:
+            site = _formats().get(conf, {}).get("site_detail")
+        return identity.game_venue(stage, home, neutral, host_tid=host if host is not None else (None if neutral else home), conference=conf, site_detail=site)
+    return identity.game_venue(stage, home, neutral)
 
 
 def postseason_json(d: Dynasty) -> dict:
@@ -952,7 +999,11 @@ def postseason_json(d: Dynasty) -> dict:
     out["conference"] = {}
     for conf, sd in seeds.items():
         cg = [gj(r, k) for k, r in enumerate(games) if r["stage"] == "conf" and r["home"] in sd["teams"] and r["away"] in sd["teams"]]
-        out["conference"][conf] = {"format": sd["format"], "description": sd["description"], "site": sd["site"], "venue": sd["venue"], "full": schools.conference_full(conf),
+        site = identity.tournament_site(conf) if sd["site"] == "neutral" else None
+        host_v = identity.venue(sd["host"]) if sd.get("host") is not None else None
+        out["conference"][conf] = {"format": sd["format"], "description": sd["description"], "site": sd["site"], "full": schools.conference_full(conf),
+                                   "venue": site["venue"] + (f" · {site['city']}" if site["city"] else "") if site else (host_v["text"] if host_v else None),
+                                   "host": {"tid": sd["host"], "name": name(sd["host"])} if sd.get("host") is not None else None,
                                    "seeds": [{"seed": i + 1, "tid": t, "name": name(t), "me": t == d.tid} for i, t in enumerate(sd["teams"])],
                                    "games": cg, "champion": conf_done.get(conf, {}).get("champion"),
                                    "champion_name": name(conf_done[conf]["champion"]) if conf in conf_done else None}
@@ -1011,7 +1062,7 @@ def bracket_json(d: Dynasty, regs: list, reg_games: list, super_games: list, cws
         for n, g in enumerate(games):
             g["label"] = f"G{n + 1}"
         r = _de_result(list(reg), games)
-        regionals.append({"n": i + 1, "host": team(reg[0], 1), "teams": [dict(team(t, j + 1), w=r["wins"][t], l=r["losses"][t], out=r["losses"][t] >= 2) for j, t in enumerate(reg)],
+        regionals.append({"n": i + 1, "host": team(reg[0], 1), "venue": identity.venue_text(identity.venue(reg[0])), "teams": [dict(team(t, j + 1), w=r["wins"][t], l=r["losses"][t], out=r["losses"][t] >= 2) for j, t in enumerate(reg)],
                           "games": games, "winner": team(r["winner"]) if r["winner"] else None, "done": r["done"]})
         reg_w.append(r["winner"])
     supers = []
@@ -1023,7 +1074,7 @@ def bracket_json(d: Dynasty, regs: list, reg_games: list, super_games: list, cws
         wins = {t: sum(1 for g in games if (g["home"] if g["hr"] > g["ar"] else g["away"]) == t) for t in teams}
         winner = next((t for t in teams if wins.get(t, 0) >= 2), None)
         host = games[0]["home"] if games else (min((a, b), key=lambda t: (seed_no.get(t, 99), t)) if a is not None and b is not None else None)
-        supers.append({"n": k + 1, "regionals": [k + 1, 16 - k], "teams": [dict(team(t), wins=wins.get(t, 0), host=t == host) for t in (a, b)] if a is not None and b is not None
+        supers.append({"n": k + 1, "regionals": [k + 1, 16 - k], "venue": identity.venue_text(identity.venue(host)) if host is not None else None, "teams": [dict(team(t), wins=wins.get(t, 0), host=t == host) for t in (a, b)] if a is not None and b is not None
                        else [dict(team(t), wins=0, host=False) if t is not None else None for t in (a, b)],
                        "games": games, "winner": team(winner) if winner else None, "done": winner is not None})
         sup_w.append(winner)
@@ -1048,7 +1099,7 @@ def bracket_json(d: Dynasty, regs: list, reg_games: list, super_games: list, cws
     champion = next((t for t in (fa, fb) if t is not None and fwins.get(t, 0) >= 2), None)
     finals = {"teams": [dict(team(t), wins=fwins.get(t, 0)) if t is not None else None for t in (fa, fb)], "games": fgames,
               "winner": team(champion) if champion else None, "done": champion is not None}
-    return {"regionals": regionals, "supers": supers, "cws": {"brackets": brackets, "finals": finals}}
+    return {"regionals": regionals, "supers": supers, "cws": {"brackets": brackets, "finals": finals, "venue": f"{identity.OMAHA['name']} · {identity.OMAHA['city']}"}}
 
 
 def summary_json(d: Dynasty) -> dict:

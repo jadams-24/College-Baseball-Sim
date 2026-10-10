@@ -9,3 +9,4 @@ runs/
 saves/
 data/noaa/raw/search/
 data/eada/*.zip
+scratch/

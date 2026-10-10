@@ -93,8 +93,40 @@
     return `hsl(${hue} ${sat}% ${light}%)`;
   }
   function initials(name) { return name.split(/\s+/).map((w) => w[0]).join("").slice(0, 3).toUpperCase(); }
-  // the team mark: the school's abbreviation when the identity file gives one (initials otherwise); the tooltip is the one spot that names the engine id
-  function mark(team) { return `<span class="mark" style="--team:${colorOf(team.engine_name || team.name)}" title="${esc(team.name)}${team.engine_name ? ` · engine id: ${esc(team.engine_name)}` : ""}">${team.abbr ? esc(team.abbr) : initials(team.name)}</span>`; }
+  // ---- school colors and ballparks (app/identity.py via /api/identity): accents only, never large backgrounds ----
+  // colorsOf: the display colors of a team (a {colors} object from the server, or the identity table by tid); null when the row is D
+  function colorsOf(team) {
+    if (!team) return null;
+    if (team.colors) return team.colors;
+    const id = team.tid != null && S.identity ? S.identity[team.tid] : null;
+    return id ? id.colors : null;
+  }
+  function venueOf(tid) { const id = S.identity && S.identity[tid]; return id ? id.venue : null; }
+  // the chip beside a school name (standings, schedule, scoreboard, picker): the primary color, text white or near-black by contrast, a thin light border when the color is too dark for the background
+  function chip(team) {
+    const c = colorsOf(typeof team === "number" ? { tid: team } : team);
+    if (!c) return `<i class="cchip none" aria-hidden="true"></i>`;
+    return `<i class="cchip ${c.border ? "bd" : ""}" style="--c:${c.chip}" title="${esc(c.primary)}${c.secondary ? " / " + esc(c.secondary) : ""}" aria-hidden="true"></i>`;
+  }
+  // the team mark: the school's abbreviation on its primary color (a hashed color for fictional teams without a row); the tooltip is the one spot that names the engine id
+  function mark(team) {
+    const c = colorsOf(team);
+    const style = c ? `--team:${c.chip};--team-ink:${c.text}${c.border ? ";--team-bd:var(--line-strong)" : ""}` : `--team:${colorOf(team.engine_name || team.name)}`;
+    return `<span class="mark ${c && c.border ? "bd" : ""}" style="${style}" title="${esc(team.name)}${team.engine_name ? ` · engine id: ${esc(team.engine_name)}` : ""}">${team.abbr ? esc(team.abbr) : initials(team.name)}</span>`;
+  }
+  // the venue line of a game: "at <ballpark> · <city>", "Charles Schwab Field Omaha", "neutral site" when nothing is confirmed
+  function venueLine(v, opts) {
+    const o = opts || {};
+    if (v && v.text) return `${o.bare ? "" : "at "}${esc(v.text)}`;
+    if (o.stage === "conf") return "Conference tournament";
+    return o.neutral ? "neutral site" : "";
+  }
+  // the user's own team: the highlight color every screen's "you" rows use (the school's visible ink), set once per dynasty
+  function setMine(team) {
+    const c = colorsOf(team);
+    document.documentElement.style.setProperty("--mine", c ? c.ink : "var(--accent)");
+    document.documentElement.style.setProperty("--mine-ink", c ? c.ink_text : "var(--accent-ink)");
+  }
   function esc(s) { return String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
 
   // ---- 1. scoreboard strip: line score | R/H/E | bases | inning | balls, strikes, outs ----
@@ -104,9 +136,13 @@
   }
   function renderScorebar(t) {
     const st = t.state, inns = st.line_score.innings;
-    const row = (side) => `<tr class="${st.batting_side === side && !st.over && t.phase !== "pregame" ? "batting" : ""}"><td class="team">${mark(st.teams[side])}<span class="tn" title="${esc(st.teams[side].name)}">${esc(st.teams[side].short || st.teams[side].name)}</span></td>${st.line_score[side].map((r) => `<td>${r === null ? "" : r}</td>`).join("")}<td class="tot r">${st.score[side]}</td><td class="tot">${st.hits[side]}</td><td class="tot">${st.errors[side]}</td></tr>`;
+    const stripe = (side) => { const c = colorsOf(st.teams[side]); return c ? `<i class="cstripe ${c.border ? "bd" : ""}" style="--c:${c.chip}" aria-hidden="true"></i>` : ""; };
+    const row = (side) => `<tr class="${st.batting_side === side && !st.over && t.phase !== "pregame" ? "batting" : ""}"><td class="team">${stripe(side)}${mark(st.teams[side])}<span class="tn" title="${esc(st.teams[side].name)}">${esc(st.teams[side].short || st.teams[side].name)}</span></td>${st.line_score[side].map((r) => `<td>${r === null ? "" : r}</td>`).join("")}<td class="tot r">${st.score[side]}</td><td class="tot">${st.hits[side]}</td><td class="tot">${st.errors[side]}</td></tr>`;
     $("#linescore").innerHTML = `<tr><th></th>${inns.map((i) => `<th>${i}</th>`).join("")}<th class="tot">R</th><th class="tot">H</th><th class="tot">E</th></tr>${row("away")}${row("home")}`;
     $("#sb-bases").innerHTML = basesSvg(st.bases, 44);
+    const v = t.venue !== undefined ? t.venue : (S.game && S.game.venue !== undefined ? S.game.venue : st.venue);
+    const vl = venueLine(v, { neutral: !!(t.meta && t.meta.neutral), stage: t.meta && t.meta.tournament ? (S.game && S.game.stage) : null });
+    $("#venue").innerHTML = vl; $("#venue").classList.toggle("hidden", !vl);
     $("#sb-inning").innerHTML = st.over ? `<div class="half">Final${st.ended_by_run_rule ? " · run rule" : ""}</div><div class="inn">${st.inning !== 9 ? st.inning + " inn" : "9 inn"}</div>`
       : t.phase === "pregame" ? `<div class="half">Pregame</div><div class="inn">—</div>`
       : `<div class="half on">${st.half === "T" ? "Top" : "Bot"}</div><div class="inn">${ORD(st.inning)}</div>`;
@@ -452,11 +488,12 @@
     let b;
     try { b = await gameCall("/box"); } catch (e) { el.innerHTML = `<div class='muted'>${esc(e.message)}</div>`; return; }
     const batCols = ["ab", "r", "h", "rbi", "bb", "k", "hr", "sb", "cs"], pitCols = ["ip", "h", "r", "er", "bb", "k", "pitches"];
+    const bv = venueLine(S.game && S.game.venue !== undefined ? S.game.venue : b.venue, { neutral: !!(S.game && S.game.meta && S.game.meta.neutral) });
     const decOf = (pid) => (b.decisions ? (b.decisions.W === pid ? "W" : b.decisions.L === pid ? "L" : b.decisions.SV === pid ? "SV" : (b.decisions.HLD || []).includes(pid) ? "HLD" : "") : "");
     const sum = (rows, k) => rows.reduce((s, r) => s + (r.line[k] || 0), 0);
     const bat = (side) => `<h3>${esc(b.teams[side])} batting</h3><table class="lu box"><tr><th>Batter</th><th>Pos</th><th>B</th>${batCols.map((c) => `<th>${c.toUpperCase()}</th>`).join("")}</tr>${b.batting[side].map((r) => `<tr><td class="nm">${r.starter ? "" : "&nbsp;&nbsp;"}<a class="plink" data-pid="${r.pid}">${esc(r.name)}</a></td><td>${r.pos}</td><td class="muted">${r.bats || "–"}</td>${batCols.map((c) => `<td>${r.line[c]}</td>`).join("")}</tr>`).join("")}<tr class="tot"><td>Totals</td><td></td><td></td>${batCols.map((c) => `<td>${sum(b.batting[side], c)}</td>`).join("")}</tr></table>`;
     const pit = (side) => `<h3>${esc(b.teams[side])} pitching</h3><table class="lu box"><tr><th>Pitcher</th><th>T</th>${pitCols.map((c) => `<th>${c === "pitches" ? "P" : c.toUpperCase()}</th>`).join("")}</tr>${b.pitching[side].map((r) => { const dec = decOf(r.pid) || r.line.dec; return `<tr><td class="nm"><a class="plink" data-pid="${r.pid}">${esc(r.name)}</a> <span class="muted">${r.role}</span>${dec ? ` <span class="pill ${dec === "L" ? "loss" : "success"}">${dec}</span>` : ""}</td><td class="muted">${r.throws || "–"}</td>${pitCols.map((c) => `<td>${r.line[c]}</td>`).join("")}</tr>`; }).join("")}</table>`;
-    el.innerHTML = `<div class="box-grid"><div>${bat("away")}${pit("away")}</div><div>${bat("home")}${pit("home")}</div></div>`;
+    el.innerHTML = `${bv ? `<div class="muted venue-line">${bv}</div>` : ""}<div class="box-grid"><div>${bat("away")}${pit("away")}</div><div>${bat("home")}${pit("home")}</div></div>`;
   }
 
   // ---- 7. callouts: a brief overlay for the big moments of the events a turn brought (runs, home runs,
@@ -630,7 +667,7 @@
   }
   // a dynasty game: opened by dynasty.js with the turn of the pending game
   function openDynastyGame(t, did) {
-    S.game = { id: t.game_id, turn: t, meta: t.meta, save: null, dynasty: did };
+    S.game = { id: t.game_id, turn: t, meta: t.meta, save: null, dynasty: did, venue: t.venue, stage: t.stage || (t.meta && t.meta.exhibition && t.meta.exhibition.stage) || null };
     applyTurn(t, true);
     S.pregame = null; lineupTab = "mine";
     show("game"); render(t);
@@ -672,13 +709,13 @@
 
   // ---- boot ----
   async function boot() {
-    try { [S.league, S.decisions] = await Promise.all([raw("/api/league"), raw("/api/decisions")]); }
+    try { [S.league, S.decisions] = await Promise.all([raw("/api/league"), raw("/api/decisions")]); S.identity = (await raw("/api/identity")).schools; }
     catch (e) { toast("The server is waking up; retrying in a few seconds."); return setTimeout(boot, 4000); }
     fillTeams($("#home")); fillTeams($("#away"));
     renderSaves();
     show("main");
     document.dispatchEvent(new Event("cbs:ready"));
   }
-  window.v2 = { render, callout, calloutFor, raw, toast, esc, mark, badge, band, ls, show, busy, openDynastyGame, S, ORD, RATING, renderSaves, loadSave, gameCall, applyTurn, setTopbar, refreshTopbar };
+  window.v2 = { render, callout, calloutFor, raw, toast, esc, mark, chip, colorsOf, venueOf, venueLine, setMine, badge, band, ls, show, busy, openDynastyGame, S, ORD, RATING, renderSaves, loadSave, gameCall, applyTurn, setTopbar, refreshTopbar };
   boot();
 })();

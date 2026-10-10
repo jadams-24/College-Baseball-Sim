@@ -43,7 +43,8 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
 from app import dynasty as dyn_mod
-from app import schools
+from app.dynasty import game_venue
+from app import identity, schools
 
 router = APIRouter()
 SAVE_DIR = Path(os.environ.get("CBS_SAVE_DIR", str(Path(__file__).resolve().parent.parent / "saves")))
@@ -232,6 +233,14 @@ def schools_route():
             "abbreviation_guesses": schools.abbreviation_guesses()}
 
 
+@router.get("/api/identity")
+def identity_table():
+    """Every school's display colors (primary, secondary, alt; chip/text/border/ink after the contrast rules) and
+    home ballpark, for the screens' chips, stripes, header bands and venue lines. Display only (app/identity.py)."""
+    return {"available": identity.available(), "schools": identity.all_json(), "background": "#" + identity.BACKGROUND,
+            "omaha": identity.OMAHA, "d_rows": [{"tid": int(r["tid"]), "school": r["school"], "note": r["note"]} for r in identity.d_rows()]}
+
+
 @router.post("/api/dynasties")
 def new_dynasty(body: NewDynasty):
     w = _store.ready()
@@ -354,6 +363,9 @@ def open_game(did: str, body: OpenIn | None = None):
     gid = next((g for g, rr in _store.games.items() if rr is r), None) or _store.put(r)
     t = _turn(gid, r, full=True)
     t["dynasty"] = did
+    if d.pending:
+        p = d.pending
+        t["venue"] = game_venue(d, p["stage"], p["home"], p["away"], bool(p["neutral"]))
     _start_background(did, d)
     return t
 

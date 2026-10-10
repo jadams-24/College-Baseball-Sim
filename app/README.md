@@ -257,6 +257,35 @@ file's conferences, mismatches reported, never hidden) and the abbreviations cho
 common use (`reports/school_names.md`). `tests/test_app_names.py` renders every screen's data through the API and
 fails on any engine team name in user-facing text. Players stay fictional by design.
 
+## School colors and ballparks
+
+Owner request 2026-10-10. One app-side table, `app/school_identity.csv` (built by `scripts/build_school_identity.py`,
+report in `reports/school_identity.md`), keyed by engine team id: primary and secondary color as hex (plus `alt`, the
+first non-white, non-black official color after the primary), the ballpark's full current name including the field
+name ("Alex Box Stadium, Skip Bertman Field"), capacity and city where listed, a source URL, fetch date and
+confidence per row (A from the school's own site, B from Wikipedia, D guessed or missing; every row is B today:
+colors from Wikipedia's college color table, which cites each school's brand guide, and ballparks from the program's
+Wikipedia article). `app/conference_tournaments.csv` holds the 2025 conference tournament sites the tournament
+articles confirm. www.ncaa.com is never fetched. Display only: the engine never reads either file, and its park
+factors are still the engine's own draw, not tied to these real ballparks (matching real parks is a future engine
+change). `tests/test_app_identity.py` checks every school has both colors and a ballpark or an explicit D flag, every
+color pair passes the contrast rule, and no engine or config module reads the table.
+
+Colors (`app/identity.py`): school colors are accents, never backgrounds for large areas. They color the chip beside
+a school name (standings, schedule, picker, bracket, box score line score), the stripe on the live scoreboard, the
+header band of team and player pages and the user's own-team highlight; the app's accent (#F2A900) stays on buttons
+and actions. Text on a school color is white or near-black, whichever reaches 4.5:1 (`identity.text_on`). A color too
+dark to see on the #12151C background (navy, black, dark maroon: contrast under 1.45) gets a thin light border, and
+where a visible color is needed as ink (the own-team stripe and tint, the header band) the first visible one of
+primary, alt, secondary is used. When two teams with similar primaries meet on the scoreboard (CIE76 distance under
+22), the away team's chip uses its secondary (its alt when the secondary is white or black).
+
+Ballparks: the schedule, the game header ("at Alex Box Stadium, Skip Bertman Field · Baton Rouge, LA"), the box
+score and the team page show the venue. Regionals and supers show the host school's park; Omaha games show Charles
+Schwab Field Omaha; a conference tournament at a neutral site shows the confirmed 2025 site, one on campus shows the
+dynasty's own host's park (the engine draws the predetermined hosts), and an unconfirmed site shows "Conference
+tournament" with no venue. Nothing is guessed: a regular-season neutral-site game shows "neutral site".
+
 ## Conference names
 
 Headers spell the conference out (`schools.CONFERENCE_FULL`: Conference USA, Missouri Valley Conference, Southern

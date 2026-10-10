@@ -18,7 +18,7 @@ from __future__ import annotations
 
 from bisect import bisect_left, bisect_right
 
-from app import schools
+from app import identity, schools
 from app.world import player_json, staff
 from engine.game2 import (B_2B, B_3B, B_AB, B_BB, B_H, B_HBP, B_HR, B_K, B_PA, B_ROE, B_SF, B_SH, P_BB, P_BF, P_ER, P_H, P_HBP, P_HR,
                           P_K, P_OUTS, P_PITCH, P_R)
@@ -388,7 +388,7 @@ def state_json(runner) -> dict:
            "ended_by_run_rule": st.ended_by_run_rule, "run_rule_in_effect": st.run_rule_in_effect,
            "count": [sess.pa["b"], sess.pa["s"]] if sess.pa is not None else None,
            "batting_side": bat, "bases": bases, "line_score": line_score, "hits": dict(st.hits), "errors": dict(st.errors),
-           "teams": {s: schools.team_fields(teams[s]) for s in teams},
+           "teams": _teams_json(teams), "venue": _home_venue(runner, teams),
            "batter": card(batter, bat) if batter is not None else None, "pitcher": card(pitcher, fld) if pitcher is not None else None,
            "due_up": due, "lineups": {}, "bench": {}, "bullpen": {}, "used_pitchers": {}}
     for s in ("away", "home"):
@@ -401,6 +401,23 @@ def state_json(runner) -> dict:
     return out
 
 
+def _teams_json(teams: dict) -> dict:
+    """Both teams' display fields; on one scoreboard the away team's chip uses its secondary color when the two
+    primaries read the same (app/identity.py pair)."""
+    out = {s: schools.team_fields(teams[s]) for s in teams}
+    h, a = identity.pair(teams["home"].tid, teams["away"].tid)
+    out["home"]["colors"], out["away"]["colors"] = h, a
+    return out
+
+
+def _home_venue(runner, teams: dict) -> dict | None:
+    """The home team's ballpark for the game header; None at a neutral site (a dynasty names the site by stage)."""
+    if getattr(runner, "meta", {}).get("neutral"):
+        return None
+    v = identity.venue(teams["home"].tid)
+    return dict(v, kind="home") if v else None
+
+
 def box_score(runner) -> dict:
     sess = runner.current
     st = sess.st
@@ -409,7 +426,8 @@ def box_score(runner) -> dict:
     nar = Narrator(runner)
     feed = nar.build()
     out = {"score": dict(st.score), "hits": dict(st.hits), "errors": dict(st.errors), "inning": st.inning, "over": st.over,
-           "teams": {s: schools.team_name(teams[s].tid, teams[s].name) for s in teams}, "batting": {}, "pitching": {}, "feed": feed}
+           "teams": {s: schools.team_name(teams[s].tid, teams[s].name) for s in teams}, "batting": {}, "pitching": {}, "feed": feed,
+           "venue": _home_venue(runner, teams)}
     for s in ("away", "home"):
         rows = []
         order = {p.pid: i for i, p in enumerate(st.lineup.get(s, []))}

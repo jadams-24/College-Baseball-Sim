@@ -471,3 +471,21 @@ a.plink:hover, a.tlink:hover { color: var(--accent); border-bottom-color: var(--
 .keys .panel { width: 420px; max-width: 94vw; }
 .keys .hdr button { margin-left: auto; }
 .keys-tbl td.key { width: 110px; color: var(--accent); font-weight: 700; }
+
+/* ---- school colors (app/identity.py): accents only. The chip beside a name, the stripe on the line score, the header
+   band of a team or player page and the user's own-team highlight; the app's accent stays on buttons and actions. ---- */
+.cchip { display: inline-block; width: 10px; height: 10px; border-radius: 2px; background: var(--c, transparent); margin-right: 7px; vertical-align: -1px; box-sizing: border-box; }
+.cchip.bd { border: 1px solid var(--line-strong); }
+.cchip.none { background: transparent; border: 1px dashed var(--line2); }
+.cstripe { display: inline-block; width: 4px; height: 18px; border-radius: 1px; background: var(--c); margin-right: 6px; vertical-align: middle; box-sizing: border-box; }
+.cstripe.bd { border: 1px solid var(--line-strong); }
+.mark { color: var(--team-ink, #fff); }
+.mark.bd { box-shadow: inset 0 0 0 1px var(--team-bd, var(--line-strong)); }
+.venue { padding: 4px 12px; background: var(--panel); border: 1px solid var(--line); border-top: none; color: var(--ink2); font-size: 12px; }
+.venue-line { font-size: 12px; margin-top: 4px; }
+.tbl td.venue { max-width: 22em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.page-head.banded { border-left: 6px solid var(--band, var(--line2)); padding-left: 12px; background: linear-gradient(90deg, color-mix(in srgb, var(--band, transparent) 18%, transparent), transparent 55%); border-radius: 3px 0 0 3px; }
+/* the user's own team: every "you" row and bracket slot in the school's visible color */
+.tbl tr.now td { background: color-mix(in srgb, var(--mine, var(--accent)) 18%, transparent); }
+.tbl tr.now td:first-child { box-shadow: inset 3px 0 0 var(--mine, var(--accent)); }
+.bk-team.me { background: color-mix(in srgb, var(--mine, var(--accent)) 18%, transparent); box-shadow: inset 3px 0 0 var(--mine, var(--accent)); }
