@@ -14,6 +14,8 @@ all,all,share_bats_filled,1.0
 all,all,share_throws_filled,1.0
 all,all,share_position_filled,0.9914
 all,all,share_class_filled,0.9823
+all,all,share_redshirt_marked,0.151
+all,all,share_birthdate_or_age_filled,0.0
 all,all,share_hometown_filled,1.0
 all,all,share_hometown_located,0.9933
 all,all,share_high_school_filled,0.7964
@@ -36,6 +38,8 @@ tier,low,share_bats_filled,1.0
 tier,low,share_throws_filled,1.0
 tier,low,share_position_filled,0.9921
 tier,low,share_class_filled,0.9685
+tier,low,share_redshirt_marked,0.1412
+tier,low,share_birthdate_or_age_filled,0.0
 tier,low,share_hometown_filled,1.0
 tier,low,share_hometown_located,0.9975
 tier,low,share_high_school_filled,0.7068
@@ -58,6 +62,8 @@ tier,mid,share_bats_filled,1.0
 tier,mid,share_throws_filled,1.0
 tier,mid,share_position_filled,0.9956
 tier,mid,share_class_filled,0.9814
+tier,mid,share_redshirt_marked,0.1664
+tier,mid,share_birthdate_or_age_filled,0.0
 tier,mid,share_hometown_filled,1.0
 tier,mid,share_hometown_located,0.9896
 tier,mid,share_high_school_filled,0.7927
@@ -80,6 +86,8 @@ tier,non_d1,share_bats_filled,1.0
 tier,non_d1,share_throws_filled,1.0
 tier,non_d1,share_position_filled,1.0
 tier,non_d1,share_class_filled,1.0
+tier,non_d1,share_redshirt_marked,0.0
+tier,non_d1,share_birthdate_or_age_filled,0.0
 tier,non_d1,share_hometown_filled,1.0
 tier,non_d1,share_hometown_located,1.0
 tier,non_d1,share_high_school_filled,1.0
@@ -102,6 +110,8 @@ tier,p4,share_bats_filled,1.0
 tier,p4,share_throws_filled,1.0
 tier,p4,share_position_filled,0.9812
 tier,p4,share_class_filled,0.9975
+tier,p4,share_redshirt_marked,0.1297
+tier,p4,share_birthdate_or_age_filled,0.0
 tier,p4,share_hometown_filled,1.0
 tier,p4,share_hometown_located,0.997
 tier,p4,share_high_school_filled,0.8906
@@ -109,8 +119,8 @@ tier,p4,share_previous_school_filled,0.4183
 tier,p4,share_origin_classified,0.8658
 tier,p4,share_wmt_person_id_filled,0.1629
 tier,p4,teams_listing_previous_school,43
-all,all,fetch_first_date,2026-10-09
-all,all,fetch_last_date,2026-10-09
+all,all,fetch_first_date,2026-10-10
+all,all,fetch_last_date,2026-10-10
 all,all,pbp_pa_total,178073
 all,all,pbp_pa_both_hands_known,73393
 all,all,pbp_pa_both_hands_share,0.4122
