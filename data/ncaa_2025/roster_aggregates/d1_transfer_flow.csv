@@ -1,0 +1,17 @@
+scope,scope_value,prev_tier,count,share
+all,all,low,134,0.1101
+all,all,mid,443,0.364
+all,all,p4,482,0.3961
+all,all,unknown,158,0.1298
+tier,low,low,30,0.1705
+tier,low,mid,57,0.3239
+tier,low,p4,45,0.2557
+tier,low,unknown,44,0.25
+tier,mid,low,62,0.0961
+tier,mid,mid,254,0.3938
+tier,mid,p4,261,0.4047
+tier,mid,unknown,68,0.1054
+tier,p4,low,42,0.1061
+tier,p4,mid,132,0.3333
+tier,p4,p4,176,0.4444
+tier,p4,unknown,46,0.1162

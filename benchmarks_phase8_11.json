@@ -14,7 +14,7 @@
   "fetched": "2026-10-09",
   "season": 2025,
   "conf": "B",
-  "note": "Spring 2025 rosters (before the 34-man limit, effective 7/1/25). Classes as listed, redshirt markers dropped (R-Fr = Fr); Gr = graduate, 5th/6th year. Pitcher share from the listed position; two-way players counted separately.",
+  "note": "Spring 2025 rosters (before the 34-man limit, effective 7/1/25). Classes as listed, redshirt markers dropped (R-Fr = Fr); Gr = graduate, 5th/6th year. Pitcher share from the listed position; two-way players counted separately. Redshirt, class x position and the transfer flow from the roster run of 2026-10-10 (run 38066352243).",
   "class_by_tier": {
    "low": {
     "players": 2033,
@@ -451,6 +451,332 @@
      "unknown": 38
     }
    }
+  },
+  "redshirt_by_class": {
+   "low": {
+    "Fr": {
+     "players": 448,
+     "redshirt_share": 0.1183
+    },
+    "Gr": {
+     "players": 85,
+     "redshirt_share": 0.0
+    },
+    "Jr": {
+     "players": 589,
+     "redshirt_share": 0.1392
+    },
+    "So": {
+     "players": 392,
+     "redshirt_share": 0.1556
+    },
+    "Sr": {
+     "players": 455,
+     "redshirt_share": 0.0989
+    },
+    "all": {
+     "players": 1969,
+     "redshirt_share": 0.1224
+    }
+   },
+   "mid": {
+    "Fr": {
+     "players": 1154,
+     "redshirt_share": 0.1308
+    },
+    "Gr": {
+     "players": 201,
+     "redshirt_share": 0.0
+    },
+    "Jr": {
+     "players": 1293,
+     "redshirt_share": 0.1817
+    },
+    "So": {
+     "players": 911,
+     "redshirt_share": 0.236
+    },
+    "Sr": {
+     "players": 881,
+     "redshirt_share": 0.1657
+    },
+    "all": {
+     "players": 4440,
+     "redshirt_share": 0.1682
+    }
+   },
+   "p4": {
+    "Fr": {
+     "players": 585,
+     "redshirt_share": 0.1145
+    },
+    "Gr": {
+     "players": 101,
+     "redshirt_share": 0.0
+    },
+    "Jr": {
+     "players": 567,
+     "redshirt_share": 0.1411
+    },
+    "So": {
+     "players": 442,
+     "redshirt_share": 0.1154
+    },
+    "Sr": {
+     "players": 320,
+     "redshirt_share": 0.1844
+    },
+    "all": {
+     "players": 2015,
+     "redshirt_share": 0.1275
+    }
+   }
+  },
+  "class_by_position": {
+   "low": {
+    "Fr": {
+     "1B": 0.0156,
+     "C": 0.1049,
+     "IF": 0.2098,
+     "OF": 0.1295,
+     "P": 0.4509,
+     "UT/DH": 0.0246,
+     "two-way": 0.0513,
+     "unknown": 0.0134
+    },
+    "Gr": {
+     "1B": 0.0353,
+     "C": 0.1059,
+     "IF": 0.1882,
+     "OF": 0.1059,
+     "P": 0.5059,
+     "UT/DH": 0.0353,
+     "two-way": 0.0235
+    },
+    "Jr": {
+     "1B": 0.0085,
+     "C": 0.0764,
+     "IF": 0.1969,
+     "OF": 0.1579,
+     "P": 0.4992,
+     "UT/DH": 0.0221,
+     "two-way": 0.0323,
+     "unknown": 0.0068
+    },
+    "So": {
+     "1B": 0.0077,
+     "C": 0.1148,
+     "IF": 0.2194,
+     "OF": 0.1505,
+     "P": 0.4413,
+     "UT/DH": 0.0357,
+     "two-way": 0.0204,
+     "unknown": 0.0102
+    },
+    "Sr": {
+     "1B": 0.0176,
+     "C": 0.1055,
+     "IF": 0.1692,
+     "OF": 0.1758,
+     "P": 0.4945,
+     "UT/DH": 0.022,
+     "two-way": 0.011,
+     "unknown": 0.0044
+    }
+   },
+   "mid": {
+    "Fr": {
+     "1B": 0.0173,
+     "C": 0.1014,
+     "IF": 0.2106,
+     "OF": 0.1282,
+     "P": 0.4567,
+     "UT/DH": 0.0234,
+     "two-way": 0.0572,
+     "unknown": 0.0052
+    },
+    "Gr": {
+     "1B": 0.0199,
+     "C": 0.0647,
+     "IF": 0.1741,
+     "OF": 0.1443,
+     "P": 0.5572,
+     "UT/DH": 0.0199,
+     "two-way": 0.0149,
+     "unknown": 0.005
+    },
+    "Jr": {
+     "1B": 0.024,
+     "C": 0.092,
+     "IF": 0.1856,
+     "OF": 0.1353,
+     "P": 0.5112,
+     "UT/DH": 0.0193,
+     "two-way": 0.0263,
+     "unknown": 0.0062
+    },
+    "So": {
+     "1B": 0.011,
+     "C": 0.0933,
+     "IF": 0.202,
+     "OF": 0.1449,
+     "P": 0.4995,
+     "UT/DH": 0.0143,
+     "two-way": 0.034,
+     "unknown": 0.0011
+    },
+    "Sr": {
+     "1B": 0.0284,
+     "C": 0.1078,
+     "IF": 0.1793,
+     "OF": 0.1703,
+     "P": 0.4756,
+     "UT/DH": 0.0159,
+     "two-way": 0.0182,
+     "unknown": 0.0045
+    }
+   },
+   "p4": {
+    "Fr": {
+     "1B": 0.0137,
+     "C": 0.0803,
+     "IF": 0.1812,
+     "OF": 0.1299,
+     "P": 0.5043,
+     "UT/DH": 0.0154,
+     "two-way": 0.0564,
+     "unknown": 0.0188
+    },
+    "Gr": {
+     "1B": 0.0099,
+     "C": 0.0891,
+     "IF": 0.2178,
+     "OF": 0.1485,
+     "P": 0.5149,
+     "unknown": 0.0198
+    },
+    "Jr": {
+     "1B": 0.0106,
+     "C": 0.0847,
+     "IF": 0.1922,
+     "OF": 0.1235,
+     "P": 0.5414,
+     "UT/DH": 0.0141,
+     "two-way": 0.0194,
+     "unknown": 0.0141
+    },
+    "So": {
+     "1B": 0.009,
+     "C": 0.0882,
+     "IF": 0.1968,
+     "OF": 0.1312,
+     "P": 0.5045,
+     "UT/DH": 0.0204,
+     "two-way": 0.0271,
+     "unknown": 0.0226
+    },
+    "Sr": {
+     "1B": 0.025,
+     "C": 0.0844,
+     "IF": 0.2188,
+     "OF": 0.1781,
+     "P": 0.4437,
+     "UT/DH": 0.0156,
+     "two-way": 0.0125,
+     "unknown": 0.0219
+    }
+   }
+  },
+  "d1_transfer_flow": {
+   "all": {
+    "d1_transfers": 1217,
+    "from_prev_tier": {
+     "low": {
+      "count": 134,
+      "share": 0.1101
+     },
+     "mid": {
+      "count": 443,
+      "share": 0.364
+     },
+     "p4": {
+      "count": 482,
+      "share": 0.3961
+     },
+     "unknown": {
+      "count": 158,
+      "share": 0.1298
+     }
+    }
+   },
+   "low": {
+    "d1_transfers": 176,
+    "from_prev_tier": {
+     "low": {
+      "count": 30,
+      "share": 0.1705
+     },
+     "mid": {
+      "count": 57,
+      "share": 0.3239
+     },
+     "p4": {
+      "count": 45,
+      "share": 0.2557
+     },
+     "unknown": {
+      "count": 44,
+      "share": 0.25
+     }
+    }
+   },
+   "mid": {
+    "d1_transfers": 645,
+    "from_prev_tier": {
+     "low": {
+      "count": 62,
+      "share": 0.0961
+     },
+     "mid": {
+      "count": 254,
+      "share": 0.3938
+     },
+     "p4": {
+      "count": 261,
+      "share": 0.4047
+     },
+     "unknown": {
+      "count": 68,
+      "share": 0.1054
+     }
+    }
+   },
+   "p4": {
+    "d1_transfers": 396,
+    "from_prev_tier": {
+     "low": {
+      "count": 42,
+      "share": 0.1061
+     },
+     "mid": {
+      "count": 132,
+      "share": 0.3333
+     },
+     "p4": {
+      "count": 176,
+      "share": 0.4444
+     },
+     "unknown": {
+      "count": 46,
+      "share": 0.1162
+     }
+    }
+   },
+   "note": "Tier of the previous D1 school named first on the roster page for players classified d1_transfer; unknown = only an alias matched. Current tier = the roster's school."
+  },
+  "age_by_class": {
+   "rows": 0,
+   "note": "no roster page in the 2025 fetch lists a birthdate or age (coverage.csv share_birthdate_or_age_filled = 0)"
   }
  },
  "geography_2025": {
@@ -4050,5 +4376,831 @@
    "conf": "A (shares among aided athletes)",
    "cross_check": "2024: 16.6% four-year-plus-graduate transfers among aided players sits between the 2025 roster shares of P4 .196 and mid .143; the two-year share 18.8% against the roster JUCO shares .112 / .177 / .206"
   }
+ },
+ "program_money_public_2025_26": {
+  "fetched": "2026-10-10",
+  "revenue_share_baseball": {
+   "cap": {
+    "2025-26": 20500000,
+    "2026-27": 21580000,
+    "source": "collegesportscommission.org; ESPN/AP on the CSC filing of 2026-10-01 ($1.77B to 34,915 athletes at 307 schools; no by-sport split)",
+    "conf": "A (context)"
+   },
+   "documented_baseball_shares": {
+    "Texas Tech 2025-26": {
+     "share": 0.019,
+     "dollars": 389500,
+     "source": "https://www.stakingtheplains.com/2026/02/16/help-is-on-the-way-for-baseball-and-track-field/ (Lubbock Avalanche-Journal interviews); https://frontofficesports.com/article/aac-becomes-first-conference-to-set-athlete-revenue-sharing-minimum/",
+     "conf": "B"
+    },
+    "LSU 2025-26": {
+     "share": "inside the 5% 'everyone else' bucket (about $900K shared with 4-5 sports)",
+     "conf": "B"
+    },
+    "LSU 2026-27 plan": {
+     "share": 0.05,
+     "dollars_derived": 1080000,
+     "source": "https://lsureveille.com/?p=281669; https://www.theadvocate.com/baton_rouge/sports/lsu/lsu-baseball-revenue-sharing-nil-money-verge-ausberry-jay-johnson/article_ba969997-0ec1-570e-b0f8-7ca5f8eca9d0.html",
+     "conf": "B (share), D (dollars)"
+    },
+    "UNC 2025-26": "baseball included 'with little money' (B, qualitative)",
+    "Ohio State 2025-26": "baseball excluded (B)",
+    "Purdue 2025-26": "non-revenue sports about $300K combined (B)"
+   },
+   "industry_split": {
+    "football": 0.75,
+    "mens_basketball": 0.15,
+    "womens_basketball": 0.05,
+    "all_other_sports": 0.05,
+    "conf": "B (context)",
+    "opendorse_model_2025_26": {
+     "football": 0.638,
+     "mbb": 0.209,
+     "wbb": 0.08,
+     "other": 0.073,
+     "other_dollars": 1500000,
+     "conf": "C"
+    }
+   },
+   "unverified": {
+    "baseball_13pct_of_pool": "secondhand attribution to Baseball America; contradicts every school figure (D)"
+   },
+   "opt_outs": {
+    "d1_baseball_schools_not_opted_in": 54,
+    "by_conference": {
+     "Ivy": 8,
+     "Patriot": 10,
+     "NEC": 8,
+     "Big Sky": 5,
+     "ASUN": 5,
+     "Big South": 4,
+     "MAAC": 3,
+     "Southland": 2,
+     "SoCon": 2,
+     "America East": 2,
+     "others": 5
+    },
+    "source": "https://baseballcollegian.com/blog/ncaa-baseball-revenue-sharing-who-offers-full-scholarships/ (2026-03-18, citing Sportico)",
+    "conf": "B"
+   },
+   "guess_for_the_spec": {
+    "p4_baseball_rev_share_range": [
+     0,
+     1100000
+    ],
+    "p4_median_guess": "under $500K",
+    "mid_low": "mostly zero",
+    "conf": "D (GUESS from two documented schools and the 5% bucket)"
+   }
+  },
+  "scholarships_after_11_7": {
+   "rules": {
+    "ceiling": 34,
+    "opt_outs": 11.7,
+    "incremental_aid_counted_against_cap": 2500000,
+    "counted_above_old_limit": true,
+    "cost_11_7_to_34_per_year": [
+     1000000,
+     1200000
+    ],
+    "share_of_d1_that_funded_11_7_before": "about half (AP, Feb 2025)",
+    "conf": "A (rules), B (cost, share)"
+   },
+   "documented_counts_2026_27": {
+    "Arizona State": 34,
+    "West Virginia": 28,
+    "Texas": 25,
+    "Texas Tech": 34,
+    "Texas Tech 2025-26": 11.7,
+    "conf": "B (C for Texas)"
+   },
+   "shape_for_the_spec": "full-roster funding at a minority of P4 programs, 20-30 at most of the rest of the P4, 11.7 or less at the bulk of mid and low, a hard 11.7 at the 54 opt-outs (GUESS, D, from BA 2024 and AP 2025)",
+   "sources": [
+    "https://www.baseballamerica.com/stories/how-college-baseball-scholarship-expansion-hurts-mid-major-programs-chances-at-college-world-series-success/",
+    "https://www.si.com/college/westvirginia/baseball/wvu-baseball-receives-massive-increase-in-scholarships",
+    "https://www.collegesportscommission.org/roster-limits/"
+   ]
+  },
+  "nil_baseball": {
+   "verified_payrolls": null,
+   "anecdotes": {
+    "mid_major_ace_transfer_offer": 400000,
+    "low_major_coach_lost_players_worth": "over $1M",
+    "conf": "C (Baseball America, Jan 2026, via substack)"
+   },
+   "csc_nil_go_all_sports": {
+    "deals_cleared_through_2026_06_30": 34195,
+    "dollars": 355000000,
+    "share_of_athletes_with_deals_outside_fb_mbb": 0.44,
+    "conf": "A (context; no sport table)"
+   },
+   "valuation_lists": "SportsGrid $125K-$850K (D)"
+  },
+  "draft_money": {
+   "declined_slots": {
+    "Prager Texas A&M 2024": 950000,
+    "Knaak Clemson 2026": 425400
+   },
+   "top10_round_unsigned": {
+    "2025": 2,
+    "2026": 2
+   },
+   "conf": "B",
+   "note": "No MLB.com or Baseball America NIL-vs-slot table found"
+  },
+  "head_coach_salaries": {
+   "p4_top15_2026": {
+    "n": 15,
+    "min": 1280000,
+    "median": 1500000,
+    "max": 3350000,
+    "mean": 1862333,
+    "source": "https://www.baseballamerica.com/stories/top-15-highest-paid-college-baseball-coaches-for-2026/ (2025-10-28, documents)",
+    "conf": "B; nine of 15 SEC"
+   },
+   "other_p4_documented": {
+    "n": 9,
+    "min": 490000,
+    "median": 771000,
+    "max": 1700000,
+    "conf": "B/C (FOS 2024-25 list, Yahoo/USA Today 2025)"
+   },
+   "mid_major_documented": {
+    "n": 6,
+    "min": 90775,
+    "median": 250000,
+    "max": 600000,
+    "examples": "AAC/Sun Belt top end $350K-$600K; low-major $90K-$130K; Coastal Carolina $375,768 base in 2025 then $500K (FOIA contract)",
+    "conf": "B/C"
+   },
+   "tennessee_2025": {
+    "former_head_coach": 3000000,
+    "new_head_coach": 1000000,
+    "associate_head_coach": 485000,
+    "assistant_and_support_pool_2024": 1500000,
+    "conf": "B"
+   },
+   "eada_note": "EADA reports coaching salaries as institution-level averages across all men's teams (User's Guide, Sept 2026 edition); baseball pay comes only from contracts and MFRS reports",
+   "conf": "B"
+  },
+  "attendance": {
+   "2025_total_incl_postseason_top10": {
+    "LSU": 458606,
+    "Arkansas": 407196,
+    "Ole Miss": 344364,
+    "Mississippi St.": 330009,
+    "South Carolina": 251414,
+    "Texas": 250754,
+    "Tennessee": 235035,
+    "Florida": 226903,
+    "Texas A&M": 206577,
+    "Auburn": 201703,
+    "source": "https://lsusports.net/news/2025/07/23/lsu-leads-nation-in-2025-college-baseball-attendance",
+    "conf": "B"
+   },
+   "2025_per_game_conference_averages": {
+    "SEC": 6020,
+    "Big 12": 2480,
+    "ACC": 2151,
+    "Sun Belt": 1672,
+    "AAC": 1378,
+    "Big Ten": 1307,
+    "Big West": 1137,
+    "conf": "C (forum tracker matching school-released NCAA figures)"
+   },
+   "2025_sec_per_game": {
+    "LSU": 11071,
+    "Mississippi St.": 11000,
+    "Arkansas": 9907,
+    "Ole Miss": 9361,
+    "South Carolina": 7183,
+    "Texas": 7113,
+    "Texas A&M": 6076,
+    "Florida": 5940,
+    "Tennessee": 5543,
+    "Auburn": 5284,
+    "Alabama": 3857,
+    "Vanderbilt": 3593,
+    "Kentucky": 3300,
+    "Oklahoma": 2810,
+    "Georgia": 2650,
+    "Missouri": 1272,
+    "source": "https://www.si.com/college/vanderbilt/sec/final-sec-ncaa-college-baseball-attendance-sec-daily-may-20",
+    "conf": "B"
+   },
+   "teams_ranked": {
+    "2025": 307,
+    "2024": 305
+   },
+   "national_total_and_average": "not found (NCAA attendance PDF unreachable; www.ncaa.com off limits)"
+  },
+  "program_finances_mfrs_fy2025": {
+   "file": "data/phase8_11/mfrs_baseball_fy2025.csv",
+   "schools": 27,
+   "sec_public_15_mean_expenses": 8070000,
+   "sec_public_15_mean_revenue": 5130000,
+   "range_expenses": [
+    4591972,
+    13002846
+   ],
+   "ticket_revenue_example": {
+    "Mississippi St.": 2700000
+   },
+   "note": "NCAA Membership Financial Reporting System figures obtained by public records (Extra Points top 25 of ~170 schools; Dispatch/al.com for the SEC); FY2025 = Jul 2024-Jun 2025, before revenue sharing; the two sources agree to the dollar. Compare EADA 2024-25 total expenses (same year): SEC median $7.8M",
+   "conf": "B"
+  }
+ },
+ "recruit_rankings_outcomes_2019_2024": {
+  "fetched": "2026-10-10",
+  "source": "MLB Stats API prospect registry https://statsapi.mlb.com/api/v1/draft/prospects/<year> (MLB Pipeline draft board, rank 1-200, 250 from 2025, schoolClass and the blurb naming the commitment) matched by MLB person id to the draft feeds 2019-2026; tools/build_recruit_outcomes.py -> data/recruiting/recruit_outcomes.csv",
+  "what_the_ranking_is": "MLB Pipeline's draft-week board in the HS senior spring, HS and college prospects on one list, signability-blind (Mayo, MLB Pipeline Inbox 2025-04-25). Not a recruiting ranking made a year earlier; the HS slice is 75-106 players a class (37-43% of the board). 'Reached campus' = did not sign that summer.",
+  "conf": "A for draft and signing columns, B for commitment (parsed from blurbs, about +-1 player per class-band), B for 2019 HS status (inferred, 99.0% rule accuracy on 2020-2024)",
+  "sample": {
+   "ranked_hs_prospects": 557,
+   "by_class": {
+    "2019": 75,
+    "2020": 81,
+    "2021": 105,
+    "2022": 106,
+    "2023": 102,
+    "2024": 88
+   }
+  },
+  "pooled_2019_2024_by_overall_rank": {
+   "top25": {
+    "n": 59,
+    "commit": {
+     "p4": 53,
+     "mid": 0,
+     "low": 0,
+     "non_d1": 0,
+     "not_stated": 6
+    },
+    "drafted_hs": 58,
+    "signed_hs": 57,
+    "signed_by_round": {
+     "R1": 49,
+     "R2": 5,
+     "R3": 2,
+     "R4-5": 1,
+     "R6-10": 0,
+     "R11+": 0
+    },
+    "drafted_unsigned": 1,
+    "reached_campus": 2
+   },
+   "26-100": {
+    "n": 205,
+    "commit": {
+     "p4": 175,
+     "mid": 8,
+     "low": 1,
+     "non_d1": 0,
+     "not_stated": 21
+    },
+    "drafted_hs": 153,
+    "signed_hs": 131,
+    "signed_by_round": {
+     "R1": 43,
+     "R2": 53,
+     "R3": 19,
+     "R4-5": 9,
+     "R6-10": 5,
+     "R11+": 2
+    },
+    "drafted_unsigned": 22,
+    "reached_campus": 74
+   },
+   "101-200": {
+    "n": 238,
+    "commit": {
+     "p4": 168,
+     "mid": 28,
+     "low": 1,
+     "non_d1": 5,
+     "not_stated": 36
+    },
+    "drafted_hs": 116,
+    "signed_hs": 78,
+    "signed_by_round": {
+     "R1": 2,
+     "R2": 6,
+     "R3": 20,
+     "R4-5": 27,
+     "R6-10": 11,
+     "R11+": 12
+    },
+    "drafted_unsigned": 38,
+    "reached_campus": 160
+   }
+  },
+  "pooled_by_hs_ordinal_rank": {
+   "hs1-10": {
+    "n": 60,
+    "p4": 55,
+    "mid": 0,
+    "signed": 58,
+    "campus": 2
+   },
+   "hs11-25": {
+    "n": 90,
+    "p4": 72,
+    "mid": 7,
+    "signed": 74,
+    "campus": 16
+   },
+   "hs26-50": {
+    "n": 150,
+    "p4": 127,
+    "mid": 5,
+    "signed": 71,
+    "campus": 79
+   },
+   "hs51+": {
+    "n": 257,
+    "p4": 180,
+    "mid": 31,
+    "signed": 75,
+    "campus": 182
+   }
+  },
+  "commitment_tier_among_stated": {
+   "n": 439,
+   "p4": 0.9,
+   "mid": 0.08,
+   "low": 0.005,
+   "non_d1": 0.01
+  },
+  "campus_arrivals_by_commit_tier": {
+   "n": 236,
+   "p4": 170,
+   "mid": 28,
+   "low": 2,
+   "non_d1": 5,
+   "not_stated": 31,
+   "among_stated": {
+    "p4": 0.83,
+    "mid": 0.14,
+    "low": 0.01,
+    "non_d1": 0.02
+   }
+  },
+  "college_draft_of_campus_arrivals_classes_2019_2022": {
+   "26-100": {
+    "campus": 52,
+    "drafted_y2": 11,
+    "drafted_y3": 27,
+    "drafted_y4": 5,
+    "y3_or_y4": 30,
+    "any_y2_to_y4": 40,
+    "first_pick_round": {
+     "R1": 13,
+     "R2": 3,
+     "R3": 3,
+     "R4-5": 3,
+     "R6-10": 9,
+     "R11+": 9
+    },
+    "y3_college_tier": {
+     "p4": 26,
+     "mid": 1,
+     "low": 0,
+     "other": 0
+    },
+    "p4_commits_drafted": "33 of 44",
+    "mid_commits_drafted": "1 of 2"
+   },
+   "101-200": {
+    "campus": 102,
+    "drafted_y2": 12,
+    "drafted_y3": 51,
+    "drafted_y4": 7,
+    "y3_or_y4": 57,
+    "any_y2_to_y4": 69,
+    "first_pick_round": {
+     "R1": 10,
+     "R2": 11,
+     "R3": 2,
+     "R4-5": 13,
+     "R6-10": 17,
+     "R11+": 16
+    },
+    "y3_college_tier": {
+     "p4": 46,
+     "mid": 2,
+     "low": 0,
+     "other": 3
+    },
+    "p4_commits_drafted": "52 of 74",
+    "mid_commits_drafted": "6 of 10"
+   },
+   "reading": "about two-thirds of ranked HS prospects who reach campus are drafted within four years; about one in six becomes a first-round pick; 72 of 77 Y+3 picks came from P4 programs, 3 from mid, 0 from low; drafted-from tier equals committed tier in about 99% of cases"
+  },
+  "ba_hs_top100_2018_recruiting_style_list": {
+   "source": "Baseball America, 2018 Top 100 MLB Draft Prospects In High School (published 2017-11-17, after the early signing period); terms text carries no automated-access clause",
+   "conf": "B (one class, n = 100)",
+   "commit": {
+    "p4": 92,
+    "mid": 8,
+    "low": 0
+   },
+   "signed_out_of_hs": {
+    "1-10": "8 of 10",
+    "11-25": "6 of 15",
+    "26-50": "13 of 25",
+    "51-100": "13 of 50",
+    "1-100": "40 of 100"
+   },
+   "on_pipeline_top200_at_draft": 64,
+   "reached_campus": 60,
+   "drafted_y3_or_y4": "21 of 60",
+   "drafted_any_y2_to_y5": "27 of 60",
+   "first_round_later": 5,
+   "y3_college_tier": "15 of 15 from P4",
+   "reading": "a ranking made in the fall of senior year is much noisier than the draft-week board: 36% fell off the Pipeline top 200 by draft day; 45% of its campus arrivals were drafted within five years against 68% for the draft-week cohort"
+  },
+  "published_summaries": {
+   "ba_badler_2024_10_31_one_year_out_top100_to_college": {
+    "top10": "9 of 20",
+    "top25": "25 of 50",
+    "26-50": "30 of 50",
+    "51-100": "81 of 100",
+    "top100": "136 of 200 (68%)",
+    "classes": "2023 and 2024",
+    "source": "https://baseballamerica.com/?p=1535810",
+    "conf": "B"
+   },
+   "ba_henninger_2019_redraft_of_unsigned_top100_preps_2001_2016": {
+    "n": 163,
+    "redrafted_round_1": 0.264,
+    "never_redrafted": 0.09,
+    "signed_for_less": 0.65,
+    "source": "https://www.baseballamerica.com/?p=41594",
+    "conf": "B (pre-2017 rules)"
+   },
+   "ba_unsigned_in_ba500_preps": {
+    "2016": 127,
+    "2017": 136,
+    "2018": 133,
+    "2019": 119,
+    "sec_share_2019": 0.42,
+    "conf": "B/C"
+   },
+   "hs_share_of_all_picks": {
+    "2019": 0.251,
+    "2021_2026": "0.186-0.207",
+    "hs_signing_rate_20_round_era": "0.72-0.79",
+    "2019_40_rounds": 0.45,
+    "conf": "A (feed counts)"
+   },
+   "mlb_players_1990_2010_path": {
+    "from_hs": 0.23,
+    "from_four_year": 0.63,
+    "from_two_year": 0.14,
+    "source": "McCue et al., Frontiers in Psychology 2019, https://pmc.ncbi.nlm.nih.gov/articles/PMC6868092",
+    "conf": "B"
+   }
+  },
+  "terms_compliance": "Perfect Game and Prep Baseball Report terms forbid automated access; no ranking page of theirs was fetched. Baseball America is behind Cloudflare and a paywall for 2019-2024 HS lists; a hand export by a subscriber would run through the script's matcher unchanged (data request 9).",
+  "still_missing": [
+   "a recruiting-style ranking at scale (PG/PBR terms; BA paywall)",
+   "ranks 101-500",
+   "an explicit uncommitted share (21% of blurbs name no school)",
+   "where the unsigned actually enrolled (JUCO, reclassification)",
+   "Y+5 for 2022; later drafts for 2023-2024",
+   "signing-bonus distributions by band (in the feed, not aggregated)"
+  ]
+ },
+ "recruit_pool_2024_25": {
+  "fetched": "2026-10-10",
+  "file": "data/phase8_11/recruit_pool_by_state_2024_25.csv",
+  "hs_participants": {
+   "2024_25": 472598,
+   "2023_24": 471701,
+   "schools_2024_25": 16110,
+   "states_reporting": 49,
+   "source": "NFHS participation surveys https://a-us.storyblok.com/f/1022696/x/85a6414d04/2024-25-nfhs-high-school-athletics-participation-survey.pdf and https://assets.nfhs.org/umbraco/media/7213111/2023-24-nfhs-participation-survey-full.pdf",
+   "conf": "A",
+   "note": "participation counts, no grade split; SD and WY report no HS baseball"
+  },
+  "ncaa_sponsorship_2024_25": {
+   "d1": {
+    "teams": 300,
+    "athletes": 12649,
+    "squad": 42.2
+   },
+   "d2": {
+    "teams": 261,
+    "athletes": 12369,
+    "squad": 47.4
+   },
+   "d3": {
+    "teams": 383,
+    "athletes": 16562,
+    "squad": 43.2
+   },
+   "all": {
+    "teams": 944,
+    "athletes": 41580
+   },
+   "d1_teams_by_year": {
+    "2018-19": 297,
+    "2019-20": 299,
+    "2020-21": 295,
+    "2021-22": 293,
+    "2022-23": 295,
+    "2023-24": 295,
+    "2024-25": 300
+   },
+   "d1_athletes_by_year": {
+    "2019-20": 10867,
+    "2020-21": 11903,
+    "2021-22": 11633,
+    "2022-23": 11712,
+    "2023-24": 12347,
+    "2024-25": 12649
+   },
+   "source": "https://ncaaorg.s3.amazonaws.com/research/sportpart/2025RES_SportsSponsorshipParticipationRatesReport.pdf",
+   "conf": "A"
+  },
+  "ncaa_probability_2024_25": {
+   "hs_to_ncaa": 0.088,
+   "hs_to_d1": 0.027,
+   "hs_to_d2": 0.026,
+   "hs_to_d3": 0.035,
+   "method": "NCAA participants divided by HS participants in the same year (four classes on both sides)",
+   "source": "https://ncaaorg.s3.amazonaws.com/research/pro_beyond/RES_ProbabilityBeyondHSFiguresMethod.pdf",
+   "conf": "A"
+  },
+  "d1_recruit_rate_by_state_2015_18": {
+   "source": "NCAA Research 2020, Where Do NCAA Division I High School Recruits Come From?, https://ncaaorg.s3.amazonaws.com/research/pro_beyond/2020RES_HSParticipationMapByState.pdf (values read from the map image)",
+   "conf": "B",
+   "top": {
+    "DE": 7.4,
+    "GA": 6.7,
+    "VA": 6.5,
+    "FL": 6.3,
+    "NC": 5.8,
+    "CT": 5.5,
+    "MD": 5.3,
+    "LA": 5.0,
+    "SC": 4.9,
+    "CA": 4.6,
+    "NJ": 4.6,
+    "TN": 4.3
+   },
+   "bottom": {
+    "ND": 0.7,
+    "ME": 0.9,
+    "AK": 1.0,
+    "IA": 1.1,
+    "MN": 1.2,
+    "VT": 1.3
+   },
+   "TX": 3.3,
+   "use": "relative weights by state, rescaled to the roster-route total; the map's 'recruits' is a broader count (sums to 4,009)"
+  },
+  "derived": {
+   "d1_incoming_class_per_year": {
+    "roster_route": 3228,
+    "hs_route": 3190,
+    "conf": "C",
+    "note": "300 x 42.2 x .255 freshman share; 472,598 / 4 x 2.7%; the two agree within 1.5%"
+   },
+   "d2_intake_per_year": [
+    3073,
+    3154
+   ],
+   "d3_intake_per_year": [
+    4135,
+    4223
+   ],
+   "juco_programs": {
+    "njcaa": 397,
+    "cccaa": 88,
+    "nwac": 28,
+    "conf": "C (NJCAA undated secondary), A (CCCAA, NWAC)"
+   },
+   "juco_entrants_per_year": {
+    "value": 7700,
+    "conf": "D (roster 30 GUESS, half turnover)"
+   },
+   "hs_seniors_per_year": 118150,
+   "share_of_hs_seniors_to_any_college_baseball": "about 15-18% (D)"
+  },
+  "design_notes": [
+   "the HS pool is flat (+0.2% a year) while D1 squads grew from 10.9k (2019-20) to 12.6k (2024-25); the 34-man limit cuts intake back, so re-measure the .255 freshman share on 2026 rosters",
+   "state rates are D1-wide; the tier gradient by state comes from the roster aggregates"
+  ],
+  "still_missing": [
+   "official NJCAA team counts by division",
+   "HS participants by grade",
+   "state signing tallies (no reusable source)",
+   "D2/D3/JUCO freshman shares",
+   "NAIA sizing (about 210 programs, C)"
+  ]
+ },
+ "coaching_carousel_2019_2025": {
+  "fetched": "2026-10-10",
+  "files": [
+   "data/phase8_11/coaching_changes_2019_2026.csv",
+   "data/phase8_11/coaching_tenure_2019_2025.csv"
+  ],
+  "sources": [
+   "Wikipedia 'YYYY NCAA Division I baseball season' coaching-changes tables (2019, 2023-2026 complete; 2020-2022 near-empty)",
+   "Baseball America coaching-changes trackers 2020-2024 (reason, tenure, previous job)",
+   "College Baseball Insights carousels 2024-25 (46 D1) and 2025-26 (27 D1)",
+   "Wikipedia coach biographies (120 pages) for tenure and previous post"
+  ],
+  "conf": "B (tiers from the current map, not back-dated)",
+  "changes_per_year": {
+   "2019": {
+    "changes": 37,
+    "programs": 297,
+    "per_program": 0.125,
+    "note": "BA counted 41"
+   },
+   "2020": {
+    "changes": 14,
+    "programs": 299,
+    "per_program": 0.047,
+    "note": "pandemic"
+   },
+   "2021": {
+    "changes": 40,
+    "programs": 295,
+    "per_program": 0.136
+   },
+   "2022": {
+    "changes": 48,
+    "programs": 293,
+    "per_program": 0.164
+   },
+   "2023": {
+    "changes": 42,
+    "programs": 295,
+    "per_program": 0.142
+   },
+   "2024": {
+    "changes": 46,
+    "programs": 295,
+    "per_program": 0.156
+   },
+   "2025": {
+    "changes": 27,
+    "programs": 300,
+    "per_program": 0.09
+   },
+   "2026_partial": {
+    "changes": 24,
+    "programs": 300
+   }
+  },
+  "pooled_2019_2025": {
+   "changes": 254,
+   "program_seasons": 2074,
+   "per_program_year": 0.122,
+   "excluding_2020": 0.135,
+   "by_tier": {
+    "p4": {
+     "changes": 49,
+     "program_seasons": 448,
+     "rate": 0.109
+    },
+    "mid": {
+     "changes": 134,
+     "program_seasons": 1071,
+     "rate": 0.125
+    },
+    "low": {
+     "changes": 71,
+     "program_seasons": 630,
+     "rate": 0.113
+    }
+   },
+   "note": "tiers not distinguishable (binomial SE about .015 at P4)"
+  },
+  "reasons_pooled": {
+   "n": 254,
+   "fired_or_not_renewed": {
+    "all": 0.24,
+    "p4": 0.35,
+    "mid": 0.26,
+    "low": 0.13
+   },
+   "left_for_another_job": {
+    "all": 0.27,
+    "p4": 0.27,
+    "mid": 0.25,
+    "low": 0.3
+   },
+   "retired": {
+    "all": 0.21,
+    "p4": 0.18,
+    "mid": 0.25,
+    "low": 0.14
+   },
+   "resigned_or_other": {
+    "all": 0.2,
+    "p4": 0.18,
+    "mid": 0.16,
+    "low": 0.28
+   },
+   "unstated": {
+    "all": 0.09
+   }
+  },
+  "tenure_of_departing_coaches": {
+   "n_known": 224,
+   "median": 8,
+   "p25": 4,
+   "p75": 14,
+   "mean": 10.5,
+   "share_under_4": 0.19,
+   "by_tier": {
+    "p4": {
+     "n": 44,
+     "median": 7,
+     "p25": 6,
+     "p75": 13,
+     "under_4": 0.18
+    },
+    "mid": {
+     "n": 117,
+     "median": 8,
+     "p25": 4,
+     "p75": 15,
+     "under_4": 0.14
+    },
+    "low": {
+     "n": 63,
+     "median": 7,
+     "p25": 3,
+     "p75": 12.5,
+     "under_4": 0.3
+    }
+   },
+   "by_reason_median": {
+    "fired": 7,
+    "retired": 20,
+    "left_for_job": 6,
+    "resigned": 8
+   },
+   "under_4_by_reason": {
+    "fired": 0.2,
+    "retired": 0.02,
+    "left_for_job": 0.31,
+    "resigned": 0.17
+   }
+  },
+  "new_hire_origin": {
+   "classified": 215,
+   "of": 254,
+   "shares_of_classified": {
+    "assistant_same_program": {
+     "all": 0.34,
+     "p4": 0.27,
+     "mid": 0.35,
+     "low": 0.4
+    },
+    "d1_head_coach_elsewhere": {
+     "all": 0.26,
+     "p4": 0.44,
+     "mid": 0.27,
+     "low": 0.09
+    },
+    "d1_assistant_elsewhere": {
+     "all": 0.21,
+     "p4": 0.15,
+     "mid": 0.23,
+     "low": 0.24
+    },
+    "d2_d3_naia_head_coach": {
+     "all": 0.05,
+     "p4": 0.0,
+     "low": 0.13
+    },
+    "juco_head_coach": {
+     "all": 0.02
+    },
+    "mlb_or_pro_org": {
+     "all": 0.03
+    },
+    "former_hc_or_other": {
+     "all": 0.07
+    },
+    "hs_other": {
+     "all": 0.01
+    }
+   },
+   "note": "D1-HC-to-D1-HC moves are almost all upward or sideways; the only downward moves are coaches who had been fired or had resigned. 2020 and 2025 hires are mostly unclassified"
+  },
+  "still_missing": [
+   "4 changes BA counted in 2019 that Wikipedia lacks",
+   "2020 tenure and most origins",
+   "2025 origin for 16 of 27 hires",
+   "22 unstated reasons",
+   "tier back-dating for realigned programs"
+  ]
  }
 }

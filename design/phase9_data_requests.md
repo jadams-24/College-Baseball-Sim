@@ -133,3 +133,18 @@ and NAIA teams on one scale. In a browser: Massey Ratings → College Baseball �
 divisions, export the rating table (team, division, rating). Commit team-level ratings only to
 `data/phase8_11/massey_2025.csv` with the fetch date. It gives the D2 and NAIA talent offset directly
 (grade B), replacing the 90-game crossover margin (grade C).
+
+## 9. Baseball America HS top-100 lists, 2019–2024 (subscriber export, by hand)
+
+- **Why:** the recruit-rankings yardstick (`reports/phase8_11_yardstick.md`, section 12) rests on MLB Pipeline's
+  draft-week board, which is sharper than a recruiting ranking made a year earlier. The one free
+  recruiting-style list (BA's November 2017 HS top 100) shows how much noisier a fall-of-senior-year ranking
+  is: 40% signed out of high school against 50% for the draft-week board, and 45% of its campus arrivals were
+  drafted within five years against 68%. Six such lists would calibrate that noise properly.
+- **Terms:** Perfect Game and Prep Baseball Report forbid automated access and copying, so their class
+  rankings are out even by hand for anything committed; Baseball America's terms carry no automated-access
+  clause, but the 2019–2024 HS top-100 lists sit behind its paywall.
+- **How:** with a BA subscription, save each list's text (one line per player in the published form
+  "rank. POS Name | ht | wt | (HS, City, St.) | Commitment") as `ba_hs100_<draftyear>.txt` in the working
+  directory of `tools/build_recruit_outcomes.py` (outside the repository); the script matches it to the MLB
+  feeds and writes only counts. About 600 names across six classes. Nothing with a name is committed.

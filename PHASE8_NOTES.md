@@ -94,6 +94,16 @@ Computed by `tools/build_phase8_11_yardstick.py` into `benchmarks_phase8_11.json
   a page does; `coverage.csv` will say how many). Age by class is therefore GUESS (D), built from the
   class shares plus the redshirt share and the usual 18-year-old freshman: see the yardstick report.
 
+## 2a. Roster run of 2026-10-10 (run 38066352243)
+
+The fetch rosters workflow rerun on the Phase 8 aggregator added `class_detail_by_tier.csv` (class x
+redshirt marker x position group), `d1_transfer_flow.csv` (tier of each D1 transfer's previous school) and
+`age_by_class.csv` (empty: no page lists a birthdate; `share_birthdate_or_age_filled` = 0). 233 teams and
+8,620 players, as in the run of 2026-10-09. Results in the report, sections 1 and 2;
+`roster_composition_2025.redshirt_by_class`, `.class_by_position` and `.d1_transfer_flow` in the benchmarks
+file. The workflow pushed its branch but could not open a pull request (Actions may not create them), so
+the four files were cherry-picked onto the round-2 branch.
+
 ## 3. Geography, 2025 (roster aggregates, IPEDS school states)
 
 `geography_2025` in the benchmarks file; `data/phase8_11/players_by_home_state_2025.csv` (where each
@@ -183,6 +193,40 @@ are approximate. Results and reading: report section 9. Not applied to the curve
 `data/schools/schools.csv` on UNITID, quantiles by tier of operating expenses, total expenses, revenue,
 participants and assistant coaches, and conference medians. EADA's coaching-salary fields are
 institution-level averages over all men's teams, so baseball coaching pay is not derivable from it.
+
+## 10. Program money beyond EADA (round 2, 2026-10-10)
+
+Web research (session subagent) on baseball-specific revenue share, scholarships, NIL, draft money, coaching
+pay, attendance and public-records program finances; every row with URL, fetch date, n and grade in
+`data/phase8_11/manual_entries.json` → `program_money_public_2025_26`, the MFRS table in
+`data/phase8_11/mfrs_baseball_fy2025.csv`. Report section 11. The EADA User's Guide (September 2026
+edition) confirms that EADA coaching salaries are institution-level averages across all men's teams.
+Blocked: On3 (403), Forbes (403), the NCAA attendance page (redirects home), S3 guesses (404).
+
+## 11. Recruit rankings → outcomes (round 2, 2026-10-10)
+
+`tools/build_recruit_outcomes.py` (fetches the MLB Stats API draft feeds and prospect registry 2018–2026 into
+a working directory outside the repository, matches ranked HS prospects to later drafts by MLB person id,
+writes `data/recruiting/recruit_outcomes.csv`, counts only; `tools/summarize_recruit_outcomes.py` makes the
+per-class tables). The commitment is parsed from the Pipeline blurb with about 150 school aliases; the 2019
+feed lacks schoolClass, so HS status is inferred from the school name and age (99.0% agreement where the
+class is known). Terms: Perfect Game and Prep Baseball Report forbid automated access, so no ranking page of
+theirs was fetched; Baseball America's terms carry no such clause, its 2018 HS Top 100 (free) was used as a
+recruiting-style comparison and its 2019–2024 lists are paywalled (data request 9: a subscriber's hand
+export in the same layout runs through the matcher unchanged). Results: report section 12;
+`recruit_rankings_outcomes_2019_2024` in the benchmarks file.
+
+## 12. Recruit pool and coaching carousel (round 2, 2026-10-10)
+
+Web research (session subagent): NFHS participation surveys 2023-24 and 2024-25 (by-state tables parsed
+from the official PDFs), the NCAA 2024-25 sponsorship report and probability page, the NCAA 2020 recruit map
+(values read from the map image, grade B); Wikipedia season pages, Baseball America trackers 2020–2024 and
+College Baseball Insights carousels for 254 D1 head-coach changes after the 2019–2025 seasons, with tenure
+and the hire's previous post from the trackers and coach biographies. The per-change working table (with
+names, public figures) stays outside the repository; `data/phase8_11/coaching_changes_2019_2026.csv`,
+`coaching_tenure_2019_2025.csv` and `recruit_pool_by_state_2024_25.csv` carry counts only (checked against
+the working table's tokens). Report sections 13 and 14; `recruit_pool_2024_25` and
+`coaching_carousel_2019_2025` in the benchmarks file.
 
 ## Confidence summary
 
