@@ -60,6 +60,7 @@ RPI_SEASONS = (2021, 2022, 2023, 2024, 2025)
 # one shared name-alias table for every source (owner audit 2026-10-09): a spelling in a source file -> our 2025 school name
 ALIASES = dict(pd.read_csv(ROOT / "data/schools/name_aliases.csv")[["alias", "school"]].values)
 MIN_CONF_ENTRIES = 50       # a feed conference with this many team-game entries is Division I (non-D1 opponents appear rarely)
+NON_D1_CONF = "NON-NCAA ORG"  # the feed's label for non-NCAA opponents: frequent enough in 2021-2024 (137-239 entries) to pass the count
 
 
 def w(season: int) -> float:
@@ -141,7 +142,7 @@ def seasons_rpi(s: pd.DataFrame) -> tuple:
         if "url" in d:
             d = d.drop_duplicates("url")
         conf_n = pd.concat([d.away_conf, d.home_conf]).value_counts()
-        d1c = set(conf_n[conf_n >= MIN_CONF_ENTRIES].index)
+        d1c = set(conf_n[conf_n >= MIN_CONF_ENTRIES].index) - {NON_D1_CONF}
         d = d[d.home_conf.isin(d1c) & d.away_conf.isin(d1c)]
         key = lambda name, slug: by_seo.get(slug, ALIASES.get(name, name))
         g = [(key(h, hs), key(a, as_), hsc > asc, False) for h, hs, a, as_, hsc, asc in
@@ -420,6 +421,13 @@ def audit(out: pd.DataFrame, R: dict, S: dict) -> None:
          f"| Recent Omaha appearances (+ {rc.OMAHA_POST_WEIGHT} per weighted appearance) and super regionals (half that) | `data/ncaa_brackets/` | 2021-2025 | a year a school is absent is a year it did not make it |", "",
          "The dynasty regrades with the same function: `config.report_cards.omaha_score(strength, omaha_recent, super_recent)` and `grade_values` "
          "(the UI passes its dynasty's own team strength and postseason history).", "",
+         "## Non-D1 opponents (fixed 2026-10-10)", "",
+         "The 2021-2024 scoreboards label non-NCAA opponents with the conference \"NON-NCAA ORG\", frequent enough (137-239 entries a "
+         "season) to pass the Division I conference count. Those games entered the per-season strength fit and the RPI. A handful of NAIA "
+         "teams with one to three games fitted near -24 log runs, and the fit's centring over teams moved every D1 team by about +.1 in "
+         "those seasons, so schools missing a season were compared on a shifted scale. The label is now excluded (NON_D1_CONF). Effect: "
+         "57 grades moved by one step (24 Omaha Contender, 9 Conference Prestige, 8 Program Tradition, 8 Ballpark Atmosphere, 6 Draft "
+         "Development, 2 Facilities), none by two.", "",
          "## Name joins", "",
          "One shared alias table for every source: `data/schools/name_aliases.csv`. Joins fixed on 2026-10-09 (they had silently dropped data):", "",
          "| Spelling in the source | School | Effect before the fix |", "|---|---|---|",

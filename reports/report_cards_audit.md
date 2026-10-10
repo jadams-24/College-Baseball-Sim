@@ -15,6 +15,10 @@ Owner request 2026-10-09. Built by `scripts/build_report_cards.py`.
 
 The dynasty regrades with the same function: `config.report_cards.omaha_score(strength, omaha_recent, super_recent)` and `grade_values` (the UI passes its dynasty's own team strength and postseason history).
 
+## Non-D1 opponents (fixed 2026-10-10)
+
+The 2021-2024 scoreboards label non-NCAA opponents with the conference "NON-NCAA ORG", frequent enough (137-239 entries a season) to pass the Division I conference count. Those games entered the per-season strength fit and the RPI. A handful of NAIA teams with one to three games fitted near -24 log runs, and the fit's centring over teams moved every D1 team by about +.1 in those seasons, so schools missing a season were compared on a shifted scale. The label is now excluded (NON_D1_CONF). Effect: 57 grades moved by one step (24 Omaha Contender, 9 Conference Prestige, 8 Program Tradition, 8 Ballpark Atmosphere, 6 Draft Development, 2 Facilities), none by two.
+
 ## Name joins
 
 One shared alias table for every source: `data/schools/name_aliases.csv`. Joins fixed on 2026-10-09 (they had silently dropped data):
@@ -73,12 +77,12 @@ Why they are partial: the Ivy League and Bethune-Cookman did not play in 2021; t
 
 | School | Before: sim draw o + d | Before grade | Real strength 2021-25 (per season) | Weighted | Omaha / supers 2021-25 | Score | After grade |
 |---|---|---|---|---|---|---|---|
-| Coastal Carolina | -0.48 | D+ | 2021: +0.35, 2022: +0.95, 2023: +0.84, 2024: +0.83, 2025: +0.99 | +0.879 | 1 / 1 | +1.104 | A |
-| LSU | +0.28 | B | 2021: +0.83, 2022: +1.17, 2023: +1.45, 2024: +0.89, 2025: +1.09 | +1.085 | 2 / 3 | +1.411 | A+ |
+| Coastal Carolina | -0.48 | D+ | 2021: +0.35, 2022: +0.62, 2023: +0.57, 2024: +0.67, 2025: +0.99 | +0.762 | 1 / 1 | +0.987 | A |
+| LSU | +0.28 | B | 2021: +0.84, 2022: +0.84, 2023: +1.18, 2024: +0.76, 2025: +1.09 | +0.976 | 2 / 3 | +1.302 | A+ |
 
 Sanity anchor: every 2021-2025 Omaha team (27), its grade (target B+ or better unless its strength collapsed):
 
-Tennessee A+, Arkansas A+, LSU A+, Oregon St. A+, North Carolina A+, Texas A&M A+, Virginia A+, Florida A+, Texas A+, Coastal Carolina A, Florida St. A, Kentucky A, Vanderbilt A, Wake Forest A, Auburn A, Arizona A, Louisville A, UCLA A, TCU A, NC State A, Mississippi St. A, Ole Miss A-, Oklahoma A-, Stanford A-, Notre Dame A-, Murray St. B+, Oral Roberts B.
+Tennessee A+, Arkansas A+, LSU A+, Oregon St. A+, North Carolina A+, Texas A&M A+, Virginia A+, Florida A+, Texas A+, Coastal Carolina A, Florida St. A, Kentucky A, Vanderbilt A, Auburn A, Wake Forest A, Arizona A, UCLA A, Louisville A, TCU A, NC State A, Mississippi St. A-, Oklahoma A-, Ole Miss A-, Stanford A-, Notre Dame A-, Murray St. B+, Oral Roberts B.
 
 ## Climate and Academic Prestige: absolute scales
 
