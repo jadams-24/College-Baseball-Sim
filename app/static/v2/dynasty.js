@@ -231,7 +231,7 @@
     const sp = (r) => { if (!r.pending || !pend) return dash; const theirs = pend[r.side === "home" ? "away" : "home"]; const th = theirs ? (theirs.throws || String(theirs.hand || "").split("/").pop()) : ""; return theirs ? `<a class="plink" data-pid="${theirs.pid}">${esc(theirs.name)}</a> <span class="muted">${th && th !== "–" ? esc(th) + "HP" : ""}</span>` : dash; };
     const row = (r) => `<tr class="n10row g${r._g % 2} ${r.pending ? "next" : ""}" data-tid="${r.opp.tid}" title="${esc(r.opp.name)} · ${esc(r.opp.conference_full)}">
       <td class="date">${r.played && r.i >= 0 ? `<a class="muted" data-box="${r.i}">${dateText(r.date, { weekday: true })}</a>` : `<span class="muted">${dateText(r.date, { weekday: true })}</span>`}</td>
-      <td class="site"><b>${r.side === "home" ? "H" : r.neutral ? "N" : "A"}</b><small class="muted" title="${r.venue ? esc(r.venue.text) : ""}">${r.venue ? esc(r.venue.name) : r.neutral ? "neutral site" : ""}</small></td>
+      <td class="site" title="${r.venue ? esc(r.venue.text) : r.neutral ? "neutral site" : ""}"><b>${r.side === "home" ? "H" : r.neutral ? "N" : "A"}</b></td>
       <td class="nm">${chip(r.opp.tid)}<a class="tlink" data-tid="${r.opp.tid}" title="${esc(r.opp.name)}">${esc(r.opp.abbr)}</a><small class="muted">${esc(r.opp.conference)}</small></td>
       <td>${r.conf_game ? '<span class="tag">CONF</span>' : ""}</td>
       <td class="num">${r.record[0]}-${r.record[1]}<small class="muted">${r.conf_record[0]}-${r.conf_record[1]}</small></td>

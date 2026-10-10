@@ -533,7 +533,7 @@ body.sim-lock button.working { opacity: .95; }
 .tbl.n10 tr.note td { height: var(--row); font-style: italic; }
 .tbl.n10 td.sp { max-width: 11em; overflow: hidden; text-overflow: ellipsis; }
 .tbl.n10 th, .tbl.n10 td { padding-left: 7px; padding-right: 7px; }
-@media (max-width: 1366px) { .tbl.n10 td.site small { display: none; } .tbl.n10 td.sp { max-width: 8em; } .tbl.n10 td small { max-width: 9em; } }
+@media (max-width: 1366px) { .tbl.n10 td.sp { max-width: 8em; } .tbl.n10 td small { max-width: 9em; } }
 @media (max-width: 760px) { .tbl.n10 .nw-x { display: none; } }
 
 /* ---- the Draft tab: the preview banner, the board's key ratings and season line, rank changes ---- */
