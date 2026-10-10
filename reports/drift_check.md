@@ -4,15 +4,15 @@
 
 | Check | Value | Target | z | Flag |
 |---|---|---|---|---|
-| Strength map, offense: slope of recovered on drawn | +0.9809 ± 0.0115 | +1.0000 | -1.67 | ok |
-| Strength map, offense: curvature | +0.0310 ± 0.0211 | +0.0000 | +1.46 | ok |
-| Recovered minus drawn, offense, p4 (tier mean) | -0.0019 ± 0.0047 | +0.0000 | -0.40 | ok |
-| Recovered minus drawn, offense, mid (tier mean) | +0.0015 ± 0.0025 | +0.0000 | +0.63 | ok |
-| Recovered minus drawn, offense, low (tier mean) | -0.0013 ± 0.0036 | +0.0000 | -0.35 | ok |
-| Strength map, run prevention: slope of recovered on drawn | +1.0120 ± 0.0064 | +1.0000 | +1.87 | ok |
-| Strength map, run prevention: curvature | +0.0254 ± 0.0184 | +0.0000 | +1.38 | ok |
-| Recovered minus drawn, run prevention, p4 (tier mean) | -0.0028 ± 0.0038 | +0.0000 | -0.74 | ok |
-| Recovered minus drawn, run prevention, mid (tier mean) | -0.0007 ± 0.0021 | +0.0000 | -0.34 | ok |
-| Recovered minus drawn, run prevention, low (tier mean) | +0.0032 ± 0.0028 | +0.0000 | +1.16 | ok |
-| Home edge: fitted home log ratio | +0.0442 ± 0.0025 | +0.0438 | +0.04 | ok |
-| Pitch chain: events by count against the data (chi-square / df, p) | 0.39 (df 72) | 1 | max cell z 2.0, p 1.000 | ok |
+| Strength map, offense: slope of recovered on drawn | +0.9986 ± 0.0093 | +1.0000 | -0.15 | ok |
+| Strength map, offense: curvature | +0.0193 ± 0.0227 | +0.0000 | +0.85 | ok |
+| Recovered minus drawn, offense, p4 (tier mean) | +0.0033 ± 0.0044 | +0.0000 | +0.75 | ok |
+| Recovered minus drawn, offense, mid (tier mean) | +0.0032 ± 0.0026 | +0.0000 | +1.22 | ok |
+| Recovered minus drawn, offense, low (tier mean) | -0.0078 ± 0.0037 | +0.0000 | -2.10 | RE-SOLVE |
+| Strength map, run prevention: slope of recovered on drawn | +1.0151 ± 0.0088 | +1.0000 | +1.72 | ok |
+| Strength map, run prevention: curvature | +0.0468 ± 0.0145 | +0.0000 | +3.23 | RE-SOLVE |
+| Recovered minus drawn, run prevention, p4 (tier mean) | +0.0049 ± 0.0054 | +0.0000 | +0.90 | ok |
+| Recovered minus drawn, run prevention, mid (tier mean) | -0.0029 ± 0.0019 | +0.0000 | -1.52 | ok |
+| Recovered minus drawn, run prevention, low (tier mean) | +0.0014 ± 0.0025 | +0.0000 | +0.57 | ok |
+| Home edge: fitted home log ratio | +0.0419 ± 0.0024 | +0.0438 | -0.17 | ok |
+| Pitch chain: events by count against the data (chi-square / df, p) | 0.47 (df 72) | 1 | max cell z 2.4, p 1.000 | ok |

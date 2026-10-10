@@ -8,125 +8,128 @@
   {
    "key": "b_o",
    "label": "Strength map, offense: slope of recovered on drawn",
-   "value": 0.9808882474360714,
-   "se": 0.011452365019342842,
+   "value": 0.9986105622888957,
+   "se": 0.009321085066187024,
    "target": 1.0,
    "target_se": 0.0,
-   "z": -1.6688040008897023,
+   "z": -0.14906394494184277,
    "flag": false
   },
   {
    "key": "c_o",
    "label": "Strength map, offense: curvature",
-   "value": 0.03097922284176167,
-   "se": 0.021147772525489772,
+   "value": 0.019295373251471577,
+   "se": 0.02268191842598631,
    "target": 0.0,
    "target_se": 0.0,
-   "z": 1.4648929481543214,
+   "z": 0.8506940589895243,
    "flag": false
   },
   {
    "key": "rec_o_p4",
    "label": "Recovered minus drawn, offense, p4 (tier mean)",
-   "value": -0.001898144979025372,
-   "se": 0.004735683102027893,
+   "value": 0.0032823107604914165,
+   "se": 0.004381698701942494,
    "target": 0.0,
    "target_se": 0.0,
-   "z": -0.40081756699736876,
+   "z": 0.7490954955520567,
    "flag": false
   },
   {
    "key": "rec_o_mid",
    "label": "Recovered minus drawn, offense, mid (tier mean)",
-   "value": 0.001540113962304251,
-   "se": 0.0024500149133867702,
+   "value": 0.003189249951588693,
+   "se": 0.002611925581440582,
    "target": 0.0,
    "target_se": 0.0,
-   "z": 0.6286141173627712,
+   "z": 1.221034004280357,
    "flag": false
   },
   {
    "key": "rec_o_low",
    "label": "Recovered minus drawn, offense, low (tier mean)",
-   "value": -0.0012684017508325374,
-   "se": 0.003610029289076142,
+   "value": -0.007755812569605792,
+   "se": 0.0036878021210432783,
    "target": 0.0,
    "target_se": 0.0,
-   "z": -0.3513549750609196,
-   "flag": false
+   "z": -2.1030988960469696,
+   "flag": true
   },
   {
    "key": "b_d",
    "label": "Strength map, run prevention: slope of recovered on drawn",
-   "value": 1.0119948699682202,
-   "se": 0.0064303897016399075,
+   "value": 1.015066748280027,
+   "se": 0.008775601242007096,
    "target": 1.0,
    "target_se": 0.0,
-   "z": 1.8653410640355441,
+   "z": 1.71689071375594,
    "flag": false
   },
   {
    "key": "c_d",
    "label": "Strength map, run prevention: curvature",
-   "value": 0.025378596231784803,
-   "se": 0.018416126755498308,
+   "value": 0.04676585788340276,
+   "se": 0.014500442016083116,
    "target": 0.0,
    "target_se": 0.0,
-   "z": 1.3780637247301626,
-   "flag": false
+   "z": 3.225133263629658,
+   "flag": true
   },
   {
    "key": "rec_d_p4",
    "label": "Recovered minus drawn, run prevention, p4 (tier mean)",
-   "value": -0.002782723697827217,
-   "se": 0.0037609876987760803,
+   "value": 0.004890039327652749,
+   "se": 0.005426656451365303,
    "target": 0.0,
    "target_se": 0.0,
-   "z": -0.7398917307633803,
+   "z": 0.9011145944981379,
    "flag": false
   },
   {
    "key": "rec_d_mid",
    "label": "Recovered minus drawn, run prevention, mid (tier mean)",
-   "value": -0.0007238780596360596,
-   "se": 0.0021397989295935363,
+   "value": -0.0028863269117510746,
+   "se": 0.0019035496161956315,
    "target": 0.0,
    "target_se": 0.0,
-   "z": -0.33829256086858744,
+   "z": -1.5162866715917749,
    "flag": false
   },
   {
    "key": "rec_d_low",
    "label": "Recovered minus drawn, run prevention, low (tier mean)",
-   "value": 0.003209418442058406,
-   "se": 0.0027602665399086156,
+   "value": 0.0014293944503126436,
+   "se": 0.002508445298570081,
    "target": 0.0,
    "target_se": 0.0,
-   "z": 1.1627204821186075,
+   "z": 0.5698328168158414,
    "flag": false
   },
   {
    "key": "home",
    "label": "Home edge: fitted home log ratio",
-   "value": 0.04421138919450647,
-   "se": 0.002463299210024193,
+   "value": 0.041899413633986485,
+   "se": 0.00236688480251924,
    "target": 0.0438,
    "target_se": 0.0108,
-   "z": 0.03713784671785275,
+   "z": -0.1719004964369621,
    "flag": false
   },
   {
    "key": "chain",
    "label": "Pitch chain: events by count against the data (chi-square / df, p)",
-   "value": 0.3854581910842949,
+   "value": 0.47064427059893155,
    "se": null,
    "target": 1.0,
    "target_se": null,
-   "z": 2.006928454226265,
-   "p": 0.9999993657812761,
+   "z": 2.4407235709375805,
+   "p": 0.9999597805187336,
    "df": 72,
    "flag": false
   }
  ],
- "flagged": []
+ "flagged": [
+  "rec_o_low",
+  "c_d"
+ ]
 }
