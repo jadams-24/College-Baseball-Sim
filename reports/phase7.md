@@ -1,82 +1,82 @@
 # Phase 7 realism report: season and world
 
-40 simulated seasons, seeds 20251000–20251039, with cancellations, conference tournaments, selection and the NCAA tournament (config.phase7.FEATURES). Generated 2026-10-10. Tolerances: 3 × the combined standard error of the benchmark and of the simulated mean at 40 seasons. Mean postseason games per season 462.
+40 simulated seasons, seeds 20251000–20251039, with cancellations, conference tournaments, selection and the NCAA tournament (config.phase7.FEATURES). Generated 2026-10-10. Tolerances: 3 × the combined standard error of the benchmark and of the simulated mean at 40 seasons. Mean postseason games per season 461.
 
-## Gate: **PASS**
+## Gate: **FAIL**
 
-Phase 1-6 rows on the same run (regular season): phase2 **pass**, phase4 **pass**, phase5 **pass**, phase6 **pass**.
+Phase 1-6 rows on the same run (regular season): phase2 **pass**, phase4 **FAIL**, phase5 **FAIL**, phase6 **FAIL**.
 
 ## RPI
 
 | Metric | Sim | Benchmark | Tol | Conf | Gated | Status | Note |
 |---|---|---|---|---|---|---|---|
 | RPI formula vs NCAA published (2026, rank correlation) | 0.99994 | ≥ 0.999 | — | A | yes | pass | 206/308 ranks exact, 303 within 3; without site weighting 0.9929 |
-| RPI of the team ranked 1 | 0.6420 | 0.6326 | ±0.0164 | B | yes | pass | 2025 / 2026: 0.6289 / 0.6363; season SD 0.0071.  |
-| RPI of the team ranked 16 | 0.5923 | 0.5948 | ±0.0081 | B | yes | pass | 2025 / 2026: 0.5972 / 0.5925; season SD 0.0034.  |
-| RPI of the team ranked 32 | 0.5729 | 0.5692 | ±0.0036 | B | report | outside | 2025 / 2026: 0.5703 / 0.5682; season SD 0.0014. watch item 'offense extremes compressed' |
-| RPI of the team ranked 64 | 0.5482 | 0.5433 | ±0.0028 | B | report | outside | 2025 / 2026: 0.5444 / 0.5421; season SD 0.0011. watch item 'offense extremes compressed' |
-| Mean RPI, p4 | 0.5631 | 0.5599 | ±0.0070 | B | yes | pass | 2025 / 2026: 0.5616 / 0.5583; season SD 0.0029.  |
-| Mean RPI, mid | 0.4966 | 0.4941 | ±0.0050 | B | yes | pass | 2025 / 2026: 0.4946 / 0.4936; season SD 0.0021.  |
-| Mean RPI, low | 0.4584 | 0.4572 | ±0.0084 | B | yes | pass | 2025 / 2026: 0.4570 / 0.4574; season SD 0.0034.  |
+| RPI of the team ranked 1 | 0.6385 | 0.6326 | ±0.0165 | B | yes | pass | 2025 / 2026: 0.6289 / 0.6363; season SD 0.0071.  |
+| RPI of the team ranked 16 | 0.5907 | 0.5948 | ±0.0079 | B | yes | pass | 2025 / 2026: 0.5972 / 0.5925; season SD 0.0034.  |
+| RPI of the team ranked 32 | 0.5737 | 0.5692 | ±0.0039 | B | report | outside | 2025 / 2026: 0.5703 / 0.5682; season SD 0.0014. watch item 'offense extremes compressed' |
+| RPI of the team ranked 64 | 0.5487 | 0.5433 | ±0.0029 | B | report | outside | 2025 / 2026: 0.5444 / 0.5421; season SD 0.0011. watch item 'offense extremes compressed' |
+| Mean RPI, p4 | 0.5631 | 0.5599 | ±0.0071 | B | yes | pass | 2025 / 2026: 0.5616 / 0.5583; season SD 0.0029.  |
+| Mean RPI, mid | 0.4963 | 0.4941 | ±0.0049 | B | yes | pass | 2025 / 2026: 0.4946 / 0.4936; season SD 0.0021.  |
+| Mean RPI, low | 0.4590 | 0.4572 | ±0.0083 | B | yes | pass | 2025 / 2026: 0.4570 / 0.4574; season SD 0.0034.  |
 
 ## Season and standings
 
 | Metric | Sim | Benchmark | Tol | Conf | Gated | Status | Note |
 |---|---|---|---|---|---|---|---|
-| Regular-season games canceled (share) | 0.0278 | 0.0272 | ±0.0029 | B | yes | pass |  |
+| Regular-season games canceled (share) | 0.0278 | 0.0272 | ±0.0028 | B | yes | pass |  |
 | Regular-season games played per team | 52.30 | 52.25 | ±0.34 | B | yes | pass | 2025 / 2026: 52.36 / 52.14 |
-| Scheduled games per team: mean / share at 56 / 10th percentile | 53.80 / 0.288 / 51.1 | 53.71 / 0.267 / 50 | — | B | report | — | real targets above 56 (0.042) are capped at the 56-game frame and below 42 (0.018) at its 42 weekend games |
-| Win% SD across teams, p4 | 0.1139 | 0.1205 | ±0.0081 | B | yes | pass | 2025 / 2026: 0.1173 / 0.1236; season SD 0.0033.  |
-| Win% SD across teams, mid | 0.1336 | 0.1331 | ±0.0077 | B | yes | pass | 2025 / 2026: 0.1389 / 0.1272; season SD 0.0032.  |
-| Win% SD across teams, low | 0.1400 | 0.1458 | ±0.0220 | B | yes | pass | 2025 / 2026: 0.1542 / 0.1374; season SD 0.0102.  |
-| Best regular-season win% | 0.867 (seasons 0.800–0.945) | 0.821–0.917 | ±0.017 | B | yes | pass | band of real seasons 2017-2025 |
+| Scheduled games per team: mean / share at 56 / 10th percentile | 53.80 / 0.287 / 51.1 | 53.71 / 0.267 / 50 | — | B | report | — | real targets above 56 (0.042) are capped at the 56-game frame and below 42 (0.018) at its 42 weekend games |
+| Win% SD across teams, p4 | 0.1096 | 0.1205 | ±0.0080 | B | yes | FAIL | 2025 / 2026: 0.1173 / 0.1236; season SD 0.0033.  |
+| Win% SD across teams, mid | 0.1324 | 0.1331 | ±0.0075 | B | yes | pass | 2025 / 2026: 0.1389 / 0.1272; season SD 0.0032.  |
+| Win% SD across teams, low | 0.1416 | 0.1458 | ±0.0220 | B | yes | pass | 2025 / 2026: 0.1542 / 0.1374; season SD 0.0102.  |
+| Best regular-season win% | 0.861 (seasons 0.778–0.942) | 0.821–0.917 | ±0.016 | B | yes | pass | band of real seasons 2017-2025 |
 
 ## The field
 
 | Metric | Sim | Benchmark | Tol | Conf | Gated | Status | Note |
 |---|---|---|---|---|---|---|---|
-| At-large bids, p4 | 30.73 | 29.50 | ±4.90 | B | yes | pass | 2025 / 2026: 31.00 / 28.00; season SD 2.2361.  |
-| At-large bids, mid | 3.42 | 5.50 | ±3.83 | B | yes | pass | 2025 / 2026: 4.00 / 7.00; season SD 1.7321.  |
-| At-large bids, low | 0.85 | 0.00 | ±0.52 | B | report | outside | 2025 / 2026: 0.00 / 0.00; season SD 0.0. no low-tier at-large bid in 2022-2026: reported |
-| Conferences with more than one bid | 7.53 | 7.50 | ±3.02 | B | yes | pass | 2025 / 2026: 8.00 / 7.00; season SD 1.354.  |
-| Worst RPI rank given an at-large bid | 57.9 | 50.0 | ±8.9 | B | yes | pass | 2025 / 2026: 49.0 / 51.0; season SD 3.7639.  |
-| Best RPI rank left out | 34.7 | 33.5 | ±7.7 | B | yes | pass | 2025 / 2026: 39.0 / 28.0; season SD 3.4157.  |
-| P4 vs mid nonconference: P4 win% | 0.770 | 0.759 | ±0.049 | B | report | in range | 2025 / 2026: 0.762 / 0.756; season SD 0.0215.  |
-| P4 vs mid nonconference: run margin | 3.93 | 3.97 | ±0.87 | B | report | in range | 2025 / 2026: 4.00 / 3.93; season SD 0.3859.  |
-| P4 vs mid nonconference: run margin SD | 5.70 | 5.97 | ±0.30 | B | report | in range | 2025 / 2026: 5.99 / 5.95; season SD 0.1349. watch item 'offense extremes compressed' |
+| At-large bids, p4 | 30.07 | 29.50 | ±4.87 | B | yes | pass | 2025 / 2026: 31.00 / 28.00; season SD 2.2361.  |
+| At-large bids, mid | 3.77 | 5.50 | ±3.78 | B | yes | pass | 2025 / 2026: 4.00 / 7.00; season SD 1.7321.  |
+| At-large bids, low | 1.15 | 0.00 | ±0.67 | B | report | outside | 2025 / 2026: 0.00 / 0.00; season SD 0.0. no low-tier at-large bid in 2022-2026: reported |
+| Conferences with more than one bid | 7.72 | 7.50 | ±2.96 | B | yes | pass | 2025 / 2026: 8.00 / 7.00; season SD 1.354.  |
+| Worst RPI rank given an at-large bid | 58.4 | 50.0 | ±9.2 | B | yes | pass | 2025 / 2026: 49.0 / 51.0; season SD 3.7639.  |
+| Best RPI rank left out | 34.6 | 33.5 | ±7.7 | B | yes | pass | 2025 / 2026: 39.0 / 28.0; season SD 3.4157.  |
+| P4 vs mid nonconference: P4 win% | 0.769 | 0.759 | ±0.049 | B | report | in range | 2025 / 2026: 0.762 / 0.756; season SD 0.0215.  |
+| P4 vs mid nonconference: run margin | 3.98 | 3.97 | ±0.86 | B | report | in range | 2025 / 2026: 4.00 / 3.93; season SD 0.3859.  |
+| P4 vs mid nonconference: run margin SD | 5.76 | 5.97 | ±0.30 | B | report | in range | 2025 / 2026: 5.99 / 5.95; season SD 0.1349. watch item 'offense extremes compressed' |
 
 ## Seeds and results
 
 | Metric | Sim | Benchmark | Tol | Conf | Gated | Status | Note |
 |---|---|---|---|---|---|---|---|
-| Regional hosts winning their regional (share) | 0.605 | 0.625 | ±0.129 | B | yes | pass |  |
-| Top-8 national seeds reaching Omaha (of 8) | 3.70 | 4.10 | ±1.18 | B | yes | pass |  |
-| National seeds among the 8 CWS teams (2018 on) | 5.80 | 5.43 | ±1.27 | B | yes | pass |  |
-| CWS slots, p4 (share) | 0.859 | 0.912 | ±0.119 | B | yes | pass |  |
-| CWS slots, mid (share) | 0.106 | 0.075 | ±0.107 | B | yes | pass |  |
-| CWS slots, low (share) | 0.034 | 0.013 | ±0.050 | B | report | in range |  |
-| Champion's tier (P4 / mid / low) | 0.88 / 0.10 / 0.03 | 0.90 / 0.10 / 0.00 | — | B | report | — | 2015-2025 |
+| Regional hosts winning their regional (share) | 0.617 | 0.625 | ±0.127 | B | yes | pass |  |
+| Top-8 national seeds reaching Omaha (of 8) | 3.60 | 4.10 | ±1.16 | B | yes | pass |  |
+| National seeds among the 8 CWS teams (2018 on) | 5.65 | 5.43 | ±1.22 | B | yes | pass |  |
+| CWS slots, p4 (share) | 0.850 | 0.912 | ±0.116 | B | yes | pass |  |
+| CWS slots, mid (share) | 0.125 | 0.075 | ±0.111 | B | yes | pass |  |
+| CWS slots, low (share) | 0.025 | 0.013 | ±0.044 | B | report | in range |  |
+| Champion's tier (P4 / mid / low) | 0.93 / 0.03 / 0.05 | 0.90 / 0.10 / 0.00 | — | B | report | — | 2015-2025 |
 
 ## Postseason home field
 
 | Metric | Sim | Benchmark | Tol | Conf | Gated | Status | Note |
 |---|---|---|---|---|---|---|---|
-| Regional host at its park (win%) | 0.720 | 0.734 | ±0.065 | B | yes | pass |  |
-| Regional games without the host: better seed (win%) | 0.656 | 0.629 | ±0.078 | B | yes | pass |  |
-| Super regional host at its park (win%) | 0.645 | 0.601 | ±0.117 | B | yes | pass |  |
-| CWS (neutral): listed home (win%) | 0.548 | 0.442 | ±0.139 | B | report | in range | the sim lists the better seed as home; the feed's listing convention is not known |
+| Regional host at its park (win%) | 0.726 | 0.734 | ±0.064 | B | yes | pass |  |
+| Regional games without the host: better seed (win%) | 0.648 | 0.629 | ±0.081 | B | yes | pass |  |
+| Super regional host at its park (win%) | 0.622 | 0.601 | ±0.122 | B | yes | pass |  |
+| CWS (neutral): listed home (win%) | 0.571 | 0.442 | ±0.135 | B | report | in range | the sim lists the better seed as home; the feed's listing convention is not known |
 
 ## Conference tournaments and bracketing
 
 | Metric | Sim | Benchmark | Tol | Conf | Gated | Status | Note |
 |---|---|---|---|---|---|---|---|
-| Conference tournaments won by a regular-season (co-)champion | 0.438 | 0.425 | ±0.120 | B | yes | pass |  |
+| Conference tournaments won by a regular-season (co-)champion | 0.367 | 0.425 | ±0.118 | B | yes | pass |  |
 | Regionals with two teams of one conference (per season) | 0.00 | 0 | — | A | yes | pass | NCAA bracketing principles (2025 manual, Section 2-3) |
 
 ## Watch items (re-checked, not gated)
 
-- Top starters' innings, full seasons (regular + postseason, 56-game equivalent): #1 74.6, #2 62.4, #3 50.4 (real 75.351 / 65.25 ± 4.455 / 53.288); pitchers with 50+ IP 764 (real 821.1; regular season only, Phase 6 report).
-- Teams under 4.00 ERA, full seasons 15.6, regular season 17.6 (2024-2026: 6–12). Same definition on both sides: the NCAA.com team ERA page counts every game of a season, conference tournaments and the NCAA tournament included (2025 data year: Northeastern 60 games, Coastal Carolina 69); the sim's full season is its regular season plus its postseason (it has no non-Division I games).
-- Unearned runs, full seasons: earned share of runs allowed 0.878 (real .882, WMT play-by-play 2025); the 50 lowest-ERA teams 0.899 (real .869 / .866 / .867 in 2024 / 2025 / 2026, NCAA.com team ERA page), unearned runs per game for them 0.46 (real .67 / .65 / .65), runs allowed per game 4.54 (real 5.05 / 4.80 / 4.81).
-- Game-to-game spread and postseason upsets (watch item 'offense extremes compressed'): P4 vs mid nonconference margin SD 5.70 against 5.97 real (2025-2026), ratio 0.955. With the real spread the better seed's win% in regional games without the host would be about 0.649 instead of 0.656, and the host's 0.711 instead of 0.720 (normal margin model: an upset rate higher by 0.7 and 0.9 points per game).
-- Pitching against fielding, full seasons (lead from the unearned-run check, owner request 2026-10-05): correlation across teams of ERA with errors per game 0.730 (real 2025 0.655; with fielding % -0.680), of runs allowed per game with errors per game 0.801 (real 0.721). Errors per game: all teams 1.109 (real 1.150), the 50 best by runs allowed per game 0.750 (real 0.866), the 50 best by ERA 0.777 (real 0.912). Earned share (mean of team ER/R): all 0.882 (real 0.870), the 50 best by ERA 0.900 (real 0.866). Real: NCAA.com team pages, 2025, every game; scripts/build_phase7_era_fielding.py.
+- Top starters' innings, full seasons (regular + postseason, 56-game equivalent): #1 74.7, #2 62.3, #3 50.4 (real 75.351 / 65.25 ± 4.455 / 53.288); pitchers with 50+ IP 762 (real 821.1; regular season only, Phase 6 report).
+- Teams under 4.00 ERA, full seasons 13.6, regular season 16.3 (2024-2026: 6–12). Same definition on both sides: the NCAA.com team ERA page counts every game of a season, conference tournaments and the NCAA tournament included (2025 data year: Northeastern 60 games, Coastal Carolina 69); the sim's full season is its regular season plus its postseason (it has no non-Division I games).
+- Unearned runs, full seasons: earned share of runs allowed 0.877 (real .882, WMT play-by-play 2025); the 50 lowest-ERA teams 0.898 (real .869 / .866 / .867 in 2024 / 2025 / 2026, NCAA.com team ERA page), unearned runs per game for them 0.47 (real .67 / .65 / .65), runs allowed per game 4.58 (real 5.05 / 4.80 / 4.81).
+- Game-to-game spread and postseason upsets (watch item 'offense extremes compressed'): P4 vs mid nonconference margin SD 5.76 against 5.97 real (2025-2026), ratio 0.965. With the real spread the better seed's win% in regional games without the host would be about 0.643 instead of 0.648, and the host's 0.719 instead of 0.726 (normal margin model: an upset rate higher by 0.5 and 0.7 points per game).
+- Pitching against fielding, full seasons (lead from the unearned-run check, owner request 2026-10-05): correlation across teams of ERA with errors per game 0.728 (real 2025 0.655; with fielding % -0.680), of runs allowed per game with errors per game 0.801 (real 0.721). Errors per game: all teams 1.113 (real 1.150), the 50 best by runs allowed per game 0.759 (real 0.866), the 50 best by ERA 0.788 (real 0.912). Earned share (mean of team ER/R): all 0.881 (real 0.870), the 50 best by ERA 0.899 (real 0.866). Real: NCAA.com team pages, 2025, every game; scripts/build_phase7_era_fielding.py.
