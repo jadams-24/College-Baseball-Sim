@@ -1,6 +1,6 @@
 # Phase 3 realism report: handedness and platoon splits
 
-Generated 2026-10-09, 40 seasons (seeds 20251000-20251039), the same run as the Phase 2, 4, 5, 6 and 7 reports. Gate: FAIL.
+Generated 2026-10-10, 40 seasons (seeds 20251000-20251039), the same run as the Phase 2, 4, 5, 6 and 7 reports. Gate: PASS.
 
 Hands are drawn per player from his talent and role (pitchers) or position (batters), never from his tier (owner rule 2026-10-08); matchups shift by the batter's side and the pitcher's hand (fitted net of who faced whom, centred on the league mix); the AI's pitching changes and pinch hitters use the hands of the batter due up and of the pitcher (scripts/build_phase3_*.py). Tolerances: the benchmark's (benchmarks.json handedness_platoon_2025) combined with 3 SE of the simulated mean.
 
@@ -137,10 +137,10 @@ Levels (reported, not gated): the hand-known plate appearances of a tier are not
 | Phase | Gate |
 |---|---|
 | phase2 | PASS |
-| phase4 | FAIL |
-| phase5 | FAIL |
-| phase6 | FAIL |
-| phase7 | FAIL |
+| phase4 | PASS |
+| phase5 | PASS |
+| phase6 | PASS |
+| phase7 | PASS |
 
 ## Individual platoon spread (reported, not gated)
 

@@ -1,10 +1,10 @@
 # Phase 6 realism report: fielding, parks, fatigue, bullpen, manager AI
 
-40 simulated 56-game seasons, seeds 20251000–20251039, all mechanisms on (config.phase6.FEATURES). Generated 2026-10-09. Tolerances combine the benchmark's with 3 SE of the simulated mean at 40 seasons.
+40 simulated 56-game seasons, seeds 20251000–20251039, all mechanisms on (config.phase6.FEATURES). Generated 2026-10-10. Tolerances combine the benchmark's with 3 SE of the simulated mean at 40 seasons.
 
-## Gate: **FAIL**
+## Gate: **PASS**
 
-Every Phase 1 and 2 row (reports/phase2.md): **pass**; Phase 4 forward ratings test (reports/phase4.md): **FAIL**; Phase 5 pitch-by-pitch (reports/phase5.md): **FAIL**.
+Every Phase 1 and 2 row (reports/phase2.md): **pass**; Phase 4 forward ratings test (reports/phase4.md): **pass**; Phase 5 pitch-by-pitch (reports/phase5.md): **pass**.
 
 ## Fielding and base running
 

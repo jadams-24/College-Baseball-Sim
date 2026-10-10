@@ -338,9 +338,9 @@
   "p7_conf_champ_rs": true,
   "p7_same_conf_rule": true,
   "phase2_gate": true,
-  "phase4_gate": false,
-  "phase5_gate": false,
-  "phase6_gate": false
+  "phase4_gate": true,
+  "phase5_gate": true,
+  "phase6_gate": true
  },
  "values": {
   "p7_cancel_rate": [

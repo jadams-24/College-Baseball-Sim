@@ -409,10 +409,10 @@
   "p3_use_ph_ratio": true,
   "p3_use_ph_adv": true,
   "phase2_gate": true,
-  "phase4_gate": false,
-  "phase5_gate": false,
-  "phase6_gate": false,
-  "phase7_gate": false
+  "phase4_gate": true,
+  "phase5_gate": true,
+  "phase6_gate": true,
+  "phase7_gate": true
  },
  "values": {
   "p3_lhp_starter": [

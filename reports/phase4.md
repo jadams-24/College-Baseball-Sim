@@ -1,15 +1,15 @@
 # Phase 4 realism report: 20–80 ratings
 
-40 simulated seasons, seeds 20251000–20251039, players generated from ratings. Generated 2026-10-09.
+40 simulated seasons, seeds 20251000–20251039, players generated from ratings. Generated 2026-10-10.
 Ratings re-express the true rates the engine uses, on percentiles of each rate's D1 distribution (PA- or BF-weighted, all of D1 on one scale): 50 is the D1 median, 60/70/80 the 84.1st/97.7th/99.87th percentiles; for a Gaussian rate this is 10 points per true-talent SD. Batters: Contact (BABIP), Gap (extra-base share of hits), Power (HR/PA), Eye (BB/PA), Avoid K (K/PA). Pitchers: Stuff (K/BF), Control (BB/BF), Movement (HR/BF), Stamina (individual leash on the pull hazard). Speed is reserved for Phase 6: the engine has no speed-linked rate yet.
 
-## Gate: **FAIL**
+## Gate: **PASS**
 
 Phase 1 and Phase 2 gate rows on the same run: **pass** (reports/phase2.md).
 
 ## Round trip, forward: true rates → 40 seasons → observed rates
 
-For each rated rate, every qualifying player-season's opponent-adjusted observed rate is regressed on the player's true rate, on the logit scale. The opponent-adjusted observed offset is o = z + (x − E) / V. Here z is the true offset, and x the count. E and V are the sums of p and of p(1 − p) over the player's own trials, at his true rates against the opponents he actually faced (recorded by the engine). The regression is weighted by V. The intercept is the average of o − z at the group's own mean talent; the table shows it in logit units and in rating points. Dispersion is Σ(x − E)² / ΣV: 1 when the noise around the true rate is exactly the binomial noise of those trials. Stamina: each pull decision's probability is 1 − (1 − h)^θ, with the manager's own baseline hazard h and log θ = a + b·(true log leash), fitted by maximum likelihood. Its dispersion is the same ratio on pull counts. Qualifying: config.phase4.MIN_TRIALS (150 PA or BF, 100 balls in play for Contact, 35 hits for Gap, 8 appearances for Stamina). Statistics are means over 20 folds of 2 seasons. Tolerance is 3.45 SE across folds (Student t, 19 df, the coverage of 3 SE).
+For each rated rate, every qualifying player-season's opponent-adjusted observed rate is regressed on the player's true rate, on the logit scale. The opponent-adjusted observed offset is o = z + (x − E) / V. Here z is the true offset, and x the count. E and V are the sums of p and of p(1 − p) over the player's own trials, at his true rates against the opponents he actually faced (recorded by the engine). The regression is weighted by V. The intercept is the average of o − z at the group's own mean talent; the table shows it in logit units and in rating points. Dispersion is Σ(x − E)² / ΣV: 1 when the noise around the true rate is exactly the binomial noise of those trials. Stamina: each pull decision's probability is 1 − (1 − h)^θ, with the manager's own baseline hazard h and log θ = a + b·(true log leash), fitted by maximum likelihood. Its dispersion is the same ratio on pull counts. Qualifying: batters config.phase4.MIN_TRIALS (150 PA, 100 balls in play for Contact, 35 hits for Gap); pitchers every pitcher-season with any batters faced (Stuff, Control, Movement) or any appearance (Stamina), owner decision 2026-10-09: relief usage reacts to results (bullpen form), so a threshold on realized workload keeps the pitchers whose results earned them more work and biases the intercept (PHASE0_NOTES, Variance fix #1). With every trial counted the intercept is 0 under any usage rule. The threshold version is reported below. Statistics are means over 20 folds of 2 seasons. Tolerance is 3.45 SE across folds (Student t, 19 df, the coverage of 3 SE).
 
 | Rating | Rate | Player-seasons per season | Intercept (logit) | Intercept (rating pts) | Status | Slope | Status | Dispersion | Status |
 |---|---|---|---|---|---|---|---|---|---|
@@ -18,14 +18,25 @@ For each rated rate, every qualifying player-season's opponent-adjusted observed
 | power | HR/PA | 2331 | -0.0011 ± 0.0052 | -0.02 | pass | 0.995 ± 0.008 | pass | 1.001 ± 0.016 | pass |
 | eye | BB/PA | 2331 | +0.0003 ± 0.0018 | +0.01 | pass | 1.000 ± 0.011 | pass | 1.002 ± 0.016 | pass |
 | avoid_k | K/PA | 2331 | +0.0001 ± 0.0021 | +0.00 | pass | 1.001 ± 0.008 | pass | 0.994 ± 0.017 | pass |
-| stuff | K/BF | 1532 | +0.0010 ± 0.0023 | +0.02 | pass | 0.999 ± 0.005 | pass | 0.998 ± 0.020 | pass |
-| control | BB/BF | 1532 | -0.0012 ± 0.0030 | -0.03 | pass | 0.999 ± 0.009 | pass | 0.985 ± 0.023 | pass |
-| movement | HR/BF | 1532 | -0.0096 ± 0.0054 | -0.31 | FAIL | 1.001 ± 0.014 | pass | 0.994 ± 0.020 | pass |
-| stamina | pull hazard (log leash) | 4357 | +0.0042 ± 0.0023 | — | FAIL | 0.999 ± 0.004 | pass | 1.000 ± 0.011 | pass |
+| stuff | K/BF | 5518 | -0.0001 ± 0.0015 | -0.00 | pass | 1.000 ± 0.004 | pass | 0.999 ± 0.012 | pass |
+| control | BB/BF | 5518 | +0.0001 ± 0.0019 | +0.00 | pass | 0.998 ± 0.004 | pass | 0.989 ± 0.013 | pass |
+| movement | HR/BF | 5518 | -0.0011 ± 0.0047 | -0.03 | pass | 1.002 ± 0.012 | pass | 1.001 ± 0.012 | pass |
+| stamina | pull hazard (log leash) | 5517 | +0.0004 ± 0.0024 | — | pass | 1.000 ± 0.004 | pass | 1.000 ± 0.010 | pass |
+
+### Pitchers at the old threshold, 150 batters faced / 8 appearances (reported, not gated)
+
+The same regression on pitchers who reach the workload threshold. With relief usage reacting to results, this sample is selected on luck.
+
+| Rating | Player-seasons per season | Intercept (logit) | Status | Slope | Status | Dispersion | Status |
+|---|---|---|---|---|---|---|---|
+| stuff | 1532 | +0.0010 ± 0.0023 | pass | 0.999 ± 0.005 | pass | 0.998 ± 0.020 | pass |
+| control | 1532 | -0.0012 ± 0.0030 | pass | 0.999 ± 0.009 | pass | 0.985 ± 0.023 | pass |
+| movement | 1532 | -0.0096 ± 0.0054 | outside | 1.001 ± 0.014 | pass | 0.994 ± 0.020 | pass |
+| stamina | 4357 | +0.0042 ± 0.0023 | outside | 0.999 ± 0.004 | pass | 1.000 ± 0.011 | pass |
 
 ### By workload tercile (informational)
 
-Qualifying player-seasons split into thirds by workload. Each cell: intercept (logit) / slope / dispersion; † marks a value outside the same tolerance. The manager orders players by true talent only. Lineup rank, rotation slot and bullpen rank are set once per season from the true offsets (engine/league.py: batting order by expected OBP + SLG against a league-average pitcher; pitchers by K − BB − HR). Start shares, reliever choice and weekend rotation patterns follow that order (engine/manager.py), and no in-season statistic feeds any choice. So a player's workload depends on his true talent, not his results, and a forward regression on true talent is not biased by it. The one outcome-dependent usage rule is the in-game pull hazard (outing pitch count and runs), so a pitcher's batters faced carry part of his outings' luck; Stamina is therefore split by appearances, since its batters faced are partly the pulls themselves. Plate appearances also follow results within a season, though not through the manager: a hitter whose balls in play fall for hits keeps innings going, his team bats more and he comes up more often. The heaviest third is therefore slightly selected on good luck, most for Contact, the rate that most moves lineup turnover.
+Qualifying player-seasons split into thirds by workload. Each cell: intercept (logit) / slope / dispersion; † marks a value outside the same tolerance. The manager orders players by true talent only. Lineup rank, rotation slot and bullpen rank are set once per season from the true offsets (engine/league.py: batting order by expected OBP + SLG against a league-average pitcher; pitchers by K − BB − HR). Start shares, reliever choice and weekend rotation patterns follow that order (engine/manager.py). Two usage rules depend on outcomes: the in-game pull hazard (outing pitch count and runs) and, from 2026-10-09, the relief choice's recent form (runs allowed in the last outing and the three before). So a pitcher's workload carries part of his luck, and the thirds (cut on qualified pitchers) are selected on it. Stamina is split by appearances, since its batters faced are partly the pulls themselves. Plate appearances also follow results within a season, though not through the manager: a hitter whose balls in play fall for hits keeps innings going, his team bats more and he comes up more often. The heaviest third is therefore slightly selected on good luck, most for Contact, the rate that most moves lineup turnover.
 
 | Rating | Workload | Light | Middle | Heavy |
 |---|---|---|---|---|
@@ -48,9 +59,9 @@ Box-score version (informational): the same regression with opponents adjusted o
 | power | 0.917 | 1.206 |
 | eye | 1.027 | 1.289 |
 | avoid_k | 0.985 | 1.183 |
-| stuff | 1.009 | 1.261 |
-| control | 1.004 | 1.035 |
-| movement | 1.003 | 1.150 |
+| stuff | 1.004 | 1.197 |
+| control | 0.997 | 1.028 |
+| movement | 1.006 | 1.109 |
 
 ## True rating distributions (mean of 40 seasons)
 

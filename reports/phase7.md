@@ -1,10 +1,10 @@
 # Phase 7 realism report: season and world
 
-40 simulated seasons, seeds 20251000–20251039, with cancellations, conference tournaments, selection and the NCAA tournament (config.phase7.FEATURES). Generated 2026-10-09. Tolerances: 3 × the combined standard error of the benchmark and of the simulated mean at 40 seasons. Mean postseason games per season 462.
+40 simulated seasons, seeds 20251000–20251039, with cancellations, conference tournaments, selection and the NCAA tournament (config.phase7.FEATURES). Generated 2026-10-10. Tolerances: 3 × the combined standard error of the benchmark and of the simulated mean at 40 seasons. Mean postseason games per season 462.
 
-## Gate: **FAIL**
+## Gate: **PASS**
 
-Phase 1-6 rows on the same run (regular season): phase2 **pass**, phase4 **FAIL**, phase5 **FAIL**, phase6 **FAIL**.
+Phase 1-6 rows on the same run (regular season): phase2 **pass**, phase4 **pass**, phase5 **pass**, phase6 **pass**.
 
 ## RPI
 
