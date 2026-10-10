@@ -203,6 +203,19 @@ pay, attendance and public-records program finances; every row with URL, fetch d
 edition) confirms that EADA coaching salaries are institution-level averages across all men's teams.
 Blocked: On3 (403), Forbes (403), the NCAA attendance page (redirects home), S3 guesses (404).
 
+## 11. Recruit rankings → outcomes (round 2, 2026-10-10)
+
+`tools/build_recruit_outcomes.py` (fetches the MLB Stats API draft feeds and prospect registry 2018–2026 into
+a working directory outside the repository, matches ranked HS prospects to later drafts by MLB person id,
+writes `data/recruiting/recruit_outcomes.csv`, counts only; `tools/summarize_recruit_outcomes.py` makes the
+per-class tables). The commitment is parsed from the Pipeline blurb with about 150 school aliases; the 2019
+feed lacks schoolClass, so HS status is inferred from the school name and age (99.0% agreement where the
+class is known). Terms: Perfect Game and Prep Baseball Report forbid automated access, so no ranking page of
+theirs was fetched; Baseball America's terms carry no such clause, its 2018 HS Top 100 (free) was used as a
+recruiting-style comparison and its 2019–2024 lists are paywalled (data request 9: a subscriber's hand
+export in the same layout runs through the matcher unchanged). Results: report section 12;
+`recruit_rankings_outcomes_2019_2024` in the benchmarks file.
+
 ## Confidence summary
 
 | Block | Grade | Why |

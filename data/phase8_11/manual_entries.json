@@ -1262,5 +1262,266 @@
    "note": "NCAA Membership Financial Reporting System figures obtained by public records (Extra Points top 25 of ~170 schools; Dispatch/al.com for the SEC); FY2025 = Jul 2024-Jun 2025, before revenue sharing; the two sources agree to the dollar. Compare EADA 2024-25 total expenses (same year): SEC median $7.8M",
    "conf": "B"
   }
+ },
+ "recruit_rankings_outcomes_2019_2024": {
+  "fetched": "2026-10-10",
+  "source": "MLB Stats API prospect registry https://statsapi.mlb.com/api/v1/draft/prospects/<year> (MLB Pipeline draft board, rank 1-200, 250 from 2025, schoolClass and the blurb naming the commitment) matched by MLB person id to the draft feeds 2019-2026; tools/build_recruit_outcomes.py -> data/recruiting/recruit_outcomes.csv",
+  "what_the_ranking_is": "MLB Pipeline's draft-week board in the HS senior spring, HS and college prospects on one list, signability-blind (Mayo, MLB Pipeline Inbox 2025-04-25). Not a recruiting ranking made a year earlier; the HS slice is 75-106 players a class (37-43% of the board). 'Reached campus' = did not sign that summer.",
+  "conf": "A for draft and signing columns, B for commitment (parsed from blurbs, about +-1 player per class-band), B for 2019 HS status (inferred, 99.0% rule accuracy on 2020-2024)",
+  "sample": {
+   "ranked_hs_prospects": 557,
+   "by_class": {
+    "2019": 75,
+    "2020": 81,
+    "2021": 105,
+    "2022": 106,
+    "2023": 102,
+    "2024": 88
+   }
+  },
+  "pooled_2019_2024_by_overall_rank": {
+   "top25": {
+    "n": 59,
+    "commit": {
+     "p4": 53,
+     "mid": 0,
+     "low": 0,
+     "non_d1": 0,
+     "not_stated": 6
+    },
+    "drafted_hs": 58,
+    "signed_hs": 57,
+    "signed_by_round": {
+     "R1": 49,
+     "R2": 5,
+     "R3": 2,
+     "R4-5": 1,
+     "R6-10": 0,
+     "R11+": 0
+    },
+    "drafted_unsigned": 1,
+    "reached_campus": 2
+   },
+   "26-100": {
+    "n": 205,
+    "commit": {
+     "p4": 175,
+     "mid": 8,
+     "low": 1,
+     "non_d1": 0,
+     "not_stated": 21
+    },
+    "drafted_hs": 153,
+    "signed_hs": 131,
+    "signed_by_round": {
+     "R1": 43,
+     "R2": 53,
+     "R3": 19,
+     "R4-5": 9,
+     "R6-10": 5,
+     "R11+": 2
+    },
+    "drafted_unsigned": 22,
+    "reached_campus": 74
+   },
+   "101-200": {
+    "n": 238,
+    "commit": {
+     "p4": 168,
+     "mid": 28,
+     "low": 1,
+     "non_d1": 5,
+     "not_stated": 36
+    },
+    "drafted_hs": 116,
+    "signed_hs": 78,
+    "signed_by_round": {
+     "R1": 2,
+     "R2": 6,
+     "R3": 20,
+     "R4-5": 27,
+     "R6-10": 11,
+     "R11+": 12
+    },
+    "drafted_unsigned": 38,
+    "reached_campus": 160
+   }
+  },
+  "pooled_by_hs_ordinal_rank": {
+   "hs1-10": {
+    "n": 60,
+    "p4": 55,
+    "mid": 0,
+    "signed": 58,
+    "campus": 2
+   },
+   "hs11-25": {
+    "n": 90,
+    "p4": 72,
+    "mid": 7,
+    "signed": 74,
+    "campus": 16
+   },
+   "hs26-50": {
+    "n": 150,
+    "p4": 127,
+    "mid": 5,
+    "signed": 71,
+    "campus": 79
+   },
+   "hs51+": {
+    "n": 257,
+    "p4": 180,
+    "mid": 31,
+    "signed": 75,
+    "campus": 182
+   }
+  },
+  "commitment_tier_among_stated": {
+   "n": 439,
+   "p4": 0.9,
+   "mid": 0.08,
+   "low": 0.005,
+   "non_d1": 0.01
+  },
+  "campus_arrivals_by_commit_tier": {
+   "n": 236,
+   "p4": 170,
+   "mid": 28,
+   "low": 2,
+   "non_d1": 5,
+   "not_stated": 31,
+   "among_stated": {
+    "p4": 0.83,
+    "mid": 0.14,
+    "low": 0.01,
+    "non_d1": 0.02
+   }
+  },
+  "college_draft_of_campus_arrivals_classes_2019_2022": {
+   "26-100": {
+    "campus": 52,
+    "drafted_y2": 11,
+    "drafted_y3": 27,
+    "drafted_y4": 5,
+    "y3_or_y4": 30,
+    "any_y2_to_y4": 40,
+    "first_pick_round": {
+     "R1": 13,
+     "R2": 3,
+     "R3": 3,
+     "R4-5": 3,
+     "R6-10": 9,
+     "R11+": 9
+    },
+    "y3_college_tier": {
+     "p4": 26,
+     "mid": 1,
+     "low": 0,
+     "other": 0
+    },
+    "p4_commits_drafted": "33 of 44",
+    "mid_commits_drafted": "1 of 2"
+   },
+   "101-200": {
+    "campus": 102,
+    "drafted_y2": 12,
+    "drafted_y3": 51,
+    "drafted_y4": 7,
+    "y3_or_y4": 57,
+    "any_y2_to_y4": 69,
+    "first_pick_round": {
+     "R1": 10,
+     "R2": 11,
+     "R3": 2,
+     "R4-5": 13,
+     "R6-10": 17,
+     "R11+": 16
+    },
+    "y3_college_tier": {
+     "p4": 46,
+     "mid": 2,
+     "low": 0,
+     "other": 3
+    },
+    "p4_commits_drafted": "52 of 74",
+    "mid_commits_drafted": "6 of 10"
+   },
+   "reading": "about two-thirds of ranked HS prospects who reach campus are drafted within four years; about one in six becomes a first-round pick; 72 of 77 Y+3 picks came from P4 programs, 3 from mid, 0 from low; drafted-from tier equals committed tier in about 99% of cases"
+  },
+  "ba_hs_top100_2018_recruiting_style_list": {
+   "source": "Baseball America, 2018 Top 100 MLB Draft Prospects In High School (published 2017-11-17, after the early signing period); terms text carries no automated-access clause",
+   "conf": "B (one class, n = 100)",
+   "commit": {
+    "p4": 92,
+    "mid": 8,
+    "low": 0
+   },
+   "signed_out_of_hs": {
+    "1-10": "8 of 10",
+    "11-25": "6 of 15",
+    "26-50": "13 of 25",
+    "51-100": "13 of 50",
+    "1-100": "40 of 100"
+   },
+   "on_pipeline_top200_at_draft": 64,
+   "reached_campus": 60,
+   "drafted_y3_or_y4": "21 of 60",
+   "drafted_any_y2_to_y5": "27 of 60",
+   "first_round_later": 5,
+   "y3_college_tier": "15 of 15 from P4",
+   "reading": "a ranking made in the fall of senior year is much noisier than the draft-week board: 36% fell off the Pipeline top 200 by draft day; 45% of its campus arrivals were drafted within five years against 68% for the draft-week cohort"
+  },
+  "published_summaries": {
+   "ba_badler_2024_10_31_one_year_out_top100_to_college": {
+    "top10": "9 of 20",
+    "top25": "25 of 50",
+    "26-50": "30 of 50",
+    "51-100": "81 of 100",
+    "top100": "136 of 200 (68%)",
+    "classes": "2023 and 2024",
+    "source": "https://baseballamerica.com/?p=1535810",
+    "conf": "B"
+   },
+   "ba_henninger_2019_redraft_of_unsigned_top100_preps_2001_2016": {
+    "n": 163,
+    "redrafted_round_1": 0.264,
+    "never_redrafted": 0.09,
+    "signed_for_less": 0.65,
+    "source": "https://www.baseballamerica.com/?p=41594",
+    "conf": "B (pre-2017 rules)"
+   },
+   "ba_unsigned_in_ba500_preps": {
+    "2016": 127,
+    "2017": 136,
+    "2018": 133,
+    "2019": 119,
+    "sec_share_2019": 0.42,
+    "conf": "B/C"
+   },
+   "hs_share_of_all_picks": {
+    "2019": 0.251,
+    "2021_2026": "0.186-0.207",
+    "hs_signing_rate_20_round_era": "0.72-0.79",
+    "2019_40_rounds": 0.45,
+    "conf": "A (feed counts)"
+   },
+   "mlb_players_1990_2010_path": {
+    "from_hs": 0.23,
+    "from_four_year": 0.63,
+    "from_two_year": 0.14,
+    "source": "McCue et al., Frontiers in Psychology 2019, https://pmc.ncbi.nlm.nih.gov/articles/PMC6868092",
+    "conf": "B"
+   }
+  },
+  "terms_compliance": "Perfect Game and Prep Baseball Report terms forbid automated access; no ranking page of theirs was fetched. Baseball America is behind Cloudflare and a paywall for 2019-2024 HS lists; a hand export by a subscriber would run through the script's matcher unchanged (data request 9).",
+  "still_missing": [
+   "a recruiting-style ranking at scale (PG/PBR terms; BA paywall)",
+   "ranks 101-500",
+   "an explicit uncommitted share (21% of blurbs name no school)",
+   "where the unsigned actually enrolled (JUCO, reclassification)",
+   "Y+5 for 2022; later drafts for 2023-2024",
+   "signing-bonus distributions by band (in the feed, not aggregated)"
+  ]
  }
 }

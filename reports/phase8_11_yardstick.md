@@ -30,6 +30,9 @@ Nothing here feeds the engine.
 | 7a | JUCO and D2 talent | D2 (8 conferences, 101 of 258 teams): .295/.396/.450, 0.91 HR and 6.86 runs a team-game, ERA 6.36; CCCAA (87 teams) .290/.393/.407, ERA 5.94; NJCAA D1 Kansas .309/.421/.486, Alabama .296/—/.423. D1 beat non-D1 opponents 90% of 90 games, 12.2 to 4.3 runs | B (rates), C (crossover) | NJCAA national lines; a cross-division rating (Massey blocked) |
 | 7b | JUCO and D2 → D1 per year | CCCAA 2025 class: 185 to D1 of 600+ to four-year schools (A, California); NJCAA alumni 570+ in the 2026 D1 field across 59 of 64 teams (B); JUCO→D1 about 900–1,100 a year (C, derived); D2→D1: no source (D) | A/B/C/D | NJCAA national counts; D2→D1 (NCAA Research ask) |
 | 8 | Recruiting calendar and rules | Every spec date verified against the 2026-27 calendar PDF and the 2026-27 Manual; no baseball date changed; eligibility clock gained sub-rules 12.6.1–12.6.3 on 9/9/26 | A | — |
+| R1 | Recruit rankings → outcomes (round 2) | MLB Pipeline-ranked HS prospects 2019–24 (557): top 25 sign .97, 26–100 sign .64, 101–200 sign .33; commits P4 .90 / mid .08 / low .005; campus arrivals P4 .83 / mid .14; two-thirds of arrivals drafted within four years, one in six first round, 72 of 77 from P4 programs. BA's November HS top 100 (2018): .40 sign, .45 of arrivals drafted within five years | A / B | PG and PBR rankings (terms forbid fetching); BA lists (paywall) |
+| R4 | Survivor bias in the development curves (round 2) | Fr→So curve biased down about .013 OPS (weak freshmen leave); Jr→Sr +.027 OPS is about +.024 regression to the mean (the draft takes the best juniors); pitchers' Jr→Sr K% gain is smaller than its RTM term | C (sizes) | Non-client leavers; a full-population r |
+| R5 | Program money (round 2) | EADA 2024-25 total expenses median P4 $5.0M / mid $1.7M / low $0.9M (SEC $7.8M); MFRS FY2025 27 programs $4.6M–$13.0M; head coaches: top 15 $1.28M–$3.35M (median $1.5M), other P4 $0.5M–$1.7M, mid-majors $91K–$600K; revenue share to baseball documented only at Texas Tech (1.9%, $390K) and LSU (5% planned 2026-27); 54 schools opted out; scholarships 25–34 at documented P4 programs | A (EADA), B (MFRS, salaries), D (rev-share distribution) | NIL payrolls; conference-wide salary and scholarship tables; national attendance total |
 
 ## 1. Roster composition (2025 rosters)
 
@@ -414,6 +417,56 @@ baseball-specific figures are graded for use.
   Missouri $4.6M; SEC public-school mean $8.07M expenses against $5.13M revenue; Mississippi State ticket
   revenue $2.7M; LSU's title-year baseball lost just under $1M. Consistent with EADA 2024-25 (SEC median
   total expenses $7.8M).
+
+## 12. Recruit rankings → outcomes (round 2): the real "5-star vs 3-star" odds
+
+Source: MLB's prospect registry (`statsapi.mlb.com/api/v1/draft/prospects/<year>`: every draft-eligible player
+MLB Pipeline tracked, with its rank 1–200, 250 from 2025, the school class and a blurb naming the high
+schooler's commitment), matched by MLB person id to the draft feeds 2019–2026. `tools/build_recruit_outcomes.py`
+→ `data/recruiting/recruit_outcomes.csv` (4,238 aggregate rows, no names) and `summary_tables.md`;
+`recruit_rankings_outcomes_2019_2024` in the benchmarks file. 557 ranked HS prospects, classes 2019–2024.
+Grade A for the draft and signing columns, B for commitments (parsed from blurbs) and for 2019's inferred
+HS status. **What the ranking is:** MLB Pipeline's draft-week board in the senior spring, HS and college on
+one list, signability-blind. It is sharper than a recruiting ranking made a year earlier (section 6b of
+the research notes shows how much); Perfect Game and Prep Baseball Report forbid automated access, so no
+page of theirs was fetched, and Baseball America's 2019–2024 HS lists are paywalled.
+
+**Pooled 2019–2024, by Pipeline overall rank:**
+
+| Band | HS prospects | Committed P4 / mid / low / JUCO / not stated | Drafted out of HS | Signed | Signed in R1 / R2 / R3 / R4–5 / R6–10 / R11+ | Drafted, unsigned | Reached campus |
+|---|---|---|---|---|---|---|---|
+| 1–25 | 59 | 53 / 0 / 0 / 0 / 6 | 58 | **57 (.97)** | 49 / 5 / 2 / 1 / 0 / 0 | 1 | **2 (.03)** |
+| 26–100 | 205 | 175 / 8 / 1 / 0 / 21 | 153 | **131 (.64)** | 43 / 53 / 19 / 9 / 5 / 2 | 22 | **74 (.36)** |
+| 101–200 | 238 | 168 / 28 / 1 / 5 / 36 | 116 | **78 (.33)** | 2 / 6 / 20 / 27 / 11 / 12 | 38 | **160 (.67)** |
+
+By rank among high schoolers only (the closer analogue of a recruiting service's HS top 100): HS 1–10
+sign .97 (2 of 60 reach campus); 11–25 sign .82; 26–50 sign .47; 51 to about 105 sign .29 (182 of 257
+reach campus).
+
+- **Where they commit.** Among the 439 with a stated commitment: P4 .90, mid .08, low .005, JUCO .01. The
+  P4 share falls with rank (100% in the top 25 of each class, 61–79% stated-P4 in the 101–200 band); mid
+  commitments sit almost entirely in the 101–200 band. "Not stated" (21%) is not "uncommitted": top-25
+  blurbs talk about slot money, not campuses.
+- **Who D1 actually receives.** Of the 236 campus arrivals with a stated tier, P4 .83, mid .14, low .01,
+  JUCO .02. The low tier gets essentially none of the ranked HS talent.
+- **Drafted from college later** (classes 2019–2022, campus arrivals): 26–100 band, 52 players: drafted
+  in year three or four .58, any of years two to four .77, 13 first-round picks; 101–200 band, 102
+  players: .56 and .68, 10 first-round picks. About two-thirds are drafted within four years and one in
+  six becomes a first-rounder. 72 of 77 year-three picks came from P4 programs, 3 from mid, none from low;
+  mid-major commits were drafted at about the same rate as P4 commits (.60 against .70); drafted-from tier
+  equals committed tier in about 99% of cases.
+- **A recruiting-style list for comparison** (Baseball America's HS Top 100 for the 2018 draft, published
+  November 2017, n = 100, B): commits P4 92, mid 8; signed out of HS .80 (1–10), .40 (11–25), .52 (26–50),
+  .26 (51–100), .40 overall; 36% had fallen off Pipeline's top 200 by draft day; of the 60 who reached
+  campus, .35 were drafted in years three or four and .45 within five, against .68 for the draft-week
+  cohort. All 15 later year-three picks came from P4 programs. The gap between the two lists is the size of
+  senior-year information, and the recruiting model should carry that noise.
+- **Published cross-checks** (B): Baseball America's one-year-out HS top 100 sent 68% to college in 2023–24
+  (top 10: 9 of 20; 26–50: 30 of 50; 51–100: 81 of 100); of 163 unsigned BA top-100 preps 2001–2016, 26%
+  were later first-rounders and 9% never redrafted; HS seniors were 25% of picks in 2019 and 19–21% in the
+  20-round drafts, signing at 72–79%.
+- **Still missing**: a recruiting ranking at scale (PG and PBR terms; BA paywall: data request 9), ranks
+  101–500, where the unsigned enrolled, year-five drafts for 2022, bonus distributions by band.
 
 ## Sources that blocked the cloud session (no workaround attempted)
 
