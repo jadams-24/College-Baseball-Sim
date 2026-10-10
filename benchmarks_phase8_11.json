@@ -1959,7 +1959,1066 @@
     "pitchers_mean": 19.75,
     "played_mean": 34.361
    }
-  ]
+  ],
+  "survivor_bias": {
+   "batter": {
+    "Fr": {
+     "k_pct": {
+      "survivor_share": 0.7587,
+      "selection_gap_sd": -0.0858,
+      "yoy_corr": 0.5786,
+      "rtm_bias_logit": 0.01565,
+      "rtm_bias_raw": 0.00264
+     },
+     "bb_pct": {
+      "survivor_share": 0.7587,
+      "selection_gap_sd": 0.008,
+      "yoy_corr": 0.4098,
+      "rtm_bias_logit": -0.0021,
+      "rtm_bias_raw": -0.00021
+     },
+     "hr_pct": {
+      "survivor_share": 0.7587,
+      "selection_gap_sd": 0.0995,
+      "yoy_corr": 0.5931,
+      "rtm_bias_logit": -0.03092,
+      "rtm_bias_raw": -0.00089
+     },
+     "ba": {
+      "survivor_share": 0.7587,
+      "selection_gap_sd": 0.1115,
+      "yoy_corr": 0.2619,
+      "rtm_bias_logit": -0.02294,
+      "rtm_bias_raw": -0.00464
+     },
+     "obp": {
+      "survivor_share": 0.7587,
+      "selection_gap_sd": 0.0975,
+      "yoy_corr": 0.3202,
+      "rtm_bias_logit": -0.01647,
+      "rtm_bias_raw": -0.00388
+     },
+     "slg": {
+      "survivor_share": 0.7587,
+      "selection_gap_sd": 0.1229,
+      "yoy_corr": 0.4553,
+      "rtm_bias_logit": NaN,
+      "rtm_bias_raw": -0.00848
+     },
+     "iso": {
+      "survivor_share": 0.7587,
+      "selection_gap_sd": 0.1042,
+      "yoy_corr": 0.5672,
+      "rtm_bias_logit": NaN,
+      "rtm_bias_raw": -0.00402
+     },
+     "babip": {
+      "survivor_share": 0.7587,
+      "selection_gap_sd": 0.0438,
+      "yoy_corr": 0.1957,
+      "rtm_bias_logit": -0.01006,
+      "rtm_bias_raw": -0.00226
+     },
+     "ops": {
+      "survivor_share": 0.7587,
+      "selection_gap_sd": 0.1252,
+      "yoy_corr": 0.4059,
+      "rtm_bias_logit": NaN,
+      "rtm_bias_raw": -0.01263
+     }
+    },
+    "Jr": {
+     "k_pct": {
+      "survivor_share": 0.5202,
+      "selection_gap_sd": 0.073,
+      "yoy_corr": 0.6411,
+      "rtm_bias_logit": -0.01131,
+      "rtm_bias_raw": -0.00177
+     },
+     "bb_pct": {
+      "survivor_share": 0.5202,
+      "selection_gap_sd": -0.1268,
+      "yoy_corr": 0.4951,
+      "rtm_bias_logit": 0.02559,
+      "rtm_bias_raw": 0.00254
+     },
+     "hr_pct": {
+      "survivor_share": 0.5202,
+      "selection_gap_sd": -0.2148,
+      "yoy_corr": 0.4591,
+      "rtm_bias_logit": 0.08291,
+      "rtm_bias_raw": 0.00253
+     },
+     "ba": {
+      "survivor_share": 0.5202,
+      "selection_gap_sd": -0.1353,
+      "yoy_corr": 0.2587,
+      "rtm_bias_logit": 0.02466,
+      "rtm_bias_raw": 0.00508
+     },
+     "obp": {
+      "survivor_share": 0.5202,
+      "selection_gap_sd": -0.1759,
+      "yoy_corr": 0.2899,
+      "rtm_bias_logit": 0.02722,
+      "rtm_bias_raw": 0.00647
+     },
+     "slg": {
+      "survivor_share": 0.5202,
+      "selection_gap_sd": -0.2125,
+      "yoy_corr": 0.3454,
+      "rtm_bias_logit": NaN,
+      "rtm_bias_raw": 0.01658
+     },
+     "iso": {
+      "survivor_share": 0.5202,
+      "selection_gap_sd": -0.2136,
+      "yoy_corr": 0.4283,
+      "rtm_bias_logit": NaN,
+      "rtm_bias_raw": 0.01056
+     },
+     "babip": {
+      "survivor_share": 0.5202,
+      "selection_gap_sd": -0.0327,
+      "yoy_corr": 0.157,
+      "rtm_bias_logit": 0.00668,
+      "rtm_bias_raw": 0.0015
+     },
+     "ops": {
+      "survivor_share": 0.5202,
+      "selection_gap_sd": -0.2179,
+      "yoy_corr": 0.2999,
+      "rtm_bias_logit": NaN,
+      "rtm_bias_raw": 0.02411
+     }
+    },
+    "So": {
+     "k_pct": {
+      "survivor_share": 0.7057,
+      "selection_gap_sd": -0.0354,
+      "yoy_corr": 0.659,
+      "rtm_bias_logit": 0.00525,
+      "rtm_bias_raw": 0.00084
+     },
+     "bb_pct": {
+      "survivor_share": 0.7057,
+      "selection_gap_sd": -0.0302,
+      "yoy_corr": 0.4843,
+      "rtm_bias_logit": 0.00571,
+      "rtm_bias_raw": 0.00058
+     },
+     "hr_pct": {
+      "survivor_share": 0.7057,
+      "selection_gap_sd": 0.0032,
+      "yoy_corr": 0.5832,
+      "rtm_bias_logit": -0.0009,
+      "rtm_bias_raw": -3e-05
+     },
+     "ba": {
+      "survivor_share": 0.7057,
+      "selection_gap_sd": 0.0111,
+      "yoy_corr": 0.3387,
+      "rtm_bias_logit": -0.0018,
+      "rtm_bias_raw": -0.00037
+     },
+     "obp": {
+      "survivor_share": 0.7057,
+      "selection_gap_sd": -0.0118,
+      "yoy_corr": 0.3679,
+      "rtm_bias_logit": 0.00162,
+      "rtm_bias_raw": 0.00039
+     },
+     "slg": {
+      "survivor_share": 0.7057,
+      "selection_gap_sd": 0.0013,
+      "yoy_corr": 0.5174,
+      "rtm_bias_logit": NaN,
+      "rtm_bias_raw": -8e-05
+     },
+     "iso": {
+      "survivor_share": 0.7057,
+      "selection_gap_sd": -0.0045,
+      "yoy_corr": 0.5963,
+      "rtm_bias_logit": NaN,
+      "rtm_bias_raw": 0.00016
+     },
+     "babip": {
+      "survivor_share": 0.7057,
+      "selection_gap_sd": -0.0197,
+      "yoy_corr": 0.1746,
+      "rtm_bias_logit": 0.00403,
+      "rtm_bias_raw": 0.00091
+     },
+     "ops": {
+      "survivor_share": 0.7057,
+      "selection_gap_sd": -0.0028,
+      "yoy_corr": 0.4708,
+      "rtm_bias_logit": NaN,
+      "rtm_bias_raw": 0.00024
+     }
+    },
+    "Sr": {
+     "k_pct": {
+      "survivor_share": 0.1114,
+      "selection_gap_sd": 0.0497,
+      "yoy_corr": 0.5157,
+      "rtm_bias_logit": -0.01001,
+      "rtm_bias_raw": -0.00156
+     },
+     "bb_pct": {
+      "survivor_share": 0.1114,
+      "selection_gap_sd": -0.1855,
+      "yoy_corr": 0.5812,
+      "rtm_bias_logit": 0.03143,
+      "rtm_bias_raw": 0.00299
+     },
+     "hr_pct": {
+      "survivor_share": 0.1114,
+      "selection_gap_sd": 0.043,
+      "yoy_corr": 0.5501,
+      "rtm_bias_logit": -0.01243,
+      "rtm_bias_raw": -0.00041
+     },
+     "ba": {
+      "survivor_share": 0.1114,
+      "selection_gap_sd": 0.2533,
+      "yoy_corr": 0.2387,
+      "rtm_bias_logit": -0.04641,
+      "rtm_bias_raw": -0.00967
+     },
+     "obp": {
+      "survivor_share": 0.1114,
+      "selection_gap_sd": 0.0895,
+      "yoy_corr": 0.2894,
+      "rtm_bias_logit": -0.01329,
+      "rtm_bias_raw": -0.00317
+     },
+     "slg": {
+      "survivor_share": 0.1114,
+      "selection_gap_sd": 0.1809,
+      "yoy_corr": 0.3912,
+      "rtm_bias_logit": NaN,
+      "rtm_bias_raw": -0.01266
+     },
+     "iso": {
+      "survivor_share": 0.1114,
+      "selection_gap_sd": 0.0957,
+      "yoy_corr": 0.4728,
+      "rtm_bias_logit": NaN,
+      "rtm_bias_raw": -0.00427
+     },
+     "babip": {
+      "survivor_share": 0.1114,
+      "selection_gap_sd": 0.2953,
+      "yoy_corr": 0.1018,
+      "rtm_bias_logit": -0.06529,
+      "rtm_bias_raw": -0.01473
+     },
+     "ops": {
+      "survivor_share": 0.1114,
+      "selection_gap_sd": 0.1665,
+      "yoy_corr": 0.3473,
+      "rtm_bias_logit": NaN,
+      "rtm_bias_raw": -0.01648
+     }
+    },
+    "all": {
+     "k_pct": {
+      "survivor_share": 0.4792,
+      "selection_gap_sd": 0.0436,
+      "yoy_corr": 0.6248,
+      "rtm_bias_logit": -0.00707,
+      "rtm_bias_raw": -0.00112
+     },
+     "bb_pct": {
+      "survivor_share": 0.4792,
+      "selection_gap_sd": -0.0469,
+      "yoy_corr": 0.4729,
+      "rtm_bias_logit": 0.00983,
+      "rtm_bias_raw": 0.00098
+     },
+     "hr_pct": {
+      "survivor_share": 0.4792,
+      "selection_gap_sd": -0.0608,
+      "yoy_corr": 0.5491,
+      "rtm_bias_logit": 0.01905,
+      "rtm_bias_raw": 0.0006
+     },
+     "ba": {
+      "survivor_share": 0.4792,
+      "selection_gap_sd": -0.0083,
+      "yoy_corr": 0.283,
+      "rtm_bias_logit": 0.0015,
+      "rtm_bias_raw": 0.00031
+     },
+     "obp": {
+      "survivor_share": 0.4792,
+      "selection_gap_sd": -0.0472,
+      "yoy_corr": 0.3208,
+      "rtm_bias_logit": 0.0071,
+      "rtm_bias_raw": 0.00169
+     },
+     "slg": {
+      "survivor_share": 0.4792,
+      "selection_gap_sd": -0.0481,
+      "yoy_corr": 0.4383,
+      "rtm_bias_logit": NaN,
+      "rtm_bias_raw": 0.00326
+     },
+     "iso": {
+      "survivor_share": 0.4792,
+      "selection_gap_sd": -0.0612,
+      "yoy_corr": 0.5308,
+      "rtm_bias_logit": NaN,
+      "rtm_bias_raw": 0.00252
+     },
+     "babip": {
+      "survivor_share": 0.4792,
+      "selection_gap_sd": 0.0386,
+      "yoy_corr": 0.1676,
+      "rtm_bias_logit": -0.00812,
+      "rtm_bias_raw": -0.00182
+     },
+     "ops": {
+      "survivor_share": 0.4792,
+      "selection_gap_sd": -0.0518,
+      "yoy_corr": 0.3902,
+      "rtm_bias_logit": NaN,
+      "rtm_bias_raw": 0.00505
+     }
+    }
+   },
+   "pitcher": {
+    "Fr": {
+     "k_pct": {
+      "survivor_share": 0.6962,
+      "selection_gap_sd": 0.0577,
+      "yoy_corr": 0.5122,
+      "rtm_bias_logit": -0.01087,
+      "rtm_bias_raw": -0.00188
+     },
+     "bb_pct": {
+      "survivor_share": 0.6962,
+      "selection_gap_sd": -0.0652,
+      "yoy_corr": 0.4259,
+      "rtm_bias_logit": 0.01786,
+      "rtm_bias_raw": 0.00176
+     },
+     "hr_pct": {
+      "survivor_share": 0.6962,
+      "selection_gap_sd": -0.0157,
+      "yoy_corr": 0.1227,
+      "rtm_bias_logit": 0.00905,
+      "rtm_bias_raw": 0.00025
+     },
+     "h_pct": {
+      "survivor_share": 0.6962,
+      "selection_gap_sd": -0.0438,
+      "yoy_corr": 0.3247,
+      "rtm_bias_logit": 0.00831,
+      "rtm_bias_raw": 0.00143
+     },
+     "era": {
+      "survivor_share": 0.6962,
+      "selection_gap_sd": -0.0696,
+      "yoy_corr": 0.171,
+      "rtm_bias_logit": NaN,
+      "rtm_bias_raw": 0.16162
+     }
+    },
+    "Jr": {
+     "k_pct": {
+      "survivor_share": 0.4134,
+      "selection_gap_sd": -0.4177,
+      "yoy_corr": 0.3998,
+      "rtm_bias_logit": 0.09889,
+      "rtm_bias_raw": 0.01677
+     },
+     "bb_pct": {
+      "survivor_share": 0.4134,
+      "selection_gap_sd": -0.0786,
+      "yoy_corr": 0.3733,
+      "rtm_bias_logit": 0.02467,
+      "rtm_bias_raw": 0.00217
+     },
+     "hr_pct": {
+      "survivor_share": 0.4134,
+      "selection_gap_sd": -0.0993,
+      "yoy_corr": 0.1341,
+      "rtm_bias_logit": 0.05099,
+      "rtm_bias_raw": 0.00137
+     },
+     "h_pct": {
+      "survivor_share": 0.4134,
+      "selection_gap_sd": 0.2328,
+      "yoy_corr": 0.294,
+      "rtm_bias_logit": -0.04297,
+      "rtm_bias_raw": -0.0076
+     },
+     "era": {
+      "survivor_share": 0.4134,
+      "selection_gap_sd": 0.0371,
+      "yoy_corr": 0.1438,
+      "rtm_bias_logit": NaN,
+      "rtm_bias_raw": -0.0844
+     }
+    },
+    "So": {
+     "k_pct": {
+      "survivor_share": 0.6336,
+      "selection_gap_sd": -0.0213,
+      "yoy_corr": 0.5615,
+      "rtm_bias_logit": 0.00354,
+      "rtm_bias_raw": 0.00062
+     },
+     "bb_pct": {
+      "survivor_share": 0.6336,
+      "selection_gap_sd": -0.0522,
+      "yoy_corr": 0.4498,
+      "rtm_bias_logit": 0.01496,
+      "rtm_bias_raw": 0.00136
+     },
+     "hr_pct": {
+      "survivor_share": 0.6336,
+      "selection_gap_sd": 0.0165,
+      "yoy_corr": 0.1305,
+      "rtm_bias_logit": -0.00889,
+      "rtm_bias_raw": -0.00024
+     },
+     "h_pct": {
+      "survivor_share": 0.6336,
+      "selection_gap_sd": 0.0048,
+      "yoy_corr": 0.3609,
+      "rtm_bias_logit": -0.00084,
+      "rtm_bias_raw": -0.00015
+     },
+     "era": {
+      "survivor_share": 0.6336,
+      "selection_gap_sd": -0.0443,
+      "yoy_corr": 0.125,
+      "rtm_bias_logit": NaN,
+      "rtm_bias_raw": 0.10184
+     }
+    },
+    "Sr": {
+     "k_pct": {
+      "survivor_share": 0.1156,
+      "selection_gap_sd": -0.0617,
+      "yoy_corr": 0.5147,
+      "rtm_bias_logit": 0.01072,
+      "rtm_bias_raw": 0.00181
+     },
+     "bb_pct": {
+      "survivor_share": 0.1156,
+      "selection_gap_sd": -0.0672,
+      "yoy_corr": 0.2217,
+      "rtm_bias_logit": 0.02695,
+      "rtm_bias_raw": 0.00231
+     },
+     "hr_pct": {
+      "survivor_share": 0.1156,
+      "selection_gap_sd": 0.1326,
+      "yoy_corr": -0.0108,
+      "rtm_bias_logit": -0.07703,
+      "rtm_bias_raw": -0.0022
+     },
+     "h_pct": {
+      "survivor_share": 0.1156,
+      "selection_gap_sd": -0.0041,
+      "yoy_corr": 0.4006,
+      "rtm_bias_logit": 0.00066,
+      "rtm_bias_raw": 0.00011
+     },
+     "era": {
+      "survivor_share": 0.1156,
+      "selection_gap_sd": -0.0001,
+      "yoy_corr": 0.1778,
+      "rtm_bias_logit": NaN,
+      "rtm_bias_raw": 0.00019
+     }
+    },
+    "all": {
+     "k_pct": {
+      "survivor_share": 0.4551,
+      "selection_gap_sd": -0.099,
+      "yoy_corr": 0.5112,
+      "rtm_bias_logit": 0.01836,
+      "rtm_bias_raw": 0.00317
+     },
+     "bb_pct": {
+      "survivor_share": 0.4551,
+      "selection_gap_sd": -0.015,
+      "yoy_corr": 0.4176,
+      "rtm_bias_logit": 0.00442,
+      "rtm_bias_raw": 0.0004
+     },
+     "hr_pct": {
+      "survivor_share": 0.4551,
+      "selection_gap_sd": -0.025,
+      "yoy_corr": 0.1174,
+      "rtm_bias_logit": 0.01351,
+      "rtm_bias_raw": 0.00037
+     },
+     "h_pct": {
+      "survivor_share": 0.4551,
+      "selection_gap_sd": 0.0403,
+      "yoy_corr": 0.3397,
+      "rtm_bias_logit": -0.00716,
+      "rtm_bias_raw": -0.00125
+     },
+     "era": {
+      "survivor_share": 0.4551,
+      "selection_gap_sd": -0.0072,
+      "yoy_corr": 0.149,
+      "rtm_bias_logit": NaN,
+      "rtm_bias_raw": 0.01624
+     }
+    }
+   }
+  }
+ },
+ "program_money_eada_2024_25": {
+  "source": "U.S. Department of Education EADA 2024-25 (data/eada/baseball_eada_2024_25.csv, fetched 2026-10-08), tiers from data/schools/schools.csv",
+  "conf": "A",
+  "low": {
+   "schools": 88,
+   "baseball_operating_expenses": {
+    "mean": 267161.8,
+    "p10": 113607.7,
+    "p25": 205441.0,
+    "median": 263438.0,
+    "p75": 330892.2,
+    "p90": 409154.2,
+    "min": 14029.0,
+    "max": 628122.0
+   },
+   "baseball_total_expenses": {
+    "mean": 967721.9,
+    "p10": 630345.1,
+    "p25": 750187.2,
+    "median": 918912.5,
+    "p75": 1161273.5,
+    "p90": 1411369.5,
+    "min": 210161.0,
+    "max": 2384965.0
+   },
+   "baseball_total_revenue": {
+    "mean": 954407.5,
+    "p10": 529894.1,
+    "p25": 722379.5,
+    "median": 912686.5,
+    "p75": 1126215.0,
+    "p90": 1457694.8,
+    "min": 210161.0,
+    "max": 2384965.0
+   },
+   "participants": {
+    "mean": 39.2,
+    "p10": 32.7,
+    "p25": 36.0,
+    "median": 39.0,
+    "p75": 41.0,
+    "p90": 45.3,
+    "min": 25.0,
+    "max": 59.0
+   },
+   "assistant_coaches": {
+    "mean": 2.8,
+    "p10": 2.0,
+    "p25": 2.0,
+    "median": 3.0,
+    "p75": 3.0,
+    "p90": 4.0,
+    "min": 1.0,
+    "max": 5.0
+   },
+   "expenses_per_participant": {
+    "mean": 24873.5,
+    "p10": 14795.4,
+    "p25": 18768.9,
+    "median": 23561.0,
+    "p75": 28897.3,
+    "p90": 36561.3,
+    "min": 6368.5,
+    "max": 59624.1
+   },
+   "revenue_minus_expenses": {
+    "mean": -13314.4,
+    "p10": 0.0,
+    "p25": 0.0,
+    "median": 0.0,
+    "p75": 0.0,
+    "p90": 0.0,
+    "min": -825716.0,
+    "max": 253600.0
+   },
+   "share_revenue_equals_expenses": 0.818
+  },
+  "mid": {
+   "schools": 152,
+   "baseball_operating_expenses": {
+    "mean": 505426.9,
+    "p10": 275803.7,
+    "p25": 332701.2,
+    "median": 438159.0,
+    "p75": 580514.2,
+    "p90": 818082.2,
+    "min": 32727.0,
+    "max": 2385213.0
+   },
+   "baseball_total_expenses": {
+    "mean": 1815949.7,
+    "p10": 1019885.8,
+    "p25": 1291509.2,
+    "median": 1710686.0,
+    "p75": 2164811.5,
+    "p90": 2715743.3,
+    "min": 184543.0,
+    "max": 5210907.0
+   },
+   "baseball_total_revenue": {
+    "mean": 1802847.3,
+    "p10": 1001516.5,
+    "p25": 1265886.5,
+    "median": 1675427.5,
+    "p75": 2105985.5,
+    "p90": 2781857.3,
+    "min": 184543.0,
+    "max": 5210907.0
+   },
+   "participants": {
+    "mean": 40.6,
+    "p10": 36.0,
+    "p25": 38.8,
+    "median": 40.0,
+    "p75": 42.0,
+    "p90": 45.0,
+    "min": 27.0,
+    "max": 60.0
+   },
+   "assistant_coaches": {
+    "mean": 3.1,
+    "p10": 3.0,
+    "p25": 3.0,
+    "median": 3.0,
+    "p75": 3.0,
+    "p90": 4.0,
+    "min": 2.0,
+    "max": 6.0
+   },
+   "expenses_per_participant": {
+    "mean": 44999.5,
+    "p10": 25756.6,
+    "p25": 32750.1,
+    "median": 41230.5,
+    "p75": 53570.9,
+    "p90": 69389.2,
+    "min": 4613.6,
+    "max": 124069.2
+   },
+   "revenue_minus_expenses": {
+    "mean": -13102.3,
+    "p10": 0.0,
+    "p25": 0.0,
+    "median": 0.0,
+    "p75": 0.0,
+    "p90": 80962.9,
+    "min": -1439593.0,
+    "max": 1204448.0
+   },
+   "share_revenue_equals_expenses": 0.783
+  },
+  "p4": {
+   "schools": 64,
+   "baseball_operating_expenses": {
+    "mean": 1319107.6,
+    "p10": 802960.4,
+    "p25": 946537.0,
+    "median": 1193292.5,
+    "p75": 1571539.8,
+    "p90": 2079900.8,
+    "min": 143584.0,
+    "max": 2931207.0
+   },
+   "baseball_total_expenses": {
+    "mean": 5390100.9,
+    "p10": 3116328.7,
+    "p25": 3726932.8,
+    "median": 5008418.5,
+    "p75": 6703170.8,
+    "p90": 8674004.4,
+    "min": 484686.0,
+    "max": 11445793.0
+   },
+   "baseball_total_revenue": {
+    "mean": 4161437.6,
+    "p10": 687739.6,
+    "p25": 1769426.2,
+    "median": 4075802.5,
+    "p75": 5770087.8,
+    "p90": 7695650.6,
+    "min": 346259.0,
+    "max": 11742870.0
+   },
+   "participants": {
+    "mean": 41.9,
+    "p10": 38.0,
+    "p25": 40.0,
+    "median": 41.0,
+    "p75": 43.0,
+    "p90": 46.7,
+    "min": 35.0,
+    "max": 55.0
+   },
+   "assistant_coaches": {
+    "mean": 3.1,
+    "p10": 3.0,
+    "p25": 3.0,
+    "median": 3.0,
+    "p75": 3.0,
+    "p90": 3.0,
+    "min": 1.0,
+    "max": 5.0
+   },
+   "expenses_per_participant": {
+    "mean": 128834.2,
+    "p10": 72640.5,
+    "p25": 87406.4,
+    "median": 117101.6,
+    "p75": 168946.2,
+    "p90": 198516.1,
+    "min": 10097.6,
+    "max": 268009.9
+   },
+   "revenue_minus_expenses": {
+    "mean": -1228663.3,
+    "p10": -3375655.4,
+    "p25": -2662914.2,
+    "median": 0.0,
+    "p75": 0.0,
+    "p90": 0.0,
+    "min": -5113605.0,
+    "max": 2054055.0
+   },
+   "share_revenue_equals_expenses": 0.469
+  },
+  "all": {
+   "schools": 304,
+   "baseball_operating_expenses": {
+    "mean": 607756.6,
+    "p10": 215228.4,
+    "p25": 292746.0,
+    "median": 408671.0,
+    "p75": 799610.2,
+    "p90": 1268112.7,
+    "min": 14029.0,
+    "max": 2931207.0
+   },
+   "baseball_total_expenses": {
+    "mean": 2322862.9,
+    "p10": 775129.1,
+    "p25": 1051994.2,
+    "median": 1623026.0,
+    "p75": 2712267.8,
+    "p90": 5150655.8,
+    "min": 184543.0,
+    "max": 11445793.0
+   },
+   "baseball_total_revenue": {
+    "mean": 2053791.7,
+    "p10": 710712.5,
+    "p25": 995857.8,
+    "median": 1477316.0,
+    "p75": 2225075.5,
+    "p90": 4204578.4,
+    "min": 184543.0,
+    "max": 11742870.0
+   },
+   "participants": {
+    "mean": 40.5,
+    "p10": 35.0,
+    "p25": 38.0,
+    "median": 40.0,
+    "p75": 43.0,
+    "p90": 46.0,
+    "min": 25.0,
+    "max": 60.0
+   },
+   "assistant_coaches": {
+    "mean": 3.0,
+    "p10": 2.0,
+    "p25": 3.0,
+    "median": 3.0,
+    "p75": 3.0,
+    "p90": 4.0,
+    "min": 1.0,
+    "max": 6.0
+   },
+   "expenses_per_participant": {
+    "mean": 56822.9,
+    "p10": 19669.0,
+    "p25": 26916.6,
+    "median": 39070.0,
+    "p75": 66738.0,
+    "p90": 122895.6,
+    "min": 4613.6,
+    "max": 268009.9
+   },
+   "revenue_minus_expenses": {
+    "mean": -269071.3,
+    "p10": -1096437.0,
+    "p25": 0.0,
+    "median": 0.0,
+    "p75": 0.0,
+    "p90": 8811.2,
+    "min": -5113605.0,
+    "max": 2054055.0
+   },
+   "share_revenue_equals_expenses": 0.727
+  },
+  "by_conference": [
+   {
+    "conference": "SEC",
+    "schools": 16,
+    "median_total_expenses": 7816166.0,
+    "median_operating": 1628071.0,
+    "median_revenue": 6211324.0,
+    "tier": "p4"
+   },
+   {
+    "conference": "DI Independent",
+    "schools": 1,
+    "median_total_expenses": 5819119.0,
+    "median_operating": 1584119.0,
+    "median_revenue": 5819119.0,
+    "tier": "p4"
+   },
+   {
+    "conference": "ACC",
+    "schools": 16,
+    "median_total_expenses": 5061708.0,
+    "median_operating": 1142850.0,
+    "median_revenue": 4041242.0,
+    "tier": "p4"
+   },
+   {
+    "conference": "Big 12",
+    "schools": 14,
+    "median_total_expenses": 4376956.0,
+    "median_operating": 1180164.0,
+    "median_revenue": 3749014.0,
+    "tier": "p4"
+   },
+   {
+    "conference": "Big Ten",
+    "schools": 17,
+    "median_total_expenses": 3992821.0,
+    "median_operating": 1104258.0,
+    "median_revenue": 1181260.0,
+    "tier": "p4"
+   },
+   {
+    "conference": "WCC",
+    "schools": 9,
+    "median_total_expenses": 2607555.0,
+    "median_operating": 509394.0,
+    "median_revenue": 2607555.0,
+    "tier": "mid"
+   },
+   {
+    "conference": "The American",
+    "schools": 10,
+    "median_total_expenses": 2502407.0,
+    "median_operating": 840849.0,
+    "median_revenue": 2935540.0,
+    "tier": "mid"
+   },
+   {
+    "conference": "Mountain West",
+    "schools": 7,
+    "median_total_expenses": 2181975.0,
+    "median_operating": 635771.0,
+    "median_revenue": 1810887.0,
+    "tier": "mid"
+   },
+   {
+    "conference": "Sun Belt",
+    "schools": 14,
+    "median_total_expenses": 2071677.0,
+    "median_operating": 605247.0,
+    "median_revenue": 2107754.0,
+    "tier": "mid"
+   },
+   {
+    "conference": "Big West",
+    "schools": 11,
+    "median_total_expenses": 1999383.0,
+    "median_operating": 498683.0,
+    "median_revenue": 1999383.0,
+    "tier": "mid"
+   },
+   {
+    "conference": "Big East",
+    "schools": 8,
+    "median_total_expenses": 1874631.0,
+    "median_operating": 516766.0,
+    "median_revenue": 1721461.0,
+    "tier": "mid"
+   },
+   {
+    "conference": "CUSA",
+    "schools": 10,
+    "median_total_expenses": 1814703.0,
+    "median_operating": 500991.0,
+    "median_revenue": 1814703.0,
+    "tier": "mid"
+   },
+   {
+    "conference": "WAC",
+    "schools": 9,
+    "median_total_expenses": 1707463.0,
+    "median_operating": 546136.0,
+    "median_revenue": 1655469.0,
+    "tier": "mid"
+   },
+   {
+    "conference": "Atlantic 10",
+    "schools": 12,
+    "median_total_expenses": 1609797.0,
+    "median_operating": 359550.0,
+    "median_revenue": 1202644.0,
+    "tier": "mid"
+   },
+   {
+    "conference": "CAA",
+    "schools": 12,
+    "median_total_expenses": 1578549.0,
+    "median_operating": 366405.0,
+    "median_revenue": 1578549.0,
+    "tier": "mid"
+   },
+   {
+    "conference": "MVC",
+    "schools": 10,
+    "median_total_expenses": 1380582.0,
+    "median_operating": 357530.0,
+    "median_revenue": 1415824.0,
+    "tier": "mid"
+   },
+   {
+    "conference": "SoCon",
+    "schools": 8,
+    "median_total_expenses": 1342548.0,
+    "median_operating": 343016.0,
+    "median_revenue": 1477102.0,
+    "tier": "mid"
+   },
+   {
+    "conference": "ASUN",
+    "schools": 12,
+    "median_total_expenses": 1226541.0,
+    "median_operating": 390590.0,
+    "median_revenue": 1226541.0,
+    "tier": "mid"
+   },
+   {
+    "conference": "Summit League",
+    "schools": 6,
+    "median_total_expenses": 1220622.0,
+    "median_operating": 328748.0,
+    "median_revenue": 993801.0,
+    "tier": "low"
+   },
+   {
+    "conference": "MAC",
+    "schools": 11,
+    "median_total_expenses": 1213276.0,
+    "median_operating": 306168.0,
+    "median_revenue": 1213276.0,
+    "tier": "mid"
+   },
+   {
+    "conference": "America East",
+    "schools": 7,
+    "median_total_expenses": 1199146.0,
+    "median_operating": 339588.0,
+    "median_revenue": 1346459.0,
+    "tier": "low"
+   },
+   {
+    "conference": "Southland",
+    "schools": 11,
+    "median_total_expenses": 1111127.0,
+    "median_operating": 271935.0,
+    "median_revenue": 1111127.0,
+    "tier": "low"
+   },
+   {
+    "conference": "Big South",
+    "schools": 9,
+    "median_total_expenses": 1089044.0,
+    "median_operating": 299631.0,
+    "median_revenue": 1089044.0,
+    "tier": "mid"
+   },
+   {
+    "conference": "Patriot",
+    "schools": 4,
+    "median_total_expenses": 1030424.0,
+    "median_operating": 261156.0,
+    "median_revenue": 1030424.0,
+    "tier": "low"
+   },
+   {
+    "conference": "MAAC",
+    "schools": 13,
+    "median_total_expenses": 970952.0,
+    "median_operating": 260078.0,
+    "median_revenue": 997246.0,
+    "tier": "low"
+   },
+   {
+    "conference": "OVC",
+    "schools": 10,
+    "median_total_expenses": 933748.0,
+    "median_operating": 269644.0,
+    "median_revenue": 938756.0,
+    "tier": "low"
+   },
+   {
+    "conference": "Horizon",
+    "schools": 6,
+    "median_total_expenses": 913828.0,
+    "median_operating": 321456.0,
+    "median_revenue": 913828.0,
+    "tier": "low"
+   },
+   {
+    "conference": "Ivy League",
+    "schools": 8,
+    "median_total_expenses": 857033.0,
+    "median_operating": 293690.0,
+    "median_revenue": 857033.0,
+    "tier": "low"
+   },
+   {
+    "conference": "NEC",
+    "schools": 11,
+    "median_total_expenses": 775442.0,
+    "median_operating": 200812.0,
+    "median_revenue": 760590.0,
+    "tier": "low"
+   },
+   {
+    "conference": "SWAC",
+    "schools": 12,
+    "median_total_expenses": 672234.0,
+    "median_operating": 136989.0,
+    "median_revenue": 558068.0,
+    "tier": "low"
+   }
+  ],
+  "note": "EADA 2024-25 (reporting year July 2024 - June 2025, the last season before revenue sharing). Total expenses include aid, salaries, recruiting, travel, equipment and facilities charges; operating (game-day) expenses are the subset. Revenue equals expenses at many schools by convention (institutional support fills the gap), so revenue is not profit."
  },
  "rules_2026_27": {
   "conf": "A",

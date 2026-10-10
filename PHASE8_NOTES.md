@@ -167,6 +167,23 @@ include games against other levels; the D2 set is the hosts that answered (12 co
 TLS errors or 404), not a random sample. Grade B. The NJCAA national lines and NCAA's own D2 lines were
 unreachable (data requests 5 and 8).
 
+## 8. Survivor bias in the development curves (round 2, 2026-10-10)
+
+`survivor_selection()` in `tools/fetch_wmt_player_seasons.py`. For each role, class and rate: the
+season-t level of the players who enter a consecutive-season pair (survivors) against all players over
+the floor in season t, and the leavers; the survivors' year-to-year correlation r; the implied
+regression-to-the-mean part of the measured change, (1 − r) × (population mean − survivors' mean),
+raw and on the logit scale. The rule is the first-order correction for selection on the observed
+season-t value; r is the survivors' own correlation (attenuated by the selection itself), so the terms
+are approximate. Results and reading: report section 9. Not applied to the curves (owner request).
+
+## 9. Program money (EADA 2024-25)
+
+`money_eada()` in `tools/build_phase8_11_yardstick.py`: the committed EADA baseball extract joined to
+`data/schools/schools.csv` on UNITID, quantiles by tier of operating expenses, total expenses, revenue,
+participants and assistant coaches, and conference medians. EADA's coaching-salary fields are
+institution-level averages over all men's teams, so baseball coaching pay is not derivable from it.
+
 ## Confidence summary
 
 | Block | Grade | Why |

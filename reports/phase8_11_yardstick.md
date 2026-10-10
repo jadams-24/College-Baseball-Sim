@@ -299,6 +299,59 @@ PDF (updated July 30, 2026) and the 2026-27 Division I Manual as of 2026-10-10 (
   the next regular term; a clock ending in a fall term runs to the spring term and a championship that
   starts inside the period extends it). Phase 8 should carry these.
 
+## 9. Survivor bias in the development curves (round 2, owner request)
+
+`data/wmt_player_seasons/survivor_selection.csv`; `development_2022_2026_wmt.survivor_bias` in the
+benchmarks file. For each class and rate, the first-season level of the players who enter a pair
+(over the floor in both seasons at a client program) against every player over the floor that season,
+and the leavers' level. With r the survivors' own year-to-year correlation of the rate, the
+regression-to-the-mean part of their measured change is about (1 − r) × (population mean − survivors'
+mean). Reported, not applied.
+
+| Role, class → next | Survivor share | Survivors' level vs all (SD units) | Leavers' level | r | RTM bias in the measured change | Measured change |
+|---|---|---|---|---|---|---|
+| Batters Fr → So, OPS | .76 | +.13 (.841 vs .820) | .720 | .41 | −.013 | +.059 |
+| Batters So → Jr, OPS | .71 | .00 (.879 vs .880) | .881 | .47 | .000 | +.023 |
+| Batters Jr → Sr, OPS | .52 | −.22 (.847 vs .881) | .917 | .30 | **+.024** | +.027 |
+| Batters Sr → 5th, OPS | .11 | +.17 (.895 vs .870) | .867 | .35 | −.016 | −.033 |
+| Batters Jr → Sr, HR% | .52 | −.21 | .039 vs .029 | .46 | +.083 logit | +.159 logit |
+| Pitchers Fr → So, ERA | .70 | −.07 (5.53 vs 5.73) | 6.32 | .17 | +.16 | −.20 |
+| Pitchers Jr → Sr, K% | .41 | −.42 (.203 vs .231) | .249 | .40 | **+.099 logit** | +.053 logit |
+| Pitchers Jr → Sr, BB% | .41 | −.08 | .101 | .37 | +.025 logit | +.007 logit |
+
+- **Size.** Freshman survivors are the better freshmen (the weak ones leave or stop playing), so the
+  Fr→So curve is biased *down* by about .013 OPS: true development from freshman to sophomore year is
+  closer to +.07 than +.06. Sophomore survivors are unselected. **Junior survivors are the weaker
+  juniors** (the draft takes the best: leavers hit .917 OPS and struck out 24.9% of batters faced
+  against survivors' .847 and 20.3%), so the Jr→Sr curve is almost entirely regression to the mean:
+  of the measured +.027 OPS, about +.024 is RTM; the pitchers' Jr→Sr strikeout gain (+.053 logit) is
+  smaller than its RTM term (+.099), so the true change is flat or negative. Fifth-year survivors are
+  the better seniors (−.016 bias), so their decline (−.033) is overstated by half.
+- **Method caveats.** The (1 − r) rule uses the survivors' own correlation, which selection attenuates,
+  so the RTM terms are rough (±30%); it assumes development does not depend on level. The leavers who
+  went to a non-client school are mixed with the drafted and the cut. Grade C for the sizes.
+- **For Phase 10:** gate the sim's survivors on the same selection rule (50+ both seasons, same
+  program population), not the marginal curve, and expect a true Jr→Sr change near zero.
+
+## 10. Program money (EADA 2024-25, by tier)
+
+`program_money_eada_2024_25` in the benchmarks file; `data/phase8_11/eada_baseball_by_tier_2024_25.csv`.
+Source: the committed EADA extract (304 institutions; the service academies do not file), the last
+reporting year before revenue sharing. Grade A for the figures as filed; EADA's "revenue" equals
+expenses at many schools by convention (institutional support), so it is not profit.
+
+| Tier | Schools | Operating (game-day) expenses, median | Total expenses, median (p10–p90) | Revenue, median | Participants, median | Assistant coaches |
+|---|---|---|---|---|---|---|
+| P4 | 64 | $1.19M | $5.01M ($2.9M–$8.7M) | $4.08M | 41 | 3 |
+| Mid | 152 | $0.44M | $1.71M ($1.0M–$2.7M) | $1.68M | 40 | 3 |
+| Low | 88 | $0.26M | $0.92M ($0.5M–$1.4M) | $0.91M | 39 | 2–3 |
+
+- By conference (median total expenses): SEC $7.8M, ACC $5.1M, Big 12 $4.4M, Big Ten $4.0M; the WCC
+  leads the mid tier at $2.6M. Full table in the benchmarks file.
+- **Coaching salaries are not in EADA by sport**: the file reports average salaries per head coach and
+  per assistant across all men's teams of an institution. Baseball-specific salaries come only from
+  public-records reporting (section 11, round 2 research).
+
 ## Sources that blocked the cloud session (no workaround attempted)
 
 www.ncaa.com (off limits by rule), stats.ncaa.org 403, masseyratings.com 403, warrennolan.com 503,

@@ -347,6 +347,56 @@ def retention(panel: pd.DataFrame, frames: dict[str, pd.DataFrame]) -> pd.DataFr
     return pd.DataFrame(rows), moves
 
 
+def survivor_selection(panel: pd.DataFrame, frames: dict[str, pd.DataFrame]) -> pd.DataFrame:
+    """Survivor bias in the aging curves (owner request 2026-10-10). For each class and role, the
+    first-season level of the players who enter a pair (over the floor in both seasons at a client
+    program) against the players over the floor in season t who do not (left, cut, under the floor or
+    not rostered next season). With the within-player year-to-year correlation r of the rate (the
+    survivors' own pairs), the regression-to-the-mean part of the measured change is (1 - r) x
+    (population mean - survivors' mean), so the survivors' selection on level biases the marginal curve
+    by about that amount: positive when survivors were below the population mean in season t (cuts of
+    the worst), negative when above (the draft takes the best). Reported, not applied."""
+    rows = []
+    for role, rates in (("batter", BAT_RATES), ("pitcher", PIT_RATES)):
+        f = frames[role]
+        nxt = f[["person_id", "season"]].copy()
+        nxt["season"] -= 1
+        nxt["survived"] = True
+        g = f.merge(nxt, on=["person_id", "season"], how="left")
+        g["survived"] = g["survived"].fillna(False).astype(bool)
+        g = g[g["season"] < f["season"].max()]
+        nxt_full = f.set_index(["person_id", "season"])
+        for cls, gdf in list(g.groupby("class")) + [("all", g)]:
+            for rate in rates:
+                ok = np.isfinite(gdf[rate])
+                sv, nv = gdf[ok & gdf.survived], gdf[ok & ~gdf.survived]
+                if len(sv) < 10 or len(nv) < 10:
+                    continue
+                pop = float(np.average(gdf[rate][ok], weights=gdf["n"][ok]))
+                sm = float(np.average(sv[rate], weights=sv["n"]))
+                lm = float(np.average(nv[rate], weights=nv["n"]))
+                # within-player year-to-year correlation of the rate among survivors
+                nxt_vals = [nxt_full[rate].get((pid, se + 1), np.nan) for pid, se in zip(sv.person_id, sv.season)]
+                nxt_vals = np.array(nxt_vals, dtype=float)
+                m = np.isfinite(nxt_vals)
+                r = float(np.corrcoef(sv[rate].values[m], nxt_vals[m])[0, 1]) if m.sum() > 10 else float("nan")
+                bias = (1 - r) * (pop - sm) if np.isfinite(r) else float("nan")
+                if rate in LOGIT:   # report the bias on the logit scale, as the curves
+                    lg = lambda x: float(np.log((x + 1e-6) / (1 - x + 1e-6)))
+                    bias_logit = (1 - r) * (lg(pop) - lg(sm)) if np.isfinite(r) else float("nan")
+                else:
+                    bias_logit = float("nan")
+                rows.append({"role": role, "class": cls, "rate": rate, "players_t": int(ok.sum()), "survivors": int(len(sv)),
+                             "survivor_share": round(len(sv) / ok.sum(), 4), "level_t_all": round(pop, 5),
+                             "level_t_survivors": round(sm, 5), "level_t_leavers": round(lm, 5),
+                             "player_sd_t": round(float(gdf[rate][ok].std(ddof=1)), 5),
+                             "selection_gap_sd": round((sm - pop) / float(gdf[rate][ok].std(ddof=1)), 4),
+                             "yoy_corr_survivors": round(r, 4) if np.isfinite(r) else None,
+                             "rtm_bias_raw": round(bias, 5) if np.isfinite(bias) else None,
+                             "rtm_bias_logit": round(bias_logit, 5) if np.isfinite(bias_logit) else None})
+    return pd.DataFrame(rows)
+
+
 def composition(panel: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
     panel = panel.copy()
     panel["played"] = np.where(pd.to_numeric(panel.get("games_played", 0), errors="coerce").fillna(0) > 0, "played", "rostered")
@@ -405,6 +455,7 @@ def aggregate(work: Path, out: Path = OUT, names: list[str] | None = None) -> di
     ret, moves = retention(panel, frames)
     ret.to_csv(out / "retention_by_class.csv", index=False)
     moves.to_csv(out / "tier_moves.csv", index=False)
+    survivor_selection(panel, frames).to_csv(out / "survivor_selection.csv", index=False)
     comp, size = composition(panel)
     comp.to_csv(out / "class_composition.csv", index=False)
     size.round(3).to_csv(out / "roster_size.csv", index=False)
@@ -444,6 +495,7 @@ fetch's working directory.
 | `tier_moves.csv` | moves between client teams by tier pair |
 | `class_composition.csv` | players by season, tier, class, pitcher/position and played/rostered (stat rosters: everyone WMT lists, including players without a game) |
 | `roster_size.csv` | stat-roster size per team by season and tier (mean, SD, min, max), pitchers and players with a game |
+| `survivor_selection.csv` | survivor bias of the aging curves: by role, class and rate, the first-season level of the players who enter a pair against all players over the floor that season, the leavers' level, the selection gap in player SDs, the survivors' year-to-year correlation and the implied regression-to-the-mean bias (1 - r) x (population mean - survivors' mean), raw and on the logit scale. Reported, not applied |
 """
 
 

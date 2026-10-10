@@ -173,6 +173,37 @@ def d1_vs_non_d1() -> tuple[dict, pd.DataFrame]:
             tab)
 
 
+def money_eada() -> tuple[dict, pd.DataFrame]:
+    """Baseball operating expenses, total expenses and revenue by tier from the committed EADA 2024-25
+    extract (304 institutions; the service academies do not file). EADA reports coaching salaries only
+    per institution across all men's teams, not by sport, so baseball coaching pay is not here."""
+    e = pd.read_csv(ROOT / "data/eada/baseball_eada_2024_25.csv")
+    sch = pd.read_csv(ROOT / "data/schools/schools.csv")[["unitid", "tier", "conference"]]
+    e = e.merge(sch, on="unitid", how="inner")
+    e = e[e.tier.isin(TIERS)]
+    e["expenses_per_participant"] = e.baseball_total_expenses / e.participants
+    e["revenue_minus_expenses"] = e.baseball_total_revenue - e.baseball_total_expenses
+    cols = ["baseball_operating_expenses", "baseball_total_expenses", "baseball_total_revenue", "participants", "assistant_coaches", "expenses_per_participant", "revenue_minus_expenses"]
+    rows, block = [], {}
+    for tier, gdf in list(e.groupby("tier")) + [("all", e)]:
+        b = {"schools": int(len(gdf))}
+        for c in cols:
+            q = gdf[c].quantile([.1, .25, .5, .75, .9])
+            b[c] = {"mean": round(float(gdf[c].mean()), 1), "p10": round(float(q[.1]), 1), "p25": round(float(q[.25]), 1), "median": round(float(q[.5]), 1),
+                    "p75": round(float(q[.75]), 1), "p90": round(float(q[.9]), 1), "min": round(float(gdf[c].min()), 1), "max": round(float(gdf[c].max()), 1)}
+            rows.append({"tier": tier, "measure": c, **{k: v for k, v in b[c].items()}, "schools": len(gdf)})
+        b["share_revenue_equals_expenses"] = round(float((gdf.baseball_total_revenue == gdf.baseball_total_expenses).mean()), 3)
+        block[tier] = b
+    conf = e.groupby("conference").agg(schools=("unitid", "size"), median_total_expenses=("baseball_total_expenses", "median"),
+                                       median_operating=("baseball_operating_expenses", "median"), median_revenue=("baseball_total_revenue", "median")).round(0).reset_index()
+    conf = conf.merge(sch.drop_duplicates("conference")[["conference", "tier"]], on="conference").sort_values("median_total_expenses", ascending=False)
+    block["by_conference"] = conf.to_dict("records")
+    block["note"] = ("EADA 2024-25 (reporting year July 2024 - June 2025, the last season before revenue sharing). Total expenses include "
+                     "aid, salaries, recruiting, travel, equipment and facilities charges; operating (game-day) expenses are the subset. "
+                     "Revenue equals expenses at many schools by convention (institutional support fills the gap), so revenue is not profit.")
+    return block, pd.DataFrame(rows)
+
+
 def wmt_blocks() -> dict:
     if not (WMT / "aging_curves.csv").exists():
         return {"status": "not built yet"}
@@ -186,6 +217,14 @@ def wmt_blocks() -> dict:
         out["aging_by_class"].setdefault(role, {}).setdefault(cls, {})[rate] = {
             "players": int(r.players), "level_t": round(float(r.level_t), 4), "level_t1": round(float(r.level_t1), 4),
             "delta_mean": round(float(r.delta_mean), 4), "delta_se": round(float(r.delta_se), 4), "scale": r.scale}
+    sv_p = WMT / "survivor_selection.csv"
+    if sv_p.exists():
+        sv = pd.read_csv(sv_p)
+        out["survivor_bias"] = {}
+        for (role, cls), gdf in sv.groupby(["role", "class"]):
+            out["survivor_bias"].setdefault(role, {})[cls] = {r.rate: {"survivor_share": r.survivor_share, "selection_gap_sd": r.selection_gap_sd,
+                                                                  "yoy_corr": r.yoy_corr_survivors, "rtm_bias_logit": r.rtm_bias_logit, "rtm_bias_raw": r.rtm_bias_raw}
+                                                         for r in gdf.itertuples()}
     rc = ret[ret.scope == "class"].groupby("class")[["players", "same_team", "other_client_team", "absent"]].sum()
     for cls, r in rc.iterrows():
         out["retention_by_class"][cls] = {"players": int(r.players), "same_team": round(float(r.same_team / r.players), 4),
@@ -198,6 +237,8 @@ def main() -> None:
     comp, class_origin, sizes = roster_composition()
     geo, by_state, schools_by_state = geography()
     xd, xtab = d1_vs_non_d1()
+    money, money_tab = money_eada()
+    money_tab.to_csv(OUT / "eada_baseball_by_tier_2024_25.csv", index=False)
     class_origin.to_csv(OUT / "class_by_origin_2025.csv", index=False)
     sizes.to_csv(OUT / "roster_size_by_school_2025.csv", index=False)
     by_state.to_csv(OUT / "players_by_home_state_2025.csv", index=False)
@@ -212,6 +253,7 @@ def main() -> None:
         "geography_2025": {**ROSTER_SRC, "conf": "B", "note": "Hometown state as listed on the roster page; school state from IPEDS. State-level only.", **geo},
         "d1_vs_non_d1_2025": {"source": "data.ncaa.com 2025 D1 scoreboard (data/ncaa_2025/scoreboard/games_2025.csv)", "fetched": "2026-09-30", "conf": "C", **xd},
         "development_2022_2026_wmt": {"source": "api.wmt.games player season statistics (data/wmt_player_seasons/)", "conf": "B", **wmt_blocks()},
+        "program_money_eada_2024_25": {"source": "U.S. Department of Education EADA 2024-25 (data/eada/baseball_eada_2024_25.csv, fetched 2026-10-08), tiers from data/schools/schools.csv", "conf": "A", **money},
     }
     bench.update(manual)
     (ROOT / "benchmarks_phase8_11.json").write_text(json.dumps(bench, indent=1))
