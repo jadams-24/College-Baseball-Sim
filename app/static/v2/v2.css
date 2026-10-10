@@ -520,3 +520,18 @@ body.sim-lock button.working { opacity: .95; }
 @keyframes shimmer { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
 .panel.err .hdr { color: var(--bad); }
 .panel.err .row { margin-top: 8px; }
+
+/* ---- the hub's "Next 10 games" widget: 38px rows, series bands, sortable headers; narrow screens keep date, opponent, record, RPI ---- */
+.tbl.n10 th { cursor: pointer; white-space: nowrap; }
+.tbl.n10 th.on { color: var(--accent); }
+.tbl.n10 td { white-space: nowrap; }
+.tbl.n10 td small { display: block; font-size: 10px; line-height: 1.1; color: var(--muted); max-width: 13em; overflow: hidden; text-overflow: ellipsis; }
+.tbl.n10 td.site b { font: 700 12px/1 var(--font-head); letter-spacing: .04em; }
+.tbl.n10 tr.n10row { cursor: pointer; }
+.tbl.n10 tr.g1 td { background: color-mix(in srgb, var(--panel3) 55%, transparent); }
+.tbl.n10 tr.n10row.next td:first-child { box-shadow: inset 3px 0 0 var(--accent); }
+.tbl.n10 tr.note td { height: var(--row); font-style: italic; }
+.tbl.n10 td.sp { max-width: 11em; overflow: hidden; text-overflow: ellipsis; }
+.tbl.n10 th, .tbl.n10 td { padding-left: 7px; padding-right: 7px; }
+@media (max-width: 1366px) { .tbl.n10 td.site small { display: none; } .tbl.n10 td.sp { max-width: 8em; } .tbl.n10 td small { max-width: 9em; } }
+@media (max-width: 760px) { .tbl.n10 .nw-x { display: none; } }

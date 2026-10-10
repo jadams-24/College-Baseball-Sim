@@ -257,6 +257,23 @@ file's conferences, mismatches reported, never hidden) and the abbreviations cho
 common use (`reports/school_names.md`). `tests/test_app_names.py` renders every screen's data through the API and
 fails on any engine team name in user-facing text. Players stay fictional by design.
 
+## The hub's "Next 10 games" widget
+
+Owner request 2026-10-10. Under the next-game panel: one row per upcoming game of the user's team, exactly as
+scheduled (`dynasty.next_games_json`, `GET /api/dynasties/{id}/next_games`): the date with its weekday, home or away
+and the ballpark, the opponent (color chip, abbreviation, full name on hover, conference), the conference-game
+marker, the opponent's overall and conference record and RPI rank as the standings screen has them, its runs scored
+and allowed per game, team batting average, OPS and ERA from the season accumulators, its last ten and streak, its
+offense and run-prevention ratings on the 20-80 scale with the rating colors (the picker's scale, `ratings_2080`),
+and this season's head-to-head once they have met. Weekend games of one series share a band. Clicking a row opens
+the opponent's team page; column headers sort. Probable starters show only on the pending game, where the engine
+names them; every other row shows a dash. A team that has not played shows dashes for its stats, the ratings carry
+the row. Fewer than ten games left in the regular season: what is there, then "Conference tournament: bracket set
+after the regular season"; in the postseason, one row pointing to the postseason screen. Nothing on a row hints at
+an outcome: a cancellation the engine drew ahead for a future game is shown as scheduled, and no result field is
+sent for an unplayed game (`tests/test_app_next_games.py` checks the rows against the schedule and the standings).
+Narrow screens keep date, opponent, record and RPI. Skeleton rows while it loads.
+
 ## Loading feedback
 
 Owner play-test feedback 2026-10-10 ("it was hard to tell whether a button press was doing anything"), one module

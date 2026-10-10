@@ -864,6 +864,101 @@ def _pit_stats(row) -> dict:
             "bb9": round(9 * row[P_BB] / ip, 1) if ip else 0.0}
 
 
+def ratings_2080(d: Dynasty) -> dict:
+    """Every team's offense, run prevention and overall on the 20-80 scale: z-scores of the drawn team talent (log
+    runs) across this dynasty's D1, 10 points per SD, 50 the median. Display only (the picker and the hub's next-games
+    widget show them); the engine's own numbers are o and d."""
+    teams = d.league.teams
+    o = np.array([t.o for t in teams]); dd = np.array([t.d for t in teams])
+    zo = (o - o.mean()) / o.std(); zd = (dd - dd.mean()) / dd.std()
+    return {t.tid: {"off": int(round(50 + 10 * zo[i])), "def": int(round(50 + 10 * zd[i])), "overall": int(round(50 + 10 * (zo[i] + zd[i]) / np.sqrt(2)))}
+            for i, t in enumerate(teams)}
+
+
+def team_line(d: Dynasty, tid: int) -> dict | None:
+    """A team's batting average, OPS and ERA from the season accumulators; None before it has a plate appearance."""
+    from engine.game2 import B_2B, B_3B, B_AB, B_BB, B_H, B_HBP, B_HR, B_SF, P_ER, P_OUTS
+    t = d.league.teams[tid]
+    ab = h = bb = hbp = sf = tb = 0
+    for p in t.batters:
+        r = d.bstats[p.pid]
+        ab += r[B_AB]; h += r[B_H]; bb += r[B_BB]; hbp += r[B_HBP]; sf += r[B_SF]
+        tb += r[B_H] + r[B_2B] + 2 * r[B_3B] + 3 * r[B_HR]
+    outs = er = 0
+    for p in staff(t):
+        r = d.pstats[p.pid]
+        outs += r[P_OUTS]; er += r[P_ER]
+    if ab == 0 and outs == 0:
+        return None
+    obp_den = ab + bb + hbp + sf
+    avg = h / ab if ab else 0.0
+    obp = (h + bb + hbp) / obp_den if obp_den else 0.0
+    slg = tb / ab if ab else 0.0
+    return {"avg": round(avg, 3), "ops": round(obp + slg, 3), "era": round(9 * er / (outs / 3), 2) if outs else None}
+
+
+def _team_form(d: Dynasty) -> dict:
+    """Per team from every game played: runs scored and allowed per game, the last ten (wins-losses) and the streak."""
+    by: dict = {}
+    for date, h, a, hr, ar, *_ in sorted(d.all_games(), key=lambda g: g[0]):
+        by.setdefault(h, []).append((date, hr, ar, hr > ar))
+        by.setdefault(a, []).append((date, ar, hr, ar > hr))
+    out = {}
+    for tid, gs in by.items():
+        n = len(gs)
+        last = gs[-10:]
+        streak = 0
+        for g in reversed(gs):
+            if g[3] == gs[-1][3]:
+                streak += 1
+            else:
+                break
+        out[tid] = {"g": n, "rs": round(sum(g[1] for g in gs) / n, 2), "ra": round(sum(g[2] for g in gs) / n, 2),
+                    "last10": f"{sum(1 for g in last if g[3])}-{sum(1 for g in last if not g[3])}", "streak": f"{'W' if gs[-1][3] else 'L'}{streak}"}
+    return out
+
+
+def next_games_json(d: Dynasty, n: int = 10) -> dict:
+    """The hub's "Next 10 games" widget (owner request 2026-10-10): the user's next games exactly as scheduled (a
+    cancellation the engine has drawn for a future game is not shown, nothing hints at an outcome), with the site
+    and ballpark, the opponent, the conference-game marker, the opponent's records, RPI rank, runs scored and allowed,
+    team batting average, OPS and ERA, last ten and streak, its 20-80 offense and run-prevention ratings, and this
+    season's head-to-head. Probable starters come only from the pending game (the engine names no others). Fewer than
+    ten left in the regular season: what is there, then the conference-tournament row."""
+    me = d.tid
+    rows = []
+    if d.stage == "regular":
+        today = d.date_now()
+        upcoming = sorted(((int(g.date), i, g) for i, g in enumerate(d.schedule) if me in (g.home, g.away) and i not in d.results and int(g.date) >= today), key=lambda x: (x[0], x[1]))[:n]
+        rec, crec, rank = d.records(), d.records(True), d.rpi_rank()
+        form, ratings = _team_form(d), ratings_2080(d)
+        pend_i = d.pending.get("i") if d.pending and d.pending.get("stage") == "regular" else None
+        for date, i, g in upcoming:
+            home, away = int(g.home), int(g.away)
+            opp = away if home == me else home
+            side = "home" if home == me else "away"
+            disp = schools.display(opp) or {}
+            h2h = [0, 0]
+            for r in d.results.values():
+                if {r["home"], r["away"]} == {me, opp}:
+                    mine, theirs = (r["hr"], r["ar"]) if r["home"] == me else (r["ar"], r["hr"])
+                    h2h[0 if mine > theirs else 1] += 1
+            rows.append({"kind": "game", "i": i, "date": date, "week": int(g.week) + 1, "weekend": bool(g.weekend), "side": side, "neutral": False,
+                         "venue": game_venue(d, "regular", home, away, False), "pending": i == pend_i, "played": False,
+                         "opp": {"tid": opp, "name": d.tname(opp), "abbr": d.tabbr(opp), "conference": disp.get("conference") or d.real_conf[opp],
+                                 "conference_full": disp.get("conference_full") or d.real_conf[opp]},
+                         "conf_game": d.real_conf[home] == d.real_conf[away],
+                         "record": rec.get(opp, [0, 0]), "conf_record": crec.get(opp, [0, 0]), "rpi_rank": rank.get(opp),
+                         "form": form.get(opp), "line": team_line(d, opp), "ratings": ratings[opp],
+                         "h2h": h2h if sum(h2h) else None})
+        if len(rows) < n:
+            rows.append({"kind": "conf_tournament", "text": "Conference tournament: bracket set after the regular season"})
+    else:
+        rows.append({"kind": "postseason", "text": {"conf": "Conference tournaments in progress: see the postseason screen", "selection": "Selection Monday: the bracket is on the postseason screen",
+                                                     "ncaa": "NCAA tournament in progress: see the bracket", "done": "The season is over"}.get(d.stage, "Postseason")})
+    return {"tid": me, "stage": d.stage, "n": n, "rows": rows}
+
+
 def team_stats_json(d: Dynasty, tid: int | None = None) -> dict:
     """The team's batting and pitching lines (regular season through today's games, postseason included: the
     accumulators run across the season, the engine's box-score columns included: runs, RBI, SB, CS, W, L, SV, HLD). No per-player

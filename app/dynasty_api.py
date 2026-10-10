@@ -184,13 +184,12 @@ def _strength(d: dyn_mod.Dynasty) -> list:
     school identity (name, conference, tier, location) and the report card, Omaha Contender regraded from this
     dynasty's draw (app/schools.py; data only, never read by the engine)."""
     teams = d.league.teams
-    o = np.array([t.o for t in teams]); dd = np.array([t.d for t in teams])
-    zo = (o - o.mean()) / o.std(); zd = (dd - dd.mean()) / dd.std()
+    ratings = dyn_mod.ratings_2080(d)                 # the same scale the hub's next-games widget shows
     omaha = schools.omaha_grades(teams) if schools.available() else {}
     out = []
     for i, t in enumerate(teams):
         row = {"tid": t.tid, "name": schools.team_name(t.tid, t.name), "engine_name": t.name, "abbr": d.tabbr(t.tid), "conference": schools.conference_of(t.tid, d.real_conf[t.tid]), "tier": t.tier,
-               "off": int(round(50 + 10 * zo[i])), "def": int(round(50 + 10 * zd[i])), "overall": int(round(50 + 10 * (zo[i] + zd[i]) / np.sqrt(2)))}
+               **ratings[t.tid]}
         sch = schools.school(t.tid) if schools.available() else None
         if sch is not None:
             row.update(school=sch["school"], institution=sch["institution"], location=sch["location"], city=sch["city"], state=sch["state"])
@@ -321,6 +320,15 @@ def stop(did: str):
     else:
         d.stop_requested = True
     return {"stopping": True, "running": True}
+
+
+@router.get("/api/dynasties/{did}/next_games")
+def next_games(did: str):
+    """The hub's "Next 10 games" widget (dynasty.next_games_json)."""
+    d = _get(did)
+    if d.tid is None:
+        raise HTTPException(400, "pick a team first")
+    return _read(lambda: dyn_mod.next_games_json(d))
 
 
 @router.get("/api/dynasties/{did}/progress")

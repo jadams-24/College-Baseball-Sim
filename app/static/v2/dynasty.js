@@ -182,7 +182,7 @@
     const news = h.news.length ? h.news.map((n) => `<div class="ev"><span class="muted mono">${dateText(n.date)}</span><span>${esc(n.text)}</span></div>`).join("") : `<div class="muted">Nothing yet. News comes from the engine's results only.</div>`;
     const card = h.report_card ? `<div class="panel"><div class="hdr">Report card <span class="sub">${esc(h.school ? h.school.institution : "")}</span></div><div class="body"><div class="card-grades">${Object.entries(h.report_card.grades).map(([k, g]) => window.cbsGradeChip({ label: CARD_LABELS[k] || k, short: CARD_SHORT[k] || k }, g.grade, g.confidence)).join("")}</div><div class="muted">A+ to F, percentiles across D1 (data/schools/report_cards.csv): display and recruiting only, never read by the engine. Omaha Contender is this dynasty's own draw.</div></div></div>` : "";
     $("#dyn-main").innerHTML = `<div class="hub-grid">
-      <div class="col">${seasonStrip()}${next}<div class="panel"><div class="hdr">Advance${h.pause ? `<span class="sub"><span class="pill warn">paused</span> ${esc(h.pause.message)}${h.pause.link && h.pause.link !== "hub" ? ` <button class="btn-ghost" data-screen-link="${esc(h.pause.link)}">open</button>` : ""}</span>` : ""}</div><div class="body">${sims}</div></div>
+      <div class="col">${seasonStrip()}${next}<div class="panel next10"><div class="hdr">Next 10 games <span class="sub">as scheduled · click a row to scout the opponent</span></div><div class="body tight scroll-x" id="next10">${LD.skeleton(10, 9)}</div></div><div class="panel"><div class="hdr">Advance${h.pause ? `<span class="sub"><span class="pill warn">paused</span> ${esc(h.pause.message)}${h.pause.link && h.pause.link !== "hub" ? ` <button class="btn-ghost" data-screen-link="${esc(h.pause.link)}">open</button>` : ""}</span>` : ""}</div><div class="body">${sims}</div></div>
         <div class="panel"><div class="hdr">Recent results</div><div class="body tight scroll-x">${recent}</div></div><div class="panel"><div class="hdr">News</div><div class="body tight">${news}</div></div></div>
       <div class="col side">${card}<div class="panel"><div class="hdr">Standings <span class="sub">${esc(h.conference_full || h.conference)}</span></div><div class="body tight scroll-x" id="hub-standings">${LD.skeleton(8, 4)}</div></div><div class="panel"><div class="hdr">RPI top 25</div><div class="body tight scroll-x" id="hub-rpi">${LD.skeleton(10, 4)}</div></div></div>
     </div>`;
@@ -195,6 +195,55 @@
     bindBoxes();
     if (h.running) pollProgress();
     fillStandingsSnippets();
+    fillNext10();
+  }
+  // ---- the "Next 10 games" widget: the next games exactly as scheduled, grouped by series, sortable, nothing that hints at an outcome ----
+  const N10_COLS = [["date", "Date", ""], ["site", "Site", ""], ["opp", "Opponent", ""], ["conf", "", ""], ["record", "W-L", "num"], ["rpi", "RPI", "num"],
+                    ["rsra", "RS-RA", "num nw-x"], ["avg", "BA", "num nw-x"], ["ops", "OPS", "num nw-x"], ["era", "ERA", "num nw-x"], ["l10", "L10", "num nw-x"],
+                    ["off", "Off", "num nw-x"], ["def", "Def", "num nw-x"], ["h2h", "H2H", "num nw-x"], ["sp", "Probable", "nw-x"]];
+  const n10 = { sort: "date", dir: 1 };
+  const n10key = (r, k) => ({ date: r.date, site: r.side, opp: r.opp.name, conf: r.conf_game ? 0 : 1, record: r.record[0] - r.record[1], rpi: r.rpi_rank,
+                              rsra: r.form ? r.form.rs - r.form.ra : null, avg: r.line ? r.line.avg : null, ops: r.line ? r.line.ops : null, era: r.line ? r.line.era : null,
+                              l10: r.form ? +r.form.last10.split("-")[0] : null, off: r.ratings.off, def: r.ratings.def, h2h: r.h2h ? r.h2h[0] - r.h2h[1] : null, sp: r.pending ? 0 : 1 }[k]);
+  const dash = '<span class="muted">–</span>';
+  async function fillNext10() {
+    const el = $("#next10");
+    if (!el) return;
+    let j;
+    try { j = await raw(`/api/dynasties/${D.id}/next_games`); }
+    catch (e) { el.innerHTML = LD.errorPanel(e.message || String(e), () => fillNext10(), "Couldn't load the next games"); return; }
+    D.next10 = j;
+    renderNext10();
+  }
+  function renderNext10() {
+    const el = $("#next10"), j = D.next10;
+    if (!el || !j) return;
+    const rb = (k, v) => badge(k, v).replace(/<span class="k">.*?<\/span>/, "");
+    const games = j.rows.filter((r) => r.kind === "game"), notes = j.rows.filter((r) => r.kind !== "game");
+    // series groups: consecutive weekend games of one week against one opponent share a band
+    let gi = -1, prev = null;
+    games.forEach((r) => { const key = r.weekend ? `${r.week}:${r.opp.tid}` : `m${r.i}`; if (key !== prev) { gi += 1; prev = key; } r._g = gi; });
+    const sorted = games.slice().sort((a, b) => { const x = n10key(a, n10.sort), y = n10key(b, n10.sort); if (x == null && y == null) return a.date - b.date; if (x == null) return 1; if (y == null) return -1; return (x < y ? -1 : x > y ? 1 : a.date - b.date) * n10.dir; });
+    const pend = D.hub.pending && D.hub.pending.probables ? D.hub.pending.probables : null;
+    const sp = (r) => { if (!r.pending || !pend) return dash; const theirs = pend[r.side === "home" ? "away" : "home"]; const th = theirs ? (theirs.throws || String(theirs.hand || "").split("/").pop()) : ""; return theirs ? `<a class="plink" data-pid="${theirs.pid}">${esc(theirs.name)}</a> <span class="muted">${th && th !== "–" ? esc(th) + "HP" : ""}</span>` : dash; };
+    const row = (r) => `<tr class="n10row g${r._g % 2} ${r.pending ? "next" : ""}" data-tid="${r.opp.tid}" title="${esc(r.opp.name)} · ${esc(r.opp.conference_full)}">
+      <td class="date">${r.played && r.i >= 0 ? `<a class="muted" data-box="${r.i}">${dateText(r.date, { weekday: true })}</a>` : `<span class="muted">${dateText(r.date, { weekday: true })}</span>`}</td>
+      <td class="site"><b>${r.side === "home" ? "H" : r.neutral ? "N" : "A"}</b><small class="muted" title="${r.venue ? esc(r.venue.text) : ""}">${r.venue ? esc(r.venue.name) : r.neutral ? "neutral site" : ""}</small></td>
+      <td class="nm">${chip(r.opp.tid)}<a class="tlink" data-tid="${r.opp.tid}" title="${esc(r.opp.name)}">${esc(r.opp.abbr)}</a><small class="muted">${esc(r.opp.conference)}</small></td>
+      <td>${r.conf_game ? '<span class="tag">CONF</span>' : ""}</td>
+      <td class="num">${r.record[0]}-${r.record[1]}<small class="muted">${r.conf_record[0]}-${r.conf_record[1]}</small></td>
+      <td class="num">${r.rpi_rank || dash}</td>
+      <td class="num nw-x">${r.form ? `${r.form.rs.toFixed(1)}-${r.form.ra.toFixed(1)}` : dash}</td>
+      <td class="num nw-x">${r.line ? f3(r.line.avg) : dash}</td><td class="num nw-x">${r.line ? f3(r.line.ops) : dash}</td><td class="num nw-x">${r.line && r.line.era != null ? r.line.era.toFixed(2) : dash}</td>
+      <td class="num nw-x">${r.form ? `${r.form.last10} <span class="muted">${r.form.streak}</span>` : dash}</td>
+      <td class="num nw-x">${rb("off", r.ratings.off)}</td><td class="num nw-x">${rb("def", r.ratings.def)}</td>
+      <td class="num nw-x">${r.h2h ? `${r.h2h[0]}-${r.h2h[1]}` : dash}</td>
+      <td class="nw-x sp">${sp(r)}</td></tr>`;
+    const note = (r) => `<tr class="note"><td colspan="${N10_COLS.length}" class="muted">${esc(r.text)}</td></tr>`;
+    el.innerHTML = `<table class="tbl n10"><tr>${N10_COLS.map(([k, l, cls]) => `<th class="${cls} ${k === n10.sort ? "on" : ""}" data-n10sort="${k}" title="sort">${l}${k === n10.sort ? (n10.dir > 0 ? " ▲" : " ▼") : ""}</th>`).join("")}</tr>${sorted.map(row).join("")}${notes.map(note).join("")}</table>`;
+    $$("#next10 [data-n10sort]").forEach((th) => th.addEventListener("click", () => { const k = th.dataset.n10sort; if (n10.sort === k) n10.dir = -n10.dir; else { n10.sort = k; n10.dir = k === "rpi" || k === "era" ? 1 : k === "date" ? 1 : -1; } renderNext10(); }));
+    $$("#next10 tr.n10row").forEach((tr) => tr.addEventListener("click", (e) => { if (e.target.closest("a, button")) return; if (window.pages) busy(() => window.pages.team(+tr.dataset.tid)); }));
+    bindBoxes();
   }
   async function standings() {
     if (D.cache.standings) return D.cache.standings;
