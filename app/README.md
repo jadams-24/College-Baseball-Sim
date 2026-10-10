@@ -274,6 +274,35 @@ an outcome: a cancellation the engine drew ahead for a future game is shown as s
 sent for an unplayed game (`tests/test_app_next_games.py` checks the rows against the schedule and the standings).
 Narrow screens keep date, opponent, record and RPI. Skeleton rows while it loads.
 
+## The Draft tab
+
+Owner request 2026-10-10. Display only, no engine change; the banner says so: "Preview: draft eligibility (class year
+and age) arrives with roster rules; until then every D1 player is shown." Data from `app/prospects.py`
+(`GET /api/dynasties/{id}/draft`), constants in `config/prospects.py` (the GUESS entries are in GUESSES.md).
+
+- **Top 100 prospects.** Projected value from each player's true rates through the engine's own maps: the
+  outcome probabilities of `engine.matchup.matchup_probs` against a league-average opponent, valued with linear
+  weights. Hitters: expected runs above average per 600 PA; pitchers: runs prevented per 100 IP. The projection
+  blends the rating value with the season line as it accumulates (weight PA / (PA + 400) for hitters, BF /
+  (BF + 300) for pitchers), so the board moves weekly; the change column compares with the previous week's stored
+  snapshot (`Dynasty.board_history`, saved). Hitters and pitchers merge on one list by percentile within their side,
+  because the two units have no exchange rate yet; the value shown is in each player's own unit. The Overall rating
+  reuses `hitter_value` and `pitcher_value` later; no OVR number is shown (owner: on hold). Columns: rank and change,
+  name, position, B/T, school chip, the three or four ratings that matter most for the position in the rating
+  colors (`KEY_RATINGS`), the season line (AVG/OBP/SLG/HR or ERA/IP/K-BB; a dash before a game). Filters: position
+  group, conference, tier. Names open player pages; the user's players are highlighted.
+- **Mock draft (Round 1).** The real 2025 MLB draft order through Competitive Balance Round A (43 slots: the first
+  round, the Prospect Promotion Incentive pick, the compensatory picks, Competitive Balance Round A), from
+  Wikipedia's "2025 Major League Baseball draft", recorded in `app/mlb_draft_order_2025.csv` with the source URL and
+  fetch date (`scripts/build_mlb_draft_order.py`); real MLB team names only. Each slot takes one of the best
+  available: the k-th best with weight exp(-k / 1.2) among the top 5, from a stream seeded by the dynasty seed and
+  the week, so the mock refreshes weekly and is labeled "Mock draft: projection, not results". Every slot is used
+  once and no player is picked twice (`tests/test_app_draft.py`).
+- **Your program.** The user's players in the Top 100 with a projected round range from the board rank (the real
+  first-round slots, then 30 picks a round, one round wide), and an empty Draft history panel that fills in once
+  seasons carry over.
+- **Draft day.** A disabled tile: "Live draft: arrives with recruiting and signability (Phase 9)".
+
 ## Loading feedback
 
 Owner play-test feedback 2026-10-10 ("it was hard to tell whether a button press was doing anything"), one module

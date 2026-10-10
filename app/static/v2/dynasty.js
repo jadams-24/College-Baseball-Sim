@@ -28,8 +28,9 @@
   }
   function setScreen(name) { D.screen = name; render(); }
   // the top bar's tabs group the screens: Hub (and the year in review), Roster (roster, stats), Schedule (schedule, standings, postseason)
-  const GROUPS = { hub: ["hub"], roster: ["roster", "stats"], schedule: ["schedule", "standings", "postseason"] };
-  const LABEL = { hub: "Hub", roster: "Roster", stats: "Stats", schedule: "Schedule", standings: "Standings", postseason: "Postseason", summary: "Year in review" };
+  const GROUPS = { hub: ["hub"], roster: ["roster", "stats"], schedule: ["schedule", "standings", "postseason"], draft: ["prospects", "mock", "program"] };
+  const LABEL = { hub: "Hub", roster: "Roster", stats: "Stats", schedule: "Schedule", standings: "Standings", postseason: "Postseason", summary: "Year in review",
+                  prospects: "Top 100 prospects", mock: "Mock draft", program: "Your program" };
   function tabOf(screen) { for (const [tab, scs] of Object.entries(GROUPS)) if (scs.includes(screen)) return tab; return "hub"; }
   function renderSubnav() {
     const tab = tabOf(D.screen), screens = GROUPS[tab].slice();
@@ -153,8 +154,10 @@
     window.cbsCalendar.set(D.hub.calendar);          // this dynasty's year: every date on these screens maps through it
     topbar("dyn");
     renderSubnav();
-    const fn = { hub: renderHub, schedule: renderSchedule, standings: renderStandings, stats: renderStats, roster: renderRoster, postseason: renderPostseason, summary: renderSummary }[D.screen] || renderHub;
-    const cached = { schedule: false, standings: !!D.cache.standings, stats: !!D.cache.stats, roster: !!D.cache.roster, postseason: false, summary: false, hub: true }[D.screen];
+    const fn = { hub: renderHub, schedule: renderSchedule, standings: renderStandings, stats: renderStats, roster: renderRoster, postseason: renderPostseason, summary: renderSummary,
+                 prospects: renderProspects, mock: renderMock, program: renderProgram }[D.screen] || renderHub;
+    const cached = { schedule: false, standings: !!D.cache.standings, stats: !!D.cache.stats, roster: !!D.cache.roster, postseason: false, summary: false, hub: true,
+                     prospects: !!D.cache.draft, mock: !!D.cache.draft, program: !!D.cache.draft }[D.screen];
     if (!cached) $("#dyn-main").innerHTML = LD.skeletonPanel(LABEL[D.screen] || "", D.screen === "standings" ? 12 : 14, D.screen === "roster" || D.screen === "stats" ? 8 : 5);
     const run = D.screen;
     Promise.resolve().then(fn).catch((e) => {
@@ -180,7 +183,7 @@
     const sims = h.running ? `<div id="sim-progress"></div>` : `<div class="sims">${[["game", "Advance to next game"], ["day", "Advance day"], ["week", "Advance week"], ["regular", "End of regular season"], ["conf", "Conference tournament"], ["selection", "Selection Monday"], ["end", "End of season"]].map(([t, l]) => `<button data-simto="${t}" ${h.stage === "done" ? "disabled" : ""}>${l}</button>`).join("")}</div><div class="muted">Your games ${pauseFlags().myGames ? "pause the sim" : "are played by the AI"}; longer sims also pause ${[["weekEnd", "at each week's end"], ["postseason", "before the postseason"], ["selection", "on Selection Monday"]].filter(([k]) => pauseFlags()[k]).map(([, l]) => l).join(", ") || "nowhere else"} (Settings).</div>`;
     const recent = h.recent.length ? `<table class="tbl">${h.recent.map(resultRow).join("")}</table>` : `<div class="muted">No games yet.</div>`;
     const news = h.news.length ? h.news.map((n) => `<div class="ev"><span class="muted mono">${dateText(n.date)}</span><span>${esc(n.text)}</span></div>`).join("") : `<div class="muted">Nothing yet. News comes from the engine's results only.</div>`;
-    const card = h.report_card ? `<div class="panel"><div class="hdr">Report card <span class="sub">${esc(h.school ? h.school.institution : "")}</span></div><div class="body"><div class="card-grades">${Object.entries(h.report_card.grades).map(([k, g]) => window.cbsGradeChip({ label: CARD_LABELS[k] || k, short: CARD_SHORT[k] || k }, g.grade, g.confidence)).join("")}</div><div class="muted">A+ to F, percentiles across D1 (data/schools/report_cards.csv): display and recruiting only, never read by the engine. Omaha Contender is this dynasty's own draw.</div></div></div>` : "";
+    const card = h.report_card ? `<div class="panel"><div class="hdr">Report card <span class="sub">${esc(h.school ? h.school.institution : "")}</span></div><div class="body"><div class="card-grades">${Object.entries(h.report_card.grades).map(([k, g]) => window.cbsGradeChip({ label: CARD_LABELS[k] || k, short: CARD_SHORT[k] || k }, g.grade, g.confidence)).join("")}</div><div class="muted">Grades compare every D1 program. Omaha Contender reflects this dynasty.</div></div></div>` : "";
     $("#dyn-main").innerHTML = `<div class="hub-grid">
       <div class="col">${seasonStrip()}${next}<div class="panel next10"><div class="hdr">Next 10 games <span class="sub">as scheduled · click a row to scout the opponent</span></div><div class="body tight scroll-x" id="next10">${LD.skeleton(10, 9)}</div></div><div class="panel"><div class="hdr">Advance${h.pause ? `<span class="sub"><span class="pill warn">paused</span> ${esc(h.pause.message)}${h.pause.link && h.pause.link !== "hub" ? ` <button class="btn-ghost" data-screen-link="${esc(h.pause.link)}">open</button>` : ""}</span>` : ""}</div><div class="body">${sims}</div></div>
         <div class="panel"><div class="hdr">Recent results</div><div class="body tight scroll-x">${recent}</div></div><div class="panel"><div class="hdr">News</div><div class="body tight">${news}</div></div></div>
@@ -396,6 +399,48 @@
     $$("#ps-tabs button").forEach((b) => b.addEventListener("click", () => { $$("#ps-tabs button").forEach((x) => x.classList.toggle("on", x === b)); ["conf", "sel", "ncaa"].forEach((t) => $(`#ps-${t}`).classList.toggle("hidden", t !== b.dataset.t)); }));
     if (ps.stage === "ncaa" || ps.stage === "done") $("#ps-tabs [data-t='ncaa']").click(); else if (ps.stage === "selection") $("#ps-tabs [data-t='sel']").click();
     bindBoxes();
+  }
+
+  // ---- the Draft tab (display only, app/prospects.py): the Top 100 board, the Round 1 mock, the user's program ----
+  async function draftData() {
+    const v = D.cache.draft || (await raw(`/api/dynasties/${D.id}/draft`));
+    D.cache.draft = v;
+    return v;
+  }
+  const dfilter = { group: "", conf: "", tier: "" };
+  const draftBanner = (j) => `<div class="banner-note">${esc(j.banner)}</div>`;
+  const change = (c) => (c === null ? '<span class="muted">–</span>' : c === "new" ? '<span class="pill accent">NEW</span>' : c > 0 ? `<span class="up">▲${c}</span>` : c < 0 ? `<span class="down">▼${-c}</span>` : '<span class="muted">·</span>');
+  const nameCell = (r) => `<a class="plink" data-pid="${r.pid}">${esc(r.name)}</a> <span class="muted">${r.pos} · ${esc(r.hand)}</span>`;
+  const schoolCell = (r) => `${chip(r.tid)}<a class="tlink" data-tid="${r.tid}" title="${esc(r.school)}">${esc(r.abbr)}</a> <span class="muted">${esc(r.conference)}</span>`;
+  const rb = (k, v) => (v == null ? '<span class="muted">–</span>' : badge(k, v).replace(/<span class="k">.*?<\/span>/, `<span class="k">${V.RATING[k] ? V.RATING[k][0] : k}</span>`));
+  const lineCell = (r) => (r.line ? (r.side === "bat" ? `${f3(r.line.avg)}/${f3(r.line.obp)}/${f3(r.line.slg)} · ${r.line.hr} HR` : `${r.line.era.toFixed(2)} ERA · ${r.line.ip} IP · ${r.line.k}-${r.line.bb} K-BB`) : '<span class="muted">– no games yet</span>');
+  async function renderProspects() {
+    const j = await draftData();
+    const confs = Array.from(new Set(j.board.map((r) => r.conference))).sort();
+    const rows = j.board.filter((r) => (!dfilter.group || r.group === dfilter.group) && (!dfilter.conf || r.conference === dfilter.conf) && (!dfilter.tier || r.tier === dfilter.tier));
+    const table = `<table class="tbl board"><tr><th class="num">#</th><th>Wk</th><th>Player</th><th>School</th><th>Key ratings</th><th>Season</th><th class="num" title="${esc(j.unit.bat)}; ${esc(j.unit.pit)}">Value</th></tr>${rows.map((r) => `<tr class="${r.mine ? "now" : ""}"><td class="num">${r.rank}</td><td>${change(r.change)}</td><td class="nm">${nameCell(r)}</td><td class="nm">${schoolCell(r)}</td><td class="kr">${r.key_ratings.map(([k, v]) => rb(k, v)).join("")}</td><td class="mono line">${lineCell(r)}</td><td class="num" title="${r.side === "bat" ? esc(j.unit.bat) : esc(j.unit.pit)}">${r.value > 0 ? "+" : ""}${r.value.toFixed(1)}</td></tr>`).join("")}</table>`;
+    $("#dyn-main").innerHTML = `${draftBanner(j)}<div class="panel"><div class="hdr">Top 100 prospects <span class="sub">week ${j.week} · hitters: ${esc(j.unit.bat)} · pitchers: ${esc(j.unit.pit)} · ranks update weekly${j.prev_week ? ` · change since week ${j.prev_week}` : ""}</span></div>
+      <div class="body row filters"><select id="df-group"><option value="">every position</option>${["C", "IF", "OF", "DH", "SP", "RP"].map((g) => `<option value="${g}" ${dfilter.group === g ? "selected" : ""}>${g}</option>`).join("")}</select>
+        <select id="df-conf"><option value="">every conference</option>${confs.map((c) => `<option value="${esc(c)}" ${dfilter.conf === c ? "selected" : ""}>${esc(c)}</option>`).join("")}</select>
+        <select id="df-tier"><option value="">every tier</option>${["p4", "mid", "low"].map((t) => `<option value="${t}" ${dfilter.tier === t ? "selected" : ""}>${t.toUpperCase()}</option>`).join("")}</select>
+        <span class="muted">${rows.length} of ${j.board.length} · your players highlighted</span></div>
+      <div class="body tight scroll-x">${rows.length ? table : '<div class="muted">No prospect matches.</div>'}</div></div>`;
+    ["group", "conf", "tier"].forEach((k) => $(`#df-${k}`).addEventListener("change", (e) => { dfilter[k] = e.target.value; renderProspects(); }));
+  }
+  async function renderMock() {
+    const j = await draftData(), m = j.mock;
+    const table = `<table class="tbl mock"><tr><th class="num">Pick</th><th>Round</th><th>Team</th><th>Player</th><th>School</th><th class="num" title="board rank">Board</th></tr>${m.picks.map((p) => `<tr class="${p.mine ? "now" : ""}"><td class="num">${p.pick}</td><td class="muted">${esc(p.round)}</td><td><b>${esc(p.team)}</b>${p.note ? ` <span class="muted" title="${esc(p.note)}">*</span>` : ""}</td><td class="nm"><a class="plink" data-pid="${p.pid}">${esc(p.name)}</a> <span class="muted">${p.pos}</span></td><td class="nm">${chip(p.tid)}<a class="tlink" data-tid="${p.tid}">${esc(p.school)}</a></td><td class="num">${p.board_rank}</td></tr>`).join("")}</table>`;
+    $("#dyn-main").innerHTML = `${draftBanner(j)}<div class="panel"><div class="hdr">${esc(m.label)} <span class="sub">week ${j.week} · refreshes weekly · ${esc(m.randomness)}</span></div>
+      <div class="body muted">Round 1 of the 2025 MLB draft order (the dynasty's season) with the Prospect Promotion Incentive, compensatory and Competitive Balance Round A picks: ${m.slots} slots. Source: <a href="${esc(m.source)}" target="_blank" rel="noopener">Wikipedia, 2025 Major League Baseball draft</a> (fetched ${esc(m.fetch_date)}); real MLB team names only. * = a traded or compensation pick (hover).</div>
+      <div class="body tight scroll-x">${table}</div></div>`;
+  }
+  async function renderProgram() {
+    const j = await draftData(), pr = j.program;
+    const mine = pr.players.length ? `<table class="tbl board"><tr><th class="num">#</th><th>Player</th><th>Key ratings</th><th>Season</th><th>Projected round</th></tr>${pr.players.map((r) => `<tr><td class="num">${r.rank}</td><td class="nm">${nameCell(r)}</td><td class="kr">${r.key_ratings.map(([k, v]) => rb(k, v)).join("")}</td><td class="mono line">${lineCell(r)}</td><td>${esc(r.round_range)}</td></tr>`).join("")}</table>` : `<div class="muted">None of your players is in the Top 100 this week.</div>`;
+    $("#dyn-main").innerHTML = `${draftBanner(j)}<div class="hub-grid"><div class="col">
+      <div class="panel"><div class="hdr">Your players in the Top 100 <span class="sub">week ${j.week} · projected round range from the board rank</span></div><div class="body tight scroll-x">${mine}</div></div>
+      <div class="panel"><div class="hdr">Draft history</div><div class="body muted">${esc(pr.history_note)}</div></div></div>
+      <div class="col side"><div class="panel tile locked"><div class="hdr">Draft day</div><div class="body muted">${esc(j.live.text)}</div></div></div></div>`;
   }
 
   // ---- end of Year 1: the season summary, then the offseason placeholder ----

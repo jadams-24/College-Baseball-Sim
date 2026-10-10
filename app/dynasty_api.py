@@ -331,6 +331,16 @@ def next_games(did: str):
     return _read(lambda: dyn_mod.next_games_json(d))
 
 
+@router.get("/api/dynasties/{did}/draft")
+def draft(did: str):
+    """The Draft tab (app/prospects.py): the Top 100 board, the Round 1 mock and the user's program. Display only."""
+    from app import prospects
+    d = _get(did)
+    if d.tid is None:
+        raise HTTPException(400, "pick a team first")
+    return _read(lambda: prospects.draft_json(d))
+
+
 @router.get("/api/dynasties/{did}/progress")
 def progress(did: str):
     d = _get(did)

@@ -607,7 +607,7 @@
   });
 
   // ---- the one top bar: school and conference/tier, the program tabs, date and phase, Advance ----
-  const BUILT_TABS = ["hub", "roster", "schedule"];
+  const BUILT_TABS = ["hub", "roster", "schedule", "draft"];
   function setTopbar(o) {
     $("#tb-school").textContent = o.school; $("#tb-sub").textContent = o.sub || "";
     $$("#tb-tabs button").forEach((b) => { b.disabled = !o.dynasty || !BUILT_TABS.includes(b.dataset.tab); b.classList.toggle("on", !!o.dynasty && b.dataset.tab === o.active); });

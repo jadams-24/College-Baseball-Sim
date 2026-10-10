@@ -677,6 +677,7 @@ def save_bytes(d: Dynasty) -> bytes:
              "reg_games": d.reg_games, "post_calls": d.post_calls, "post": d.post, "stage": d.stage, "pending": d.pending,
              "news": d.news, "bstats": d.bstats, "pstats": d.pstats,
              "today": d.today, "steps_done": d.steps_done, "last_pause": d.last_pause, "splits": d.splits,
+             "board_history": getattr(d, "board_history", {}),       # the Draft tab's weekly board snapshots (app/prospects.py)
              # the Decider's season state (rest history, series plans, midweek counts, rankings, last lineups, its generator):
              # everything but the fitted tables, which the live Manager of the loading process supplies
              "mgr_state": {k: v for k, v in vars(d.mgr).items() if k not in MANAGER_STATIC} if d.mgr else {},
@@ -705,6 +706,7 @@ def load_bytes(cfg, data: bytes) -> Dynasty:
     d.bstats, d.pstats = st["bstats"], st["pstats"]
     d.steps_done, d.last_pause = st.get("steps_done", []), st.get("last_pause")
     d.splits = st.get("splits", {})
+    d.board_history = {int(k): v for k, v in st.get("board_history", {}).items()}
     d.today = st.get("today")
     if d.today is None:                 # a save from before the day loop: the next game's date
         i = next((j for j in range(d.pos, len(d.schedule)) if not d.skip[j] and j not in d.results), None)

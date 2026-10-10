@@ -535,3 +535,13 @@ body.sim-lock button.working { opacity: .95; }
 .tbl.n10 th, .tbl.n10 td { padding-left: 7px; padding-right: 7px; }
 @media (max-width: 1366px) { .tbl.n10 td.site small { display: none; } .tbl.n10 td.sp { max-width: 8em; } .tbl.n10 td small { max-width: 9em; } }
 @media (max-width: 760px) { .tbl.n10 .nw-x { display: none; } }
+
+/* ---- the Draft tab: the preview banner, the board's key ratings and season line, rank changes ---- */
+.banner-note { background: var(--pill-warn-bg); color: var(--pill-warn-ink); border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: var(--radius); padding: 8px 12px; margin-bottom: var(--gap); font-size: 13px; }
+.tbl.board td.kr .rt { margin-right: 4px; }
+.tbl.board td.kr { white-space: nowrap; }
+.tbl.board td.line, .tbl.mock td { white-space: nowrap; }
+.tbl.board .up { color: var(--good); font-family: var(--font-mono); font-size: 12px; }
+.tbl.board .down { color: var(--bad); font-family: var(--font-mono); font-size: 12px; }
+.filters { gap: 8px; align-items: center; flex-wrap: wrap; }
+.filters select { min-height: var(--btn); }
