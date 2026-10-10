@@ -94,6 +94,16 @@ Computed by `tools/build_phase8_11_yardstick.py` into `benchmarks_phase8_11.json
   a page does; `coverage.csv` will say how many). Age by class is therefore GUESS (D), built from the
   class shares plus the redshirt share and the usual 18-year-old freshman: see the yardstick report.
 
+## 2a. Roster run of 2026-10-10 (run 38066352243)
+
+The fetch rosters workflow rerun on the Phase 8 aggregator added `class_detail_by_tier.csv` (class x
+redshirt marker x position group), `d1_transfer_flow.csv` (tier of each D1 transfer's previous school) and
+`age_by_class.csv` (empty: no page lists a birthdate; `share_birthdate_or_age_filled` = 0). 233 teams and
+8,620 players, as in the run of 2026-10-09. Results in the report, sections 1 and 2;
+`roster_composition_2025.redshirt_by_class`, `.class_by_position` and `.d1_transfer_flow` in the benchmarks
+file. The workflow pushed its branch but could not open a pull request (Actions may not create them), so
+the four files were cherry-picked onto the round-2 branch.
+
 ## 3. Geography, 2025 (roster aggregates, IPEDS school states)
 
 `geography_2025` in the benchmarks file; `data/phase8_11/players_by_home_state_2025.csv` (where each

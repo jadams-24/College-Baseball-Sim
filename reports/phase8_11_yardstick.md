@@ -11,12 +11,12 @@ Nothing here feeds the engine.
 
 | # | Target | What was found | Grade | Still missing |
 |---|---|---|---|---|
-| 1a | Roster: class shares by tier | 2025 rosters, 8,577 players, 232 schools: Fr .29/.26/.22, So .22/.20/.19, Jr .28/.29/.29, Sr .16/.19/.22, Gr .05/.04/.04 (P4/mid/low) | B | 2026 (post-limit) rosters; redshirt flag and class by position land with the roster run started today |
+| 1a | Roster: class shares by tier | 2025 rosters, 8,577 players, 232 schools: Fr .29/.26/.22, So .22/.20/.19, Jr .28/.29/.29, Sr .16/.19/.22, Gr .05/.04/.04 (P4/mid/low). Redshirt marker on .13 / .17 / .12 of listed players (P4 seniors .18, mid sophomores .24). Pitchers are .50–.54 of every class at P4 | B | 2026 (post-limit) rosters |
 | 1b | Roster: age by class | No roster page lists birthdates; a GUESS table from the clock rules and the class shares | D | Birthdates (GOALS ask added; the fetcher now keeps an age column when a page has one) |
 | 1c | Roster size | Spring 2025 (pre-limit): P4 40.4 ± 3.4 listed players (p10–p90 36–44, 94% over 34); mid 37.1, low 33.9 (partial pages included) | B (P4), C (mid, low) | The 2026 rosters under the 34-man limit |
 | 1d | Pitchers vs position players | Pitcher share of listed players .506 / .489 / .475 (P4/mid/low); with two-way players .536 / .523 / .504 | B | — |
 | 2a | Player sources by tier | HS only .510/.515/.445, D1 transfer .196/.143/.087, JUCO .112/.177/.206, other four-year .048/.082/.097, unknown .134/.083/.166 (P4/mid/low) | B | — |
-| 2b | Moves between tiers | 64 Analytics 2021–26 (D1 thirds by conference RPI, players who played at both stops): of hitters leaving a D1 upper-third conference 59% land upper, 20% middle, 9% lower, 11% D2; leaving middle: 44% up to upper, 27% middle, 18% D2; leaving lower: 37% up to upper, 25% D2. NCAA: D1 transfers land D1 72–75%, D2 21–24%, D3 3%; D2 transfers land D1 41%. The roster-based P4/mid/low flow (`d1_transfer_flow.csv`) comes from the roster run started today | B (64A), A (NCAA) | P4/mid/low split: the roster run's PR |
+| 2b | Moves between tiers | Roster run of 2026-10-10: of D1 transfers on P4 rosters, the previous D1 school was P4 .44, mid .33, low .11 (unknown .12); on mid rosters P4 .40, mid .39, low .10; on low rosters P4 .26, mid .32, low .17 (unknown .25). NCAA: D1 transfers land D1 72–75%, D2 21–24%, D3 3%; 64 Analytics level matrices in `manual_entries.json` | B / A | Portal entrants by tier (none published) |
 | 3a | Geography by tier | In-state .427 / .457 / .386; within 300 mi .59 / .64 / .65; foreign .025 / .024 / .033, Canada two-thirds of it | B | — |
 | 3b | Talent-rich states | CA 1,081 players (13.1% of located players, 60% stay in state, 24% to P4); TX 745 (9.0%, 62% stay, 31% to P4); FL 614 (7.5%, 48% stay, 28% to P4); GA 394 (4.8%, 36% stay); NC 321 (70% stay). Schools in TX 69% in-state, FL 68%, CA 80%, GA 69%, NC 39% | B | — |
 | 4a | Draft picks by round and source | Every pick 2021–2026 (3,685): HS 115–127 a year, JC 12–47, D1 420–461 (P4 238–279, mid 151–164, low 18–32), D2 9–22, D3 1–4, NAIA 1–8 | A (feed), B (tiers), C (D2/D3/NAIA split) | NCAA's own 2021, 2022, 2024 counts (page shows one edition) |
@@ -54,16 +54,32 @@ Source: `data/ncaa_2025/roster_aggregates/` (fetched 2026-10-09; 233 of 283 WMT-
   file gives a placeholder distribution (freshmen 18–20, each class one year older, a tail for redshirts
   and JUCO transfers) to be replaced by `age_by_class.csv` if any page lists ages, or by the GOALS ask.
 
+**Redshirt and class by position (roster run of 2026-10-10, `class_detail_by_tier.csv`).** A redshirt marker
+sits on .128 of P4, .168 of mid and .122 of low listed players; by class P4 .11 (Fr) / .12 (So) / .14 (Jr) /
+.18 (Sr), mid .13 / .24 / .18 / .17, low .12 / .16 / .14 / .10. Pitchers are .50–.54 of P4 freshmen through
+juniors and .44 of P4 seniors (the draft takes junior arms); catchers .08–.11, infielders .17–.22,
+outfielders .12–.18, two-way players .05–.06 of freshmen falling to .01–.02 of seniors. No roster page in the
+fetch lists a birthdate or age (`age_by_class.csv` is empty), so the age table stays a GUESS.
+
 Class x origin (shares within class, `class_by_origin_2025.csv`): freshmen are .86 high-school-only
 across tiers; D1 transfers peak among juniors and graduates; JUCO transfers enter mostly as juniors.
 
 ## 2. Player sources
 
-Origins by tier as in the spec (Section 7), grade B. The tier-to-tier flow of D1 transfers
-(`d1_transfer_flow.csv`: the Phase 0 tier of the previous D1 school named on the roster) is produced by
-the roster run started 2026-10-10 (GitHub Actions run 38066352243 on this branch), which opens a pull
-request into this branch when it finishes; the aggregator's selftest already writes the table. Among WMT
-client teams (section 6) the moves are P4-heavy by construction.
+Origins by tier as in the spec (Section 7), grade B. **The tier flow of D1 transfers** (`d1_transfer_flow.csv`,
+roster run 38066352243 of 2026-10-10: the Phase 0 tier of the previous D1 school named first on the roster
+page; `unknown` when only an alias matched):
+
+| Roster tier | D1 transfers | From P4 | From mid | From low | Unknown |
+|---|---|---|---|---|---|
+| P4 | 396 | .444 | .333 | .106 | .116 |
+| Mid | 645 | .405 | .394 | .096 | .105 |
+| Low | 176 | .256 | .324 | .170 | .250 |
+
+P4 rosters refill mostly from other P4 programs and from the mid tier; a third of the mid tier's D1
+transfers come down from P4; the low tier takes more from mid than from P4. Grade B (name match on the
+2025 D1 list). The NCAA portal rows (section 5) give the level split (D1 → D1 72–75%), and 64 Analytics
+the conference-third matrices; this is the first tier-to-tier table built on roster previous schools.
 
 ## 3. Geography
 

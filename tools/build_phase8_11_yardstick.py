@@ -91,6 +91,39 @@ def roster_composition() -> tuple[dict, pd.DataFrame, pd.DataFrame]:
             co.round(4), size.rename(columns={"count": "players_listed"}))
 
 
+def roster_detail() -> dict:
+    """Redshirt flag, class x position group and the D1 transfer flow by tier, from the roster run of
+    2026-10-10 (class_detail_by_tier.csv, d1_transfer_flow.csv, age_by_class.csv); absent before that run."""
+    out = {}
+    cd = AGG / "class_detail_by_tier.csv"
+    if cd.exists():
+        c = pd.read_csv(cd)
+        t = c[(c.scope == "tier") & c.scope_value.isin(TIERS) & c["class"].isin(["Fr", "So", "Jr", "Sr", "Gr"])]
+        rs = {}
+        for (tier, cls), g in t.groupby(["scope_value", "class"]):
+            rs.setdefault(tier, {})[cls] = {"players": int(g["count"].sum()), "redshirt_share": round(float(g.loc[g.redshirt == True, "count"].sum() / g["count"].sum()), 4)}
+        for tier, g in t.groupby("scope_value"):
+            rs[tier]["all"] = {"players": int(g["count"].sum()), "redshirt_share": round(float(g.loc[g.redshirt == True, "count"].sum() / g["count"].sum()), 4)}
+        out["redshirt_by_class"] = rs
+        pos = t.groupby(["scope_value", "class", "pos_group"])["count"].sum().reset_index()
+        out["class_by_position"] = {}
+        for (tier, cls), g in pos.groupby(["scope_value", "class"]):
+            n = g["count"].sum()
+            out["class_by_position"].setdefault(tier, {})[cls] = {r.pos_group: round(float(r["count"] / n), 4) for _, r in g.iterrows()}
+    fl = AGG / "d1_transfer_flow.csv"
+    if fl.exists():
+        f = pd.read_csv(fl)
+        out["d1_transfer_flow"] = {}
+        for sc, g in f.groupby("scope_value"):
+            out["d1_transfer_flow"][sc] = {"d1_transfers": int(g["count"].sum()), "from_prev_tier": {r.prev_tier: {"count": int(r["count"]), "share": float(r.share)} for _, r in g.iterrows()}}
+        out["d1_transfer_flow"]["note"] = "Tier of the previous D1 school named first on the roster page for players classified d1_transfer; unknown = only an alias matched. Current tier = the roster's school."
+    ag = AGG / "age_by_class.csv"
+    if ag.exists():
+        a = pd.read_csv(ag)
+        out["age_by_class"] = {"rows": int(len(a)), "note": "no roster page in the 2025 fetch lists a birthdate or age (coverage.csv share_birthdate_or_age_filled = 0)"} if len(a) == 0 else a.to_dict("records")
+    return out
+
+
 def geography() -> tuple[dict, pd.DataFrame, pd.DataFrame]:
     ht = pd.read_csv(AGG / "hometown_by_school.csv")
     loc = pd.read_csv(ROOT / "data/ncaa_2025/school_locations_2025.csv")[["ncaa_team_id", "state"]].rename(columns={"ncaa_team_id": "team_ncaa_id", "state": "school_state"})
@@ -249,7 +282,7 @@ def main() -> None:
     bench = {
         "_meta": {"purpose": "Phase 8-11 yardstick (roster rules, recruiting, development, program). Every entry carries its source, fetch date, sample size and confidence grade. Built by tools/build_phase8_11_yardstick.py from committed aggregates plus data/phase8_11/manual_entries.json; never edit values by hand without a note in PHASE8_NOTES.md.",
                   "built": dt.date.today().isoformat(), "confidence_key": {"A": "official or primary source, directly usable", "B": "public, usable after processing", "C": "partial or a proxy", "D": "no data; a GUESS until data is found"}},
-        "roster_composition_2025": {**ROSTER_SRC, "conf": "B", "note": "Spring 2025 rosters (before the 34-man limit, effective 7/1/25). Classes as listed, redshirt markers dropped (R-Fr = Fr); Gr = graduate, 5th/6th year. Pitcher share from the listed position; two-way players counted separately.", **comp},
+        "roster_composition_2025": {**ROSTER_SRC, "conf": "B", "note": "Spring 2025 rosters (before the 34-man limit, effective 7/1/25). Classes as listed, redshirt markers dropped (R-Fr = Fr); Gr = graduate, 5th/6th year. Pitcher share from the listed position; two-way players counted separately. Redshirt, class x position and the transfer flow from the roster run of 2026-10-10 (run 38066352243).", **comp, **roster_detail()},
         "geography_2025": {**ROSTER_SRC, "conf": "B", "note": "Hometown state as listed on the roster page; school state from IPEDS. State-level only.", **geo},
         "d1_vs_non_d1_2025": {"source": "data.ncaa.com 2025 D1 scoreboard (data/ncaa_2025/scoreboard/games_2025.csv)", "fetched": "2026-09-30", "conf": "C", **xd},
         "development_2022_2026_wmt": {"source": "api.wmt.games player season statistics (data/wmt_player_seasons/)", "conf": "B", **wmt_blocks()},

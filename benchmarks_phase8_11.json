@@ -14,7 +14,7 @@
   "fetched": "2026-10-09",
   "season": 2025,
   "conf": "B",
-  "note": "Spring 2025 rosters (before the 34-man limit, effective 7/1/25). Classes as listed, redshirt markers dropped (R-Fr = Fr); Gr = graduate, 5th/6th year. Pitcher share from the listed position; two-way players counted separately.",
+  "note": "Spring 2025 rosters (before the 34-man limit, effective 7/1/25). Classes as listed, redshirt markers dropped (R-Fr = Fr); Gr = graduate, 5th/6th year. Pitcher share from the listed position; two-way players counted separately. Redshirt, class x position and the transfer flow from the roster run of 2026-10-10 (run 38066352243).",
   "class_by_tier": {
    "low": {
     "players": 2033,
@@ -451,6 +451,332 @@
      "unknown": 38
     }
    }
+  },
+  "redshirt_by_class": {
+   "low": {
+    "Fr": {
+     "players": 448,
+     "redshirt_share": 0.1183
+    },
+    "Gr": {
+     "players": 85,
+     "redshirt_share": 0.0
+    },
+    "Jr": {
+     "players": 589,
+     "redshirt_share": 0.1392
+    },
+    "So": {
+     "players": 392,
+     "redshirt_share": 0.1556
+    },
+    "Sr": {
+     "players": 455,
+     "redshirt_share": 0.0989
+    },
+    "all": {
+     "players": 1969,
+     "redshirt_share": 0.1224
+    }
+   },
+   "mid": {
+    "Fr": {
+     "players": 1154,
+     "redshirt_share": 0.1308
+    },
+    "Gr": {
+     "players": 201,
+     "redshirt_share": 0.0
+    },
+    "Jr": {
+     "players": 1293,
+     "redshirt_share": 0.1817
+    },
+    "So": {
+     "players": 911,
+     "redshirt_share": 0.236
+    },
+    "Sr": {
+     "players": 881,
+     "redshirt_share": 0.1657
+    },
+    "all": {
+     "players": 4440,
+     "redshirt_share": 0.1682
+    }
+   },
+   "p4": {
+    "Fr": {
+     "players": 585,
+     "redshirt_share": 0.1145
+    },
+    "Gr": {
+     "players": 101,
+     "redshirt_share": 0.0
+    },
+    "Jr": {
+     "players": 567,
+     "redshirt_share": 0.1411
+    },
+    "So": {
+     "players": 442,
+     "redshirt_share": 0.1154
+    },
+    "Sr": {
+     "players": 320,
+     "redshirt_share": 0.1844
+    },
+    "all": {
+     "players": 2015,
+     "redshirt_share": 0.1275
+    }
+   }
+  },
+  "class_by_position": {
+   "low": {
+    "Fr": {
+     "1B": 0.0156,
+     "C": 0.1049,
+     "IF": 0.2098,
+     "OF": 0.1295,
+     "P": 0.4509,
+     "UT/DH": 0.0246,
+     "two-way": 0.0513,
+     "unknown": 0.0134
+    },
+    "Gr": {
+     "1B": 0.0353,
+     "C": 0.1059,
+     "IF": 0.1882,
+     "OF": 0.1059,
+     "P": 0.5059,
+     "UT/DH": 0.0353,
+     "two-way": 0.0235
+    },
+    "Jr": {
+     "1B": 0.0085,
+     "C": 0.0764,
+     "IF": 0.1969,
+     "OF": 0.1579,
+     "P": 0.4992,
+     "UT/DH": 0.0221,
+     "two-way": 0.0323,
+     "unknown": 0.0068
+    },
+    "So": {
+     "1B": 0.0077,
+     "C": 0.1148,
+     "IF": 0.2194,
+     "OF": 0.1505,
+     "P": 0.4413,
+     "UT/DH": 0.0357,
+     "two-way": 0.0204,
+     "unknown": 0.0102
+    },
+    "Sr": {
+     "1B": 0.0176,
+     "C": 0.1055,
+     "IF": 0.1692,
+     "OF": 0.1758,
+     "P": 0.4945,
+     "UT/DH": 0.022,
+     "two-way": 0.011,
+     "unknown": 0.0044
+    }
+   },
+   "mid": {
+    "Fr": {
+     "1B": 0.0173,
+     "C": 0.1014,
+     "IF": 0.2106,
+     "OF": 0.1282,
+     "P": 0.4567,
+     "UT/DH": 0.0234,
+     "two-way": 0.0572,
+     "unknown": 0.0052
+    },
+    "Gr": {
+     "1B": 0.0199,
+     "C": 0.0647,
+     "IF": 0.1741,
+     "OF": 0.1443,
+     "P": 0.5572,
+     "UT/DH": 0.0199,
+     "two-way": 0.0149,
+     "unknown": 0.005
+    },
+    "Jr": {
+     "1B": 0.024,
+     "C": 0.092,
+     "IF": 0.1856,
+     "OF": 0.1353,
+     "P": 0.5112,
+     "UT/DH": 0.0193,
+     "two-way": 0.0263,
+     "unknown": 0.0062
+    },
+    "So": {
+     "1B": 0.011,
+     "C": 0.0933,
+     "IF": 0.202,
+     "OF": 0.1449,
+     "P": 0.4995,
+     "UT/DH": 0.0143,
+     "two-way": 0.034,
+     "unknown": 0.0011
+    },
+    "Sr": {
+     "1B": 0.0284,
+     "C": 0.1078,
+     "IF": 0.1793,
+     "OF": 0.1703,
+     "P": 0.4756,
+     "UT/DH": 0.0159,
+     "two-way": 0.0182,
+     "unknown": 0.0045
+    }
+   },
+   "p4": {
+    "Fr": {
+     "1B": 0.0137,
+     "C": 0.0803,
+     "IF": 0.1812,
+     "OF": 0.1299,
+     "P": 0.5043,
+     "UT/DH": 0.0154,
+     "two-way": 0.0564,
+     "unknown": 0.0188
+    },
+    "Gr": {
+     "1B": 0.0099,
+     "C": 0.0891,
+     "IF": 0.2178,
+     "OF": 0.1485,
+     "P": 0.5149,
+     "unknown": 0.0198
+    },
+    "Jr": {
+     "1B": 0.0106,
+     "C": 0.0847,
+     "IF": 0.1922,
+     "OF": 0.1235,
+     "P": 0.5414,
+     "UT/DH": 0.0141,
+     "two-way": 0.0194,
+     "unknown": 0.0141
+    },
+    "So": {
+     "1B": 0.009,
+     "C": 0.0882,
+     "IF": 0.1968,
+     "OF": 0.1312,
+     "P": 0.5045,
+     "UT/DH": 0.0204,
+     "two-way": 0.0271,
+     "unknown": 0.0226
+    },
+    "Sr": {
+     "1B": 0.025,
+     "C": 0.0844,
+     "IF": 0.2188,
+     "OF": 0.1781,
+     "P": 0.4437,
+     "UT/DH": 0.0156,
+     "two-way": 0.0125,
+     "unknown": 0.0219
+    }
+   }
+  },
+  "d1_transfer_flow": {
+   "all": {
+    "d1_transfers": 1217,
+    "from_prev_tier": {
+     "low": {
+      "count": 134,
+      "share": 0.1101
+     },
+     "mid": {
+      "count": 443,
+      "share": 0.364
+     },
+     "p4": {
+      "count": 482,
+      "share": 0.3961
+     },
+     "unknown": {
+      "count": 158,
+      "share": 0.1298
+     }
+    }
+   },
+   "low": {
+    "d1_transfers": 176,
+    "from_prev_tier": {
+     "low": {
+      "count": 30,
+      "share": 0.1705
+     },
+     "mid": {
+      "count": 57,
+      "share": 0.3239
+     },
+     "p4": {
+      "count": 45,
+      "share": 0.2557
+     },
+     "unknown": {
+      "count": 44,
+      "share": 0.25
+     }
+    }
+   },
+   "mid": {
+    "d1_transfers": 645,
+    "from_prev_tier": {
+     "low": {
+      "count": 62,
+      "share": 0.0961
+     },
+     "mid": {
+      "count": 254,
+      "share": 0.3938
+     },
+     "p4": {
+      "count": 261,
+      "share": 0.4047
+     },
+     "unknown": {
+      "count": 68,
+      "share": 0.1054
+     }
+    }
+   },
+   "p4": {
+    "d1_transfers": 396,
+    "from_prev_tier": {
+     "low": {
+      "count": 42,
+      "share": 0.1061
+     },
+     "mid": {
+      "count": 132,
+      "share": 0.3333
+     },
+     "p4": {
+      "count": 176,
+      "share": 0.4444
+     },
+     "unknown": {
+      "count": 46,
+      "share": 0.1162
+     }
+    }
+   },
+   "note": "Tier of the previous D1 school named first on the roster page for players classified d1_transfer; unknown = only an alias matched. Current tier = the roster's school."
+  },
+  "age_by_class": {
+   "rows": 0,
+   "note": "no roster page in the 2025 fetch lists a birthdate or age (coverage.csv share_birthdate_or_age_filled = 0)"
   }
  },
  "geography_2025": {
