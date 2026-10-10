@@ -1,0 +1,971 @@
+year,school,conference,tier,picks
+2021,Alabama,SEC,p4,5
+2021,Arizona,Big 12,p4,7
+2021,Arizona St.,Big 12,p4,5
+2021,Arkansas,SEC,p4,9
+2021,Arkansas St.,Sun Belt,mid,1
+2021,Auburn,SEC,p4,4
+2021,Austin Peay,ASUN,mid,1
+2021,Ball St.,MAC,mid,1
+2021,Baylor,Big 12,p4,2
+2021,Boston College,ACC,p4,3
+2021,Bradley,MVC,mid,2
+2021,Bryant,America East,low,2
+2021,CSU Bakersfield,Big West,mid,1
+2021,CSUN,Big West,mid,1
+2021,Cal Poly,Big West,mid,2
+2021,Cal St. Fullerton,Big West,mid,1
+2021,California,ACC,p4,4
+2021,California Baptist,WAC,mid,1
+2021,Campbell,CAA,mid,1
+2021,Central Ark.,ASUN,mid,1
+2021,Central Mich.,MAC,mid,1
+2021,Charleston So.,Big South,mid,1
+2021,Charlotte,The American,mid,2
+2021,Cincinnati,Big 12,p4,1
+2021,Clemson,ACC,p4,6
+2021,Coastal Carolina,Sun Belt,mid,2
+2021,Columbia,Ivy League,low,1
+2021,DBU,CUSA,mid,5
+2021,Dartmouth,Ivy League,low,1
+2021,Dayton,Atlantic 10,mid,2
+2021,Duke,ACC,p4,5
+2021,East Carolina,The American,mid,3
+2021,Eastern Ill.,OVC,low,1
+2021,Eastern Mich.,MAC,mid,1
+2021,FIU,CUSA,mid,1
+2021,Fairfield,MAAC,low,2
+2021,Fla. Atlantic,The American,mid,2
+2021,Florida,SEC,p4,7
+2021,Florida St.,ACC,p4,7
+2021,Fordham,Atlantic 10,mid,1
+2021,Fresno St.,Mountain West,mid,2
+2021,Ga. Southern,Sun Belt,mid,2
+2021,Gardner-Webb,Big South,mid,1
+2021,Georgia,SEC,p4,2
+2021,Georgia Tech,ACC,p4,3
+2021,Gonzaga,WCC,mid,3
+2021,Grand Canyon,WAC,mid,3
+2021,Hawaii,Big West,mid,1
+2021,Hofstra,CAA,mid,1
+2021,Houston,Big 12,p4,1
+2021,Illinois,Big Ten,p4,2
+2021,Illinois St.,MVC,mid,1
+2021,Indiana,Big Ten,p4,6
+2021,Iowa,Big Ten,p4,2
+2021,Jacksonville St.,CUSA,mid,1
+2021,Kansas St.,Big 12,p4,4
+2021,Kennesaw St.,CUSA,mid,2
+2021,Kent St.,MAC,mid,1
+2021,Kentucky,SEC,p4,3
+2021,LSU,SEC,p4,2
+2021,Lehigh,Patriot,low,2
+2021,Liberty,CUSA,mid,2
+2021,Long Beach St.,Big West,mid,3
+2021,Louisiana,Sun Belt,mid,4
+2021,Louisiana Tech,CUSA,mid,1
+2021,Louisville,ACC,p4,7
+2021,Maine,America East,low,1
+2021,Marist,MAAC,low,1
+2021,Maryland,Big Ten,p4,2
+2021,McNeese,Southland,low,1
+2021,Memphis,The American,mid,1
+2021,Miami (FL),ACC,p4,3
+2021,Miami (OH),MAC,mid,2
+2021,Michigan,Big Ten,p4,3
+2021,Michigan St.,Big Ten,p4,1
+2021,Middle Tenn.,CUSA,mid,1
+2021,Minnesota,Big Ten,p4,1
+2021,Mississippi St.,SEC,p4,5
+2021,Missouri,SEC,p4,1
+2021,Missouri St.,MVC,mid,1
+2021,NC State,ACC,p4,8
+2021,Navy,Patriot,low,1
+2021,Nebraska,Big Ten,p4,3
+2021,Nevada,Mountain West,mid,1
+2021,New Mexico,Mountain West,mid,2
+2021,North Carolina,ACC,p4,3
+2021,North Dakota St.,Summit League,low,1
+2021,Northeastern,CAA,mid,4
+2021,Northwestern,Big Ten,p4,3
+2021,Northwestern St.,Southland,low,1
+2021,Notre Dame,ACC,p4,2
+2021,Ohio,MAC,mid,1
+2021,Ohio St.,Big Ten,p4,3
+2021,Oklahoma,SEC,p4,3
+2021,Oklahoma St.,Big 12,p4,3
+2021,Old Dominion,Sun Belt,mid,3
+2021,Ole Miss,SEC,p4,3
+2021,Oregon,Big Ten,p4,4
+2021,Oregon St.,DI Independent,p4,4
+2021,Penn,Ivy League,low,1
+2021,Penn St.,Big Ten,p4,4
+2021,Pepperdine,WCC,mid,2
+2021,Pittsburgh,ACC,p4,1
+2021,Portland,WCC,mid,1
+2021,Quinnipiac,MAAC,low,1
+2021,Sacramento St.,WAC,mid,2
+2021,Saint Mary's (CA),WCC,mid,3
+2021,Sam Houston,CUSA,mid,2
+2021,Samford,SoCon,mid,1
+2021,San Diego,WCC,mid,2
+2021,San Diego St.,Mountain West,mid,5
+2021,San Francisco,WCC,mid,2
+2021,San Jose St.,Mountain West,mid,1
+2021,Seton Hall,Big East,mid,1
+2021,South Alabama,Sun Belt,mid,3
+2021,South Carolina,SEC,p4,8
+2021,Southeast Mo. St.,OVC,low,1
+2021,Southeastern La.,Southland,low,1
+2021,Southern California,Big Ten,p4,3
+2021,Southern Ill.,MVC,mid,1
+2021,Southern Miss.,Sun Belt,mid,3
+2021,St. John's (NY),Big East,mid,1
+2021,Stanford,ACC,p4,3
+2021,TCU,Big 12,p4,6
+2021,Tennessee,SEC,p4,7
+2021,Texas,SEC,p4,7
+2021,Texas A&M,SEC,p4,4
+2021,Texas Southern,SWAC,low,1
+2021,Texas St.,Sun Belt,mid,1
+2021,Texas Tech,Big 12,p4,9
+2021,Toledo,MAC,mid,1
+2021,Troy,Sun Belt,mid,1
+2021,Tulane,The American,mid,5
+2021,UAB,The American,mid,1
+2021,UC Irvine,Big West,mid,3
+2021,UC Riverside,Big West,mid,1
+2021,UC Santa Barbara,Big West,mid,4
+2021,UCF,Big 12,p4,3
+2021,UCLA,Big Ten,p4,10
+2021,UConn,Big East,mid,4
+2021,UNC Greensboro,SoCon,mid,2
+2021,UNCW,CAA,mid,3
+2021,UNLV,Mountain West,mid,1
+2021,USC Upstate,Big South,mid,2
+2021,UT Arlington,WAC,mid,1
+2021,VCU,Atlantic 10,mid,2
+2021,Vanderbilt,SEC,p4,7
+2021,Villanova,Big East,mid,2
+2021,Virginia,ACC,p4,6
+2021,Virginia Tech,ACC,p4,4
+2021,Wake Forest,ACC,p4,5
+2021,Washington,Big Ten,p4,2
+2021,Washington St.,Mountain West,mid,3
+2021,West Virginia,Big 12,p4,4
+2021,Western Caro.,SoCon,mid,1
+2021,Western Mich.,MAC,mid,1
+2021,Wichita St.,The American,mid,1
+2021,Wofford,SoCon,mid,2
+2021,Wright St.,Horizon,low,3
+2021,Xavier,Big East,mid,1
+2021,Yale,Ivy League,low,1
+2022,Alabama,SEC,p4,4
+2022,Arizona,Big 12,p4,2
+2022,Arizona St.,Big 12,p4,6
+2022,Arkansas,SEC,p4,9
+2022,Auburn,SEC,p4,8
+2022,BYU,Big 12,p4,4
+2022,Ball St.,MAC,mid,2
+2022,Baylor,Big 12,p4,3
+2022,Belmont,MVC,mid,1
+2022,Boston College,ACC,p4,4
+2022,Cal Poly,Big West,mid,4
+2022,California,ACC,p4,6
+2022,California Baptist,WAC,mid,3
+2022,Campbell,CAA,mid,3
+2022,Central Ark.,ASUN,mid,1
+2022,Central Mich.,MAC,mid,3
+2022,Charlotte,The American,mid,3
+2022,Clemson,ACC,p4,3
+2022,Coastal Carolina,Sun Belt,mid,3
+2022,Creighton,Big East,mid,2
+2022,DBU,CUSA,mid,3
+2022,Davidson,Atlantic 10,mid,1
+2022,Duke,ACC,p4,5
+2022,East Carolina,The American,mid,2
+2022,Eastern Ill.,OVC,low,1
+2022,Eastern Ky.,ASUN,mid,1
+2022,Eastern Mich.,MAC,mid,1
+2022,Elon,CAA,mid,2
+2022,Evansville,MVC,mid,1
+2022,FIU,CUSA,mid,1
+2022,Fla. Atlantic,The American,mid,1
+2022,Florida,SEC,p4,4
+2022,Florida St.,ACC,p4,3
+2022,Fresno St.,Mountain West,mid,2
+2022,George Mason,Atlantic 10,mid,1
+2022,George Washington,Atlantic 10,mid,1
+2022,Georgia,SEC,p4,6
+2022,Georgia St.,Sun Belt,mid,1
+2022,Georgia Tech,ACC,p4,8
+2022,Gonzaga,WCC,mid,4
+2022,Grambling,SWAC,low,1
+2022,Grand Canyon,WAC,mid,4
+2022,Hawaii,Big West,mid,2
+2022,Houston,Big 12,p4,3
+2022,Illinois,Big Ten,p4,2
+2022,Illinois St.,MVC,mid,1
+2022,Indiana,Big Ten,p4,3
+2022,Iowa,Big Ten,p4,4
+2022,Jacksonville,ASUN,mid,2
+2022,James Madison,Sun Belt,mid,2
+2022,Kansas St.,Big 12,p4,3
+2022,Kennesaw St.,CUSA,mid,1
+2022,Kentucky,SEC,p4,6
+2022,LIU,NEC,low,2
+2022,LSU,SEC,p4,4
+2022,Lehigh,Patriot,low,2
+2022,Liberty,CUSA,mid,2
+2022,Lipscomb,ASUN,mid,1
+2022,Long Beach St.,Big West,mid,4
+2022,Louisiana,Sun Belt,mid,2
+2022,Louisiana Tech,CUSA,mid,4
+2022,Louisville,ACC,p4,5
+2022,Maryland,Big Ten,p4,3
+2022,McNeese,Southland,low,1
+2022,Mercer,SoCon,mid,4
+2022,Miami (FL),ACC,p4,6
+2022,Miami (OH),MAC,mid,1
+2022,Michigan,Big Ten,p4,3
+2022,Milwaukee,Horizon,low,1
+2022,Minnesota,Big Ten,p4,2
+2022,Mississippi St.,SEC,p4,6
+2022,Missouri,SEC,p4,5
+2022,Missouri St.,MVC,mid,1
+2022,Monmouth,CAA,mid,2
+2022,NC State,ACC,p4,2
+2022,New Mexico St.,CUSA,mid,2
+2022,North Carolina,ACC,p4,5
+2022,Northeastern,CAA,mid,3
+2022,Northwestern St.,Southland,low,1
+2022,Notre Dame,ACC,p4,5
+2022,Ohio St.,Big Ten,p4,4
+2022,Oklahoma,SEC,p4,11
+2022,Oklahoma St.,Big 12,p4,9
+2022,Old Dominion,Sun Belt,mid,3
+2022,Ole Miss,SEC,p4,7
+2022,Oral Roberts,Summit League,low,2
+2022,Oregon,Big Ten,p4,4
+2022,Oregon St.,DI Independent,p4,8
+2022,Pacific,WCC,mid,3
+2022,Penn,Ivy League,low,1
+2022,Penn St.,Big Ten,p4,1
+2022,Pittsburgh,ACC,p4,1
+2022,Portland,WCC,mid,2
+2022,Purdue,Big Ten,p4,2
+2022,Queens (NC),ASUN,mid,1
+2022,Rice,The American,mid,1
+2022,Richmond,Atlantic 10,mid,1
+2022,Rutgers,Big Ten,p4,3
+2022,SIUE,OVC,low,1
+2022,Sacramento St.,WAC,mid,1
+2022,Saint Joseph's,Atlantic 10,mid,1
+2022,Saint Mary's (CA),WCC,mid,3
+2022,San Diego,WCC,mid,4
+2022,San Diego St.,Mountain West,mid,1
+2022,San Jose St.,Mountain West,mid,1
+2022,Seton Hall,Big East,mid,1
+2022,South Carolina,SEC,p4,5
+2022,South Fla.,The American,mid,4
+2022,Southeast Mo. St.,OVC,low,1
+2022,Southern California,Big Ten,p4,4
+2022,Southern Miss.,Sun Belt,mid,5
+2022,Stanford,ACC,p4,6
+2022,TCU,Big 12,p4,5
+2022,Tarleton St.,WAC,mid,1
+2022,Tennessee,SEC,p4,10
+2022,Texas,SEC,p4,8
+2022,Texas A&M,SEC,p4,3
+2022,Texas Southern,SWAC,low,1
+2022,Texas St.,Sun Belt,mid,2
+2022,Texas Tech,Big 12,p4,5
+2022,Toledo,MAC,mid,2
+2022,Tulane,The American,mid,1
+2022,UC Irvine,Big West,mid,2
+2022,UC Riverside,Big West,mid,1
+2022,UC Santa Barbara,Big West,mid,6
+2022,UCF,Big 12,p4,3
+2022,UCLA,Big Ten,p4,3
+2022,UConn,Big East,mid,4
+2022,UIC,MVC,mid,1
+2022,UNC Greensboro,SoCon,mid,3
+2022,UNCW,CAA,mid,1
+2022,UT Arlington,WAC,mid,1
+2022,VCU,Atlantic 10,mid,1
+2022,Valparaiso,MVC,mid,1
+2022,Vanderbilt,SEC,p4,5
+2022,Villanova,Big East,mid,2
+2022,Virginia,ACC,p4,4
+2022,Virginia Tech,ACC,p4,5
+2022,Wake Forest,ACC,p4,3
+2022,Washington,Big Ten,p4,1
+2022,West Virginia,Big 12,p4,3
+2022,Western Caro.,SoCon,mid,1
+2022,Western Mich.,MAC,mid,1
+2022,Wichita St.,The American,mid,1
+2022,Wright St.,Horizon,low,1
+2022,Xavier,Big East,mid,2
+2022,Yale,Ivy League,low,1
+2022,Youngstown St.,Horizon,low,1
+2023,Abilene Christian,WAC,mid,3
+2023,Air Force,Mountain West,mid,1
+2023,Alabama,SEC,p4,6
+2023,App State,Sun Belt,mid,1
+2023,Arizona,Big 12,p4,5
+2023,Arizona St.,Big 12,p4,8
+2023,Arkansas,SEC,p4,7
+2023,Auburn,SEC,p4,3
+2023,BYU,Big 12,p4,1
+2023,Ball St.,MAC,mid,3
+2023,Bethune-Cookman,SWAC,low,1
+2023,Boston College,ACC,p4,2
+2023,Bryant,America East,low,2
+2023,CSUN,Big West,mid,2
+2023,Cal Poly,Big West,mid,2
+2023,Cal St. Fullerton,Big West,mid,4
+2023,California,ACC,p4,1
+2023,California Baptist,WAC,mid,1
+2023,Campbell,CAA,mid,4
+2023,Canisius,MAAC,low,1
+2023,Charlotte,The American,mid,4
+2023,Clemson,ACC,p4,3
+2023,Coastal Carolina,Sun Belt,mid,1
+2023,Col. of Charleston,CAA,mid,1
+2023,Columbia,Ivy League,low,1
+2023,DBU,CUSA,mid,8
+2023,Davidson,Atlantic 10,mid,2
+2023,Dayton,Atlantic 10,mid,1
+2023,Delaware St.,NEC,low,1
+2023,Duke,ACC,p4,4
+2023,ETSU,SoCon,mid,1
+2023,East Carolina,The American,mid,2
+2023,Eastern Ill.,OVC,low,1
+2023,Eastern Ky.,ASUN,mid,1
+2023,Eastern Mich.,MAC,mid,1
+2023,Elon,CAA,mid,1
+2023,FGCU,ASUN,mid,3
+2023,Fairfield,MAAC,low,1
+2023,Fla. Atlantic,The American,mid,1
+2023,Florida,SEC,p4,6
+2023,Florida St.,ACC,p4,3
+2023,Fresno St.,Mountain West,mid,1
+2023,Georgetown,Big East,mid,1
+2023,Georgia,SEC,p4,2
+2023,Georgia Tech,ACC,p4,3
+2023,Gonzaga,WCC,mid,2
+2023,Grand Canyon,WAC,mid,3
+2023,Harvard,Ivy League,low,2
+2023,Hawaii,Big West,mid,1
+2023,Houston,Big 12,p4,2
+2023,Houston Christian,Southland,low,1
+2023,Illinois,Big Ten,p4,2
+2023,Illinois St.,MVC,mid,2
+2023,Indiana,Big Ten,p4,2
+2023,Indiana St.,MVC,mid,1
+2023,Iowa,Big Ten,p4,2
+2023,Jacksonville St.,CUSA,mid,1
+2023,James Madison,Sun Belt,mid,1
+2023,Kansas St.,Big 12,p4,2
+2023,Kennesaw St.,CUSA,mid,1
+2023,Kent St.,MAC,mid,3
+2023,Kentucky,SEC,p4,3
+2023,LMU (CA),WCC,mid,3
+2023,LSU,SEC,p4,13
+2023,Lamar University,Southland,low,1
+2023,Liberty,CUSA,mid,1
+2023,Lipscomb,ASUN,mid,2
+2023,Long Beach St.,Big West,mid,3
+2023,Louisiana,Sun Belt,mid,3
+2023,Louisiana Tech,CUSA,mid,1
+2023,Louisville,ACC,p4,4
+2023,Maine,America East,low,1
+2023,Marshall,Sun Belt,mid,2
+2023,Maryland,Big Ten,p4,7
+2023,McNeese,Southland,low,1
+2023,Memphis,The American,mid,2
+2023,Mercer,SoCon,mid,1
+2023,Miami (FL),ACC,p4,6
+2023,Miami (OH),MAC,mid,1
+2023,Michigan,Big Ten,p4,1
+2023,Michigan St.,Big Ten,p4,3
+2023,Middle Tenn.,CUSA,mid,2
+2023,Milwaukee,Horizon,low,1
+2023,Minnesota,Big Ten,p4,2
+2023,Mississippi St.,SEC,p4,3
+2023,Missouri,SEC,p4,4
+2023,Missouri St.,MVC,mid,3
+2023,Morehead St.,OVC,low,1
+2023,N.C. A&T,CAA,mid,1
+2023,NC State,ACC,p4,5
+2023,Nebraska,Big Ten,p4,4
+2023,Nevada,Mountain West,mid,2
+2023,New Mexico,Mountain West,mid,1
+2023,North Carolina,ACC,p4,3
+2023,North Dakota St.,Summit League,low,1
+2023,Northeastern,CAA,mid,1
+2023,Northwestern St.,Southland,low,1
+2023,Ohio St.,Big Ten,p4,3
+2023,Oklahoma,SEC,p4,1
+2023,Oklahoma St.,Big 12,p4,6
+2023,Old Dominion,Sun Belt,mid,1
+2023,Ole Miss,SEC,p4,4
+2023,Omaha,Summit League,low,1
+2023,Oral Roberts,Summit League,low,4
+2023,Oregon,Big Ten,p4,6
+2023,Oregon St.,DI Independent,p4,4
+2023,Penn St.,Big Ten,p4,2
+2023,Pepperdine,WCC,mid,2
+2023,Pittsburgh,ACC,p4,2
+2023,Princeton,Ivy League,low,2
+2023,Rhode Island,Atlantic 10,mid,1
+2023,Rice,The American,mid,3
+2023,Rutgers,Big Ten,p4,2
+2023,SIUE,OVC,low,2
+2023,Sacred Heart,MAAC,low,1
+2023,Saint Joseph's,Atlantic 10,mid,1
+2023,Sam Houston,CUSA,mid,2
+2023,Samford,SoCon,mid,2
+2023,San Diego,WCC,mid,1
+2023,San Diego St.,Mountain West,mid,3
+2023,San Jose St.,Mountain West,mid,1
+2023,Santa Clara,WCC,mid,1
+2023,Seattle U,WAC,mid,1
+2023,South Alabama,Sun Belt,mid,3
+2023,South Carolina,SEC,p4,6
+2023,Southeastern La.,Southland,low,1
+2023,Southern California,Big Ten,p4,1
+2023,Southern Ill.,MVC,mid,2
+2023,Southern Miss.,Sun Belt,mid,4
+2023,Stanford,ACC,p4,9
+2023,Stetson,ASUN,mid,2
+2023,TCU,Big 12,p4,7
+2023,Tarleton St.,WAC,mid,1
+2023,Tennessee,SEC,p4,8
+2023,Tennessee Tech,OVC,low,1
+2023,Texas,SEC,p4,6
+2023,Texas A&M,SEC,p4,7
+2023,Texas St.,Sun Belt,mid,1
+2023,Texas Tech,Big 12,p4,1
+2023,Toledo,MAC,mid,1
+2023,Towson,CAA,mid,1
+2023,Troy,Sun Belt,mid,2
+2023,Tulane,The American,mid,1
+2023,UC Davis,Big West,mid,1
+2023,UC Irvine,Big West,mid,1
+2023,UC Santa Barbara,Big West,mid,2
+2023,UCF,Big 12,p4,1
+2023,UCLA,Big Ten,p4,6
+2023,UConn,Big East,mid,3
+2023,UIC,MVC,mid,2
+2023,ULM,Sun Belt,mid,1
+2023,UNCW,CAA,mid,2
+2023,UNLV,Mountain West,mid,2
+2023,UT Martin,OVC,low,1
+2023,UTSA,The American,mid,1
+2023,Utah Valley,WAC,mid,1
+2023,Vanderbilt,SEC,p4,7
+2023,Virginia,ACC,p4,4
+2023,Virginia Tech,ACC,p4,5
+2023,Wake Forest,ACC,p4,10
+2023,Washington,Big Ten,p4,6
+2023,Washington St.,Mountain West,mid,3
+2023,West Virginia,Big 12,p4,2
+2023,Western Caro.,SoCon,mid,1
+2023,Western Ky.,CUSA,mid,1
+2023,Wichita St.,The American,mid,1
+2023,William & Mary,CAA,mid,2
+2023,Winthrop,Big South,mid,1
+2023,Wofford,SoCon,mid,1
+2023,Wright St.,Horizon,low,1
+2023,Xavier,Big East,mid,1
+2024,A&M-Corpus Christi,Southland,low,1
+2024,Abilene Christian,WAC,mid,1
+2024,Air Force,Mountain West,mid,2
+2024,Alabama,SEC,p4,6
+2024,Alabama St.,SWAC,low,1
+2024,App State,Sun Belt,mid,1
+2024,Arizona,Big 12,p4,4
+2024,Arizona St.,Big 12,p4,3
+2024,Arkansas,SEC,p4,8
+2024,Army West Point,Patriot,low,1
+2024,Auburn,SEC,p4,3
+2024,Austin Peay,ASUN,mid,4
+2024,BYU,Big 12,p4,1
+2024,Ball St.,MAC,mid,1
+2024,Baylor,Big 12,p4,1
+2024,Binghamton,America East,low,1
+2024,Boston College,ACC,p4,2
+2024,Bowling Green,MAC,mid,1
+2024,Bradley,MVC,mid,1
+2024,Bucknell,Patriot,low,1
+2024,CSU Bakersfield,Big West,mid,1
+2024,Cal Poly,Big West,mid,4
+2024,Cal St. Fullerton,Big West,mid,3
+2024,California,ACC,p4,4
+2024,California Baptist,WAC,mid,1
+2024,Campbell,CAA,mid,2
+2024,Canisius,MAAC,low,1
+2024,Charleston So.,Big South,mid,1
+2024,Charlotte,The American,mid,2
+2024,Cincinnati,Big 12,p4,1
+2024,Clemson,ACC,p4,5
+2024,Coastal Carolina,Sun Belt,mid,3
+2024,Col. of Charleston,CAA,mid,1
+2024,Creighton,Big East,mid,1
+2024,DBU,CUSA,mid,2
+2024,Davidson,Atlantic 10,mid,1
+2024,Dayton,Atlantic 10,mid,1
+2024,Duke,ACC,p4,5
+2024,ETSU,SoCon,mid,1
+2024,East Carolina,The American,mid,6
+2024,FGCU,ASUN,mid,2
+2024,Florida,SEC,p4,5
+2024,Florida St.,ACC,p4,8
+2024,Fresno St.,Mountain West,mid,1
+2024,Ga. Southern,Sun Belt,mid,2
+2024,George Mason,Atlantic 10,mid,1
+2024,Georgetown,Big East,mid,1
+2024,Georgia,SEC,p4,3
+2024,Georgia St.,Sun Belt,mid,1
+2024,Georgia Tech,ACC,p4,4
+2024,Gonzaga,WCC,mid,1
+2024,Grand Canyon,WAC,mid,2
+2024,Harvard,Ivy League,low,2
+2024,High Point,Big South,mid,2
+2024,Houston,Big 12,p4,3
+2024,Illinois,Big Ten,p4,2
+2024,Indiana,Big Ten,p4,6
+2024,Indiana St.,MVC,mid,3
+2024,Iowa,Big Ten,p4,5
+2024,James Madison,Sun Belt,mid,3
+2024,Kansas,Big 12,p4,6
+2024,Kansas St.,Big 12,p4,5
+2024,Kennesaw St.,CUSA,mid,1
+2024,Kentucky,SEC,p4,7
+2024,LMU (CA),WCC,mid,3
+2024,LSU,SEC,p4,9
+2024,LSU New Orleans,Southland,low,1
+2024,Lamar University,Southland,low,1
+2024,Lehigh,Patriot,low,2
+2024,Liberty,CUSA,mid,2
+2024,Lipscomb,ASUN,mid,1
+2024,Long Beach St.,Big West,mid,1
+2024,Longwood,Big South,mid,1
+2024,Louisiana,Sun Belt,mid,2
+2024,Louisiana Tech,CUSA,mid,2
+2024,Louisville,ACC,p4,2
+2024,Maine,America East,low,1
+2024,Marshall,Sun Belt,mid,1
+2024,Miami (FL),ACC,p4,5
+2024,Miami (OH),MAC,mid,1
+2024,Milwaukee,Horizon,low,1
+2024,Minnesota,Big Ten,p4,2
+2024,Mississippi St.,SEC,p4,11
+2024,Missouri,SEC,p4,3
+2024,Missouri St.,MVC,mid,2
+2024,Murray St.,MVC,mid,2
+2024,N.C. A&T,CAA,mid,1
+2024,NC State,ACC,p4,4
+2024,Nebraska,Big Ten,p4,2
+2024,Nevada,Mountain West,mid,2
+2024,New Mexico St.,CUSA,mid,2
+2024,Niagara,MAAC,low,2
+2024,Nicholls,Southland,low,1
+2024,North Carolina,ACC,p4,6
+2024,North Dakota St.,Summit League,low,1
+2024,Northeastern,CAA,mid,2
+2024,Notre Dame,ACC,p4,2
+2024,Oakland,Horizon,low,1
+2024,Ohio St.,Big Ten,p4,1
+2024,Oklahoma,SEC,p4,8
+2024,Oklahoma St.,Big 12,p4,8
+2024,Old Dominion,Sun Belt,mid,1
+2024,Ole Miss,SEC,p4,7
+2024,Omaha,Summit League,low,1
+2024,Oral Roberts,Summit League,low,2
+2024,Oregon,Big Ten,p4,5
+2024,Oregon St.,DI Independent,p4,7
+2024,Penn,Ivy League,low,1
+2024,Pittsburgh,ACC,p4,2
+2024,Portland,WCC,mid,3
+2024,Presbyterian,Big South,mid,2
+2024,Purdue,Big Ten,p4,1
+2024,Queens (NC),ASUN,mid,1
+2024,Radford,Big South,mid,1
+2024,Rice,The American,mid,1
+2024,Rutgers,Big Ten,p4,4
+2024,Sacramento St.,WAC,mid,1
+2024,Saint Joseph's,Atlantic 10,mid,4
+2024,Saint Louis,Atlantic 10,mid,2
+2024,Saint Mary's (CA),WCC,mid,1
+2024,Sam Houston,CUSA,mid,1
+2024,Samford,SoCon,mid,2
+2024,San Diego,WCC,mid,5
+2024,San Francisco,WCC,mid,1
+2024,Santa Clara,WCC,mid,2
+2024,South Alabama,Sun Belt,mid,2
+2024,South Carolina,SEC,p4,3
+2024,Southern California,Big Ten,p4,4
+2024,Southern Ill.,MVC,mid,1
+2024,Southern Miss.,Sun Belt,mid,2
+2024,St. John's (NY),Big East,mid,1
+2024,Stanford,ACC,p4,1
+2024,TCU,Big 12,p4,4
+2024,Tennessee,SEC,p4,8
+2024,Texas,SEC,p4,3
+2024,Texas A&M,SEC,p4,7
+2024,Texas Tech,Big 12,p4,4
+2024,Troy,Sun Belt,mid,1
+2024,Tulane,The American,mid,4
+2024,UC Irvine,Big West,mid,5
+2024,UC San Diego,Big West,mid,3
+2024,UC Santa Barbara,Big West,mid,6
+2024,UCF,Big 12,p4,2
+2024,UCLA,Big Ten,p4,3
+2024,UConn,Big East,mid,1
+2024,UIC,MVC,mid,2
+2024,UMBC,America East,low,1
+2024,UNCW,CAA,mid,3
+2024,UNLV,Mountain West,mid,1
+2024,USC Upstate,Big South,mid,1
+2024,Utah,Big 12,p4,3
+2024,VCU,Atlantic 10,mid,3
+2024,VMI,SoCon,mid,2
+2024,Vanderbilt,SEC,p4,7
+2024,Virginia,ACC,p4,3
+2024,Virginia Tech,ACC,p4,5
+2024,Wake Forest,ACC,p4,6
+2024,Washington,Big Ten,p4,1
+2024,West Virginia,Big 12,p4,5
+2024,Western Caro.,SoCon,mid,1
+2024,Western Ky.,CUSA,mid,3
+2024,Western Mich.,MAC,mid,1
+2024,Wichita St.,The American,mid,1
+2024,William & Mary,CAA,mid,3
+2024,Winthrop,Big South,mid,1
+2024,Wofford,SoCon,mid,1
+2024,Wright St.,Horizon,low,2
+2024,Xavier,Big East,mid,1
+2025,Abilene Christian,WAC,mid,1
+2025,Alabama,SEC,p4,4
+2025,Alabama St.,SWAC,low,2
+2025,App State,Sun Belt,mid,2
+2025,Arizona,Big 12,p4,9
+2025,Arizona St.,Big 12,p4,9
+2025,Arkansas,SEC,p4,11
+2025,Auburn,SEC,p4,7
+2025,Austin Peay,ASUN,mid,1
+2025,BYU,Big 12,p4,1
+2025,Ball St.,MAC,mid,2
+2025,Baylor,Big 12,p4,2
+2025,Belmont,MVC,mid,1
+2025,Binghamton,America East,low,1
+2025,Boston College,ACC,p4,1
+2025,Bowling Green,MAC,mid,1
+2025,Butler,Big East,mid,1
+2025,Cal Poly,Big West,mid,2
+2025,California Baptist,WAC,mid,1
+2025,Central Ark.,ASUN,mid,1
+2025,Charlotte,The American,mid,3
+2025,Cincinnati,Big 12,p4,2
+2025,Clemson,ACC,p4,2
+2025,Coastal Carolina,Sun Belt,mid,4
+2025,Col. of Charleston,CAA,mid,1
+2025,Creighton,Big East,mid,2
+2025,DBU,CUSA,mid,5
+2025,Duke,ACC,p4,4
+2025,ETSU,SoCon,mid,1
+2025,East Carolina,The American,mid,2
+2025,Elon,CAA,mid,2
+2025,FGCU,ASUN,mid,1
+2025,FIU,CUSA,mid,2
+2025,Florida,SEC,p4,6
+2025,Florida A&M,SWAC,low,1
+2025,Florida St.,ACC,p4,11
+2025,Fordham,Atlantic 10,mid,1
+2025,Fresno St.,Mountain West,mid,4
+2025,Ga. Southern,Sun Belt,mid,1
+2025,George Mason,Atlantic 10,mid,2
+2025,Georgia,SEC,p4,10
+2025,Georgia St.,Sun Belt,mid,1
+2025,Georgia Tech,ACC,p4,3
+2025,Gonzaga,WCC,mid,1
+2025,Grand Canyon,WAC,mid,4
+2025,Harvard,Ivy League,low,2
+2025,Hawaii,Big West,mid,3
+2025,Hofstra,CAA,mid,1
+2025,Holy Cross,Patriot,low,1
+2025,Houston,Big 12,p4,2
+2025,Illinois,Big Ten,p4,2
+2025,Illinois St.,MVC,mid,2
+2025,Indiana,Big Ten,p4,4
+2025,Iowa,Big Ten,p4,4
+2025,Jacksonville,ASUN,mid,1
+2025,Jacksonville St.,CUSA,mid,2
+2025,Kansas,Big 12,p4,3
+2025,Kansas St.,Big 12,p4,2
+2025,Kennesaw St.,CUSA,mid,1
+2025,Kent St.,MAC,mid,1
+2025,Kentucky,SEC,p4,1
+2025,LMU (CA),WCC,mid,2
+2025,LSU,SEC,p4,9
+2025,Lamar University,Southland,low,1
+2025,Liberty,CUSA,mid,2
+2025,Louisiana Tech,CUSA,mid,1
+2025,Louisville,ACC,p4,6
+2025,Maine,America East,low,1
+2025,Marshall,Sun Belt,mid,1
+2025,Maryland,Big Ten,p4,1
+2025,Memphis,The American,mid,1
+2025,Mercer,SoCon,mid,1
+2025,Miami (FL),ACC,p4,2
+2025,Miami (OH),MAC,mid,1
+2025,Michigan,Big Ten,p4,1
+2025,Michigan St.,Big Ten,p4,1
+2025,Minnesota,Big Ten,p4,1
+2025,Mississippi St.,SEC,p4,7
+2025,Missouri,SEC,p4,2
+2025,Missouri St.,MVC,mid,2
+2025,Murray St.,MVC,mid,1
+2025,NC State,ACC,p4,6
+2025,NJIT,America East,low,1
+2025,Nebraska,Big Ten,p4,2
+2025,Nevada,Mountain West,mid,1
+2025,North Carolina,ACC,p4,4
+2025,Northeastern,CAA,mid,5
+2025,Northern Ky.,Horizon,low,1
+2025,Notre Dame,ACC,p4,2
+2025,Ohio St.,Big Ten,p4,1
+2025,Oklahoma,SEC,p4,8
+2025,Oklahoma St.,Big 12,p4,4
+2025,Old Dominion,Sun Belt,mid,3
+2025,Ole Miss,SEC,p4,9
+2025,Oregon,Big Ten,p4,4
+2025,Oregon St.,DI Independent,p4,7
+2025,Penn St.,Big Ten,p4,5
+2025,Pittsburgh,ACC,p4,2
+2025,Portland,WCC,mid,2
+2025,Princeton,Ivy League,low,1
+2025,Queens (NC),ASUN,mid,1
+2025,Rhode Island,Atlantic 10,mid,1
+2025,Rice,The American,mid,2
+2025,Rutgers,Big Ten,p4,2
+2025,Sacramento St.,WAC,mid,3
+2025,Saint Joseph's,Atlantic 10,mid,1
+2025,Samford,SoCon,mid,1
+2025,San Diego,WCC,mid,2
+2025,San Diego St.,Mountain West,mid,1
+2025,Seton Hall,Big East,mid,1
+2025,South Carolina,SEC,p4,4
+2025,South Dakota St.,Summit League,low,1
+2025,South Fla.,The American,mid,3
+2025,Southeastern La.,Southland,low,2
+2025,Southern California,Big Ten,p4,3
+2025,Southern Miss.,Sun Belt,mid,4
+2025,Southern U.,SWAC,low,1
+2025,St. Bonaventure,Atlantic 10,mid,1
+2025,Stanford,ACC,p4,1
+2025,Stetson,ASUN,mid,4
+2025,TCU,Big 12,p4,4
+2025,Tennessee,SEC,p4,9
+2025,Texas,SEC,p4,5
+2025,Texas A&M,SEC,p4,8
+2025,Texas St.,Sun Belt,mid,2
+2025,Texas Tech,Big 12,p4,5
+2025,Toledo,MAC,mid,1
+2025,Troy,Sun Belt,mid,3
+2025,Tulane,The American,mid,3
+2025,UAB,The American,mid,3
+2025,UC Irvine,Big West,mid,6
+2025,UC San Diego,Big West,mid,1
+2025,UC Santa Barbara,Big West,mid,3
+2025,UCF,Big 12,p4,4
+2025,UCLA,Big Ten,p4,1
+2025,UConn,Big East,mid,2
+2025,UIC,MVC,mid,1
+2025,UNC Asheville,Big South,mid,1
+2025,UNC Greensboro,SoCon,mid,1
+2025,UNCW,CAA,mid,5
+2025,UTSA,The American,mid,2
+2025,Utah,Big 12,p4,2
+2025,Vanderbilt,SEC,p4,7
+2025,Virginia,ACC,p4,7
+2025,Virginia Tech,ACC,p4,4
+2025,Wake Forest,ACC,p4,6
+2025,Washington,Big Ten,p4,1
+2025,Washington St.,Mountain West,mid,1
+2025,West Virginia,Big 12,p4,5
+2025,Western Caro.,SoCon,mid,4
+2025,Western Ky.,CUSA,mid,1
+2025,Wichita St.,The American,mid,1
+2025,William & Mary,CAA,mid,1
+2025,Wofford,SoCon,mid,1
+2025,Wright St.,Horizon,low,1
+2025,Yale,Ivy League,low,1
+2026,Abilene Christian,WAC,mid,1
+2026,Alabama,SEC,p4,4
+2026,App State,Sun Belt,mid,1
+2026,Arizona,Big 12,p4,2
+2026,Arizona St.,Big 12,p4,10
+2026,Arkansas,SEC,p4,12
+2026,Auburn,SEC,p4,7
+2026,Austin Peay,ASUN,mid,1
+2026,BYU,Big 12,p4,2
+2026,Baylor,Big 12,p4,2
+2026,Bellarmine,ASUN,mid,1
+2026,Binghamton,America East,low,2
+2026,Bowling Green,MAC,mid,1
+2026,Brown,Ivy League,low,1
+2026,CSUN,Big West,mid,1
+2026,Cal Poly,Big West,mid,7
+2026,Cal St. Fullerton,Big West,mid,3
+2026,California,ACC,p4,3
+2026,California Baptist,WAC,mid,2
+2026,Campbell,CAA,mid,2
+2026,Cincinnati,Big 12,p4,3
+2026,Clemson,ACC,p4,5
+2026,Coastal Carolina,Sun Belt,mid,3
+2026,DBU,CUSA,mid,4
+2026,Dartmouth,Ivy League,low,1
+2026,Dayton,Atlantic 10,mid,1
+2026,Delaware St.,NEC,low,1
+2026,Duke,ACC,p4,1
+2026,ETSU,SoCon,mid,1
+2026,East Carolina,The American,mid,2
+2026,Evansville,MVC,mid,1
+2026,FGCU,ASUN,mid,5
+2026,Fairfield,MAAC,low,1
+2026,Fla. Atlantic,The American,mid,1
+2026,Florida,SEC,p4,6
+2026,Florida St.,ACC,p4,7
+2026,George Mason,Atlantic 10,mid,1
+2026,George Washington,Atlantic 10,mid,1
+2026,Georgetown,Big East,mid,1
+2026,Georgia,SEC,p4,13
+2026,Georgia St.,Sun Belt,mid,1
+2026,Georgia Tech,ACC,p4,8
+2026,Gonzaga,WCC,mid,1
+2026,Grand Canyon,WAC,mid,2
+2026,Hawaii,Big West,mid,1
+2026,High Point,Big South,mid,1
+2026,Hofstra,CAA,mid,1
+2026,Houston,Big 12,p4,5
+2026,Houston Christian,Southland,low,1
+2026,Illinois,Big Ten,p4,1
+2026,Illinois St.,MVC,mid,3
+2026,Indiana,Big Ten,p4,1
+2026,Indiana St.,MVC,mid,1
+2026,Iowa,Big Ten,p4,2
+2026,Jacksonville St.,CUSA,mid,3
+2026,James Madison,Sun Belt,mid,1
+2026,Kansas,Big 12,p4,4
+2026,Kansas St.,Big 12,p4,4
+2026,Kennesaw St.,CUSA,mid,1
+2026,Kentucky,SEC,p4,4
+2026,LSU,SEC,p4,8
+2026,Lafayette,Patriot,low,1
+2026,Lamar University,Southland,low,1
+2026,Liberty,CUSA,mid,4
+2026,Little Rock,OVC,low,1
+2026,Longwood,Big South,mid,1
+2026,Louisiana,Sun Belt,mid,1
+2026,Louisiana Tech,CUSA,mid,2
+2026,Louisville,ACC,p4,5
+2026,Maine,America East,low,1
+2026,Maryland,Big Ten,p4,2
+2026,McNeese,Southland,low,1
+2026,Mercer,SoCon,mid,3
+2026,Miami (FL),ACC,p4,4
+2026,Miami (OH),MAC,mid,1
+2026,Michigan,Big Ten,p4,2
+2026,Michigan St.,Big Ten,p4,2
+2026,Middle Tenn.,CUSA,mid,3
+2026,Milwaukee,Horizon,low,2
+2026,Minnesota,Big Ten,p4,7
+2026,Mississippi St.,SEC,p4,4
+2026,Missouri,SEC,p4,2
+2026,Missouri St.,MVC,mid,1
+2026,NC State,ACC,p4,7
+2026,Nebraska,Big Ten,p4,2
+2026,Nevada,Mountain West,mid,1
+2026,New Mexico,Mountain West,mid,1
+2026,New Mexico St.,CUSA,mid,1
+2026,Nicholls,Southland,low,1
+2026,North Carolina,ACC,p4,6
+2026,North Florida,ASUN,mid,1
+2026,Northeastern,CAA,mid,2
+2026,Northwestern,Big Ten,p4,2
+2026,Northwestern St.,Southland,low,1
+2026,Notre Dame,ACC,p4,2
+2026,Ohio St.,Big Ten,p4,1
+2026,Oklahoma,SEC,p4,8
+2026,Oklahoma St.,Big 12,p4,5
+2026,Ole Miss,SEC,p4,8
+2026,Oregon,Big Ten,p4,7
+2026,Oregon St.,DI Independent,p4,5
+2026,Penn St.,Big Ten,p4,1
+2026,Pittsburgh,ACC,p4,2
+2026,Radford,Big South,mid,1
+2026,Rhode Island,Atlantic 10,mid,1
+2026,Rutgers,Big Ten,p4,2
+2026,SIUE,OVC,low,1
+2026,Sacramento St.,WAC,mid,2
+2026,Saint Joseph's,Atlantic 10,mid,3
+2026,Saint Mary's (CA),WCC,mid,4
+2026,Sam Houston,CUSA,mid,1
+2026,San Diego,WCC,mid,2
+2026,San Diego St.,Mountain West,mid,3
+2026,Santa Clara,WCC,mid,2
+2026,Seattle U,WAC,mid,1
+2026,South Alabama,Sun Belt,mid,2
+2026,South Carolina,SEC,p4,3
+2026,South Fla.,The American,mid,3
+2026,Southeast Mo. St.,OVC,low,1
+2026,Southern California,Big Ten,p4,4
+2026,Southern Ill.,MVC,mid,1
+2026,Southern Miss.,Sun Belt,mid,3
+2026,St. John's (NY),Big East,mid,2
+2026,Stanford,ACC,p4,4
+2026,Stetson,ASUN,mid,1
+2026,Stony Brook,CAA,mid,1
+2026,TCU,Big 12,p4,4
+2026,Tarleton St.,WAC,mid,1
+2026,Tennessee,SEC,p4,6
+2026,Texas,SEC,p4,6
+2026,Texas A&M,SEC,p4,8
+2026,Texas St.,Sun Belt,mid,2
+2026,Texas Tech,Big 12,p4,5
+2026,The Citadel,SoCon,mid,1
+2026,Toledo,MAC,mid,1
+2026,Troy,Sun Belt,mid,4
+2026,Tulane,The American,mid,1
+2026,UAB,The American,mid,1
+2026,UC Irvine,Big West,mid,2
+2026,UC San Diego,Big West,mid,3
+2026,UC Santa Barbara,Big West,mid,6
+2026,UCF,Big 12,p4,3
+2026,UCLA,Big Ten,p4,10
+2026,UConn,Big East,mid,1
+2026,UIC,MVC,mid,1
+2026,UNCW,CAA,mid,3
+2026,UNLV,Mountain West,mid,5
+2026,USC Upstate,Big South,mid,1
+2026,UT Martin,OVC,low,1
+2026,UTSA,The American,mid,3
+2026,Utah,Big 12,p4,2
+2026,Utah Tech,WAC,mid,1
+2026,Utah Valley,WAC,mid,1
+2026,VCU,Atlantic 10,mid,2
+2026,VMI,SoCon,mid,1
+2026,Vanderbilt,SEC,p4,5
+2026,Virginia,ACC,p4,5
+2026,Virginia Tech,ACC,p4,4
+2026,Wake Forest,ACC,p4,5
+2026,West Virginia,Big 12,p4,5
+2026,Western Ky.,CUSA,mid,2
+2026,Western Mich.,MAC,mid,1
+2026,Wichita St.,The American,mid,3
+2026,Wofford,SoCon,mid,1
+2026,Wright St.,Horizon,low,1
+2026,Xavier,Big East,mid,2
