@@ -139,6 +139,18 @@ def season_extract6(res: dict) -> dict:
     gp, gs, ip = p[pit, P_G], p[pit, P_GS], p[pit, P_OUTS] / 3
     by_app = np.argsort(-gp, kind="stable")
     rel = gs <= 3
+    # bullpen form (owner decision 2026-10-09, option A; engine/bullpen_metrics.py): P4 staffs gated, all teams reported
+    br = res.get("bullpen_rows")
+    if br is not None and len(br):
+        from engine import bullpen_metrics as bpm
+        bo = bpm.frame(br.tolist())
+        for name, sub in (("p4", bo[bo.team.map(lambda t: tier[t] == "p4")]), ("all", bo)):
+            f_, w_ = bpm.feedback_slopes(sub), bpm.workload_terciles(sub)
+            out[f"bp_{name}_next_blowout_per_run"], out[f"bp_{name}_next_margin_per_run"] = f_["blow"], f_["absm"]
+            for t_ in ("low", "mid", "high"):
+                out[f"bp_{name}_workload_{t_}"] = w_[t_]
+            for b_, v_ in bpm.entry_quality(sub).items():
+                out[f"bp_{name}_entry_{b_}"] = v_
     out.update({"app_max_national": float(gp[by_app[0]]), "app_50th_national": float(gp[by_app[49]]),
                 "top50_app_with_60ip": float((ip[by_app[:50]] >= 60).sum()), "relief_ip_max": float(ip[rel].max()),
                 "relievers_60ip": float((rel & (ip >= 60)).sum()), "ip_leader_is_reliever": float(rel[np.argmax(ip)])})
@@ -197,6 +209,19 @@ def build_report6(agg: dict, agg2: dict, agg5: dict, seeds: list, st2: dict, st4
                        ("relief_only_40ip", "Relief-only pitchers (≤3 GS) with 40+ IP, per team"), ("relief_only_60ip", "Relief-only pitchers with 60+ IP, per team"),
                        ("ip_rank1", "IP, team's top pitcher"), ("ip_rank2", "IP, 2nd"), ("ip_rank3", "IP, 3rd")):
         row("usage", f"p6_{key}", label, m[key], se[key], u6[key]["value"], u6[key]["tol"], 2)
+    if "bp_p4_next_blowout_per_run" in m:
+        bf_ = b["bullpen_form_2025"]
+        for key, label, nd in (("next_blowout_per_run", "Next relief entry a blowout (7+), per run allowed last outing (P4, within pitcher)", 4),
+                               ("next_margin_per_run", "Next relief entry |margin|, per run allowed last outing (P4, within pitcher)", 3),
+                               ("workload_low", "Runs per BF against staff mean, lowest workload third (P4 relief-only)", 4),
+                               ("workload_mid", "Runs per BF against staff mean, middle workload third (P4 relief-only)", 4),
+                               ("workload_high", "Runs per BF against staff mean, highest workload third (P4 relief-only)", 4)):
+            row("bullpen", f"bp_{key}", label, m[f"bp_p4_{key}"], se[f"bp_p4_{key}"], bf_[key]["value"], bf_[key]["tol"], nd,
+                f"all teams {m[f'bp_all_{key}']:+.{nd}f}")
+        for b_ in ("0-1", "2-3", "4", "5-7", "8+"):
+            e_ = bf_["entry_quality_by_margin"][b_]
+            row("bullpen", f"bp_entry_{b_}", f"Relief-entry quality at a margin of {b_}: runs per BF elsewhere minus staff relief rate (P4)",
+                m[f"bp_p4_entry_{b_}"], se[f"bp_p4_entry_{b_}"], e_["value"], e_["tol"], 4, f"all teams {m[f'bp_all_entry_{b_}']:+.4f}")
     row("usage", "p6_batters_per_team_game", "Distinct batters per team-game", m["batters_per_team_game"], se["batters_per_team_game"],
         u6["batters_per_team_game"]["value"], u6["batters_per_team_game"]["tol"], 3)
     # rows deferred from Phases 2 and 5
@@ -291,6 +316,11 @@ def build_report6(agg: dict, agg2: dict, agg5: dict, seeds: list, st2: dict, st4
              "; final count " + ", ".join(f"{fc} {m[f'fe_fc{fc}_attempt']:.4f} / {fe['by_final_count'][fc]['attempt']:.4f}" for fc in PATH_COUNTS) + ".", ""]
             if "dec_bunts_per_team_game" in m else []),
           "## Pitcher usage (56-game equivalent)", "", hdr, sec("usage"), "",
+          *(["## Bullpen form (relief usage reacts to results)", "",
+             "Owner decision 2026-10-09 (option A): the AI's relief choice reacts to each reliever's recent results (runs while in, last outing "
+             "and the three before it; scripts/build_bullpen_form.py, the form scale solved in the engine by scripts/solve_bullpen_form.py). "
+             "Same estimator on both sides (engine/bullpen_metrics.py); benchmark: the 36 P4 full-season staffs of the 2025 play-by-play.", "",
+             hdr, sec("bullpen"), ""] if "bp_p4_next_blowout_per_run" in m else []),
           "Top three pitchers' innings, split (sim / real): " + "; ".join(
               f"#{r}: Fri-Sun starts {m[f'ip_rank{r}_fri_sun_starts']:.1f} / {u6[f'ip_rank{r}_fri_sun_starts']['value']:.1f}, "
               f"other starts {m[f'ip_rank{r}_other_starts']:.1f} / {u6[f'ip_rank{r}_other_starts']['value']:.1f}, "

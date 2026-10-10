@@ -39,6 +39,20 @@ LEVERAGE_CLOSE = 3                   # GUESS (bin edge; a save situation is up t
 # at a large finite negative value instead of minus infinity. Numerical, not a baseball rate.
 CLOGIT_RIDGE = 0.01
 
+# Bullpen form (variance stage, owner decision 2026-10-09, option A): the relief choice reacts to each pitcher's recent
+# results (scripts/build_bullpen_form.py). Runs in an outing are capped at FORM_CAP (a blowup counts as FORM_CAP runs);
+# the prior form is the mean over the FORM_PRIOR_N outings before the last.
+FORM_CAP = 5                         # GUESS (cap)
+FORM_PRIOR_N = 3                     # GUESS (window)
+# The fixed quality-by-margin term of the relief choice: its weight is QUALITY_FLOOR up to a margin of QUALITY_PIVOT and rises
+# to +1 at QUALITY_PIVOT + QUALITY_SPAN and beyond (worse arms in blowouts). One-sided (floor 0, 2026-10-09): a weight of -1 at
+# a tie concentrated the close games on the best reliever (busiest pitcher's appearances 27.0 against 24.5 real) while the
+# fitted roles by leverage already give the real close-game profile
+QUALITY_PIVOT = 4                    # GUESS (shape; the real entry quality crosses zero between 4 and 5)
+QUALITY_SPAN = 4                     # GUESS (shape)
+QUALITY_FLOOR = 0.0                  # GUESS (shape)
+BULLPEN_FORM = Path(__file__).resolve().parents[1] / "data/ncaa_2025/derived/bullpen_form_2025.json"
+
 # Season calendar of the 2025 data: opening day (the first D1 games, benchmarks game_structure.
 # season_window); season week = days since it // 7. Starter leash by week bin: weeks [0, 2), [2, 4),
 # [4, 7), [7, 10), [10, ...).
@@ -64,7 +78,7 @@ MIN_RUNNER_OPP = 10                  # GUESS (statistical threshold)
 
 # Phase 6 mechanisms, switchable one by one so each one's effect on the gate rows can be measured
 # (scripts set FEATURES[...] = False for an ablation run; the engine reads it at season start).
-FEATURES = {"calendar": True, "bullpen": True, "leash": True, "subs": True, "parks": True, "fielding": True, "speed": True, "schedule": True}
+FEATURES = {"calendar": True, "bullpen": True, "leash": True, "subs": True, "parks": True, "fielding": True, "speed": True, "schedule": True, "bullpen_form": True}
 
 # Bounds on the one-factor speed loadings (engine/league.py): the loadings come from three pairwise
 # correlations and are clipped so no component is all speed or none. Numerical guard.
@@ -89,3 +103,8 @@ def batter_start_shares(table: dict, n: int) -> list:
     deeper one); 0 where neither has the rank."""
     ext = load().get("subs6", {}).get("bench_pick_weight", {}).get("start_share_by_rank", {})
     return [float(table.get(str(k + 1), ext.get(str(k + 1), 0.0))) for k in range(n)]
+
+
+def load_bullpen_form() -> dict:
+    """The bullpen form inputs (scripts/build_bullpen_form.py, solved scale from scripts/solve_bullpen_form.py), or {}."""
+    return json.loads(BULLPEN_FORM.read_text()) if BULLPEN_FORM.exists() else {}
