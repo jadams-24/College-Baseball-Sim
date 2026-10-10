@@ -28,6 +28,10 @@
     return el;
   }
   function open(html) { const el = overlay(); $("#page-body").innerHTML = html; el.classList.remove("hidden"); el.scrollTop = 0; }
+  const LD = window.cbsLoad;
+  // the page opens within the frame with skeleton rows; the data replaces them, or an error with Retry does
+  function opening(title) { open(`<div class="page-head"><div class="who"><div><div class="name">${esc(title)}</div><div class="muted">Loading…</div></div></div>${closeBtn}</div><div class="page-grid"><div class="panel"><div class="body tight">${LD.skeleton(6, 3)}</div></div><div class="col"><div class="panel"><div class="body tight">${LD.skeleton(4, 6)}</div></div></div></div><div class="panel"><div class="body tight">${LD.skeleton(8, 6)}</div></div>`); }
+  function failed(e, retry) { open(`<div class="page-head"><div class="who"><div><div class="name">Couldn't load the page</div></div></div>${closeBtn}</div>${LD.errorPanel(e.message || String(e), retry)}`); }
   function close() { const el = $("#pageover"); if (el) el.classList.add("hidden"); }
   const closeBtn = `<button class="btn-ghost page-close" data-page-close="1" title="close (Esc)">Close</button>`;
 
@@ -50,7 +54,9 @@
 
   async function player(pid) {
     const url = inDynasty() ? `/api/dynasties/${dynId()}/players/${pid}` : `/api/players/${pid}`;
-    const p = await raw(url);
+    opening("Player");
+    let p;
+    try { p = await raw(url); } catch (e) { return failed(e, () => busy(() => player(pid))); }
     const isBat = p.side === "bat", keys = isBat ? BAT_KEYS : PIT_KEYS;
     const bars = keys.map((k) => ratingBar(k, p.ratings[k])).join("");
     const season = p.season ? statRow(isBat ? BSEASON : PSEASON, p.season) : `<div class="muted">No season: this is an exhibition.</div>`;
@@ -75,8 +81,12 @@
 
   // ---- the team page ----
   async function team(tid) {
-    if (!inDynasty()) { const t = await raw(`/api/teams/${tid}`); return teamExhibition(t); }
-    const t = await raw(`/api/dynasties/${dynId()}/teams/${tid}`);
+    opening("Team");
+    let t;
+    try {
+      if (!inDynasty()) { t = await raw(`/api/teams/${tid}`); return teamExhibition(t); }
+      t = await raw(`/api/dynasties/${dynId()}/teams/${tid}`);
+    } catch (e) { return failed(e, () => busy(() => team(tid))); }
     const bk = BAT_KEYS, pk = PIT_KEYS;
     const rb = (k, v) => (v == null ? '<span class="muted">–</span>' : badge(k, v).replace(/<span class="k">.*?<\/span>/, ""));
     const bat = `<table class="tbl roster"><tr><th>Pos</th><th>Name</th><th>B/T</th>${bk.map((k) => `<th>${RATING[k][0]}</th>`).join("")}<th class="num">AVG</th><th class="num">OBP</th><th class="num">SLG</th><th class="num">HR</th><th class="num">RBI</th><th class="num">SB</th></tr>${t.roster.batters.map((p) => `<tr><td>${p.pos}</td><td class="nm"><a class="plink" data-pid="${p.pid}">${esc(p.name)}</a> <span class="muted">${p.role}</span></td><td class="muted">${p.hand}</td>${bk.map((k) => `<td>${rb(k, p.ratings[k])}</td>`).join("")}<td class="num">${f3(p.stats.avg)}</td><td class="num">${f3(p.stats.obp)}</td><td class="num">${f3(p.stats.slg)}</td><td class="num">${p.stats.hr}</td><td class="num">${p.stats.rbi}</td><td class="num">${p.stats.sb}</td></tr>`).join("")}</table>`;
@@ -105,10 +115,10 @@
     bind();
   }
   function bind() {
-    $$("#page-body [data-box], #page-body [data-postbox]").forEach((b) => b.addEventListener("click", () => busy(async () => {
+    $$("#page-body [data-box], #page-body [data-postbox]").forEach((b) => b.addEventListener("click", () => busy(() => LD.act(b, "Loading…", async () => {
       const g = b.dataset.box != null ? await raw(`/api/dynasties/${dynId()}/games/${b.dataset.box}`) : await raw(`/api/dynasties/${dynId()}/postgames/${b.dataset.postbox}`);
       close(); if (window.dyn && window.dyn.showBox) window.dyn.showBox(g);
-    })));
+    }))));
   }
 
   // every player or school name anywhere: data-pid / data-tid

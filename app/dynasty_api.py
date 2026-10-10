@@ -307,12 +307,30 @@ def sim(did: str, body: SimIn):
     return {"job": job}
 
 
+@router.post("/api/dynasties/{did}/stop")
+def stop(did: str):
+    """Stop a running sim at its next clean point (the end of the current day in the regular season, between two
+    games in the postseason); the hub then shows the "stopped" pause. A background sim of the week's other games is
+    cancelled the same way. Idempotent; nothing to stop is fine."""
+    d = _get(did)
+    j = _store.jobs.get(did)
+    if not (j and j["running"]):
+        return {"stopping": False, "running": False}
+    if j.get("kind") == "background":
+        j["cancel"] = True
+    else:
+        d.stop_requested = True
+    return {"stopping": True, "running": True}
+
+
 @router.get("/api/dynasties/{did}/progress")
 def progress(did: str):
     d = _get(did)
     j = _store.jobs.get(did) or {"running": False}
     out = {"running": j.get("running", False), "kind": j.get("kind", "sim"), "played": j.get("played"), "total": j.get("total"), "stage": j.get("stage"),
-           "date": j.get("date"), "error": j.get("error"), "ahead": j.get("ahead"), "ahead_total": j.get("ahead_total")}
+           "date": j.get("date"), "error": j.get("error"), "ahead": j.get("ahead"), "ahead_total": j.get("ahead_total"),
+           "started": j.get("started"), "elapsed": (time.time() - j["started"]) if j.get("started") and j.get("running") else None,
+           "stoppable": bool(j.get("running")) and j.get("kind") == "sim", "stopping": bool(getattr(d, "stop_requested", False) or j.get("cancel"))}
     if not out["running"]:
         out["hub"] = _hub(did, d)
     return out

@@ -145,6 +145,7 @@ class Dynasty:
         self.today = 0                   # the world's date (days since the opening week's Monday): the day loop's position
         self.steps_done: list = []       # world steps finished today (a paused step is not; it resumes on the next call)
         self.last_pause: dict | None = None   # the auto-pause event the last advance stopped on
+        self.stop_requested = False           # "Stop at next pause" (app): the advance loop stops at its next clean point
         self.pending: dict | None = None # the user's game waiting to be played or simmed
         self.runner: GameRunner | None = None
         self.news: list = []
@@ -354,6 +355,7 @@ class Dynasty:
             return self.hub()
         self.pending = None
         self.last_pause = None
+        self.stop_requested = False
         long = target in self.LONG_TARGETS
         enabled = (set(stops) & set(STOPS)) if long else set()
         if pause_mine:
@@ -376,6 +378,10 @@ class Dynasty:
             self.steps_done = []
             if progress:
                 progress(self)
+            if self.stop_requested:                      # a clean point: the day is over, nothing is half-played
+                self.last_pause = PauseEvent("stopped", "Stopped at your request.", "hub").as_dict()
+                self.stop_requested = False
+                break
             if target == "day" and ctx.worked:
                 break
             if week_end and "week_end" in enabled:
@@ -544,6 +550,10 @@ class Dynasty:
                 rec = dyn.post_calls[idx]
                 return rec["hr"], rec["ar"]
             if stop_before == stage:
+                raise StopAt()
+            if getattr(dyn, "stop_requested", False):        # between two games: the recorded results replay next time
+                dyn.stop_requested = False
+                dyn.last_pause = PauseEvent("stopped", "Stopped at your request.", "hub").as_dict()
                 raise StopAt()
             if stage == "regional":
                 dyn.stage = "ncaa"

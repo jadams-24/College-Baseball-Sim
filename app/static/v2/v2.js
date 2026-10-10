@@ -30,7 +30,7 @@
 
   // ---- API ----
   async function raw(path, method = "GET", body) {
-    const r = await fetch(path, { method, headers: body ? { "Content-Type": "application/json" } : {}, body: body ? JSON.stringify(body) : undefined });
+    const r = await window.cbsLoad.request(path, { method, headers: body ? { "Content-Type": "application/json" } : {}, body: body ? JSON.stringify(body) : undefined });
     if (!r.ok) {
       let msg = r.statusText;
       try { msg = (await r.json()).detail || msg; } catch (e) { /* keep */ }
@@ -49,11 +49,11 @@
       return raw(`/api/games/${S.game.id}${path}`, method, body);
     }
   }
-  async function busy(fn) {
+  async function busy(fn, o) {
     if (S.busy) return;
     S.busy = true; document.body.classList.add("busy");
     try { return await fn(); }
-    catch (e) { console.error(e); toast(e.message || String(e)); }
+    catch (e) { console.error(e); if (!(o && o.quiet)) toast(e.message || String(e)); }
     finally { S.busy = false; document.body.classList.remove("busy"); if (S.game) render(S.game.turn); }
   }
   function toast(msg) {
@@ -364,6 +364,7 @@
     const league = $("#league-sim") ? $("#league-sim").outerHTML : "";
     $("#simbar").innerHTML = `<span class="k">Sim</span>${t.state.over && S.game && S.game.dynasty ? "" : sims}${back}${league}`;
     $$("#simbar [data-sim]").forEach((b) => (b.disabled = off));
+    if (window.cbsLoad.locked()) window.cbsLoad.simLock(true);
   }
   function orderText(o) {
     const d = S.decisions.kinds.find((k) => k.kind === o.kind), v = o.value;
@@ -484,9 +485,9 @@
   }
   async function renderBox() {
     const el = $("#feed-box");
-    el.innerHTML = "<div class='muted'>Loading…</div>";
+    el.innerHTML = window.cbsLoad.skeleton(8, 7);
     let b;
-    try { b = await gameCall("/box"); } catch (e) { el.innerHTML = `<div class='muted'>${esc(e.message)}</div>`; return; }
+    try { b = await gameCall("/box"); } catch (e) { el.innerHTML = window.cbsLoad.errorPanel(e.message || String(e), () => renderBox(), "Couldn't load the box score"); return; }
     const batCols = ["ab", "r", "h", "rbi", "bb", "k", "hr", "sb", "cs"], pitCols = ["ip", "h", "r", "er", "bb", "k", "pitches"];
     const bv = venueLine(S.game && S.game.venue !== undefined ? S.game.venue : b.venue, { neutral: !!(S.game && S.game.meta && S.game.meta.neutral) });
     const decOf = (pid) => (b.decisions ? (b.decisions.W === pid ? "W" : b.decisions.L === pid ? "L" : b.decisions.SV === pid ? "SV" : (b.decisions.HLD || []).includes(pid) ? "HLD" : "") : "");
@@ -561,16 +562,27 @@
     applyTurn(await gameCall("/sim", "POST", { target }));
     calloutFor(S.game.turn.events, target);
   }
+  const SIM_LABEL = { pitch: "Pitching…", pa: "Simming the at-bat…", half: "Simming the half inning…", inning: "Simming the inning…", three_innings: "Simming 3 innings…", game: "Simming to the end…" };
+  const SIM_TITLE = { pitch: "Next pitch", pa: "Simming the at-bat", half: "Simming the half inning", inning: "Simming the inning", three_innings: "Simming three innings", game: "Simming to end of game" };
+  // a sim from a click or a key: the matching button lights up, every sim control locks until the answer is back
+  function runSim(target, btn) {
+    if (window.cbsLoad.locked() || S.busy) return;
+    const t = S.game && S.game.turn;
+    if (t && t.phase === "question") return toast("Answer the pending question first.");
+    btn = btn || $(`#simbar [data-sim="${target}"]`) || $('#simbar [data-sim="pitch"]');      // at pregame only Play ball is there: it lights up
+    const label = t && t.phase === "pregame" && target === "pitch" ? "Starting…" : SIM_LABEL[target] || "Working…";
+    return busy(() => window.cbsLoad.simAction(btn, label, { title: SIM_TITLE[target] || "Simming", retry: true }, () => sim(target)), { quiet: true });
+  }
   $("#simbar").addEventListener("click", (e) => {
     const b = e.target.closest("[data-sim]");
-    if (b && !b.disabled) busy(() => sim(b.dataset.sim));
+    if (b && !b.disabled) runSim(b.dataset.sim, b);
     if (e.target.closest("[data-dyn-finish]")) document.dispatchEvent(new CustomEvent("cbs:dyn-finish"));
     if (e.target.closest("[data-dyn-back]")) document.dispatchEvent(new CustomEvent("cbs:dyn-back"));
     if (e.target.closest("[data-keys]")) keysOverlay(true);
   });
   $("#actions").addEventListener("click", (e) => {
     const qa = e.target.closest("[data-q-auto]");
-    if (qa) busy(async () => applyTurn(await gameCall("/decide", "POST", { kind: qa.dataset.qAuto, value: "auto" })));
+    if (qa) busy(() => window.cbsLoad.act(qa, "Deciding…", async () => applyTurn(await gameCall("/decide", "POST", { kind: qa.dataset.qAuto, value: "auto" }))));
   });
   // ---- keyboard controls (desktop play): the sim targets, and "?" for the key list ----
   const KEYS = [["Space / N", "Next pitch", "pitch"], ["A", "At-bat", "pa"], ["H", "Half inning", "half"], ["I", "Inning", "inning"], ["3", "Three innings", "three_innings"], ["E", "End of game", "game"], ["?", "This key list", null], ["Esc", "Close a page or this list", null]];
@@ -591,7 +603,7 @@
     if (e.key === "Escape") { keysOverlay(false); return; }
     if (!S.game || S.screen !== "game" || e.ctrlKey || e.metaKey || e.altKey) return;
     const map = { " ": "pitch", n: "pitch", N: "pitch", a: "pa", A: "pa", h: "half", H: "half", i: "inning", I: "inning", "3": "three_innings", e: "game", E: "game" };
-    if (map[e.key]) { e.preventDefault(); busy(() => sim(map[e.key])); }
+    if (map[e.key]) { e.preventDefault(); runSim(map[e.key]); }
   });
 
   // ---- the one top bar: school and conference/tier, the program tabs, date and phase, Advance ----
@@ -716,6 +728,6 @@
     show("main");
     document.dispatchEvent(new Event("cbs:ready"));
   }
-  window.v2 = { render, callout, calloutFor, raw, toast, esc, mark, chip, colorsOf, venueOf, venueLine, setMine, badge, band, ls, show, busy, openDynastyGame, S, ORD, RATING, renderSaves, loadSave, gameCall, applyTurn, setTopbar, refreshTopbar };
+  window.v2 = { render, callout, calloutFor, raw, toast, esc, mark, chip, colorsOf, venueOf, venueLine, setMine, badge, band, ls, show, busy, runSim, openDynastyGame, S, ORD, RATING, renderSaves, loadSave, gameCall, applyTurn, setTopbar, refreshTopbar };
   boot();
 })();

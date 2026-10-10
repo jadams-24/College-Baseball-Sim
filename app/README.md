@@ -257,6 +257,38 @@ file's conferences, mismatches reported, never hidden) and the abbreviations cho
 common use (`reports/school_names.md`). `tests/test_app_names.py` renders every screen's data through the API and
 fails on any engine team name in user-facing text. Players stay fictional by design.
 
+## Loading feedback
+
+Owner play-test feedback 2026-10-10 ("it was hard to tell whether a button press was doing anything"), one module
+for the design system: `app/static/v2/loading.js`.
+
+- Every click responds within the frame: the button takes a pressed, working state with a small spinner, its label
+  says what is happening ("Simming…", "Loading…", "Starting…"), and it is disabled until the request finishes
+  (`act`). A keyboard shortcut lights up the button it maps to and goes through the same path (`runSim`).
+- No double runs: while any sim or advance request is in flight, every other sim and advance control is disabled
+  (`simLock`, `body.sim-lock`) and a second click or key press is ignored, never queued. The server refuses one as
+  well: a per-game lock on `/api/games/{gid}/sim` and the dynasty's one job at a time on `/api/dynasties/{id}/sim`
+  both answer 409. `tests/test_app_loading.py` checks the server guards (always) and the page (Playwright, when a
+  Chromium is on the machine: two presses of E send one sim).
+- A thin accent progress bar (#F2A900) runs across the top of the page for any request over 200 ms: page and tab
+  changes, player and team pages, the bracket, box scores (`request`, which every `raw()` call goes through).
+- A loading panel, a centered modal over a dimmed page, for anything over 2 s: the game sims (at-bat, half inning,
+  inning, three innings, end of game), the dynasty's Sim game, Advance day, week and the longer targets, and a
+  dynasty's start, load and restore. It shows what is running ("Simming to end of game", "Advancing to Tue Mar 4"),
+  the real progress the background job reports (games done of total, the current date) and the elapsed time. A step
+  with no measurable progress (a game sim, the world build) shows a working indicator and the elapsed time instead:
+  progress is never faked. "Stop at next pause" (`POST /api/dynasties/{id}/stop`) stops a dynasty sim at its next
+  clean point: the end of the current day in the regular season, between two games in the postseason; the hub then
+  shows the "stopped" pause and the next advance continues from there. The week's background sim while the user
+  plays is cancelled the same way; a game sim cannot stop cleanly, so it has no Stop.
+- Server waking up: when a request gets no answer within 4 s after a quiet spell, "Waking up the server — this can
+  take up to a minute on the free plan" shows with a working indicator; a request that fails while the server is
+  unreachable (`/api/ping`) is retried every 3 s until it answers, then what was clicked continues.
+- Page loads show skeleton rows (gray bars at the real 38px row height) in tables and cards while data loads: the
+  dynasty screens, the hub's standings and RPI, the player and team pages, the box score, the picker, the saves.
+- Errors: a request that fails or times out replaces the loading state with a short message and a Retry button
+  (`errorPanel`, the panel's failed state); no spinner runs forever.
+
 ## School colors and ballparks
 
 Owner request 2026-10-10. One app-side table, `app/school_identity.csv` (built by `scripts/build_school_identity.py`,

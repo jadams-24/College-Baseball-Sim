@@ -48,11 +48,13 @@
   window.cbsDate = dateText;
   window.cbsCalendar = { set: (c) => { CAL.date0 = c && c.date0 ? c.date0 : null; }, get: () => CAL.date0 };
   const STAGE = { regular: "regular season", conf: "conference tournament", selection: "Selection Monday", ncaa: "NCAA tournament", done: "season over", pick: "pick a team" };
+  const LD = window.cbsLoad;
 
   // ---- continue and saved dynasties ----
   function metaLine(m) { return `${esc(m.team || "no team yet")} · ${m.record ? `${m.record[0]}-${m.record[1]}` : ""}${m.conf_record ? ` (${m.conf_record[0]}-${m.conf_record[1]})` : ""} · ${STAGE[m.stage] || m.stage || ""}${m.date != null ? ` · ${dateText(m.date)}` : ""}`; }
   async function renderMain() {
     let server = { dynasties: [], latest: null };
+    $("#dyn-saves").innerHTML = LD.skeleton(3, 3);
     try { server = await raw("/api/saves"); } catch (e) { /* the server may be waking */ }
     const mirrors = await mirrorAll();
     const latestGame = ls.get("cbs.latest", null);
@@ -68,7 +70,7 @@
       : `<b>Quick game</b><div class="muted">${esc(c.meta.title || "game")}</div><button class="go" id="continue-btn">Resume</button>`)
       : `<div class="muted">No dynasty or game yet. Start one.</div>`;
     const btn = $("#continue-btn");
-    if (btn) btn.addEventListener("click", () => busy(async () => (c.kind === "dynasty" ? openDynasty(c) : V.loadSave(c.meta.save))));
+    if (btn) btn.addEventListener("click", () => busy(() => LD.act(btn, "Loading…", () => (c.kind === "dynasty" ? openDynasty(c) : V.loadSave(c.meta.save)))));
     // saved dynasties
     const rows = [];
     const seen = new Set();
@@ -77,7 +79,7 @@
     rows.sort((a, b) => b.time - a.time);
     $("#dyn-saves").innerHTML = rows.length ? `<table class="tbl"><tr><th>Dynasty</th><th>Team</th><th>Record</th><th>Stage</th><th>Saved</th><th></th></tr>${rows.map((r, i) => `<tr><td class="nm">${esc(r.meta.name || "Dynasty")} <span class="muted">Y${r.meta.year || 1}</span></td><td>${esc(r.meta.team || "—")}</td><td>${r.meta.record ? `${r.meta.record[0]}-${r.meta.record[1]}` : ""}</td><td>${STAGE[r.meta.stage] || ""} <span class="muted">${r.where === "mirror" ? "browser mirror" : ""}</span></td><td class="muted">${new Date(r.time).toLocaleString()}</td><td><button class="btn-ghost" data-load="${i}">Load</button> <button class="btn-ghost" data-dl="${i}">Download</button> <button class="btn-ghost" data-del="${i}">Delete</button></td></tr>`).join("")}</table>`
       : `<div class="muted">None yet.</div>`;
-    $$("#dyn-saves [data-load]").forEach((b) => b.addEventListener("click", () => busy(() => openDynasty(rows[+b.dataset.load]))));
+    $$("#dyn-saves [data-load]").forEach((b) => b.addEventListener("click", () => busy(() => LD.act(b, "Loading…", () => openDynasty(rows[+b.dataset.load])))));
     $$("#dyn-saves [data-dl]").forEach((b) => b.addEventListener("click", () => busy(() => downloadDynasty(rows[+b.dataset.dl]))));
     $$("#dyn-saves [data-del]").forEach((b) => b.addEventListener("click", () => busy(async () => {
       const r = rows[+b.dataset.del];
@@ -94,7 +96,9 @@
       const m = c.save ? c : (await mirrorAll()).find((x) => x.id === c.id);
       if (!m) return toast("The server has no copy of this dynasty and this browser holds no mirror.");
       toast("Restoring the dynasty from this browser's mirror…");
-      const h = await raw("/api/dynasties/load", "POST", { save: m.save });
+      const pn = LD.panel({ title: "Restoring the dynasty", sub: "From this browser's mirror." });
+      let h;
+      try { h = await raw("/api/dynasties/load", "POST", { save: m.save }); } finally { pn.done(); }
       await mirrorDel(c.id); await mirrorPut(h.id, m.save, m.meta);
       return window.dyn.open(h.id, h);
     }
@@ -109,7 +113,7 @@
   $("#dyn-file").addEventListener("change", (e) => {
     const f = e.target.files[0]; if (!f) return;
     const rd = new FileReader();
-    rd.onload = () => busy(async () => { const h = await raw("/api/dynasties/load", "POST", { save: String(rd.result).trim() }); await mirrorPut(h.id, String(rd.result).trim(), h); window.dyn.open(h.id, h); });
+    rd.onload = () => busy(async () => { const pn = LD.panel({ title: "Loading the dynasty file" }); let h; try { h = await raw("/api/dynasties/load", "POST", { save: String(rd.result).trim() }); } finally { pn.done(); } await mirrorPut(h.id, String(rd.result).trim(), h); window.dyn.open(h.id, h); });
     rd.readAsText(f);
   });
 
@@ -131,9 +135,13 @@
   async function startPicker() {
     show("picker");
     $("#picker-sub").textContent = "building the D1 world for this dynasty (a few seconds here, about a minute on the free host)…";
-    $("#pick-list").innerHTML = "";
+    $("#pick-list").innerHTML = LD.skeleton(14, 7);
     const seed = $("#dyn-seed").value ? +$("#dyn-seed").value : null;
-    const r = await raw("/api/dynasties", "POST", { seed });
+    const h = LD.panel({ title: "Building the D1 world", sub: "307 programs drawn from the engine's talent distributions. A few seconds here, about a minute on the free host." });
+    let r;
+    try { r = await raw("/api/dynasties", "POST", { seed }); }
+    catch (e) { $("#pick-list").innerHTML = LD.errorPanel(e.message || String(e), () => busy(startPicker), "Couldn't build the world"); h.fail(e.message || String(e), () => busy(startPicker)); return; }
+    finally { if (!h.failed) h.done(); }
     pick = { id: r.id, teams: r.teams, seed: r.seed, categories: r.categories || [] };
     $("#picker-sub").textContent = `seed ${r.seed} · pick your program`;
     renderPicker();
@@ -153,9 +161,17 @@
     $$("#pick-list [data-pick]").forEach((b) => b.addEventListener("click", () => busy(async () => {
       const t = pick.teams.find((x) => x.tid === +b.dataset.pick);
       if (!confirm(`Take over ${t.name} (${t.conference}, ${t.tier.toUpperCase()})? Year 1 starts now.`)) return;
-      const h = await raw(`/api/dynasties/${pick.id}/start`, "POST", { tid: t.tid });
-      window.dyn.open(h.id, h);
-    })));
+      await startDynasty(b, t);
+    }, { quiet: true })));
+  }
+  // the dynasty's start builds its engine: the button works, the panel shows after 2 s with the elapsed time (no measurable progress)
+  async function startDynasty(b, t) {
+    const h = LD.panel({ title: `Starting your ${t.name} dynasty`, sub: "Building the season's engine and schedule." });
+    try {
+      const hub = await LD.act(b, "Starting…", () => raw(`/api/dynasties/${pick.id}/start`, "POST", { tid: t.tid }));
+      h.done();
+      window.dyn.open(hub.id, hub);
+    } catch (e) { h.fail(e.message || String(e), () => busy(() => startDynasty(b, t), { quiet: true })); }
   }
   $("#pick-search").addEventListener("input", renderPicker);
   $("#pick-tier").addEventListener("change", renderPicker);

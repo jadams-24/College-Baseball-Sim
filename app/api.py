@@ -209,9 +209,24 @@ def new_game(body: NewGame):
     return _turn(gid, runner, full=True)
 
 
+@app.get("/api/ping")
+def ping():
+    """Is the server awake? The page's wake-up check (app/static/v2/loading.js) and nothing else."""
+    return {"ok": True}
+
+
 @app.get("/api/games/{gid}")
 def get_game(gid: str, full: bool = False):
     return _turn(gid, store.get(gid), full=full)
+
+
+_sim_locks: dict = {}                  # gid -> Lock: one sim request at a time per game (a second one gets 409, never queues)
+_sim_locks_guard = threading.Lock()
+
+
+def _sim_lock(gid: str) -> threading.Lock:
+    with _sim_locks_guard:
+        return _sim_locks.setdefault(gid, threading.Lock())
 
 
 @app.post("/api/games/{gid}/sim")
@@ -219,8 +234,14 @@ def sim(gid: str, body: Sim):
     r = store.get(gid)
     if r.raised is not None and not r.raised.soft:
         raise HTTPException(409, "answer the pending question first")
-    _call(lambda: r.step(body.target))
-    return _turn(gid, r)
+    lock = _sim_lock(gid)
+    if not lock.acquire(blocking=False):
+        raise HTTPException(409, "a sim is already running for this game")
+    try:
+        _call(lambda: r.step(body.target))
+        return _turn(gid, r)
+    finally:
+        lock.release()
 
 
 @app.post("/api/games/{gid}/orders")

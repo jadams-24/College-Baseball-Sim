@@ -5,6 +5,7 @@
   "use strict";
   const V = window.v2, $ = (s) => document.querySelector(s), $$ = (s) => Array.from(document.querySelectorAll(s));
   const { raw, toast, esc, mark, chip, venueLine, setMine, badge, show, busy } = V;
+  const LD = window.cbsLoad;
   const dateText = (d, o) => window.cbsDate(d, o);
   const CARD_LABELS = { program_tradition: "Program Tradition", conference_prestige: "Conference Prestige", omaha_contender: "Omaha Contender", academic_prestige: "Academic Prestige", campus_life: "Campus Life", climate: "Climate", money: "Money", facilities: "Facilities", ballpark_atmosphere: "Ballpark Atmosphere", brand_exposure: "Brand Exposure", draft_development: "Draft Development", coach_prestige: "Coach Prestige", coach_stability: "Coach Stability" };
   const CARD_SHORT = { program_tradition: "Trad", conference_prestige: "Conf", omaha_contender: "Omaha", academic_prestige: "Acad", campus_life: "Campus", climate: "Climate", money: "Money", facilities: "Facil", ballpark_atmosphere: "Atmos", brand_exposure: "Brand", draft_development: "Draft", coach_prestige: "Coach", coach_stability: "Stab" };
@@ -13,7 +14,10 @@
 
   // ---- open and refresh ----
   async function open(id, hub) {
-    D.id = id; D.hub = hub || (await raw(`/api/dynasties/${id}`)); D.cache = {};
+    const h = hub ? null : LD.panel({ title: "Loading the dynasty" });
+    try { D.id = id; D.hub = hub || (await raw(`/api/dynasties/${id}`)); D.cache = {}; }
+    catch (e) { if (h) h.fail(e.message || String(e), () => busy(() => open(id))); else throw e; return; }
+    finally { if (h) h.done(); }
     if (D.hub.stage === "pick") { toast("Pick a team first."); return show("main"); }
     show("dyn"); setScreen("hub");
     if (D.hub.running) pollProgress();
@@ -42,7 +46,7 @@
                   advance: where === "dyn" && h.stage !== "done" && !h.running });
   }
   function goto(tab) { if (!D.id) return; const target = tab === "hub" ? "hub" : GROUPS[tab] ? GROUPS[tab][0] : "hub"; show("dyn"); if (D.screen !== target) setScreen(target); else { refresh(); } }
-  function advance() { if (D.id) busy(async () => { if (D.hub.pending) { await playPending(); return; } await simTo("game"); }); }
+  function advance() { if (D.id && !LD.locked()) busy(async () => { if (D.hub.pending) { await playPending($("#tb-advance")); return; } await simTo("game", $("#tb-advance")); }); }
 
   // ---- the season strip at the top of the hub: record, conference record, RPI rank, week, games ----
   function seasonStrip() {
@@ -54,26 +58,57 @@
 
   // ---- sims: background jobs with progress ----
   function pauseFlags() { const s = window.cbsSettings(); return s.autoPause; }
-  async function simTo(target) {
+  // what a sim target is doing, for the button and the loading panel ("Advancing to Tue Mar 4" for a day or a week)
+  function simTitle(target) {
+    const d = D.hub.date;
+    if (target === "day") return `Advancing to ${dateText(d + 1, { weekday: true })}`;
+    if (target === "week") return `Advancing to ${dateText(d + (7 - (d % 7)), { weekday: true })}`;
+    return { game: "Advancing to your next game", regular: "Simming to the end of the regular season", conf: "Simming the conference tournaments",
+             selection: "Simming to Selection Monday", end: "Simming to the end of the season" }[target] || "Simming";
+  }
+  const SIM_LABEL = { game: "Advancing…", day: "Advancing…", week: "Advancing…", regular: "Simming…", conf: "Simming…", selection: "Simming…", end: "Simming…" };
+  async function simTo(target, btn) {
+    if (LD.locked()) return;
     const pause = pauseFlags();
     const stops = [["weekEnd", "week_end"], ["postseason", "postseason"], ["selection", "selection"]].filter(([k]) => pause[k]).map(([, v]) => v);
-    await raw(`/api/dynasties/${D.id}/sim`, "POST", { target, pause_mine: !!pause.myGames, stops });
-    D.hub.running = true; render();
+    const title = simTitle(target);
+    const panel = LD.panel({ title, stop: () => raw(`/api/dynasties/${D.id}/stop`, "POST") });
+    LD.simLock(true);
+    try {
+      await LD.act(btn || $(`#dyn-main [data-simto="${target}"]`), SIM_LABEL[target] || "Simming…", () => raw(`/api/dynasties/${D.id}/sim`, "POST", { target, pause_mine: !!pause.myGames, stops }));
+    } catch (e) {
+      LD.simLock(false);
+      panel.fail(e.message || String(e), () => busy(() => simTo(target)));
+      return;
+    }
+    D.hub.running = true; D.panel = panel; render();
     pollProgress();
   }
   function pollProgress() {
     clearTimeout(D.poll);
+    LD.simLock(true);
+    if (!D.panel) D.panel = LD.panel({ title: "Simming the D1 world", stop: () => raw(`/api/dynasties/${D.id}/stop`, "POST") });
+    let misses = 0;
     const tick = async () => {
       let p;
-      try { p = await raw(`/api/dynasties/${D.id}/progress`); } catch (e) { D.poll = setTimeout(tick, 3000); return; }
+      try { p = await raw(`/api/dynasties/${D.id}/progress`); misses = 0; }
+      catch (e) {
+        if (++misses >= 5) { const pn = D.panel; D.panel = null; LD.simLock(false); if (pn) pn.fail("Lost the sim's progress: " + (e.message || e), () => pollProgress()); return; }
+        D.poll = setTimeout(tick, 3000); return;
+      }
       if (p.running) {
+        const bg = p.kind === "background";
+        const text = bg ? `The rest of the league's week is simming while you play: ${p.ahead} of ${p.ahead_total} games`
+                        : `${p.played} of ${p.total} games · ${dateText(p.date)} · ${STAGE[p.stage] || p.stage}${p.stopping ? " · stopping at the next pause" : ""}`;
         const el = $("#sim-progress");
-        if (el) el.innerHTML = p.kind === "background"
-          ? `<div class="prog"><i style="width:${p.ahead_total ? (100 * p.ahead / p.ahead_total).toFixed(1) : 0}%"></i></div><div class="muted">The rest of the league's week is simming while you play: ${p.ahead} of ${p.ahead_total} games</div>`
-          : `<div class="prog"><i style="width:${p.total ? (100 * p.played / p.total).toFixed(1) : 0}%"></i></div><div class="muted">Simming the D1 world: ${p.played} of ${p.total} games · ${dateText(p.date)} · ${STAGE[p.stage] || p.stage}</div>`;
+        if (el) el.innerHTML = `<div class="prog"><i style="width:${bg ? (p.ahead_total ? (100 * p.ahead / p.ahead_total).toFixed(1) : 0) : (p.total ? (100 * p.played / p.total).toFixed(1) : 0)}%"></i></div><div class="muted">${text}</div>`;
+        if (D.panel) { if (bg) D.panel.o.stop = null; D.panel.update(bg ? { done: p.ahead, total: p.ahead_total, text } : { done: p.played, total: p.total, text }); }
         D.poll = setTimeout(tick, 1500);
       } else {
-        if (p.error) toast("The sim stopped: " + p.error);
+        const pn = D.panel; D.panel = null;
+        LD.simLock(false);
+        if (p.error) { if (pn) pn.fail("The sim stopped: " + p.error, null); else toast("The sim stopped: " + p.error); }
+        else if (pn) pn.done();
         D.hub = p.hub; D.cache = {}; render(); mirror();
       }
     };
@@ -81,14 +116,17 @@
   }
 
   // ---- the user's game ----
-  async function playPending() {
+  async function playPending(btn) {
     const ask = window.cbsSettings().askModes || {};
     const modes = Object.fromEntries(Object.keys(ask).filter((k) => ask[k]).map((k) => [k, "ask"]));
-    const t = await raw(`/api/dynasties/${D.id}/game/open`, "POST", { modes });
-    V.openDynastyGame(t, D.id);
+    const t = await LD.simAction(btn || $("#play-btn"), "Opening…", { title: "Opening the game", retry: true }, () => raw(`/api/dynasties/${D.id}/game/open`, "POST", { modes }));
+    if (t) V.openDynastyGame(t, D.id);
   }
-  async function simPending() { D.hub = await raw(`/api/dynasties/${D.id}/game/sim`, "POST"); D.cache = {}; render(); mirror(); }
-  document.addEventListener("cbs:dyn-finish", () => busy(async () => { D.hub = await raw(`/api/dynasties/${D.id}/game/finish`, "POST"); D.cache = {}; show("dyn"); setScreen("hub"); mirror(); }));
+  async function simPending(btn) {
+    const h = await LD.simAction(btn || $("#simgame-btn"), "Simming…", { title: "Simming your game", retry: true }, () => raw(`/api/dynasties/${D.id}/game/sim`, "POST"));
+    if (h) { D.hub = h; D.cache = {}; render(); mirror(); }
+  }
+  document.addEventListener("cbs:dyn-finish", () => busy(() => LD.act($("#simbar [data-dyn-finish]"), "Back to the dynasty…", async () => { D.hub = await raw(`/api/dynasties/${D.id}/game/finish`, "POST"); D.cache = {}; show("dyn"); setScreen("hub"); mirror(); })));
   document.addEventListener("cbs:dyn-back", () => { show("dyn"); render(); });
   // while a dynasty game is on the manager screen, the league's background sim shows its progress in the sim bar
   let gamePoll = null;
@@ -116,7 +154,13 @@
     topbar("dyn");
     renderSubnav();
     const fn = { hub: renderHub, schedule: renderSchedule, standings: renderStandings, stats: renderStats, roster: renderRoster, postseason: renderPostseason, summary: renderSummary }[D.screen] || renderHub;
-    fn();
+    const cached = { schedule: false, standings: !!D.cache.standings, stats: !!D.cache.stats, roster: !!D.cache.roster, postseason: false, summary: false, hub: true }[D.screen];
+    if (!cached) $("#dyn-main").innerHTML = LD.skeletonPanel(LABEL[D.screen] || "", D.screen === "standings" ? 12 : 14, D.screen === "roster" || D.screen === "stats" ? 8 : 5);
+    const run = D.screen;
+    Promise.resolve().then(fn).catch((e) => {
+      console.error(e);
+      if (D.screen === run) $("#dyn-main").innerHTML = LD.errorPanel(e.message || String(e), () => render(), `Couldn't load ${LABEL[run] || "the screen"}`);
+    });
   }
   function resultRow(g) {
     const vs = g.side === "home" ? "vs" : "at";
@@ -140,12 +184,13 @@
     $("#dyn-main").innerHTML = `<div class="hub-grid">
       <div class="col">${seasonStrip()}${next}<div class="panel"><div class="hdr">Advance${h.pause ? `<span class="sub"><span class="pill warn">paused</span> ${esc(h.pause.message)}${h.pause.link && h.pause.link !== "hub" ? ` <button class="btn-ghost" data-screen-link="${esc(h.pause.link)}">open</button>` : ""}</span>` : ""}</div><div class="body">${sims}</div></div>
         <div class="panel"><div class="hdr">Recent results</div><div class="body tight scroll-x">${recent}</div></div><div class="panel"><div class="hdr">News</div><div class="body tight">${news}</div></div></div>
-      <div class="col side">${card}<div class="panel"><div class="hdr">Standings <span class="sub">${esc(h.conference_full || h.conference)}</span></div><div class="body tight scroll-x" id="hub-standings"><div class="muted">Loading…</div></div></div><div class="panel"><div class="hdr">RPI top 25</div><div class="body tight scroll-x" id="hub-rpi"><div class="muted">Loading…</div></div></div></div>
+      <div class="col side">${card}<div class="panel"><div class="hdr">Standings <span class="sub">${esc(h.conference_full || h.conference)}</span></div><div class="body tight scroll-x" id="hub-standings">${LD.skeleton(8, 4)}</div></div><div class="panel"><div class="hdr">RPI top 25</div><div class="body tight scroll-x" id="hub-rpi">${LD.skeleton(10, 4)}</div></div></div>
     </div>`;
-    const pb = $("#play-btn"); if (pb) pb.addEventListener("click", () => busy(playPending));
+    const pb = $("#play-btn"); if (pb) pb.addEventListener("click", () => busy(() => playPending(pb), { quiet: true }));
     const ts = $("#to-summary"); if (ts) ts.addEventListener("click", () => setScreen("summary"));
-    const sb = $("#simgame-btn"); if (sb) sb.addEventListener("click", () => busy(simPending));
-    $$("#dyn-main [data-simto]").forEach((b) => b.addEventListener("click", () => busy(() => simTo(b.dataset.simto))));
+    const sb = $("#simgame-btn"); if (sb) sb.addEventListener("click", () => busy(() => simPending(sb), { quiet: true }));
+    $$("#dyn-main [data-simto]").forEach((b) => b.addEventListener("click", () => busy(() => simTo(b.dataset.simto, b))));
+    if (LD.locked() || h.running) LD.simLock(true);
     $$("#dyn-main [data-screen-link]").forEach((b) => b.addEventListener("click", () => setScreen(b.dataset.screenLink)));
     bindBoxes();
     if (h.running) pollProgress();
@@ -158,7 +203,9 @@
     return v;
   }
   async function fillStandingsSnippets() {
-    const st = await standings();
+    let st;
+    try { st = await standings(); }
+    catch (e) { const el = $("#hub-standings"); if (el) el.innerHTML = LD.errorPanel(e.message || String(e), () => fillStandingsSnippets()); const el2 = $("#hub-rpi"); if (el2) el2.innerHTML = ""; return; }
     const rows = st.conferences[st.mine] || [];
     const el = $("#hub-standings");
     if (el) el.innerHTML = `<table class="tbl"><tr><th>Team</th><th class="num">Conf</th><th class="num">All</th><th class="num">RPI</th></tr>${rows.map((r) => `<tr class="${r.me ? "now" : ""}"><td class="nm">${chip(r.tid)}<a class="tlink" data-tid="${r.tid}">${esc(r.name)}</a></td><td class="num">${r.cw}-${r.cl}</td><td class="num">${r.w}-${r.l}</td><td class="num">${r.rpi_rank || "—"}</td></tr>`).join("")}</table>`;
@@ -178,11 +225,18 @@
     $("#dyn-main").innerHTML = `<div class="panel"><div class="hdr">Schedule <span class="sub">${s.games.filter((g) => g.status === "played").length} played · weekend series and midweek games · CONF = conference game</span></div><div class="body tight scroll-x"><table class="tbl sched"><tr><th>Date</th><th>Wk</th><th>Slot</th><th>Opponent</th><th>Venue</th><th class="num">Result</th><th></th></tr>${rows.join("")}</table></div></div><div id="box-out"></div>`;
     bindBoxes();
   }
-  function bindBoxes() {
-    $$("#dyn-main [data-box], #dyn-main [data-postbox]").forEach((b) => b.addEventListener("click", () => busy(async () => {
+  function boxOut() { return $("#box-out") || (() => { const d = document.createElement("div"); d.id = "box-out"; $("#dyn-main").appendChild(d); return d; })(); }
+  async function loadBox(b) {
+    const el = boxOut();
+    el.innerHTML = `<div class="panel boxp"><div class="hdr">Box score</div><div class="body">${LD.skeleton(10, 6)}</div></div>`;
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+    try {
       const g = b.dataset.box != null ? await raw(`/api/dynasties/${D.id}/games/${b.dataset.box}`) : await raw(`/api/dynasties/${D.id}/postgames/${b.dataset.postbox}`);
       showBox(g);
-    })));
+    } catch (e) { el.innerHTML = LD.errorPanel(e.message || String(e), () => loadBox(b), "Couldn't load the box score"); }
+  }
+  function bindBoxes() {
+    $$("#dyn-main [data-box], #dyn-main [data-postbox]").forEach((b) => b.addEventListener("click", () => busy(() => LD.act(b, "Loading…", () => loadBox(b)), { quiet: true })));
   }
   function showBox(g) {
     const b = g.box, cols = ["ab", "r", "h", "rbi", "bb", "k", "hr", "sb", "cs"], pitCols = ["ip", "h", "r", "er", "bb", "k", "pitches"];
@@ -221,8 +275,9 @@
     return `<table class="tbl stats"><tr><th>Name</th><th>Pos</th>${cols.map(([k, l]) => `<th class="num ${sortBy[which] === k ? "on" : ""}" data-sort="${k}" data-which="${which}">${l}</th>`).join("")}</tr>${sorted.map((r) => `<tr><td class="nm"><a class="plink" data-pid="${r.pid}">${esc(r.name)}</a></td><td>${r.pos}</td>${cols.map(([k]) => `<td class="num">${k === "era" || k === "whip" || k === "k9" || k === "bb9" ? r.stats[k].toFixed(k === "era" || k === "whip" ? 2 : 1) : RATE.has(k) ? f3(r.stats[k]) : r.stats[k]}</td>`).join("")}</tr>`).join("")}</table>`;
   }
   async function renderStats() {
-    if (!D.cache.stats) D.cache.stats = await raw(`/api/dynasties/${D.id}/stats`);
-    const { team, leaders } = D.cache.stats;
+    const stats = D.cache.stats || (await raw(`/api/dynasties/${D.id}/stats`));      // the cache may be reset while awaiting: keep the value itself
+    D.cache.stats = stats;
+    const { team, leaders } = stats;
     const lead = (title, rows, fmt) => `<div class="panel"><div class="hdr">${title}</div><div class="body tight"><table class="tbl">${rows.length ? rows.map((r, i) => `<tr class="${r.me ? "now" : ""}"><td class="muted">${i + 1}</td><td class="nm"><a class="plink" data-pid="${r.pid}">${esc(r.name)}</a> <a class="tlink muted" data-tid="${r.tid}">${esc(r.team)}</a></td><td class="num">${fmt(r.value)}</td></tr>`).join("") : `<tr><td class="muted">no qualified player yet</td></tr>`}</table></div></div>`;
     $("#dyn-main").innerHTML = `<div class="panel"><div class="hdr">${esc(team.team)} batting <span class="sub">${team.games} games · tap a column to sort${team.missing && team.missing.length ? ` · not in the engine's accumulators: ${team.missing.join(", ")}` : ""}</span></div><div class="body tight scroll-x">${statTable(team.batting, BCOLS, "b")}</div></div>
       <div class="panel"><div class="hdr">${esc(team.team)} pitching</div><div class="body tight scroll-x">${statTable(team.pitching, PCOLS, "p")}</div></div>
@@ -233,8 +288,8 @@
 
   // ---- roster: ratings, position, B/T, class, the season line, pitchers' rest ----
   async function renderRoster() {
-    if (!D.cache.roster) D.cache.roster = await raw(`/api/dynasties/${D.id}/roster`);
-    const r = D.cache.roster;
+    const r = D.cache.roster || (await raw(`/api/dynasties/${D.id}/roster`));
+    D.cache.roster = r;
     const bk = ["contact", "gap", "power", "eye", "avoid_k", "speed", "glove", "arm"], pk = ["stuff", "control", "movement", "stamina", "hold"];
     const bat = `<table class="tbl roster"><tr><th>Pos</th><th>Name</th><th>B/T</th><th>Yr</th>${bk.map((k) => `<th>${V.RATING[k][0]}</th>`).join("")}<th class="num">AVG</th><th class="num">OBP</th><th class="num">SLG</th><th class="num">HR</th><th class="num">R</th><th class="num">RBI</th><th class="num">SB</th><th class="num">CS</th></tr>${r.batters.map((p) => `<tr><td>${p.pos}</td><td class="nm"><a class="plink" data-pid="${p.pid}">${esc(p.name)}</a> <span class="muted">${p.role}</span></td><td class="muted">${p.hand}</td><td class="muted">${p.year}</td>${bk.map((k) => `<td>${p.ratings[k] == null ? '<span class="muted">–</span>' : badge(k, p.ratings[k]).replace(/<span class="k">.*?<\/span>/, "")}</td>`).join("")}<td class="num">${f3(p.stats.avg)}</td><td class="num">${f3(p.stats.obp)}</td><td class="num">${f3(p.stats.slg)}</td><td class="num">${p.stats.hr}</td><td class="num">${p.stats.r}</td><td class="num">${p.stats.rbi}</td><td class="num">${p.stats.sb}</td><td class="num">${p.stats.cs}</td></tr>`).join("")}</table>`;
     const rest = (p) => (p.last_outing ? `${p.last_outing.days_ago === 0 ? "today" : p.last_outing.days_ago === 1 ? "yesterday" : p.last_outing.days_ago + " days ago"} · ${p.last_outing.pitches} pitches` : "no outing yet");
