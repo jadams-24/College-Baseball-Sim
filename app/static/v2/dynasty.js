@@ -54,7 +54,7 @@
     const h = D.hub, sch = h.school;
     const f = (k, v) => `<div><span class="k">${k}</span><b class="mono">${v}</b></div>`;
     setMine({ tid: h.tid });
-    return `<div class="panel season"><div class="body facts">${mark({ tid: h.tid, name: h.team, abbr: h.team_abbr, engine_name: h.engine_name })}<div class="who"><div class="name">${esc(h.team)}</div><div class="muted">${esc(h.name)}${sch ? ` · ${esc(sch.location)}` : ""} · Year ${h.year}</div></div>${f("Record", `${h.record[0]}-${h.record[1]}`)}${f("Conf", `${h.conf_record[0]}-${h.conf_record[1]}`)}${f("RPI", h.rpi_rank ? "#" + h.rpi_rank : "—")}${f("Week", h.week)}${f("Games", `${h.games_played}/${h.games_total}`)}</div></div>`;
+    return `<div class="panel season"><div class="body facts">${mark({ tid: h.tid, name: h.team, abbr: h.team_abbr, engine_name: h.engine_name })}<div class="who"><div class="name">${esc(h.team)}</div><div class="muted">${esc(h.name)}${sch ? ` · ${esc(sch.location)}` : ""} · Year ${h.year}</div></div>${f("Record", `${h.record[0]}-${h.record[1]}`)}${f("Conf", `${h.conf_record[0]}-${h.conf_record[1]}`)}${f("RPI", h.rpi_rank ? "#" + h.rpi_rank : "—")}${f("Week", h.week)}</div></div>`;
   }
 
   // ---- sims: background jobs with progress ----
@@ -172,20 +172,57 @@
     const box = g.i >= 0 ? `data-box="${g.i}"` : `data-postbox="${g.k}"`;
     return `<tr class="${g.result && g.result[0] === "W" ? "w" : "l"}"><td class="muted date">${dateText(g.date)}</td><td class="nm">${vs} <a class="tlink" data-tid="${oppTid}">${esc(opp)}</a> ${tag}${g.user ? '<span class="tag you">PLAYED</span>' : ""}</td><td class="num">${g.result ? `<span class="pill ${g.result[0] === "W" ? "success" : "loss"}">${g.result}</span>` : ""}${g.inning !== 9 ? ` <span class="muted">(${g.inning})</span>` : ""}${g.run_rule ? ' <span class="muted">RR</span>' : ""}</td><td><button class="btn-ghost" ${box}>Box</button></td></tr>`;
   }
+  // ---- the Next game card: always the user's next scheduled game, with the advance controls ----
+  const ADV = [["day", "Next day"], ["week", "End of week"], ["regular", "End of regular season"], ["conf", "Conference tournament"], ["selection", "Selection Monday"], ["end", "End of season"]];
+  function pauseTip() {
+    const f = pauseFlags();
+    const stops = [["weekEnd", "the end of each week"], ["selection", "Selection Monday"], ["postseason", "the start of the postseason"]].filter(([k]) => f[k]).map(([, l]) => l);
+    return `${f.myGames ? "Your games pause the sim before they start" : "The AI plays your games (Settings)"}; longer advances also pause at ${stops.length ? stops.join(", ") : "no other moment"} (Settings).`;
+  }
+  const rbk = (k, v) => (v == null ? '<span class="muted">–</span>' : badge(k, v));
+  function teamSide(t, right) {
+    return `<div class="side ${t.me ? "me" : ""} ${right ? "right" : ""}">${mark({ tid: t.tid, name: t.name, abbr: t.abbr })}<div class="tname"><a class="tlink" data-tid="${t.tid}">${esc(t.name)}</a>${t.me ? ' <span class="muted">(you)</span>' : ""}</div>
+      <div class="facts mono"><span title="overall record">${t.record[0]}-${t.record[1]}</span><span class="muted" title="conference record">${t.conf_record[0]}-${t.conf_record[1]} ${esc(t.conference)}</span><span title="RPI rank">RPI ${t.rpi_rank ? "#" + t.rpi_rank : "–"}</span></div>
+      <div class="rt-row">${rbk("off", t.ratings.off)}${rbk("def", t.ratings.def)}</div></div>`;
+  }
+  function starterBlock(sp, label) {
+    if (!sp) return `<div class="starter"><div class="k">${label}</div><div class="muted">–</div></div>`;
+    const st = sp.stats, keys = ["stuff", "control", "movement", "stamina"];
+    return `<div class="starter"><div class="k">${label}${sp.projected ? ' <span class="pill warn" title="the next starter in the rotation order; the engine names starters on game day">Projected</span>' : ""}</div>
+      <div class="who"><b><a class="plink" data-pid="${sp.pid}">${esc(sp.name)}</a></b> <span class="muted">${sp.throws ? esc(sp.throws) + "HP" : ""} · ${esc(sp.role)}</span></div>
+      <div class="mono line">${st.g ? `${st.w}-${st.l} · ${st.era.toFixed(2)} ERA · ${st.ip} IP · ${st.k}/${st.bb} K/BB` : '<span class="muted">no outing yet</span>'}</div>
+      <div class="rt-row">${keys.map((k) => rbk(k, sp.ratings[k])).join("")}</div></div>`;
+  }
+  function nextCard(h) {
+    const g = h.next_game, tip = esc(pauseTip());
+    const paused = h.pause ? `<span class="pill warn">paused</span> <span class="muted">${esc(h.pause.message)}</span>${h.pause.link && h.pause.link !== "hub" ? ` <button class="btn-ghost" data-screen-link="${esc(h.pause.link)}">open</button>` : ""}` : "";
+    const dropdown = `<select id="adv-select" class="adv" title="${tip}"><option value="">Advance to…</option>${ADV.map(([t, l]) => `<option value="${t}">${l}</option>`).join("")}</select>`;
+    const progress = h.running && h.job_kind !== "background" ? `<div id="sim-progress"></div>` : "";
+    if (!g) {
+      const text = h.stage === "done" ? "The season is over." : h.stage === "regular" ? "No game of yours is left on the schedule." : `${STAGE[h.stage] || h.stage}: no game of yours is pending; advance to reach the next one.`;
+      return `<div class="panel next"><div class="hdr">Next game <span class="sub">${paused}</span></div><div class="body"><div class="muted">${text}</div>${progress}<div class="row actions">${h.stage === "done" ? `<button class="go" id="to-summary">Year in review</button>` : h.running ? "" : `<button class="go" data-simto="game" title="${tip}">Advance to next game</button>${dropdown}`}</div></div></div>`;
+    }
+    const when = dateText(g.date, { weekday: true });
+    const site = g.neutral ? "N · neutral site" : g.side === "home" ? "H" : "A";
+    const venue = g.venue ? esc(g.venue.text) : g.neutral ? "" : "";
+    const series = g.stage !== "regular" ? (STAGE[g.stage] || g.stage) : g.series ? `Game ${g.series.game} of ${g.series.of}` : "Midweek game";
+    const sub = [when, site, venue, g.conf_game ? '<span class="tag">CONF</span>' : "", series, g.h2h ? `season series ${g.h2h[0]}-${g.h2h[1]}` : ""].filter(Boolean).join(" · ");
+    const opp = g.side === "home" ? g.away : g.home;
+    const primary = g.pending
+      ? (h.running && h.job_kind !== "background" ? "" : `<button class="go" id="play-btn">${g.open ? "Back to the game" : "Play"}</button><button id="simgame-btn">Sim game</button>`)
+      : (h.running ? "" : `<button class="go" data-simto="game" title="${tip}">${pauseFlags().myGames ? `Advance to ${when}` : `Sim to ${when} (AI plays)`}</button>`);
+    return `<div class="panel next"><div class="hdr">${g.pending ? "Game day" : "Next game"} <span class="sub">${sub}</span>${paused ? `<span class="sub right">${paused}</span>` : ""}</div>
+      <div class="body"><div class="teams">${teamSide(g.teams.away, false)}<div class="at">${g.neutral ? "vs" : "at"}</div>${teamSide(g.teams.home, true)}</div>
+      <div class="starters">${starterBlock(g.probables.away, "Away starter")}${starterBlock(g.probables.home, "Home starter")}</div>
+      ${progress}<div class="row actions">${primary}${h.running ? "" : dropdown}<button class="btn-ghost" id="scout-btn" data-tid="${opp}" title="the opponent's team page">Scout opponent</button></div></div></div>`;
+  }
   function renderHub() {
-    const h = D.hub, p = h.pending;
-    const next = p ? `<div class="panel next"><div class="hdr">Next game <span class="sub">${dateText(p.date)} · ${p.stage === "regular" ? (p.weekend ? "weekend series" : "midweek") : STAGE[p.stage] || p.stage}${p.neutral ? " · neutral site" : ""}</span></div>
-        <div class="body"><div class="matchup"><div>${mark({ tid: p.away, name: p.away_name, abbr: p.away_abbr })}<b><a class="tlink" data-tid="${p.away}">${esc(p.away_name)}</a></b><span class="muted">${p.user_side === "away" ? " (you)" : ""}</span></div><div class="at">${p.neutral ? "vs" : "at"}</div><div>${mark({ tid: p.home, name: p.home_name, abbr: p.home_abbr })}<b><a class="tlink" data-tid="${p.home}">${esc(p.home_name)}</a></b><span class="muted">${p.user_side === "home" ? " (you)" : ""}</span></div></div>
-        <div class="muted venue-line">${venueLine(p.venue, { neutral: p.neutral, stage: p.stage })}</div>
-        ${p.probables ? `<div class="probables">${["away", "home"].map((sd) => p.probables[sd] ? `<div><span class="k">${sd === "away" ? "Away" : "Home"} starter</span><b><a class="plink" data-pid="${p.probables[sd].pid}">${esc(p.probables[sd].name)}</a></b> <span class="muted">${p.probables[sd].role}</span> ${["stuff", "control", "movement", "stamina"].map((k) => badge(k, p.probables[sd].ratings[k])).join(" ")}</div>` : "").join("")}<div class="muted">Probable starters: each AI's pick at first pitch; yours can change in the pregame.</div></div>` : `<div class="muted">Probable starters: set at first pitch.</div>`}
-        <div class="row">${h.running && h.job_kind !== "background" ? "" : `<button class="go" id="play-btn">${p.open ? "Back to the game" : "Play"}</button><button id="simgame-btn">Sim game</button>`}<button class="btn-ghost" id="scout-btn" data-tid="${p.user_side === "home" ? p.away : p.home}" title="the opponent's team page">Scout opponent</button></div></div></div>`
-      : `<div class="panel next"><div class="hdr">Next game</div><div class="body muted">${h.stage === "done" ? `The season is over. <button class="go" id="to-summary">Year in review</button>` : h.stage === "regular" ? "Sim ahead to reach your next game." : "No game of yours is pending in this stage; sim ahead."}</div></div>`;
-    const sims = h.running ? `<div id="sim-progress"></div>` : `<div class="sims">${[["game", "Advance to next game"], ["day", "Advance day"], ["week", "Advance week"], ["regular", "End of regular season"], ["conf", "Conference tournament"], ["selection", "Selection Monday"], ["end", "End of season"]].map(([t, l]) => `<button data-simto="${t}" ${h.stage === "done" ? "disabled" : ""}>${l}</button>`).join("")}</div><div class="muted">Your games ${pauseFlags().myGames ? "pause the sim" : "are played by the AI"}; longer sims also pause ${[["weekEnd", "at each week's end"], ["postseason", "before the postseason"], ["selection", "on Selection Monday"]].filter(([k]) => pauseFlags()[k]).map(([, l]) => l).join(", ") || "nowhere else"} (Settings).</div>`;
+    const h = D.hub;
     const recent = h.recent.length ? `<table class="tbl">${h.recent.map(resultRow).join("")}</table>` : `<div class="muted">No games yet.</div>`;
     const news = h.news.length ? h.news.map((n) => `<div class="ev"><span class="muted mono">${dateText(n.date)}</span><span>${esc(n.text)}</span></div>`).join("") : `<div class="muted">Nothing yet. News comes from the engine's results only.</div>`;
-    const card = h.report_card ? `<div class="panel"><div class="hdr">Report card <span class="sub">${esc(h.school ? h.school.institution : "")}</span></div><div class="body"><div class="card-grades">${Object.entries(h.report_card.grades).map(([k, g]) => window.cbsGradeChip({ label: CARD_LABELS[k] || k, short: CARD_SHORT[k] || k }, g.grade, g.confidence)).join("")}</div><div class="muted">Grades compare every D1 program. Omaha Contender reflects this dynasty.</div></div></div>` : "";
+    const card = h.report_card ? `<div class="panel"><div class="hdr">Report card <span class="sub">${esc(h.school ? h.school.institution : "")}</span></div><div class="body"><div class="card-grades">${Object.entries(h.report_card.grades).map(([k, g]) => window.cbsGradeChip({ label: CARD_LABELS[k] || k, short: CARD_SHORT[k] || k }, g.grade, g.confidence)).join("")}</div></div></div>` : "";
     $("#dyn-main").innerHTML = `<div class="hub-grid">
-      <div class="col">${seasonStrip()}${next}<div class="panel next10"><div class="hdr">Next 10 games <span class="sub">as scheduled · click a row to scout the opponent</span></div><div class="body tight scroll-x" id="next10">${LD.skeleton(10, 9)}</div></div><div class="panel"><div class="hdr">Advance${h.pause ? `<span class="sub"><span class="pill warn">paused</span> ${esc(h.pause.message)}${h.pause.link && h.pause.link !== "hub" ? ` <button class="btn-ghost" data-screen-link="${esc(h.pause.link)}">open</button>` : ""}</span>` : ""}</div><div class="body">${sims}</div></div>
+      <div class="col">${seasonStrip()}${nextCard(h)}<div class="panel next10"><div class="hdr">Next 10 games <span class="sub">as scheduled · click a row to scout the opponent</span></div><div class="body tight scroll-x" id="next10">${LD.skeleton(10, 9)}</div></div>
         <div class="panel"><div class="hdr">Recent results</div><div class="body tight scroll-x">${recent}</div></div><div class="panel"><div class="hdr">News</div><div class="body tight">${news}</div></div></div>
       <div class="col side">${card}<div class="panel"><div class="hdr">Standings <span class="sub">${esc(h.conference_full || h.conference)}</span></div><div class="body tight scroll-x" id="hub-standings">${LD.skeleton(8, 4)}</div></div><div class="panel"><div class="hdr">RPI top 25</div><div class="body tight scroll-x" id="hub-rpi">${LD.skeleton(10, 4)}</div></div></div>
     </div>`;
@@ -193,6 +230,7 @@
     const ts = $("#to-summary"); if (ts) ts.addEventListener("click", () => setScreen("summary"));
     const sb = $("#simgame-btn"); if (sb) sb.addEventListener("click", () => busy(() => simPending(sb), { quiet: true }));
     $$("#dyn-main [data-simto]").forEach((b) => b.addEventListener("click", () => busy(() => simTo(b.dataset.simto, b))));
+    const sel = $("#adv-select"); if (sel) sel.addEventListener("change", () => { const t = sel.value; sel.value = ""; if (t && !LD.locked()) busy(() => simTo(t, $("#dyn-main [data-simto]") || null)); });
     if (LD.locked() || h.running) LD.simLock(true);
     $$("#dyn-main [data-screen-link]").forEach((b) => b.addEventListener("click", () => setScreen(b.dataset.screenLink)));
     bindBoxes();

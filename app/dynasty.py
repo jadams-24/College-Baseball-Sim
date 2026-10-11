@@ -656,12 +656,17 @@ class Dynasty:
                 pend["probables"] = self.probables()
             except Exception:                 # display only: never blocks the hub
                 pend["probables"] = None
-        return {"id": None, "name": self.name, "seed": self.seed, "year": self.year, "tid": me, "team": self.tname(me), "team_abbr": self.tabbr(me),
+        try:
+            next_game = next_game_json(self)
+        except Exception:                 # display only: never blocks the hub
+            next_game = None
+        return {"id": None, "name": self.name, "seed": self.seed, "year": self.year, "tid": me, "team": self.tname(me), "team_abbr": self.tabbr(me), "next_game": next_game,
                 "engine_name": self.league.teams[me].name, "conference": schools.conference_of(me, self.real_conf[me]),
                 "conference_full": schools.conference_full(schools.conference_of(me, self.real_conf[me])), "tier": self.league.teams[me].tier, "record": rec, "conf_record": crec, "rpi_rank": rank,
                 "date": self.date_now(), "week": self._week_of(self.date_now()) + 1, "stage": self.stage, "pending": pend,
                 "games_played": len(self.reg_games), "games_total": int((~self.skip).sum()), "news": self.news[-12:][::-1],
-                "pause": self.last_pause, "world_steps": world_steps.steps_json(self.year),
+                "pause": None if (self.last_pause and self.last_pause.get("type") == "my_game" and self.pending is None) else self.last_pause,   # a "your game is next" pause is over once the game is played
+                "world_steps": world_steps.steps_json(self.year),
                 "calendar": calendar.calendar_json(self.schedule, self.year)}
 
 
@@ -959,6 +964,89 @@ def next_games_json(d: Dynasty, n: int = 10) -> dict:
         rows.append({"kind": "postseason", "text": {"conf": "Conference tournaments in progress: see the postseason screen", "selection": "Selection Monday: the bracket is on the postseason screen",
                                                      "ncaa": "NCAA tournament in progress: see the bracket", "done": "The season is over"}.get(d.stage, "Postseason")})
     return {"tid": me, "stage": d.stage, "n": n, "rows": rows}
+
+
+def _team_block(d: Dynasty, tid: int, rec: dict, crec: dict, rank: dict, ratings: dict) -> dict:
+    disp = schools.display(tid) or {}
+    return {"tid": tid, "name": d.tname(tid), "abbr": d.tabbr(tid), "conference": disp.get("conference") or d.real_conf[tid],
+            "record": rec.get(tid, [0, 0]), "conf_record": crec.get(tid, [0, 0]), "rpi_rank": rank.get(tid), "ratings": ratings[tid], "me": tid == d.tid}
+
+
+def _starter_block(d: Dynasty, p, projected: bool) -> dict:
+    """A probable starter for the card: name, throws, role, the season line (W-L, ERA, IP, K, BB) and the pitcher's
+    key ratings; `projected` marks the rotation-order projection (the engine names starters only on game day)."""
+    pj = player_json(p)
+    st = _pit_stats(d.pstats[p.pid])
+    return {"pid": p.pid, "name": p.name, "throws": pj["throws"] or "", "role": pj["role"], "projected": projected,
+            "stats": {"w": st["w"], "l": st["l"], "era": st["era"], "ip": st["ip"], "k": st["k"], "bb": st["bb"], "g": st["g"]},
+            "ratings": {k: pj["ratings"].get(k) for k in ("stuff", "control", "movement", "stamina")}}
+
+
+def _projected_starter(d: Dynasty, tid: int, g) -> dict | None:
+    """The next starter in the team's rotation order for a scheduled regular-season game, without a draw: weekend
+    game k takes weekend starter k, a midweek game the first midweek starter (engine/league roles)."""
+    t = d.league.teams[tid]
+    if bool(g.weekend):
+        pool = list(t.weekend_sp)
+        k = int(g.day)
+    else:
+        pool = list(t.midweek_sp) or list(t.weekend_sp)
+        k = 0
+    if not pool:
+        return None
+    return _starter_block(d, pool[min(k, len(pool) - 1)], True)
+
+
+def next_game_json(d: Dynasty) -> dict | None:
+    """The hub's Next game card: always the user's next scheduled game (the pending game on game day, otherwise the
+    first upcoming game exactly as scheduled), with both teams' records, RPI rank and 20-80 ratings, the date, site
+    and ballpark, the conference marker, the series context, this season's head-to-head, and the probable starters:
+    the engine's own picks on game day (`probables`), the rotation-order projection before it (labeled). None when
+    no game of the user's is scheduled (the postseason between games, the season over)."""
+    me = d.tid
+    rec, crec, rank = d.records(), d.records(True), d.rpi_rank()
+    ratings = ratings_2080(d)
+    out = None
+    if d.pending is not None:
+        p = d.pending
+        home, away, date, stage, neutral = int(p["home"]), int(p["away"]), int(p["date"]), p["stage"], bool(p["neutral"])
+        i = p.get("i")
+        g = d.schedule[i] if stage == "regular" and i is not None else None
+        try:
+            pr = d.probables() or {}
+        except Exception:                                       # display only: never blocks the hub
+            pr = {}
+        probables = {s: (_starter_block(d, d._player(pr[s]["pid"]), False) if pr.get(s) else None) for s in ("home", "away")}
+        out = {"pending": True, "open": d.runner is not None, "i": i, "k": p.get("k"), "stage": stage, "date": date, "neutral": neutral,
+               "weekend": bool(g.weekend) if g is not None else True, "week": (int(g.week) + 1) if g is not None else date // 7 + 1, "day": int(g.day) if g is not None else None}
+    elif d.stage == "regular":
+        today = d.date_now()
+        upcoming = sorted(((int(g.date), i) for i, g in enumerate(d.schedule) if me in (g.home, g.away) and i not in d.results and int(g.date) >= today))
+        if not upcoming:
+            return None
+        date, i = upcoming[0]
+        g = d.schedule[i]
+        home, away, stage, neutral = int(g.home), int(g.away), "regular", False
+        probables = {"home": _projected_starter(d, home, g), "away": _projected_starter(d, away, g)}
+        out = {"pending": False, "open": False, "i": i, "k": None, "stage": stage, "date": date, "neutral": neutral, "weekend": bool(g.weekend), "week": int(g.week) + 1, "day": int(g.day)}
+    else:
+        return None
+    side = "home" if home == me else "away"
+    series = None
+    if stage == "regular" and out["weekend"]:
+        n = sum(1 for gg in d.schedule if me in (gg.home, gg.away) and bool(gg.weekend) and int(gg.week) == out["week"] - 1 and {int(gg.home), int(gg.away)} == {home, away})
+        series = {"game": out["day"] + 1, "of": n}
+    opp = away if side == "home" else home
+    h2h = [0, 0]
+    for r in list(d.results.values()) + list(d.post_calls):
+        if {r["home"], r["away"]} == {me, opp}:
+            mine, theirs = (r["hr"], r["ar"]) if r["home"] == me else (r["ar"], r["hr"])
+            h2h[0 if mine > theirs else 1] += 1
+    out.update({"side": side, "user_side": side, "home": home, "away": away, "venue": game_venue(d, stage, home, away, neutral),
+                "conf_game": d.real_conf[home] == d.real_conf[away], "series": series, "h2h": h2h if sum(h2h) else None,
+                "teams": {"home": _team_block(d, home, rec, crec, rank, ratings), "away": _team_block(d, away, rec, crec, rank, ratings)},
+                "probables": probables})
+    return out
 
 
 def team_stats_json(d: Dynasty, tid: int | None = None) -> dict:

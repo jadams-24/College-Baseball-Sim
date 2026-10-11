@@ -257,6 +257,29 @@ file's conferences, mismatches reported, never hidden) and the abbreviations cho
 common use (`reports/school_names.md`). `tests/test_app_names.py` renders every screen's data through the API and
 fails on any engine team name in user-facing text. Players stay fictional by design.
 
+## The hub's Next game card
+
+Owner feedback 2026-10-11. The card always shows the user's next scheduled game, even days ahead
+(`dynasty.next_game_json`, in the hub JSON as `next_game`): both teams side by side with chip, school, overall and
+conference record, RPI rank and the 20-80 offense and run-prevention ratings; the date with weekday, H/A/N, the
+ballpark, the conference marker, the series context ("Game 1 of 3", "Midweek game") and this season's head-to-head.
+Probable starters for both teams with throws, W-L, ERA, IP, K/BB and their key ratings: on game day the engine's own
+picks (the bench coach's dry run, `Dynasty.probables`, the same as before), before game day the next starter in the
+team's rotation order (weekend game k takes weekend starter k, a midweek game the first midweek starter), labeled
+"Projected"; nothing consumes a draw, and the dynasty equality tests hold. Play and Sim game are active on game day;
+before it the primary action is "Advance to <weekday date>" (or "Sim to …" when the user's games are played by the
+AI), with an "Advance to…" menu beside it: next day, end of week, end of regular season, conference tournament,
+Selection Monday, end of season. The PAUSED badge with its one-line reason sits in the card header; the auto-pause
+explanation is the button's tooltip and a line in Settings. The old seven-button Advance panel is gone, the season
+strip no longer shows the games counter (Settings carries it under Debug), and the report card shows grades only.
+
+The record the owner saw (0-1 on Tue Feb 11 with the first listed game on Fri Feb 14) was real: the user's own
+Tuesday midweek game (engine date 1) played that day. The hub's date stays on game day until the next advance, the
+played game is in recent results and the schedule, and the Next 10 widget lists upcoming games only. In some
+dynasties that Tuesday game is a cancellation the engine drew, and the first game is Friday. No date is mislabeled:
+the engine dates a game 7 * week + weekday and the calendar maps date 0 to the Monday of the opening week
+(`tests/test_app_hub_card.py`).
+
 ## The hub's "Next 10 games" widget
 
 Owner request 2026-10-10. Under the next-game panel: one row per upcoming game of the user's team, exactly as
