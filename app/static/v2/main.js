@@ -1,5 +1,5 @@
-/* Main screen (2026-10-08): continue, new dynasty (team picker), quick game, saved dynasties, settings, and the
-   tiles for what comes later. Settings live in this browser (localStorage); dynasty saves live on the server with
+/* Main screen (2026-10-08; the menu stack of the Console look 2026-11-26): continue, load, new dynasty (team
+   picker), quick game, saved dynasties and settings as panels beside the menu. Settings live in this browser (localStorage); dynasty saves live on the server with
    a mirror in this browser's IndexedDB (a dynasty is a few MB: too big for localStorage). */
 (() => {
   "use strict";
@@ -51,7 +51,12 @@
   const LD = window.cbsLoad;
 
   // ---- continue and saved dynasties ----
-  function metaLine(m) { return `${esc(m.team || "no team yet")} · ${m.record ? `${m.record[0]}-${m.record[1]}` : ""}${m.conf_record ? ` (${m.conf_record[0]}-${m.conf_record[1]})` : ""} · ${STAGE[m.stage] || m.stage || ""}${m.date != null ? ` · ${dateText(m.date)}` : ""}`; }
+  const metaText = (m) => `${m.team || "no team yet"}${m.record ? ` · ${m.record[0]}-${m.record[1]}` : ""}${m.stage ? ` · ${STAGE[m.stage] || m.stage}` : ""}`;
+  // the menu's Load Dynasty and Game Preferences open a panel beside the menu; a second click closes it
+  function openPanel(name) {
+    ["saves", "settings"].forEach((n) => { const el = $(`#panel-${n}`), on = n === name && el.classList.contains("hidden"); el.classList.toggle("hidden", !on); $(`.menu-btn[data-open="${n}"]`).classList.toggle("on", on); });
+  }
+  $$(".menu-btn[data-open]").forEach((b) => b.addEventListener("click", () => openPanel(b.dataset.open)));
   async function renderMain() {
     let server = { dynasties: [], latest: null };
     $("#dyn-saves").innerHTML = LD.skeleton(3, 3);
@@ -65,12 +70,11 @@
     if (latestGame) cands.push({ kind: "game", meta: latestGame, time: latestGame.time });
     cands.sort((a, b) => b.time - a.time);
     const c = cands[0];
-    $("#continue-body").innerHTML = c ? (c.kind === "dynasty"
-      ? `<b>${esc(c.meta.name || "Dynasty")}</b> · Year ${c.meta.year || 1}<div class="muted">${metaLine(c.meta)}</div><button class="go" id="continue-btn">Continue</button>`
-      : `<b>Quick game</b><div class="muted">${esc(c.meta.title || "game")}</div><button class="go" id="continue-btn">Resume</button>`)
-      : `<div class="muted">No dynasty or game yet. Start one.</div>`;
-    const btn = $("#continue-btn");
-    if (btn) btn.addEventListener("click", () => busy(() => LD.act(btn, "Loading…", () => (c.kind === "dynasty" ? openDynasty(c) : V.loadSave(c.meta.save)))));
+    // the Continue button at the top of the menu: the newest dynasty or game, named under the label
+    const btn = $("#menu-continue");
+    btn.disabled = !c;
+    $("#continue-sub").textContent = c ? (c.kind === "dynasty" ? `${c.meta.name || "Dynasty"} · Year ${c.meta.year || 1} · ${metaText(c.meta)}` : `Quick game · ${c.meta.title || "game"}`) : "No dynasty or game yet";
+    btn.onclick = c ? () => busy(() => LD.act(btn, "Loading…", () => (c.kind === "dynasty" ? openDynasty(c) : V.loadSave(c.meta.save)))) : null;
     // saved dynasties
     const rows = [];
     const seen = new Set();

@@ -36,28 +36,34 @@ promptly; `ui-prototype` goes back into `main` through a PR at natural checkpoin
 
 ## Design system
 
-`app/static/v2/system.css` (the recruiting canvas's visual system became the app-wide standard for desktop
-browser play on 2026-10-09, owner decision). Designed for 1440px and 1280px desktops first; phone width keeps
-working without being optimized. Every screen is built from its tokens and primitives:
+`app/static/v2/system.css`: the "Console" look (2026-11-26, owner decision), the late-2000s console baseball-game
+feel. It replaces the flat charcoal system of 2026-10-09; the light theme was dropped the same day. Designed for
+1440px and 1280px desktops first; phone width keeps working without being optimized. Every screen is built from
+its tokens and primitives, so the look changes in that one file:
 
-- Type: Barlow Condensed (600/700) for headings, team names and section titles (uppercase section headers,
-  letter-spacing .04em); IBM Plex Sans for body text; IBM Plex Mono with tabular numbers for every stat, rating,
-  date and dollar figure (`.mono`, `.num`, `.date`). Loaded from Google Fonts with system fallbacks.
-- One top bar on every screen: the school and conference/tier on the left (the brand outside a dynasty); the
-  program tabs Hub · Roster · Schedule · Recruiting · Portal · Staff · Facilities · Draft (the active tab gets
-  an accent underline; tabs not built yet render disabled; Roster groups Roster and Stats, Schedule groups
-  Schedule, Standings and Postseason, as a sub-navigation under the bar); the date with its weekday and the phase
-  on the right; the primary Advance button at the far right in accent #F2A900 with dark text (in the dynasty: the
-  pending game to play, else "Advance to next game"; hidden on the main screen, the picker, the lobby and inside a
-  game, where the sim bar is the control).
-- Panels: cards (#1E222D, 1px #2A3040 border, 6px radius) with a header strip (condensed uppercase title left, a
-  muted note or count right). Content is centered at max 1440px. A main column plus a 340px side panel on the hub
-  (380px for the live game's lineup), wrapping at narrow widths.
-- Tables: 38px rows, a #161922 header row with 11px uppercase muted labels, zebra rows #232835, a hover row
-  #2A3040. Wide tables scroll inside their card, never the page.
-- Rating colors as text: 70+ #6CB8FF, 60s #7FD18B, 50s #E2E8F0, 40s #F2B266, under 40 #FF7A7A (the number always
-  shows; report-card grades use the same scale, A to F). Status pills: success #1A402A/#CFEFD8, accent
-  #F2A900/#12151C, warning #3A3220/#F2C14E, loss #3A2024/#FFB0B0 (results, NEXT, PLAYED, paused).
+- The stadium: one photograph behind every screen (`--stadium`), sharp on the main screen, blurred and darkened
+  behind the others. Charles Schwab Field Omaha from the third-base side, by Skinzfan23, CC BY-SA 3.0, loaded from
+  Wikimedia Commons (File:TD Ameritrade Park Omaha1.jpg) and credited on the main screen's bottom bar. A drawn
+  sky-and-grass gradient (`--stadium-drawn`) sits under it and shows when the photograph cannot load. To do:
+  commit the file under `app/static/` instead of loading it from Commons.
+- Type: Barlow Condensed (600/700/800) for headings, team names, buttons and section titles; IBM Plex Sans for
+  body text; Barlow Semi Condensed with tabular numbers, in yellow, for every stat, date and dollar figure
+  (`.mono`, `.num`, `.stat`, `.date`). Text carries a drop shadow. Loaded from Google Fonts with system fallbacks.
+- The main screen (`index.html` `#main`, `main.js`, `v2.css`): the stadium full screen, a red bar top and bottom,
+  the game's own logo top right (inline SVG, original artwork), and the menu stack of slanted silver buttons on
+  the left: Continue (the newest dynasty or game, named under the label), Load Dynasty, New Dynasty, Quick Game,
+  Coaching Career (locked), Game Preferences. Load Dynasty and Game Preferences open a panel beside the menu.
+- One top bar on every other screen, a maroon gradient: the school and conference/tier on the left; the program
+  tabs Hub · Roster · Schedule · Recruiting · Portal · Staff · Facilities · Draft (the active tab in yellow with a
+  yellow underline; tabs not built yet render disabled); the date and phase on the right; the primary Advance
+  button at the far right in gold with dark text.
+- Panels: see-through navy cards with a raised edge and a silver outer frame, 3px radius, and a green header strip
+  with a yellow condensed uppercase title (a note or count right). Content is centered at max 1440px.
+- Tables: 38px rows, a green header row with yellow uppercase labels, zebra rows, a lighter band on the hovered
+  row, names in the condensed face. Wide tables scroll inside their card, never the page.
+- Buttons: glossy navy with a raised edge; gold for the primary action and the active state.
+- Rating colors as text: 70+ blue, 60s green, 50s white, 40s orange, under 40 red (the number always shows;
+  report-card grades use the same scale, A to F). Status pills: success, accent, warning, loss.
 - No emoji or symbol glyphs (the drawer's chevron and the batter marker are CSS); every button is at least 36px tall.
 
 ## The manager screen (v2)

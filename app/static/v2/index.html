@@ -8,11 +8,11 @@
 <link rel="icon" href="data:,">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,700;1,800&family=Barlow+Semi+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="/static/v2/system.css">
 <link rel="stylesheet" href="/static/v2/v2.css">
 </head>
-<body>
+<body data-screen="main">
 <div id="app" class="app">
   <!-- the one top bar: school and conference/tier, the program tabs, the date and phase, Advance -->
   <header class="topbar" id="topbar">
@@ -30,22 +30,51 @@
     </div>
   </header>
 
-  <!-- main screen: continue, new dynasty, quick game, saved dynasties, settings, what comes later -->
+  <!-- main screen (the Console look, 2026-11-26): the stadium full screen, the logo top right, the menu stack on
+       the left, a red bar top and bottom. Saved dynasties and Settings open as a panel beside the menu. -->
   <section id="main" class="main hidden">
-    <div class="main-grid">
-      <div class="panel tile continue" id="tile-continue">
-        <div class="hdr">Continue</div>
-        <div class="body" id="continue-body"><div class="muted">Looking for your latest dynasty or game…</div></div>
+    <div class="title-bar title-top"><span>College Baseball Sim</span><span class="ver">Prototype build</span></div>
+    <div class="main-stage">
+      <nav class="menu-stack" aria-label="main menu">
+        <button class="menu-btn first" id="menu-continue" disabled><i class="ball" aria-hidden="true"></i><span class="lbl">Continue</span><span class="sub" id="continue-sub">Looking for your latest dynasty or game</span></button>
+        <button class="menu-btn" id="menu-load" data-open="saves"><span class="lbl">Load Dynasty</span></button>
+        <button class="menu-btn" id="tile-dynasty"><span class="lbl">New Dynasty</span></button>
+        <button class="menu-btn" id="tile-quick"><span class="lbl">Quick Game</span></button>
+        <button class="menu-btn" id="menu-career" disabled title="Coming later"><span class="lbl">Coaching Career</span><span class="sub">Coming later</span></button>
+        <button class="menu-btn" id="menu-settings" data-open="settings"><span class="lbl">Game Preferences</span></button>
+      </nav>
+      <div class="main-right">
+        <!-- the game's own logo (original artwork: a home plate, the name, a pennant) -->
+        <svg class="logo" viewBox="0 0 520 250" role="img" aria-label="College Baseball Sim">
+          <defs>
+            <linearGradient id="lg-chrome" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".48" stop-color="#DCE3EE"/><stop offset=".52" stop-color="#9AA7BC"/><stop offset="1" stop-color="#E8EDF5"/></linearGradient>
+            <linearGradient id="lg-gold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF0A8"/><stop offset=".5" stop-color="#FFC81F"/><stop offset="1" stop-color="#B87900"/></linearGradient>
+            <linearGradient id="lg-red" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D23140"/><stop offset=".5" stop-color="#8E1826"/><stop offset="1" stop-color="#5A0D17"/></linearGradient>
+            <linearGradient id="lg-navy" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#24427A"/><stop offset="1" stop-color="#0B1630"/></linearGradient>
+            <filter id="lg-shadow" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="5" stdDeviation="5" flood-color="#000" flood-opacity=".6"/></filter>
+          </defs>
+          <g filter="url(#lg-shadow)">
+            <path d="M146 14 H374 L414 100 L260 240 L106 100 Z" fill="url(#lg-navy)" stroke="url(#lg-chrome)" stroke-width="7" stroke-linejoin="round"/>
+            <text x="260" y="62" text-anchor="middle" class="lg-college">COLLEGE</text>
+            <path d="M8 84 H512 L492 150 H28 Z" fill="url(#lg-red)" stroke="url(#lg-chrome)" stroke-width="5" stroke-linejoin="round"/>
+            <text x="260" y="140" text-anchor="middle" class="lg-baseball" fill="url(#lg-chrome)">BASEBALL</text>
+            <text x="260" y="186" text-anchor="middle" class="lg-sim" fill="url(#lg-gold)">DYNASTY SIM</text>
+            <path d="M260 196 l5.5 11 12 1.7 -8.7 8.5 2 12 -10.8 -5.7 -10.8 5.7 2 -12 -8.7 -8.5 12 -1.7 Z" fill="url(#lg-gold)" stroke="#5A3B00" stroke-width="1" transform="translate(0 -6) scale(1 .82)" transform-origin="260 210"/>
+          </g>
+        </svg>
+        <div class="main-panel panel hidden" id="panel-saves">
+          <div class="hdr">Saved dynasties <span class="sub">server saves and this browser's mirrors</span></div>
+          <div class="body" id="dyn-saves"><div class="muted">None yet.</div></div>
+          <div class="body"><label class="inline muted">Load a dynasty file <input id="dyn-file" type="file" accept=".cbsd,.txt,application/octet-stream"></label></div>
+        </div>
+        <div class="main-panel panel hidden" id="panel-settings">
+          <div class="hdr">Game preferences</div>
+          <div class="body" id="settings-body"></div>
+        </div>
       </div>
-      <button class="panel tile act" id="tile-dynasty"><div class="hdr">New dynasty</div><div class="body"><b>Take over a Division I program.</b><div class="muted">Pick any of the 307 teams by name, conference or tier. Year 1 is a full season: schedule, conference tournament, Selection Monday, regionals, supers, Omaha.</div></div></button>
-      <button class="panel tile act" id="tile-quick"><div class="hdr">Quick game</div><div class="body"><b>One exhibition, any two teams.</b><div class="muted">Straight into the manager screen.</div></div></button>
-      <div class="panel tile saves-tile"><div class="hdr">Saved dynasties <span class="sub">server saves and this browser's mirrors</span></div><div class="body" id="dyn-saves"><div class="muted">None yet.</div></div>
-        <div class="body"><label class="inline muted">Load a dynasty file <input id="dyn-file" type="file" accept=".cbsd,.txt,application/octet-stream"></label></div></div>
-      <div class="panel tile settings-tile"><div class="hdr">Settings</div><div class="body" id="settings-body"></div></div>
-      <div class="panel tile locked"><div class="hdr">Coaching career</div><div class="body muted">Coming later</div></div>
-      <div class="panel tile locked"><div class="hdr">Recruiting</div><div class="body muted">Coming later</div></div>
-      <div class="panel tile locked"><div class="hdr">Program building</div><div class="body muted">Coming later</div></div>
     </div>
+    <div class="title-bar title-bottom"><span>Take over a Division I program, or play one exhibition between any two teams.</span>
+      <span class="credit">Stadium photo: <a href="https://commons.wikimedia.org/wiki/File:TD_Ameritrade_Park_Omaha1.jpg" target="_blank" rel="noopener">Skinzfan23, Wikimedia Commons</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">CC BY-SA 3.0</a>, darkened</span></div>
   </section>
 
   <!-- new dynasty: the team picker -->

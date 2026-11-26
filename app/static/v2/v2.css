@@ -277,19 +277,54 @@ body.busy .simbar button { opacity: .6; }
 .actions .orders { margin-top: var(--pad); }
 .actions .coach { margin-top: var(--pad); }
 
-/* ---- main screen ---- */
-.main-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap); }
-.tile { text-align: left; padding: 0; cursor: default; min-height: 120px; display: flex; flex-direction: column; font: var(--font); text-transform: none; letter-spacing: 0; color: var(--ink); }
+/* ---- main screen (the Console look): the stadium sharp and full screen, a red bar top and bottom, the menu
+   stack of slanted silver buttons on the left, the logo top right, panels opening beside the menu ---- */
+body[data-screen="main"]::before { inset: 0; filter: none; }
+body[data-screen="main"]::after { background: linear-gradient(90deg, rgba(4, 9, 20, .78) 0%, rgba(4, 9, 20, .5) 26%, rgba(4, 9, 20, .08) 52%, rgba(4, 9, 20, 0) 70%), linear-gradient(180deg, rgba(4, 9, 20, .3) 0%, rgba(4, 9, 20, 0) 22%, rgba(4, 9, 20, 0) 74%, rgba(4, 9, 20, .5) 100%); }
+body[data-screen="main"] .app { max-width: none; padding: 0; gap: 0; }
+body[data-screen="main"] .topbar { display: none; }
+.main { display: flex; flex-direction: column; min-height: 100vh; }
+.title-bar { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 0 14px; background: var(--bar-grad); border-top: 1px solid rgba(255, 255, 255, .28); border-bottom: 1px solid rgba(0, 0, 0, .8); box-shadow: 0 2px 10px rgba(0, 0, 0, .5); font: 700 14px/1 var(--font-head); letter-spacing: .08em; text-transform: uppercase; color: #FFF; }
+.title-top { min-height: 28px; }
+.title-top .ver { color: #F1C9CD; font-weight: 600; }
+.title-bottom { min-height: 34px; margin-top: auto; box-shadow: 0 -2px 10px rgba(0, 0, 0, .5); }
+.title-bottom .credit { font: 500 11px/1.2 var(--font-body); letter-spacing: 0; text-transform: none; color: #F1C9CD; text-align: right; }
+.title-bottom .credit a { color: #FFF; }
+.main-stage { flex: 1; display: grid; grid-template-columns: minmax(360px, 440px) minmax(0, 1fr); gap: 32px; padding: 7vh 28px 24px 0; align-items: start; }
+.menu-stack { display: flex; flex-direction: column; gap: 10px; filter: drop-shadow(0 4px 6px rgba(0, 0, 0, .6)); }
+.menu-btn { position: relative; display: flex; flex-direction: column; justify-content: center; gap: 3px; min-height: 50px; padding: 6px 44px 6px 54px; border: none; border-radius: 0; box-shadow: none; clip-path: polygon(0 0, 100% 0, calc(100% - 26px) 100%, 0 100%);
+  background: linear-gradient(180deg, #FBFCFD 0%, #D9DEE6 44%, #A9B1BD 54%, #C6CCD6 100%); color: #152038; text-shadow: 0 1px 0 rgba(255, 255, 255, .7); text-transform: none; letter-spacing: 0; opacity: .96; transition: transform .12s ease-out, padding .12s ease-out; }
+.menu-btn .lbl { font: 800 22px/1 var(--font-head); letter-spacing: .04em; text-transform: uppercase; }
+.menu-btn .sub { font: 600 11px/1.15 var(--font-body); color: #3B4863; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.menu-btn::after { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 8px; background: var(--bar-grad); }
+.menu-btn:hover:not(:disabled), .menu-btn:focus-visible { background: linear-gradient(180deg, #FFFFFF 0%, #FFF3C4 44%, #FFD95C 54%, #FFE48A 100%); transform: translateX(10px); outline: none; }
+.menu-btn:active:not(:disabled), .menu-btn.on { background: var(--accent-grad); color: var(--accent-ink); transform: translateX(10px); }
+.menu-btn:disabled { opacity: .62; filter: grayscale(.4); }
+.menu-btn.first { min-height: 60px; }
+.menu-btn.working { transform: translateX(10px); flex-direction: row; align-items: center; justify-content: flex-start; gap: 8px; font: 800 22px/1 var(--font-head); letter-spacing: .04em; text-transform: uppercase; }
+/* the baseball on the first button, drawn in CSS: a white ball with two red seams */
+.menu-btn .ball { position: absolute; left: 18px; top: 50%; width: 26px; height: 26px; margin-top: -13px; border-radius: 50%; overflow: hidden; background: radial-gradient(circle at 35% 30%, #FFFFFF 0%, #F0F0EA 55%, #C9C9BF 100%); box-shadow: 0 1px 2px rgba(0, 0, 0, .5), inset 0 0 0 1px rgba(0, 0, 0, .25); }
+.menu-btn .ball::before, .menu-btn .ball::after { content: ""; position: absolute; top: -3px; width: 26px; height: 30px; border: 2px dashed #C2202F; border-radius: 50%; }
+.menu-btn .ball::before { left: -19px; } .menu-btn .ball::after { left: 17px; }
+.main-right { display: flex; flex-direction: column; align-items: flex-end; gap: 18px; min-width: 0; }
+.logo { width: min(440px, 34vw); height: auto; margin-top: -3vh; }
+.logo text { font-family: var(--font-head); font-style: italic; font-weight: 800; paint-order: stroke; stroke-linejoin: round; }
+.logo .lg-college { font-size: 34px; letter-spacing: .3em; fill: #FFFFFF; stroke: #0B1630; stroke-width: 4px; }
+.logo .lg-baseball { font-size: 76px; letter-spacing: .03em; stroke: #1A0508; stroke-width: 7px; }
+.logo .lg-sim { font-size: 26px; letter-spacing: .26em; stroke: #0B1630; stroke-width: 4px; }
+.main-panel { width: min(900px, 100%); max-height: 52vh; overflow: auto; }
+.main-panel .body { padding: var(--pad); }
+@media (max-width: 760px) {
+  .main-stage { grid-template-columns: 1fr; padding: 16px 12px 16px 0; gap: 16px; }
+  .main-right { order: -1; align-items: center; padding-left: 12px; }
+  .logo { width: min(300px, 70vw); margin-top: 0; }
+  .title-bottom { flex-direction: column; align-items: flex-start; padding: 6px 12px; }
+}
+/* a tile: a card with a body; "locked" marks what comes later (the dynasty's Draft day card) */
+.tile { text-align: left; padding: 0; min-height: 120px; display: flex; flex-direction: column; }
 .tile .body { padding: var(--pad); display: flex; flex-direction: column; gap: 6px; }
-.tile .body b { font: 700 18px/1.1 var(--font-head); }
-.tile.act { cursor: pointer; }
-.tile.act:hover { border-color: var(--line-strong); background: var(--panel); }
-.tile.act:active { background: var(--panel2); color: var(--ink); }
-.tile.continue { grid-column: span 1; }
-.tile.saves-tile { grid-column: span 2; }
-.tile.locked { opacity: .55; }
-.tile.locked .hdr::after { content: "locked"; margin-left: auto; font: 700 10px/1 var(--font-body); letter-spacing: .06em; background: var(--panel3); color: var(--ink2); padding: 4px 7px; border-radius: 3px; }
-.tile .go { align-self: flex-start; }
+.tile.locked { opacity: .6; }
+.tile.locked .hdr::after { content: "locked"; margin-left: auto; font: 700 10px/1 var(--font-body); letter-spacing: .06em; background: rgba(0, 0, 0, .35); color: var(--ink2); padding: 4px 7px; border-radius: 3px; }
 .set { margin-bottom: 8px; }
 .set .k { font: 700 12px/1 var(--font-head); letter-spacing: .04em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
 .set select { background: var(--panel2); color: var(--ink); border: 1px solid var(--line2); border-radius: var(--radius); padding: 3px 6px; font: var(--font); }
@@ -330,8 +365,6 @@ body.busy .simbar button { opacity: .6; }
 .boxp .hdr button { margin-left: auto; }
 .boxp .linescore { margin-bottom: 8px; }
 @media (max-width: 760px) {
-  .main-grid { grid-template-columns: 1fr; }
-  .tile.saves-tile { grid-column: span 1; }
   .hub-grid { grid-template-columns: 1fr; }
   .set .asks { grid-template-columns: 1fr; }
   .subnav { overflow-x: auto; }

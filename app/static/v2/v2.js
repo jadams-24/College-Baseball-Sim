@@ -6,8 +6,6 @@
   "use strict";
   const $ = (s) => document.querySelector(s);
   const $$ = (s) => Array.from(document.querySelectorAll(s));
-  const q = new URLSearchParams(location.search);
-  if (q.get("theme") === "light") document.documentElement.dataset.theme = "light";
   const LS_LATEST = "cbs.latest", LS_SAVES = "cbs.saves";
 
   const RATING = { contact: ["Con", "Contact"], gap: ["Gap", "Gap power (doubles, triples)"], power: ["Pow", "Power (home runs)"], eye: ["Eye", "Eye (walks)"],
@@ -631,6 +629,7 @@
     $("#nav-save").classList.toggle("hidden", name !== "game");
     $("#nav-new").classList.toggle("hidden", name !== "game" || !!(S.game && S.game.dynasty));
     S.screen = name;
+    document.body.dataset.screen = name;                    // the main screen shows the stadium sharp and its own bars (v2.css)
     refreshTopbar(name);
     window.scrollTo(0, 0);
     document.dispatchEvent(new CustomEvent("cbs:screen", { detail: name }));
