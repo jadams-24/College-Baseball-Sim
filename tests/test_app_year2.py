@@ -66,3 +66,43 @@ def test_a_dynasty_from_before_class_years_cannot_advance():
     assert not dm.summary_json(d)["can_advance"]
     with pytest.raises(ValueError):
         d.new_year()
+
+
+def test_players_leaving_and_persuasion():
+    """The Players Leaving stage: the list is the plan the turnover applies (the same after a load), an attempt is
+    one per player and limited per offseason, a persuaded player is back, and the roster shows each risk."""
+    cfg = phase2.load()
+    d = dm.Dynasty(cfg, 9, "t")
+    d.start(TID)
+    r = dm.roster_json(d)
+    assert all(x["risk"]["level"] in ("Low", "Medium", "High", "Final year") and 0 <= x["risk"]["stay"] <= 100 for x in r["batters"] + r["pitchers"])
+    with pytest.raises(ValueError):
+        dm.leaving_json(d)                              # the season is not over
+    d.advance("game", True)
+    d.sim_game()
+    d.stage = "done"
+    L = dm.leaving_json(d)
+    plan = d.off_plan()
+    mine = d.team.batters + dm.staff(d.team)
+    assert {x["pid"] for x in L["players"]} == {p.pid for p in mine if not plan[p.pid]["stays"]}
+    assert L["attempts_left"] == L["attempts"] == phase8.PERSUADE_ATTEMPTS and all(x["reason"] for x in L["players"])
+    assert all(x["can_ask"] == (x["year"] != "5th") for x in L["players"])
+    d2 = dm.load_bytes(cfg, dm.save_bytes(d))
+    d2.stage = "done"
+    assert dm.leaving_json(d2)["players"] == L["players"]
+    ask = [x["pid"] for x in L["players"] if x["can_ask"]]
+    assert len(ask) > phase8.PERSUADE_ATTEMPTS
+    got = {pid: d.persuade_player(pid) for pid in ask[:phase8.PERSUADE_ATTEMPTS]}
+    assert {pid: d2.persuade_player(pid) for pid in reversed(ask[:phase8.PERSUADE_ATTEMPTS])} == got      # the order changes nothing
+    for bad in (ask[0], ask[phase8.PERSUADE_ATTEMPTS], next(p.pid for p in mine if plan[p.pid]["stays"])):
+        with pytest.raises(ValueError):
+            d.persuade_player(bad)
+    assert dm.leaving_json(d)["attempts_left"] == 0 and not any(x["can_ask"] for x in dm.leaving_json(d)["players"])
+    d3 = dm.load_bytes(cfg, dm.save_bytes(d))
+    assert d3.persuade == got
+    uid = {p.pid: p.uid for p in mine}
+    off = d.new_year()
+    now = {p.pid: p.uid for p in d.team.batters + dm.staff(d.team)}
+    kept = {pid for pid, ok in got.items() if ok}
+    assert {pid for pid in uid if now[pid] != uid[pid]} == {pid for pid in uid if not plan[pid]["stays"]} - kept
+    assert off["persuaded"] == len(kept) and d.persuade == {} and all(len(x) == 6 for x in off["left"])

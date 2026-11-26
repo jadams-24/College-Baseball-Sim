@@ -682,3 +682,7 @@ button.danger:hover:not(:disabled) { background: linear-gradient(180deg, #E0404E
 .off-grid h3 { margin: 10px 10px 4px; font: 700 14px/1 var(--font-head); letter-spacing: .06em; color: var(--ink2); }
 .offseason .body { padding: var(--pad); display: flex; flex-direction: column; gap: 10px; }
 @media (max-width: 900px) { .off-grid { grid-template-columns: 1fr; } }
+
+/* Players Leaving (the offseason's persuasion stage) */
+.btn-sm { min-height: 28px; padding: 3px 10px; font-size: 12px; }
+.panel.leaving .tbl td { white-space: nowrap; }

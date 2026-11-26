@@ -170,12 +170,12 @@
       el.innerHTML = `<div class="panel dialog"><div class="hdr">${esc(o.title || "Confirm")}</div><div class="body">
         ${o.text ? `<p class="dialog-text">${esc(o.text)}</p>` : ""}${o.detail ? `<p class="dialog-detail muted">${esc(o.detail)}</p>` : ""}
         ${withInput ? `<input class="dialog-input" type="text" maxlength="80" value="${esc(o.value || "")}">` : ""}
-        <div class="dialog-btns"><button class="${o.danger ? "danger" : "go"}" data-ok>${esc(o.ok || "OK")}</button><button data-cancel>${esc(o.cancel || "Cancel")}</button></div></div></div>`;
+        <div class="dialog-btns"><button class="${o.danger ? "danger" : "go"}" data-ok>${esc(o.ok || "OK")}</button>${o.cancel === null ? "" : `<button data-cancel>${esc(o.cancel || "Cancel")}</button>`}</div></div></div>`;
       const input = el.querySelector(".dialog-input");
       const done = (v) => { el.remove(); if (back && back.isConnected && back.focus) back.focus(); resolve(v); };
       const ok = () => done(withInput ? input.value.trim() : true), cancel = () => done(withInput ? null : false);
       el.querySelector("[data-ok]").addEventListener("click", ok);
-      el.querySelector("[data-cancel]").addEventListener("click", cancel);
+      const cb = el.querySelector("[data-cancel]"); if (cb) cb.addEventListener("click", cancel);      // cancel: null is a notice with one button
       el.addEventListener("mousedown", (e) => { if (e.target === el) cancel(); });
       el.addEventListener("keydown", (e) => {
         e.stopPropagation();

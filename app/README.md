@@ -453,3 +453,14 @@ lists them (`world_steps` in the hub state). The postseason is the engine's Worl
 pipeline replayed over the recorded results (`Dynasty._run_post`); it follows the day loop once the regular
 season's last game is played. The equality tests (`tests/test_app_dynasty.py`) hold: a dynasty run through the
 loop equals `engine.season.simulate_season` for the same seed.
+
+## Risk of leaving and the Players Leaving stage (2026-11-26)
+
+- Roster tab, Risk column: each player's chance to return next year (`Dynasty.risk`, the offseason's own rates from
+  `config.phase8.retention` on his class, role and playing time; the pace over the schedule once the league averages
+  ten games a team, role rank before). Levels are display cuts: Low from 75%, Medium from 55%, else High.
+- Year in review, Players Leaving: `GET /api/dynasties/{id}/leaving` lists who intends to leave (the plan the
+  turnover applies; the same after a load), `POST /persuade {pid}` is one attempt (one per player,
+  `config.phase8.PERSUADE_ATTEMPTS` per offseason), drawn from the player's own stream. `next_year` applies the plan
+  less the persuaded players.
+

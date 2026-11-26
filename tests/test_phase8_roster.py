@@ -69,3 +69,47 @@ def test_turnover_keeps_the_container_the_classes_and_the_talent():
     roster.advance_year(cfg, lg, rng)
     back = [p for p in lg.players if p.uid in before]
     assert back and all(phase8.CLASSES.index(p.year) == phase8.CLASSES.index(before[p.uid][0]) + 1 and np.array_equal(p.z, before[p.uid][1]) for p in back)
+
+
+def test_who_leaves_follows_class_role_and_playing_time():
+    """The plan's stay rates are the source's cells (data/wmt_player_seasons/retention_by_class.csv), the buckets
+    are the source's cut (floor, then thirds within the role), the draws recover the rates, and a persuaded player
+    stays while a fifth-year never does."""
+    cfg = phase2.load()
+    lg = _league(cfg, 21)
+    ret = phase8.retention()
+    assert ret["stay"]["batter"]["Fr"]["t3"] > ret["stay"]["batter"]["Fr"]["unknown"] + .3      # freshmen who play stay
+    assert ret["stay"]["batter"]["Jr"]["t3"] < ret["stay"]["batter"]["Jr"]["t2"] - .1           # the most-used juniors leave
+    assert all(ret["stay"][r]["5th"][b] == 0 for r in ret["stay"] for b in phase8.BUCKETS)
+    urng = np.random.Generator(np.random.PCG64(5))
+    usage = {p.pid: int(urng.integers(0, 260)) for p in lg.players}
+    b = roster.buckets(lg, usage)
+    for side in ("bat", "pit"):
+        over = [p.pid for p in lg.players if p.side == side and usage[p.pid] >= phase8.USAGE_FLOOR]
+        assert all(b[p.pid] == "unknown" for p in lg.players if p.side == side and usage[p.pid] < phase8.USAGE_FLOOR)
+        n3 = [sum(1 for pid in over if b[pid] == t) for t in ("t1", "t2", "t3")]
+        assert max(n3) - min(n3) <= 1
+        assert max(usage[pid] for pid in over if b[pid] == "t1") <= min(usage[pid] for pid in over if b[pid] == "t3")
+    cell = {}
+    for s in range(6):                                                  # six plans of the same league: no one moves
+        plan = roster.plan_offseason(lg, np.random.Generator(np.random.PCG64(100 + s)), usage)
+        for p in lg.players:
+            d = plan[p.pid]
+            assert d["p"] == ret["stay"]["batter" if p.side == "bat" else "pitcher"][p.year][b[p.pid]] and (d["reason"] is None) == d["stays"]
+            c = cell.setdefault((p.side, p.year, b[p.pid]), [0, 0, d["p"]])
+            c[0] += d["stays"]; c[1] += 1
+    for k, (st, n, pr) in cell.items():
+        assert abs(st / n - pr) < 5 * np.sqrt(max(pr * (1 - pr), 1e-9) / n) + 1e-9, (k, st / n, pr)
+    plan = roster.plan_offseason(lg, np.random.Generator(np.random.PCG64(1)), usage)
+    again = roster.plan_offseason(lg, np.random.Generator(np.random.PCG64(1)), usage)
+    assert plan == again
+    leaving = [p for p in lg.players if not plan[p.pid]["stays"]]
+    keep = {p.pid for p in leaving[:40]}
+    uid = {p.pid: (p.uid, p.year) for p in lg.players}
+    info = roster.apply_offseason(cfg, lg, plan, np.random.Generator(np.random.PCG64(np.random.SeedSequence(2))), kept=keep)
+    for pid in keep:
+        u, y = uid[pid]
+        assert (lg.players[pid].uid == u) == (y != "5th")                # persuaded: back, unless the clock ran out
+    gone = {pid for pid in uid if lg.players[pid].uid != uid[pid][0]}
+    assert gone == {p.pid for p in leaving if p.pid not in keep or uid[p.pid][1] == "5th"}
+    assert all(len(x) == 6 and x[5] for t in info["teams"].values() for x in t["left"])
