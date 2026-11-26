@@ -15,6 +15,7 @@
     GET  /api/dynasties/{id}/standings     conferences and the national RPI list
     GET  /api/dynasties/{id}/stats         the team's batting and pitching, national leaders; /teams/{tid}/stats any team's
     GET  /api/dynasties/{id}/roster        ratings, season lines, pitchers' last outings
+    GET  /api/dynasties/{id}/lineup        the preferred starting nine and the batters; POST {pids | null} saves it
     GET  /api/dynasties/{id}/postseason    conference tournaments, the field, regionals, supers, the CWS
     GET  /api/dynasties/{id}/summary       the end-of-year summary and the offseason placeholder
     GET  /api/dynasties/{id}/save          {save} (signed, compressed; the browser mirrors it)
@@ -81,6 +82,10 @@ class OpenIn(BaseModel):
 
 class SaveIn(BaseModel):
     save: str
+
+
+class LineupIn(BaseModel):
+    pids: list[int] | None = None      # nine batters in batting order; null hands the lineup back to the AI
 
 
 # ---- store helpers ----------------------------------------------------------------------------------
@@ -494,6 +499,25 @@ def team_stats(did: str, tid: int):
 @router.get("/api/dynasties/{did}/roster")
 def roster(did: str):
     return _read(lambda: dyn_mod.roster_json(_get(did)))
+
+
+@router.get("/api/dynasties/{did}/lineup")
+def lineup(did: str):
+    """The Lineup tab: the preferred starting nine (or the AI's everyday nine) and the team's batters."""
+    return _read(lambda: dyn_mod.lineup_json(_get(did)))
+
+
+@router.post("/api/dynasties/{did}/lineup")
+def set_lineup(did: str, body: LineupIn):
+    """Save the preferred lineup (used when the AI plays the user's games and prefilled on the manager screen)."""
+    d = _get(did)
+    try:
+        with _store.lock:
+            d.set_lineup(body.pids)
+            _autosave(did, d)
+            return dyn_mod.lineup_json(d)
+    except ValueError as e:
+        raise HTTPException(400, str(e))
 
 
 @router.get("/api/dynasties/{did}/teams/{tid}")

@@ -61,6 +61,10 @@ its tokens and primitives, so the look changes in that one file:
   with a yellow condensed uppercase title (a note or count right). Content is centered at max 1440px.
 - Tables: 38px rows, a green header row with yellow uppercase labels, zebra rows, a lighter band on the hovered
   row, names in the condensed face. Wide tables scroll inside their card, never the page.
+- Dialogs and pop-ups are the game's own (`loading.js` `cbsDialog`; the box score pop-up after "Sim game" in
+  `dynasty.js`): never the browser's confirm or prompt. Sim progress is a percent of the running job.
+- The Lineup tab (between Schedule and Recruiting): the batting order and the bench side by side; click two
+  players to swap, Up and Down to reorder; every change saves (`/api/dynasties/{id}/lineup`).
 - Buttons: glossy navy with a raised edge; gold for the primary action and the active state.
 - Rating colors as text: 70+ blue, 60s green, 50s white, 40s orange, under 40 red (the number always shows;
   report-card grades use the same scale, A to F). Status pills: success, accent, warning, loss.

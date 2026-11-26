@@ -428,6 +428,13 @@
     const batters = st.bench[me], pitchers = st.bullpen[me];
     S.pregame = { lineup: lu ? lu.pids.slice() : batters.slice(0, 9).map((p) => p.pid), aiLineup: lu ? lu.pids.slice() : null,
                   sp: sp ? sp.pid : pitchers[0].pid, aiSp: sp ? sp.pid : null };
+    // a dynasty game: the preferred lineup of the Lineup tab, when one is set, replaces the AI's as the prefilled order
+    if (S.game.dynasty) {
+      try {
+        const pl = await raw(`/api/dynasties/${S.game.dynasty}/lineup`), have = new Set(batters.map((p) => p.pid));
+        if (pl.custom && pl.lineup.length === 9 && pl.lineup.every((pid) => have.has(pid))) { S.pregame.lineup = pl.lineup.slice(); S.pregame.preferred = true; }
+      } catch (e) { /* the AI's lineup stays */ }
+    }
   }
   function pregameEditor(t) {
     const pg = S.pregame, st = t.state, me = t.user_side;
@@ -605,7 +612,7 @@
   });
 
   // ---- the one top bar: school and conference/tier, the program tabs, date and phase, Advance ----
-  const BUILT_TABS = ["hub", "roster", "schedule", "draft"];
+  const BUILT_TABS = ["hub", "roster", "schedule", "lineup", "draft"];
   function setTopbar(o) {
     $("#tb-school").textContent = o.school; $("#tb-sub").textContent = o.sub || "";
     $$("#tb-tabs button").forEach((b) => { b.disabled = !o.dynasty || !BUILT_TABS.includes(b.dataset.tab); b.classList.toggle("on", !!o.dynasty && b.dataset.tab === o.active); });

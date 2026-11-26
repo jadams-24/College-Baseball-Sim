@@ -35,6 +35,7 @@ from app.world import player_json, staff
 from config import phase7
 from engine.game2 import B_NCOL, P_NCOL, GameSession, PlayerGameEngine
 from engine.league import build_league
+from engine.control import AIController
 from engine.manager import Manager
 from engine.rpi import rpi as rpi_of
 from engine.schedule import make_schedule
@@ -119,6 +120,27 @@ def _game_record(g, st, i, box, user_played: bool) -> dict:
             "box": box, "user": user_played, "stage": "regular", "neutral": False}
 
 
+class PreferredLineupController(AIController):
+    """The user's team when the AI plays its game with a preferred lineup set (the Lineup tab, 2026-11-26): the
+    AI manager answers every decision but the starting lineup, which is the user's nine in his batting order. The
+    engine positions each decision's random stream by itself, so skipping the AI's lineup draw moves no later draw.
+    A preferred player who is no longer on the roster sends the whole decision back to the AI."""
+
+    def __init__(self, decider, pids):
+        super().__init__(decider)
+        self.pids = list(pids)
+
+    def answer(self, kind: str, state, rng, *args):
+        if kind == "lineup":
+            tm = state.team_obj[args[0]]
+            by = {p.pid: p for p in tm.batters}
+            if len(self.pids) == 9 and all(pid in by for pid in self.pids):
+                if getattr(self.dec, "start_markov", None):
+                    self.dec.last_lineup[tm.tid] = set(self.pids)      # the AI's start persistence reads the last starters
+                return [by[pid] for pid in self.pids]
+        return super().answer(kind, state, rng, *args)
+
+
 class Dynasty:
     """One dynasty: the D1 world of a seed, the user's team, the season in progress, its results and the saves."""
 
@@ -135,6 +157,7 @@ class Dynasty:
         self.created = time.time()
         self.schedule = []
         self.skip = np.zeros(0, bool)
+        self.pref_lineup: list | None = None     # the user's preferred starting nine in batting order (the Lineup tab); None: the AI picks
         self.dropped = np.zeros(0, bool)         # the midweek slots a team never scheduled (engine.world.schedule_mask): part of skip, never shown
         self.seeds: list = []
         self.pos = 0
@@ -232,7 +255,12 @@ class Dynasty:
     def _play_logged(self, rng, home, away, weekend, **kw):
         """The engine's play() (a GameSession run to the end, the AI on both sides) with the game log kept, so the
         plate appearances can be counted by the opponent's hand (the splits, app-side; the draws are the same)."""
-        sess = GameSession(self.eng, rng, home, away, weekend, self.mgr, log=True, **kw)
+        ctrl = None
+        if getattr(self, "pref_lineup", None) and self.tid in (home.tid, away.tid):
+            # the user's preferred lineup when the AI plays his game; no preference: the engine's own default (both sides the AI)
+            ctrl = {s: (PreferredLineupController(self.mgr, self.pref_lineup) if t.tid == self.tid else AIController(self.mgr))
+                    for s, t in (("home", home), ("away", away))}
+        sess = GameSession(self.eng, rng, home, away, weekend, self.mgr, log=True, controllers=ctrl, **kw)
         sess.run()
         self._count_splits(sess.log)
         return sess.st
@@ -337,6 +365,24 @@ class Dynasty:
                 continue
             out.append(i)
         return out
+
+    # ---- the preferred lineup (the Lineup tab) ----------------------------------------------------------
+    def default_lineup(self) -> list:
+        """The AI's everyday nine in its batting order (the regulars by hitting value); the AI rests some of them
+        game to game at the real rates."""
+        from config.phase2 import N_REGULARS
+        return [p.pid for p in sorted(self.team.batters[:N_REGULARS], key=lambda p: p.bat_order)]
+
+    def set_lineup(self, pids) -> None:
+        """Nine distinct batters of the user's team in batting order, or None to hand the lineup back to the AI."""
+        if pids is None:
+            self.pref_lineup = None
+            return
+        pids = [int(x) for x in pids]
+        own = {p.pid for p in self.team.batters}
+        if len(pids) != 9 or len(set(pids)) != 9 or not set(pids) <= own:
+            raise ValueError("a lineup is nine different batters of your team, in batting order")
+        self.pref_lineup = pids
 
     def my_games(self) -> list:
         return [i for i, g in enumerate(self.schedule) if self.mine(g) and not self.skip[i]]
@@ -706,7 +752,7 @@ def save_bytes(d: Dynasty) -> bytes:
     ext[id(d.cfg)] = "cfg"
     buf = io.BytesIO()
     state = {"version": SAVE_VERSION, "seed": d.seed, "name": d.name, "tid": d.tid, "year": d.year, "created": d.created,
-             "league": d.league, "schedule": d.schedule, "skip": d.skip, "dropped": d.dropped, "seeds": d.seeds, "pos": d.pos, "results": d.results,
+             "league": d.league, "schedule": d.schedule, "skip": d.skip, "dropped": d.dropped, "pref_lineup": getattr(d, "pref_lineup", None), "seeds": d.seeds, "pos": d.pos, "results": d.results,
              "reg_games": d.reg_games, "post_calls": d.post_calls, "post": d.post, "stage": d.stage, "pending": d.pending,
              "news": d.news, "bstats": d.bstats, "pstats": d.pstats,
              "today": d.today, "steps_done": d.steps_done, "last_pause": d.last_pause, "splits": d.splits,
@@ -734,6 +780,7 @@ def load_bytes(cfg, data: bytes) -> Dynasty:
     d._s_sched, d._s_games, d._s_cancel, d._s_post, d._s_len = st["s"]
     d.real_conf = {tid: c for tid, (_, c, _) in enumerate(cfg.teams)}
     d.schedule, d.skip, d.seeds, d.pos = st["schedule"], st["skip"], st["seeds"], st["pos"]
+    d.pref_lineup = st.get("pref_lineup")
     d.dropped = st.get("dropped")
     if d.dropped is None:               # a save from before 2026-11-26: the dropped slots redrawn from their own stream (the same draw)
         d.dropped = (schedule_mask(d.schedule, len(d.league.teams), np.random.Generator(np.random.PCG64(d._s_len)))
@@ -1139,6 +1186,16 @@ def _year(p) -> str:
     """Class or year once the engine's Player carries it (roster rules); a dash until then."""
     y = getattr(p, "year", None) or getattr(p, "class_year", None) or getattr(p, "klass", None)
     return str(y) if y else "–"
+
+
+def lineup_json(d: Dynasty) -> dict:
+    """The Lineup tab: the starting nine in batting order (the user's preferred one, else the AI's everyday nine),
+    whether it is the user's, and every batter of the team with ratings and the season line."""
+    own = {p.pid for p in d.team.batters}
+    pref = d.pref_lineup if d.pref_lineup and set(d.pref_lineup) <= own else None
+    default = d.default_lineup()
+    return {"team": d.tname(d.tid), "lineup": list(pref or default), "custom": pref is not None, "default": default,
+            "batters": [dict(player_json(p), stats=_bat_stats(d.bstats[p.pid]), hand=_hand(p), year=_year(p)) for p in d.team.batters]}
 
 
 def roster_json(d: Dynasty, tid: int | None = None) -> dict:

@@ -28,8 +28,8 @@
   }
   function setScreen(name) { D.screen = name; render(); }
   // the top bar's tabs group the screens: Hub (and the year in review), Roster (roster, stats), Schedule (schedule, standings, postseason)
-  const GROUPS = { hub: ["hub"], roster: ["roster", "stats"], schedule: ["schedule", "standings", "postseason"], draft: ["prospects", "mock", "program"] };
-  const LABEL = { hub: "Hub", roster: "Roster", stats: "Stats", schedule: "Schedule", standings: "Standings", postseason: "Postseason", summary: "Year in review",
+  const GROUPS = { hub: ["hub"], roster: ["roster", "stats"], schedule: ["schedule", "standings", "postseason"], lineup: ["lineup"], draft: ["prospects", "mock", "program"] };
+  const LABEL = { hub: "Hub", roster: "Roster", stats: "Stats", schedule: "Schedule", standings: "Standings", postseason: "Postseason", summary: "Year in review", lineup: "Lineup",
                   prospects: "Top 100 prospects", mock: "Mock draft", program: "Your program" };
   function tabOf(screen) { for (const [tab, scs] of Object.entries(GROUPS)) if (scs.includes(screen)) return tab; return "hub"; }
   function renderSubnav() {
@@ -128,7 +128,16 @@
   }
   async function simPending(btn) {
     const h = await LD.simAction(btn || $("#simgame-btn"), "Simming…", { title: "Simming your game", retry: true }, () => raw(`/api/dynasties/${D.id}/game/sim`, "POST"));
-    if (h) { D.hub = h; D.cache = {}; render(); mirror(); }
+    if (h) {
+      const seen = new Set((D.hub.recent || []).map((g) => `${g.i}:${g.k}`));
+      D.hub = h; D.cache = {}; render(); mirror();
+      // the simmed game's final and box score as a pop-up: the result that was not in the recent list before the sim
+      const g = (h.recent || []).find((x) => !seen.has(`${x.i}:${x.k}`));
+      if (g) {
+        try { showBox(g.i != null && g.i >= 0 ? await raw(`/api/dynasties/${D.id}/games/${g.i}`) : await raw(`/api/dynasties/${D.id}/postgames/${g.k}`), true); }
+        catch (e) { toast("The game is in; its box score is on the Schedule screen."); }
+      }
+    }
   }
   document.addEventListener("cbs:dyn-finish", () => busy(() => LD.act($("#simbar [data-dyn-finish]"), "Back to the dynasty…", async () => { D.hub = await raw(`/api/dynasties/${D.id}/game/finish`, "POST"); D.cache = {}; show("dyn"); setScreen("hub"); mirror(); })));
   document.addEventListener("cbs:dyn-back", () => { show("dyn"); render(); });
@@ -157,9 +166,9 @@
     window.cbsCalendar.set(D.hub.calendar);          // this dynasty's year: every date on these screens maps through it
     topbar("dyn");
     renderSubnav();
-    const fn = { hub: renderHub, schedule: renderSchedule, standings: renderStandings, stats: renderStats, roster: renderRoster, postseason: renderPostseason, summary: renderSummary,
+    const fn = { hub: renderHub, schedule: renderSchedule, standings: renderStandings, stats: renderStats, roster: renderRoster, lineup: renderLineup, postseason: renderPostseason, summary: renderSummary,
                  prospects: renderProspects, mock: renderMock, program: renderProgram }[D.screen] || renderHub;
-    const cached = { schedule: false, standings: !!D.cache.standings, stats: !!D.cache.stats, roster: !!D.cache.roster, postseason: false, summary: false, hub: true,
+    const cached = { schedule: false, standings: !!D.cache.standings, stats: !!D.cache.stats, roster: !!D.cache.roster, lineup: !!D.cache.lineup, postseason: false, summary: false, hub: true,
                      prospects: !!D.cache.draft, mock: !!D.cache.draft, program: !!D.cache.draft }[D.screen];
     if (!cached) $("#dyn-main").innerHTML = LD.skeletonPanel(LABEL[D.screen] || "", D.screen === "standings" ? 12 : 14, D.screen === "roster" || D.screen === "stats" ? 8 : 5);
     const run = D.screen;
@@ -331,15 +340,31 @@
   function bindBoxes() {
     $$("#dyn-main [data-box], #dyn-main [data-postbox]").forEach((b) => b.addEventListener("click", () => busy(() => LD.act(b, "Loading…", () => loadBox(b)), { quiet: true })));
   }
-  function showBox(g) {
+  function showBox(g, popup) {
     const b = g.box, cols = ["ab", "r", "h", "rbi", "bb", "k", "hr", "sb", "cs"], pitCols = ["ip", "h", "r", "er", "bb", "k", "pitches"];
     const sum = (rows, k) => rows.reduce((s, r) => s + (r.line[k] || 0), 0);
     const decOf = (r) => (b.decisions ? (b.decisions.W === r.pid ? "W" : b.decisions.L === r.pid ? "L" : b.decisions.SV === r.pid ? "SV" : (b.decisions.HLD || []).includes(r.pid) ? "HLD" : "") : r.line.dec || "");
     const bat = (side) => `<h3>${esc(b.teams[side])} batting</h3><table class="tbl box"><tr><th>Batter</th><th>Pos</th><th>B</th>${cols.map((c) => `<th class="num">${c.toUpperCase()}</th>`).join("")}</tr>${b.batting[side].map((r) => `<tr><td class="nm"><a class="plink" data-pid="${r.pid}">${esc(r.name)}</a></td><td>${r.pos}</td><td class="muted">${r.bats || "–"}</td>${cols.map((c) => `<td class="num">${r.line[c]}</td>`).join("")}</tr>`).join("")}<tr class="tot"><td>Totals</td><td></td><td></td>${cols.map((c) => `<td class="num">${sum(b.batting[side], c)}</td>`).join("")}</tr></table>`;
     const pit = (side) => `<h3>${esc(b.teams[side])} pitching</h3><table class="tbl box"><tr><th>Pitcher</th><th>T</th>${pitCols.map((c) => `<th class="num">${c === "pitches" ? "P" : c.toUpperCase()}</th>`).join("")}</tr>${b.pitching[side].map((r) => { const dec = decOf(r); return `<tr><td class="nm"><a class="plink" data-pid="${r.pid}">${esc(r.name)}</a> <span class="muted">${r.role}</span>${dec ? ` <span class="pill ${dec === "L" ? "loss" : "success"}">${dec}</span>` : ""}</td><td class="muted">${r.throws || "–"}</td>${pitCols.map((c) => `<td class="num">${r.line[c]}</td>`).join("")}</tr>`; }).join("")}</table>`;
     const line = g.line ? `<table class="linescore"><tr><th></th>${g.line.away.map((_, i) => `<th>${i + 1}</th>`).join("")}<th class="tot">R</th><th class="tot">H</th><th class="tot">E</th></tr><tr><td class="team">${chip(g.away)}${esc(g.away_name)}</td>${g.line.away.map((r) => `<td>${r}</td>`).join("")}<td class="tot r">${g.ar}</td><td class="tot">${g.hits.away}</td><td class="tot">${g.errors.away}</td></tr><tr><td class="team">${chip(g.home)}${esc(g.home_name)}</td>${g.line.home.map((r) => `<td>${r}</td>`).join("")}<td class="tot r">${g.hr}</td><td class="tot">${g.hits.home}</td><td class="tot">${g.errors.home}</td></tr></table>` : "";
+    const html = `<div class="panel boxp"><div class="hdr">${esc(g.away_name)} ${g.ar}, ${esc(g.home_name)} ${g.hr} <span class="sub">${dateText(g.date)}${(() => { const v = venueLine(g.venue, { neutral: g.neutral, stage: g.stage }); return v ? ` · ${v}` : ""; })()}${g.inning !== 9 ? ` · ${g.inning} innings` : ""}${g.run_rule ? " · run rule" : ""}${g.user ? " · played on the manager screen" : " · simmed"}</span><button class="btn-ghost" id="box-close">Close</button></div><div class="body">${line}<div class="box-grid"><div>${bat("away")}${pit("away")}</div><div>${bat("home")}${pit("home")}</div></div></div></div>`;
+    if (popup) {
+      // the pop-up after "Sim game" (owner request 2026-11-26): the final and the box score over the hub
+      document.querySelectorAll(".box-shade").forEach((x) => x.remove());
+      const sh = document.createElement("div"); sh.className = "dialog-shade box-shade"; sh.setAttribute("role", "dialog"); sh.setAttribute("aria-modal", "true"); sh.setAttribute("aria-label", "Final score and box score");
+      const won = g.result && g.result[0] === "W";
+      sh.innerHTML = `<div class="box-pop">${g.result ? `<div class="final ${won ? "w" : "l"}"><span class="k">Final</span><b>${esc(g.result)}</b><span class="muted">${g.side === "home" ? "vs" : "at"} ${esc(g.side === "home" ? g.away_name : g.home_name)}</span></div>` : ""}${html}</div>`;
+      const shut = () => { sh.remove(); document.removeEventListener("keydown", onKey, true); };
+      const onKey = (e) => { if (e.key === "Escape" || e.key === "Enter") { e.preventDefault(); e.stopPropagation(); shut(); } };
+      document.addEventListener("keydown", onKey, true);
+      sh.addEventListener("mousedown", (e) => { if (e.target === sh) shut(); });
+      sh.addEventListener("click", (e) => { if (e.target.closest("#box-close") || e.target.closest("[data-pid]")) shut(); });
+      document.body.appendChild(sh);
+      const cb = sh.querySelector("#box-close"); if (cb) { cb.textContent = "Continue"; cb.className = "go"; cb.focus(); }
+      return;
+    }
     const el = $("#box-out") || (() => { const d = document.createElement("div"); d.id = "box-out"; $("#dyn-main").appendChild(d); return d; })();
-    el.innerHTML = `<div class="panel boxp"><div class="hdr">${esc(g.away_name)} ${g.ar}, ${esc(g.home_name)} ${g.hr} <span class="sub">${dateText(g.date)}${(() => { const v = venueLine(g.venue, { neutral: g.neutral, stage: g.stage }); return v ? ` · ${v}` : ""; })()}${g.inning !== 9 ? ` · ${g.inning} innings` : ""}${g.run_rule ? " · run rule" : ""}${g.user ? " · played on the manager screen" : " · simmed"}</span><button class="btn-ghost" id="box-close">Close</button></div><div class="body">${line}<div class="box-grid"><div>${bat("away")}${pit("away")}</div><div>${bat("home")}${pit("home")}</div></div></div></div>`;
+    el.innerHTML = html;
     $("#box-close").addEventListener("click", () => (el.innerHTML = ""));
     el.scrollIntoView({ behavior: "smooth", block: "start" });
   }
@@ -389,6 +414,51 @@
     const pit = `<table class="tbl roster"><tr><th>Role</th><th>Name</th><th>B/T</th><th>Yr</th>${pk.map((k) => `<th>${V.RATING[k][0]}</th>`).join("")}<th class="num">W-L</th><th class="num">SV</th><th class="num">HLD</th><th class="num">IP</th><th class="num">ERA</th><th class="num">K</th><th>Last outing</th></tr>${r.pitchers.map((p) => `<tr><td>${p.role}</td><td class="nm"><a class="plink" data-pid="${p.pid}">${esc(p.name)}</a></td><td class="muted">${p.hand}</td><td class="muted">${p.year}</td>${pk.map((k) => `<td>${p.ratings[k] == null ? '<span class="muted">–</span>' : badge(k, p.ratings[k]).replace(/<span class="k">.*?<\/span>/, "")}</td>`).join("")}<td class="num">${p.stats.w}-${p.stats.l}</td><td class="num">${p.stats.sv}</td><td class="num">${p.stats.hld}</td><td class="num">${p.stats.ip}</td><td class="num">${p.stats.era.toFixed(2)}</td><td class="num">${p.stats.k}</td><td class="muted">${rest(p)}</td></tr>`).join("")}</table>`;
     $("#dyn-main").innerHTML = `<div class="panel"><div class="hdr">${esc(r.team)} batters <span class="sub">B/T = bats (S for a switch hitter) / throws · class arrives with the engine's roster rules, a dash until then</span></div><div class="body tight scroll-x">${bat}</div></div>
       <div class="panel"><div class="hdr">${esc(r.team)} pitchers <span class="sub">rest: the last outing's date and pitches (the AI's rest rule reads these)</span></div><div class="body tight scroll-x">${pit}</div></div>`;
+  }
+
+  // ---- the Lineup tab (owner request 2026-11-26): the preferred starting nine in batting order. Used when the AI
+  // plays the user's games (Sim game, longer sims) and prefilled on the manager screen. Click two players to swap
+  // them (order or bench), or move a batter up and down; every change saves. ----
+  const LU = { sel: null };
+  async function saveLineup(pids) {
+    const r = await raw(`/api/dynasties/${D.id}/lineup`, "POST", { pids });
+    D.cache.lineup = r; LU.sel = null; renderLineup();
+  }
+  async function renderLineup() {
+    const r = D.cache.lineup || (await raw(`/api/dynasties/${D.id}/lineup`));
+    D.cache.lineup = r;
+    const by = Object.fromEntries(r.batters.map((p) => [p.pid, p]));
+    const rk = ["contact", "gap", "power", "eye", "avoid_k", "speed", "glove"];
+    const rate = (p) => rk.map((k) => `<td class="ctr">${p.ratings[k] == null ? '<span class="muted">–</span>' : badge(k, p.ratings[k]).replace(/<span class="k">.*?<\/span>/, "")}</td>`).join("");
+    const cells = (p) => `<td>${p.pos}</td><td class="nm"><a class="plink" data-pid="${p.pid}">${esc(p.name)}</a></td><td class="muted">${p.hand}</td>${rate(p)}<td class="num">${f3(p.stats.avg)}</td><td class="num">${p.stats.hr}</td><td class="num">${p.stats.rbi}</td>`;
+    const head = `<th>Pos</th><th>Name</th><th>B/T</th>${rk.map((k) => `<th class="ctr">${V.RATING[k][0]}</th>`).join("")}<th class="num">AVG</th><th class="num">HR</th><th class="num">RBI</th>`;
+    const order = r.lineup.map((pid, i) => `<tr class="pickable ${LU.sel === pid ? "sel" : ""}" data-lu="${pid}"><td class="slot num">${i + 1}</td>${cells(by[pid])}<td class="act"><button class="btn-ghost" data-up="${i}" ${i === 0 ? "disabled" : ""}>Up</button> <button class="btn-ghost" data-down="${i}" ${i === 8 ? "disabled" : ""}>Down</button></td></tr>`).join("");
+    const bench = r.batters.filter((p) => !r.lineup.includes(p.pid)).map((p) => `<tr class="pickable ${LU.sel === p.pid ? "sel" : ""}" data-lu="${p.pid}">${cells(p)}</tr>`).join("");
+    // the nine's positions: a note when a field position has nobody or two men (information; the choice is the user's)
+    const FIELD = ["C", "1B", "2B", "3B", "SS", "LF", "CF", "RF"], count = {};
+    r.lineup.forEach((pid) => { const k = by[pid].pos; count[k] = (count[k] || 0) + 1; });
+    const missing = FIELD.filter((k) => !count[k]), twice = Object.keys(count).filter((k) => count[k] > 1);
+    const posNote = missing.length || twice.length ? `<span class="pill warn">${missing.length ? `No ${missing.join(", ")}` : ""}${missing.length && twice.length ? " · " : ""}${twice.length ? `Two at ${twice.join(", ")}` : ""}</span>` : "";
+    $("#dyn-main").innerHTML = `<div class="lu-grid"><div class="panel"><div class="hdr">Batting order <span class="sub">${r.custom ? "your lineup" : "the coach's everyday nine (the AI rests players game to game)"}</span></div>
+        <div class="body lu-note"><span class="pill ${r.custom ? "accent" : "plain"}">${r.custom ? "Your lineup" : "Coach's lineup"}</span> ${posNote}<span class="muted">${LU.sel != null ? `Now click the player to swap with ${esc(by[LU.sel].name)}.` : "Click a player, then another player (in the order or on the bench) to swap them."}</span>${r.custom ? '<button class="btn-ghost" id="lu-reset">Give the lineup back to the coach</button>' : ""}</div>
+        <div class="body tight scroll-x"><table class="tbl lu"><tr><th class="num">#</th>${head}<th></th></tr>${order}</table></div></div>
+      <div class="panel"><div class="hdr">Bench <span class="sub">${r.batters.length - 9} batters</span></div><div class="body tight scroll-x"><table class="tbl lu"><tr>${head}</tr>${bench}</table></div>
+        <div class="body muted">Your lineup starts every game the AI plays for you (Sim game and longer sims) and is prefilled when you play on the manager screen, where you can still change it for that game.</div></div></div>`;
+    const swap = (a, b) => {
+      const l = r.lineup.slice(), ia = l.indexOf(a), ib = l.indexOf(b);
+      if (ia < 0 && ib < 0) { LU.sel = b; return renderLineup(); }           // two bench players: the second becomes the selection
+      if (ia >= 0 && ib >= 0) { l[ia] = b; l[ib] = a; } else if (ia >= 0) l[ia] = b; else l[ib] = a;
+      busy(() => saveLineup(l));
+    };
+    $$("#dyn-main tr[data-lu]").forEach((tr) => tr.addEventListener("click", (e) => {
+      if (e.target.closest("button, a")) return;
+      const pid = +tr.dataset.lu;
+      if (LU.sel == null) { LU.sel = pid; renderLineup(); } else if (LU.sel === pid) { LU.sel = null; renderLineup(); } else swap(LU.sel, pid);
+    }));
+    const move = (i, d) => { const l = r.lineup.slice(); [l[i], l[i + d]] = [l[i + d], l[i]]; busy(() => saveLineup(l)); };
+    $$("#dyn-main [data-up]").forEach((b) => b.addEventListener("click", () => move(+b.dataset.up, -1)));
+    $$("#dyn-main [data-down]").forEach((b) => b.addEventListener("click", () => move(+b.dataset.down, 1)));
+    const rs = $("#lu-reset"); if (rs) rs.addEventListener("click", () => busy(() => saveLineup(null)));
   }
 
   // ---- the NCAA tournament as a bracket: 16 regional cards, 8 supers, the two Omaha brackets and the finals ----
@@ -500,5 +570,5 @@
 
   document.addEventListener("cbs:ready", () => { const id = new URLSearchParams(location.search).get("dyn"); if (id) busy(() => open(id)); });
   window.cbsCardShort = CARD_SHORT;
-  window.dyn = { open, id: () => D.id, refresh, hub: () => D.hub, topbar, goto, advance, showBox: (g) => { if (D.screen !== "schedule" && D.screen !== "hub") setScreen("schedule"); showBox(g); } };
+  window.dyn = { open, id: () => D.id, refresh, hub: () => D.hub, topbar, goto, advance, showBox: (g) => { if (D.screen !== "schedule" && D.screen !== "hub") setScreen("schedule"); showBox(g); }, showBoxPop: (g) => showBox(g, true) };
 })();
