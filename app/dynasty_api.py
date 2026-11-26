@@ -18,6 +18,8 @@
     GET  /api/dynasties/{id}/lineup        the preferred starting nine and the batters; POST {pids | null} saves it
     GET  /api/dynasties/{id}/postseason    conference tournaments, the field, regionals, supers, the CWS
     GET  /api/dynasties/{id}/summary       the end-of-year summary and the offseason placeholder
+    GET  /api/dynasties/{id}/leaving       the Players Leaving stage: who intends to leave, why, the persuasion attempts
+    POST /api/dynasties/{id}/persuade      one attempt to keep a leaving player (one per player) -> the list
     POST /api/dynasties/{id}/next_year     the offseason's turnover (class years, departures, newcomers) and the next season -> hub
     GET  /api/dynasties/{id}/save          {save} (signed, compressed; the browser mirrors it)
     POST /api/dynasties/load               {save} -> {id, hub}
@@ -83,6 +85,10 @@ class OpenIn(BaseModel):
 
 class SaveIn(BaseModel):
     save: str
+
+
+class PersuadeIn(BaseModel):
+    pid: int
 
 
 class LineupIn(BaseModel):
@@ -547,6 +553,30 @@ def postseason(did: str):
 @router.get("/api/dynasties/{did}/summary")
 def summary(did: str):
     return _read(lambda: dyn_mod.summary_json(_get(did)))
+
+
+@router.get("/api/dynasties/{did}/leaving")
+def leaving(did: str):
+    """The Players Leaving stage: who intends to leave the user's team, why, and the persuasion attempts."""
+    try:
+        return _read(lambda: dyn_mod.leaving_json(_get(did)))
+    except ValueError as e:
+        raise HTTPException(400, str(e))
+
+
+@router.post("/api/dynasties/{did}/persuade")
+def persuade(did: str, body: PersuadeIn):
+    """One persuasion attempt on a leaving player (one per player). Returns the list and whether he stays."""
+    d = _get(did)
+    if _running(did):
+        raise HTTPException(409, "a sim is running")
+    try:
+        with _store.lock:
+            ok = d.persuade_player(body.pid)
+            _autosave(did, d)
+            return dict(dyn_mod.leaving_json(d), stayed=ok, pid=body.pid)
+    except ValueError as e:
+        raise HTTPException(400, str(e))
 
 
 @router.post("/api/dynasties/{did}/next_year")

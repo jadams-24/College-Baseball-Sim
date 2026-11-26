@@ -61,6 +61,10 @@ def _child(seq: np.random.SeedSequence, k: int) -> np.random.SeedSequence:
     return np.random.SeedSequence(seq.entropy, spawn_key=tuple(seq.spawn_key) + (k,), pool_size=seq.pool_size)
 
 
+RISK_MIN_GAMES = 10                      # display: a team's games before its players' playing-time pace is read
+RISK_LOW, RISK_MEDIUM = .75, .55         # display cuts of the Risk of Leaving level on the chance to return
+
+
 class UserGame(Exception):
     """The postseason pipeline reached a game of the user's team: (call index, home, away, date, neutral, stage)."""
 
@@ -157,6 +161,7 @@ class Dynasty:
         self.created = time.time()
         self.schedule = []
         self.skip = np.zeros(0, bool)
+        self.persuade: dict = {}                 # pid -> whether the offseason's persuasion attempt kept him (Players Leaving)
         self.pref_lineup: list | None = None     # the user's preferred starting nine in batting order (the Lineup tab); None: the AI picks
         self.dropped = np.zeros(0, bool)         # the midweek slots a team never scheduled (engine.world.schedule_mask): part of skip, never shown
         self.seeds: list = []
@@ -220,12 +225,13 @@ class Dynasty:
         hist.append({k: done[k] for k in ("year", "team", "record", "conf_record", "rpi_rank", "result", "conference_champion", "champion", "runner_up")})
         self.history = hist
         nxt = self.year + 1
-        ss = np.random.SeedSequence(entropy=self.seed, spawn_key=(8, nxt))        # this year's own seeds, apart from year 1's
-        s_turn, self._s_sched, self._s_games, self._s_cancel, self._s_post, self._s_len = ss.spawn(6)
+        plan, kept = self.off_plan(), {pid for pid, ok in self.persuade.items() if ok}
         uid_before = {p.pid: p.uid for p in self.team.batters}
-        info = roster.advance_year(self.cfg, self.league, np.random.Generator(np.random.PCG64(s_turn)))
+        _, s_apply, self._s_sched, self._s_games, self._s_cancel, self._s_post, self._s_len = self._off_seeds(nxt)
+        info = roster.apply_offseason(self.cfg, self.league, plan, np.random.Generator(np.random.PCG64(s_apply)), kept=kept)
+        self.persuade, self._plan, self._risk = {}, None, None
         self.year = nxt
-        self.offseason = dict(info["teams"][self.tid], year=nxt, left_by_class=info["left"], arrived_by_class=info["arrived"], returned=info["returned"])
+        self.offseason = dict(info["teams"][self.tid], year=nxt, left_by_class=info["left"], arrived_by_class=info["arrived"], returned=info["returned"], persuaded=len(kept))
         # the preferred lineup stands only if all nine are back (a newcomer takes a leaver's roster slot)
         if self.pref_lineup and any(self._player(pid).uid != uid_before.get(pid) for pid in self.pref_lineup):
             self.pref_lineup = None
@@ -237,6 +243,87 @@ class Dynasty:
         self._players = None
         self._start_season()
         return self.offseason
+
+    # ---- who stays and who leaves (Phase 8: engine/roster.py plan_offseason; plans/phase8_retention_2026-11-26.md) ----
+    def _off_seeds(self, nxt: int) -> tuple:
+        """The seeds of the offseason into year `nxt` and of that year: (plan, apply, schedule, games, cancellations,
+        postseason, schedule length). A function of the dynasty's seed and the year only."""
+        ss = np.random.SeedSequence(entropy=self.seed, spawn_key=(8, nxt))        # this year's own seeds, apart from year 1's
+        s_turn, *rest = ss.spawn(6)
+        return (*s_turn.spawn(2), *rest)
+
+    def _team_games(self) -> tuple:
+        """(played, scheduled) regular-season games by team."""
+        n = len(self.league.teams)
+        played, sched = [0] * n, [0] * n
+        for _, h, a, *_ in self.reg_games:
+            played[h] += 1; played[a] += 1
+        for g, skip in zip(self.schedule, self.skip):
+            if not skip:
+                sched[g.home] += 1; sched[g.away] += 1
+        return played, sched
+
+    def usage(self) -> dict | None:
+        """pid -> the season's plate appearances (batters) or batters faced (pitchers), the playing time the stay
+        rates read. During the regular season it is the pace over the team's schedule; before a team's tenth game
+        there is no pace yet (None: the role-rank buckets). After the regular season, the totals."""
+        from engine.game2 import B_PA, P_BF
+        played, sched = self._team_games()
+        if self.stage == "regular" and 2 * len(self.reg_games) < RISK_MIN_GAMES * len(self.league.teams):
+            return None                                       # the league has not averaged ten games a team yet
+        out = {}
+        for t in self.league.teams:
+            f = sched[t.tid] / played[t.tid] if self.stage == "regular" and played[t.tid] else 1.0
+            for p in t.batters:
+                out[p.pid] = self.bstats[p.pid][B_PA] * f
+            for p in staff(t):
+                out[p.pid] = self.pstats[p.pid][P_BF] * f
+        return out
+
+    def risk(self) -> dict:
+        """pid -> (stay rate, playing-time bucket) for every player, as the offseason will read them if the season
+        ended on this pace. Cached per game count."""
+        from engine import roster
+        key = (self.year, len(self.reg_games), len(self.post_calls), self.stage)
+        if getattr(self, "_risk", None) is None or self._risk[0] != key:
+            b = roster.buckets(self.league, self.usage())
+            self._risk = (key, {p.pid: (roster.stay_rate(p, b[p.pid]), b[p.pid]) for p in self.league.players})
+        return self._risk[1]
+
+    def off_plan(self) -> dict:
+        """The offseason's plan once the season is over (who leaves in the whole league): the same draw every time it
+        is asked, so the Players Leaving list, the persuasion and the turnover agree, in this process or after a load."""
+        from engine import roster
+        if self.stage != "done":
+            raise ValueError("the season is not over")
+        if getattr(self, "_plan", None) is None or self._plan[0] != self.year:
+            s_plan = self._off_seeds(self.year + 1)[0]
+            self._plan = (self.year, roster.plan_offseason(self.league, np.random.Generator(np.random.PCG64(s_plan)), self.usage()))
+        return self._plan[1]
+
+    def persuade_left(self) -> int:
+        from config import phase8
+        return phase8.PERSUADE_ATTEMPTS - len(self.persuade)
+
+    def persuade_player(self, pid: int) -> bool:
+        """One attempt to keep a leaving player of the user's team (owner decision 2026-11-26: one per player, a
+        fixed number per offseason). It succeeds with the player's own stay rate (GUESS, config.phase8), drawn from
+        the player's own stream so the order of attempts changes nothing."""
+        plan = self.off_plan()
+        p = self._player(pid)
+        if p is None or p.team != self.tid:
+            raise ValueError("not a player of your team")
+        if plan[pid]["stays"]:
+            raise ValueError("he is not leaving")
+        if p.year == "5th":
+            raise ValueError("his five years are up")
+        if pid in self.persuade:
+            raise ValueError("one attempt per player")
+        if self.persuade_left() <= 0:
+            raise ValueError("no persuasion attempts left")
+        u = np.random.Generator(np.random.PCG64(np.random.SeedSequence(entropy=self.seed, spawn_key=(8, self.year + 1, 9, int(p.uid))))).random()
+        self.persuade[pid] = bool(u < plan[pid]["p"])
+        return self.persuade[pid]
 
     def _build_engine(self) -> None:
         n = len(self.league.players)
@@ -805,7 +892,7 @@ def save_bytes(d: Dynasty) -> bytes:
              # everything but the fitted tables, which the live Manager of the loading process supplies
              "mgr_state": {k: v for k, v in vars(d.mgr).items() if k not in MANAGER_STATIC} if d.mgr else {},
              "s": (d._s_sched, d._s_games, d._s_cancel, d._s_post, d._s_len),
-             "history": getattr(d, "history", []), "offseason": getattr(d, "offseason", None),      # Phase 8: finished years, the last offseason's moves
+             "history": getattr(d, "history", []), "offseason": getattr(d, "offseason", None), "persuade": getattr(d, "persuade", {}),      # Phase 8: finished years, the last offseason's moves
              "runner": d.runner.save_bytes() if d.runner is not None else None}
     _Pickler(buf, ext).dump(state)
     return zlib.compress(buf.getvalue(), 6)
@@ -826,7 +913,7 @@ def load_bytes(cfg, data: bytes) -> Dynasty:
     d.real_conf = {tid: c for tid, (_, c, _) in enumerate(cfg.teams)}
     d.schedule, d.skip, d.seeds, d.pos = st["schedule"], st["skip"], st["seeds"], st["pos"]
     d.pref_lineup = st.get("pref_lineup")
-    d.history, d.offseason = st.get("history", []), st.get("offseason")
+    d.history, d.offseason, d.persuade = st.get("history", []), st.get("offseason"), st.get("persuade", {})
     d.dropped = st.get("dropped")
     if d.dropped is None:               # a save from before 2026-11-26: the dropped slots redrawn from their own stream (the same draw)
         d.dropped = (schedule_mask(d.schedule, len(d.league.teams), np.random.Generator(np.random.PCG64(d._s_len)))
@@ -1234,6 +1321,38 @@ def _year(p) -> str:
     return str(y) if y else "–"
 
 
+def _risk_json(d: Dynasty, p, risk: dict) -> dict:
+    """The Risk of Leaving cell: the chance he is back next year as the offseason will draw it, a level, and the
+    reason he would leave. The levels are display cuts (app-side): Low from 75%, Medium from 55%, else High."""
+    from config import phase8
+    stay, bucket = risk[p.pid]
+    final = p.year == "5th"
+    level = "Final year" if final else "Low" if stay >= RISK_LOW else "Medium" if stay >= RISK_MEDIUM else "High"
+    return {"stay": round(100 * stay), "level": level, "reason": phase8.reason(p.year, bucket),
+            "playing_time": {"unknown": "under 50 PA/BF", "t1": "light", "t2": "regular", "t3": "heavy"}[bucket]}
+
+
+def leaving_json(d: Dynasty) -> dict:
+    """The Players Leaving stage (after Omaha, before the next year): the user's players who intend to leave, why,
+    each one's chance to be persuaded, and the attempts left."""
+    from config import phase8
+    plan = d.off_plan()
+    rows = []
+    for p in d.team.batters + staff(d.team):
+        e = plan[p.pid]
+        if e["stays"]:
+            continue
+        tried = d.persuade.get(p.pid)
+        rows.append(dict(player_json(p), year=_year(p), reason=e["reason"], chance=round(100 * e["p"]),
+                         can_ask=p.year != "5th" and tried is None and d.persuade_left() > 0,
+                         status="final" if p.year == "5th" else "leaving" if tried is None else "staying" if tried else "refused",
+                         line=(_bat_stats(d.bstats[p.pid]) if p.side == "bat" else _pit_stats(d.pstats[p.pid]))))
+    rows.sort(key=lambda r: (r["status"] == "final", -r["chance"]))
+    n = len(d.team.batters + staff(d.team))
+    return {"year": d.year, "players": rows, "roster": n, "returning": n - len(rows) + sum(1 for r in rows if r["status"] == "staying"),
+            "attempts": phase8.PERSUADE_ATTEMPTS, "attempts_left": d.persuade_left(), "attempts_max": phase8.PERSUADE_ATTEMPTS_MAX}
+
+
 def lineup_json(d: Dynasty) -> dict:
     """The Lineup tab: the starting nine in batting order (the user's preferred one, else the AI's everyday nine),
     whether it is the user's, and every batter of the team with ratings and the season line."""
@@ -1261,12 +1380,17 @@ def roster_json(d: Dynasty, tid: int | None = None) -> dict:
     which is internal. Class or year: a dash until Phase 8 draws it."""
     t = d.team if tid is None else d.league.teams[tid]
     today = d.date_now()
-    bats = [dict(player_json(p), stats=_bat_stats(d.bstats[p.pid]), hand=_hand(p), year=_year(p)) for p in t.batters]
+    try:
+        risk = d.risk() if all(getattr(p, "year", "") for p in t.batters) else None
+    except Exception:                                           # display only: never blocks the roster
+        risk = None
+    rk = lambda p: _risk_json(d, p, risk) if risk else None
+    bats = [dict(player_json(p), stats=_bat_stats(d.bstats[p.pid]), hand=_hand(p), year=_year(p), risk=rk(p)) for p in t.batters]
     pits = []
     for p in staff(t):
         h = d.mgr.history.get(p.pid, [])
         last = h[-1] if h else None
-        pits.append(dict(player_json(p), stats=_pit_stats(d.pstats[p.pid]), hand=_hand(p), year=_year(p),
+        pits.append(dict(player_json(p), stats=_pit_stats(d.pstats[p.pid]), hand=_hand(p), year=_year(p), risk=rk(p),
                          last_outing={"date": int(last[0]), "pitches": int(last[1]), "days_ago": int(today - last[0])} if last else None,
                          outings=len(h)))
     return {"team": d.tname(t.tid), "engine_name": t.name, "batters": bats, "pitchers": pits, "date": today}
