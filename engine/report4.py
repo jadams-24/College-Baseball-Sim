@@ -374,7 +374,13 @@ def _forward(ex: list) -> dict:
         cat = lambda k: np.concatenate([x_[k] for x_ in d])
         x, n, m, v, z, q, work, E, V = (cat(k_) for k_ in ("x", "n", "m", "v", "z", "q", "work", "E", "V"))
         c = _anchor(x, n, m, v, z)
-        r = {"all": _forward_glm(x[q], n[q], m[q], v[q], z[q], c, E[q], V[q]), "s": d[0]["s"], "sign": d[0]["sign"]}
+        # gated sample (owner decision 2026-10-09): pitchers, every pitcher-season with any batters faced. Relief usage reacts to
+        # results (bullpen form), so a threshold on realized batters faced keeps the lucky ones; with every trial counted, O - E is a
+        # martingale and the intercept is 0 under any usage rule. Batters keep the threshold (their playing time does not react to
+        # results through the manager). The threshold version stays as a reported row ("qualified").
+        g = np.ones_like(q) if d[0]["side"] == "pit" else q
+        r = {"all": _forward_glm(x[g], n[g], m[g], v[g], z[g], c, E[g], V[g]), "qualified": _forward_glm(x[q], n[q], m[q], v[q], z[q], c, E[q], V[q]),
+             "s": d[0]["s"], "sign": d[0]["sign"], "side": d[0]["side"]}
         cut = np.quantile(work[q], [1 / 3, 2 / 3])
         t = np.digitize(work, cut)
         for k_, lab in enumerate(TERCILES):
@@ -392,7 +398,7 @@ def _forward(ex: list) -> dict:
         remap = -np.ones(len(lt), int); remap[j] = np.arange(len(j))
         keep = remap[owner] >= 0
         return _leash_glm(lt[j], S[j], ph[keep], remap[owner[keep]], O[j], E[j], V[j])
-    r = {"all": sub(q)}
+    r = {"all": sub(work > 0), "qualified": sub(q), "side": "pit"}      # gated: every pitcher with an appearance (owner decision 2026-10-09)
     cut = np.quantile(work[q], [1 / 3, 2 / 3])
     t = np.digitize(work, cut)
     for k_, lab in enumerate(TERCILES):
@@ -466,12 +472,13 @@ def aggregate4(ex: list, scale: RatingScale | None = None) -> dict:
     out = {"n_seasons": n, "n_folds": k, "forward": {}, "ratings": {}, "true_dist": {}, "cards": ex[0]["cards"], "priors": runs[0]["priors"]}
     for name in fw[0]:
         out["forward"][name] = {}
-        for lab in ("all",) + TERCILES:
+        for lab in ("all", "qualified") + TERCILES:
             keys = [kk for kk in fw[0][name][lab] if kk != "n"]
             agg = {kk: _fold_stats([r[name][lab][kk] for r in fw], kk) for kk in keys}
             agg["n"] = float(np.mean([r[name][lab]["n"] for r in fw])) / len(folds[0])     # player-seasons per season
             out["forward"][name][lab] = agg
         out["forward"][name]["s"] = fw[0][name].get("s")
+        out["forward"][name]["side"] = fw[0][name].get("side")
     for name in runs[0]["stats"]:
         agg = {}
         for key in ("slope", "bias", "sd_ratio", "resid_sd", "pred_sd", "reliability", "n"):
@@ -489,7 +496,7 @@ WORK_LABEL = {"stamina": "appearances"}
 
 
 def build_report4(agg: dict, seeds: list, phase2_status: dict) -> tuple[str, dict]:
-    st, rows, trows, brows, erows = Status(), [], [], [], []
+    st, rows, trows, brows, erows, qrows = Status(), [], [], [], [], []
     from engine.report2 import _t_quantile
     nf = agg["n_folds"]
     k = _t_quantile((1 + GATE_COVERAGE) / 2, nf - 1) if nf > 1 else float("inf")
@@ -505,6 +512,11 @@ def build_report4(agg: dict, seeds: list, phase2_status: dict) -> tuple[str, dic
         pts = f"{10 * a['mean'] / r['s']:+.2f}" if r.get("s") else "—"
         rows.append(f"| {name} | {RATE_LABEL[name]} | {int(round(r['all']['n']))} | {pm(a, 4)} | {pts} | {'pass' if ok['intercept'] else 'FAIL'} | "
                     f"{b['mean']:.3f} ± {k * b['se']:.3f} | {'pass' if ok['slope'] else 'FAIL'} | {d['mean']:.3f} ± {k * d['se']:.3f} | {'pass' if ok['dispersion'] else 'FAIL'} |")
+        if r.get("side") == "pit" and "qualified" in r:
+            qq = r["qualified"]
+            okq = lambda x, null: "pass" if within(x, null) else "outside"
+            qrows.append(f"| {name} | {int(round(qq['n']))} | {pm(qq['intercept'], 4)} | {okq(qq['intercept'], 0)} | {qq['slope']['mean']:.3f} ± {k * qq['slope']['se']:.3f} | "
+                         f"{okq(qq['slope'], 1)} | {qq['dispersion']['mean']:.3f} ± {k * qq['dispersion']['se']:.3f} | {okq(qq['dispersion'], 1)} |")
         cells = []
         for lab in TERCILES:
             t = r[lab]
@@ -543,17 +555,23 @@ def build_report4(agg: dict, seeds: list, phase2_status: dict) -> tuple[str, dic
           "The intercept is the average of o − z at the group's own mean talent; the table shows it in logit units and in rating points. Dispersion is "
           "Σ(x − E)² / ΣV: 1 when the noise around the true rate is exactly the binomial noise of those trials. Stamina: each pull decision's probability is "
           "1 − (1 − h)^θ, with the manager's own baseline hazard h and log θ = a + b·(true log leash), fitted by maximum likelihood. Its dispersion is the same "
-          "ratio on pull counts. Qualifying: config.phase4.MIN_TRIALS (150 PA or BF, 100 balls in play for Contact, 35 hits for Gap, 8 appearances for Stamina). "
+          "ratio on pull counts. Qualifying: batters config.phase4.MIN_TRIALS (150 PA, 100 balls in play for Contact, 35 hits for Gap); pitchers every "
+          "pitcher-season with any batters faced (Stuff, Control, Movement) or any appearance (Stamina), owner decision 2026-10-09: relief usage reacts to "
+          "results (bullpen form), so a threshold on realized workload keeps the pitchers whose results earned them more work and biases the intercept "
+          "(PHASE0_NOTES, Variance fix #1). With every trial counted the intercept is 0 under any usage rule. The threshold version is reported below. "
           f"Statistics are means over {nf} folds of {FOLD_SEASONS} seasons. Tolerance is {k:.2f} SE across folds (Student t, {nf - 1} df, the coverage of 3 SE).", "",
           "| Rating | Rate | Player-seasons per season | Intercept (logit) | Intercept (rating pts) | Status | Slope | Status | Dispersion | Status |",
           "|---|---|---|---|---|---|---|---|---|---|", *rows, "",
+          "### Pitchers at the old threshold, 150 batters faced / 8 appearances (reported, not gated)", "",
+          "The same regression on pitchers who reach the workload threshold. With relief usage reacting to results, this sample is selected on luck.", "",
+          "| Rating | Player-seasons per season | Intercept (logit) | Status | Slope | Status | Dispersion | Status |", "|---|---|---|---|---|---|---|---|", *qrows, "",
           "### By workload tercile (informational)", "",
           "Qualifying player-seasons split into thirds by workload. Each cell: intercept (logit) / slope / dispersion; † marks a value outside the same tolerance. "
           "The manager orders players by true talent only. Lineup rank, rotation slot and bullpen rank are set once per season from the true offsets "
           "(engine/league.py: batting order by expected OBP + SLG against a league-average pitcher; pitchers by K − BB − HR). Start shares, reliever choice "
-          "and weekend rotation patterns follow that order (engine/manager.py), and no in-season statistic feeds any choice. So a player's workload depends on "
-          "his true talent, not his results, and a forward regression on true talent is not biased by it. The one outcome-dependent usage rule is the in-game "
-          "pull hazard (outing pitch count and runs), so a pitcher's batters faced carry part of his outings' luck; Stamina is therefore split by appearances, "
+          "and weekend rotation patterns follow that order (engine/manager.py). Two usage rules depend on outcomes: the in-game pull hazard (outing pitch "
+          "count and runs) and, from 2026-10-09, the relief choice's recent form (runs allowed in the last outing and the three before). So a pitcher's "
+          "workload carries part of his luck, and the thirds (cut on qualified pitchers) are selected on it. Stamina is split by appearances, "
           "since its batters faced are partly the pulls themselves. Plate appearances also follow results within a season, though not through the manager: "
           "a hitter whose balls in play fall for hits keeps innings going, his team bats more and he comes up more often. The heaviest third is therefore "
           "slightly selected on good luck, most for Contact, the rate that most moves lineup turnover.", "",

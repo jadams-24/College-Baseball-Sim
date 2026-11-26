@@ -1,0 +1,1886 @@
+year,pick,round,mlb_team,slot_value,source
+2021,1,1,Pittsburgh Pirates,8415300,D1
+2021,2,1,Texas Rangers,7789900,D1
+2021,3,1,Detroit Tigers,7221200,HS
+2021,4,1,Boston Red Sox,6664000,HS
+2021,5,1,Baltimore Orioles,6180700,D1
+2021,6,1,Arizona Diamondbacks,5742900,HS
+2021,7,1,Kansas City Royals,5432400,HS
+2021,8,1,Colorado Rockies,5176900,HS
+2021,9,1,Los Angeles Angels,4949100,D1
+2021,10,1,New York Mets,4739900,D1
+2021,11,1,Washington Nationals,4547500,HS
+2021,12,1,Seattle Mariners,4366400,HS
+2021,13,1,Philadelphia Phillies,4197300,HS
+2021,14,1,San Francisco Giants,4036800,D1
+2021,15,1,Milwaukee Brewers,3885800,D1
+2021,16,1,Miami Marlins,3745500,HS
+2021,17,1,Cincinnati Reds,3609700,D1
+2021,18,1,St. Louis Cardinals,3481300,D1
+2021,19,1,Toronto Blue Jays,3359000,D1
+2021,20,1,New York Yankees,3242900,D1
+2021,21,1,Chicago Cubs,3132300,D1
+2021,22,1,Chicago White Sox,3027000,HS
+2021,23,1,Cleveland Guardians,2926800,D1
+2021,24,1,Atlanta Braves,2831300,D1
+2021,25,1,Athletics,2740300,HS
+2021,26,1,Minnesota Twins,2653400,HS
+2021,27,1,San Diego Padres,2570100,HS
+2021,28,1,Tampa Bay Rays,2493900,HS
+2021,29,1,Los Angeles Dodgers,2424600,HS
+2021,30,1C,Cincinnati Reds,2365500,HS
+2021,31,CB-A,Miami Marlins,2312000,HS
+2021,32,CB-A,Detroit Tigers,2257300,D1
+2021,33,CB-A,Milwaukee Brewers,2202200,D1
+2021,34,CB-A,Tampa Bay Rays,2148100,HS
+2021,35,CB-A,Cincinnati Reds,2095800,D1
+2021,36,CB-A,Minnesota Twins,2045400,HS
+2021,37,2,Pittsburgh Pirates,1999300,HS
+2021,38,2,Texas Rangers,1952300,D1
+2021,39,2,Detroit Tigers,1906800,HS
+2021,40,2,Boston Red Sox,1856700,D1
+2021,41,2,Baltimore Orioles,1813500,D1
+2021,42,2,Arizona Diamondbacks,1771100,D1
+2021,43,2,Kansas City Royals,1729800,HS
+2021,44,2,Colorado Rockies,1689500,D1
+2021,45,2,Los Angeles Angels,1650200,D1
+2021,46,2,New York Mets,1617400,HS
+2021,47,2,Washington Nationals,1580200,HS
+2021,48,2,Seattle Mariners,1543600,HS
+2021,49,2,Philadelphia Phillies,1507600,D1
+2021,50,2,San Francisco Giants,1469900,D1
+2021,51,2,Milwaukee Brewers,1436900,D1
+2021,52,2,Miami Marlins,1403200,D1
+2021,53,2,Cincinnati Reds,1370400,D1
+2021,54,2,St. Louis Cardinals,1338500,HS
+2021,55,2,New York Yankees,1307000,D1
+2021,56,2,Chicago Cubs,1276400,HS
+2021,57,2,Chicago White Sox,1243600,HS
+2021,58,2,Cleveland Guardians,1214300,D1
+2021,59,2,Atlanta Braves,1185500,D1
+2021,60,2,Athletics,1157400,D1
+2021,61,2,Minnesota Twins,1129700,D1
+2021,62,2,San Diego Padres,1102700,HS
+2021,63,2,Tampa Bay Rays,1076300,D1
+2021,64,CB-B,Pittsburgh Pirates,1050300,HS
+2021,65,CB-B,Baltimore Orioles,1025100,D1
+2021,66,CB-B,Kansas City Royals,1003300,D1
+2021,67,CB-B,Arizona Diamondbacks,976700,D1
+2021,68,CB-B,Colorado Rockies,953100,D1
+2021,69,CB-B,Cleveland Guardians,929800,D1
+2021,70,CB-B,St. Louis Cardinals,906800,D1
+2021,71,CB-B,San Diego Padres,884200,D1
+2021,72,3,Pittsburgh Pirates,870700,HS
+2021,73,3,Texas Rangers,857400,HS
+2021,74,3,Detroit Tigers,844200,D1
+2021,75,3,Boston Red Sox,831100,D1
+2021,76,3,Baltimore Orioles,818200,D1
+2021,77,3,Arizona Diamondbacks,805600,HS
+2021,78,3,Kansas City Royals,793000,HS
+2021,79,3,Colorado Rockies,780400,D1
+2021,80,3,Los Angeles Angels,767800,D1
+2021,81,3,New York Mets,755300,D1
+2021,82,3,Washington Nationals,744200,D1
+2021,83,3,Seattle Mariners,733100,HS
+2021,84,3,Philadelphia Phillies,721900,HS
+2021,85,3,San Francisco Giants,710700,D1
+2021,86,3,Milwaukee Brewers,699700,D1
+2021,87,3,Houston Astros,689300,HS
+2021,88,3,Miami Marlins,678600,HS
+2021,89,3,Cincinnati Reds,667900,D1
+2021,90,3,St. Louis Cardinals,657600,D1
+2021,91,3,Toronto Blue Jays,647300,JC
+2021,92,3,New York Yankees,637600,HS
+2021,93,3,Chicago Cubs,627900,HS
+2021,94,3,Chicago White Sox,618200,D1
+2021,95,3,Cleveland Guardians,610800,HS
+2021,96,3,Atlanta Braves,604800,D1
+2021,97,3,Athletics,599100,D1
+2021,98,3,Minnesota Twins,593100,D1
+2021,99,3,San Diego Padres,587400,D1
+2021,100,3,Tampa Bay Rays,581600,HS
+2021,101,3,Los Angeles Dodgers,577000,HS
+2021,102,4,Pittsburgh Pirates,571400,HS
+2021,103,4,Texas Rangers,565600,HS
+2021,104,4,Detroit Tigers,560000,D1
+2021,105,4,Boston Red Sox,554300,HS
+2021,106,4,Baltimore Orioles,549000,D1
+2021,107,4,Arizona Diamondbacks,543500,D2
+2021,108,4,Kansas City Royals,538200,HS
+2021,109,4,Colorado Rockies,533000,D1
+2021,110,4,Los Angeles Angels,527800,D1
+2021,111,4,New York Mets,522600,D1
+2021,112,4,Washington Nationals,517400,D1
+2021,113,4,Seattle Mariners,512400,D1
+2021,114,4,Philadelphia Phillies,507400,HS
+2021,115,4,San Francisco Giants,502300,HS
+2021,116,4,Milwaukee Brewers,497500,JC
+2021,117,4,Houston Astros,492700,HS
+2021,118,4,Miami Marlins,487900,D1
+2021,119,4,Cincinnati Reds,483000,D1
+2021,120,4,St. Louis Cardinals,478300,D1
+2021,121,4,Toronto Blue Jays,473700,D1
+2021,122,4,New York Yankees,469000,D1
+2021,123,4,Chicago Cubs,464500,D1
+2021,124,4,Chicago White Sox,460000,D1
+2021,125,4,Cleveland Guardians,455600,D1
+2021,126,4,Atlanta Braves,451800,D1
+2021,127,4,Athletics,447400,D1
+2021,128,4,Minnesota Twins,442900,D1
+2021,129,4,San Diego Padres,438700,D1
+2021,130,4,Tampa Bay Rays,434300,D1
+2021,131,4,Los Angeles Dodgers,430800,D1
+2021,132,4C,Houston Astros,426600,D1
+2021,133,5,Pittsburgh Pirates,422300,D1
+2021,134,5,Texas Rangers,418200,HS
+2021,135,5,Detroit Tigers,414000,D1
+2021,136,5,Boston Red Sox,410100,D1
+2021,137,5,Baltimore Orioles,406000,D1
+2021,138,5,Arizona Diamondbacks,402000,D1
+2021,139,5,Kansas City Royals,398000,D1
+2021,140,5,Colorado Rockies,394300,D1
+2021,141,5,Los Angeles Angels,390400,D1
+2021,142,5,New York Mets,386600,D1
+2021,143,5,Washington Nationals,382700,HS
+2021,144,5,Seattle Mariners,379000,D1
+2021,145,5,Philadelphia Phillies,375200,D1
+2021,146,5,San Francisco Giants,371600,D1
+2021,147,5,Milwaukee Brewers,367900,D1
+2021,148,5,Houston Astros,364400,D1
+2021,149,5,Miami Marlins,360800,D1
+2021,150,5,Cincinnati Reds,357100,D1
+2021,151,5,St. Louis Cardinals,353700,D1
+2021,152,5,Toronto Blue Jays,350300,HS
+2021,153,5,New York Yankees,346800,D1
+2021,154,5,Chicago Cubs,343400,D1
+2021,155,5,Chicago White Sox,340000,HS
+2021,156,5,Cleveland Guardians,336600,D1
+2021,157,5,Atlanta Braves,333300,D1
+2021,158,5,Athletics,330100,D1
+2021,159,5,Minnesota Twins,327200,D1
+2021,160,5,San Diego Padres,324100,D1
+2021,161,5,Tampa Bay Rays,321100,JC
+2021,162,5,Los Angeles Dodgers,318200,D1
+2021,163,6,Pittsburgh Pirates,315400,D1
+2021,164,6,Texas Rangers,312400,D1
+2021,165,6,Detroit Tigers,309500,D1
+2021,166,6,Boston Red Sox,306800,HS
+2021,167,6,Baltimore Orioles,304200,D1
+2021,168,6,Arizona Diamondbacks,301600,D1
+2021,169,6,Kansas City Royals,299000,JC
+2021,170,6,Colorado Rockies,296400,D1
+2021,171,6,Los Angeles Angels,293800,D1
+2021,172,6,New York Mets,291400,D1
+2021,173,6,Washington Nationals,289000,D1
+2021,174,6,Seattle Mariners,286500,D1
+2021,175,6,Philadelphia Phillies,284200,HS
+2021,176,6,San Francisco Giants,281800,D1
+2021,177,6,Milwaukee Brewers,279500,JC
+2021,178,6,Houston Astros,277100,D1
+2021,179,6,Miami Marlins,274800,D1
+2021,180,6,Cincinnati Reds,272500,D1
+2021,181,6,St. Louis Cardinals,270300,D1
+2021,182,6,Toronto Blue Jays,268200,D1
+2021,183,6,New York Yankees,266000,D1
+2021,184,6,Chicago Cubs,263700,D2
+2021,185,6,Chicago White Sox,261600,D1
+2021,186,6,Cleveland Guardians,259400,D1
+2021,187,6,Atlanta Braves,257400,D1
+2021,188,6,Athletics,255300,D1
+2021,189,6,Minnesota Twins,253300,D1
+2021,190,6,San Diego Padres,251100,D1
+2021,191,6,Tampa Bay Rays,249000,D1
+2021,192,6,Los Angeles Dodgers,247000,D1
+2021,193,7,Pittsburgh Pirates,244900,D1
+2021,194,7,Texas Rangers,243000,D1
+2021,195,7,Detroit Tigers,241000,D1
+2021,196,7,Boston Red Sox,239000,D1
+2021,197,7,Baltimore Orioles,237000,D1
+2021,198,7,Arizona Diamondbacks,235100,D1
+2021,199,7,Kansas City Royals,233000,D1
+2021,200,7,Colorado Rockies,231100,D1
+2021,201,7,Los Angeles Angels,229700,D1
+2021,202,7,New York Mets,227700,D1
+2021,203,7,Washington Nationals,225800,D1
+2021,204,7,Seattle Mariners,224000,D1
+2021,205,7,Philadelphia Phillies,222100,JC
+2021,206,7,San Francisco Giants,220200,D1
+2021,207,7,Milwaukee Brewers,218500,D1
+2021,208,7,Houston Astros,216600,D1
+2021,209,7,Miami Marlins,214900,D1
+2021,210,7,Cincinnati Reds,213300,D1
+2021,211,7,St. Louis Cardinals,211500,HS
+2021,212,7,Toronto Blue Jays,209800,HS
+2021,213,7,New York Yankees,208200,D1
+2021,214,7,Chicago Cubs,206500,D1
+2021,215,7,Chicago White Sox,204800,D1
+2021,216,7,Cleveland Guardians,203400,D1
+2021,217,7,Atlanta Braves,201600,HS
+2021,218,7,Athletics,200100,D1
+2021,219,7,Minnesota Twins,198500,D1
+2021,220,7,San Diego Padres,197300,D1
+2021,221,7,Tampa Bay Rays,195700,D2
+2021,222,7,Los Angeles Dodgers,194400,D1
+2021,223,8,Pittsburgh Pirates,192900,D1
+2021,224,8,Texas Rangers,191500,D2
+2021,225,8,Detroit Tigers,190100,D1
+2021,226,8,Boston Red Sox,188900,D1
+2021,227,8,Baltimore Orioles,187700,HS
+2021,228,8,Arizona Diamondbacks,186300,HS
+2021,229,8,Kansas City Royals,184700,HS
+2021,230,8,Colorado Rockies,183700,D1
+2021,231,8,Los Angeles Angels,182300,D1
+2021,232,8,New York Mets,181200,D1
+2021,233,8,Washington Nationals,179800,D1
+2021,234,8,Seattle Mariners,178600,D1
+2021,235,8,Philadelphia Phillies,177400,D1
+2021,236,8,San Francisco Giants,176300,D1
+2021,237,8,Milwaukee Brewers,175000,D1
+2021,238,8,Houston Astros,174000,D1
+2021,239,8,Miami Marlins,173000,D1
+2021,240,8,Cincinnati Reds,172100,JC
+2021,241,8,St. Louis Cardinals,171200,D1
+2021,242,8,Toronto Blue Jays,170300,D1
+2021,243,8,New York Yankees,169500,D1
+2021,244,8,Chicago Cubs,168500,D1
+2021,245,8,Chicago White Sox,167800,D1
+2021,246,8,Cleveland Guardians,167000,D1
+2021,247,8,Atlanta Braves,166100,HS
+2021,248,8,Athletics,165400,D1
+2021,249,8,Minnesota Twins,164700,D1
+2021,250,8,San Diego Padres,163900,D1
+2021,251,8,Tampa Bay Rays,163400,D1
+2021,252,8,Los Angeles Dodgers,162700,D1
+2021,253,9,Pittsburgh Pirates,162000,D1
+2021,254,9,Texas Rangers,161400,D1
+2021,255,9,Detroit Tigers,160800,D1
+2021,256,9,Boston Red Sox,160300,D1
+2021,257,9,Baltimore Orioles,159700,D1
+2021,258,9,Arizona Diamondbacks,159200,D1
+2021,259,9,Kansas City Royals,158600,D1
+2021,260,9,Colorado Rockies,158100,D1
+2021,261,9,Los Angeles Angels,157600,D1
+2021,262,9,New York Mets,157200,D1
+2021,263,9,Washington Nationals,156600,D1
+2021,264,9,Seattle Mariners,156100,D1
+2021,265,9,Philadelphia Phillies,155800,HS
+2021,266,9,San Francisco Giants,155300,JC
+2021,267,9,Milwaukee Brewers,154900,D1
+2021,268,9,Houston Astros,154600,D1
+2021,269,9,Miami Marlins,154100,D1
+2021,270,9,Cincinnati Reds,153600,D1
+2021,271,9,St. Louis Cardinals,153300,D2
+2021,272,9,Toronto Blue Jays,152900,D1
+2021,273,9,New York Yankees,152600,D1
+2021,274,9,Chicago Cubs,152300,D1
+2021,275,9,Chicago White Sox,152000,D1
+2021,276,9,Cleveland Guardians,151600,D1
+2021,277,9,Atlanta Braves,151300,D1
+2021,278,9,Athletics,150800,D1
+2021,279,9,Minnesota Twins,150500,D1
+2021,280,9,San Diego Padres,150300,NAIA
+2021,281,9,Tampa Bay Rays,150100,JC
+2021,282,9,Los Angeles Dodgers,149800,D1
+2021,283,10,Pittsburgh Pirates,149500,D1
+2021,284,10,Texas Rangers,149300,JC
+2021,285,10,Detroit Tigers,148900,D1
+2021,286,10,Boston Red Sox,148400,D1
+2021,287,10,Baltimore Orioles,148200,D1
+2021,288,10,Arizona Diamondbacks,147900,D1
+2021,289,10,Kansas City Royals,147700,D1
+2021,290,10,Colorado Rockies,147400,D1
+2021,291,10,Los Angeles Angels,147200,D1
+2021,292,10,New York Mets,147000,D1
+2021,293,10,Washington Nationals,146800,D1
+2021,294,10,Seattle Mariners,146300,D1
+2021,295,10,Philadelphia Phillies,146100,D1
+2021,296,10,San Francisco Giants,145700,D2
+2021,297,10,Milwaukee Brewers,145500,D1
+2021,298,10,Houston Astros,145300,D1
+2021,299,10,Miami Marlins,145000,D1
+2021,300,10,Cincinnati Reds,144800,D1
+2021,301,10,St. Louis Cardinals,144600,D2
+2021,302,10,Toronto Blue Jays,144400,D1
+2021,303,10,New York Yankees,144100,D1
+2021,304,10,Chicago Cubs,143900,D1
+2021,305,10,Chicago White Sox,143600,D1
+2021,306,10,Cleveland Guardians,143500,D1
+2021,307,10,Atlanta Braves,143200,other/none
+2021,308,10,Athletics,143000,D1
+2021,309,10,Minnesota Twins,142700,D1
+2021,310,10,San Diego Padres,142500,D1
+2021,311,10,Tampa Bay Rays,142300,D2
+2021,312,10,Los Angeles Dodgers,142200,D1
+2022,1,1,Baltimore Orioles,8846900,HS
+2022,2,1,Arizona Diamondbacks,8189400,HS
+2022,3,1,Texas Rangers,7591600,other/none
+2022,4,1,Pittsburgh Pirates,7005800,HS
+2022,5,1,Washington Nationals,6497700,HS
+2022,6,1,Miami Marlins,6037500,D1
+2022,7,1,Chicago Cubs,5711000,D1
+2022,8,1,Minnesota Twins,5442400,D1
+2022,9,1,Kansas City Royals,5202900,D1
+2022,10,1,Colorado Rockies,4983000,D1
+2022,11,1,New York Mets,4780700,D1
+2022,12,1,Detroit Tigers,4590300,D1
+2022,13,1,Los Angeles Angels,4412500,D1
+2022,14,1,New York Mets,4243800,HS
+2022,15,1,San Diego Padres,4085000,HS
+2022,16,1,Cleveland Guardians,3937600,D1
+2022,17,1,Philadelphia Phillies,3794800,HS
+2022,18,1,Cincinnati Reds,3659800,JC
+2022,19,1,Athletics,3531200,D1
+2022,20,1,Atlanta Braves,3409200,HS
+2022,21,1,Seattle Mariners,3292900,HS
+2022,22,1,St. Louis Cardinals,3182200,D1
+2022,23,1,Toronto Blue Jays,3076900,HS
+2022,24,1,Boston Red Sox,2976400,HS
+2022,25,1,New York Yankees,2880800,D1
+2022,26,1,Chicago White Sox,2789400,HS
+2022,27,1,Milwaukee Brewers,2701900,D1
+2022,28,1,Houston Astros,2621700,D1
+2022,29,1,Tampa Bay Rays,2548900,HS
+2022,30,1,San Francisco Giants,2486800,D1
+2022,31,1C,Colorado Rockies,2430500,D1
+2022,32,1C,Cincinnati Reds,2373000,HS
+2022,33,CB-A,Baltimore Orioles,2315100,D1
+2022,34,CB-A,Arizona Diamondbacks,2258300,D1
+2022,35,CB-A,Atlanta Braves,2203200,HS
+2022,36,CB-A,Pittsburgh Pirates,2150300,D1
+2022,37,CB-A,Cleveland Guardians,2101800,D1
+2022,38,CB-A,Colorado Rockies,2052300,D1
+2022,39,CB-A,San Diego Padres,2004500,HS
+2022,40,2,Los Angeles Dodgers,1951900,D1
+2022,41,2,Boston Red Sox,1906500,HS
+2022,42,2,Baltimore Orioles,1861900,D1
+2022,43,2,Arizona Diamondbacks,1818500,D1
+2022,44,2,Pittsburgh Pirates,1776100,D1
+2022,45,2,Washington Nationals,1734800,D1
+2022,46,2,Miami Marlins,1700400,HS
+2022,47,2,Chicago Cubs,1661200,HS
+2022,48,2,Minnesota Twins,1622700,D1
+2022,49,2,Kansas City Royals,1584900,D1
+2022,50,2,Colorado Rockies,1545300,HS
+2022,51,2,Detroit Tigers,1510600,D1
+2022,52,2,New York Mets,1475100,D1
+2022,53,2,San Diego Padres,1440600,D1
+2022,54,2,Cleveland Guardians,1407100,D1
+2022,55,2,Cincinnati Reds,1374000,D1
+2022,56,2,Athletics,1341900,HS
+2022,57,2,Atlanta Braves,1307300,HS
+2022,58,2,Seattle Mariners,1276500,D1
+2022,59,2,St. Louis Cardinals,1246200,D1
+2022,60,2,Toronto Blue Jays,1216700,D1
+2022,61,2,New York Yankees,1187600,D1
+2022,62,2,Chicago White Sox,1159200,D1
+2022,63,2,Milwaukee Brewers,1131500,JC
+2022,64,2,Houston Astros,1104100,D1
+2022,65,2,Tampa Bay Rays,1077600,D1
+2022,66,2,San Francisco Giants,1054700,D1
+2022,67,CB-B,Baltimore Orioles,1026800,D1
+2022,68,CB-B,Minnesota Twins,1002000,D1
+2022,69,CB-B,Athletics,977500,D1
+2022,70,CB-B,Tampa Bay Rays,953300,D1
+2022,71,CB-B,Tampa Bay Rays,929500,D1
+2022,72,CB-B,Milwaukee Brewers,915300,D1
+2022,73,CB-B,Cincinnati Reds,901300,D1
+2022,74,CB-B,Seattle Mariners,887400,HS
+2022,75,2C,New York Mets,873700,HS
+2022,76,2C,Atlanta Braves,860100,D1
+2022,77,2C,Toronto Blue Jays,846900,HS
+2022,78,2C,Toronto Blue Jays,833600,D1
+2022,79,2C,Boston Red Sox,820400,HS
+2022,80,2C,Houston Astros,807200,D1
+2022,81,3,Baltimore Orioles,794000,D1
+2022,82,3,Arizona Diamondbacks,782400,D1
+2022,83,3,Pittsburgh Pirates,770700,D1
+2022,84,3,Washington Nationals,758900,D1
+2022,85,3,Miami Marlins,747100,HS
+2022,86,3,Chicago Cubs,735500,HS
+2022,87,3,Kansas City Royals,724600,D1
+2022,88,3,Colorado Rockies,713300,D1
+2022,89,3,Los Angeles Angels,702100,D1
+2022,90,3,New York Mets,691300,D1
+2022,91,3,San Diego Padres,680400,D1
+2022,92,3,Cleveland Guardians,670200,D1
+2022,93,3,Philadelphia Phillies,660100,D1
+2022,94,3,Cincinnati Reds,649900,D1
+2022,95,3,Athletics,642100,D1
+2022,96,3,Atlanta Braves,635800,D1
+2022,97,3,St. Louis Cardinals,629800,D1
+2022,98,3,Toronto Blue Jays,623500,D1
+2022,99,3,Boston Red Sox,617500,D1
+2022,100,3,New York Yankees,611400,D1
+2022,101,3,Chicago White Sox,606600,D1
+2022,102,3,Milwaukee Brewers,600700,HS
+2022,103,3,Houston Astros,594600,D1
+2022,104,3,Tampa Bay Rays,588700,D1
+2022,105,3,Los Angeles Dodgers,582700,D1
+2022,106,3,San Francisco Giants,577200,D1
+2022,107,4,Baltimore Orioles,571400,D1
+2022,108,4,Arizona Diamondbacks,565800,D1
+2022,109,4,Texas Rangers,560200,HS
+2022,110,4,Pittsburgh Pirates,554800,HS
+2022,111,4,Washington Nationals,549300,HS
+2022,112,4,Miami Marlins,543800,D1
+2022,113,4,Chicago Cubs,538600,HS
+2022,114,4,Minnesota Twins,533300,D1
+2022,115,4,Kansas City Royals,528000,D1
+2022,116,4,Colorado Rockies,522900,D1
+2022,117,4,Detroit Tigers,517900,D1
+2022,118,4,Los Angeles Angels,512900,JC
+2022,119,4,New York Mets,507700,HS
+2022,120,4,San Diego Padres,502800,HS
+2022,121,4,Cleveland Guardians,497900,D1
+2022,122,4,Philadelphia Phillies,493000,D1
+2022,123,4,Cincinnati Reds,488300,JC
+2022,124,4,Athletics,483500,D1
+2022,125,4,Atlanta Braves,478900,D1
+2022,126,4,Seattle Mariners,474900,HS
+2022,127,4,St. Louis Cardinals,470300,D1
+2022,128,4,Toronto Blue Jays,465600,D1
+2022,129,4,Boston Red Sox,461200,D1
+2022,130,4,New York Yankees,456500,D1
+2022,131,4,Chicago White Sox,452900,D1
+2022,132,4,Milwaukee Brewers,448400,D1
+2022,133,4,Houston Astros,443900,D1
+2022,134,4,Tampa Bay Rays,439600,D1
+2022,135,4,Los Angeles Dodgers,435200,D1
+2022,136,4,San Francisco Giants,431100,D1
+2022,137,5,Baltimore Orioles,426800,D1
+2022,138,5,Arizona Diamondbacks,422600,D1
+2022,139,5,Texas Rangers,418500,HS
+2022,140,5,Pittsburgh Pirates,414600,D1
+2022,141,5,Washington Nationals,410500,D1
+2022,142,5,Miami Marlins,406500,D1
+2022,143,5,Chicago Cubs,402400,D1
+2022,144,5,Minnesota Twins,398500,D1
+2022,145,5,Kansas City Royals,394500,D1
+2022,146,5,Colorado Rockies,390800,D1
+2022,147,5,Detroit Tigers,386900,D1
+2022,148,5,Los Angeles Angels,383200,D1
+2022,149,5,New York Mets,379400,D1
+2022,150,5,San Diego Padres,375500,D1
+2022,151,5,Cleveland Guardians,371800,D1
+2022,152,5,Philadelphia Phillies,368300,D1
+2022,153,5,Cincinnati Reds,364600,D1
+2022,154,5,Athletics,361000,D1
+2022,155,5,Atlanta Braves,357400,JC
+2022,156,5,Seattle Mariners,353900,D1
+2022,157,5,St. Louis Cardinals,350400,D1
+2022,158,5,Toronto Blue Jays,347000,D1
+2022,159,5,Boston Red Sox,344000,D1
+2022,160,5,New York Yankees,340700,D1
+2022,161,5,Chicago White Sox,337600,D1
+2022,162,5,Milwaukee Brewers,334500,D2
+2022,163,5,Houston Astros,331600,D1
+2022,164,5,Tampa Bay Rays,328400,D1
+2022,165,5,Los Angeles Dodgers,325400,D1
+2022,166,5,San Francisco Giants,322600,D1
+2022,167,6,Baltimore Orioles,319800,D1
+2022,168,6,Arizona Diamondbacks,317100,D1
+2022,169,6,Texas Rangers,314400,HS
+2022,170,6,Pittsburgh Pirates,311600,D1
+2022,171,6,Washington Nationals,308900,HS
+2022,172,6,Miami Marlins,306400,D1
+2022,173,6,Chicago Cubs,303900,D1
+2022,174,6,Minnesota Twins,301200,D1
+2022,175,6,Kansas City Royals,298800,D1
+2022,176,6,Colorado Rockies,296300,D1
+2022,177,6,Detroit Tigers,293900,D1
+2022,178,6,Los Angeles Angels,291400,D1
+2022,179,6,New York Mets,288900,D1
+2022,180,6,San Diego Padres,286500,D1
+2022,181,6,Cleveland Guardians,284200,D1
+2022,182,6,Philadelphia Phillies,282000,HS
+2022,183,6,Cincinnati Reds,279700,D1
+2022,184,6,Athletics,277300,D1
+2022,185,6,Atlanta Braves,275100,HS
+2022,186,6,Seattle Mariners,272800,D1
+2022,187,6,St. Louis Cardinals,270700,D1
+2022,188,6,Toronto Blue Jays,268500,D1
+2022,189,6,Boston Red Sox,266400,D1
+2022,190,6,New York Yankees,264000,D1
+2022,191,6,Chicago White Sox,261800,D1
+2022,192,6,Milwaukee Brewers,259700,JC
+2022,193,6,Houston Astros,257500,D1
+2022,194,6,Tampa Bay Rays,255500,HS
+2022,195,6,Los Angeles Dodgers,253400,HS
+2022,196,6,San Francisco Giants,251300,D1
+2022,197,7,Baltimore Orioles,249200,D1
+2022,198,7,Arizona Diamondbacks,247200,HS
+2022,199,7,Texas Rangers,245000,D1
+2022,200,7,Pittsburgh Pirates,243000,D1
+2022,201,7,Washington Nationals,241600,D1
+2022,202,7,Miami Marlins,239500,D1
+2022,203,7,Chicago Cubs,237500,D1
+2022,204,7,Minnesota Twins,235600,D1
+2022,205,7,Kansas City Royals,233600,D1
+2022,206,7,Colorado Rockies,231600,D1
+2022,207,7,Detroit Tigers,229800,D1
+2022,208,7,Los Angeles Angels,227800,D1
+2022,209,7,New York Mets,226000,HS
+2022,210,7,San Diego Padres,224300,D1
+2022,211,7,Cleveland Guardians,222400,HS
+2022,212,7,Philadelphia Phillies,220600,D1
+2022,213,7,Cincinnati Reds,219000,D1
+2022,214,7,Athletics,217200,HS
+2022,215,7,Atlanta Braves,215400,D1
+2022,216,7,Seattle Mariners,213900,D1
+2022,217,7,St. Louis Cardinals,212000,D1
+2022,218,7,Toronto Blue Jays,210500,D1
+2022,219,7,Boston Red Sox,208800,D1
+2022,220,7,New York Yankees,207500,D1
+2022,221,7,Chicago White Sox,205800,D1
+2022,222,7,Milwaukee Brewers,204500,D1
+2022,223,7,Houston Astros,202900,D1
+2022,224,7,Tampa Bay Rays,201400,D1
+2022,225,7,Los Angeles Dodgers,199900,D1
+2022,226,7,San Francisco Giants,198700,D1
+2022,227,8,Baltimore Orioles,197400,D1
+2022,228,8,Arizona Diamondbacks,196000,HS
+2022,229,8,Texas Rangers,194300,D1
+2022,230,8,Pittsburgh Pirates,193200,D1
+2022,231,8,Washington Nationals,191700,D1
+2022,232,8,Miami Marlins,190600,D1
+2022,233,8,Chicago Cubs,189100,HS
+2022,234,8,Minnesota Twins,187900,D1
+2022,235,8,Kansas City Royals,186500,JC
+2022,236,8,Colorado Rockies,185300,D1
+2022,237,8,Detroit Tigers,184000,D1
+2022,238,8,Los Angeles Angels,182900,D1
+2022,239,8,New York Mets,181900,D1
+2022,240,8,San Diego Padres,180900,D1
+2022,241,8,Cleveland Guardians,180000,HS
+2022,242,8,Philadelphia Phillies,179000,D1
+2022,243,8,Cincinnati Reds,178200,D1
+2022,244,8,Athletics,177100,D1
+2022,245,8,Atlanta Braves,176400,D1
+2022,246,8,Seattle Mariners,175600,D1
+2022,247,8,St. Louis Cardinals,174600,D1
+2022,248,8,Toronto Blue Jays,173900,D1
+2022,249,8,Boston Red Sox,173200,D1
+2022,250,8,New York Yankees,172300,D1
+2022,251,8,Chicago White Sox,171800,D1
+2022,252,8,Milwaukee Brewers,171100,D1
+2022,253,8,Houston Astros,170300,D1
+2022,254,8,Tampa Bay Rays,169700,D1
+2022,255,8,Los Angeles Dodgers,169100,D1
+2022,256,8,San Francisco Giants,168500,D1
+2022,257,9,Baltimore Orioles,167900,D1
+2022,258,9,Arizona Diamondbacks,167400,D1
+2022,259,9,Texas Rangers,166700,D1
+2022,260,9,Pittsburgh Pirates,166200,D1
+2022,261,9,Washington Nationals,165700,D1
+2022,262,9,Miami Marlins,165300,D1
+2022,263,9,Chicago Cubs,164600,D1
+2022,264,9,Minnesota Twins,164100,D1
+2022,265,9,Kansas City Royals,163800,D1
+2022,266,9,Colorado Rockies,163300,other/none
+2022,267,9,Detroit Tigers,162900,D1
+2022,268,9,Los Angeles Angels,162500,D1
+2022,269,9,New York Mets,162000,D1
+2022,270,9,San Diego Padres,161500,D1
+2022,271,9,Cleveland Guardians,161200,D1
+2022,272,9,Philadelphia Phillies,160800,D1
+2022,273,9,Cincinnati Reds,160400,D1
+2022,274,9,Athletics,160100,D1
+2022,275,9,Atlanta Braves,159800,D1
+2022,276,9,Seattle Mariners,159400,HS
+2022,277,9,St. Louis Cardinals,159100,D1
+2022,278,9,Toronto Blue Jays,158600,D1
+2022,279,9,Boston Red Sox,158200,HS
+2022,280,9,New York Yankees,158000,D1
+2022,281,9,Chicago White Sox,157800,D1
+2022,282,9,Milwaukee Brewers,157500,JC
+2022,283,9,Houston Astros,157200,D1
+2022,284,9,Tampa Bay Rays,157000,D1
+2022,285,9,Los Angeles Dodgers,156600,D1
+2022,286,9,San Francisco Giants,156000,D2
+2022,287,10,Baltimore Orioles,155800,JC
+2022,288,10,Arizona Diamondbacks,155500,D1
+2022,289,10,Texas Rangers,155300,D1
+2022,290,10,Pittsburgh Pirates,155000,D1
+2022,291,10,Washington Nationals,154800,D1
+2022,292,10,Miami Marlins,154600,D1
+2022,293,10,Chicago Cubs,154300,D2
+2022,294,10,Minnesota Twins,153800,D1
+2022,295,10,Kansas City Royals,153600,D1
+2022,296,10,Colorado Rockies,153200,D1
+2022,297,10,Detroit Tigers,153000,D1
+2022,298,10,Los Angeles Angels,152800,D1
+2022,299,10,New York Mets,152500,D1
+2022,300,10,San Diego Padres,152200,D1
+2022,301,10,Cleveland Guardians,152000,HS
+2022,302,10,Philadelphia Phillies,151800,JC
+2022,303,10,Cincinnati Reds,151500,D1
+2022,304,10,Athletics,151300,D1
+2022,305,10,Atlanta Braves,151000,D1
+2022,306,10,Seattle Mariners,150900,D1
+2022,307,10,St. Louis Cardinals,150600,D1
+2022,308,10,Toronto Blue Jays,150400,D1
+2022,309,10,Boston Red Sox,150000,D1
+2022,310,10,New York Yankees,149800,D1
+2022,311,10,Chicago White Sox,149600,D1
+2022,312,10,Milwaukee Brewers,149600,D1
+2022,313,10,Houston Astros,149600,D1
+2022,314,10,Tampa Bay Rays,149600,D1
+2022,315,10,Los Angeles Dodgers,149600,D2
+2022,316,10,San Francisco Giants,149500,D1
+2023,1,1,Pittsburgh Pirates,9721000,D1
+2023,2,1,Washington Nationals,8998500,D1
+2023,3,1,Detroit Tigers,8341700,HS
+2023,4,1,Texas Rangers,7698000,D1
+2023,5,1,Minnesota Twins,7139700,HS
+2023,6,1,Athletics,6634000,D1
+2023,7,1,Cincinnati Reds,6275200,D1
+2023,8,1,Kansas City Royals,5980100,HS
+2023,9,1,Colorado Rockies,5716900,D1
+2023,10,1,Miami Marlins,5475300,HS
+2023,11,1,Los Angeles Angels,5253000,D1
+2023,12,1,Arizona Diamondbacks,5043800,D1
+2023,13,1,Chicago Cubs,4848500,D1
+2023,14,1,Boston Red Sox,4663100,D1
+2023,15,1,Chicago White Sox,4488600,D1
+2023,16,1,San Francisco Giants,4326600,HS
+2023,17,1,Baltimore Orioles,4169700,D1
+2023,18,1,Milwaukee Brewers,4021400,D1
+2023,19,1,Tampa Bay Rays,3880100,D1
+2023,20,1,Toronto Blue Jays,3746000,HS
+2023,21,1,St. Louis Cardinals,3618200,D1
+2023,22,1,Seattle Mariners,3496600,HS
+2023,23,1,Cleveland Guardians,3380900,HS
+2023,24,1,Atlanta Braves,3270500,D1
+2023,25,1,San Diego Padres,3165400,HS
+2023,26,1,New York Yankees,3065000,HS
+2023,27,1,Philadelphia Phillies,2968800,HS
+2023,28,1,Houston Astros,2880700,D1
+2023,32,1,New York Mets,2607500,HS
+2023,36,1,Los Angeles Dodgers,2362700,HS
+2023,29,PPI,Seattle Mariners,2800700,HS
+2023,30,CB-A,Seattle Mariners,2732500,HS
+2023,31,CB-A,Tampa Bay Rays,2670600,HS
+2023,33,CB-A,Milwaukee Brewers,2543800,HS
+2023,34,CB-A,Minnesota Twins,2481400,HS
+2023,35,CB-A,Miami Marlins,2420900,HS
+2023,37,CB-A,Detroit Tigers,2309500,HS
+2023,38,CB-A,Cincinnati Reds,2255100,D1
+2023,39,CB-A,Athletics,2202500,HS
+2023,40,2,Washington Nationals,2144700,D1
+2023,41,2,Athletics,2094900,D1
+2023,42,2,Pittsburgh Pirates,2045900,D1
+2023,43,2,Cincinnati Reds,1998200,HS
+2023,44,2,Kansas City Royals,1951600,HS
+2023,45,2,Detroit Tigers,1906200,D1
+2023,46,2,Colorado Rockies,1868400,D1
+2023,47,2,Miami Marlins,1825300,D1
+2023,48,2,Arizona Diamondbacks,1783000,D1
+2023,49,2,Minnesota Twins,1741500,D1
+2023,50,2,Boston Red Sox,1698000,HS
+2023,51,2,Chicago White Sox,1659800,D1
+2023,52,2,San Francisco Giants,1620800,HS
+2023,53,2,Baltimore Orioles,1582900,D1
+2023,54,2,Milwaukee Brewers,1546100,D1
+2023,55,2,Tampa Bay Rays,1509800,D1
+2023,56,2,New York Mets,1474500,D1
+2023,57,2,Seattle Mariners,1436500,D1
+2023,58,2,Cleveland Guardians,1402600,HS
+2023,59,2,Atlanta Braves,1369300,D1
+2023,60,2,Los Angeles Dodgers,1336900,D1
+2023,61,2,Houston Astros,1304900,D1
+2023,62,CB-B,Cleveland Guardians,1273700,D1
+2023,63,CB-B,Baltimore Orioles,1243300,D1
+2023,64,CB-B,Arizona Diamondbacks,1213200,D1
+2023,65,CB-B,Colorado Rockies,1184100,D1
+2023,66,CB-B,Kansas City Royals,1158900,D1
+2023,67,CB-B,Pittsburgh Pirates,1128200,HS
+2023,68,2C,Chicago Cubs,1101000,D1
+2023,69,2C,San Francisco Giants,1074100,D1
+2023,70,2C,Atlanta Braves,1047500,D1
+2023,71,3,Washington Nationals,1021300,HS
+2023,72,3,Athletics,1005700,HS
+2023,73,3,Pittsburgh Pirates,990300,D1
+2023,74,3,Cincinnati Reds,975100,D1
+2023,75,3,Kansas City Royals,960000,HS
+2023,76,3,Detroit Tigers,945100,HS
+2023,77,3,Colorado Rockies,930600,D1
+2023,78,3,Miami Marlins,916000,D1
+2023,79,3,Los Angeles Angels,901500,D1
+2023,80,3,Arizona Diamondbacks,887000,D1
+2023,81,3,Chicago Cubs,872400,D1
+2023,82,3,Minnesota Twins,859700,HS
+2023,83,3,Boston Red Sox,846800,HS
+2023,84,3,Chicago White Sox,833900,D1
+2023,85,3,San Francisco Giants,820900,D1
+2023,86,3,Baltimore Orioles,808200,D1
+2023,87,3,Milwaukee Brewers,796200,HS
+2023,88,3,Tampa Bay Rays,783800,D1
+2023,89,3,Toronto Blue Jays,771500,D1
+2023,90,3,St. Louis Cardinals,759600,D1
+2023,91,3,New York Mets,747600,D1
+2023,92,3,Seattle Mariners,736400,D1
+2023,93,3,Cleveland Guardians,725300,D1
+2023,94,3,Atlanta Braves,714100,D1
+2023,95,3,Los Angeles Dodgers,705500,HS
+2023,96,3,San Diego Padres,698600,HS
+2023,97,3,New York Yankees,692000,JC
+2023,98,3,Philadelphia Phillies,685100,HS
+2023,99,3,Houston Astros,678500,D1
+2023,100,3,Baltimore Orioles,671800,D1
+2023,101,3,New York Mets,666500,D1
+2023,102,4,Washington Nationals,660000,D1
+2023,103,4,Athletics,653300,HS
+2023,104,4,Pittsburgh Pirates,646900,D1
+2023,105,4,Cincinnati Reds,640300,HS
+2023,106,4,Kansas City Royals,634200,D1
+2023,107,4,Detroit Tigers,627900,HS
+2023,108,4,Texas Rangers,621700,D1
+2023,109,4,Colorado Rockies,615500,D1
+2023,110,4,Miami Marlins,609600,D1
+2023,111,4,Los Angeles Angels,603600,D1
+2023,112,4,Arizona Diamondbacks,597500,D1
+2023,113,4,Chicago Cubs,591800,D1
+2023,114,4,Minnesota Twins,586000,D1
+2023,115,4,Boston Red Sox,580200,D1
+2023,116,4,Chicago White Sox,574600,D1
+2023,117,4,San Francisco Giants,569100,D1
+2023,118,4,Baltimore Orioles,563600,D1
+2023,119,4,Milwaukee Brewers,557900,D1
+2023,120,4,Tampa Bay Rays,552500,D1
+2023,121,4,Toronto Blue Jays,547100,HS
+2023,122,4,St. Louis Cardinals,541700,D1
+2023,123,4,New York Mets,536500,D1
+2023,124,4,Seattle Mariners,531300,HS
+2023,125,4,Cleveland Guardians,526200,D1
+2023,126,4,Atlanta Braves,521800,HS
+2023,127,4,Los Angeles Dodgers,516800,D1
+2023,128,4,San Diego Padres,511600,D1
+2023,129,4,New York Yankees,506800,D1
+2023,130,4,Philadelphia Phillies,501600,HS
+2023,131,4,Houston Astros,497600,D1
+2023,132,4C,Boston Red Sox,492700,D1
+2023,133,4C,Boston Red Sox,487800,D1
+2023,134,4C,New York Mets,483000,HS
+2023,135,4C,New York Mets,478200,D1
+2023,136,4C,Los Angeles Dodgers,473700,D1
+2023,137,4C,Los Angeles Dodgers,469000,D1
+2023,138,5,Washington Nationals,464400,D1
+2023,139,5,Athletics,459800,D1
+2023,140,5,Pittsburgh Pirates,455600,D1
+2023,141,5,Cincinnati Reds,451100,D1
+2023,142,5,Kansas City Royals,446700,D1
+2023,143,5,Detroit Tigers,442200,D1
+2023,144,5,Texas Rangers,437900,D1
+2023,145,5,Colorado Rockies,433500,D1
+2023,146,5,Miami Marlins,429400,D1
+2023,147,5,Los Angeles Angels,425100,D1
+2023,148,5,Arizona Diamondbacks,421100,D1
+2023,149,5,Chicago Cubs,416900,D1
+2023,150,5,Minnesota Twins,412600,HS
+2023,151,5,Boston Red Sox,408500,D1
+2023,152,5,Chicago White Sox,404700,JC
+2023,153,5,San Francisco Giants,400600,D1
+2023,154,5,Baltimore Orioles,396700,D1
+2023,155,5,Milwaukee Brewers,392700,JC
+2023,156,5,Tampa Bay Rays,388900,HS
+2023,157,5,Toronto Blue Jays,385000,D1
+2023,158,5,St. Louis Cardinals,381300,D1
+2023,159,5,New York Mets,378000,D1
+2023,160,5,Seattle Mariners,374400,D1
+2023,161,5,Cleveland Guardians,371000,D1
+2023,162,5,Atlanta Braves,367500,HS
+2023,163,5,Los Angeles Dodgers,364400,D1
+2023,164,5,Houston Astros,360800,HS
+2023,165,6,Washington Nationals,357500,D1
+2023,166,6,Athletics,354500,D1
+2023,167,6,Pittsburgh Pirates,351400,D1
+2023,168,6,Cincinnati Reds,348400,D1
+2023,169,6,Kansas City Royals,345500,D1
+2023,170,6,Detroit Tigers,342400,D1
+2023,171,6,Texas Rangers,339400,HS
+2023,172,6,Colorado Rockies,336700,D1
+2023,173,6,Miami Marlins,333900,D1
+2023,174,6,Los Angeles Angels,331000,D1
+2023,175,6,Arizona Diamondbacks,328300,D1
+2023,176,6,Chicago Cubs,325600,HS
+2023,177,6,Minnesota Twins,322900,D1
+2023,178,6,Boston Red Sox,320200,D1
+2023,179,6,Chicago White Sox,317400,D1
+2023,180,6,San Francisco Giants,314800,D1
+2023,181,6,Baltimore Orioles,312300,D1
+2023,182,6,Milwaukee Brewers,309900,HS
+2023,183,6,Tampa Bay Rays,307300,D1
+2023,184,6,Toronto Blue Jays,304700,D1
+2023,185,6,St. Louis Cardinals,302300,D1
+2023,186,6,New York Mets,299800,D1
+2023,187,6,Seattle Mariners,297400,D1
+2023,188,6,Cleveland Guardians,295000,D1
+2023,189,6,Atlanta Braves,292700,D1
+2023,190,6,Los Angeles Dodgers,290100,HS
+2023,191,6,San Diego Padres,287700,D1
+2023,192,6,New York Yankees,285400,D1
+2023,193,6,Philadelphia Phillies,282900,D1
+2023,194,6,Houston Astros,280700,D1
+2023,195,7,Washington Nationals,278400,D1
+2023,196,7,Athletics,276100,D1
+2023,197,7,Pittsburgh Pirates,273800,D1
+2023,198,7,Cincinnati Reds,271600,D1
+2023,199,7,Kansas City Royals,269200,D1
+2023,200,7,Detroit Tigers,267000,D1
+2023,201,7,Texas Rangers,265500,JC
+2023,202,7,Colorado Rockies,263200,D1
+2023,203,7,Miami Marlins,261000,D1
+2023,204,7,Los Angeles Angels,258900,D1
+2023,205,7,Arizona Diamondbacks,256700,D1
+2023,206,7,Chicago Cubs,254500,HS
+2023,207,7,Minnesota Twins,252500,D1
+2023,208,7,Boston Red Sox,250300,D1
+2023,209,7,Chicago White Sox,248300,HS
+2023,210,7,San Francisco Giants,246500,D1
+2023,211,7,Baltimore Orioles,244400,D1
+2023,212,7,Milwaukee Brewers,242400,D1
+2023,213,7,Tampa Bay Rays,240600,D1
+2023,214,7,Toronto Blue Jays,238700,D1
+2023,215,7,St. Louis Cardinals,236700,D1
+2023,216,7,New York Mets,235000,D1
+2023,217,7,Seattle Mariners,232900,D1
+2023,218,7,Cleveland Guardians,231300,D1
+2023,219,7,Atlanta Braves,229400,D1
+2023,220,7,Los Angeles Dodgers,228000,D1
+2023,221,7,San Diego Padres,226100,NAIA
+2023,222,7,New York Yankees,224700,D1
+2023,223,7,Philadelphia Phillies,222900,D1
+2023,224,7,Houston Astros,221300,D1
+2023,225,8,Washington Nationals,219700,D1
+2023,226,8,Athletics,218300,D1
+2023,227,8,Pittsburgh Pirates,216900,D1
+2023,228,8,Cincinnati Reds,215400,D1
+2023,229,8,Kansas City Royals,213500,D1
+2023,230,8,Detroit Tigers,212300,HS
+2023,231,8,Texas Rangers,210600,D1
+2023,232,8,Colorado Rockies,209400,D1
+2023,233,8,Miami Marlins,207800,D1
+2023,234,8,Los Angeles Angels,206500,HS
+2023,235,8,Arizona Diamondbacks,204900,D1
+2023,236,8,Chicago Cubs,203600,D1
+2023,237,8,Minnesota Twins,202200,D1
+2023,238,8,Boston Red Sox,201000,D1
+2023,239,8,Chicago White Sox,199900,D1
+2023,240,8,San Francisco Giants,198800,JC
+2023,241,8,Baltimore Orioles,197800,D1
+2023,242,8,Milwaukee Brewers,196700,D1
+2023,243,8,Tampa Bay Rays,195800,D1
+2023,244,8,Toronto Blue Jays,194600,D1
+2023,245,8,St. Louis Cardinals,193800,D1
+2023,246,8,New York Mets,192900,HS
+2023,247,8,Seattle Mariners,191900,D1
+2023,248,8,Cleveland Guardians,191100,D1
+2023,249,8,Atlanta Braves,190300,D1
+2023,250,8,Los Angeles Dodgers,189300,HS
+2023,251,8,San Diego Padres,188800,HS
+2023,252,8,New York Yankees,188000,D1
+2023,253,8,Philadelphia Phillies,187100,D1
+2023,254,8,Houston Astros,186500,D1
+2023,255,9,Washington Nationals,185800,D1
+2023,256,9,Athletics,185100,D2
+2023,257,9,Pittsburgh Pirates,184500,D1
+2023,258,9,Cincinnati Reds,183900,D1
+2023,259,9,Kansas City Royals,183200,D1
+2023,260,9,Detroit Tigers,182600,D1
+2023,261,9,Texas Rangers,182100,JC
+2023,262,9,Colorado Rockies,181600,D1
+2023,263,9,Miami Marlins,180900,D1
+2023,264,9,Los Angeles Angels,180300,D2
+2023,265,9,Arizona Diamondbacks,180000,D1
+2023,266,9,Chicago Cubs,179400,D1
+2023,267,9,Minnesota Twins,179000,D1
+2023,268,9,Boston Red Sox,178600,D1
+2023,269,9,Chicago White Sox,178000,D1
+2023,270,9,San Francisco Giants,177500,D1
+2023,271,9,Baltimore Orioles,177100,D1
+2023,272,9,Milwaukee Brewers,176700,D1
+2023,273,9,Tampa Bay Rays,176200,D1
+2023,274,9,Toronto Blue Jays,175900,HS
+2023,275,9,St. Louis Cardinals,175600,D1
+2023,276,9,New York Mets,175100,D1
+2023,277,9,Seattle Mariners,174800,D1
+2023,278,9,Cleveland Guardians,174300,D1
+2023,279,9,Atlanta Braves,173800,D1
+2023,280,9,Los Angeles Dodgers,173600,D1
+2023,281,9,San Diego Padres,173400,D1
+2023,282,9,New York Yankees,173100,D1
+2023,283,9,Philadelphia Phillies,172700,D1
+2023,284,9,Houston Astros,172500,D1
+2023,285,10,Washington Nationals,172100,D1
+2023,286,10,Athletics,171400,D2
+2023,287,10,Pittsburgh Pirates,171200,D1
+2023,288,10,Cincinnati Reds,170900,D1
+2023,289,10,Kansas City Royals,170600,D1
+2023,290,10,Detroit Tigers,170300,D1
+2023,291,10,Texas Rangers,170100,D1
+2023,292,10,Colorado Rockies,169900,D1
+2023,293,10,Miami Marlins,169500,D1
+2023,294,10,Los Angeles Angels,169000,D1
+2023,295,10,Arizona Diamondbacks,168800,D1
+2023,296,10,Chicago Cubs,168300,JC
+2023,297,10,Minnesota Twins,168100,D1
+2023,298,10,Boston Red Sox,167900,D1
+2023,299,10,Chicago White Sox,167600,D1
+2023,300,10,San Francisco Giants,167200,D1
+2023,301,10,Baltimore Orioles,167000,D1
+2023,302,10,Milwaukee Brewers,166800,D1
+2023,303,10,Tampa Bay Rays,166500,D1
+2023,304,10,Toronto Blue Jays,166200,D1
+2023,305,10,St. Louis Cardinals,165900,D1
+2023,306,10,New York Mets,165800,D1
+2023,307,10,Seattle Mariners,165500,D1
+2023,308,10,Cleveland Guardians,165300,JC
+2023,309,10,Atlanta Braves,164800,D1
+2023,310,10,Los Angeles Dodgers,164600,D1
+2023,311,10,San Diego Padres,164400,D1
+2023,312,10,New York Yankees,164400,D1
+2023,313,10,Philadelphia Phillies,164400,D1
+2023,314,10,Houston Astros,164400,D1
+2024,1,1,Cleveland Guardians,10570600,D1
+2024,2,1,Cincinnati Reds,9785000,D1
+2024,3,1,Colorado Rockies,9070800,D1
+2024,4,1,Athletics,8370800,D1
+2024,5,1,Chicago White Sox,7763700,D1
+2024,6,1,Kansas City Royals,7213800,D1
+2024,7,1,St. Louis Cardinals,6823700,D1
+2024,8,1,Los Angeles Angels,6502800,D1
+2024,9,1,Pittsburgh Pirates,6216600,HS
+2024,10,1,Washington Nationals,5953800,D1
+2024,11,1,Detroit Tigers,5712100,HS
+2024,12,1,Boston Red Sox,5484600,D1
+2024,13,1,San Francisco Giants,5272300,D1
+2024,14,1,Chicago Cubs,5070700,D1
+2024,15,1,Seattle Mariners,4880900,D1
+2024,16,1,Miami Marlins,4704700,HS
+2024,17,1,Milwaukee Brewers,4534100,HS
+2024,18,1,Tampa Bay Rays,4372900,HS
+2024,19,1,New York Mets,4219200,D1
+2024,20,1,Toronto Blue Jays,4073400,D1
+2024,21,1,Minnesota Twins,3934400,D1
+2024,22,1,Baltimore Orioles,3802200,D1
+2024,23,1,Los Angeles Dodgers,3676400,HS
+2024,24,1,Atlanta Braves,3556300,HS
+2024,25,1,San Diego Padres,3442100,HS
+2024,26,1,New York Yankees,3332900,D1
+2024,27,1,Philadelphia Phillies,3228300,HS
+2024,28,1,Houston Astros,3132500,D1
+2024,29,1,Arizona Diamondbacks,3045500,HS
+2024,30,1,Texas Rangers,2971300,D1
+2024,31,PPI,Arizona Diamondbacks,2904000,D1
+2024,32,PPI,Baltimore Orioles,2835400,HS
+2024,33,1C,Minnesota Twins,2766100,D1
+2024,34,CB-A,Milwaukee Brewers,2698300,D1
+2024,35,CB-A,Arizona Diamondbacks,2632500,HS
+2024,36,CB-A,Cleveland Guardians,2569200,HS
+2024,37,CB-A,Pittsburgh Pirates,2511400,HS
+2024,38,CB-A,Colorado Rockies,2452200,D1
+2024,39,CB-A,Washington Nationals,2395000,D1
+2024,40,2,Athletics,2332100,D1
+2024,41,2,Kansas City Royals,2278000,HS
+2024,42,2,Colorado Rockies,2224700,D1
+2024,43,2,Chicago White Sox,2172800,HS
+2024,44,2,Washington Nationals,2122200,HS
+2024,45,2,Los Angeles Angels,2072800,D1
+2024,46,2,New York Mets,2031700,D1
+2024,47,2,Pittsburgh Pirates,1984800,HS
+2024,48,2,Cleveland Guardians,1938800,D1
+2024,49,2,Detroit Tigers,1893700,HS
+2024,50,2,Boston Red Sox,1846400,D1
+2024,51,2,Cincinnati Reds,1804900,HS
+2024,52,2,San Diego Padres,1762500,HS
+2024,53,2,New York Yankees,1721200,D1
+2024,54,2,Chicago Cubs,1681200,D1
+2024,55,2,Seattle Mariners,1641800,HS
+2024,56,2,Miami Marlins,1603400,HS
+2024,57,2,Milwaukee Brewers,1562100,HS
+2024,58,2,Tampa Bay Rays,1525200,D1
+2024,59,2,Toronto Blue Jays,1489000,D1
+2024,60,2,Minnesota Twins,1453700,D1
+2024,61,2,Baltimore Orioles,1418900,D1
+2024,62,2,Atlanta Braves,1385000,D1
+2024,63,2,Philadelphia Phillies,1352000,HS
+2024,64,2,Arizona Diamondbacks,1319200,HS
+2024,65,2,Texas Rangers,1287600,D1
+2024,66,CB-B,Tampa Bay Rays,1260200,HS
+2024,67,CB-B,Milwaukee Brewers,1226800,HS
+2024,68,CB-B,Chicago White Sox,1197200,HS
+2024,69,CB-B,Minnesota Twins,1168000,HS
+2024,70,CB-B,Miami Marlins,1139100,D1
+2024,71,CB-B,Cincinnati Reds,1110600,D1
+2024,72,CB-B,Detroit Tigers,1093600,HS
+2024,73,CB-B,Athletics,1076900,D1
+2024,74,2C,Los Angeles Angels,1060300,D1
+2024,75,3,Athletics,1043900,D1
+2024,76,3,Kansas City Royals,1027700,D1
+2024,77,3,Colorado Rockies,1011900,D1
+2024,78,3,Chicago White Sox,996100,D1
+2024,79,3,Washington Nationals,980300,D1
+2024,80,3,St. Louis Cardinals,964500,D1
+2024,81,3,Los Angeles Angels,948600,D1
+2024,82,3,New York Mets,934800,D1
+2024,83,3,Pittsburgh Pirates,920800,D1
+2024,84,3,Cleveland Guardians,906800,HS
+2024,85,3,Detroit Tigers,892600,D1
+2024,86,3,Boston Red Sox,878800,D1
+2024,87,3,Cincinnati Reds,865800,D1
+2024,88,3,San Diego Padres,852300,HS
+2024,89,3,New York Yankees,838900,D1
+2024,90,3,Chicago Cubs,826000,HS
+2024,91,3,Seattle Mariners,812900,D1
+2024,92,3,Miami Marlins,800800,D1
+2024,93,3,Milwaukee Brewers,788700,D1
+2024,94,3,Tampa Bay Rays,776500,HS
+2024,95,3,Toronto Blue Jays,767200,HS
+2024,96,3,Minnesota Twins,759700,D1
+2024,97,3,Baltimore Orioles,752500,D1
+2024,98,3,Los Angeles Dodgers,745000,HS
+2024,99,3,Atlanta Braves,737800,D1
+2024,100,3,Philadelphia Phillies,730500,D1
+2024,101,3,Houston Astros,724800,D1
+2024,102,3,Arizona Diamondbacks,717700,D1
+2024,103,3,Texas Rangers,710400,D1
+2024,104,4,Athletics,703400,D1
+2024,105,4,Kansas City Royals,696300,D1
+2024,106,4,Colorado Rockies,689600,D1
+2024,107,4,Chicago White Sox,682800,D1
+2024,108,4,Washington Nationals,676000,D1
+2024,109,4,St. Louis Cardinals,669300,D1
+2024,110,4,Los Angeles Angels,662900,D1
+2024,111,4,New York Mets,656400,D1
+2024,112,4,Pittsburgh Pirates,649700,HS
+2024,113,4,Cleveland Guardians,643500,D1
+2024,114,4,Detroit Tigers,637200,D1
+2024,115,4,Boston Red Sox,630900,D1
+2024,116,4,San Francisco Giants,624800,D1
+2024,117,4,Cincinnati Reds,618800,D1
+2024,118,4,San Diego Padres,612900,D1
+2024,119,4,New York Yankees,606700,D1
+2024,120,4,Chicago Cubs,600800,HS
+2024,121,4,Seattle Mariners,594900,D1
+2024,122,4,Miami Marlins,589000,D1
+2024,123,4,Milwaukee Brewers,583400,D1
+2024,124,4,Tampa Bay Rays,577700,D1
+2024,125,4,Toronto Blue Jays,572200,D1
+2024,126,4,Minnesota Twins,567400,D1
+2024,127,4,Baltimore Orioles,562000,D1
+2024,128,4,Los Angeles Dodgers,556300,D1
+2024,129,4,Atlanta Braves,551100,D1
+2024,130,4,Philadelphia Phillies,545400,D1
+2024,131,4,Houston Astros,541100,D1
+2024,132,4,Arizona Diamondbacks,535800,HS
+2024,133,4,Texas Rangers,530400,D1
+2024,134,4C,San Diego Padres,525200,D1
+2024,135,4C,San Diego Padres,520000,D1
+2024,136,4C,Toronto Blue Jays,515100,D1
+2024,137,5,Athletics,510000,D1
+2024,138,5,Kansas City Royals,505000,D1
+2024,139,5,Colorado Rockies,500000,D1
+2024,140,5,Chicago White Sox,495400,D1
+2024,141,5,Washington Nationals,490500,D1
+2024,142,5,St. Louis Cardinals,485700,D1
+2024,143,5,Los Angeles Angels,480800,HS
+2024,144,5,New York Mets,476200,HS
+2024,145,5,Pittsburgh Pirates,471400,D1
+2024,146,5,Cleveland Guardians,466900,D1
+2024,147,5,Detroit Tigers,462300,D1
+2024,148,5,Boston Red Sox,457900,JC
+2024,149,5,San Francisco Giants,453300,D1
+2024,150,5,Cincinnati Reds,448700,D1
+2024,151,5,San Diego Padres,444200,HS
+2024,152,5,New York Yankees,440100,D1
+2024,153,5,Chicago Cubs,435600,D1
+2024,154,5,Seattle Mariners,431400,D1
+2024,155,5,Miami Marlins,427000,HS
+2024,156,5,Milwaukee Brewers,422900,D1
+2024,157,5,Tampa Bay Rays,418600,D1
+2024,158,5,Toronto Blue Jays,414600,D1
+2024,159,5,Minnesota Twins,411000,D1
+2024,160,5,Baltimore Orioles,407100,D1
+2024,161,5,Atlanta Braves,403400,HS
+2024,162,5,Philadelphia Phillies,399600,D1
+2024,163,5,Houston Astros,396200,D1
+2024,164,5,Arizona Diamondbacks,392300,D1
+2024,165,5,Texas Rangers,388700,HS
+2024,166,6,Athletics,385500,HS
+2024,167,6,Kansas City Royals,382100,D1
+2024,168,6,Colorado Rockies,378900,D1
+2024,169,6,Chicago White Sox,375700,D1
+2024,170,6,Washington Nationals,372300,D1
+2024,171,6,St. Louis Cardinals,369100,D1
+2024,172,6,Los Angeles Angels,366100,HS
+2024,173,6,New York Mets,363100,D1
+2024,174,6,Pittsburgh Pirates,359900,D1
+2024,175,6,Cleveland Guardians,357000,D1
+2024,176,6,Detroit Tigers,354100,D1
+2024,177,6,Boston Red Sox,351100,D1
+2024,178,6,San Francisco Giants,348200,D1
+2024,179,6,Cincinnati Reds,345100,D1
+2024,180,6,San Diego Padres,342300,D2
+2024,181,6,New York Yankees,339600,D1
+2024,182,6,Chicago Cubs,337000,D1
+2024,183,6,Seattle Mariners,334200,D1
+2024,184,6,Miami Marlins,331300,D1
+2024,185,6,Milwaukee Brewers,328700,D1
+2024,186,6,Tampa Bay Rays,326000,D1
+2024,187,6,Toronto Blue Jays,323400,D1
+2024,188,6,Minnesota Twins,320800,D1
+2024,189,6,Baltimore Orioles,318300,HS
+2024,190,6,Los Angeles Dodgers,315500,D1
+2024,191,6,Atlanta Braves,312800,HS
+2024,192,6,Philadelphia Phillies,310300,D1
+2024,193,6,Houston Astros,307600,JC
+2024,194,6,Arizona Diamondbacks,305200,D1
+2024,195,6,Texas Rangers,302700,D1
+2024,196,7,Athletics,300200,HS
+2024,197,7,Kansas City Royals,297700,D1
+2024,198,7,Colorado Rockies,295300,D1
+2024,199,7,Chicago White Sox,292700,D1
+2024,200,7,Washington Nationals,290300,D1
+2024,201,7,St. Louis Cardinals,288700,D1
+2024,202,7,Los Angeles Angels,286200,D1
+2024,203,7,New York Mets,283800,D1
+2024,204,7,Pittsburgh Pirates,281500,D1
+2024,205,7,Cleveland Guardians,279100,HS
+2024,206,7,Detroit Tigers,276700,D1
+2024,207,7,Boston Red Sox,274600,D1
+2024,208,7,San Francisco Giants,272200,D1
+2024,209,7,Cincinnati Reds,270000,D1
+2024,210,7,San Diego Padres,268000,D1
+2024,211,7,New York Yankees,265800,D1
+2024,212,7,Chicago Cubs,263600,D1
+2024,213,7,Seattle Mariners,261600,D1
+2024,214,7,Miami Marlins,259600,D1
+2024,215,7,Milwaukee Brewers,257400,D1
+2024,216,7,Tampa Bay Rays,255500,D1
+2024,217,7,Toronto Blue Jays,253300,D1
+2024,218,7,Minnesota Twins,251500,D1
+2024,219,7,Baltimore Orioles,249400,D1
+2024,220,7,Los Angeles Dodgers,247900,D1
+2024,221,7,Atlanta Braves,245900,D1
+2024,222,7,Philadelphia Phillies,244300,D1
+2024,223,7,Houston Astros,242400,D1
+2024,224,7,Arizona Diamondbacks,240600,D1
+2024,225,7,Texas Rangers,238900,D1
+2024,226,8,Athletics,237400,D1
+2024,227,8,Kansas City Royals,235900,D1
+2024,228,8,Colorado Rockies,234200,D1
+2024,229,8,Chicago White Sox,232200,D1
+2024,230,8,Washington Nationals,230900,D1
+2024,231,8,St. Louis Cardinals,229000,D1
+2024,232,8,Los Angeles Angels,227700,D1
+2024,233,8,New York Mets,226000,D1
+2024,234,8,Pittsburgh Pirates,224500,D1
+2024,235,8,Cleveland Guardians,222800,D1
+2024,236,8,Detroit Tigers,221400,D2
+2024,237,8,Boston Red Sox,219900,HS
+2024,238,8,San Francisco Giants,218600,D1
+2024,239,8,Cincinnati Reds,217400,D1
+2024,240,8,San Diego Padres,216200,D1
+2024,241,8,New York Yankees,215100,D1
+2024,242,8,Chicago Cubs,213900,D1
+2024,243,8,Seattle Mariners,212900,D1
+2024,244,8,Miami Marlins,211600,D1
+2024,245,8,Milwaukee Brewers,210700,D1
+2024,246,8,Tampa Bay Rays,209800,JC
+2024,247,8,Toronto Blue Jays,208700,D1
+2024,248,8,Minnesota Twins,207800,D1
+2024,249,8,Baltimore Orioles,206900,D1
+2024,250,8,Los Angeles Dodgers,205800,HS
+2024,251,8,Atlanta Braves,205300,D2
+2024,252,8,Philadelphia Phillies,204400,D1
+2024,253,8,Houston Astros,203500,D1
+2024,254,8,Arizona Diamondbacks,202800,D1
+2024,255,8,Texas Rangers,202000,D1
+2024,256,9,Athletics,201300,D1
+2024,257,9,Kansas City Royals,200600,D1
+2024,258,9,Colorado Rockies,200000,D1
+2024,259,9,Chicago White Sox,199200,D1
+2024,260,9,Washington Nationals,198600,D1
+2024,261,9,St. Louis Cardinals,198000,D1
+2024,262,9,Los Angeles Angels,197500,D1
+2024,263,9,New York Mets,196700,D1
+2024,264,9,Pittsburgh Pirates,196100,D1
+2024,265,9,Cleveland Guardians,195700,D1
+2024,266,9,Detroit Tigers,195100,HS
+2024,267,9,Boston Red Sox,194600,D1
+2024,268,9,San Francisco Giants,194200,D1
+2024,269,9,Cincinnati Reds,193600,D1
+2024,270,9,San Diego Padres,193000,D2
+2024,271,9,New York Yankees,192600,D1
+2024,272,9,Chicago Cubs,192100,D1
+2024,273,9,Seattle Mariners,191600,JC
+2024,274,9,Miami Marlins,191300,D1
+2024,275,9,Milwaukee Brewers,190900,HS
+2024,276,9,Tampa Bay Rays,190400,D1
+2024,277,9,Toronto Blue Jays,190100,D1
+2024,278,9,Minnesota Twins,189500,D1
+2024,279,9,Baltimore Orioles,189000,D1
+2024,280,9,Los Angeles Dodgers,188800,D1
+2024,281,9,Atlanta Braves,188600,D1
+2024,282,9,Philadelphia Phillies,188200,D1
+2024,283,9,Houston Astros,187800,D1
+2024,284,9,Arizona Diamondbacks,187600,D1
+2024,285,9,Texas Rangers,187100,D1
+2024,286,10,Athletics,186400,D1
+2024,287,10,Kansas City Royals,186200,D1
+2024,288,10,Colorado Rockies,185800,D1
+2024,289,10,Chicago White Sox,185500,D1
+2024,290,10,Washington Nationals,185200,D1
+2024,291,10,St. Louis Cardinals,185000,D1
+2024,292,10,Los Angeles Angels,184700,D1
+2024,293,10,New York Mets,184300,D1
+2024,294,10,Pittsburgh Pirates,183800,D1
+2024,295,10,Cleveland Guardians,183600,HS
+2024,296,10,Detroit Tigers,183000,D1
+2024,297,10,Boston Red Sox,182800,D1
+2024,298,10,San Francisco Giants,182600,D1
+2024,299,10,Cincinnati Reds,182200,HS
+2024,300,10,San Diego Padres,181800,D1
+2024,301,10,New York Yankees,181600,D1
+2024,302,10,Chicago Cubs,181400,D1
+2024,303,10,Seattle Mariners,181100,D1
+2024,304,10,Miami Marlins,180700,D1
+2024,305,10,Milwaukee Brewers,180400,HS
+2024,306,10,Tampa Bay Rays,180300,D1
+2024,307,10,Toronto Blue Jays,180000,D1
+2024,308,10,Minnesota Twins,179700,D1
+2024,309,10,Baltimore Orioles,179200,D1
+2024,310,10,Los Angeles Dodgers,179000,D1
+2024,311,10,Atlanta Braves,178800,D2
+2024,312,10,Philadelphia Phillies,178800,D1
+2024,313,10,Houston Astros,178800,NAIA
+2024,314,10,Arizona Diamondbacks,178800,D3
+2024,315,10,Texas Rangers,178800,D2
+2025,1,1,Washington Nationals,11075900,HS
+2025,2,1,Los Angeles Angels,10252700,D1
+2025,3,1,Seattle Mariners,9504400,D1
+2025,4,1,Colorado Rockies,8770900,HS
+2025,5,1,St. Louis Cardinals,8134800,D1
+2025,6,1,Pittsburgh Pirates,7558600,HS
+2025,7,1,Miami Marlins,7149900,D1
+2025,8,1,Toronto Blue Jays,6813600,HS
+2025,9,1,Cincinnati Reds,6513800,HS
+2025,10,1,Chicago White Sox,6238400,HS
+2025,11,1,Athletics,5985100,D1
+2025,12,1,Texas Rangers,5746800,HS
+2025,13,1,San Francisco Giants,5524300,D1
+2025,14,1,Tampa Bay Rays,5313100,HS
+2025,15,1,Boston Red Sox,5114200,D1
+2025,16,1,Minnesota Twins,4929600,D1
+2025,17,1,Chicago Cubs,4750800,D1
+2025,18,1,Arizona Diamondbacks,4581900,HS
+2025,19,1,Baltimore Orioles,4420900,D1
+2025,20,1,Milwaukee Brewers,4268100,D1
+2025,21,1,Houston Astros,4122500,HS
+2025,22,1,Atlanta Braves,3983900,HS
+2025,23,1,Kansas City Royals,3852100,HS
+2025,24,1,Detroit Tigers,3726300,HS
+2025,25,1,San Diego Padres,3606600,HS
+2025,26,1,Philadelphia Phillies,3492200,D1
+2025,27,1,Cleveland Guardians,3382600,D1
+2025,38,1,New York Mets,2569400,D1
+2025,39,1,New York Yankees,2509500,HS
+2025,40,1,Los Angeles Dodgers,2443600,D1
+2025,28,PPI,Kansas City Royals,3282200,HS
+2025,29,1C,Arizona Diamondbacks,3191100,D1
+2025,30,1C,Baltimore Orioles,3113300,D1
+2025,31,1C,Baltimore Orioles,3042800,D1
+2025,32,1C,Milwaukee Brewers,2970900,HS
+2025,33,CB-A,Boston Red Sox,2898300,D1
+2025,34,CB-A,Detroit Tigers,2827300,HS
+2025,35,CB-A,Seattle Mariners,2758300,D1
+2025,36,CB-A,Minnesota Twins,2692000,D1
+2025,37,CB-A,Baltimore Orioles,2631400,HS
+2025,41,CB-A,Los Angeles Dodgers,2386900,D1
+2025,42,CB-A,Tampa Bay Rays,2331000,D1
+2025,43,CB-A,Miami Marlins,2276700,D1
+2025,44,2,Chicago White Sox,2223600,HS
+2025,45,2,Colorado Rockies,2171900,D1
+2025,46,2,Miami Marlins,2128800,D1
+2025,47,2,Los Angeles Angels,2079700,D1
+2025,48,2,Athletics,2031500,D1
+2025,49,2,Washington Nationals,1984200,D1
+2025,50,2,Pittsburgh Pirates,1934700,HS
+2025,51,2,Cincinnati Reds,1891200,HS
+2025,52,2,Texas Rangers,1846700,D1
+2025,53,2,Tampa Bay Rays,1803500,HS
+2025,54,2,Minnesota Twins,1761600,HS
+2025,55,2,St. Louis Cardinals,1720300,HS
+2025,56,2,Chicago Cubs,1680000,D1
+2025,57,2,Seattle Mariners,1636800,HS
+2025,58,2,Baltimore Orioles,1598100,D1
+2025,59,2,Milwaukee Brewers,1560200,D1
+2025,60,2,Atlanta Braves,1523200,D1
+2025,61,2,Kansas City Royals,1486700,D1
+2025,62,2,Detroit Tigers,1451200,D1
+2025,63,2,Philadelphia Phillies,1416600,D1
+2025,64,2,Cleveland Guardians,1382300,D1
+2025,65,2,Los Angeles Dodgers,1349100,D1
+2025,66,CB-B,Cleveland Guardians,1320400,D1
+2025,69,CB-B,Baltimore Orioles,1223800,D1
+2025,70,CB-B,Cleveland Guardians,1193500,HS
+2025,71,CB-B,Kansas City Royals,1163700,D1
+2025,72,CB-B,St. Louis Cardinals,1145900,D1
+2025,73,CB-B,Pittsburgh Pirates,1128400,D1
+2025,74,CB-B,Colorado Rockies,1111000,D1
+2025,67,SUP-2,Tampa Bay Rays,1285400,HS
+2025,68,SUP-2,Milwaukee Brewers,1254400,HS
+2025,75,2C,Boston Red Sox,1093800,D1
+2025,76,3,Chicago White Sox,1076800,D1
+2025,77,3,Colorado Rockies,1060300,D1
+2025,78,3,Miami Marlins,1043700,D1
+2025,79,3,Los Angeles Angels,1027200,HS
+2025,80,3,Washington Nationals,1010600,HS
+2025,81,3,Toronto Blue Jays,993900,D1
+2025,82,3,Pittsburgh Pirates,979500,D1
+2025,83,3,Cincinnati Reds,964800,D1
+2025,84,3,Texas Rangers,950100,HS
+2025,85,3,San Francisco Giants,935300,D1
+2025,86,3,Tampa Bay Rays,920800,HS
+2025,87,3,Boston Red Sox,907200,D1
+2025,88,3,Minnesota Twins,893000,D1
+2025,89,3,St. Louis Cardinals,879000,D1
+2025,90,3,Chicago Cubs,865500,D1
+2025,91,3,Seattle Mariners,851800,D1
+2025,92,3,Arizona Diamondbacks,839100,D1
+2025,93,3,Baltimore Orioles,826400,D1
+2025,94,3,Milwaukee Brewers,813600,D1
+2025,95,3,Houston Astros,803900,D1
+2025,96,3,Atlanta Braves,796000,D1
+2025,97,3,Kansas City Royals,788500,HS
+2025,98,3,Detroit Tigers,780600,D1
+2025,99,3,San Diego Padres,773100,D1
+2025,100,3,Philadelphia Phillies,765400,D1
+2025,101,3,Cleveland Guardians,759400,other/none
+2025,102,3,New York Mets,752000,D1
+2025,103,3,New York Yankees,744400,D1
+2025,104,3,Los Angeles Dodgers,737000,D1
+2025,105,SUP-3,Los Angeles Angels,729600,D1
+2025,106,4,Chicago White Sox,722600,HS
+2025,107,4,Colorado Rockies,715400,D1
+2025,108,4,Miami Marlins,708300,D1
+2025,109,4,Los Angeles Angels,701300,D1
+2025,110,4,Athletics,694600,D1
+2025,111,4,Washington Nationals,687800,HS
+2025,112,4,Toronto Blue Jays,680800,D1
+2025,113,4,Pittsburgh Pirates,674300,HS
+2025,114,4,Cincinnati Reds,667700,HS
+2025,115,4,Texas Rangers,661100,D1
+2025,116,4,San Francisco Giants,654700,D1
+2025,117,4,Tampa Bay Rays,648400,D1
+2025,118,4,Boston Red Sox,642200,D1
+2025,119,4,Minnesota Twins,635700,D1
+2025,120,4,St. Louis Cardinals,629500,D1
+2025,121,4,Chicago Cubs,623300,HS
+2025,122,4,Seattle Mariners,617200,D1
+2025,123,4,Arizona Diamondbacks,611300,HS
+2025,124,4,Baltimore Orioles,605300,D1
+2025,125,4,Milwaukee Brewers,599600,HS
+2025,126,4,Houston Astros,594500,D1
+2025,127,4,Atlanta Braves,588900,HS
+2025,128,4,Kansas City Royals,582900,D1
+2025,129,4,Detroit Tigers,577400,D1
+2025,130,4,San Diego Padres,571500,D1
+2025,131,4,Philadelphia Phillies,567000,D1
+2025,132,4,Cleveland Guardians,561400,D1
+2025,133,4,New York Mets,555800,HS
+2025,134,4,New York Yankees,550300,D1
+2025,135,4,Los Angeles Dodgers,544900,HS
+2025,136,4C,Atlanta Braves,539700,D1
+2025,137,5,Chicago White Sox,534400,D1
+2025,138,5,Colorado Rockies,529100,D1
+2025,139,5,Miami Marlins,523900,D1
+2025,140,5,Los Angeles Angels,519100,HS
+2025,141,5,Athletics,513900,D1
+2025,142,5,Washington Nationals,508900,HS
+2025,143,5,Toronto Blue Jays,503800,HS
+2025,144,5,Pittsburgh Pirates,499000,D1
+2025,145,5,Cincinnati Reds,493900,HS
+2025,146,5,Texas Rangers,489200,D1
+2025,147,5,Tampa Bay Rays,484400,D1
+2025,148,5,Boston Red Sox,479800,D1
+2025,149,5,Minnesota Twins,475000,JC
+2025,150,5,St. Louis Cardinals,470100,D1
+2025,151,5,Chicago Cubs,465400,D1
+2025,152,5,Seattle Mariners,461100,D1
+2025,153,5,Arizona Diamondbacks,456400,D1
+2025,154,5,Baltimore Orioles,452000,HS
+2025,155,5,Milwaukee Brewers,447400,D1
+2025,156,5,Houston Astros,443100,D1
+2025,157,5,Atlanta Braves,438600,HS
+2025,158,5,Kansas City Royals,434400,D1
+2025,159,5,Detroit Tigers,430600,HS
+2025,160,5,San Diego Padres,426600,HS
+2025,161,5,Philadelphia Phillies,422700,D1
+2025,162,5,Cleveland Guardians,418700,D1
+2025,163,5,New York Mets,415100,D1
+2025,164,5,New York Yankees,411100,D1
+2025,165,5,Los Angeles Dodgers,407300,D1
+2025,166,6,Chicago White Sox,403900,D1
+2025,167,6,Colorado Rockies,400400,D1
+2025,168,6,Miami Marlins,397000,D1
+2025,169,6,Los Angeles Angels,393700,HS
+2025,170,6,Athletics,390100,D1
+2025,171,6,Washington Nationals,386700,D1
+2025,172,6,Toronto Blue Jays,383600,D1
+2025,173,6,Pittsburgh Pirates,380500,D1
+2025,174,6,Cincinnati Reds,377100,D1
+2025,175,6,Texas Rangers,374100,HS
+2025,176,6,San Francisco Giants,371000,D1
+2025,177,6,Tampa Bay Rays,367900,D1
+2025,178,6,Boston Red Sox,364800,D1
+2025,179,6,Minnesota Twins,361600,HS
+2025,180,6,St. Louis Cardinals,358700,D1
+2025,181,6,Chicago Cubs,355800,HS
+2025,182,6,Seattle Mariners,353100,D1
+2025,183,6,Arizona Diamondbacks,350200,D1
+2025,184,6,Baltimore Orioles,347100,D1
+2025,185,6,Milwaukee Brewers,344400,D1
+2025,186,6,Houston Astros,341600,NAIA
+2025,187,6,Atlanta Braves,338900,D1
+2025,188,6,Kansas City Royals,336100,D1
+2025,189,6,Detroit Tigers,333500,D1
+2025,190,6,San Diego Padres,330600,D2
+2025,191,6,Philadelphia Phillies,327800,D1
+2025,192,6,Cleveland Guardians,325100,D1
+2025,193,6,New York Mets,322300,D2
+2025,194,6,New York Yankees,319800,D1
+2025,195,6,Los Angeles Dodgers,317200,HS
+2025,196,7,Chicago White Sox,314500,D1
+2025,197,7,Colorado Rockies,311900,D1
+2025,198,7,Miami Marlins,309400,D1
+2025,199,7,Los Angeles Angels,306700,D1
+2025,200,7,Athletics,304200,D1
+2025,201,7,Washington Nationals,302500,D1
+2025,202,7,Toronto Blue Jays,299900,D1
+2025,203,7,Pittsburgh Pirates,297400,D1
+2025,204,7,Cincinnati Reds,295000,D1
+2025,205,7,Texas Rangers,292400,D1
+2025,206,7,San Francisco Giants,289900,D1
+2025,207,7,Tampa Bay Rays,287700,JC
+2025,208,7,Boston Red Sox,285200,D1
+2025,209,7,Minnesota Twins,282900,D1
+2025,210,7,St. Louis Cardinals,280800,D1
+2025,211,7,Chicago Cubs,278500,D1
+2025,212,7,Seattle Mariners,276200,D1
+2025,213,7,Arizona Diamondbacks,274100,D1
+2025,214,7,Baltimore Orioles,272000,D2
+2025,215,7,Milwaukee Brewers,269700,D1
+2025,216,7,Houston Astros,267700,HS
+2025,217,7,Atlanta Braves,265400,D1
+2025,218,7,Kansas City Royals,263500,D1
+2025,219,7,Detroit Tigers,261300,JC
+2025,220,7,San Diego Padres,259700,D1
+2025,221,7,Philadelphia Phillies,257700,HS
+2025,222,7,Cleveland Guardians,256000,D1
+2025,223,7,New York Mets,254000,D1
+2025,224,7,New York Yankees,252100,D1
+2025,225,7,Los Angeles Dodgers,250300,D3
+2025,226,8,Chicago White Sox,248700,D1
+2025,227,8,Colorado Rockies,247200,D1
+2025,228,8,Miami Marlins,245400,D1
+2025,229,8,Los Angeles Angels,243300,D1
+2025,230,8,Athletics,241900,D1
+2025,231,8,Washington Nationals,239900,D1
+2025,232,8,Toronto Blue Jays,238600,D1
+2025,233,8,Pittsburgh Pirates,236800,D1
+2025,234,8,Cincinnati Reds,235200,D1
+2025,235,8,Texas Rangers,233400,D1
+2025,236,8,San Francisco Giants,232000,D1
+2025,237,8,Tampa Bay Rays,230400,D1
+2025,238,8,Boston Red Sox,229000,D1
+2025,239,8,Minnesota Twins,227800,D1
+2025,240,8,St. Louis Cardinals,226500,D1
+2025,241,8,Chicago Cubs,225400,D1
+2025,242,8,Seattle Mariners,224100,D1
+2025,243,8,Arizona Diamondbacks,223100,D1
+2025,244,8,Baltimore Orioles,221700,NAIA
+2025,245,8,Milwaukee Brewers,220800,HS
+2025,246,8,Houston Astros,219800,D1
+2025,247,8,Atlanta Braves,218700,D1
+2025,248,8,Kansas City Royals,217700,D1
+2025,249,8,Detroit Tigers,216800,D1
+2025,250,8,San Diego Padres,215600,D1
+2025,251,8,Philadelphia Phillies,215100,D1
+2025,252,8,Cleveland Guardians,214200,D1
+2025,253,8,New York Mets,213200,HS
+2025,254,8,New York Yankees,212500,D1
+2025,255,8,Los Angeles Dodgers,211700,D1
+2025,256,9,Chicago White Sox,210900,D1
+2025,257,9,Colorado Rockies,210200,D1
+2025,258,9,Miami Marlins,209600,D1
+2025,259,9,Los Angeles Angels,208700,D1
+2025,260,9,Athletics,208100,D1
+2025,261,9,Washington Nationals,207500,D1
+2025,262,9,Toronto Blue Jays,206900,D1
+2025,263,9,Pittsburgh Pirates,206100,D1
+2025,264,9,Cincinnati Reds,205500,D1
+2025,265,9,Texas Rangers,205100,D1
+2025,266,9,San Francisco Giants,204400,HS
+2025,267,9,Tampa Bay Rays,203900,D1
+2025,268,9,Boston Red Sox,203500,D1
+2025,269,9,Minnesota Twins,202900,D1
+2025,270,9,St. Louis Cardinals,202200,D1
+2025,271,9,Chicago Cubs,201800,D1
+2025,272,9,Seattle Mariners,201300,D1
+2025,273,9,Arizona Diamondbacks,200800,D1
+2025,274,9,Baltimore Orioles,200400,JC
+2025,275,9,Milwaukee Brewers,200000,D1
+2025,276,9,Houston Astros,199500,D1
+2025,277,9,Atlanta Braves,199200,D1
+2025,278,9,Kansas City Royals,198600,D1
+2025,279,9,Detroit Tigers,198000,HS
+2025,280,9,San Diego Padres,197800,D1
+2025,281,9,Philadelphia Phillies,197600,HS
+2025,282,9,Cleveland Guardians,197200,D1
+2025,283,9,New York Mets,196800,HS
+2025,284,9,New York Yankees,196600,D1
+2025,285,9,Los Angeles Dodgers,196000,D1
+2025,286,10,Chicago White Sox,195300,D1
+2025,287,10,Colorado Rockies,195100,D1
+2025,288,10,Miami Marlins,194700,D1
+2025,289,10,Los Angeles Angels,194400,D1
+2025,290,10,Athletics,194100,D1
+2025,291,10,Washington Nationals,193800,D1
+2025,292,10,Toronto Blue Jays,193500,D1
+2025,293,10,Pittsburgh Pirates,193100,D1
+2025,294,10,Cincinnati Reds,192600,D1
+2025,295,10,Texas Rangers,192400,D2
+2025,296,10,San Francisco Giants,191700,D1
+2025,297,10,Tampa Bay Rays,191500,D1
+2025,298,10,Boston Red Sox,191300,D1
+2025,299,10,Minnesota Twins,190900,D1
+2025,300,10,St. Louis Cardinals,190500,D1
+2025,301,10,Chicago Cubs,190300,D1
+2025,302,10,Seattle Mariners,190100,D1
+2025,303,10,Arizona Diamondbacks,189800,D1
+2025,304,10,Baltimore Orioles,189300,D2
+2025,305,10,Milwaukee Brewers,189000,D1
+2025,306,10,Houston Astros,188900,D1
+2025,307,10,Atlanta Braves,188600,D1
+2025,308,10,Kansas City Royals,188300,D1
+2025,309,10,Detroit Tigers,187800,D1
+2025,310,10,San Diego Padres,187600,D1
+2025,311,10,Philadelphia Phillies,187300,D1
+2025,312,10,Cleveland Guardians,187300,D1
+2025,313,10,New York Mets,187300,D1
+2025,314,10,New York Yankees,187300,D1
+2025,315,10,Los Angeles Dodgers,187300,D1
+2026,1,1,Chicago White Sox,11350600,D1
+2026,2,1,Tampa Bay Rays,10507000,HS
+2026,3,1,Minnesota Twins,9740100,D1
+2026,4,1,San Francisco Giants,8988400,D1
+2026,5,1,Pittsburgh Pirates,8336500,D1
+2026,6,1,Kansas City Royals,7746100,D1
+2026,7,1,Baltimore Orioles,7327200,HS
+2026,8,1,Athletics,6982600,D1
+2026,9,1,Atlanta Braves,6675300,D1
+2026,10,1,Colorado Rockies,6393100,D1
+2026,11,1,Washington Nationals,6133500,D1
+2026,12,1,Los Angeles Angels,5889300,HS
+2026,13,1,St. Louis Cardinals,5661300,HS
+2026,14,1,Miami Marlins,5444900,HS
+2026,15,1,Arizona Diamondbacks,5241000,D1
+2026,16,1,Texas Rangers,5051900,HS
+2026,17,1,Houston Astros,4868600,D1
+2026,18,1,Cincinnati Reds,4695500,D1
+2026,19,1,Cleveland Guardians,4530500,D1
+2026,20,1,Boston Red Sox,4373900,D1
+2026,21,1,San Diego Padres,4224700,HS
+2026,22,1,Detroit Tigers,4082700,D1
+2026,23,1,Chicago Cubs,3947600,D1
+2026,24,1,Seattle Mariners,3818700,D1
+2026,25,1,Milwaukee Brewers,3696000,HS
+2026,27,1,New York Mets,3466500,D1
+2026,35,1,New York Yankees,2826700,D1
+2026,36,1,Philadelphia Phillies,2758800,HS
+2026,39,1,Toronto Blue Jays,2571700,D1
+2026,40,1,Los Angeles Dodgers,2504200,HS
+2026,26,PPI,Atlanta Braves,3578800,D1
+2026,28,PPI,Houston Astros,3363600,D1
+2026,29,CB-A,San Francisco Giants,3270200,HS
+2026,30,CB-A,Kansas City Royals,3190500,D1
+2026,31,CB-A,Arizona Diamondbacks,3118300,HS
+2026,32,CB-A,St. Louis Cardinals,3044600,D1
+2026,33,CB-A,Tampa Bay Rays,2970200,HS
+2026,34,CB-A,Chicago White Sox,2897400,HS
+2026,37,CB-A,Colorado Rockies,2696700,D1
+2026,38,2,Colorado Rockies,2633100,D1
+2026,41,2,Chicago White Sox,2446100,HS
+2026,42,2,Washington Nationals,2388800,D1
+2026,43,2,Minnesota Twins,2333200,D1
+2026,44,2,Pittsburgh Pirates,2278700,HS
+2026,45,2,Los Angeles Angels,2225800,D1
+2026,46,2,Baltimore Orioles,2181600,D1
+2026,47,2,Athletics,2131300,D1
+2026,48,2,Atlanta Braves,2081900,HS
+2026,49,2,Tampa Bay Rays,2033400,D1
+2026,50,2,St. Louis Cardinals,1982700,HS
+2026,52,2,Miami Marlins,1892500,D1
+2026,53,2,Arizona Diamondbacks,1848200,D1
+2026,54,2,Texas Rangers,1805300,HS
+2026,55,2,San Francisco Giants,1763000,HS
+2026,56,2,Kansas City Royals,1721700,HS
+2026,57,2,Houston Astros,1677400,D1
+2026,58,2,Cincinnati Reds,1637700,D1
+2026,59,2,Cleveland Guardians,1598900,HS
+2026,60,2,San Diego Padres,1561000,HS
+2026,61,2,Detroit Tigers,1523600,D1
+2026,62,2,Chicago Cubs,1487200,D1
+2026,63,2,New York Yankees,1451700,HS
+2026,64,2,Philadelphia Phillies,1416600,D1
+2026,65,2,Seattle Mariners,1382600,D1
+2026,66,2,Milwaukee Brewers,1353100,D1
+2026,51,SUP-2,Pittsburgh Pirates,1938100,D1
+2026,67,CB-B,Boston Red Sox,1317300,D1
+2026,68,CB-B,St. Louis Cardinals,1285500,D1
+2026,69,CB-B,Detroit Tigers,1254200,D1
+2026,70,CB-B,Cincinnati Reds,1223100,D1
+2026,71,CB-B,Miami Marlins,1192600,D1
+2026,72,CB-B,St. Louis Cardinals,1174300,D1
+2026,73,CB-B,Athletics,1156400,D1
+2026,74,CB-B,Minnesota Twins,1138600,D1
+2026,75,2C,Chicago Cubs,1120900,D1
+2026,76,3,Colorado Rockies,1103500,D1
+2026,77,3,Chicago White Sox,1086600,D1
+2026,78,3,Washington Nationals,1069600,HS
+2026,79,3,Minnesota Twins,1052700,HS
+2026,80,3,Pittsburgh Pirates,1035700,D1
+2026,81,3,Los Angeles Angels,1018500,D1
+2026,82,3,Baltimore Orioles,1003800,D1
+2026,83,3,Athletics,988700,D1
+2026,84,3,Atlanta Braves,973700,HS
+2026,85,3,Tampa Bay Rays,958500,HS
+2026,86,3,St. Louis Cardinals,943600,D1
+2026,87,3,Miami Marlins,929700,D1
+2026,88,3,Arizona Diamondbacks,915100,D1
+2026,89,3,Texas Rangers,900800,HS
+2026,90,3,San Francisco Giants,887000,D1
+2026,91,3,Kansas City Royals,872900,D1
+2026,92,3,New York Mets,859900,D1
+2026,93,3,Houston Astros,846900,HS
+2026,94,3,Cincinnati Reds,833800,D1
+2026,95,3,Cleveland Guardians,823800,D1
+2026,96,3,Boston Red Sox,815700,HS
+2026,97,3,San Diego Padres,808100,D1
+2026,98,3,Chicago Cubs,800000,D1
+2026,99,3,New York Yankees,792300,D1
+2026,100,3,Philadelphia Phillies,784400,D1
+2026,101,3,Seattle Mariners,778200,D1
+2026,102,3,Milwaukee Brewers,770600,D1
+2026,103,3,Toronto Blue Jays,762900,D1
+2026,104,4,Colorado Rockies,755300,D1
+2026,105,4,Chicago White Sox,747700,D1
+2026,106,4,Washington Nationals,740500,HS
+2026,107,4,Minnesota Twins,733100,D1
+2026,108,4,Pittsburgh Pirates,725900,HS
+2026,109,4,Los Angeles Angels,718700,D1
+2026,110,4,Baltimore Orioles,711800,HS
+2026,111,4,Athletics,704900,D1
+2026,112,4,Atlanta Braves,697700,HS
+2026,113,4,Tampa Bay Rays,691000,HS
+2026,114,4,St. Louis Cardinals,684300,D1
+2026,115,4,Miami Marlins,677500,HS
+2026,116,4,Arizona Diamondbacks,670900,D1
+2026,117,4,Texas Rangers,664500,D1
+2026,118,4,San Francisco Giants,658100,D1
+2026,119,4,Kansas City Royals,651500,HS
+2026,120,4,New York Mets,645100,D1
+2026,121,4,Houston Astros,638800,D1
+2026,122,4,Cincinnati Reds,632500,D1
+2026,123,4,Cleveland Guardians,626500,D1
+2026,124,4,San Diego Padres,620300,D1
+2026,125,4,Detroit Tigers,614500,HS
+2026,126,4,Chicago Cubs,609200,D1
+2026,127,4,New York Yankees,603500,D1
+2026,128,4,Philadelphia Phillies,597400,D1
+2026,129,4,Seattle Mariners,591700,D1
+2026,130,4,Milwaukee Brewers,585700,HS
+2026,131,4,Toronto Blue Jays,581100,HS
+2026,132,4,Los Angeles Dodgers,575300,D1
+2026,133,4C,Houston Astros,569600,HS
+2026,134,4C,San Diego Padres,563900,D1
+2026,135,4C,Philadelphia Phillies,558400,D1
+2026,136,5,Colorado Rockies,553100,HS
+2026,137,5,Chicago White Sox,547700,D1
+2026,138,5,Washington Nationals,542200,D1
+2026,139,5,Minnesota Twins,536900,D1
+2026,140,5,Pittsburgh Pirates,532000,D1
+2026,141,5,Los Angeles Angels,526600,D1
+2026,142,5,Baltimore Orioles,521500,JC
+2026,143,5,Athletics,516300,D1
+2026,144,5,Atlanta Braves,511400,D1
+2026,145,5,Tampa Bay Rays,506100,D1
+2026,146,5,St. Louis Cardinals,501300,D1
+2026,147,5,Miami Marlins,496400,D1
+2026,148,5,Arizona Diamondbacks,491700,D1
+2026,149,5,Texas Rangers,486800,D1
+2026,150,5,San Francisco Giants,481800,D1
+2026,151,5,Kansas City Royals,476900,D1
+2026,152,5,New York Mets,472500,D1
+2026,153,5,Houston Astros,467700,D1
+2026,154,5,Cincinnati Reds,463200,HS
+2026,155,5,Cleveland Guardians,458500,D1
+2026,156,5,Boston Red Sox,454100,D1
+2026,157,5,San Diego Padres,449500,D1
+2026,158,5,Detroit Tigers,445200,D1
+2026,159,5,Chicago Cubs,441300,HS
+2026,160,5,New York Yankees,437200,D1
+2026,161,5,Philadelphia Phillies,433200,D1
+2026,162,5,Seattle Mariners,429100,D1
+2026,163,5,Milwaukee Brewers,425400,D1
+2026,164,5,Toronto Blue Jays,421300,D1
+2026,165,6,Colorado Rockies,417400,D1
+2026,166,6,Chicago White Sox,413900,HS
+2026,167,6,Washington Nationals,410300,D1
+2026,168,6,Minnesota Twins,406800,D1
+2026,169,6,Pittsburgh Pirates,403500,D1
+2026,170,6,Los Angeles Angels,399800,D1
+2026,171,6,Baltimore Orioles,396300,D1
+2026,172,6,Athletics,393100,D1
+2026,173,6,Atlanta Braves,389900,HS
+2026,174,6,Tampa Bay Rays,386500,D1
+2026,175,6,St. Louis Cardinals,383400,D2
+2026,176,6,Miami Marlins,380200,D1
+2026,177,6,Arizona Diamondbacks,377000,D1
+2026,178,6,Texas Rangers,373800,D1
+2026,179,6,San Francisco Giants,370600,D1
+2026,180,6,Kansas City Royals,367600,D1
+2026,181,6,New York Mets,364600,D1
+2026,182,6,Houston Astros,361900,D1
+2026,183,6,Cincinnati Reds,358900,D1
+2026,184,6,Cleveland Guardians,355700,D1
+2026,185,6,Boston Red Sox,352900,D1
+2026,186,6,San Diego Padres,350100,D1
+2026,187,6,Detroit Tigers,347300,D1
+2026,188,6,Chicago Cubs,344400,D1
+2026,189,6,New York Yankees,341800,HS
+2026,190,6,Philadelphia Phillies,338800,D1
+2026,191,6,Seattle Mariners,335900,D1
+2026,192,6,Milwaukee Brewers,333200,D1
+2026,193,6,Toronto Blue Jays,330300,D1
+2026,194,7,Colorado Rockies,327700,D2
+2026,195,7,Chicago White Sox,325100,D1
+2026,196,7,Washington Nationals,322300,D1
+2026,197,7,Minnesota Twins,319600,D1
+2026,198,7,Pittsburgh Pirates,317100,D1
+2026,199,7,Los Angeles Angels,314300,D1
+2026,200,7,Baltimore Orioles,311700,D1
+2026,201,7,Athletics,310000,D1
+2026,202,7,Atlanta Braves,307300,HS
+2026,203,7,Tampa Bay Rays,304800,HS
+2026,204,7,St. Louis Cardinals,302300,D1
+2026,205,7,Miami Marlins,299700,D1
+2026,206,7,Arizona Diamondbacks,297100,D1
+2026,207,7,Texas Rangers,294800,D1
+2026,208,7,San Francisco Giants,292300,D1
+2026,209,7,Kansas City Royals,289900,D1
+2026,210,7,New York Mets,287800,D1
+2026,211,7,Houston Astros,285400,D3
+2026,212,7,Cincinnati Reds,283000,D1
+2026,213,7,Cleveland Guardians,280900,HS
+2026,214,7,Boston Red Sox,278700,D1
+2026,215,7,San Diego Padres,276400,D1
+2026,216,7,Detroit Tigers,274300,D1
+2026,217,7,Chicago Cubs,272000,D1
+2026,218,7,New York Yankees,270000,D1
+2026,219,7,Philadelphia Phillies,267800,D1
+2026,220,7,Seattle Mariners,266100,D1
+2026,221,7,Milwaukee Brewers,264100,HS
+2026,222,7,Toronto Blue Jays,262300,D1
+2026,223,7,Los Angeles Dodgers,260300,D1
+2026,224,8,Colorado Rockies,258400,D1
+2026,225,8,Chicago White Sox,256500,D1
+2026,226,8,Washington Nationals,254900,D1
+2026,227,8,Minnesota Twins,253300,D1
+2026,228,8,Pittsburgh Pirates,251500,D1
+2026,229,8,Los Angeles Angels,249300,D1
+2026,230,8,Baltimore Orioles,247900,HS
+2026,231,8,Athletics,245800,D1
+2026,232,8,Atlanta Braves,244500,D1
+2026,233,8,Tampa Bay Rays,242700,HS
+2026,234,8,St. Louis Cardinals,241000,D1
+2026,235,8,Miami Marlins,239200,D1
+2026,236,8,Arizona Diamondbacks,237800,D1
+2026,237,8,Texas Rangers,236100,D1
+2026,238,8,San Francisco Giants,234700,D1
+2026,239,8,Kansas City Royals,233400,D1
+2026,240,8,New York Mets,232100,D1
+2026,241,8,Houston Astros,231000,D1
+2026,242,8,Cincinnati Reds,229700,D1
+2026,243,8,Cleveland Guardians,228600,D1
+2026,244,8,Boston Red Sox,227200,D1
+2026,245,8,San Diego Padres,226300,D1
+2026,246,8,Detroit Tigers,225300,HS
+2026,247,8,Chicago Cubs,224100,D1
+2026,248,8,New York Yankees,223100,D1
+2026,249,8,Philadelphia Phillies,222200,D1
+2026,250,8,Seattle Mariners,220900,D1
+2026,251,8,Milwaukee Brewers,220400,HS
+2026,252,8,Toronto Blue Jays,219500,D1
+2026,253,8,Los Angeles Dodgers,218500,D1
+2026,254,9,Colorado Rockies,217800,D1
+2026,255,9,Chicago White Sox,217000,D1
+2026,256,9,Washington Nationals,216100,D1
+2026,257,9,Minnesota Twins,215400,D1
+2026,258,9,Pittsburgh Pirates,214800,D1
+2026,259,9,Los Angeles Angels,213900,D1
+2026,260,9,Baltimore Orioles,213300,D1
+2026,261,9,Athletics,212600,D1
+2026,262,9,Atlanta Braves,212000,D1
+2026,263,9,Tampa Bay Rays,211200,HS
+2026,264,9,St. Louis Cardinals,210600,D1
+2026,265,9,Miami Marlins,210200,HS
+2026,266,9,Arizona Diamondbacks,209500,D1
+2026,267,9,Texas Rangers,209000,D1
+2026,268,9,San Francisco Giants,208500,D1
+2026,269,9,Kansas City Royals,207900,D1
+2026,270,9,New York Mets,207200,D1
+2026,271,9,Houston Astros,206800,D1
+2026,272,9,Cincinnati Reds,206300,D1
+2026,273,9,Cleveland Guardians,205800,D1
+2026,274,9,Boston Red Sox,205400,HS
+2026,275,9,San Diego Padres,205000,D1
+2026,276,9,Detroit Tigers,204400,NAIA
+2026,277,9,Chicago Cubs,204100,D1
+2026,278,9,New York Yankees,203500,D1
+2026,279,9,Philadelphia Phillies,202900,D1
+2026,280,9,Seattle Mariners,202700,D1
+2026,281,9,Milwaukee Brewers,202500,D1
+2026,282,9,Toronto Blue Jays,202100,D1
+2026,283,9,Los Angeles Dodgers,201700,D1
+2026,284,10,Colorado Rockies,201500,D1
+2026,285,10,Chicago White Sox,200900,D1
+2026,286,10,Washington Nationals,200100,D1
+2026,287,10,Minnesota Twins,199900,D1
+2026,288,10,Pittsburgh Pirates,199500,D1
+2026,289,10,Los Angeles Angels,199200,D1
+2026,290,10,Baltimore Orioles,198900,NAIA
+2026,291,10,Athletics,198600,D1
+2026,292,10,Atlanta Braves,198300,D1
+2026,293,10,Tampa Bay Rays,197900,D1
+2026,294,10,St. Louis Cardinals,197400,D1
+2026,295,10,Miami Marlins,197200,D1
+2026,296,10,Arizona Diamondbacks,196500,D1
+2026,297,10,Texas Rangers,196200,D2
+2026,298,10,San Francisco Giants,196000,D1
+2026,299,10,Kansas City Royals,195600,D1
+2026,300,10,New York Mets,195200,D1
+2026,301,10,Houston Astros,195000,D1
+2026,302,10,Cincinnati Reds,194800,D1
+2026,303,10,Cleveland Guardians,194500,D1
+2026,304,10,Boston Red Sox,194000,HS
+2026,305,10,San Diego Padres,193700,D1
+2026,306,10,Detroit Tigers,193600,D1
+2026,307,10,Chicago Cubs,193300,D1
+2026,308,10,New York Yankees,193000,D1
+2026,309,10,Philadelphia Phillies,192500,D1
+2026,310,10,Seattle Mariners,192300,D1
+2026,311,10,Milwaukee Brewers,191900,D1
+2026,312,10,Toronto Blue Jays,191900,D1
+2026,313,10,Los Angeles Dodgers,191900,D1

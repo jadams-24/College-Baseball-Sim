@@ -57,7 +57,9 @@ HOST_STOP = ("request error", "response not complete", "robots.txt unreachable",
 STOP_AFTER_BLOCKED = 20   # consecutive teams failing only so: the runner is blocked; stop and aggregate what there is
 MIN_PLAYERS = 10          # a parsed page with fewer players carrying bats/throws is treated as a miss
 ORIGIN = ["hometown_city", "hometown_state", "high_school", "previous_school"]
-FIELDS = ["team_ncaa_id", "team", "name", "jersey", "position", "class", "bats", "throws", *ORIGIN, "source_url", "wmt_person_id"]
+FIELDS = ["team_ncaa_id", "team", "name", "jersey", "position", "class", "bats", "throws", *ORIGIN, "birthdate", "source_url", "wmt_person_id"]
+# 2026-10-10 (Phase 8 yardstick): a birthdate or age column is kept when a page lists one (most do not);
+# tools/aggregate_rosters.py turns it into counts by class and never writes a date
 # 2025 season roster URLs, most common platform first (Sidearm, WMT Digital, PrestoSports, old Sidearm)
 PATHS = ["/sports/baseball/roster/2025", "/sports/bsb/roster/season/2025", "/sports/baseball/roster/season/2025",
          "/sports/baseball/roster/2024-25", "/sports/bsb/2024-25/roster", "/roster.aspx?path=baseball&year=2025"]
@@ -207,6 +209,7 @@ def parse_tables(page: str) -> list[dict]:
             num = _col(header, "#", "no.", "no", "number", "jersey")
             pos = _col(header, "pos.", "pos", "position")
             cls = _col(header, "yr.", "yr", "cl.", "cl", "class", "year", "academicyear", "eligibility")
+            bday = _col(header, "birthdate", "birthday", "dob", "dateofbirth", "born", "age")
             ocols = [(i, origin_kinds(c)) for i, c in enumerate(header) if origin_kinds(c)]
             for r in rows[hi + 1:]:
                 get = lambda i: r[i] if i is not None and i < len(r) else ""
@@ -217,7 +220,8 @@ def parse_tables(page: str) -> list[dict]:
                     for i, kinds in ocols:
                         part = origin(combined=get(i), order=kinds)
                         o.update({k: v for k, v in part.items() if v and not o[k]})
-                    out.append({"name": nm, "jersey": get(num), "position": get(pos), "class": get(cls), "bats": b, "throws": t, **o})
+                    out.append({"name": nm, "jersey": get(num), "position": get(pos), "class": get(cls), "bats": b, "throws": t, **o,
+                                "birthdate": get(bday)})
             if out:
                 return out
     return out
@@ -323,7 +327,7 @@ def _player_from(d: dict) -> dict | None:
     return {"name": clean(nm), "jersey": pick("jerseynumber", "jersey", "number", "uniform", "jersey_number", "uni"),
             "position": pick("positionshort", "position_short", "position", "positionlong", "pos"),
             "class": pick("academicyearshort", "academicyear", "class", "classshort", "year", "eligibility", "academic_year"),
-            "bats": b, "throws": t, **o}
+            "bats": b, "throws": t, **o, "birthdate": pick("birthdate", "birth_date", "dateofbirth", "date_of_birth", "dob", "birthday", "age")}
 
 
 def _walk(o, out):

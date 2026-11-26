@@ -193,7 +193,9 @@ def build_report(agg: dict, seeds: list, bench: dict | None = None) -> tuple[str
     for key, label in (("runs_per_team_game", "Runs per team-game"), ("ba", "Batting average"), ("obp", "On-base pct"), ("slg", "Slugging pct"),
                        ("hr_per_team_game", "HR per team-game"), ("bb_pct", "BB per PA"), ("k_pct", "K per PA"), ("hbp_pct", "HBP per PA")):
         row("league", label, agg["league"][key], lt[key]["value"], lt[key]["tol"], lt[key]["conf"], f"league_{key}", ["league", key],
-            gate=key in ("runs_per_team_game", "ba", "obp", "slg"))
+            # HBP per PA gated against real data from 2026-10-09 (owner decision): bullpen usage moves it on purpose, so the Phase 5
+            # report no longer gates it against the Phase 4 run (engine/report5.py USAGE_MOVED)
+            gate=key in ("runs_per_team_game", "ba", "obp", "slg", "hbp_pct"))
     for key, label in (("errors_per_team_game", "Errors per team-game"), ("pa_per_team_game", "PA per team-game"), ("era", "ERA")):
         row("league", label, agg["league"][key], lt[key]["value"], lt[key]["tol"], lt[key]["conf"], f"league_{key}", ["league", key], gate=False)
     hb = b["half_inning_2025"]

@@ -1,0 +1,251 @@
+season,team_id,team,conference,tier
+2022,526288,Air Force,Mountain West,mid
+2022,526342,Alabama,SEC,p4
+2022,526347,Arizona St.,Pac-12,p4
+2022,526350,Arkansas,SEC,p4
+2022,526352,Auburn,SEC,p4
+2022,526362,BYU,WCC,mid
+2022,526385,Cincinnati,American,mid
+2022,526387,Clemson,ACC,p4
+2022,526412,Florida,SEC,p4
+2022,526411,Florida St.,ACC,p4
+2022,526369,Fresno St.,Mountain West,mid
+2022,526420,Georgia,SEC,p4
+2022,526419,Georgia Tech,ACC,p4
+2022,526322,Grand Canyon,WAC,mid
+2022,526425,Hawaii,Big West,mid
+2022,526437,Iowa,Big Ten,p4
+2022,526443,Kansas,Big 12,p4
+2022,526445,Kentucky,SEC,p4
+2022,526453,LSU,SEC,p4
+2022,526351,Little Rock,Sun Belt,mid
+2022,526470,Miami (FL),ACC,p4
+2022,526475,Mississippi St.,SEC,p4
+2022,526478,Missouri,SEC,p4
+2022,526488,Nebraska,Big Ten,p4
+2022,526491,Nevada,Mountain West,mid
+2022,526494,New Mexico,Mountain West,mid
+2022,526509,Northwestern,Big Ten,p4
+2022,526510,Notre Dame,ACC,p4
+2022,526512,Ohio St.,Big Ten,p4
+2022,526515,Oklahoma,Big 12,p4
+2022,526516,Old Dominion,CUSA,mid
+2022,526477,Ole Miss,SEC,p4
+2022,526522,Penn St.,Big Ten,p4
+2022,526529,Purdue,Big Ten,p4
+2022,526546,San Diego St.,Mountain West,mid
+2022,526549,San Jose St.,Mountain West,mid
+2022,526325,Seattle U,WAC,mid
+2022,526554,South Carolina,SEC,p4
+2022,526567,Stanford,Pac-12,p4
+2022,526572,Tennessee,SEC,p4
+2022,526282,Texas,Big 12,p4
+2022,526277,Texas A&M,SEC,p4
+2022,526383,UCF,American,mid
+2022,526378,UCLA,Pac-12,p4
+2022,526490,UNLV,Mountain West,mid
+2022,526283,UTSA,CUSA,mid
+2022,526293,Vanderbilt,SEC,p4
+2022,526298,Virginia,ACC,p4
+2022,526297,Virginia Tech,ACC,p4
+2022,526301,Washington St.,Pac-12,p4
+2023,547889,Air Force,Mountain West,mid
+2023,548077,Alabama,SEC,p4
+2023,548082,Arizona St.,Pac-12,p4
+2023,548085,Arkansas,SEC,p4
+2023,548087,Auburn,SEC,p4
+2023,548097,BYU,WCC,mid
+2023,548120,Cincinnati,American,mid
+2023,548122,Clemson,ACC,p4
+2023,548147,Florida,SEC,p4
+2023,548146,Florida St.,ACC,p4
+2023,548104,Fresno St.,Mountain West,mid
+2023,548155,Georgia,SEC,p4
+2023,548154,Georgia Tech,ACC,p4
+2023,548057,Grand Canyon,WAC,mid
+2023,548160,Hawaii,Big West,mid
+2023,548172,Iowa,Big Ten,p4
+2023,548178,Kansas,Big 12,p4
+2023,548180,Kentucky,SEC,p4
+2023,548187,LSU,SEC,p4
+2023,548086,Little Rock,OVC,low
+2023,548204,Miami (FL),ACC,p4
+2023,548209,Mississippi St.,SEC,p4
+2023,548212,Missouri,SEC,p4
+2023,548222,Nebraska,Big Ten,p4
+2023,548225,Nevada,Mountain West,mid
+2023,548228,New Mexico,Mountain West,mid
+2023,548242,Northwestern,Big Ten,p4
+2023,548243,Notre Dame,ACC,p4
+2023,548245,Ohio St.,Big Ten,p4
+2023,548248,Oklahoma,Big 12,p4
+2023,548249,Old Dominion,Sun Belt,mid
+2023,548211,Ole Miss,SEC,p4
+2023,548255,Penn St.,Big Ten,p4
+2023,548262,Purdue,Big Ten,p4
+2023,548279,San Diego St.,Mountain West,mid
+2023,548282,San Jose St.,Mountain West,mid
+2023,548060,Seattle U,WAC,mid
+2023,548287,South Carolina,SEC,p4
+2023,548300,Stanford,Pac-12,p4
+2023,548305,Tennessee,SEC,p4
+2023,547866,Texas,Big 12,p4
+2023,547861,Texas A&M,SEC,p4
+2023,548118,UCF,American,mid
+2023,548113,UCLA,Pac-12,p4
+2023,548224,UNLV,Mountain West,mid
+2023,547867,UTSA,CUSA,mid
+2023,547958,Vanderbilt,SEC,p4
+2023,548019,Virginia,ACC,p4
+2023,548006,Virginia Tech,ACC,p4
+2023,548036,Washington St.,Pac-12,p4
+2024,573924,Air Force,Mountain West,mid
+2024,573998,Alabama,SEC,p4
+2024,574003,Arizona St.,Pac-12,p4
+2024,574006,Arkansas,SEC,p4
+2024,574008,Auburn,SEC,p4
+2024,574018,BYU,Big 12,p4
+2024,574041,Cincinnati,Big 12,p4
+2024,574043,Clemson,ACC,p4
+2024,574068,Florida,SEC,p4
+2024,574067,Florida St.,ACC,p4
+2024,574025,Fresno St.,Mountain West,mid
+2024,574076,Georgia,SEC,p4
+2024,574075,Georgia Tech,ACC,p4
+2024,573978,Grand Canyon,WAC,mid
+2024,574081,Hawaii,Big West,mid
+2024,574093,Iowa,Big Ten,p4
+2024,574099,Kansas,Big 12,p4
+2024,574101,Kentucky,SEC,p4
+2024,574108,LSU,SEC,p4
+2024,574007,Little Rock,OVC,low
+2024,574125,Miami (FL),ACC,p4
+2024,574130,Mississippi St.,SEC,p4
+2024,574133,Missouri,SEC,p4
+2024,574143,Nebraska,Big Ten,p4
+2024,574146,Nevada,Mountain West,mid
+2024,574149,New Mexico,Mountain West,mid
+2024,574163,Northwestern,Big Ten,p4
+2024,574164,Notre Dame,ACC,p4
+2024,574166,Ohio St.,Big Ten,p4
+2024,574169,Oklahoma,Big 12,p4
+2024,574170,Old Dominion,Sun Belt,mid
+2024,574132,Ole Miss,SEC,p4
+2024,574176,Penn St.,Big Ten,p4
+2024,574183,Purdue,Big Ten,p4
+2024,574200,San Diego St.,Mountain West,mid
+2024,574203,San Jose St.,Mountain West,mid
+2024,573981,Seattle U,WAC,mid
+2024,574208,South Carolina,SEC,p4
+2024,574221,Stanford,Pac-12,p4
+2024,574226,Tennessee,SEC,p4
+2024,573918,Texas,Big 12,p4
+2024,573913,Texas A&M,SEC,p4
+2024,574039,UCF,Big 12,p4
+2024,574034,UCLA,Pac-12,p4
+2024,574145,UNLV,Mountain West,mid
+2024,573919,UTSA,American,mid
+2024,573949,Vanderbilt,SEC,p4
+2024,573954,Virginia,ACC,p4
+2024,573953,Virginia Tech,ACC,p4
+2024,573957,Washington St.,Pac-12,p4
+2025,596430,Air Force,Mountain West,mid
+2025,596480,Alabama,SEC,p4
+2025,596485,Arizona St.,Big 12,p4
+2025,596487,Arkansas,SEC,p4
+2025,596489,Auburn,SEC,p4
+2025,596499,BYU,Big 12,p4
+2025,596521,Cincinnati,Big 12,p4
+2025,596523,Clemson,ACC,p4
+2025,596546,Florida,SEC,p4
+2025,596545,Florida St.,ACC,p4
+2025,596707,Fresno St.,Mountain West,mid
+2025,596554,Georgia,SEC,p4
+2025,596553,Georgia Tech,ACC,p4
+2025,596462,Grand Canyon,WAC,mid
+2025,596557,Hawaii,Big West,mid
+2025,596569,Iowa,Big Ten,p4
+2025,596575,Kansas,Big 12,p4
+2025,596577,Kentucky,SEC,p4
+2025,596583,LSU,SEC,p4
+2025,596488,Little Rock,OVC,low
+2025,596600,Miami (FL),ACC,p4
+2025,596605,Mississippi St.,SEC,p4
+2025,596608,Missouri,SEC,p4
+2025,596712,Nebraska,Big Ten,p4
+2025,596620,Nevada,Mountain West,mid
+2025,596623,New Mexico,Mountain West,mid
+2025,596636,Northwestern,Big Ten,p4
+2025,596637,Notre Dame,ACC,p4
+2025,596639,Ohio St.,Big Ten,p4
+2025,596641,Oklahoma,SEC,p4
+2025,596642,Old Dominion,Sun Belt,mid
+2025,596607,Ole Miss,SEC,p4
+2025,596647,Penn St.,Big Ten,p4
+2025,596653,Purdue,Big Ten,p4
+2025,596669,San Diego St.,Mountain West,mid
+2025,596672,San Jose St.,Mountain West,mid
+2025,596465,Seattle U,WAC,mid
+2025,596677,South Carolina,SEC,p4
+2025,596688,Stanford,ACC,p4
+2025,596721,Tennessee,SEC,p4
+2025,596425,Texas,SEC,p4
+2025,596420,Texas A&M,SEC,p4
+2025,596519,UCF,Big 12,p4
+2025,596514,UCLA,Big Ten,p4
+2025,596619,UNLV,Mountain West,mid
+2025,596426,UTSA,American,mid
+2025,596434,Vanderbilt,SEC,p4
+2025,596439,Virginia,ACC,p4
+2025,596438,Virginia Tech,ACC,p4
+2025,596442,Washington St.,Mountain West,mid
+2026,614798,Air Force,Mountain West,mid
+2026,614848,Alabama,SEC,p4
+2026,614853,Arizona St.,Big 12,p4
+2026,614855,Arkansas,SEC,p4
+2026,614857,Auburn,SEC,p4
+2026,614867,BYU,Big 12,p4
+2026,614582,Cincinnati,Big 12,p4
+2026,614584,Clemson,ACC,p4
+2026,614607,Florida,SEC,p4
+2026,614606,Florida St.,ACC,p4
+2026,614768,Fresno St.,Mountain West,mid
+2026,614615,Georgia,SEC,p4
+2026,614614,Georgia Tech,ACC,p4
+2026,614830,Grand Canyon,Mountain West,mid
+2026,614618,Hawaii,Big West,mid
+2026,614630,Iowa,Big Ten,p4
+2026,614636,Kansas,Big 12,p4
+2026,614638,Kentucky,SEC,p4
+2026,614644,LSU,SEC,p4
+2026,614856,Little Rock,OVC,low
+2026,614661,Miami (FL),ACC,p4
+2026,614666,Mississippi St.,SEC,p4
+2026,614669,Missouri,SEC,p4
+2026,614773,Nebraska,Big Ten,p4
+2026,614681,Nevada,Mountain West,mid
+2026,614684,New Mexico,Mountain West,mid
+2026,614697,Northwestern,Big Ten,p4
+2026,614698,Notre Dame,ACC,p4
+2026,614700,Ohio St.,Big Ten,p4
+2026,614702,Oklahoma,SEC,p4
+2026,614703,Old Dominion,Sun Belt,mid
+2026,614668,Ole Miss,SEC,p4
+2026,614708,Penn St.,Big Ten,p4
+2026,614714,Purdue,Big Ten,p4
+2026,614730,San Diego St.,Mountain West,mid
+2026,614733,San Jose St.,Mountain West,mid
+2026,614833,Seattle U,WCC,mid
+2026,614738,South Carolina,SEC,p4
+2026,614749,Stanford,ACC,p4
+2026,614782,Tennessee,SEC,p4
+2026,614793,Texas,SEC,p4
+2026,614788,Texas A&M,SEC,p4
+2026,614580,UCF,Big 12,p4
+2026,614575,UCLA,Big Ten,p4
+2026,614680,UNLV,Mountain West,mid
+2026,614794,UTSA,American,mid
+2026,614802,Vanderbilt,SEC,p4
+2026,614807,Virginia,ACC,p4
+2026,614806,Virginia Tech,ACC,p4
+2026,614810,Washington St.,Mountain West,mid

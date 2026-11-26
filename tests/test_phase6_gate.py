@@ -5,7 +5,8 @@ pitcher usage at a 56-game equivalent (appearances of the busiest, 5th and 10th 
 relief-only pitchers with 40+ and 60+ IP, the top three pitchers' innings) and distinct batters per
 team-game; earned share of runs; the rows deferred from Phases 2 and 5 (qualified K/9 p50 and p90,
 midweek starter p10, P4 batting vs low pitching); each tier's recovered mean offense
-and run prevention against the drawn ratings; every Phase 1, 2, 4 and 5 gate on the same run.
+and run prevention against the drawn ratings; the bullpen form rows (the next relief entry's blowout share and margin per
+run allowed last outing, runs per batter faced by workload third; P4 staffs); every Phase 1, 2, 4 and 5 gate on the same run.
 Named watch items, reported but not gated (engine/report6.WATCH6): the run rule and the 15+ runs bin
 ("offense extremes compressed"), the 2nd pitcher's IP and pitchers with 50+ IP ("top starters'
 innings", re-checked in Phase 7). Never xfail or widen these.
@@ -24,6 +25,7 @@ GROUPS = {
     "deferred_rows": lambda k: k in ("p6_run_rule", "p6_run_histogram_15plus", "p6_q_K9_p50", "p6_q_K9_p90", "p6_tier_p4_low", "p6_midweek_p10",
                                      "p6_pitchers_50ip"),
     "team_strength_recovery": lambda k: k.startswith("p6_rec_"),
+    "bullpen_form": lambda k: k.startswith("bp_"),
     "phases_1_to_5_unchanged": lambda k: k in ("phase2_gate", "phase4_gate", "phase5_gate"),
 }
 

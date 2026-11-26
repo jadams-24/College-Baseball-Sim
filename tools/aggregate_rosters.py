@@ -463,6 +463,52 @@ def classify_school(name: str, high_school: str, d1keys: set) -> tuple[str, str]
 ORIGIN_RANK = {"d1_transfer": 0, "juco": 1, "other_four_year": 2, "high_school_only": 3}
 
 
+def d1_tier_keys(teams: pd.DataFrame) -> dict:
+    """School-name key -> Phase 0 tier of the 2025 D1 program (aliases carry no tier: 'unknown')."""
+    out = {}
+    for name, tier in zip(teams.team, teams.tier):
+        for k in school_keys(name) | school_keys(re.sub(r"\([^)]*\)", "", name)):
+            out.setdefault(k, tier)
+    return out
+
+
+def previous_d1_tier(previous: str, d1tiers: dict) -> str:
+    """Tier of the previous D1 school of a d1_transfer (the first listed school that matches a 2025
+    D1 name; 'unknown' when only an alias matched). Phase 8 yardstick, 2026-10-10."""
+    if is_blank(previous):
+        return ""
+    for part in re.split(r"\s*(?:/|;|\|)\s*|,\s+(?=[A-Z])", str(previous)):
+        hit = [d1tiers[k] for k in school_keys(part) if k in d1tiers]
+        if hit:
+            return hit[0]
+    return "unknown"
+
+
+REDSHIRT_RE = re.compile(r"^(redshirt|red-shirt|rs|r)[\s\-\.]*(?=[a-z0-9])|redshirt")
+
+
+def is_redshirt(v) -> bool:
+    return bool(REDSHIRT_RE.search(fold(v)))
+
+
+def age_on(v, on: str = "2025-03-01"):
+    """Age in whole years on the given date from a birthdate string, or a listed integer age;
+    None when unreadable. Never written out: only counts by class."""
+    s = str(v or "").strip()
+    if not s:
+        return None
+    if re.fullmatch(r"\d{2}", s):
+        return int(s)
+    try:
+        d = pd.to_datetime(s, errors="coerce")
+    except Exception:
+        return None
+    if pd.isna(d) or d.year < 1980 or d.year > 2012:
+        return None
+    ref = pd.Timestamp(on)
+    return int(ref.year - d.year - ((ref.month, ref.day) < (d.month, d.day)))
+
+
 def classify_origin(previous: str, high_school: str, team_lists_previous: bool, d1keys: set,
                     year: str = "unknown") -> tuple[str, str]:
     """Origin of one player. A page that lists no previous school for anyone on the team gives
@@ -620,7 +666,7 @@ def load_fetch(fetch_dir: Path) -> tuple[pd.DataFrame, dict, pd.DataFrame]:
         r = pd.DataFrame(columns=["team_ncaa_id", "team", "name", "jersey", "position", "class", "bats", "throws",
                                   "hometown_city", "hometown_state", "high_school", "previous_school",
                                   "source_url", "wmt_person_id"])
-    for c in ("hometown_city", "hometown_state", "high_school", "previous_school", "wmt_person_id"):
+    for c in ("hometown_city", "hometown_state", "high_school", "previous_school", "wmt_person_id", "birthdate"):
         if c not in r:
             r[c] = ""
     r = r[r.team_ncaa_id.str.fullmatch(r"\d+")].copy()
@@ -691,6 +737,8 @@ def coverage_table(T: pd.DataFrame, R: pd.DataFrame, extra: list) -> pd.DataFram
         add("share_throws_filled", round(r.throws_n.isin(["L", "R"]).sum() / n, 4))
         add("share_position_filled", round((r.pos_group != "unknown").sum() / n, 4))
         add("share_class_filled", round((r.class_n != "unknown").sum() / n, 4))
+        add("share_redshirt_marked", round(float(r.redshirt.sum()) / n, 4))
+        add("share_birthdate_or_age_filled", round(float(r.age.notna().sum()) / n, 4) if "age" in r else 0.0)
         add("share_hometown_filled", round((~(r.hometown_city.map(is_blank).astype(bool) & r.hometown_state.map(is_blank).astype(bool))).sum() / n, 4))
         add("share_hometown_located", round((~r.area.isin(["unknown", "unrecognized"])).sum() / n, 4))
         add("share_high_school_filled", round((~r.high_school.map(is_blank).astype(bool)).sum() / n, 4))
@@ -1303,6 +1351,30 @@ def hometown_tables(R: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
     return by_school, by_conf
 
 
+def class_detail_tables(R: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+    """Phase 8 yardstick (2026-10-10): class x redshirt x position group by tier; the tier of each
+    D1 transfer's previous school by tier (the P4 / mid / low flow); age by class where a page listed
+    a birthdate or age (counts only)."""
+    cd = []
+    for sc, val, g in scopes(R, ("tier",)):
+        c = g.groupby(["class_n", "redshirt", "pos_group"]).size().rename("count").reset_index().rename(columns={"class_n": "class"})
+        c.insert(0, "scope_value", val)
+        c.insert(0, "scope", sc)
+        cd.append(c)
+    fl = []
+    for sc, val, g in scopes(R, ("tier",)):
+        d = g[g.origin == "d1_transfer"]
+        c = d.groupby("prev_tier").size().rename("count").reset_index()
+        c["share"] = (c["count"] / max(len(d), 1)).round(4)
+        c.insert(0, "scope_value", val)
+        c.insert(0, "scope", sc)
+        fl.append(c)
+    ages = R[R.age.notna()] if "age" in R else R.iloc[0:0]
+    ag = ages.groupby(["tier", "class_n", "age"]).size().rename("count").reset_index().rename(columns={"class_n": "class"}) \
+        if len(ages) else pd.DataFrame(columns=["tier", "class", "age", "count"])
+    return pd.concat(cd, ignore_index=True), pd.concat(fl, ignore_index=True), ag
+
+
 def origin_tables(R: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
     keys = ["team_ncaa_id", "team", "conference", "tier", "class_n", "origin"]
     by_school = R.groupby(keys).size().rename("count").reset_index().rename(columns={"class_n": "class"})
@@ -1326,7 +1398,7 @@ OUTPUT_LABELS = {   # fixed labels the tables write (some are surnames too: Pitc
     "New England", "Middle Atlantic", "East North Central", "West North Central", "South Atlantic",
     "East South Central", "West South Central", "Mountain", "Pacific", "US territory",
     "k_minus_bb", "run_value", "on_base", "q1", "q2", "q3", "q4", "q5", "lt30", "lt50", "1-6", "7+", "opportunity",
-    "intercept", "out"}
+    "intercept", "out", "True", "False", "two-way", "UT/DH"}
 def allowed_vocabulary(teams: pd.DataFrame) -> set[str]:
     """Strings the outputs may legitimately hold: team, conference and place names, labels."""
     words = set(teams.team) | set(teams.conference) | set(pd.read_csv(D1_TEAMS).team) | set(pd.read_csv(TEAMS).team)
@@ -1393,12 +1465,16 @@ def prepare_players(roster: pd.DataFrame, teams: pd.DataFrame, d1keys: set) -> p
     R["bats_n"] = R.bats.map(lambda v: v if v in ("L", "R", "S") else "unknown")
     R["throws_n"] = R.throws.map(lambda v: v if v in ("L", "R") else "unknown")
     R["class_n"] = R["class"].map(class_year)
+    R["redshirt"] = R["class"].map(is_redshirt)
+    R["age"] = R["birthdate"].map(age_on) if "birthdate" in R else None
+    d1tiers = d1_tier_keys(teams)
     loc = [locate(c, s) for c, s in zip(R.hometown_city, R.hometown_state)]
     R["area"], R["area_type"], R["census_region"], R["census_division"] = (list(x) for x in zip(*loc)) if loc else ([], [], [], [])
     lists_prev = R.groupby("team_ncaa_id").previous_school.agg(lambda s: bool((~s.map(is_blank).astype(bool)).any()))
     og = [classify_origin(p, hs, bool(lists_prev.get(t, False)), d1keys, y)
           for p, hs, t, y in zip(R.previous_school, R.high_school, R.team_ncaa_id, R.class_n)]
     R["origin"], R["origin_rule"] = (list(x) for x in zip(*og)) if og else ([], [])
+    R["prev_tier"] = [previous_d1_tier(p, d1tiers) if o == "d1_transfer" else "" for p, o in zip(R.previous_school, R.origin)]
     return R
 
 
@@ -1444,6 +1520,7 @@ def aggregate(fetch_dir: Path, out_dir: Path, pa: pd.DataFrame | None = None, qu
     }
     tables["hometown_by_school.csv"], tables["hometown_by_conference.csv"] = hometown_tables(R)
     tables["origins_by_school.csv"], tables["origins_rules.csv"] = origin_tables(R)
+    tables["class_detail_by_tier.csv"], tables["d1_transfer_flow.csv"], tables["age_by_class.csv"] = class_detail_tables(R)
     # Phase 3 plan (owner-approved 2026-10-08): hands by talent, relief and pinch-hit usage by hand
     tables["linear_weights.csv"], weights = linear_weights(pa)
     tables["hand_by_talent_pitchers.csv"] = pitcher_talent_table(pa, h, R, pit_map, weights)
@@ -1560,6 +1637,7 @@ def _fake_player(rng, tid, name_of, name, pitcher, no_prev) -> dict:
             "hometown_city": "" if not st else f"Faketown{int(rng.integers(0, 500))}", "hometown_state": st,
             "high_school": f"Fake Central HS {int(rng.integers(0, 900))}",
             "previous_school": "" if no_prev else str(rng.choice(FAKE_PREV)), "source_url": "https://x.edu/roster",
+            "birthdate": (f"{int(rng.integers(2002, 2007))}-0{int(rng.integers(1, 9))}-1{int(rng.integers(0, 9))}" if rng.random() < .1 else ""),
             "wmt_person_id": ""}
 
 
