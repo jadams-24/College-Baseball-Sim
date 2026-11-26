@@ -691,8 +691,9 @@
   $("#nav-save").addEventListener("click", () => busy(async () => {
     const sv = await gameCall("/save");
     const saves = ls.get(LS_SAVES, []);
-    const name = prompt("Name this save", gameTitle()) || gameTitle();
-    saves.unshift({ name, time: Date.now(), save: sv.save, meta: sv.meta });
+    const name = await window.cbsDialog.prompt({ title: "Save game", text: "Name this save", value: gameTitle(), ok: "Save" });
+    if (name === null) return;                              // Cancel: nothing is saved
+    saves.unshift({ name: name || gameTitle(), time: Date.now(), save: sv.save, meta: sv.meta });
     ls.set(LS_SAVES, saves.slice(0, 20));
     toast("Saved in this browser.");
   }));

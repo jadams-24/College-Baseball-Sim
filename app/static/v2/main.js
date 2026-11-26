@@ -87,7 +87,7 @@
     $$("#dyn-saves [data-dl]").forEach((b) => b.addEventListener("click", () => busy(() => downloadDynasty(rows[+b.dataset.dl]))));
     $$("#dyn-saves [data-del]").forEach((b) => b.addEventListener("click", () => busy(async () => {
       const r = rows[+b.dataset.del];
-      if (!confirm(`Delete ${r.meta.name || "this dynasty"}? The server save and this browser's mirror are removed.`)) return;
+      if (!(await window.cbsDialog.confirm({ title: "Delete dynasty", text: `Delete ${r.meta.name || "this dynasty"}?`, detail: "The server save and this browser's mirror are removed. This cannot be undone.", ok: "Delete", danger: true }))) return;
       try { await raw(`/api/dynasties/${r.id}`, "DELETE"); } catch (e) { /* not on the server */ }
       await mirrorDel(r.id); renderMain();
     })));
@@ -188,7 +188,7 @@
     $$("#pick-list th[data-sort]").forEach((h) => { h.addEventListener("click", () => sortBy(h.dataset.sort)); h.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); sortBy(h.dataset.sort); } }); });
     $$("#pick-list [data-pick]").forEach((b) => b.addEventListener("click", () => busy(async () => {
       const t = pick.teams.find((x) => x.tid === +b.dataset.pick);
-      if (!confirm(`Take over ${t.name} (${t.conference}, ${t.tier.toUpperCase()})? Year 1 starts now.`)) return;
+      if (!(await window.cbsDialog.confirm({ title: "New dynasty", text: `Take over ${t.name}?`, detail: `${t.conference} · ${t.tier.toUpperCase()}${t.location ? ` · ${t.location}` : ""}. Year 1 starts now.`, ok: "Take over" }))) return;
       await startDynasty(b, t);
     }, { quiet: true })));
   }

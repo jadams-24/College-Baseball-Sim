@@ -154,3 +154,41 @@
   window.cbsLoad = { request, panel, act, simLock, simAction, skeleton, skeletonPanel, errorPanel, locked: () => L.simLock, inflight: () => L.inflight, waking: () => !!L.waking,
                      _quiet: () => { L.lastResponse = 0; } };          // tests and screenshots: pretend the server has been idle
 })();
+
+/* In-game dialogs (2026-11-26): the game's own confirm and prompt in place of the browser's pop-ups.
+   cbsDialog.confirm({ title, text, ok, cancel, danger }) resolves true or false; cbsDialog.prompt({ title, text,
+   value, ok }) resolves the typed text or null. Enter confirms, Escape or a click outside cancels; keys pressed in
+   a dialog never reach the game's own shortcuts. */
+(() => {
+  "use strict";
+  const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  function open(o, withInput) {
+    return new Promise((resolve) => {
+      const back = document.activeElement;
+      const el = document.createElement("div");
+      el.className = "dialog-shade"; el.setAttribute("role", "dialog"); el.setAttribute("aria-modal", "true"); el.setAttribute("aria-label", o.title || "Confirm");
+      el.innerHTML = `<div class="panel dialog"><div class="hdr">${esc(o.title || "Confirm")}</div><div class="body">
+        ${o.text ? `<p class="dialog-text">${esc(o.text)}</p>` : ""}${o.detail ? `<p class="dialog-detail muted">${esc(o.detail)}</p>` : ""}
+        ${withInput ? `<input class="dialog-input" type="text" maxlength="80" value="${esc(o.value || "")}">` : ""}
+        <div class="dialog-btns"><button class="${o.danger ? "danger" : "go"}" data-ok>${esc(o.ok || "OK")}</button><button data-cancel>${esc(o.cancel || "Cancel")}</button></div></div></div>`;
+      const input = el.querySelector(".dialog-input");
+      const done = (v) => { el.remove(); if (back && back.isConnected && back.focus) back.focus(); resolve(v); };
+      const ok = () => done(withInput ? input.value.trim() : true), cancel = () => done(withInput ? null : false);
+      el.querySelector("[data-ok]").addEventListener("click", ok);
+      el.querySelector("[data-cancel]").addEventListener("click", cancel);
+      el.addEventListener("mousedown", (e) => { if (e.target === el) cancel(); });
+      el.addEventListener("keydown", (e) => {
+        e.stopPropagation();
+        if (e.key === "Escape") { e.preventDefault(); cancel(); }
+        else if (e.key === "Enter" && !(e.target.tagName === "BUTTON")) { e.preventDefault(); ok(); }
+        else if (e.key === "Tab") {                       // focus stays inside the dialog
+          const f = Array.from(el.querySelectorAll("input, button")), i = f.indexOf(document.activeElement);
+          e.preventDefault(); f[(i + (e.shiftKey ? f.length - 1 : 1)) % f.length].focus();
+        }
+      });
+      document.body.appendChild(el);
+      if (input) { input.focus(); input.select(); } else el.querySelector("[data-ok]").focus();
+    });
+  }
+  window.cbsDialog = { confirm: (o) => open(o, false), prompt: (o) => open(o, true) };
+})();
