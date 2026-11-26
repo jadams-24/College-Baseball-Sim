@@ -78,7 +78,9 @@ class Player:
                               # hold (config.decisions, prb_inputs.json pitcher_hold); the rating is 50 + 10 z
     throws: str = ""          # Phase 3: "L" or "R" (every player); drawn per player from talent and role or position (_hands)
     bats: str = ""            # Phase 3 (batters): "L", "R" or "S" (a switch hitter bats from the side opposite the pitcher)
-    year: str = ""            # Phase 8: class / eligibility year (Fr, So, Jr, Sr, Gr); empty until Phase 8 draws it (owner, 2026-10-09)
+    year: str = ""            # Phase 8: class year on the five-year clock (Fr, So, Jr, Sr, 5th: five years to play five, no redshirts;
+                              # engine.roster), drawn from the 2025 class shares by tier; empty with Phase 8 classes off
+    uid: int = -1             # Phase 8: the person, across seasons (a newcomer takes a leaver's pid, the roster slot, with a new uid)
 
 
 @dataclass
@@ -96,6 +98,8 @@ class Team:
     road_park: float = 0.0
     park: np.ndarray = None   # Phase 6: logit offsets (RATES order) on every plate appearance in this team's home park
     err_team: float = 0.0     # Phase 6: team error log-odds beyond its fielders (run prevention slope + team residual)
+    tb: np.ndarray = None     # Phase 8: the team's logit offsets on its batters and on its pitchers (the team part of every
+    tp: np.ndarray = None     # player's z), kept so a newcomer drawn for another season lands on this team's level
     batters: list = field(default_factory=list)
     weekend_sp: list = field(default_factory=list)
     midweek_sp: list = field(default_factory=list)
@@ -305,6 +309,7 @@ def build_league(cfg: Phase2Config, rng: np.random.Generator) -> League:
         for lst, group, n in ((t.weekend_sp, "sp_weekend", N_WEEKEND_SP), (t.midweek_sp, "sp_midweek", N_MIDWEEK_SP), (t.relievers, "rp", N_RELIEVERS)):
             for k, p in enumerate(sorted(make("pit", group, n), key=quality, reverse=True)):
                 p.order = k; lst.append(p)
+        t.tb, t.tp = tb, tp
         teams.append(t)
     league = League(teams, confs, players, {r: 0.0 for r in RATES})
     league.location = dict(FIXED_LOCATION) if FIXED_LOCATION is not None else load_location()
@@ -313,6 +318,10 @@ def build_league(cfg: Phase2Config, rng: np.random.Generator) -> League:
             p.hold = float(rng_hold.standard_normal())
             p.ratings["hold"] = 50 + 10 * p.hold
     _hands(cfg, league, rng_hands)
+    from config import phase8
+    if phase8.on("classes"):          # Phase 8: class years, from their own stream (spawned last: no other draw moves)
+        from engine.roster import draw_classes
+        draw_classes(league, np.random.Generator(np.random.PCG64(rng.bit_generator.seed_seq.spawn(1)[0])))
     return league
 
 
