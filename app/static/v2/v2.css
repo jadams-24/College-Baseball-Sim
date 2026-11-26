@@ -640,3 +640,6 @@ body.sim-lock #adv-select { pointer-events: none; opacity: .55; }
 .dialog-btns button:focus-visible { outline: 2px solid #FFF; outline-offset: 2px; }
 button.danger { background: var(--bar-grad); color: #FFF; }
 button.danger:hover:not(:disabled) { background: linear-gradient(180deg, #E0404E 0%, #B8222F 45%, #931927 55%, #6E111C 100%); }
+.loading-modal .body { padding: 14px 16px; }
+.loading-modal .prog { height: 12px; border-radius: 2px; }
+.loading-modal .row { justify-content: flex-end; margin: 4px 0 0; }

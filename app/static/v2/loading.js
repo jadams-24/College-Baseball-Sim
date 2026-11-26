@@ -7,7 +7,7 @@
    - simLock(): while any sim or advance request is in flight every other sim or advance control is disabled, so a
      second click or key press never queues a second sim (the server refuses one too: 409);
    - start(): a loading panel over a dimmed page for anything over 2 s (sims, dynasty start and load) with what is
-     running, real progress when the job reports it (games done of total, the current date), the elapsed time, and
+     running, real progress when the job reports it (a percent to completion; no game counts, owner request 2026-11-26), the elapsed time, and
      "Stop at next pause" when the job can stop cleanly; never fake progress: no measurable progress means a working
      indicator and the elapsed time; an error replaces the panel with a short message and Retry;
    - skeleton(): gray placeholder rows at the real row height while a table or card loads;
@@ -84,7 +84,7 @@
       const p = h.progress;
       let prog = "";
       if (h.failed) prog = "";
-      else if (p && p.total) prog = `<div class="prog"><i style="width:${(100 * p.done / p.total).toFixed(1)}%"></i></div><div class="muted">${p.text ? esc(p.text) : `${p.done} of ${p.total}`}</div>`;
+      else if (p && p.total) prog = `<div class="prog"><i style="width:${(100 * p.done / p.total).toFixed(1)}%"></i></div><div class="muted">${p.text ? esc(p.text) : `${Math.floor(100 * p.done / p.total)}% complete`}</div>`;
       else prog = `<div class="working"><i class="spin"></i><span class="muted">${p && p.text ? esc(p.text) : "Working"}</span></div>`;
       const stop = o.stop && !h.failed ? `<button class="btn-ghost" data-ld-stop ${h.stopping ? "disabled" : ""}>${h.stopping ? "Stopping…" : "Stop at next pause"}</button>` : "";
       const cancel = o.cancel && !h.failed ? `<button class="btn-ghost" data-ld-cancel>Cancel</button>` : "";

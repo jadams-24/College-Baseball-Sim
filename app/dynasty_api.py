@@ -284,7 +284,9 @@ def sim(did: str, body: SimIn):
     if d.runner is not None and not d.runner.over:
         raise HTTPException(409, "finish or sim the open game first")
     job = {"running": True, "kind": "sim", "played": len(d.reg_games) + len(d.post_calls), "total": int((~d.skip).sum()), "stage": d.stage,
-           "date": d.date_now(), "error": None, "started": time.time()}
+           "date": d.date_now(), "error": None, "started": time.time(),
+           # the loading panel's percent: the games this sim plays before its first stop (None outside the regular season)
+           "start": len(d.reg_games) + len(d.post_calls), "goal": d.sim_goal(body.target, body.pause_mine, body.stops)}
     _store.jobs[did] = job
 
     def progress(dd):
@@ -348,10 +350,23 @@ def progress(did: str):
     out = {"running": j.get("running", False), "kind": j.get("kind", "sim"), "played": j.get("played"), "total": j.get("total"), "stage": j.get("stage"),
            "date": j.get("date"), "error": j.get("error"), "ahead": j.get("ahead"), "ahead_total": j.get("ahead_total"),
            "started": j.get("started"), "elapsed": (time.time() - j["started"]) if j.get("started") and j.get("running") else None,
-           "stoppable": bool(j.get("running")) and j.get("kind") == "sim", "stopping": bool(getattr(d, "stop_requested", False) or j.get("cancel"))}
+           "stoppable": bool(j.get("running")) and j.get("kind") == "sim", "stopping": bool(getattr(d, "stop_requested", False) or j.get("cancel")),
+           "pct": _pct(j)}
     if not out["running"]:
         out["hub"] = _hub(did, d)
     return out
+
+
+def _pct(j: dict) -> int | None:
+    """Percent of the running job done, for the loading panel (99 at most until it ends); None when the job's size
+    is not known (the postseason) or nothing runs."""
+    if not j.get("running"):
+        return None
+    if j.get("kind") == "background":
+        return min(99, int(100 * (j.get("ahead") or 0) / j["ahead_total"])) if j.get("ahead_total") else None
+    if not j.get("goal") or j.get("stage") != "regular":
+        return None
+    return max(0, min(99, int(100 * ((j.get("played") or 0) - j.get("start", 0)) / j["goal"])))
 
 
 def _start_background(did: str, d: dyn_mod.Dynasty) -> None:

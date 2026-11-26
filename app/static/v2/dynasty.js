@@ -99,11 +99,14 @@
       }
       if (p.running) {
         const bg = p.kind === "background";
-        const text = bg ? `The rest of the league's week is simming while you play: ${p.ahead} of ${p.ahead_total} games`
-                        : `${p.played} of ${p.total} games · ${dateText(p.date)} · ${STAGE[p.stage] || p.stage}${p.stopping ? " · stopping at the next pause" : ""}`;
+        // a simple percent to completion (owner request 2026-11-26): no game counts; outside the regular season the
+        // job's size is not known ahead, so the panel shows the working spinner with the stage
+        const has = p.pct != null, stopping = p.stopping ? " · stopping at the next pause" : "";
+        const text = bg ? `The rest of the league's week is simming while you play${has ? `: ${p.pct}% complete` : ""}`
+                        : has ? `${p.pct}% complete${stopping}` : `${STAGE[p.stage] || p.stage || "Working"}${stopping}`;
         const el = $("#sim-progress");
-        if (el) el.innerHTML = `<div class="prog"><i style="width:${bg ? (p.ahead_total ? (100 * p.ahead / p.ahead_total).toFixed(1) : 0) : (p.total ? (100 * p.played / p.total).toFixed(1) : 0)}%"></i></div><div class="muted">${text}</div>`;
-        if (D.panel) { if (bg) D.panel.o.stop = null; D.panel.update(bg ? { done: p.ahead, total: p.ahead_total, text } : { done: p.played, total: p.total, text }); }
+        if (el) el.innerHTML = `${has ? `<div class="prog"><i style="width:${p.pct}%"></i></div>` : ""}<div class="muted">${text}</div>`;
+        if (D.panel) { if (bg) D.panel.o.stop = null; D.panel.update(has ? { done: p.pct, total: 100, text } : { text }); }
         D.poll = setTimeout(tick, 1500);
       } else {
         const pn = D.panel; D.panel = null;
@@ -140,7 +143,7 @@
         const p = await raw(`/api/dynasties/${V.S.game.dynasty}/progress`);
         let el = $("#league-sim");
         if (!el) { el = document.createElement("span"); el.id = "league-sim"; el.className = "muted"; $("#simbar").appendChild(el); }
-        el.textContent = p.running && p.kind === "background" ? `League: ${p.ahead} of ${p.ahead_total} other games this week simmed` : p.running ? "League sim running" : "League: this week's other games are in";
+        el.textContent = p.running && p.kind === "background" ? `League: this week's other games ${p.pct != null ? `${p.pct}% simmed` : "simming"}` : p.running ? "League sim running" : "League: this week's other games are in";
       } catch (err) { /* the next tick */ }
       gamePoll = setTimeout(tick, 2500);
     };

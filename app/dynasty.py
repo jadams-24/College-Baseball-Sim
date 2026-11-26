@@ -346,6 +346,27 @@ class Dynasty:
 
     LONG_TARGETS = ("regular", "conf", "selection", "end")
 
+    def sim_goal(self, target: str, pause_mine: bool = True, stops=()) -> int | None:
+        """How many regular-season games a sim toward `target` plays before its first stop (the user's next game,
+        the end of the day or the week, the end of the regular season), for the loading panel's percent. None
+        outside the regular season, where the number of games is not known ahead (the postseason's brackets)."""
+        if self.stage != "regular" or not len(self.schedule):
+            return None
+        todo = [i for i in range(self.pos, len(self.schedule)) if not self.skip[i] and i not in self.results]
+        if not todo:
+            return None
+        ends = [len(todo)]                                                    # the end of the regular season
+        mine = next((k for k, i in enumerate(todo) if self.mine(self.schedule[i])), None)
+        if mine is not None and (pause_mine or target == "game"):
+            ends.append(mine if pause_mine else mine + 1)                     # before the user's game, or through it when the AI plays it
+        first = int(self.schedule[todo[0]].date)
+        if target == "day":
+            ends.append(sum(1 for i in todo if int(self.schedule[i].date) <= max(first, int(self.today))))
+        if target == "week" or (target in self.LONG_TARGETS and "week_end" in stops):
+            last = int(self.today) + (6 - int(self.today) % 7)
+            ends.append(sum(1 for i in todo if int(self.schedule[i].date) <= last))
+        return min(ends) or None
+
     def advance(self, target: str, pause_mine: bool = True, progress=None, stops=()) -> dict:
         """Sim toward `target` (SIM_TARGETS): the next game of the user's team, the end of this day, the end of this
         week, the end of the regular season, the conference tournaments, Selection Monday, the end of the season.
