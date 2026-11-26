@@ -430,8 +430,12 @@
     const by = Object.fromEntries(r.batters.map((p) => [p.pid, p]));
     const rk = ["contact", "gap", "power", "eye", "avoid_k", "speed", "glove"];
     const rate = (p) => rk.map((k) => `<td class="ctr">${p.ratings[k] == null ? '<span class="muted">–</span>' : badge(k, p.ratings[k]).replace(/<span class="k">.*?<\/span>/, "")}</td>`).join("");
-    const cells = (p) => `<td>${p.pos}</td><td class="nm"><a class="plink" data-pid="${p.pid}">${esc(p.name)}</a></td><td class="muted">${p.hand}</td>${rate(p)}<td class="num">${f3(p.stats.avg)}</td><td class="num">${p.stats.hr}</td><td class="num">${p.stats.rbi}</td>`;
-    const head = `<th>Pos</th><th>Name</th><th>B/T</th>${rk.map((k) => `<th class="ctr">${V.RATING[k][0]}</th>`).join("")}<th class="num">AVG</th><th class="num">HR</th><th class="num">RBI</th>`;
+    // the next opponent's probable starter: his throwing hand marks who has the platoon edge (a batter hitting from
+    // the opposite side; a switch hitter always), the same rule the manager screen's matchup banner shows
+    const nx = r.next, sp = nx && nx.starter, th = sp && sp.throws ? sp.throws : null;
+    const edge = (p) => { if (!th) return ""; const b = (p.hand || "").split("/")[0]; return `<td class="ctr">${b && (b === "S" || b !== th) ? '<span class="pill success">Edge</span>' : '<span class="muted">–</span>'}</td>`; };
+    const cells = (p) => `<td>${p.pos}</td><td class="nm"><a class="plink" data-pid="${p.pid}">${esc(p.name)}</a></td><td class="muted">${p.hand}</td>${edge(p)}${rate(p)}<td class="num">${f3(p.stats.avg)}</td><td class="num">${p.stats.hr}</td><td class="num">${p.stats.rbi}</td>`;
+    const head = `<th>Pos</th><th>Name</th><th>B/T</th>${th ? `<th class="ctr" title="Platoon edge against the probable starter: the batter hits from the opposite side (a switch hitter always does)">vs ${th}HP</th>` : ""}${rk.map((k) => `<th class="ctr">${V.RATING[k][0]}</th>`).join("")}<th class="num">AVG</th><th class="num">HR</th><th class="num">RBI</th>`;
     const order = r.lineup.map((pid, i) => `<tr class="pickable ${LU.sel === pid ? "sel" : ""}" data-lu="${pid}"><td class="slot num">${i + 1}</td>${cells(by[pid])}<td class="act"><button class="btn-ghost" data-up="${i}" ${i === 0 ? "disabled" : ""}>Up</button> <button class="btn-ghost" data-down="${i}" ${i === 8 ? "disabled" : ""}>Down</button></td></tr>`).join("");
     const bench = r.batters.filter((p) => !r.lineup.includes(p.pid)).map((p) => `<tr class="pickable ${LU.sel === p.pid ? "sel" : ""}" data-lu="${p.pid}">${cells(p)}</tr>`).join("");
     // the nine's positions: a note when a field position has nobody or two men (information; the choice is the user's)
@@ -439,7 +443,15 @@
     r.lineup.forEach((pid) => { const k = by[pid].pos; count[k] = (count[k] || 0) + 1; });
     const missing = FIELD.filter((k) => !count[k]), twice = Object.keys(count).filter((k) => count[k] > 1);
     const posNote = missing.length || twice.length ? `<span class="pill warn">${missing.length ? `No ${missing.join(", ")}` : ""}${missing.length && twice.length ? " · " : ""}${twice.length ? `Two at ${twice.join(", ")}` : ""}</span>` : "";
-    $("#dyn-main").innerHTML = `<div class="lu-grid"><div class="panel"><div class="hdr">Batting order <span class="sub">${r.custom ? "your lineup" : "the coach's everyday nine (the AI rests players game to game)"}</span></div>
+    const pr = (k) => (sp.ratings[k] == null ? "" : badge(k, sp.ratings[k]));
+    const nextCard = nx ? `<div class="panel lu-next"><div class="hdr">Next game <span class="sub">${dateText(nx.date, { weekday: true })}${nx.series ? ` · game ${nx.series.game} of ${nx.series.of}` : ""}${nx.conf_game ? " · conference" : ""}</span></div>
+        <div class="body"><div class="opp"><span class="k">${nx.side === "home" ? "vs" : "at"}</span>${chip(nx.opp_tid)}<a class="tlink" data-tid="${nx.opp_tid}">${esc(nx.opp.name)}</a><span class="muted">${nx.opp.record[0]}-${nx.opp.record[1]}${nx.opp.rpi_rank ? ` · RPI #${nx.opp.rpi_rank}` : ""}</span></div>
+          ${sp ? `<div class="sp"><span class="k">${sp.projected ? "Projected starter" : "Probable starter"}</span><a class="plink" data-pid="${sp.pid}">${esc(sp.name)}</a><span class="pill ${sp.throws === "L" ? "warn" : "plain"}">${sp.throws === "L" ? "Left-hander" : sp.throws === "R" ? "Right-hander" : "Throws –"}</span>
+            <span class="stat">${sp.stats.w}-${sp.stats.l}</span><span class="muted">W-L</span><span class="stat">${sp.stats.g ? Number(sp.stats.era).toFixed(2) : "–"}</span><span class="muted">ERA</span><span class="stat">${sp.stats.ip}</span><span class="muted">IP</span>
+            <span class="chips">${["stuff", "control", "movement", "stamina"].map(pr).join(" ")}</span></div>
+            <div class="muted">${sp.projected ? "Projected from their rotation order; their coach names his starter on game day and it can change. " : "Their coach's pick for this game. "}Edge marks your batters who hit from the opposite side of his throwing hand.</div>`
+          : `<div class="muted">No probable starter is known yet.</div>`}</div></div>` : "";
+    $("#dyn-main").innerHTML = `${nextCard}<div class="lu-grid"><div class="panel"><div class="hdr">Batting order <span class="sub">${r.custom ? "your lineup" : "the coach's everyday nine (the AI rests players game to game)"}</span></div>
         <div class="body lu-note"><span class="pill ${r.custom ? "accent" : "plain"}">${r.custom ? "Your lineup" : "Coach's lineup"}</span> ${posNote}<span class="muted">${LU.sel != null ? `Now click the player to swap with ${esc(by[LU.sel].name)}.` : "Click a player, then another player (in the order or on the bench) to swap them."}</span>${r.custom ? '<button class="btn-ghost" id="lu-reset">Give the lineup back to the coach</button>' : ""}</div>
         <div class="body tight scroll-x"><table class="tbl lu"><tr><th class="num">#</th>${head}<th></th></tr>${order}</table></div></div>
       <div class="panel"><div class="hdr">Bench <span class="sub">${r.batters.length - 9} batters</span></div><div class="body tight scroll-x"><table class="tbl lu"><tr>${head}</tr>${bench}</table></div>

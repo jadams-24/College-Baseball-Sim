@@ -1101,7 +1101,7 @@ def next_game_json(d: Dynasty) -> dict | None:
                "weekend": bool(g.weekend) if g is not None else True, "week": (int(g.week) + 1) if g is not None else date // 7 + 1, "day": int(g.day) if g is not None else None}
     elif d.stage == "regular":
         today = d.date_now()
-        upcoming = sorted(((int(g.date), i) for i, g in enumerate(d.schedule) if me in (g.home, g.away) and i not in d.results and int(g.date) >= today))
+        upcoming = sorted(((int(g.date), i) for i, g in enumerate(d.schedule) if me in (g.home, g.away) and i not in d.results and not d.dropped[i] and int(g.date) >= today))
         if not upcoming:
             return None
         date, i = upcoming[0]
@@ -1194,7 +1194,18 @@ def lineup_json(d: Dynasty) -> dict:
     own = {p.pid for p in d.team.batters}
     pref = d.pref_lineup if d.pref_lineup and set(d.pref_lineup) <= own else None
     default = d.default_lineup()
-    return {"team": d.tname(d.tid), "lineup": list(pref or default), "custom": pref is not None, "default": default,
+    # the next game and the opponent's probable starter (the hub card's: the engine's pick on game day, the
+    # rotation-order projection before it), so the lineup can be set against his throwing hand
+    nxt = None
+    try:
+        nj = next_game_json(d)
+    except Exception:                                           # display only: never blocks the Lineup tab
+        nj = None
+    if nj:
+        opp_side = "away" if nj["side"] == "home" else "home"
+        nxt = {"date": nj["date"], "side": nj["side"], "opp": nj["teams"][opp_side], "opp_tid": nj[opp_side], "conf_game": nj["conf_game"],
+               "series": nj["series"], "stage": nj["stage"], "starter": (nj.get("probables") or {}).get(opp_side)}
+    return {"team": d.tname(d.tid), "lineup": list(pref or default), "custom": pref is not None, "default": default, "next": nxt,
             "batters": [dict(player_json(p), stats=_bat_stats(d.bstats[p.pid]), hand=_hand(p), year=_year(p)) for p in d.team.batters]}
 
 

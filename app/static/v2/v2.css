@@ -665,3 +665,14 @@ button.danger:hover:not(:disabled) { background: linear-gradient(180deg, #E0404E
 .box-pop .final .muted { font: 700 22px/1 var(--font-head); letter-spacing: .04em; color: var(--ink); }
 .box-pop .panel, .dialog { background: var(--solid); }
 .box-pop .boxp > .body { padding: 10px 12px 14px; }
+.lu-next .body { padding: 10px var(--pad); display: flex; flex-direction: column; gap: 6px; }
+.lu-next .opp, .lu-next .sp { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 10px; }
+.lu-next .k { font: 700 12px/1 var(--font-head); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.lu-next .opp a { font: 800 26px/1 var(--font-head); letter-spacing: .02em; text-transform: uppercase; }
+.lu-next .sp a { font: 700 20px/1 var(--font-head); }
+.lu-next .sp .stat { font-size: 15px; }
+.lu-next .chips { display: inline-flex; gap: 10px; margin-left: 6px; }
+.lu-grid { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); }
+.tbl.lu th, .tbl.lu td { padding: 0 5px; }
+.tbl.lu td.act button { min-height: 28px; padding: 3px 7px; font-size: 12px; }
+.tbl.lu td.nm { max-width: 170px; overflow: hidden; text-overflow: ellipsis; }
