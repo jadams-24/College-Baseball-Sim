@@ -194,7 +194,7 @@ for the prototype one service is simpler. Latency on Render's Free plan (0.1 CPU
 The site root: Continue (the newest of the server's dynasty saves, this browser's mirrors and the latest quick
 game; team, record and date shown), New Dynasty (the D1 world of a seed is built first, then any of the 307 teams
 can be picked by its real school name, conference, tier or location with its offense and run prevention on the
-20–80 scale and its report card: the six headline grades in the row, all 13 with a tap, Omaha Contender regraded
+20–80 scale and its report card: all 13 grades, one column each (2026-11-26; every column sorts from its header, grades A+ down to F, the school and Take over columns pinned), Omaha Contender regraded
 from this dynasty's draw, the rest from `data/schools/report_cards.csv`; school names only, the engine's own team
 names stay on the field and players stay fictional), Quick Game (the
 exhibition flow), saved dynasties (load, download as a `.cbsd` file, delete), Settings (default sim step, the

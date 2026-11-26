@@ -148,22 +148,44 @@
     try { r = await raw("/api/dynasties", "POST", { seed }); }
     catch (e) { $("#pick-list").innerHTML = LD.errorPanel(e.message || String(e), () => busy(startPicker), "Couldn't build the world"); h.fail(e.message || String(e), () => busy(startPicker)); return; }
     finally { if (!h.failed) h.done(); }
-    pick = { id: r.id, teams: r.teams, seed: r.seed, categories: r.categories || [] };
+    pick = { id: r.id, teams: r.teams, seed: r.seed, categories: r.categories || [], sort: { key: "overall", dir: -1 } };
     $("#picker-sub").textContent = `seed ${r.seed} · pick your program`;
     renderPicker();
   }
   const GRADE_CLASS = (g) => (!g ? "" : g[0] === "A" ? "gA" : g[0] === "B" ? "gB" : g[0] === "C" ? "gC" : g[0] === "D" ? "gD" : "gF");
   const gradeChip = (cat, g, conf) => `<span class="grade ${GRADE_CLASS(g)}" title="${esc(cat.label)}${conf ? ` · confidence ${esc(conf)}` : ""}"><i>${esc(cat.short)}</i><b>${esc(g || "–")}</b></span>`;
   window.cbsGradeChip = gradeChip;
+  // the picker table (2026-11-26): one column per report-card grade (all 13), every column sortable from its header.
+  // Grades sort A+ down to F; a missing grade sorts last either way; ties fall back to Overall, then the name.
+  const GRADE_RANK = (g) => { if (!g) return null; const base = { A: 4, B: 3, C: 2, D: 1, F: 0 }[g[0]]; return base == null ? null : base * 3 + (g[1] === "+" ? 1 : g[1] === "-" ? -1 : 0); };
+  const TIER_RANK = { p4: 3, mid: 2, low: 1 };
+  const SORT_TEXT = { name: (t) => t.name, conference: (t) => t.conference };                       // text columns: A to Z first
+  const SORT_NUM = { tier: (t) => TIER_RANK[t.tier] || 0, off: (t) => t.off, def: (t) => t.def, overall: (t) => t.overall };   // numbers and grades: best first
+  function sortRows(rows) {
+    const { key, dir } = pick.sort || { key: "overall", dir: -1 };
+    const val = SORT_TEXT[key] || SORT_NUM[key] || ((t) => (t.grades ? GRADE_RANK(t.grades[key]) : null));
+    const text = !!SORT_TEXT[key];
+    rows.sort((a, b) => {
+      const x = val(a), y = val(b);
+      if (x == null || y == null) { if (x != y) return x == null ? 1 : -1; }
+      else if (x !== y) return (text ? String(x).localeCompare(String(y)) : x - y) * dir;
+      return b.overall - a.overall || a.name.localeCompare(b.name);
+    });
+    return rows;
+  }
   function renderPicker() {
     const f = ($("#pick-search").value || "").toLowerCase(), tier = $("#pick-tier").value;
-    const rows = pick.teams.filter((t) => (!f || `${t.name} ${t.abbr || ""} ${t.conference} ${t.tier} ${t.location || ""}`.toLowerCase().includes(f)) && (!tier || t.tier === tier));
-    rows.sort((a, b) => b.overall - a.overall);
-    const cats = pick.categories, head = cats.filter((c) => c.headline);
-    const real = rows.some((t) => t.school);
-    const card = (t) => (t.grades ? `<div class="card-grades">${cats.map((c) => gradeChip(c, t.grades[c.key])).join("")}</div>` : `<span class="muted">no report card</span>`);
-    $("#pick-list").innerHTML = rows.length ? `<table class="tbl pick"><tr><th>${real ? "School" : "Team"}</th><th class="ph-hide">Conference</th><th>Tier</th>${real ? '<th class="ph-hide">Location</th>' : ""}<th class="ph-hide">Off</th><th class="ph-hide">Def</th><th>Overall</th>${real ? "<th>Report card</th>" : ""}<th></th></tr>${rows.map((t) => `<tr data-row="${t.tid}"><td class="nm" title="${esc(t.name)}${t.engine_name ? ` · engine id: ${esc(t.engine_name)}` : ""}">${V.chip ? V.chip(t.tid) : ""}${esc(t.name)}${t.location ? `<small class="muted">${esc(t.location)}</small>` : ""}</td><td class="ph-hide">${esc(t.conference)}</td><td>${t.tier.toUpperCase()}</td>${real ? `<td class="muted ph-hide">${esc(t.location || "")}</td>` : ""}<td class="ph-hide">${badge("off", t.off)}</td><td class="ph-hide">${badge("def", t.def)}</td><td>${badge("ovr", t.overall)}</td>${real ? `<td class="grades">${t.grades ? `<span class="ph-hide">${head.map((c) => gradeChip(c, t.grades[c.key])).join("")}</span>` : ""}${t.grades ? `<button class="btn-ghost" data-card="${t.tid}">all 13</button>` : ""}</td>` : ""}<td><button data-pick="${t.tid}">Take over</button></td></tr><tr class="card-row hidden" data-card-row="${t.tid}"><td colspan="${real ? 9 : 7}">${card(t)}<div class="muted">Grades compare every D1 program. Omaha Contender reflects this dynasty.</div></td></tr>`).join("")}</table>` : `<div class="muted">No team matches.</div>`;
-    $$("#pick-list [data-card]").forEach((b) => b.addEventListener("click", () => $(`#pick-list [data-card-row='${b.dataset.card}']`).classList.toggle("hidden")));
+    const rows = sortRows(pick.teams.filter((t) => (!f || `${t.name} ${t.abbr || ""} ${t.conference} ${t.tier} ${t.location || ""}`.toLowerCase().includes(f)) && (!tier || t.tier === tier)));
+    const cats = pick.categories;
+    const real = pick.teams.some((t) => t.school);
+    const so = pick.sort || { key: "overall", dir: -1 };
+    const th = (key, label, cls, title) => `<th class="sortable ${cls || ""} ${so.key === key ? (so.dir > 0 ? "asc" : "desc") : ""}" data-sort="${key}" tabindex="0" role="button" ${so.key === key ? `aria-sort="${so.dir > 0 ? "ascending" : "descending"}"` : ""} title="${esc(title || label)} · click to sort">${esc(label)}</th>`;
+    const grade = (c, t) => { const g = t.grades && t.grades[c.key]; return `<td class="g ${GRADE_CLASS(g)}" title="${esc(c.label)}">${esc(g || "–")}</td>`; };
+    const keep = $("#pick-list").scrollLeft;
+    $("#pick-list").innerHTML = rows.length ? `<table class="tbl pick"><tr>${th("name", real ? "School" : "Team", "stick")}${th("conference", "Conference", "ph-hide")}${th("tier", "Tier")}${th("off", "Off", "ph-hide ctr", "Team offense")}${th("def", "Def", "ph-hide ctr", "Team run prevention")}${th("overall", "Ovr", "ctr", "Overall")}${real ? cats.map((c) => th(c.key, c.short, "g", c.label)).join("") : ""}<th class="act"></th></tr>${rows.map((t) => `<tr data-row="${t.tid}"><td class="nm stick" title="${esc(t.name)}${t.engine_name ? ` · engine id: ${esc(t.engine_name)}` : ""}">${V.chip ? V.chip(t.tid) : ""}${esc(t.name)}${t.location ? `<small class="muted">${esc(t.location)}</small>` : ""}</td><td class="ph-hide conf" title="${esc(t.conference)}">${esc(t.conference)}</td><td>${t.tier.toUpperCase()}</td><td class="ph-hide ctr">${badge("off", t.off)}</td><td class="ph-hide ctr">${badge("def", t.def)}</td><td class="ctr">${badge("ovr", t.overall)}</td>${real ? cats.map((c) => grade(c, t)).join("") : ""}<td class="act"><button data-pick="${t.tid}">Take over</button></td></tr>`).join("")}</table>${real ? '<div class="muted pick-note">Grades compare every D1 program. Omaha Contender reflects this dynasty. Click a column header to sort; click again to reverse.</div>' : ""}` : `<div class="muted">No team matches.</div>`;
+    $("#pick-list").scrollLeft = keep;
+    const sortBy = (key) => { pick.sort = { key, dir: so.key === key ? -so.dir : (SORT_TEXT[key] ? 1 : -1) }; renderPicker(); };
+    $$("#pick-list th[data-sort]").forEach((h) => { h.addEventListener("click", () => sortBy(h.dataset.sort)); h.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); sortBy(h.dataset.sort); } }); });
     $$("#pick-list [data-pick]").forEach((b) => b.addEventListener("click", () => busy(async () => {
       const t = pick.teams.find((x) => x.tid === +b.dataset.pick);
       if (!confirm(`Take over ${t.name} (${t.conference}, ${t.tier.toUpperCase()})? Year 1 starts now.`)) return;

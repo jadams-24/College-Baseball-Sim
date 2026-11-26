@@ -406,14 +406,39 @@ body[data-screen="main"] .topbar { display: none; }
 .grade.gA b { color: var(--r70); } .grade.gB b { color: var(--r60); } .grade.gC b { color: var(--r50); }
 .grade.gD b { color: var(--r40); } .grade.gF b { color: var(--r20); }
 .card-grades { display: flex; flex-wrap: wrap; gap: 2px 8px; margin-bottom: 6px; }
-.tbl.pick td.grades { white-space: nowrap; }
-.tbl.pick td.grades .btn-ghost { margin-left: 4px; }
+/* the picker table: a grade per column (all 13), sortable headers, the header row and the school column pinned */
+.tbl.pick th { position: sticky; top: 0; z-index: 2; }
+.tbl.pick th, .tbl.pick td { padding: 0 6px; }
+.tbl.pick th.sortable { cursor: pointer; user-select: none; }
+.tbl.pick th.sortable:hover, .tbl.pick th.sortable:focus-visible { color: #FFF; outline: none; }
+.tbl.pick th.asc, .tbl.pick th.desc { color: #FFF; box-shadow: inset 0 -3px 0 var(--accent); }
+.tbl.pick th.asc::after, .tbl.pick th.desc::after { content: ""; display: inline-block; margin-left: 4px; vertical-align: 2px; border: 4px solid transparent; }
+.tbl.pick th.desc::after { border-top-color: var(--accent); border-bottom: none; }
+.tbl.pick th.asc::after { border-bottom-color: var(--accent); border-top: none; }
+.tbl.pick .ctr, .tbl.pick .g { text-align: center; }
+.tbl.pick td.ctr .rt .k { display: none; }
+.tbl.pick td.g { font: 700 15px/1 var(--font-mono); font-variant-numeric: tabular-nums; color: var(--r50); min-width: 44px; border-left: 1px solid var(--line); }
+.tbl.pick td.g.gA { color: var(--r70); } .tbl.pick td.g.gB { color: var(--r60); } .tbl.pick td.g.gC { color: var(--r50); }
+.tbl.pick td.g.gD { color: var(--r40); } .tbl.pick td.g.gF { color: var(--r20); }
+.tbl.pick .stick { position: sticky; left: 0; z-index: 1; padding-left: 10px; }
+.tbl.pick th.stick { z-index: 3; }
+.tbl.pick td.stick { background: var(--solid); box-shadow: 1px 0 0 var(--line2); max-width: 250px; overflow: hidden; text-overflow: ellipsis; }
+.tbl.pick tr:nth-child(even) td.stick { background: #16243F; }
+.tbl.pick tr:hover td.stick { background: #2C3F66; }
+.tbl.pick td.nm small { overflow: hidden; text-overflow: ellipsis; }
+.tbl.pick th { letter-spacing: .03em; }
+.tbl.pick th.g { padding: 0 3px; }
+.tbl.pick td.conf { max-width: 150px; overflow: hidden; text-overflow: ellipsis; }
+.tbl.pick .act { position: sticky; right: 0; z-index: 1; padding: 0 8px; }
+.tbl.pick th.act { z-index: 3; }
+.tbl.pick td.act { background: var(--solid); box-shadow: -1px 0 0 var(--line2); }
+.tbl.pick tr:nth-child(even) td.act { background: #16243F; }
+.tbl.pick tr:hover td.act { background: #2C3F66; }
+.pick-note { padding: 8px 10px; }
 .tbl.pick td.nm small { display: block; font: 400 11px/1.2 var(--font-body); color: var(--muted); }
-.tbl.pick tr.card-row td { background: var(--panel2); padding: 8px 10px; white-space: normal; }
 @media (max-width: 760px) {
   .tbl.pick .ph-hide { display: none; }
   .tbl.pick td.nm small { white-space: normal; }
-  .tbl.pick td.grades .btn-ghost { margin-left: 0; }
 }
 
 /* the hub's season strip: mark, school, dynasty name, then the facts in mono */
@@ -424,7 +449,6 @@ body[data-screen="main"] .topbar { display: none; }
 .panel.season .facts > div:not(.who) { display: flex; flex-direction: column; align-items: flex-end; }
 .panel.season .facts .k { font: 600 10px/1 var(--font-body); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 3px; }
 .panel.season .facts b { font-size: 18px; font-weight: 600; }
-.tbl.pick tr.card-row td { height: auto; }
 .tbl td.muted.date { color: var(--muted); }
 
 /* the live game's lineup side panel: a compact two-line batter cell (name; position and bats), the last three results today */
