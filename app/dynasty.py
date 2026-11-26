@@ -211,6 +211,11 @@ class Dynasty:
         # there and the memory stays out (the 512 MB host). Not an engine change: the engine's own attribute, replaced.
         ot = self.eng.opp_trials
         self.eng.opp_trials = np.lib.stride_tricks.as_strided(np.zeros(1, dtype=ot.dtype), shape=ot.shape, strides=(0, 0, 0, 0), writeable=True)
+        # The report-only accumulators (config.diagnostics, speed pass 2026-10-09) are off for dynasty play (owner
+        # decision 2026-11-26): they draw nothing and feed no decision, so the games, box scores, season stats and
+        # standings are identical (tests/test_speed.py), and every simmed game is faster. The engine's own attribute,
+        # set on this dynasty's engine only: the reports and gates, which need them, build their own engines.
+        self.eng.diag = False
         if self.mgr is None:
             self.mgr = Manager(self.cfg)
 
