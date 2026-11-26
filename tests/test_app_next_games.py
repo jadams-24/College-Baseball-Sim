@@ -41,9 +41,9 @@ def _check(client, did, d):
     j = client.get(f"/api/dynasties/{did}/next_games").json()
     rows = j["rows"]
     games = [r for r in rows if r["kind"] == "game"]
-    # the schedule: the next ten of the user's unplayed games from today, in date order, exactly as scheduled
+    # the schedule: the next ten of the user's unplayed games from today, in date order, exactly as scheduled (never the midweek slots the team did not schedule)
     today = d.date_now()
-    expect = sorted(((int(g.date), i) for i, g in enumerate(d.schedule) if TID in (g.home, g.away) and i not in d.results and int(g.date) >= today))[:10]
+    expect = sorted(((int(g.date), i) for i, g in enumerate(d.schedule) if TID in (g.home, g.away) and i not in d.results and not d.dropped[i] and int(g.date) >= today))[:10]
     assert [(r["date"], r["i"]) for r in games] == expect
     for r in games:
         g = d.schedule[r["i"]]

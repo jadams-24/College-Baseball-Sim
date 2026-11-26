@@ -24,7 +24,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from test_app_connector import Policy, ScriptedHuman  # noqa: E402
 
 from app import dynasty as dm                        # noqa: E402
-from config import phase2                            # noqa: E402
+from config import phase2, phase7                    # noqa: E402
 from engine import season                            # noqa: E402
 from engine.control import DECISIONS, AIController   # noqa: E402
 from engine.game2 import B_NCOL, P_NCOL, PlayerGameEngine  # noqa: E402
@@ -49,7 +49,7 @@ def test_dynasty_equals_the_engines_season_run():
     d.start(TID)
     d.advance("end", pause_mine=False)
     assert d.stage == "done" and d.pending is None
-    ref = season.simulate_season(cfg, seed)
+    ref = season.simulate_season(cfg, seed, cancellations=phase7.DYNASTY_CANCELLATIONS)     # dynasty play: no canceled games (2026-11-26)
     reg, post = _dyn_rows(d)
     assert reg == ref["games"]
     assert post == ref["post"]["games"]
@@ -67,6 +67,8 @@ def _reference_season(cfg, seed, tid, n_scripted):
     s_cancel, s_post, s_len = ss.spawn(3)
     dropped = schedule_mask(schedule, len(league.teams), np.random.Generator(np.random.PCG64(s_len)))
     canceled = cancel_mask(schedule, np.random.Generator(np.random.PCG64(s_cancel))) & ~dropped
+    if not phase7.DYNASTY_CANCELLATIONS:
+        canceled = np.zeros(len(schedule), bool)
     n = len(league.players)
     bstats = [[0] * B_NCOL for _ in range(n)]
     pstats = [[0] * P_NCOL for _ in range(n)]

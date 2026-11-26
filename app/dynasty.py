@@ -135,6 +135,7 @@ class Dynasty:
         self.created = time.time()
         self.schedule = []
         self.skip = np.zeros(0, bool)
+        self.dropped = np.zeros(0, bool)         # the midweek slots a team never scheduled (engine.world.schedule_mask): part of skip, never shown
         self.seeds: list = []
         self.pos = 0
         self.results: dict = {}          # schedule index -> game record
@@ -163,8 +164,14 @@ class Dynasty:
         cfg, league = self.cfg, self.league
         self.schedule = make_schedule(cfg, league, np.random.Generator(np.random.PCG64(self._s_sched)))
         dropped = schedule_mask(self.schedule, len(league.teams), np.random.Generator(np.random.PCG64(self._s_len)))
-        canceled = cancel_mask(self.schedule, np.random.Generator(np.random.PCG64(self._s_cancel))) & ~dropped
+        # no canceled games in dynasty play (owner decision 2026-11-26, config.phase7.DYNASTY_CANCELLATIONS); the
+        # realism reports keep the real rates
+        if phase7.DYNASTY_CANCELLATIONS:
+            canceled = cancel_mask(self.schedule, np.random.Generator(np.random.PCG64(self._s_cancel))) & ~dropped
+        else:
+            canceled = np.zeros(len(self.schedule), bool)
         self.skip = canceled | dropped
+        self.dropped = dropped
         self.seeds = self._s_games.spawn(len(self.schedule))
         self.today = int(self.schedule[0].date) if self.schedule else 0
         self._build_engine()
@@ -678,7 +685,7 @@ def save_bytes(d: Dynasty) -> bytes:
     ext[id(d.cfg)] = "cfg"
     buf = io.BytesIO()
     state = {"version": SAVE_VERSION, "seed": d.seed, "name": d.name, "tid": d.tid, "year": d.year, "created": d.created,
-             "league": d.league, "schedule": d.schedule, "skip": d.skip, "seeds": d.seeds, "pos": d.pos, "results": d.results,
+             "league": d.league, "schedule": d.schedule, "skip": d.skip, "dropped": d.dropped, "seeds": d.seeds, "pos": d.pos, "results": d.results,
              "reg_games": d.reg_games, "post_calls": d.post_calls, "post": d.post, "stage": d.stage, "pending": d.pending,
              "news": d.news, "bstats": d.bstats, "pstats": d.pstats,
              "today": d.today, "steps_done": d.steps_done, "last_pause": d.last_pause, "splits": d.splits,
@@ -706,6 +713,10 @@ def load_bytes(cfg, data: bytes) -> Dynasty:
     d._s_sched, d._s_games, d._s_cancel, d._s_post, d._s_len = st["s"]
     d.real_conf = {tid: c for tid, (_, c, _) in enumerate(cfg.teams)}
     d.schedule, d.skip, d.seeds, d.pos = st["schedule"], st["skip"], st["seeds"], st["pos"]
+    d.dropped = st.get("dropped")
+    if d.dropped is None:               # a save from before 2026-11-26: the dropped slots redrawn from their own stream (the same draw)
+        d.dropped = (schedule_mask(d.schedule, len(d.league.teams), np.random.Generator(np.random.PCG64(d._s_len)))
+                     if d.tid is not None and len(d.schedule) else np.zeros(len(d.schedule), bool))
     d.results, d.reg_games, d.post_calls, d.post, d.stage, d.pending, d.news = (st["results"], st["reg_games"], st["post_calls"], st["post"],
                                                                                  st["stage"], st["pending"], st["news"])
     d.bstats, d.pstats = st["bstats"], st["pstats"]
@@ -775,12 +786,13 @@ def game_json(d: Dynasty, rec: dict, full: bool = False, me: int | None = None) 
 
 
 def schedule_json(d: Dynasty, tid: int | None = None) -> list:
-    """A team's season (the user's by default): every scheduled game with its result when played; dropped and
-    canceled games marked; postseason games appended as they are played."""
+    """A team's season (the user's by default): every scheduled game with its result when played; the midweek slots
+    a team never scheduled (dropped) are left out; a canceled game (only in dynasties started before cancellations
+    were switched off, 2026-11-26) is marked; postseason games appended as they are played."""
     tid = d.tid if tid is None else tid
     out = []
     for i, g in enumerate(d.schedule):
-        if tid not in (g.home, g.away):
+        if tid not in (g.home, g.away) or d.dropped[i]:
             continue
         row = {"i": i, "date": int(g.date), "week": int(g.week) + 1, "weekend": bool(g.weekend), "home": int(g.home), "away": int(g.away),
                "home_name": d.tname(g.home), "away_name": d.tname(g.away), "home_abbr": d.tabbr(g.home), "away_abbr": d.tabbr(g.away),
@@ -936,7 +948,7 @@ def next_games_json(d: Dynasty, n: int = 10) -> dict:
     rows = []
     if d.stage == "regular":
         today = d.date_now()
-        upcoming = sorted(((int(g.date), i, g) for i, g in enumerate(d.schedule) if me in (g.home, g.away) and i not in d.results and int(g.date) >= today), key=lambda x: (x[0], x[1]))[:n]
+        upcoming = sorted(((int(g.date), i, g) for i, g in enumerate(d.schedule) if me in (g.home, g.away) and i not in d.results and not d.dropped[i] and int(g.date) >= today), key=lambda x: (x[0], x[1]))[:n]
         rec, crec, rank = d.records(), d.records(True), d.rpi_rank()
         form, ratings = _team_form(d), ratings_2080(d)
         pend_i = d.pending.get("i") if d.pending and d.pending.get("stage") == "regular" else None

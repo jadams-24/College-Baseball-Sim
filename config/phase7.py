@@ -36,6 +36,12 @@ TOURNAMENT_START = "2025-05-20"
 # and the College World Series from D + 27 (Fri Jun 13). Selection Monday was May 26.
 SEASON_START = "2025-02-14"
 POST_OFFSETS = {"conf": 3, "regional": 13, "super": 20, "cws": 27}
+# Dynasty play (the app): no canceled games (owner decision 2026-11-26: a small part of the game, to be revisited
+# later, possibly as conference rainouts made up in next-day doubleheaders). The realism reports and the Phase 7
+# gate keep the real cancellation rates: engine.season.simulate_season cancels by default, and this switch is read
+# only by app/dynasty.py (and by the dynasty-equals-engine test, which passes it to simulate_season).
+DYNASTY_CANCELLATIONS = False
+
 FIELD_SIZE = 64                      # NCAA Division I baseball championship field (bracketing principles)
 N_NATIONAL_SEEDS = 16                # national seeds since 2018 (bracketing principles, 2025 manual)
 FEATURES = {"world": True}           # scripts set FEATURES["world"] = False for a regular season only

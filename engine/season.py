@@ -21,7 +21,10 @@ from engine.manager import Manager
 from engine.schedule import make_schedule
 
 
-def simulate_season(cfg: Phase2Config, seed: int) -> dict:
+def simulate_season(cfg: Phase2Config, seed: int, cancellations: bool = True) -> dict:
+    """cancellations=False plays every scheduled game (dynasty play, config.phase7.DYNASTY_CANCELLATIONS); the
+    default, with the real rates by month, is what every report and gate runs. The cancellation draw has its own
+    stream, so every other game's seed is the same either way."""
     ss = np.random.SeedSequence(seed)
     s_league, s_sched, s_games = ss.spawn(3)
     league = build_league(cfg, np.random.Generator(np.random.PCG64(s_league)))
@@ -32,6 +35,8 @@ def simulate_season(cfg: Phase2Config, seed: int) -> dict:
         s_cancel, s_post, s_len = ss.spawn(3)    # after the first three: league, schedule and game draws are unchanged
         dropped = schedule_mask(schedule, len(league.teams), np.random.Generator(np.random.PCG64(s_len)))
         canceled = cancel_mask(schedule, np.random.Generator(np.random.PCG64(s_cancel))) & ~dropped
+        if not cancellations:
+            canceled = np.zeros(len(schedule), bool)
     else:
         dropped = canceled = np.zeros(len(schedule), bool)
     n = len(league.players)
