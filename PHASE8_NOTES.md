@@ -242,3 +242,17 @@ the working table's tokens). Report sections 13 and 14; `recruit_pool_2024_25` a
 | D2 and JUCO league rates | B | Conference proxies |
 | JUCO → D1, D2 → D1 per year | C / A | Derived (JUCO); NCAA DII dashboard (D2) |
 | D2 talent offset | C | 90 crossover games; Massey blocked |
+
+## Who leaves: class, role and playing time (2026-11-26)
+
+Departures were by class only. They now use `retention_by_class.csv`, scope `class_role_tercile`, seasons pooled
+(`config.phase8.retention`): P(same program next season) by class, role (batter, pitcher) and playing time (under
+50 PA/BF, else thirds of PA or BF within the role). Freshmen who played return .77 to .92, those under the floor
+.44 to .47; the most-used juniors return .40 to .42 against .57 to .63 for the middle third (the draft). The
+newcomers' class mix is no longer a fixed table: each offseason it is the mix that fills each tier's shortfall
+against the 2025 class shares after the returners move up, so the shares hold whatever the departure rule.
+Eight offseasons from a drawn league (role-rank buckets): 51 to 52% of a roster is new each year, class shares within
+.011 of the 2025 rosters'. The sim's rosters hold only players who appear, so its share of players under the floor is
+smaller than the real rosters' until rosters deepen (plan step 6). No game changes: the 300-game log hash and the
+stat-line hash equal main's. Plan: `plans/phase8_retention_2026-11-26.md`.
+
