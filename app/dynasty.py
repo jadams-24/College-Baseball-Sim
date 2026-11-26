@@ -184,6 +184,10 @@ class Dynasty:
         if self.tid is not None:
             raise ValueError("the dynasty has started")
         self.tid = int(tid)
+        self._start_season()
+
+    def _start_season(self) -> None:
+        """The season of this year's league from this year's seeds: schedule, the games each team drops, the engine."""
         cfg, league = self.cfg, self.league
         self.schedule = make_schedule(cfg, league, np.random.Generator(np.random.PCG64(self._s_sched)))
         dropped = schedule_mask(self.schedule, len(league.teams), np.random.Generator(np.random.PCG64(self._s_len)))
@@ -198,6 +202,41 @@ class Dynasty:
         self.seeds = self._s_games.spawn(len(self.schedule))
         self.today = int(self.schedule[0].date) if self.schedule else 0
         self._build_engine()
+
+    # ---- the next year (Phase 8: class years and turnover, engine/roster.py) ---------------------------------
+    def new_year(self) -> dict:
+        """After Omaha: the offseason and the next season. Every player returns with his class's rate and moves up a
+        class on the five-year clock, the others leave and newcomers take their roster slots (engine.roster
+        advance_year; a returning player keeps his ratings until development is built). The finished year goes to
+        `history`; the new year has its own seeds, schedule, engine and Decider, and empty stats. Returns the user's
+        team's departures and arrivals."""
+        from engine import roster
+        if self.stage != "done":
+            raise ValueError("the season is not over")
+        if any(getattr(t, "tb", None) is None for t in self.league.teams) or not all(getattr(p, "year", "") for p in self.league.players):
+            raise ValueError("this dynasty was started before class years existed: start a new dynasty to play Year 2")
+        done = summary_json(self)
+        hist = getattr(self, "history", [])
+        hist.append({k: done[k] for k in ("year", "team", "record", "conf_record", "rpi_rank", "result", "conference_champion", "champion", "runner_up")})
+        self.history = hist
+        nxt = self.year + 1
+        ss = np.random.SeedSequence(entropy=self.seed, spawn_key=(8, nxt))        # this year's own seeds, apart from year 1's
+        s_turn, self._s_sched, self._s_games, self._s_cancel, self._s_post, self._s_len = ss.spawn(6)
+        uid_before = {p.pid: p.uid for p in self.team.batters}
+        info = roster.advance_year(self.cfg, self.league, np.random.Generator(np.random.PCG64(s_turn)))
+        self.year = nxt
+        self.offseason = dict(info["teams"][self.tid], year=nxt, left_by_class=info["left"], arrived_by_class=info["arrived"], returned=info["returned"])
+        # the preferred lineup stands only if all nine are back (a newcomer takes a leaver's roster slot)
+        if self.pref_lineup and any(self._player(pid).uid != uid_before.get(pid) for pid in self.pref_lineup):
+            self.pref_lineup = None
+        self.pos, self.results, self.reg_games, self.post_calls, self.post = 0, {}, [], [], {}
+        self.stage, self.pending, self.runner, self.news, self.splits = "regular", None, None, [], {}
+        self.steps_done, self.last_pause, self.stop_requested, self.board_history = [], None, False, {}
+        self.bstats = self.pstats = None
+        self.mgr = None
+        self._players = None
+        self._start_season()
+        return self.offseason
 
     def _build_engine(self) -> None:
         n = len(self.league.players)
@@ -739,7 +778,7 @@ class Dynasty:
             next_game = next_game_json(self)
         except Exception:                 # display only: never blocks the hub
             next_game = None
-        return {"id": None, "name": self.name, "seed": self.seed, "year": self.year, "tid": me, "team": self.tname(me), "team_abbr": self.tabbr(me), "next_game": next_game,
+        return {"id": None, "name": self.name, "seed": self.seed, "year": self.year, "history": getattr(self, "history", []), "offseason": getattr(self, "offseason", None), "tid": me, "team": self.tname(me), "team_abbr": self.tabbr(me), "next_game": next_game,
                 "engine_name": self.league.teams[me].name, "conference": schools.conference_of(me, self.real_conf[me]),
                 "conference_full": schools.conference_full(schools.conference_of(me, self.real_conf[me])), "tier": self.league.teams[me].tier, "record": rec, "conf_record": crec, "rpi_rank": rank,
                 "date": self.date_now(), "week": self._week_of(self.date_now()) + 1, "stage": self.stage, "pending": pend,
@@ -766,6 +805,7 @@ def save_bytes(d: Dynasty) -> bytes:
              # everything but the fitted tables, which the live Manager of the loading process supplies
              "mgr_state": {k: v for k, v in vars(d.mgr).items() if k not in MANAGER_STATIC} if d.mgr else {},
              "s": (d._s_sched, d._s_games, d._s_cancel, d._s_post, d._s_len),
+             "history": getattr(d, "history", []), "offseason": getattr(d, "offseason", None),      # Phase 8: finished years, the last offseason's moves
              "runner": d.runner.save_bytes() if d.runner is not None else None}
     _Pickler(buf, ext).dump(state)
     return zlib.compress(buf.getvalue(), 6)
@@ -786,6 +826,7 @@ def load_bytes(cfg, data: bytes) -> Dynasty:
     d.real_conf = {tid: c for tid, (_, c, _) in enumerate(cfg.teams)}
     d.schedule, d.skip, d.seeds, d.pos = st["schedule"], st["skip"], st["seeds"], st["pos"]
     d.pref_lineup = st.get("pref_lineup")
+    d.history, d.offseason = st.get("history", []), st.get("offseason")
     d.dropped = st.get("dropped")
     if d.dropped is None:               # a save from before 2026-11-26: the dropped slots redrawn from their own stream (the same draw)
         d.dropped = (schedule_mask(d.schedule, len(d.league.teams), np.random.Generator(np.random.PCG64(d._s_len)))
@@ -1437,7 +1478,10 @@ def summary_json(d: Dynasty) -> dict:
             "result": result, "conference_champion": conf_champ, "leaders": lead,
             "champion": d.tname(nc["champion"]) if nc else None, "runner_up": d.tname(nc["runner_up"]) if nc else None,
             "done": d.stage == "done",
-            "offseason": ["Transfer portal", "MLB draft", "Recruiting", "Roster cuts", "Year 2"]}
+            # Phase 8: Year 2 is playable once every player carries a class year (a dynasty started before does not)
+            "next_year": d.year + 1, "can_advance": d.stage == "done" and all(getattr(t, "tb", None) is not None for t in d.league.teams) and all(getattr(p, "year", "") for p in d.league.players),
+            "history": getattr(d, "history", []),
+            "offseason": ["Transfer portal", "MLB draft", "Recruiting", "Roster cuts"]}
 
 
 # ---- the player page ---------------------------------------------------------------------------------

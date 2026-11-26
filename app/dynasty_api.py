@@ -18,6 +18,7 @@
     GET  /api/dynasties/{id}/lineup        the preferred starting nine and the batters; POST {pids | null} saves it
     GET  /api/dynasties/{id}/postseason    conference tournaments, the field, regionals, supers, the CWS
     GET  /api/dynasties/{id}/summary       the end-of-year summary and the offseason placeholder
+    POST /api/dynasties/{id}/next_year     the offseason's turnover (class years, departures, newcomers) and the next season -> hub
     GET  /api/dynasties/{id}/save          {save} (signed, compressed; the browser mirrors it)
     POST /api/dynasties/load               {save} -> {id, hub}
     DELETE /api/dynasties/{id}             forget the dynasty and delete its server save
@@ -546,6 +547,21 @@ def postseason(did: str):
 @router.get("/api/dynasties/{did}/summary")
 def summary(did: str):
     return _read(lambda: dyn_mod.summary_json(_get(did)))
+
+
+@router.post("/api/dynasties/{did}/next_year")
+def next_year(did: str):
+    """After Omaha: the offseason's turnover and the next season (Dynasty.new_year). Returns the hub."""
+    d = _get(did)
+    if _running(did):
+        raise HTTPException(409, "a sim is running")
+    try:
+        with _store.lock:
+            d.new_year()
+            _autosave(did, d)
+    except ValueError as e:
+        raise HTTPException(400, str(e))
+    return _hub(did, d)
 
 
 @router.get("/api/dynasties/{did}/save")

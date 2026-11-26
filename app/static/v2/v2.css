@@ -676,3 +676,9 @@ button.danger:hover:not(:disabled) { background: linear-gradient(180deg, #E0404E
 .tbl.lu th, .tbl.lu td { padding: 0 5px; }
 .tbl.lu td.act button { min-height: 28px; padding: 3px 7px; font-size: 12px; }
 .tbl.lu td.nm { max-width: 170px; overflow: hidden; text-overflow: ellipsis; }
+
+/* ---- the offseason: departures and newcomers side by side (roster screen), the next-year button (summary) ---- */
+.off-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 var(--gap); }
+.off-grid h3 { margin: 10px 10px 4px; font: 700 14px/1 var(--font-head); letter-spacing: .06em; color: var(--ink2); }
+.offseason .body { padding: var(--pad); display: flex; flex-direction: column; gap: 10px; }
+@media (max-width: 900px) { .off-grid { grid-template-columns: 1fr; } }
