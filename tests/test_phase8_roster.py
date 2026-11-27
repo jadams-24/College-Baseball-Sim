@@ -92,8 +92,14 @@ def test_development_follows_the_class_means_and_holds_the_league():
             want = np.array([dev[role][c][r] for r in RATES])
             assert len(d) > 80 and np.all(np.abs(d.mean(0) - want) < 5 * d.std(0) / np.sqrt(len(d)) + 2e-3), (side, c, d.mean(0), want)
     p = next(p for p in back if p.side == "bat")
-    assert set(p.last_dev) == {"contact", "gap", "power", "eye", "avoid_k"} and abs(p.last_dev["power"] - (p.ratings["power"] - before[p.uid][4]["power"])) < 1e-9
-    assert p.last_dev["gap"] == 0 and p.ratings["speed"] == before[p.uid][4]["speed"]
+    assert set(p.last_dev) >= {"contact", "gap", "power", "eye", "avoid_k", "speed", "glove"} and abs(p.last_dev["power"] - (p.ratings["power"] - before[p.uid][4]["power"])) < 1e-9
+    assert p.last_dev["gap"] == 0
+    # the tools (owner decision 2026-11-27): glove, arm and stamina improve, speed slightly; the value behind each rating moves with it
+    tool = lambda k, side: np.mean([q.last_dev[k] for q in back if q.side == side and k in q.last_dev and before[q.uid][0] == "Fr"])
+    assert 1.5 < tool("glove", "bat") < 2.5 and 1.0 < tool("arm", "bat") < 2.0 and 1.5 < tool("stamina", "pit") < 2.5 and 0.2 < tool("speed", "bat") < 0.8
+    from engine.ratings import RatingScale
+    sc = RatingScale()
+    assert all(abs(q.log_theta - sc.log_theta(q.group, q.ratings["stamina"])) < 1e-9 for q in back if q.side == "pit")
     for _ in range(3):
         roster.advance_year(cfg, lg, rng)
     mean = lambda key, g, c: np.mean([q.ratings[key] for q in lg.players if q.group == g and q.year == c])
@@ -101,7 +107,7 @@ def test_development_follows_the_class_means_and_holds_the_league():
     fr = next(q for q in lg.players if q.year == "Fr" and q.side == "bat")
     old = next(q for q in lg.players if q.year == "5th" and q.side == "bat")
     pot = roster.potential(fr)
-    assert set(pot) >= {"power", "contact"} and pot != {k: fr.ratings[k] for k in pot}
+    assert set(pot) >= {"power", "contact", "glove", "speed"} and pot != {k: fr.ratings[k] for k in pot}
     assert all(abs(v - old.ratings[k]) < 1e-9 for k, v in roster.potential(old).items())
     for t in lg.teams:                          # promotions keep one regular per position
         assert sorted(q.pos for q in t.batters if q.group == "regular") == sorted(set(q.pos for q in t.batters if q.group == "regular")) and sum(q.group == "regular" for q in t.batters) == 9

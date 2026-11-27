@@ -277,3 +277,10 @@ development adds variance and nothing removes it yet), and bench batters' Contac
 zero in the draw, becomes real through development and promotions. The first season is untouched (300-game log hash
 and stat-line hash equal main's); the multi-year league has not been through the 40-season gates.
 
+Tools (owner decision 2026-11-27): Glove, Arm and Stamina improve and Speed slightly, by GUESS mean gains per class
+(`config.phase8.DEV_TOOLS`), each with the player's own rate and noise. A rating change moves the value the engine
+reads by the draw's own linear map (error log-odds at his position, the arm, the leash, the shared part of the
+base-running components). Newcomers arrive lower the same way, so each group's league mean holds: after eight
+offseasons Glove 49.8, Arm 50.1, Speed 50.0 (50.1, 50.3, 50.0 in the draw), mean error log-odds +.006; by class Glove
+runs Fr 46.8 to 5th 53.5, relievers' Stamina 47.9 to 52.7. Gap and Hold still do not develop.
+

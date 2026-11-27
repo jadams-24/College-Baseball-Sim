@@ -82,6 +82,7 @@ class Player:
                               # engine.roster), drawn from the 2025 class shares by tier; empty with Phase 8 classes off
     uid: int = -1             # Phase 8: the person, across seasons (a newcomer takes a leaver's pid, the roster slot, with a new uid)
     dev: object = None        # Phase 8 development: his own yearly gain beyond his class's, logit per rate (his potential; engine.roster)
+    dev_tools: object = None  # the same for Speed, Glove, Arm and Stamina, rating points a year ({rating: points})
     last_dev: object = None   # the rating changes of his last offseason ({rating: points}); None for a newcomer
 
 
@@ -362,6 +363,16 @@ def _hands(cfg, league, rng) -> None:
         p.bats = "L" if u < eL else ("S" if u < eL + eS else "R")
 
 
+def speed_loadings(fl6: dict) -> dict:
+    """One-factor loadings of the base-running components on Speed, from the three pairwise correlations (clipped)."""
+    from config import phase6
+    c = fl6["speed"]["corr"]
+    ab, ax, sx = c["attempt|success"], c["attempt|extra_base"], c["success|extra_base"]
+    lam = {"attempt": np.sqrt(max(ab * ax / max(sx, 1e-3), 0)), "success": np.sqrt(max(ab * sx / max(ax, 1e-3), 0)),
+           "extra_base": np.sqrt(max(ax * sx / max(ab, 1e-3), 0))}
+    return {k: float(np.clip(v, *phase6.SPEED_LOADING_CLIP)) for k, v in lam.items()}
+
+
 def _fielding(fl6: dict, t, regs: list, bench: list, rng) -> None:
     from config import phase6
     """Phase 6 positions, base running and fielding (scripts/build_phase6_fielding.py).
@@ -372,12 +383,7 @@ def _fielding(fl6: dict, t, regs: list, bench: list, rng) -> None:
     N(0, sd of the position). Arm: outfielders (extra bases allowed) and catchers (steal success
     against). Team error log-odds beyond the fielders: slope x run prevention d + N(0, team sd)."""
     sp = fl6["speed"]
-    c = sp["corr"]
-    # one-factor loadings from the three pairwise correlations (clipped to SPEED_LOADING_CLIP)
-    ab, ax, sx = c["attempt|success"], c["attempt|extra_base"], c["success|extra_base"]
-    lam = {"attempt": np.sqrt(max(ab * ax / max(sx, 1e-3), 0)), "success": np.sqrt(max(ab * sx / max(ax, 1e-3), 0)),
-           "extra_base": np.sqrt(max(ax * sx / max(ab, 1e-3), 0))}
-    lam = {k: float(np.clip(v, *phase6.SPEED_LOADING_CLIP)) for k, v in lam.items()}
+    lam = speed_loadings(fl6)
     pos_reg = list(rng.permutation(FIELD_POSITIONS + ("dh",)))
     shares = phase6.load()["subs6"]["def_position_shares"]
     bpos = list(rng.choice(list(shares), size=len(bench), p=np.array(list(shares.values())) / sum(shares.values())))
