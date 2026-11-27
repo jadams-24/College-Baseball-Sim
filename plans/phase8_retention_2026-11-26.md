@@ -52,3 +52,17 @@ did not); the most-used juniors leave most (the draft). Seniors' rates predate t
 6. **Rosters deeper than the players who appear**, then cuts to 34.
 7. Where leavers land (the portal) and where newcomers come from: Phase 9.
 Coaching trees after these; injuries much later.
+
+## Development multipliers (owner decision 2026-11-27; to build with Phases 10 and 11, not yet built)
+Development gets multipliers from the program, on top of the class gains, the player's own rate and luck:
+- **Facilities**, by what they train: an indoor hitting lab develops hitters better (Contact, Power, Eye, Avoid K), a
+  pitching lab pitchers (Stuff, Control, Movement), a weight room and training staff the tools (Stamina, Arm, Speed),
+  a fielding facility Glove. Each is a bounded multiplier on the mean gain of its ratings.
+- **Coaching trees**: the Developer branch raises gains, by side (hitting coach, pitching coach), also bounded.
+- **Playing time** (candidate): a player who plays develops faster than one who sits.
+Rules: multipliers are bounded and centred (the spec's "coach development boosts are bounded and centred"), so the
+league's mean talent holds: a program above the average boost gains what programs below it lose, and the newcomers'
+shift (`engine/roster.py` `_steady`) absorbs the rest. AI programs get them from the same facilities and coaches.
+Hook: `engine/roster.py` applies `cmean[side][class]` and `DEV_TOOLS[tool][class]` per player; the multiplier is a
+per-team, per-rating factor on those two terms.
+
