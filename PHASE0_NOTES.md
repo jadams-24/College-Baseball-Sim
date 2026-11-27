@@ -761,3 +761,21 @@ No tolerance moved.
 - NCAA.com scoreboard JSON feed (data.ncaa.com/casablanca), 2025 D1 baseball, fetched 2026-09-30 — https://data.ncaa.com/casablanca/scoreboard/baseball/d1/2025/05/17/scoreboard.json (one file per day)
 - WMT Live Stats API (api.wmt.games), 2025 D1 baseball schedules, box totals and play-by-play actions, fetched 2026-09-30 to 2026-10-01 — https://api.wmt.games/api/statistics/teams/{ncaa_team_id}/games and https://api.wmt.games/api/statistics/games/{game_id}?with[]=actions
 - Sidearm Sports team stats pages, 2025 season totals for 13 programs, fetched 2026-09-30 — e.g. https://rolltide.com/sports/baseball/stats/2025
+
+## Drift re-solve for individual bench batters (2026-11-26, PR #24)
+
+Giving bench batters their own Contact, Gap and Power (config.phase8, `individual_bench`) moved one calibrated row:
+the run-prevention strength slope, +1.0237 ± .0068 on 16 drift seasons (main, same seeds: +1.0120 ± .0064). Why
+bench spread moves the run-prevention slope is not explained yet (open).
+
+The joint warm re-solve (`solve_phase2_game_scale.py --warm`) fixed that row but also updated the offense map, which
+was not flagged (its measured slope .986 to .988 is inside its noise), and put two offense tier means beyond 2 SE:
+with 2 x 8 seasons mid +.0056 ± .0020 and low −.0101 ± .0035; with 2 x 16 seasons (owner's option A) mid +.0046 ±
+.0021 and low −.0079 ± .0035. Both runs pushed q_o from −.083 to about −.13.
+
+Owner decision 2026-11-26 (option B): only the run-prevention side of the 2 x 16 re-solve is taken (k_d 1.1726 →
+1.1524, q_d −.0465 → −.0641); k_o, q_o and eta stay at the 2026-10-08 solve. The file records the partial update and
+both other scales (`partial_update`). Drift check on it, 16 seasons: every row inside 1.2 SE (run-prevention slope
++1.0014 ± .0059, offense tier means mid +.0022, low −.0031); `reports/drift_check.md`.
+To look at later: the solver updates every side on every iteration even when a side is inside its noise.
+

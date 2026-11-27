@@ -161,11 +161,17 @@ def load() -> Phase2Config:
         base=base, league_rates=league_rates, roe_share_of_bip=t["ROE"] / bip_total,
         triple_share_of_xbh=t["3B"] / (t["2B"] + t["3B"]),
         tier_effects=inp["tier_effects_logit"], team_talent=tt, v_bat=tuple(rs["v_bat_unit"]),
-        v_pit=tuple(rs["v_pit_unit"]), map_o=(gs["k_o"], gs["q_o"]), map_d=(gs["k_d"], gs["q_d"]), team_draw=draw, style_cov=style, home_eta=gs["eta"], talent=inp["talent"], correlation=inp["correlation"],
+        v_pit=tuple(rs["v_pit_unit"]), map_o=(gs["k_o"], gs["q_o"]), map_d=(gs["k_d"], gs["q_d"]), team_draw=draw, style_cov=style, home_eta=gs["eta"], talent=_phase8().individual_bench(inp["talent"]), correlation=inp["correlation"],
         usage=inp["usage"], schedule_mix=mix,
         conference_weekends=round(mix["conference_games_share"] * SEASON_GAMES / GAMES_PER_WEEKEND),
         teams=teams, talent_shape=load_talent_shapes(),
     )
+
+
+def _phase8():
+    """config.phase8, imported late (it reads nothing of this module; kept out of the import cycle)."""
+    from config import phase8
+    return phase8
 
 
 def load_talent_shapes() -> dict:
