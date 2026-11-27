@@ -135,7 +135,7 @@
   function renderScorebar(t) {
     const st = t.state, inns = st.line_score.innings;
     const stripe = (side) => { const c = colorsOf(st.teams[side]); return c ? `<i class="cstripe ${c.border ? "bd" : ""}" style="--c:${c.chip}" aria-hidden="true"></i>` : ""; };
-    const row = (side) => `<tr class="${st.batting_side === side && !st.over && t.phase !== "pregame" ? "batting" : ""}"><td class="team">${stripe(side)}${mark(st.teams[side])}<span class="tn" title="${esc(st.teams[side].name)}">${esc(st.teams[side].short || st.teams[side].name)}</span></td>${st.line_score[side].map((r) => `<td>${r === null ? "" : r}</td>`).join("")}<td class="tot r">${st.score[side]}</td><td class="tot">${st.hits[side]}</td><td class="tot">${st.errors[side]}</td></tr>`;
+    const row = (side) => `<tr class="${st.batting_side === side && !st.over && t.phase !== "pregame" ? "batting" : ""}"><td class="team">${stripe(side)}${mark(st.teams[side])}<span class="tn" title="${esc(st.teams[side].name)}">${esc(st.teams[side].short || st.teams[side].name)}</span></td>${st.line_score[side].map((r, i) => `<td>${r !== null ? r : (st.over && side === "home" && st.line_score.away[i] !== null && (i + 1 >= st.line_score.away.length || st.line_score.away[i + 1] === null)) ? "X" : ""}</td>`).join("")}<td class="tot r">${st.score[side]}</td><td class="tot">${st.hits[side]}</td><td class="tot">${st.errors[side]}</td></tr>`;
     $("#linescore").innerHTML = `<tr><th></th>${inns.map((i) => `<th>${i}</th>`).join("")}<th class="tot">R</th><th class="tot">H</th><th class="tot">E</th></tr>${row("away")}${row("home")}`;
     $("#sb-bases").innerHTML = basesSvg(st.bases, 44);
     const v = t.venue !== undefined ? t.venue : (S.game && S.game.venue !== undefined ? S.game.venue : st.venue);
