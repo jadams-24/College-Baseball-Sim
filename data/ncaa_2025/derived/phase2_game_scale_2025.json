@@ -1,6 +1,6 @@
 {
  "_note": "Solve the engine's game-level run scale and home edge.\n\nTeam strength (o, d) and the home effect h come from a quasi-Poisson fit of runs per\nteam-game on the 2025 scoreboard (build_phase2_teams.py). Runs per game include the\nrun rule and the skipped or walk-off bottom of the ninth, which compress lopsided games,\nwhile the half-inning scale (build_phase2_run_scale.py) has no truncation. So the same\nfit is run on simulated seasons and three numbers are found by fixed-point iteration:\n  map_o, map_d  one monotone map per side from the scoreboard rating x to engine units,\n             g(x) = k x + q x^2, the same for every team. The fitted o (d) of simulated\n             teams is regressed on their true rating, pooled over seasons:\n             fitted = a + b x + c x^2. The target is b = 1, c = 0 (the fit recovers the\n             rating). Composition update g <- g o (b x + c x^2)^-1:\n             k <- k / b,  q <- q / b^2 - k c / b^3.\n             (A single linear k left the response convex: within-P4 slope 1.10, low 0.99,\n             because run-rule truncation compresses lopsided games, not close ones.)\n  eta        home talent edge, so the simulated fitted home effect equals the\n             scoreboard's: eta <- eta + (h_scoreboard - h_sim)\nNothing else is matched: runs, spreads and gate rows are not used. Calibration seeds\n(910000+) are disjoint from the location solve and the report.\n--warm starts from the current solved scale (a re-solve after the engine changed: owner rule 2026-10-08, scripts/check_drift.py).\nOutput: data/ncaa_2025/derived/phase2_game_scale_2025.json\n",
- "built": "2026-10-08",
+ "built": "2026-11-26",
  "seeds": [
   910001,
   910002,
@@ -23,8 +23,8 @@
  "scale": {
   "k_o": 0.9376164866011781,
   "q_o": -0.08331083640261644,
-  "k_d": 1.1725677996448438,
-  "q_d": -0.046549324258445865,
+  "k_d": 1.1523931108042145,
+  "q_d": -0.06410595523378618,
   "eta": 0.11164329219940597
  },
  "history": [
@@ -156,6 +156,63 @@
     "c_d": -0.027591904259435352
    },
    "warm_start": "2026-10-08"
+  },
+  {
+   "iteration": 0,
+   "scale": {
+    "k_o": 0.9376164866011781,
+    "q_o": -0.08331083640261644,
+    "k_d": 1.1725677996448438,
+    "q_d": -0.046549324258445865,
+    "eta": 0.11164329219940597
+   },
+   "fitted": {
+    "h": 0.04266195415443459,
+    "phi": 2.1932038785541472,
+    "b_o": 0.9883572466024889,
+    "c_o": 0.026172278475072492,
+    "b_d": 1.024277972210044,
+    "c_d": 0.015182608011951745
+   },
+   "warm_start": "2026-11-26"
+  },
+  {
+   "iteration": 1,
+   "scale": {
+    "k_o": 0.9486615187213593,
+    "q_o": -0.1107022210738116,
+    "k_d": 1.1447749843871393,
+    "q_d": -0.06093530627912973,
+    "eta": 0.11278133804497137
+   },
+   "fitted": {
+    "h": 0.04526467739426541,
+    "phi": 2.175825514654686,
+    "b_o": 0.9954366369848208,
+    "c_o": 0.01656068737259382,
+    "b_d": 0.9933892988897177,
+    "c_d": 0.0020183041984427864
+   },
+   "warm_start": "2026-11-26"
   }
- ]
+ ],
+ "partial_update": {
+  "date": "2026-11-26",
+  "what": "run-prevention side only (k_d, q_d) from the warm re-solve of 2 x 16 seasons; k_o, q_o and eta kept from the 2026-10-08 solve",
+  "why": "PR #24 (individual bench batters): the drift check flagged only the run-prevention slope; the joint re-solve also moved the unflagged offense map and put two offense tier means beyond 2 SE (reports/drift_check.md, PHASE0_NOTES)",
+  "previous_scale": {
+   "k_o": 0.9376164866011781,
+   "q_o": -0.08331083640261644,
+   "k_d": 1.1725677996448438,
+   "q_d": -0.046549324258445865,
+   "eta": 0.11164329219940597
+  },
+  "joint_resolve_scale": {
+   "k_o": 0.9530104513682123,
+   "q_o": -0.127647070907887,
+   "k_d": 1.1523931108042145,
+   "q_d": -0.06410595523378618,
+   "eta": 0.11131666065070596
+  }
+ }
 }
