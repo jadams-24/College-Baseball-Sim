@@ -48,7 +48,7 @@ did not); the most-used juniors leave most (the draft). Seniors' rates predate t
 3. **Money pools and persuasion levers**: one roster budget (scholarship, revenue share, NIL collective); retention
    offers raise a player's stay rate; a paid player who still leaves refunds the offer.
 4. **Dealbreakers on the 13 report-card grades**, with an in-season warning before one fails.
-5. **Development**: current and potential ratings by age (the keep-the-freshman-or-the-senior dilemma).
+5. **Development** (built 2026-11-27, out of order by owner decision): a returner changes by his class's mean gain plus his own rate plus noise; potential is his projected ratings; newcomers arrive lower so the league holds (PHASE8_NOTES, Development).
 6. **Rosters deeper than the players who appear**, then cuts to 34.
 7. Where leavers land (the portal) and where newcomers come from: Phase 9.
 Coaching trees after these; injuries much later.
