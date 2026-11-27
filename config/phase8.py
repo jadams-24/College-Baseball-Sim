@@ -128,8 +128,15 @@ PERSUADE_ATTEMPTS_MAX = 8
 # rows (83 batters, 71 pitchers) are the fifth-year change and are noisy.
 DEV_RATES = {"batter": {"K": "k_pct", "BB": "bb_pct", "HR": "hr_pct", "BABIP": "babip"},
              "pitcher": {"K": "k_pct", "BB": "bb_pct", "HR": "hr_pct"}}
-# Not developed, no data by player: the extra-base share (Gap), HBP, pitchers' BABIP and XBH components, Speed,
-# Glove, Arm, Stamina, Hold.  GUESS: zero change.
+# Not developed, no data by player: the extra-base share (Gap), HBP, pitchers' BABIP and XBH components, Hold.
+# GUESS: zero change.
+# Glove, Arm, Stamina and Speed (owner decision 2026-11-27: glove improves, speed slightly, stamina and arm improve).
+# No player-level data: mean gain in rating points after a season in each class.  GUESS, every number.
+DEV_TOOLS = {"glove":   {"Fr": 2.0, "So": 1.5, "Jr": 1.0, "Sr": 0.5},
+             "arm":     {"Fr": 1.5, "So": 1.0, "Jr": 0.5, "Sr": 0.0},
+             "stamina": {"Fr": 2.0, "So": 1.5, "Jr": 1.0, "Sr": 0.5},
+             "speed":   {"Fr": 0.5, "So": 0.5, "Jr": 0.0, "Sr": 0.0}}
+DEV_TOOL_SPREAD = {"glove": 1.0, "arm": 1.0, "stamina": 1.0, "speed": 0.3}     # GUESS: each tool's individual part, as a share of DEV_SD_POINTS
 DEV_SD_POINTS = {"potential": 1.0,    # GUESS: SD across players of a player's own yearly gain beyond his class's, rating points a year, fixed for his career (his potential)
                  "year": 1.5}         # GUESS: SD of one offseason's noise around it, rating points
 POTENTIAL_BAND = 4                    # display: a potential rating is shown as a range of +- this many points (fog; scouting narrows it in Phase 9)

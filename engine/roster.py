@@ -69,6 +69,40 @@ def draw_potential(league, rng) -> None:
     sd = {side: _dev_sd(scale, side, "potential") for side in ("bat", "pit")}
     for p in league.players:
         p.dev = sd[p.side] * rng.standard_normal(len(RATES))
+    for p in league.players:                    # after every rate draw: adding a tool moves no rate potential
+        p.dev_tools = {k: phase8.DEV_SD_POINTS["potential"] * phase8.DEV_TOOL_SPREAD[k] * float(rng.standard_normal()) for k in sorted(phase8.DEV_TOOLS) if k in p.ratings}
+
+
+class _Tools:
+    """Speed, Glove, Arm and Stamina as the engine reads them: a change of rating points moves the rating and the
+    value behind it by engine.league's own linear maps (Speed: the shared part of the three base-running
+    components; Glove: error log-odds at his position; Arm: the outfield or catcher arm; Stamina: the leash)."""
+    def __init__(self, scale):
+        from config import phase6
+        from engine.league import speed_loadings
+        self.scale = scale
+        self.fl6 = phase6.load().get("fielding6") if phase6.on("fielding") else None
+        if self.fl6:
+            sp, lam = self.fl6["speed"], speed_loadings(self.fl6)
+            self.run = tuple(sp[k].get("sd_logit_within_tier", sp[k]["sd_logit"]) * lam[k] for k in ("attempt", "success", "extra_base"))
+
+    def add(self, p, tool: str, pts: float) -> float:
+        """Move one tool by pts rating points (inside 20 to 80); returns the points applied."""
+        if tool not in p.ratings or (tool != "stamina" and not self.fl6):
+            return 0.0
+        new = float(min(80.0, max(20.0, p.ratings[tool] + pts)))
+        d = new - float(p.ratings[tool])
+        p.ratings[tool] = new
+        if tool == "stamina":
+            p.log_theta = self.scale.log_theta(p.group, new)
+        elif tool == "speed":
+            p.run = tuple(r + s * d / 10.0 for r, s in zip(p.run, self.run))
+        elif tool == "glove":
+            sd = self.fl6["error"]["by_position"].get(p.pos, {}).get("sd_logit", 0.0)
+            p.err = p.err - (sd if sd == sd else 0.0) * d / 10.0
+        elif tool == "arm":
+            p.arm = p.arm + (self.fl6["arm_c"] if p.pos == "c" else self.fl6["arm_of"])["sd_logit"] * d / 10.0
+        return d
 
 
 def _class_mean(side: str) -> dict:
@@ -85,7 +119,7 @@ def _set_z(scale, p, z) -> None:
 
 def potential(p, scale=None) -> dict:
     """His ratings after his remaining seasons at his class's mean gains plus his own rate (no noise): the
-    developed ratings only. A fifth-year's potential is his current ratings."""
+    developed ratings (the rates' and the tools'). A fifth-year's potential is his current ratings."""
     scale = scale or RatingScale()
     z = np.asarray(p.z, float).copy()
     if p.year in CLASSES[:-1]:
@@ -93,7 +127,13 @@ def potential(p, scale=None) -> dict:
         own = p.dev if getattr(p, "dev", None) is not None else 0.0
         for c in CLASSES[CLASSES.index(p.year):-1]:
             z = z + mean[c] + own
-    return scale.split(p.side, z)[0]
+    out = scale.split(p.side, z)[0]
+    own_t = getattr(p, "dev_tools", None) or {}
+    for k in sorted(phase8.DEV_TOOLS):
+        if k in p.ratings:
+            left = CLASSES[CLASSES.index(p.year):-1] if p.year in CLASSES[:-1] else ()
+            out[k] = float(min(80.0, max(20.0, p.ratings[k] + sum(phase8.DEV_TOOLS[k][c] + own_t.get(k, 0.0) for c in left))))
+    return out
 
 
 def class_shares(league) -> dict:
@@ -158,7 +198,7 @@ def _rel(league, p) -> np.ndarray:
     return np.asarray(p.z, float) - (t.tb if p.side == "bat" else t.tp)
 
 
-def _steady(scale, league, donor, newcomers) -> None:
+def _steady(scale, league, donor, newcomers, tools) -> None:
     """Hold the league's talent where it was calibrated: returners gained (and the ones who left were not a random
     draw), so the newcomers of each role group arrive lower by the shift that brings the group's mean talent,
     relative to its teams, back to a fresh league's (the donor's). Classes then differ (freshmen below, seniors
@@ -172,6 +212,13 @@ def _steady(scale, league, donor, newcomers) -> None:
         shift = (target - np.mean(now, axis=0)) * len(now) / len(new)
         for n in new:
             n.z = np.asarray(n.z, float) + shift
+        for k in sorted(phase8.DEV_TOOLS):                       # the tools the same way, in rating points
+            have = [n for n in new if k in n.ratings]
+            if have:
+                target_k = np.mean([p.ratings[k] for p in donor.players if p.group == g and k in p.ratings])
+                now_k = [p.ratings[k] for p in league.players if p.group == g and k in p.ratings]
+                for n in have:
+                    tools.add(n, k, (target_k - np.mean(now_k)) * len(now_k) / len(have))
     for n in newcomers:
         _set_z(scale, n, n.z)
 
@@ -246,6 +293,7 @@ def apply_offseason(cfg, league, plan: dict, rng, kept=()) -> dict:
     devr = np.random.Generator(np.random.PCG64(s_dev))
     cmean = {side: _class_mean(side) for side in ("bat", "pit")}
     ysd = {side: _dev_sd(scale, side, "year") for side in ("bat", "pit")}
+    tools, ynoise = _Tools(scale), phase8.DEV_SD_POINTS["year"]
     for p in league.players:
         if p.pid in going:
             left_year[p.pid] = p.year
@@ -254,7 +302,11 @@ def apply_offseason(cfg, league, plan: dict, rng, kept=()) -> dict:
                 noise = ysd[p.side] * devr.standard_normal(len(RATES))
                 before = dict(p.ratings)
                 _set_z(scale, p, np.asarray(p.z, float) + cmean[p.side][p.year] + (p.dev if getattr(p, "dev", None) is not None else 0.0) + noise)
-                p.last_dev = {k: p.ratings[k] - before[k] for k in p.ratings if k not in _KEEP_RATINGS}
+                own_t = getattr(p, "dev_tools", None) or {}
+                for k in sorted(phase8.DEV_TOOLS):
+                    if k in p.ratings:
+                        tools.add(p, k, phase8.DEV_TOOLS[k][p.year] + own_t.get(k, 0.0) + ynoise * phase8.DEV_TOOL_SPREAD[k] * float(devr.standard_normal()))
+                p.last_dev = {k: float(p.ratings[k] - before[k]) for k in p.ratings if k != "hold"}
             p.year = CLASSES[CLASSES.index(p.year) + 1]
             out["returned"] += 1
     # the newcomers' class mix, by tier: in proportion to each class's shortfall against the rosters' shares once
@@ -292,6 +344,9 @@ def apply_offseason(cfg, league, plan: dict, rng, kept=()) -> dict:
                 k = CLASSES.index(n.year)
                 own = n.dev if getattr(n, "dev", None) is not None else 0.0
                 n.z = np.asarray(n.z, float) + sum(cmean[n.side][c] + own for c in CLASSES[:k])
+                own_t = getattr(n, "dev_tools", None) or {}
+                for tk in sorted(phase8.DEV_TOOLS):
+                    tools.add(n, tk, sum(phase8.DEV_TOOLS[tk][c] + own_t.get(tk, 0.0) for c in CLASSES[:k]))
             newcomers.append(n)
             new[p.pid] = n
             league.players[p.pid] = n
@@ -302,7 +357,7 @@ def apply_offseason(cfg, league, plan: dict, rng, kept=()) -> dict:
         out["teams"][t.tid] = {"left": [(p.uid, p.name, p.year, p.group, p.pos, plan[p.pid]["reason"] or phase8.reason(p.year, plan[p.pid]["bucket"])) for p in leavers],
                                "arrived": [(n.uid, n.name, n.year, n.group, n.pos) for n in new.values()]}
     if dev_on:
-        _steady(scale, league, donor, newcomers)
+        _steady(scale, league, donor, newcomers, tools)
     for t in league.teams:
         if dev_on:
             _promote(cfg, t)
