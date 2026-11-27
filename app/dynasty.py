@@ -62,7 +62,7 @@ def _child(seq: np.random.SeedSequence, k: int) -> np.random.SeedSequence:
 
 
 RISK_MIN_GAMES = 10                      # display: a team's games before its players' playing-time pace is read
-BAT_DEV, PIT_DEV = ("contact", "power", "eye", "avoid_k"), ("stuff", "control", "movement")      # the ratings that develop (config.phase8.DEV_RATES)
+BAT_DEV, PIT_DEV = ("contact", "power", "eye", "avoid_k", "speed", "glove", "arm"), ("stuff", "control", "movement", "stamina")      # the ratings that develop (config.phase8.DEV_RATES)
 UPSIDE_HIGH, UPSIDE_MEDIUM = 3.0, 1.5    # display cuts of the Upside level on the mean projected gain, rating points
 RISK_LOW, RISK_MEDIUM = .75, .55         # display cuts of the Risk of Leaving level on the chance to return
 

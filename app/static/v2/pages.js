@@ -62,7 +62,7 @@
     const dv = p.dev;
     const devBlock = dv ? `<div class="dev-block"><div class="k">Development <span class="pill ${{ High: "success", Medium: "warn" }[dv.level] || "plain"}">${dv.level === "–" ? "Final year" : dv.level + " upside"}</span></div>
       <table class="tbl dev"><tr><th>Rating</th><th class="num">Now</th><th class="num">Projected</th><th class="num" title="Change last offseason">Last</th></tr>${Object.keys(dv.pot).map((k) => `<tr><td title="${esc((RATING[k] || [k, k])[1])}">${(RATING[k] || [k, k])[1].split(" (")[0]}</td><td class="num">${p.ratings[k]}</td><td class="num">${dv.pot[k][0]}–${dv.pot[k][1]}</td><td class="num">${dv.last ? `<span class="${dv.last[k] >= 1 ? "up" : dv.last[k] <= -1 ? "down" : "muted"}">${dv.last[k] > 0 ? "+" : ""}${dv.last[k]}</span>` : '<span class="muted">–</span>'}</td></tr>`).join("")}</table>
-      <div class="muted">Projected is where he should be by his last season if he stays; Last is his change last offseason. Each offseason adds its own luck. Gap, speed, glove, arm, stamina and hold do not develop yet.</div></div>` : "";
+      <div class="muted">Projected is where he should be by his last season if he stays; Last is his change last offseason. Each offseason adds its own luck. Gap and hold do not develop yet.</div></div>` : "";
     const season = p.season ? statRow(isBat ? BSEASON : PSEASON, p.season) : `<div class="muted">No season: this is an exhibition.</div>`;
     const sp = p.splits;
     const splitCols = [["pa", "PA"], ["ab", "AB"], ["h", "H"], ["2b", "2B"], ["3b", "3B"], ["hr", "HR"], ["bb", "BB"], ["hbp", "HBP"], ["k", "K"], ["avg", "AVG"], ["obp", "OBP"], ["slg", "SLG"]];
