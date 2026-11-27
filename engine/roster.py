@@ -37,6 +37,7 @@ import numpy as np
 from config import phase8
 from config.phase2 import N_REGULARS, RATES
 from engine.matchup import matchup_probs
+from config.phase4 import DISPLAY_MAX, DISPLAY_MIN, POINTS_PER_SD
 from engine.ratings import RatingScale
 
 CLASSES = phase8.CLASSES
@@ -60,7 +61,7 @@ def draw_classes(league, rng) -> None:
 def _dev_sd(scale, side: str, kind: str) -> np.ndarray:
     """SD per rate (logit) of the individual part of development: DEV_SD_POINTS rating points, on the developed rates."""
     role = "batter" if side == "bat" else "pitcher"
-    return np.array([phase8.DEV_SD_POINTS[kind] / 10.0 * scale.ms(side, r)[1] if r in phase8.DEV_RATES[role] else 0.0 for r in RATES])
+    return np.array([phase8.DEV_SD_POINTS[kind] / POINTS_PER_SD * scale.ms(side, r)[1] if r in phase8.DEV_RATES[role] else 0.0 for r in RATES])
 
 
 def draw_potential(league, rng) -> None:
@@ -90,18 +91,18 @@ class _Tools:
         """Move one tool by pts rating points (inside 20 to 80); returns the points applied."""
         if tool not in p.ratings or (tool != "stamina" and not self.fl6):
             return 0.0
-        new = float(min(80.0, max(20.0, p.ratings[tool] + pts)))
+        new = float(min(float(DISPLAY_MAX), max(float(DISPLAY_MIN), p.ratings[tool] + pts)))
         d = new - float(p.ratings[tool])
         p.ratings[tool] = new
         if tool == "stamina":
             p.log_theta = self.scale.log_theta(p.group, new)
         elif tool == "speed":
-            p.run = tuple(r + s * d / 10.0 for r, s in zip(p.run, self.run))
+            p.run = tuple(r + s * d / POINTS_PER_SD for r, s in zip(p.run, self.run))
         elif tool == "glove":
             sd = self.fl6["error"]["by_position"].get(p.pos, {}).get("sd_logit", 0.0)
-            p.err = p.err - (sd if sd == sd else 0.0) * d / 10.0
+            p.err = p.err - (sd if sd == sd else 0.0) * d / POINTS_PER_SD
         elif tool == "arm":
-            p.arm = p.arm + (self.fl6["arm_c"] if p.pos == "c" else self.fl6["arm_of"])["sd_logit"] * d / 10.0
+            p.arm = p.arm + (self.fl6["arm_c"] if p.pos == "c" else self.fl6["arm_of"])["sd_logit"] * d / POINTS_PER_SD
         return d
 
 
@@ -132,7 +133,7 @@ def potential(p, scale=None) -> dict:
     for k in sorted(phase8.DEV_TOOLS):
         if k in p.ratings:
             left = CLASSES[CLASSES.index(p.year):-1] if p.year in CLASSES[:-1] else ()
-            out[k] = float(min(80.0, max(20.0, p.ratings[k] + sum(phase8.DEV_TOOLS[k][c] + own_t.get(k, 0.0) for c in left))))
+            out[k] = float(min(float(DISPLAY_MAX), max(float(DISPLAY_MIN), p.ratings[k] + sum(phase8.DEV_TOOLS[k][c] + own_t.get(k, 0.0) for c in left))))
     return out
 
 
