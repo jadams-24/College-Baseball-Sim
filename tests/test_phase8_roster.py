@@ -58,17 +58,60 @@ def test_turnover_keeps_the_container_the_classes_and_the_talent():
             n = sum(1 for p in lg.players if lg.teams[p.team].tier == tier)
             for c in phase8.CLASSES:           # 5 binomial SEs around the 2025 rosters' share
                 assert abs(sh[tier][c] - target[tier][c]) < 5 * np.sqrt(target[tier][c] * (1 - target[tier][c]) / n) + .005, (tier, c, sh[tier][c], target[tier][c])
-    for g in groups:                            # mean and SD of every rate: the turnover years against the drawn league
+    for g in groups:                            # the mean of every rate: the turnover years against the drawn league
         f_mean, f_sd = year0[g].mean(0), year0[g].std(0)
         t_mean = np.mean([y[g].mean(0) for y in years], 0); t_sd = np.mean([y[g].std(0) for y in years], 0)
-        n = len(stat(lg, g))
-        assert np.all(np.abs(t_mean - f_mean) < 6 * (f_sd + 1e-9) / np.sqrt(n) + .01), (g, t_mean, f_mean)
-        assert np.all(np.abs(t_sd - f_sd) < .06 * f_sd + .01), (g, t_sd, f_sd)
-    # a returning player keeps his ratings (no development yet) and moves up one class
-    before = {p.uid: (p.year, p.z.copy()) for p in lg.players}
+        # development moves players, promotions move them between regulars and bench, and the newcomers' shift holds
+        # each group's mean (relative to its teams): the raw means stay within .05 logit
+        assert np.all(np.abs(t_mean - f_mean) < .05), (g, t_mean, f_mean)
+        if g != "bench":                        # the spread grows a little with individual development (GUESSES.md: watch)
+            assert np.all(np.abs(t_sd - f_sd) < .20 * f_sd + .01), (g, t_sd, f_sd)
+
+
+def test_development_follows_the_class_means_and_holds_the_league():
+    """A returner changes by his class's mean (config.phase8.development) plus his own rate plus noise and moves
+    up a class; a newcomer has no last change; freshmen sit below seniors once classes have turned over; a
+    player's potential is his ratings after his remaining seasons; with development off a returner keeps his z."""
+    cfg = phase2.load()
+    lg = _league(cfg, 31)
+    rng = np.random.Generator(np.random.PCG64(np.random.SeedSequence(32)))
+    assert all(p.dev is not None and p.last_dev is None for p in lg.players)
+    dev = phase8.development()["mean"]
+    assert dev["batter"]["Fr"]["HR"] > dev["batter"]["So"]["HR"] > 0 > dev["batter"]["Fr"]["K"]       # freshmen gain most: power up, strikeouts down
+    assert all(dev[r][c]["XBH"] == 0 and dev[r][c]["HBP"] == 0 for r in dev for c in dev[r])
+    before = {p.uid: (p.year, p.z.copy(), p.dev.copy(), p.side, dict(p.ratings)) for p in lg.players}
     roster.advance_year(cfg, lg, rng)
     back = [p for p in lg.players if p.uid in before]
-    assert back and all(phase8.CLASSES.index(p.year) == phase8.CLASSES.index(before[p.uid][0]) + 1 and np.array_equal(p.z, before[p.uid][1]) for p in back)
+    new = [p for p in lg.players if p.uid not in before]
+    assert back and new and all(p.last_dev is None for p in new)
+    assert all(phase8.CLASSES.index(p.year) == phase8.CLASSES.index(before[p.uid][0]) + 1 for p in back)
+    from config.phase2 import RATES
+    for side, role in (("bat", "batter"), ("pit", "pitcher")):
+        for c in phase8.CLASSES[:-1]:
+            d = np.array([p.z - before[p.uid][1] - before[p.uid][2] for p in back if p.side == side and before[p.uid][0] == c])
+            want = np.array([dev[role][c][r] for r in RATES])
+            assert len(d) > 80 and np.all(np.abs(d.mean(0) - want) < 5 * d.std(0) / np.sqrt(len(d)) + 2e-3), (side, c, d.mean(0), want)
+    p = next(p for p in back if p.side == "bat")
+    assert set(p.last_dev) == {"contact", "gap", "power", "eye", "avoid_k"} and abs(p.last_dev["power"] - (p.ratings["power"] - before[p.uid][4]["power"])) < 1e-9
+    assert p.last_dev["gap"] == 0 and p.ratings["speed"] == before[p.uid][4]["speed"]
+    for _ in range(3):
+        roster.advance_year(cfg, lg, rng)
+    mean = lambda key, g, c: np.mean([q.ratings[key] for q in lg.players if q.group == g and q.year == c])
+    assert mean("power", "regular", "Sr") > mean("power", "regular", "Fr") + 2 and mean("avoid_k", "regular", "Sr") > mean("avoid_k", "regular", "Fr") + 2
+    fr = next(q for q in lg.players if q.year == "Fr" and q.side == "bat")
+    old = next(q for q in lg.players if q.year == "5th" and q.side == "bat")
+    pot = roster.potential(fr)
+    assert set(pot) >= {"power", "contact"} and pot != {k: fr.ratings[k] for k in pot}
+    assert all(abs(v - old.ratings[k]) < 1e-9 for k, v in roster.potential(old).items())
+    for t in lg.teams:                          # promotions keep one regular per position
+        assert sorted(q.pos for q in t.batters if q.group == "regular") == sorted(set(q.pos for q in t.batters if q.group == "regular")) and sum(q.group == "regular" for q in t.batters) == 9
+    phase8.FEATURES["development"] = False
+    try:
+        keep = {q.uid: q.z.copy() for q in lg.players}
+        roster.advance_year(cfg, lg, rng)
+        assert all(np.array_equal(q.z, keep[q.uid]) for q in lg.players if q.uid in keep)
+    finally:
+        phase8.FEATURES["development"] = True
 
 
 def test_who_leaves_follows_class_role_and_playing_time():

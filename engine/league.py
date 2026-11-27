@@ -81,6 +81,8 @@ class Player:
     year: str = ""            # Phase 8: class year on the five-year clock (Fr, So, Jr, Sr, 5th: five years to play five, no redshirts;
                               # engine.roster), drawn from the 2025 class shares by tier; empty with Phase 8 classes off
     uid: int = -1             # Phase 8: the person, across seasons (a newcomer takes a leaver's pid, the roster slot, with a new uid)
+    dev: object = None        # Phase 8 development: his own yearly gain beyond his class's, logit per rate (his potential; engine.roster)
+    last_dev: object = None   # the rating changes of his last offseason ({rating: points}); None for a newcomer
 
 
 @dataclass
@@ -322,6 +324,9 @@ def build_league(cfg: Phase2Config, rng: np.random.Generator) -> League:
     if phase8.on("classes"):          # Phase 8: class years, from their own stream (spawned last: no other draw moves)
         from engine.roster import draw_classes
         draw_classes(league, np.random.Generator(np.random.PCG64(rng.bit_generator.seed_seq.spawn(1)[0])))
+    if phase8.on("development"):      # each player's own development rate, from its own stream (no other draw moves)
+        from engine.roster import draw_potential
+        draw_potential(league, np.random.Generator(np.random.PCG64(rng.bit_generator.seed_seq.spawn(1)[0])))
     return league
 
 
