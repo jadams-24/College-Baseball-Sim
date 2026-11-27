@@ -59,6 +59,10 @@
     try { p = await raw(url); } catch (e) { return failed(e, () => busy(() => player(pid))); }
     const isBat = p.side === "bat", keys = isBat ? BAT_KEYS : PIT_KEYS;
     const bars = keys.map((k) => ratingBar(k, p.ratings[k])).join("");
+    const dv = p.dev;
+    const devBlock = dv ? `<div class="dev-block"><div class="k">Development <span class="pill ${{ High: "success", Medium: "warn" }[dv.level] || "plain"}">${dv.level === "–" ? "Final year" : dv.level + " upside"}</span></div>
+      <table class="tbl dev"><tr><th>Rating</th><th class="num">Now</th><th class="num">Projected</th><th class="num" title="Change last offseason">Last</th></tr>${Object.keys(dv.pot).map((k) => `<tr><td title="${esc((RATING[k] || [k, k])[1])}">${(RATING[k] || [k, k])[1].split(" (")[0]}</td><td class="num">${p.ratings[k]}</td><td class="num">${dv.pot[k][0]}–${dv.pot[k][1]}</td><td class="num">${dv.last ? `<span class="${dv.last[k] >= 1 ? "up" : dv.last[k] <= -1 ? "down" : "muted"}">${dv.last[k] > 0 ? "+" : ""}${dv.last[k]}</span>` : '<span class="muted">–</span>'}</td></tr>`).join("")}</table>
+      <div class="muted">Projected is where he should be by his last season if he stays; Last is his change last offseason. Each offseason adds its own luck. Gap, speed, glove, arm, stamina and hold do not develop yet.</div></div>` : "";
     const season = p.season ? statRow(isBat ? BSEASON : PSEASON, p.season) : `<div class="muted">No season: this is an exhibition.</div>`;
     const sp = p.splits;
     const splitCols = [["pa", "PA"], ["ab", "AB"], ["h", "H"], ["2b", "2B"], ["3b", "3B"], ["hr", "HR"], ["bb", "BB"], ["hbp", "HBP"], ["k", "K"], ["avg", "AVG"], ["obp", "OBP"], ["slg", "SLG"]];
@@ -70,7 +74,7 @@
     const outings = !isBat && p.outings ? (p.outings.length ? `<table class="tbl stats"><tr><th>Date</th><th class="num">Pitches</th></tr>${p.outings.slice().reverse().slice(0, 12).map((o) => `<tr><td class="date">${dateText(o.date, { weekday: true })}</td><td class="num">${o.pitches}</td></tr>`).join("")}</table>` : `<div class="muted">No outing yet.</div>`) : "";
     open(`<div class="page-head banded" ${bandStyle(p.team)}><div class="who">${mark(p.team)}<div><div class="name">${esc(p.name)}</div><div class="muted">${p.pos} · ${isBat ? "bats" : "throws"} ${dash(p.hand.split("/")[isBat ? 0 : 1])} · B/T ${esc(p.hand)} · class ${esc(p.year)} · <a class="tlink" data-tid="${p.tid}">${esc(p.team.name)}</a> <span class="muted">${esc(p.team.conference || "")}</span></div></div></div>${closeBtn}</div>
       <div class="page-grid">
-        <div class="panel"><div class="hdr">Ratings <span class="sub">20–80 · true ratings</span></div><div class="body bars">${bars}</div></div>
+        <div class="panel"><div class="hdr">Ratings <span class="sub">20–80 · true ratings</span></div><div class="body bars">${bars}</div>${devBlock ? `<div class="body">${devBlock}</div>` : ""}</div>
         <div class="col"><div class="panel"><div class="hdr">Season</div><div class="body tight scroll-x">${season}</div></div>
         <div class="panel"><div class="hdr">Splits <span class="sub">${sp ? sp.vs : ""}</span></div><div class="body tight scroll-x">${splits}</div></div>
         ${outings ? `<div class="panel"><div class="hdr">Last outings <span class="sub">pitch counts</span></div><div class="body tight">${outings}</div></div>` : ""}</div>

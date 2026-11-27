@@ -464,3 +464,9 @@ loop equals `engine.season.simulate_season` for the same seed.
   `config.phase8.PERSUADE_ATTEMPTS` per offseason), drawn from the player's own stream. `next_year` applies the plan
   less the persuaded players.
 
+## Development on the screens (2026-11-27)
+
+`_dev_json` in `app/dynasty.py`: `pot` (each developed rating's projected range, `engine.roster.potential` +-
+`config.phase8.POTENTIAL_BAND`), `upside` (mean projected gain; display levels High from 3 points, Medium from 1.5)
+and `last` (the last offseason's changes). Roster: Chg and Upside columns. Player page: the Development table.
+
