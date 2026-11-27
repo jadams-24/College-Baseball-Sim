@@ -4,7 +4,8 @@ GUESSES.md.
 """
 from __future__ import annotations
 
-FEATURES = {"classes": True}              # every player carries a class year on the five-year clock (engine.roster)
+FEATURES = {"classes": True,
+            "development": True}              # every player carries a class year on the five-year clock (engine.roster)
 
 
 def on(feature: str) -> bool:
@@ -116,3 +117,44 @@ def reason(year: str, bucket: str) -> str:
 PERSUADE_ATTEMPTS = 3          # owner: 3-8 by coaching attributes; the base
 PERSUADE_ATTEMPTS_MAX = 8
 # GUESS: an attempt succeeds with the player's own stay rate (a senior is hard to keep, a freshman easy).
+
+
+# ---- development: how a returning player changes from one season to the next (engine.roster develop) ------------
+# Mean change by class and rate, logit scale: benchmarks_phase8_11.json development_2022_2026_wmt aging_by_class
+# (the same players in consecutive seasons, both over the floor) less the regression-to-the-mean part that
+# survivor selection puts into the measured change (survivor_bias rtm_bias_logit; PHASE8_NOTES section 8). The
+# yardstick's curves stay uncorrected (owner request); the engine needs the change in true talent, so it subtracts.
+# The class is the season just played: "Fr" is the change from the freshman to the sophomore season. The senior
+# rows (83 batters, 71 pitchers) are the fifth-year change and are noisy.
+DEV_RATES = {"batter": {"K": "k_pct", "BB": "bb_pct", "HR": "hr_pct", "BABIP": "babip"},
+             "pitcher": {"K": "k_pct", "BB": "bb_pct", "HR": "hr_pct"}}
+# Not developed, no data by player: the extra-base share (Gap), HBP, pitchers' BABIP and XBH components, Hold.
+# GUESS: zero change.
+# Glove, Arm, Stamina and Speed (owner decision 2026-11-27: glove improves, speed slightly, stamina and arm improve).
+# No player-level data: mean gain in rating points after a season in each class.  GUESS, every number.
+DEV_TOOLS = {"glove":   {"Fr": 2.0, "So": 1.5, "Jr": 1.0, "Sr": 0.5},
+             "arm":     {"Fr": 1.5, "So": 1.0, "Jr": 0.5, "Sr": 0.0},
+             "stamina": {"Fr": 2.0, "So": 1.5, "Jr": 1.0, "Sr": 0.5},
+             "speed":   {"Fr": 0.5, "So": 0.5, "Jr": 0.0, "Sr": 0.0}}
+DEV_TOOL_SPREAD = {"glove": 1.0, "arm": 1.0, "stamina": 1.0, "speed": 0.3}     # GUESS: each tool's individual part, as a share of DEV_SD_POINTS
+DEV_SD_POINTS = {"potential": 1.0,    # GUESS: SD across players of a player's own yearly gain beyond his class's, rating points a year, fixed for his career (his potential)
+                 "year": 1.5}         # GUESS: SD of one offseason's noise around it, rating points
+POTENTIAL_BAND = 4                    # display: a potential rating is shown as a range of +- this many points (fog; scouting narrows it in Phase 9)
+_DEV = None
+
+
+def development() -> dict:
+    """mean[role][class][rate] = mean change in true talent (logit) after a season in that class, role "batter" or
+    "pitcher", rates of config.phase2.RATES (0 where DEV_RATES has none)."""
+    global _DEV
+    if _DEV is None:
+        import json
+        d = json.loads(YARDSTICK.read_text())["development_2022_2026_wmt"]
+        from config.phase2 import RATES
+        mean = {}
+        for role, m in DEV_RATES.items():
+            mean[role] = {}
+            for c in CLASSES[:-1]:
+                mean[role][c] = {r: (float(d["aging_by_class"][role][c][m[r]]["delta_mean"]) - float(d["survivor_bias"][role][c][m[r]]["rtm_bias_logit"])) if r in m else 0.0 for r in RATES}
+        _DEV = {"mean": mean}
+    return _DEV
