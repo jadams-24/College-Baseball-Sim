@@ -686,3 +686,13 @@ button.danger:hover:not(:disabled) { background: linear-gradient(180deg, #E0404E
 /* Players Leaving (the offseason's persuasion stage) */
 .btn-sm { min-height: 28px; padding: 3px 10px; font-size: 12px; }
 .panel.leaving .tbl td { white-space: nowrap; }
+
+/* development (Phase 8): rating changes and the player page's development block */
+.up { color: var(--good); font-weight: 600; }
+.down { color: var(--bad); font-weight: 600; }
+.dev-block { margin-top: 0; }
+.dev-block .k { margin-bottom: 6px; }
+.dev-block { padding: 10px 10px 8px; }
+.tbl.dev { width: 100%; table-layout: fixed; }
+.tbl.dev th, .tbl.dev td { padding-left: 8px; padding-right: 8px; white-space: nowrap; }
+.tbl.dev th:first-child { width: 34%; }

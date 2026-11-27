@@ -62,6 +62,8 @@ def _child(seq: np.random.SeedSequence, k: int) -> np.random.SeedSequence:
 
 
 RISK_MIN_GAMES = 10                      # display: a team's games before its players' playing-time pace is read
+BAT_DEV, PIT_DEV = ("contact", "power", "eye", "avoid_k", "speed", "glove", "arm"), ("stuff", "control", "movement", "stamina")      # the ratings that develop (config.phase8.DEV_RATES)
+UPSIDE_HIGH, UPSIDE_MEDIUM = 3.0, 1.5    # display cuts of the Upside level on the mean projected gain, rating points
 RISK_LOW, RISK_MEDIUM = .75, .55         # display cuts of the Risk of Leaving level on the chance to return
 
 
@@ -212,7 +214,7 @@ class Dynasty:
     def new_year(self) -> dict:
         """After Omaha: the offseason and the next season. Every player returns with his class's rate and moves up a
         class on the five-year clock, the others leave and newcomers take their roster slots (engine.roster
-        advance_year; a returning player keeps his ratings until development is built). The finished year goes to
+        advance_year; returning players develop: engine.roster). The finished year goes to
         `history`; the new year has its own seeds, schedule, engine and Decider, and empty stats. Returns the user's
         team's departures and arrivals."""
         from engine import roster
@@ -1321,6 +1323,25 @@ def _year(p) -> str:
     return str(y) if y else "–"
 
 
+def _dev_json(p) -> dict | None:
+    """Development as the screens show it (Phase 8): `pot` the potential range of each developed rating (his projected
+    rating after his remaining seasons, shown as a band: config.phase8.POTENTIAL_BAND), `upside` the mean projected
+    gain over those ratings with a display level (High from 3 points, Medium from 1.5), and `last` the changes of his
+    last offseason (None for a newcomer or in a first year)."""
+    from config import phase8
+    from engine import roster
+    if getattr(p, "dev", None) is None or not getattr(p, "year", ""):
+        return None
+    pot = roster.potential(p)
+    keys = [k for k in (BAT_DEV if p.side == "bat" else PIT_DEV) if k in pot]
+    gain = float(np.mean([pot[k] - p.ratings[k] for k in keys]))
+    band = phase8.POTENTIAL_BAND
+    rng = {k: [int(max(20, min(80, round(pot[k] - band)))), int(max(20, min(80, round(pot[k] + band))))] for k in keys}
+    last = getattr(p, "last_dev", None)
+    return {"pot": rng, "upside": round(gain, 1), "level": "–" if p.year == "5th" else "High" if gain >= UPSIDE_HIGH else "Medium" if gain >= UPSIDE_MEDIUM else "Low",
+            "last": None if not last else {k: round(float(last[k]), 1) for k in keys}, "last_total": None if not last else round(float(sum(last[k] for k in keys)), 1)}
+
+
 def _risk_json(d: Dynasty, p, risk: dict) -> dict:
     """The Risk of Leaving cell: the chance he is back next year as the offseason will draw it, a level, and the
     reason he would leave. The levels are display cuts (app-side): Low from 75%, Medium from 55%, else High."""
@@ -1385,12 +1406,12 @@ def roster_json(d: Dynasty, tid: int | None = None) -> dict:
     except Exception:                                           # display only: never blocks the roster
         risk = None
     rk = lambda p: _risk_json(d, p, risk) if risk else None
-    bats = [dict(player_json(p), stats=_bat_stats(d.bstats[p.pid]), hand=_hand(p), year=_year(p), risk=rk(p)) for p in t.batters]
+    bats = [dict(player_json(p), stats=_bat_stats(d.bstats[p.pid]), hand=_hand(p), year=_year(p), risk=rk(p), dev=_dev_json(p)) for p in t.batters]
     pits = []
     for p in staff(t):
         h = d.mgr.history.get(p.pid, [])
         last = h[-1] if h else None
-        pits.append(dict(player_json(p), stats=_pit_stats(d.pstats[p.pid]), hand=_hand(p), year=_year(p), risk=rk(p),
+        pits.append(dict(player_json(p), stats=_pit_stats(d.pstats[p.pid]), hand=_hand(p), year=_year(p), risk=rk(p), dev=_dev_json(p),
                          last_outing={"date": int(last[0]), "pitches": int(last[1]), "days_ago": int(today - last[0])} if last else None,
                          outings=len(h)))
     return {"team": d.tname(t.tid), "engine_name": t.name, "batters": bats, "pitchers": pits, "date": today}
@@ -1628,7 +1649,7 @@ def player_page_json(d: Dynasty, pid: int) -> dict | None:
         return None
     p, tid = d.players[pid]
     t = d.league.teams[tid]
-    out = dict(player_json(p), hand=_hand(p), year=_year(p), team=schools.team_fields(t), tid=tid)
+    out = dict(player_json(p), hand=_hand(p), year=_year(p), team=schools.team_fields(t), tid=tid, dev=_dev_json(p))
     out["season"] = _bat_stats(d.bstats[pid]) if p.side == "bat" else _pit_stats(d.pstats[pid])
     sp = d.splits.get(pid, {})
     out["splits"] = {"L": _split_stats(sp.get("L")), "R": _split_stats(sp.get("R")), "vs": "LHP / RHP" if p.side == "bat" else "LHB / RHB"}

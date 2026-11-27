@@ -256,3 +256,31 @@ Eight offseasons from a drawn league (role-rank buckets): 51 to 52% of a roster 
 smaller than the real rosters' until rosters deepen (plan step 6). No game changes: the 300-game log hash and the
 stat-line hash equal main's. Plan: `plans/phase8_retention_2026-11-26.md`.
 
+## Development (2026-11-27)
+
+A returning player's true talent changes each offseason (`engine/roster.py`, `config.phase8.development`): the mean
+change of his class, rate by rate on the logit scale (`aging_by_class` less `survivor_bias.rtm_bias_logit`; the
+yardstick's curves stay uncorrected), plus his own yearly rate (`Player.dev`, his potential, drawn once from its own
+stream) plus one offseason's noise (both GUESS sizes, in rating points). Batters: K, BB, HR, BABIP; pitchers: K, BB,
+HR. Batters' mean gains after the freshman season: HR +.208, K −.116, BB +.088, BABIP +.017 (logit); smaller after the
+sophomore and junior seasons; about zero after the senior one.
+
+Steady state: returners gain, so each role group's newcomers arrive lower by the shift that brings the group's
+mean talent relative to its teams back to a fresh league's (`_steady`). A transfer arrives with his earlier classes'
+gains. A bench batter who out-hits the regular at his position takes the job (`_promote`).
+
+Twelve offseasons from a drawn league: every group's mean of every rate stays within .034 logit of the draw; classes
+separate (regulars' Power: Fr 47, So 50 to 51, Jr 51, Sr 52, 5th 54 to 55; Avoid K: Fr 47, 5th 54 to 55); a returner's
+Power changes by +1.9 points on average (SD 2.3). Known and left for the balancing pass (owner, 2026-11-27: push
+forward, balance later): the spread within a role group grows 4 to 13% on the developed rates (individual
+development adds variance and nothing removes it yet), and bench batters' Contact and Power spread, zero or near
+zero in the draw, becomes real through development and promotions. The first season is untouched (300-game log hash
+and stat-line hash equal main's); the multi-year league has not been through the 40-season gates.
+
+Tools (owner decision 2026-11-27): Glove, Arm and Stamina improve and Speed slightly, by GUESS mean gains per class
+(`config.phase8.DEV_TOOLS`), each with the player's own rate and noise. A rating change moves the value the engine
+reads by the draw's own linear map (error log-odds at his position, the arm, the leash, the shared part of the
+base-running components). Newcomers arrive lower the same way, so each group's league mean holds: after eight
+offseasons Glove 49.8, Arm 50.1, Speed 50.0 (50.1, 50.3, 50.0 in the draw), mean error log-odds +.006; by class Glove
+runs Fr 46.8 to 5th 53.5, relievers' Stamina 47.9 to 52.7. Gap and Hold still do not develop.
+

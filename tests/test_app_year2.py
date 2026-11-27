@@ -41,7 +41,7 @@ def test_next_year_turns_the_roster_over_and_plays():
     assert len(back) + len(off["arrived"]) == len(now) == len(before) and len(off["left"]) == len(off["arrived"]) > 0
     for p in back:
         y0, z0, pid0 = before[p.uid]
-        assert phase8.CLASSES.index(p.year) == phase8.CLASSES.index(y0) + 1 and np.array_equal(p.z, z0) and p.pid == pid0
+        assert phase8.CLASSES.index(p.year) == phase8.CLASSES.index(y0) + 1 and p.pid == pid0 and p.last_dev is not None      # he developed (engine.roster)
     assert {x[0] for x in off["left"]} == set(before) - {p.uid for p in back}
     assert all(sum(r) == 0 for r in d.bstats) and d.hub()["record"] == [0, 0]
     if d.pref_lineup is not None:                       # kept only when all nine are back
@@ -106,3 +106,34 @@ def test_players_leaving_and_persuasion():
     kept = {pid for pid, ok in got.items() if ok}
     assert {pid for pid in uid if now[pid] != uid[pid]} == {pid for pid in uid if not plan[pid]["stays"]} - kept
     assert off["persuaded"] == len(kept) and d.persuade == {} and all(len(x) == 6 for x in off["left"])
+
+
+def test_development_on_the_roster_and_player_page():
+    """Every player shows an upside level and potential ranges; after an offseason a returner shows his rating
+    changes, a newcomer shows none, and the player page carries the same block."""
+    cfg = phase2.load()
+    d = dm.Dynasty(cfg, 11, "t")
+    d.start(TID)
+    r = dm.roster_json(d)
+    rows = r["batters"] + r["pitchers"]
+    assert all(x["dev"] and x["dev"]["last"] is None and x["dev"]["level"] in ("High", "Medium", "Low", "–") for x in rows)
+    assert all(lo <= hi and 20 <= lo and hi <= 80 for x in rows for lo, hi in x["dev"]["pot"].values())
+    assert all((x["dev"]["level"] == "–") == (x["year"] == "5th") for x in rows)
+    assert {x["dev"]["level"] for x in rows} >= {"High", "Low"} or {x["dev"]["level"] for x in rows} >= {"Medium", "Low"}
+    d.advance("game", True)
+    d.sim_game()
+    d.stage = "done"
+    uid = {p.pid: p.uid for p in d.team.batters + dm.staff(d.team)}
+    before = {x["pid"]: x["ratings"] for x in rows}
+    d.new_year()
+    r2 = dm.roster_json(d)
+    now = {p.pid: p.uid for p in d.team.batters + dm.staff(d.team)}
+    back = [x for x in r2["batters"] + r2["pitchers"] if now[x["pid"]] == uid[x["pid"]]]
+    new = [x for x in r2["batters"] + r2["pitchers"] if now[x["pid"]] != uid[x["pid"]]]
+    assert back and new and all(x["dev"]["last"] is None for x in new) and all(x["dev"]["last"] is not None for x in back)
+    assert any(x["ratings"] != before[x["pid"]] for x in back)
+    assert all(abs(sum(x["dev"]["last"].values()) - x["dev"]["last_total"]) < .25 for x in back)
+    pg = dm.player_page_json(d, back[0]["pid"])
+    assert pg["dev"] == back[0]["dev"]
+    d2 = dm.load_bytes(cfg, dm.save_bytes(d))
+    assert dm.roster_json(d2)["batters"][0]["dev"] == r2["batters"][0]["dev"]

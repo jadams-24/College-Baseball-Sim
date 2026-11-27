@@ -21,7 +21,10 @@ his ratings read again from z. So each season's league is a draw from the calibr
 teams: the talent and team-strength distributions cannot drift, which is the Phase 8 gate (every Phase 1-7 row
 over 20+ years of turnover).
 
-Not here yet (plans/phase8_retention_2026-11-26.md): development (a returning player keeps his ratings), the draft's
+Development (2026-11-27): a returner's talent changes by his class's mean gain, his own rate and noise; newcomers
+arrive lower so each group's league mean holds; a bench batter can take a regular's job (PHASE8_NOTES).
+
+Not here yet (plans/phase8_retention_2026-11-26.md): the draft's
 own sign-or-return decision and the portal's destinations (a leaver is gone), money, dealbreakers, rosters deeper than
 the players who appear, cuts, and where newcomers come from (Phase 9).
 """
@@ -34,6 +37,7 @@ import numpy as np
 from config import phase8
 from config.phase2 import N_REGULARS, RATES
 from engine.matchup import matchup_probs
+from config.phase4 import DISPLAY_MAX, DISPLAY_MIN, POINTS_PER_SD
 from engine.ratings import RatingScale
 
 CLASSES = phase8.CLASSES
@@ -52,6 +56,85 @@ def draw_classes(league, rng) -> None:
         p.year = _pick(rng, shares[league.teams[p.team].tier])
         p.uid = p.pid
     league.next_uid = len(league.players)
+
+
+def _dev_sd(scale, side: str, kind: str) -> np.ndarray:
+    """SD per rate (logit) of the individual part of development: DEV_SD_POINTS rating points, on the developed rates."""
+    role = "batter" if side == "bat" else "pitcher"
+    return np.array([phase8.DEV_SD_POINTS[kind] / POINTS_PER_SD * scale.ms(side, r)[1] if r in phase8.DEV_RATES[role] else 0.0 for r in RATES])
+
+
+def draw_potential(league, rng) -> None:
+    """Each player's own yearly gain beyond his class's (Player.dev), fixed for his career."""
+    scale = RatingScale()
+    sd = {side: _dev_sd(scale, side, "potential") for side in ("bat", "pit")}
+    for p in league.players:
+        p.dev = sd[p.side] * rng.standard_normal(len(RATES))
+    for p in league.players:                    # after every rate draw: adding a tool moves no rate potential
+        p.dev_tools = {k: phase8.DEV_SD_POINTS["potential"] * phase8.DEV_TOOL_SPREAD[k] * float(rng.standard_normal()) for k in sorted(phase8.DEV_TOOLS) if k in p.ratings}
+
+
+class _Tools:
+    """Speed, Glove, Arm and Stamina as the engine reads them: a change of rating points moves the rating and the
+    value behind it by engine.league's own linear maps (Speed: the shared part of the three base-running
+    components; Glove: error log-odds at his position; Arm: the outfield or catcher arm; Stamina: the leash)."""
+    def __init__(self, scale):
+        from config import phase6
+        from engine.league import speed_loadings
+        self.scale = scale
+        self.fl6 = phase6.load().get("fielding6") if phase6.on("fielding") else None
+        if self.fl6:
+            sp, lam = self.fl6["speed"], speed_loadings(self.fl6)
+            self.run = tuple(sp[k].get("sd_logit_within_tier", sp[k]["sd_logit"]) * lam[k] for k in ("attempt", "success", "extra_base"))
+
+    def add(self, p, tool: str, pts: float) -> float:
+        """Move one tool by pts rating points (inside 20 to 80); returns the points applied."""
+        if tool not in p.ratings or (tool != "stamina" and not self.fl6):
+            return 0.0
+        new = float(min(float(DISPLAY_MAX), max(float(DISPLAY_MIN), p.ratings[tool] + pts)))
+        d = new - float(p.ratings[tool])
+        p.ratings[tool] = new
+        if tool == "stamina":
+            p.log_theta = self.scale.log_theta(p.group, new)
+        elif tool == "speed":
+            p.run = tuple(r + s * d / POINTS_PER_SD for r, s in zip(p.run, self.run))
+        elif tool == "glove":
+            sd = self.fl6["error"]["by_position"].get(p.pos, {}).get("sd_logit", 0.0)
+            p.err = p.err - (sd if sd == sd else 0.0) * d / POINTS_PER_SD
+        elif tool == "arm":
+            p.arm = p.arm + (self.fl6["arm_c"] if p.pos == "c" else self.fl6["arm_of"])["sd_logit"] * d / POINTS_PER_SD
+        return d
+
+
+def _class_mean(side: str) -> dict:
+    m = phase8.development()["mean"]["batter" if side == "bat" else "pitcher"]
+    return {c: np.array([m[c][r] for r in RATES]) for c in CLASSES[:-1]}
+
+
+def _set_z(scale, p, z) -> None:
+    ratings, hidden = scale.split(p.side, np.asarray(z, float))
+    p.ratings = dict({k: v for k, v in p.ratings.items() if k in _KEEP_RATINGS}, **ratings)
+    p.hidden = hidden
+    p.z = scale.compose(p.side, ratings, hidden)
+
+
+def potential(p, scale=None) -> dict:
+    """His ratings after his remaining seasons at his class's mean gains plus his own rate (no noise): the
+    developed ratings (the rates' and the tools'). A fifth-year's potential is his current ratings."""
+    scale = scale or RatingScale()
+    z = np.asarray(p.z, float).copy()
+    if p.year in CLASSES[:-1]:
+        mean = _class_mean(p.side)
+        own = p.dev if getattr(p, "dev", None) is not None else 0.0
+        for c in CLASSES[CLASSES.index(p.year):-1]:
+            z = z + mean[c] + own
+    out = scale.split(p.side, z)[0]
+    own_t = getattr(p, "dev_tools", None) or {}
+    for k in sorted(phase8.DEV_TOOLS):
+        if k in p.ratings:
+            left = CLASSES[CLASSES.index(p.year):-1] if p.year in CLASSES[:-1] else ()
+            out[k] = float(min(float(DISPLAY_MAX), max(float(DISPLAY_MIN), p.ratings[k] + sum(phase8.DEV_TOOLS[k][c] + own_t.get(k, 0.0) for c in left))))
+    return out
 
 
 def class_shares(league) -> dict:
@@ -111,6 +194,47 @@ def _newcomer(scale, donor, d_team, leaver, t, year: str, uid: int):
     return p
 
 
+def _rel(league, p) -> np.ndarray:
+    t = league.teams[p.team]
+    return np.asarray(p.z, float) - (t.tb if p.side == "bat" else t.tp)
+
+
+def _steady(scale, league, donor, newcomers, tools) -> None:
+    """Hold the league's talent where it was calibrated: returners gained (and the ones who left were not a random
+    draw), so the newcomers of each role group arrive lower by the shift that brings the group's mean talent,
+    relative to its teams, back to a fresh league's (the donor's). Classes then differ (freshmen below, seniors
+    above) while each group's league mean, rate by rate, stays the calibrated one."""
+    for g in sorted({p.group for p in league.players}):
+        new = [n for n in newcomers if n.group == g]
+        if not new:
+            continue
+        target = np.mean([_rel(donor, p) for p in donor.players if p.group == g], axis=0)
+        now = [_rel(league, p) for p in league.players if p.group == g]
+        shift = (target - np.mean(now, axis=0)) * len(now) / len(new)
+        for n in new:
+            n.z = np.asarray(n.z, float) + shift
+        for k in sorted(phase8.DEV_TOOLS):                       # the tools the same way, in rating points
+            have = [n for n in new if k in n.ratings]
+            if have:
+                target_k = np.mean([p.ratings[k] for p in donor.players if p.group == g and k in p.ratings])
+                now_k = [p.ratings[k] for p in league.players if p.group == g and k in p.ratings]
+                for n in have:
+                    tools.add(n, k, (target_k - np.mean(now_k)) * len(now_k) / len(have))
+    for n in newcomers:
+        _set_z(scale, n, n.z)
+
+
+def _promote(cfg, t) -> None:
+    """A bench batter who now out-hits the regular at his own position takes the job (the roles swap; positions,
+    gloves and arms stay each player's own). Pitchers keep their role groups for now, and the DH his."""
+    for reg in [p for p in t.batters if p.group == "regular"]:
+        cand = [p for p in t.batters if p.group == "bench" and p.pos == reg.pos]
+        if cand:
+            best = max(cand, key=lambda p: _bat_value(cfg, p))
+            if _bat_value(cfg, best) > _bat_value(cfg, reg):
+                best.group, reg.group = "regular", "bench"
+
+
 def buckets(league, usage=None) -> dict:
     """pid -> playing-time bucket ("unknown", "t1", "t2", "t3": config.phase8). `usage` is pid -> the season's PA
     (batters) or BF (pitchers): under the floor "unknown", over it thirds of playing time within the role, as the
@@ -165,10 +289,25 @@ def apply_offseason(cfg, league, plan: dict, rng, kept=()) -> dict:
     out = {"left": {c: 0 for c in CLASSES}, "arrived": {c: 0 for c in CLASSES}, "returned": 0, "teams": {}}
     going = {p.pid for p in league.players if p.year == CLASSES[-1] or not (plan[p.pid]["stays"] or p.pid in kept)}
     left_year = {}
+    dev_on = phase8.on("development")
+    s_dev = seeds[1].spawn(1)[0]                                         # development's own stream: the other draws stay put
+    devr = np.random.Generator(np.random.PCG64(s_dev))
+    cmean = {side: _class_mean(side) for side in ("bat", "pit")}
+    ysd = {side: _dev_sd(scale, side, "year") for side in ("bat", "pit")}
+    tools, ynoise = _Tools(scale), phase8.DEV_SD_POINTS["year"]
     for p in league.players:
         if p.pid in going:
             left_year[p.pid] = p.year
         else:
+            if dev_on:                                                   # a returner's season-to-season change
+                noise = ysd[p.side] * devr.standard_normal(len(RATES))
+                before = dict(p.ratings)
+                _set_z(scale, p, np.asarray(p.z, float) + cmean[p.side][p.year] + (p.dev if getattr(p, "dev", None) is not None else 0.0) + noise)
+                own_t = getattr(p, "dev_tools", None) or {}
+                for k in sorted(phase8.DEV_TOOLS):
+                    if k in p.ratings:
+                        tools.add(p, k, phase8.DEV_TOOLS[k][p.year] + own_t.get(k, 0.0) + ynoise * phase8.DEV_TOOL_SPREAD[k] * float(devr.standard_normal()))
+                p.last_dev = {k: float(p.ratings[k] - before[k]) for k in p.ratings if k != "hold"}
             p.year = CLASSES[CLASSES.index(p.year) + 1]
             out["returned"] += 1
     # the newcomers' class mix, by tier: in proportion to each class's shortfall against the rosters' shares once
@@ -180,6 +319,7 @@ def apply_offseason(cfg, league, plan: dict, rng, kept=()) -> dict:
         short = {c: max(shares[tier][c] * len(ys) - back.count(c), 0.0) for c in CLASSES}
         tot = sum(short.values())
         mix[tier] = {c: short[c] / tot for c in CLASSES} if tot > 0 else dict(shares[tier])
+    newcomers = []
     for t, dt in zip(league.teams, donor.teams):
         roster = t.batters + t.weekend_sp + t.midweek_sp + t.relievers
         leavers = [p for p in sorted(roster, key=lambda p: p.pid) if p.pid in going]
@@ -200,13 +340,27 @@ def apply_offseason(cfg, league, plan: dict, rng, kept=()) -> dict:
                 d_bench.remove(d)
             n = _newcomer(scale, d, dt, p, t, _pick(turn, mix[t.tier]), league.next_uid)
             league.next_uid += 1
+            n.last_dev = None
+            if dev_on and n.year != CLASSES[0]:                          # a transfer arrives with his earlier seasons' gains
+                k = CLASSES.index(n.year)
+                own = n.dev if getattr(n, "dev", None) is not None else 0.0
+                n.z = np.asarray(n.z, float) + sum(cmean[n.side][c] + own for c in CLASSES[:k])
+                own_t = getattr(n, "dev_tools", None) or {}
+                for tk in sorted(phase8.DEV_TOOLS):
+                    tools.add(n, tk, sum(phase8.DEV_TOOLS[tk][c] + own_t.get(tk, 0.0) for c in CLASSES[:k]))
+            newcomers.append(n)
             new[p.pid] = n
             league.players[p.pid] = n
             out["left"][left_year[p.pid]] += 1; out["arrived"][n.year] += 1
         t.batters = [new.get(p.pid, p) for p in t.batters]
         for name in ("weekend_sp", "midweek_sp", "relievers"):
             setattr(t, name, [new.get(p.pid, p) for p in getattr(t, name)])
-        _rank_team(cfg, t, turn)
         out["teams"][t.tid] = {"left": [(p.uid, p.name, p.year, p.group, p.pos, plan[p.pid]["reason"] or phase8.reason(p.year, plan[p.pid]["bucket"])) for p in leavers],
                                "arrived": [(n.uid, n.name, n.year, n.group, n.pos) for n in new.values()]}
+    if dev_on:
+        _steady(scale, league, donor, newcomers, tools)
+    for t in league.teams:
+        if dev_on:
+            _promote(cfg, t)
+        _rank_team(cfg, t, turn)
     return out
